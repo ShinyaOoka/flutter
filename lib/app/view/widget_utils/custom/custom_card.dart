@@ -60,7 +60,7 @@ class CustomCard extends StatelessWidget {
                 left: 0,
                 child: onPressed == null
                     ? SizedBox()
-                    : FlatButton(
+                    : MaterialButton(
                         colorBrightness: rippleBrightness,
                         onPressed: () => onPressed,
                         child: SizedBox(),
