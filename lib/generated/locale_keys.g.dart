@@ -332,5 +332,9 @@ abstract class  LocaleKeys {
   static const emt_ride = 'emt_ride';
   static const yes_dropdown = 'yes_dropdown';
   static const nothing = 'nothing';
+  static const report_list = 'report_list';
+  static const corps_name = 'corps_name';
+  static const accident_type = 'accident_type';
+  static const description = 'description';
 
 }

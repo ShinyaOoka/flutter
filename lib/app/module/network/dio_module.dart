@@ -18,7 +18,7 @@ var dio = AppDio.getInstance();
 class AppDio with DioMixin implements Dio {
   AppDio._([BaseOptions? options]) {
     options = BaseOptions(
-      baseUrl: getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? '',
+      baseUrl:  '',
       contentType: 'application/json',
       connectTimeout: CONNECT_TIMEOUT,
       sendTimeout: WRITE_TIMEOUT,

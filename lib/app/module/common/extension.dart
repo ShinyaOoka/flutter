@@ -243,7 +243,7 @@ extension EmailValidate on String {
 String getAvatarProfile(){
   SessionInfo? sessionInfo = getIt<UserSharePref>().getUser();
   //return '${getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? ''}/web/image/res.users/${sessionInfo?.uid}/avatar_128';
-  return '${getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? ''}/web/image?model=res.users&field=avatar_128&id=${sessionInfo?.uid}&unique=06092022175839';
+  return '';
 }
 
 String dateTimeFromString(dynamic? date,{ String format = MMddyyyy}) {

@@ -3,16 +3,17 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:search_choices/search_choices.dart';
 
 import '../../../generated/locale_keys.g.dart';
 import '../../module/res/style.dart';
 import '../../viewmodel/base_viewmodel.dart';
 import '../../viewmodel/life_cycle_base.dart';
 import '../widget_utils/base_scaffold_safe_area.dart';
+import '../widget_utils/buttons/filled_button.dart';
 import '../widget_utils/expansion_panel_custom.dart';
 import '../widget_utils/outline_text_form_field.dart';
 import 'input_report_viewmodel.dart';
-import 'package:search_choices/search_choices.dart';
 
 class InputReportPage extends PageProvideNode<InputReportViewModel> {
   InputReportPage() : super();
@@ -69,85 +70,78 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   @override
   Widget build(BuildContext context) {
-    return
-      WillPopScope(
-          onWillPop: () => inputReportViewModel.back(),
-          child: BaseScaffoldSafeArea(
-            customAppBar: AppBar(
-              backgroundColor: kColor4472C4,
-              centerTitle: true,
-              title: Text(
-                LocaleKeys.report_new_entry.tr(),
-                // style: Theme.of(context).appBarTheme.titleTextStyle,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+    return WillPopScope(
+        onWillPop: () => inputReportViewModel.back(),
+        child: BaseScaffoldSafeArea(
+          customAppBar: AppBar(
+            backgroundColor: kColor4472C4,
+            centerTitle: true,
+            title: Text(
+              LocaleKeys.report_new_entry.tr(),
+              // style: Theme.of(context).appBarTheme.titleTextStyle,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-              leading: TextButton(
-                child: Text(LocaleKeys.back_report.tr(),
+            ),
+            leading: TextButton(
+              child: Text(LocaleKeys.back_report.tr(),
+                  // style: Theme.of(context).appBarTheme.titleTextStyle,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+              onPressed: () => inputReportViewModel.back(),
+            ),
+            actions: [
+              TextButton(
+                child: Text(LocaleKeys.register_report.tr(),
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
-                onPressed: () => inputReportViewModel.back(),
+                onPressed: () => {ToastUtil.showToast('Sign up Button')},
               ),
-              actions: [
-                TextButton(
-                  child: Text(LocaleKeys.register_report.tr(),
-                      // style: Theme.of(context).appBarTheme.titleTextStyle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      )),
-                  onPressed: () => {ToastUtil.showToast('Sign up Button')},
-                ),
-              ],
-              automaticallyImplyLeading: false,
-            ),
-            transparentStatusBar: 0.0,
-            title: LocaleKeys.server_config.tr(),
-            hideBackButton: false,
-            body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Column(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Text(
-                        LocaleKeys.x_series_data_acquisition.tr(),
-                        // style: Theme.of(context).appBarTheme.titleTextStyle,
-                        style: TextStyle(
+            ],
+            automaticallyImplyLeading: false,
+          ),
+          transparentStatusBar: 0.0,
+          title: LocaleKeys.server_config.tr(),
+          hideBackButton: false,
+          body: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(overscroll: false),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: FilledButton(
+                        borderRadius: size_4_r,
+                        textStyle: TextStyle(
                           fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.normal,
                         ),
+                        color: kColor4472C4,
+                        text: LocaleKeys.x_series_data_acquisition.tr(),
+                        onPress: () => ToastUtil.showToast(
+                            LocaleKeys.x_series_data_acquisition.tr()),
                       ),
                     ),
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 20),
-                    color: kColor4472C4,
-                    width: double.infinity,
-                  ),
-                  Expanded(
-                    child: ScrollConfiguration(
-                      behavior: const ScrollBehavior().copyWith(overscroll: false),
-                      child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: _buildPanel(),
-                      ),
-                    ),
-                  ),
-                ],
+                    _buildPanel(),
+                  ],
+                ),
               ),
             ),
-          ));
+          ),
+        ));
   }
 
   Widget _buildPanel() {
@@ -226,93 +220,191 @@ class InputReportState extends LifecycleState<InputReportContent>
                   );
                 },
                 body: Container(
-                  padding:
-                      EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.text,
-                        maxLength: 20,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_name.tr(),
-                        onChanged: (value) => {},
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                        child: OutlineTextFormField(
+                          isAlwaysShowLable: true,
+                          keyboardType: TextInputType.text,
+                          maxLength: 20,
+                          counterStyle: counterStyle,
+                          textColor: kColor4472C4,
+                          colorBorder: Colors.black26,
+                          colorFocusBorder: kColor4472C4,
+                          labelText: LocaleKeys.ambulance_name.tr(),
+                          onChanged: (value) => {},
+                        ),
                       ),
                       spaceWidget,
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.phone,
-                        maxLength: 13,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_tel.tr(),
-                        onChanged: (value) => {},
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: OutlineTextFormField(
+                          isAlwaysShowLable: true,
+                          keyboardType: TextInputType.phone,
+                          maxLength: 13,
+                          counterStyle: counterStyle,
+                          textColor: kColor4472C4,
+                          colorBorder: Colors.black26,
+                          colorFocusBorder: kColor4472C4,
+                          labelText: LocaleKeys.ambulance_tel.tr(),
+                          onChanged: (value) => {},
+                        ),
                       ),
                       spaceWidget,
-                      OutlineTextFormField(
-                        keyboardType: TextInputType.number,
-                        isAlwaysShowLable: true,
-                        maxLength: 20,
-                        counterWidget: unitWidget('単位名'),
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.captain_name.tr(),
-                        onChanged: (value) => {},
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: OutlineTextFormField(
+                          keyboardType: TextInputType.number,
+                          isAlwaysShowLable: true,
+                          maxLength: 20,
+                          counterWidget: unitWidget('単位名'),
+                          textColor: kColor4472C4,
+                          colorBorder: Colors.black26,
+                          colorFocusBorder: kColor4472C4,
+                          labelText: LocaleKeys.captain_name.tr(),
+                          onChanged: (value) => {},
+                        ),
                       ),
                       SizedBox(
                         height: size_8_h,
                       ),
-                      Consumer<InputReportViewModel>(
-                          builder: (context, value, child) {
-                        return buildDropDown(LocaleKeys.emt_qualification.tr(),
-                            value.yesNothings, value.onSelectQualification);
-                      }),
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDown(
+                              LocaleKeys.emt_qualification.tr(),
+                              value.yesNothings,
+                              value.onSelectQualification);
+                        }),
+                      ),
                       spaceWidget,
-                      Consumer<InputReportViewModel>(
-                          builder: (context, value, child) {
-                        return buildDropDown(LocaleKeys.emt_ride.tr(),
-                            value.yesNothings, value.onSelectRide);
-                      }),
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDown(LocaleKeys.emt_ride.tr(),
+                              value.yesNothings, value.onSelectRide);
+                        }),
+                      ),
                       spaceWidget,
-                      Consumer<InputReportViewModel>(
-                          builder: (context, value, child) {
-                            return buildDropDown('(報)隊員氏名',
-                                value.no7, value.onSelectRide);
-                          }),
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDown(
+                              '(報)隊員氏名', value.no7, value.onSelectRide);
+                        }),
+                      ),
                       spaceWidget,
-                      Consumer<InputReportViewModel>(
-                          builder: (context, value, child) {
-                            return SearchChoices.single(
-                              items: value.no7.map<DropdownMenuItem>((string) {
-                                return (DropdownMenuItem(
-                                  value: string,
-                                  child: Text(
-                                    string,
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return SearchChoices.single(
+                            items: value.no7.map<DropdownMenuItem>((string) {
+                              return (DropdownMenuItem(
+                                value: string,
+                                child: Text(
+                                  string,
+                                  style: TextStyle(
+                                    fontSize: text_16,
                                   ),
-                                ));
-                              }).toList(),
-                              value: value.no7Select,
-                              hint: "Select one",
-                              searchHint: null,
-                              onChanged: (value) {
-                                setState(() {
-                                  value.no7Select = value;
-                                });
-                              },
-                              dialogBox: false,
-                              isExpanded: true,
-                              menuConstraints: BoxConstraints.tight(const Size.fromHeight(350)),
-                            );
-                          }),
+                                ),
+                              ));
+                            }).toList(),
+                            value: value.no7Select,
+                            hint: "Select one",
+                            searchHint: null,
+                            onChanged: (value) {
+                              setState(() {
+                                value.no7Select = value;
+                              });
+                            },
+                            dialogBox: false,
+                            isExpanded: true,
+                            menuConstraints: BoxConstraints.tight(
+                                const Size.fromHeight(350)),
+                          );
+                        }),
+                      ),
 
+                      //No.8
+                      spaceWidget,
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return SearchChoices.single(
+                            items: value.no7.map<DropdownMenuItem>((string) {
+                              return (DropdownMenuItem(
+                                value: string,
+                                child: Text(
+                                  string,
+                                ),
+                              ));
+                            }).toList(),
+                            value: value.no7Select,
+                            hint: "Select one",
+                            searchHint: null,
+                            onChanged: (value) {
+                              setState(() {
+                                value.no7Select = value;
+                              });
+                            },
+                            dialogBox: false,
+                            isExpanded: true,
+                            menuConstraints:
+                                BoxConstraints.tight(const Size.fromHeight(350)),
+                          );
+                        }),
+                      ),
+
+                      //No.9
+                      spaceWidget,
+                      Container(
+                        color: kColorDEE9F6,
+                        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+                        child: OutlineTextFormField(
+                          keyboardType: TextInputType.number,
+                          isAlwaysShowLable: true,
+                          maxLength: 6,
+                          counterStyle: counterStyle,
+                          textColor: kColor4472C4,
+                          colorBorder: Colors.black26,
+                          colorFocusBorder: kColor4472C4,
+                          labelText: '(報)総累計',
+                          onChanged: (value) => {},
+                        ),
+                      ),
+
+
+                      //spaceWidget,
+                      Container(
+                        color: Colors.black26,
+                        height: 1,
+                      ),
+
+                      //No.10
+                      Container(
+                        color: kColorDEE9F6,
+                        padding: EdgeInsets.only(
+                            left: 16, right: 16, bottom: 16, top: 16),
+                        child: OutlineTextFormField(
+                          keyboardType: TextInputType.number,
+                          isAlwaysShowLable: true,
+                          maxLength: 6,
+                          counterStyle: counterStyle,
+                          textColor: kColor4472C4,
+                          colorBorder: Colors.black26,
+                          colorFocusBorder: kColor4472C4,
+                          labelText: '(報)隊別',
+                          onChanged: (value) => {},
+                        ),
+                      ),
                     ],
                   ),
                 ),

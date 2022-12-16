@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/cart_product_data.dart';
-import '../../model/login_config.dart';
-import '../../model/login_data.dart';
 import '../../model/session_info.dart';
 import '../network/response/shops_response.dart';
 
@@ -224,40 +222,6 @@ class UserSharePref extends SharedPrefManager {
     return SessionInfo.fromJson(data);
   }
 
-  Future<void>? saveLoginDataList(LoginData? loginDataList) {
-    if (SharedPrefManager.beforCheck()) return null;
-    return SharedPrefManager.spf!.setString(LOGIN_DATA_LIST,
-        loginDataList != null ? json.encode(loginDataList.toJson()) : '');
-  }
-
-  LoginData? getLoginDataList() {
-    if (SharedPrefManager.beforCheck()) return null;
-    String jsonData = SharedPrefManager.spf!.getString(LOGIN_DATA_LIST) ?? '';
-    if (jsonData.isEmpty) return null;
-    dynamic data = json.decode(jsonData);
-    return LoginData.fromJson(data);
-  }
-
-
-  Future<void>? saveLoginConfig(LoginConfig? loginConfig) {
-    if (SharedPrefManager.beforCheck()) return null;
-    return SharedPrefManager.spf!.setString(LOGIN_CONFIG,
-        loginConfig != null ? json.encode(loginConfig.toJson()) : '');
-  }
-
-  LoginConfig? getLoginConfig() {
-    if (SharedPrefManager.beforCheck()) return null;
-    String jsonData = SharedPrefManager.spf!.getString(LOGIN_CONFIG) ?? '';
-    if (jsonData.isEmpty) return null;
-    dynamic data = json.decode(jsonData);
-    return LoginConfig.fromJson(data);
-  }
-
-  bool hasLoginConfig() {
-    if (SharedPrefManager.beforCheck()) return false;
-    return getLoginDataList() != null &&
-        getLoginDataList()?.data.isNotEmpty == true;
-  }
 
 
   Future<void>? saveShop(Shop? shop) {

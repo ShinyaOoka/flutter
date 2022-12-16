@@ -12,8 +12,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
-import '../../model/login_config.dart';
-import '../../model/login_data.dart';
+import '../../model/new/report.dart';
 import '../../module/common/config.dart';
 import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
@@ -38,7 +37,8 @@ class ListReportViewModel extends BaseViewModel {
   bool isLoading = false;
   bool canLoadMore = false;
   LoadingState loadingState = LoadingState.LOADING;
-  List<LoginConfig> loginDataList = [];
+
+  List<Report> reports = List<Report>.generate(20,(index) => Report(date: 'yyyy/mm/dd hh:mm', name: 'Persion ${index + 1}', accident_type: 'XXX',  description : 'XXXXXXXXXXXXXXXXXXXX'));
 
   final ScrollController scrollController = ScrollController();
 
@@ -66,19 +66,26 @@ class ListReportViewModel extends BaseViewModel {
   LoginResponse? get loginResponse => _loginResponse;
 
   Future<void> getLoginData() async {
-    loginDataList = await userSharePref.getLoginDataList()?.data ?? [];
+    /*loginDataList = await userSharePref.getLoginDataList()?.data ?? [];
     if (loginDataList.isEmpty)
       loadingState = LoadingState.EMPTY;
     else
       loadingState = LoadingState.DONE;
-    notifyListeners();
+    notifyListeners();*/
+    Future.delayed(
+      const Duration(milliseconds: 1000),
+          () {
+            loadingState = LoadingState.DONE;
+            notifyListeners();
+      },
+    );
   }
 
   refreshData() {
     isLoading = false;
     canLoadMore = false;
     loadingState = LoadingState.LOADING;
-    loginDataList.clear();
+    //reports.clear();
     getLoginData();
     notifyListeners();
   }
@@ -92,47 +99,6 @@ class ListReportViewModel extends BaseViewModel {
     }
   }
 
-  void signInApi(LoginConfig? loginConfig) async {
-    //save login config
-    userSharePref.saveLoginConfig(loginConfig);
-    removeFocus(_navigationService.navigatorKey.currentContext!);
-    String database = loginConfig?.database ?? '';
-    String email = loginConfig?.email ?? '';
-    String password = loginConfig?.password ?? '';
-    final subscript = _dataRepo
-        //.callKW(POS_CATEGORY, SEARCH_READ, kwargs: kwargs, )
-        .authenticate(email, password, database)
-        .doOnListen(() {
-      EasyLoading.show();
-    }).doOnDone(() {
-      EasyLoading.dismiss();
-    }).listen((r) {
-      try {
-        loginResponse = LoginResponse.fromJson(r);
-        if (loginResponse?.result != null) {
-          if (loginResponse?.result!.uid == null) {
-            openAuthenticationPage();
-          } else {
-            userSharePref.saveUser(loginResponse?.result);
-            openHomePage();
-          }
-        } else {
-          SnackBarUtil.showSnack(
-              title: LocaleKeys.something_is_not_right.tr(),
-              message: LocaleKeys.please_check_your_email_or_password.tr(),
-              snackType: SnackType.ERROR);
-        }
-      } catch (e) {
-        _navigationService.openErrorPage(
-            message: r is DioError && r.message.isNotEmpty
-                ? r.message.toString()
-                : LocaleKeys.an_unexpected_error_has_occurred.tr());
-      } finally {
-        notifyListeners();
-      }
-    });
-    addSubscription(subscript);
-  }
 
   void openAuthenticationPage() async {
    // _navigationService.pushReplacementScreenWithSlideRightIn(AuthenticationPage());
@@ -147,39 +113,9 @@ class ListReportViewModel extends BaseViewModel {
   void openSignInPage() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
     //clear data login config
-    userSharePref.saveLoginConfig(null);
    // _navigationService.pushScreenWithFade(InputServerPortPage());
   }
 
-  void deleteAccount(LoginConfig loginConfig) {
-    showDialog(
-        context: _navigationService.navigatorKey.currentContext!,
-        builder: (BuildContext context) {
-          return DialogGeneralTwoAction(
-            title: LocaleKeys.delete_account.tr(),
-            message: LocaleKeys.do_you_want_to_delete_account.tr(namedArgs: {'account_name': loginConfig.userName ?? ''}),
-            textOk: LocaleKeys.delete.tr(),
-            onOkClick: () async {
-              EasyLoading.show();
-              loginDataList.remove(loginConfig);
-              //save login data
-              LoginData loginData =
-                  userSharePref.getLoginDataList() ?? LoginData(data: []);
-              loginData.data = loginDataList;
-              await userSharePref.saveLoginDataList(loginData);
-              Future.delayed(Duration(milliseconds: 500), () {
-                EasyLoading.dismiss();
-                if (loginDataList.isEmpty)
-                  openSignInPage();
-                else
-                  loadingState = LoadingState.DONE;
-                notifyListeners();
-                },);
-
-            },
-          );
-        });
-  }
 
   bool doubleBackToExit = false;
 

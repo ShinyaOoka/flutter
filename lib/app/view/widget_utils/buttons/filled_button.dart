@@ -10,6 +10,7 @@ class FilledButton extends StatelessWidget {
   final Color? color;
   final TextStyle? textStyle;
   final bool enable;
+  final double? borderRadius;
 
   const FilledButton({
     Key? key,
@@ -18,6 +19,7 @@ class FilledButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.enable = true,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class FilledButton extends StatelessWidget {
       onTap: !enable ? null : onPress,
       child: Ink(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(size_8_r),
+          borderRadius: BorderRadius.circular(borderRadius ?? size_8_r),
           color: !enable ? kColorPrimaryDisable : color ?? kColorPrimary,
         ),
         child: Container(

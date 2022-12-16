@@ -24,7 +24,7 @@ class BuildProgressLoading extends StatelessWidget {
               height: size_26_w,
               child: CircularProgressIndicator(
                 strokeWidth: 2.8,
-                valueColor: AlwaysStoppedAnimation<Color>(kColorPrimary),
+                valueColor: AlwaysStoppedAnimation<Color>(kColor4472C4),
               ),
             ),
           ),

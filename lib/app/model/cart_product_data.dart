@@ -1,4 +1,4 @@
-import 'package:ak_azm_flutter/app/model/login_config.dart';
+
 import 'package:ak_azm_flutter/app/module/network/response/products_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 

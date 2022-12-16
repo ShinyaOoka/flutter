@@ -24,10 +24,8 @@ class SplashViewModel extends BaseViewModel {
         }
         if (userSharePref.isLogin()) {
           _navigationService.pushReplacementScreenWithFade(HomePage());
-        } else if (userSharePref.hasLoginConfig()) {
-          _navigationService
-              .pushReplacementScreenWithFade(ListReportPage());
         } else {
+          _navigationService.pushReplacementScreenWithFade(ListReportPage());
           //_navigationService.pushReplacementScreenWithFade(IntroPage());
          // _navigationService.pushReplacementScreenWithFade(InputServerPortPage());
         }

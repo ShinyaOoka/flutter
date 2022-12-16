@@ -91,7 +91,7 @@ class Product {
 
 
   String getImageProduct() {
-    return '${getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? ''}/web/image?model=product.product&field=image_128&id=${id}&write_date=${write_date}&unique=1';
+    return '';
   }
 
 

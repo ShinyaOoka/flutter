@@ -334,6 +334,10 @@
   "emt_qualification": "救命士資格",
   "emt_ride": "救命士同乗",
   "yes_dropdown": "有",
-  "nothing": "無"
+  "nothing": "無",
+  "report_list": "レポート一覧",
 
+  "corps_name": "隊名 : {corps_name}",
+  "accident_type": "事故種別 : {accident_type}",
+  "description": "事故概要・主訴 : {description}"
 }

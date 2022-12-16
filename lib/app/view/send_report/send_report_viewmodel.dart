@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:ak_azm_flutter/app/model/login_config.dart';
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
@@ -105,16 +104,7 @@ class SendReportViewModel extends BaseViewModel {
   void submit() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
     //save server config
-    LoginConfig? loginConfig = userSharePref.getLoginConfig();
-   /* if(loginConfig == null) loginConfig = LoginConfig(protocol: protocol, server: server, port: port);
-    else {
-      loginConfig.protocol = protocol;
-      loginConfig.server = server;
-      loginConfig.port = port;
-    }*/
-    await userSharePref.saveLoginConfig(loginConfig);
-    dio = AppDio.getInstance();
-    openSignIn();
+
   }
 
   //check is server = call api get database
@@ -146,13 +136,7 @@ class SendReportViewModel extends BaseViewModel {
 
 
   void initData() {
-    LoginConfig? serverConfig = userSharePref.getLoginConfig();
-    //protocol = serverConfig?.protocol ?? protocols[1];
-    server = serverConfig?.server ?? '34.159.110.201';
-    port = serverConfig?.port ?? '8069';
-    serverController.text = server;
-    portController.text = port;
-    notifyListeners();
+
   }
 
   void openSignIn() {

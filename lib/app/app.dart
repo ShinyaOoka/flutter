@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
+import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,8 +54,8 @@ class _AppState extends State<App> {
         debugShowCheckedModeBanner: false,
         //home: SplashPage(),
         //home: ProductsPage(),
-        //home: ListReportPage(),
-        home: InputReportPage(),
+        home: ListReportPage(),
+        //home: InputReportPage(),
          //home: InputServerPortPage(),
         //   home: CustomerListPage(),
         //   home: PopupQuotationOrderPage(),

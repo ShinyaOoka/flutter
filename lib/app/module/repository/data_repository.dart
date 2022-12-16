@@ -21,10 +21,6 @@ class DataRepository {
     this.userSharePref,
   );
 
-  //must to call api login web to get Csrt Token
-  Future<Response> webGetCsrfToken(String api) async {
-    return await Dio().get('${getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? ''}$api');
-  }
 
   Future<Response> getAvatarData(String api) async {
     return await Dio().get(getAvatarProfile());
