@@ -22,10 +22,6 @@ class DataRepository {
   );
 
 
-  Future<Response> getAvatarData(String api) async {
-    return await Dio().get(getAvatarProfile());
-  }
-
   void logout() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
     late BaseResponse baseResponse;
@@ -39,7 +35,6 @@ class DataRepository {
     }).doOnDone(() {
       EasyLoading.dismiss();
     }).listen((_) {
-      userSharePref.clearUser();
       getIt<NavigationService>().pushAndRemoveUntilWithFade(ListReportPage());
     }, onError: (e) {
       _navigationService.openErrorPage();

@@ -10,7 +10,6 @@ import 'package:package_info/package_info.dart';
 
 import '../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
-import '../../model/device_param.dart';
 import '../common/navigator_screen.dart';
 import '../common/toast_util.dart';
 import '../local_storage/shared_pref_manager.dart';
@@ -69,7 +68,7 @@ Future _post(String url, Map<String, dynamic>? params) async {
   if (params == null) {
     params = new Map<String, dynamic>();
   }
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  /*PackageInfo packageInfo = await PackageInfo.fromPlatform();
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   DeviceParam deviceParam = DeviceParam();
   if (Platform.isAndroid) {
@@ -95,7 +94,7 @@ Future _post(String url, Map<String, dynamic>? params) async {
       'device_token', () => getIt<UserSharePref>().getFirebaseToken());
   params.putIfAbsent('os_version', () => deviceParam.osVersion ?? '');
   params.putIfAbsent('app_version', () => packageInfo.version);
-  params.putIfAbsent('model_name', () => deviceParam.modelName ?? '');
+  params.putIfAbsent('model_name', () => deviceParam.modelName ?? '');*/
   var formData = FormData.fromMap(params);
   try {
     var response = await dio.post(url, data: formData);

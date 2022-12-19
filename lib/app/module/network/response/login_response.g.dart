@@ -11,8 +11,6 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
       jsonrpc: json['jsonrpc'] as String?,
       id: json['id'],
       error: json['error'] == null ? null : Error.fromJson(json['error']),
-      result:
-          json['result'] == null ? null : SessionInfo.fromJson(json['result']),
     );
 
 Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
@@ -20,5 +18,4 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
       'jsonrpc': instance.jsonrpc,
       'id': instance.id,
       'error': instance.error,
-      'result': instance.result,
     };

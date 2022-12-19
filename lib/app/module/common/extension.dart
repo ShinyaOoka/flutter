@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:ak_azm_flutter/app/model/session_info.dart';
 import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
 import 'package:ak_azm_flutter/app/module/local_storage/shared_pref_manager.dart';
 import 'package:cached_memory_image/cached_image_base64_manager.dart';
@@ -240,11 +239,6 @@ extension EmailValidate on String {
   }
 }
 
-String getAvatarProfile(){
-  SessionInfo? sessionInfo = getIt<UserSharePref>().getUser();
-  //return '${getIt<UserSharePref>().getLoginConfig()?.getBaseUrl() ?? ''}/web/image/res.users/${sessionInfo?.uid}/avatar_128';
-  return '';
-}
 
 String dateTimeFromString(dynamic? date,{ String format = MMddyyyy}) {
   return date == null || date == '' || date is! String ? '' : DateFormat(format).format(DateTime.parse(date)).toString();

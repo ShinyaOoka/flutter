@@ -12,7 +12,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
-import '../../model/new/report.dart';
+import '../../model/report.dart';
 import '../../module/common/config.dart';
 import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';

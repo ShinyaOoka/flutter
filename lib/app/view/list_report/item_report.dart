@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../generated/locale_keys.g.dart';
-import '../../model/new/report.dart';
+import '../../model/report.dart';
 import '../../module/res/style.dart';
 import '../widget_utils/avatar_profile_circle.dart';
 

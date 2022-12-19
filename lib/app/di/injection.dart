@@ -1,7 +1,7 @@
+import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
 import 'package:ak_azm_flutter/app/view/home/home_viewmodel.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_viewmodel.dart';
-import 'package:ak_azm_flutter/app/view/preferences/preferences_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
 import '../module/common/navigator_screen.dart';
@@ -21,6 +21,7 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<UserSharePref>(UserSharePref());
   getIt.registerSingleton<SharedPrefManager>(SharedPrefManager());
   getIt.registerLazySingleton<NavigationService>(() => NavigationService());
+  getIt.registerSingleton<DBHelper>(DBHelper());
 
   //repository
   //getIt.registerFactory<SocketManager>(() => SocketManager());
@@ -28,34 +29,29 @@ Future<void> configureDependencies() async {
   //data repository
   getIt.registerFactory<DataRepository>(() => DataRepository(
         getIt<UserSharePref>(),
-       // getIt<SocketManager>(),
+        // getIt<SocketManager>(),
       ));
 
   //view model
   getIt.registerFactory<SplashViewModel>(
       () => SplashViewModel(getIt<DataRepository>()));
 
-
   getIt.registerFactory<HomeViewModel>(
       () => HomeViewModel(getIt<DataRepository>()));
-
 
   getIt.registerFactoryParam<WebviewViewModel, List<dynamic>, dynamic>(
       (param1, _) => //no need param2
           WebviewViewModel(webviewParam: param1[0]));
 
-  getIt.registerFactory<PreferencesViewModel>(
-          () => PreferencesViewModel(getIt<DataRepository>()));
-
 
   getIt.registerFactory<ListReportViewModel>(
-          () => ListReportViewModel(getIt<DataRepository>()));
+      () => ListReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<InputReportViewModel>(
-          () => InputReportViewModel(getIt<DataRepository>()));
+      () => InputReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<EditReportViewModel>(
-          () => EditReportViewModel(getIt<DataRepository>()));
+      () => EditReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<PreviewReportViewModel>(
-          () => PreviewReportViewModel(getIt<DataRepository>()));
+      () => PreviewReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<SendReportViewModel>(
-          () => SendReportViewModel(getIt<DataRepository>()));
+      () => SendReportViewModel(getIt<DataRepository>()));
 }

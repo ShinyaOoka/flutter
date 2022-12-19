@@ -79,7 +79,6 @@ class AppDio with DioMixin implements Dio {
   static Dio getInstance() => AppDio._();
 
   void _handleTokenExpired(DioError error, ErrorInterceptorHandler handler) {
-    getIt<UserSharePref>().clearUser();
     getIt<NavigationService>().openErrorPage(message: LocaleKeys.session_expired.tr());
   }
 }

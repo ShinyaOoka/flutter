@@ -150,6 +150,9 @@ dependencies:
   #dotline
   dotted_line: ^3.1.0
 
+  #database
+  sqflite: ^2.2.2
+
 
 dev_dependencies:
   flutter_test:

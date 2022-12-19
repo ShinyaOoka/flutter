@@ -8,7 +8,6 @@ import '../../../flavors.dart';
 import '../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
 import '../../view/error/error_page.dart';
-import '../../view/preferences/preferences_page.dart';
 import '../../view/splash/splash_page.dart';
 import '../../view/widget_utils/dialog/dialog_general_two_action.dart';
 
@@ -134,10 +133,6 @@ class NavigationService {
         });
   }
 
-  openPreferencesPage() async {
-    removeFocus(navigatorKey.currentContext!);
-    pushScreenWithFade(PreferencesPage());
-  }
 
   dimiss() {
     navigatorKey.currentState?.pop();

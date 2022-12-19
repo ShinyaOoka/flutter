@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../model/cart_product_data.dart';
-import '../../model/session_info.dart';
 import '../network/response/shops_response.dart';
 
 class SharedPrefManager {
@@ -204,26 +202,6 @@ class UserSharePref extends SharedPrefManager {
     return SharedPrefManager.spf!.getString(CSRT_TOKEN) ?? '';
   }
 
-  Future<void>? saveUser(SessionInfo? user) {
-    if (SharedPrefManager.beforCheck()) return null;
-    return SharedPrefManager.spf!
-        .setString(USER, user != null ? json.encode(user.toJson()) : '');
-  }
-
-  Future<void>? clearUser() {
-    saveUser(null);
-  }
-
-  SessionInfo? getUser() {
-    if (SharedPrefManager.beforCheck()) return null;
-    String jsonData = SharedPrefManager.spf!.getString(USER) ?? '';
-    if (jsonData.isEmpty) return null;
-    dynamic data = json.decode(jsonData);
-    return SessionInfo.fromJson(data);
-  }
-
-
-
   Future<void>? saveShop(Shop? shop) {
     if (SharedPrefManager.beforCheck()) return null;
     return SharedPrefManager.spf!
@@ -238,24 +216,4 @@ class UserSharePref extends SharedPrefManager {
     return Shop.fromJson(data);
   }
 
-
-  bool isLogin() {
-    if (SharedPrefManager.beforCheck()) return false;
-    return getUser() != null && getUser()!.uid != null;
-  }
-
-
-  Future<void>? saveCartProductData(CartProductData? cartProductData) {
-    if (SharedPrefManager.beforCheck()) return null;
-    return SharedPrefManager.spf!.setString(CART_PRODUCT,
-        cartProductData != null ? json.encode(cartProductData.toJson()) : '');
-  }
-
-  CartProductData? getCartProductData() {
-    if (SharedPrefManager.beforCheck()) return null;
-    String jsonData = SharedPrefManager.spf!.getString(CART_PRODUCT) ?? '';
-    if (jsonData.isEmpty) return null;
-    dynamic data = json.decode(jsonData);
-    return CartProductData.fromJson(data);
-  }
 }
