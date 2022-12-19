@@ -336,5 +336,9 @@ abstract class  LocaleKeys {
   static const corps_name = 'corps_name';
   static const accident_type = 'accident_type';
   static const description = 'description';
+  static const report_member_name = 'report_member_name';
+  static const report_name_of_engineer = 'report_name_of_engineer';
+  static const report_cumulative_total = 'report_cumulative_total';
+  static const report_team = 'report_team';
 
 }

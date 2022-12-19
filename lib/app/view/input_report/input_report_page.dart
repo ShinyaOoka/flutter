@@ -189,7 +189,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         labelText: LocaleKeys.ambulance_name.tr(),
                         onChanged: (value) => {},
                       ),
-                      spaceWidget,
+                      spaceWidgetColor(),
                       OutlineTextFormField(
                         isAlwaysShowLable: true,
                         keyboardType: TextInputType.phone,
@@ -201,7 +201,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         labelText: LocaleKeys.ambulance_tel.tr(),
                         onChanged: (value) => {},
                       ),
-                      spaceWidget,
+                      spaceWidgetColor(),
                       OutlineTextFormField(
                         keyboardType: TextInputType.number,
                         isAlwaysShowLable: true,
@@ -213,14 +213,14 @@ class InputReportState extends LifecycleState<InputReportContent>
                         labelText: LocaleKeys.captain_name.tr(),
                         onChanged: (value) => {},
                       ),
-                      spaceWidget,
+                      spaceWidgetColor(),
                     ],
                   ),
                 ),
                 isExpanded: item.isExpanded,
               )
             : ExpansionPanel(
-          canTapOnHeader: true,
+                canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
                     title: Text('$indexLayout. ${item.headerValue}'),
@@ -231,7 +231,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      //example set max length & unit for text field
+                      /*Container(
                         padding: EdgeInsets.only(left: 16, right: 16, top: 10),
                         child: OutlineTextFormField(
                           isAlwaysShowLable: true,
@@ -277,7 +278,56 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ),
                       SizedBox(
                         height: size_8_h,
+                      ),*/
+
+                      //No.2
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDownSearch(
+                              LocaleKeys.ambulance_name.tr(),
+                              value.group1No7,
+                              value.ambulanceName,
+                              value.onSelectAmbulanceName);
+                        }),
                       ),
+                      spaceWidgetColor(),
+
+                      //No.3
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                        ),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDownSearch(
+                              LocaleKeys.ambulance_tel.tr(),
+                              value.group1No7,
+                              value.ambulanceTel,
+                              value.onSelectAmbulanceTel);
+                        }),
+                      ),
+
+                      spaceWidgetColor(),
+
+                      //No.4
+                      Container(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDownSearch(
+                              LocaleKeys.captain_name.tr(),
+                              value.group1No7,
+                              value.captainName,
+                              value.onSelectCaptainName);
+                        }),
+                      ),
+
+                      spaceWidgetColor(),
+
+                      //No.5
                       Container(
                         padding: EdgeInsets.only(left: 16, right: 16),
                         child: Consumer<InputReportViewModel>(
@@ -288,7 +338,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                               value.onSelectQualification);
                         }),
                       ),
-                      spaceWidget,
+                      spaceWidgetColor(),
+
                       //No.6
                       Container(
                         padding: EdgeInsets.only(left: 16, right: 16),
@@ -298,36 +349,51 @@ class InputReportState extends LifecycleState<InputReportContent>
                               value.yesNothings, value.onSelectRide);
                         }),
                       ),
-                      spaceWidget,
+                      spaceWidgetColor(),
 
                       //No.7
                       Container(
                         color: kColorDEE9F6,
-                        padding: EdgeInsets.only(left: 16, right: 16),
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                        ),
                         child: Consumer<InputReportViewModel>(
                             builder: (context, value, child) {
-                          return buildDropDownSearch(LocaleKeys.report_member_name.tr(), value.group1No7, value.no7Select, value.onSelectNo7);
-
+                          return buildDropDownSearch(
+                              LocaleKeys.report_member_name.tr(),
+                              value.group1No7,
+                              value.reportMemberName,
+                              value.onSelectReportMemberName,
+                              backgroundTextLabel: kColorDEE9F6);
                         }),
                       ),
-                      divider,
+                      spaceWidgetColor(color: kColorDEE9F6),
                       //No.8
                       Container(
-                        color: kColorDEE9F6,
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Consumer<InputReportViewModel>(
-                            builder: (context, value, child) {
-                              return buildDropDownSearch(LocaleKeys.report_mame_of_engineer.tr(), value.group1No7, value.no7Select, value.onSelectNo7);
+                          color: kColorDEE9F6,
+                          padding: EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                          ),
+                          child: Consumer<InputReportViewModel>(
+                              builder: (context, value, child) {
+                            return buildDropDownSearch(
+                                LocaleKeys.report_name_of_engineer.tr(),
+                                value.group1No7,
+                                value.reportNameOfEngineer,
+                                value.onSelectReportNameOfEngineer,
+                                backgroundTextLabel: kColorDEE9F6);
+                          })),
 
-                            })
-                      ),
-
-                      divider,
+                      spaceWidgetColor(color: kColorDEE9F6),
                       //No.9
                       Container(
                         color: kColorDEE9F6,
                         padding: EdgeInsets.only(
-                            left: 16, right: 16, bottom: 16, top: 16),
+                          left: 16,
+                          right: 16,
+                        ),
                         child: OutlineTextFormField(
                           keyboardType: TextInputType.number,
                           isAlwaysShowLable: true,
@@ -342,13 +408,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ),
 
                       //spaceWidget,
-                      divider,
+                      spaceWidgetColor(color: kColorDEE9F6),
 
                       //No.10
                       Container(
                         color: kColorDEE9F6,
-                        padding: EdgeInsets.only(
-                            left: 16, right: 16, bottom: 16, top: 16),
+                        padding:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
                         child: OutlineTextFormField(
                           keyboardType: TextInputType.number,
                           isAlwaysShowLable: true,
@@ -375,9 +441,13 @@ class InputReportState extends LifecycleState<InputReportContent>
     height: 1,
   );
 
-  final spaceWidget = SizedBox(
-    height: size_12_h,
-  );
+  Widget spaceWidgetColor({Color? color}) {
+    return Container(
+      color: color ?? transparent,
+      height: size_12_h,
+    );
+  }
+
   final counterStyle = TextStyle(color: Colors.black);
 
   Widget? unitWidget(String text) {
@@ -454,60 +524,60 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildDropDownSearch(String label, List<String> list, String? valueSelect, Function(String? itemSelected) onSelected) {
+  Widget buildDropDownSearch(String label, List<String> list,
+      String? valueSelect, Function(String? itemSelected) onSelected,
+      {Color? backgroundTextLabel}) {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.only(top: 10),
-          child: SearchChoices.single(
-            autofocus: false,
-            closeButton: null,
-            fieldDecoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
+            padding: const EdgeInsets.only(top: 10),
+            child: SearchChoices.single(
+              autofocus: false,
+              closeButton: null,
+              fieldDecoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.black38,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              displayClearIcon: false,
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                size: 30,
                 color: Colors.black38,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            ),
-            displayClearIcon: false,
-            icon: const Icon(
-              Icons.arrow_drop_down,
-              size: 30,
-              color: Colors.black38,
-            ),
-            items: list.map<DropdownMenuItem>((string) {
-              return (DropdownMenuItem(
-                value: string,
-                child: Text(
-                  string,
-                  style: TextStyle(
-                    fontSize: text_16,
+              items: list.map<DropdownMenuItem>((string) {
+                return (DropdownMenuItem(
+                  value: string,
+                  child: Text(
+                    string,
+                    style: TextStyle(
+                      fontSize: text_16,
+                    ),
                   ),
-                ),
-              ));
-            }).toList(),
-            value: valueSelect,
-            hint: '',
-            searchHint: null,
-            onChanged: (value) {
-              setState(() {
-                valueSelect = value;
-              });
-              onSelected(valueSelect);
-            },
-            dialogBox: false,
-            isExpanded: true,
-            menuConstraints: BoxConstraints.tight(
-                const Size.fromHeight(300)),
-          )
-        ),
+                ));
+              }).toList(),
+              value: valueSelect,
+              hint: '',
+              searchHint: null,
+              onChanged: (value) {
+                setState(() {
+                  valueSelect = value;
+                });
+                onSelected(valueSelect);
+              },
+              dialogBox: false,
+              isExpanded: true,
+              menuConstraints: BoxConstraints.tight(const Size.fromHeight(300)),
+            )),
         Container(
           child: Text(
             label,
             style: TextStyle(
                 color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
-          color: Colors.white,
+          color: backgroundTextLabel ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
           padding: EdgeInsets.symmetric(horizontal: 4),
         ),

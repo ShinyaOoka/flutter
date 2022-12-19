@@ -44,8 +44,12 @@ class InputReportViewModel extends BaseViewModel {
     '福島　隼人'];
   bool isExpandQualification = false;
   bool isExpandRide = false;
+  String? ambulanceName;
+  String? ambulanceTel;
+  String? captainName;
   String? emtQualification;
-  String? no7Select;
+  String? reportMemberName;
+  String? reportNameOfEngineer;
   String? emtRide;
 
 
@@ -86,6 +90,20 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  onSelectAmbulanceName(String? itemSelected) {
+    this.ambulanceName = itemSelected ?? '';
+    notifyListeners();
+  }
+  onSelectAmbulanceTel(String? itemSelected) {
+    this.ambulanceTel = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectCaptainName(String? itemSelected) {
+    this.captainName = itemSelected ?? '';
+    notifyListeners();
+  }
+
   onSelectQualification(String? itemSelected) {
     this.emtQualification = itemSelected ?? yesNothings[1];
     notifyListeners();
@@ -96,8 +114,13 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onSelectNo7(String? itemSelected) {
-    this.no7Select = itemSelected ?? '';
+  onSelectReportMemberName(String? itemSelected) {
+    this.reportMemberName = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectReportNameOfEngineer(String? itemSelected) {
+    this.reportNameOfEngineer = itemSelected ?? '';
     notifyListeners();
   }
 
