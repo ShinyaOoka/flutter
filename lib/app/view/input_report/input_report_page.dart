@@ -3,7 +3,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:search_choices/search_choices.dart';
 
 import '../../../generated/locale_keys.g.dart';
 import '../../module/res/style.dart';
@@ -11,6 +10,7 @@ import '../../viewmodel/base_viewmodel.dart';
 import '../../viewmodel/life_cycle_base.dart';
 import '../widget_utils/base_scaffold_safe_area.dart';
 import '../widget_utils/buttons/filled_button.dart';
+import '../widget_utils/custom/search_choices.dart';
 import '../widget_utils/expansion_panel_custom.dart';
 import '../widget_utils/outline_text_form_field.dart';
 import 'input_report_viewmodel.dart';
@@ -112,31 +112,37 @@ class InputReportState extends LifecycleState<InputReportContent>
           transparentStatusBar: 0.0,
           title: LocaleKeys.server_config.tr(),
           hideBackButton: false,
-          body: ScrollConfiguration(
-            behavior: const ScrollBehavior().copyWith(overscroll: false),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                      child: FilledButton(
-                        borderRadius: size_4_r,
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
+          body: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                        child: FilledButton(
+                          borderRadius: size_4_r,
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          color: kColor4472C4,
+                          text: LocaleKeys.x_series_data_acquisition.tr(),
+                          onPress: () => ToastUtil.showToast(
+                              LocaleKeys.x_series_data_acquisition.tr()),
                         ),
-                        color: kColor4472C4,
-                        text: LocaleKeys.x_series_data_acquisition.tr(),
-                        onPress: () => ToastUtil.showToast(
-                            LocaleKeys.x_series_data_acquisition.tr()),
                       ),
-                    ),
-                    _buildPanel(),
-                  ],
+                      _buildPanel(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -214,6 +220,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 isExpanded: item.isExpanded,
               )
             : ExpansionPanel(
+          canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
                     title: Text('$indexLayout. ${item.headerValue}'),
@@ -282,6 +289,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         }),
                       ),
                       spaceWidget,
+                      //No.6
                       Container(
                         padding: EdgeInsets.only(left: 16, right: 16),
                         child: Consumer<InputReportViewModel>(
@@ -291,83 +299,35 @@ class InputReportState extends LifecycleState<InputReportContent>
                         }),
                       ),
                       spaceWidget,
-                      Container(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Consumer<InputReportViewModel>(
-                            builder: (context, value, child) {
-                          return buildDropDown(
-                              '(報)隊員氏名', value.no7, value.onSelectRide);
-                        }),
-                      ),
-                      spaceWidget,
-                      Container(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Consumer<InputReportViewModel>(
-                            builder: (context, value, child) {
-                          return SearchChoices.single(
-                            items: value.no7.map<DropdownMenuItem>((string) {
-                              return (DropdownMenuItem(
-                                value: string,
-                                child: Text(
-                                  string,
-                                  style: TextStyle(
-                                    fontSize: text_16,
-                                  ),
-                                ),
-                              ));
-                            }).toList(),
-                            value: value.no7Select,
-                            hint: "Select one",
-                            searchHint: null,
-                            onChanged: (value) {
-                              setState(() {
-                                value.no7Select = value;
-                              });
-                            },
-                            dialogBox: false,
-                            isExpanded: true,
-                            menuConstraints: BoxConstraints.tight(
-                                const Size.fromHeight(350)),
-                          );
-                        }),
-                      ),
 
-                      //No.8
-                      spaceWidget,
-                      Container(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Consumer<InputReportViewModel>(
-                            builder: (context, value, child) {
-                          return SearchChoices.single(
-                            items: value.no7.map<DropdownMenuItem>((string) {
-                              return (DropdownMenuItem(
-                                value: string,
-                                child: Text(
-                                  string,
-                                ),
-                              ));
-                            }).toList(),
-                            value: value.no7Select,
-                            hint: "Select one",
-                            searchHint: null,
-                            onChanged: (value) {
-                              setState(() {
-                                value.no7Select = value;
-                              });
-                            },
-                            dialogBox: false,
-                            isExpanded: true,
-                            menuConstraints:
-                                BoxConstraints.tight(const Size.fromHeight(350)),
-                          );
-                        }),
-                      ),
-
-                      //No.9
-                      spaceWidget,
+                      //No.7
                       Container(
                         color: kColorDEE9F6,
-                        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                          return buildDropDownSearch(LocaleKeys.report_member_name.tr(), value.group1No7, value.no7Select, value.onSelectNo7);
+
+                        }),
+                      ),
+                      divider,
+                      //No.8
+                      Container(
+                        color: kColorDEE9F6,
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Consumer<InputReportViewModel>(
+                            builder: (context, value, child) {
+                              return buildDropDownSearch(LocaleKeys.report_mame_of_engineer.tr(), value.group1No7, value.no7Select, value.onSelectNo7);
+
+                            })
+                      ),
+
+                      divider,
+                      //No.9
+                      Container(
+                        color: kColorDEE9F6,
+                        padding: EdgeInsets.only(
+                            left: 16, right: 16, bottom: 16, top: 16),
                         child: OutlineTextFormField(
                           keyboardType: TextInputType.number,
                           isAlwaysShowLable: true,
@@ -376,17 +336,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                           textColor: kColor4472C4,
                           colorBorder: Colors.black26,
                           colorFocusBorder: kColor4472C4,
-                          labelText: '(報)総累計',
+                          labelText: LocaleKeys.report_cumulative_total.tr(),
                           onChanged: (value) => {},
                         ),
                       ),
 
-
                       //spaceWidget,
-                      Container(
-                        color: Colors.black26,
-                        height: 1,
-                      ),
+                      divider,
 
                       //No.10
                       Container(
@@ -401,7 +357,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                           textColor: kColor4472C4,
                           colorBorder: Colors.black26,
                           colorFocusBorder: kColor4472C4,
-                          labelText: '(報)隊別',
+                          labelText: LocaleKeys.report_team.tr(),
                           onChanged: (value) => {},
                         ),
                       ),
@@ -413,6 +369,11 @@ class InputReportState extends LifecycleState<InputReportContent>
       }).toList(),
     );
   }
+
+  final divider = Container(
+    color: Colors.black26,
+    height: 1,
+  );
 
   final spaceWidget = SizedBox(
     height: size_12_h,
@@ -478,6 +439,67 @@ class InputReportState extends LifecycleState<InputReportContent>
                 .toList(),
             onChanged: (String? value) => onSelected(value),
           ),
+        ),
+        Container(
+          child: Text(
+            label,
+            style: TextStyle(
+                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+          ),
+          color: Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4),
+        ),
+      ],
+    );
+  }
+
+  Widget buildDropDownSearch(String label, List<String> list, String? valueSelect, Function(String? itemSelected) onSelected) {
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 10),
+          child: SearchChoices.single(
+            autofocus: false,
+            closeButton: null,
+            fieldDecoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              border: Border.all(
+                color: Colors.black38,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ),
+            displayClearIcon: false,
+            icon: const Icon(
+              Icons.arrow_drop_down,
+              size: 30,
+              color: Colors.black38,
+            ),
+            items: list.map<DropdownMenuItem>((string) {
+              return (DropdownMenuItem(
+                value: string,
+                child: Text(
+                  string,
+                  style: TextStyle(
+                    fontSize: text_16,
+                  ),
+                ),
+              ));
+            }).toList(),
+            value: valueSelect,
+            hint: '',
+            searchHint: null,
+            onChanged: (value) {
+              setState(() {
+                valueSelect = value;
+              });
+              onSelected(valueSelect);
+            },
+            dialogBox: false,
+            isExpanded: true,
+            menuConstraints: BoxConstraints.tight(
+                const Size.fromHeight(300)),
+          )
         ),
         Container(
           child: Text(

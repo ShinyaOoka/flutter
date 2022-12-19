@@ -339,5 +339,10 @@
 
   "corps_name": "隊名 : {corps_name}",
   "accident_type": "事故種別 : {accident_type}",
-  "description": "事故概要・主訴 : {description}"
+  "description": "事故概要・主訴 : {description}",
+
+  "report_member_name": "(報)隊員氏名",
+  "report_mame_of_engineer": "(報)機関員氏名",
+  "report_cumulative_total": "(報)総累計",
+  "report_team": "(報)隊別"
 }

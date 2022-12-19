@@ -22,12 +22,19 @@ import '../../viewmodel/base_viewmodel.dart';
 
 class InputReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
-  NavigationService _navigationService = getIt<NavigationService>();
+  final NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
   final serverFC = FocusNode();
   final portFC = FocusNode();
+  String server = '';
+  String port = '';
+  var serverController = TextEditingController();
+  var portController = TextEditingController();
+
+
+  //layout 1
   List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
-  List<String> no7 = ['保科　久穂',
+  List<String> group1No7 = ['保科　久穂',
     '大岡　慎弥',
     '中村　健',
     '鷹巣　良右',
@@ -40,10 +47,9 @@ class InputReportViewModel extends BaseViewModel {
   String? emtQualification;
   String? no7Select;
   String? emtRide;
-  String server = '';
-  String port = '';
-  var serverController = TextEditingController();
-  var portController = TextEditingController();
+
+
+
 
   List<dynamic> databaseList = [];
   DatabasesResponse? _databasesResponse;
@@ -87,6 +93,11 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectRide(String? itemSelected) {
     this.emtRide = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onSelectNo7(String? itemSelected) {
+    this.no7Select = itemSelected ?? '';
     notifyListeners();
   }
 
