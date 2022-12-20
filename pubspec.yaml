@@ -179,19 +179,19 @@ flavorizr:
   flavors:
     development:
       app:
-        name: "AK AZM(dev)"
+        name: "レポート作成(dev)"
       android:
-        applicationId: "com.businesssuite.ak_azm_flutter"
+        applicationId: "com.akzoll.reportcreate"
       ios:
-        bundleId: "com.businesssuite.ak_azm_flutter"
+        bundleId: "com.akzoll.reportcreate"
 
     production:
       app:
-        name: "AK AZM"
+        name: "レポート作成"
       android:
-        applicationId: "com.businesssuite.ak_azm_flutter"
+        applicationId: "com.akzoll.reportcreate"
       ios:
-        bundleId: "com.businesssuite.ak_azm_flutter"
+        bundleId: "com.akzoll.reportcreate"
 
 
 flutter:

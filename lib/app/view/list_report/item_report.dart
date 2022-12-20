@@ -1,20 +1,22 @@
-import 'package:ak_azm_flutter/app/view/widget_utils/anims/touchable_opacity.dart';
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
+import 'package:ak_azm_flutter/app/module/common/extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../generated/locale_keys.g.dart';
-import '../../model/report.dart';
+import '../../model/ms_classification.dart';
 import '../../module/res/style.dart';
-import '../widget_utils/avatar_profile_circle.dart';
 
 class ItemReport extends StatelessWidget {
-  Report report;
+  DTReport report;
+  List<MSClassification>  msClassifications;
   VoidCallback onClickItem;
   VoidCallback onDeleteItem;
 
   ItemReport({
     Key? key,
     required this.report,
+    required this.msClassifications,
     required this.onClickItem,
     required this.onDeleteItem,
   }) : super(key: key);
@@ -42,7 +44,7 @@ class ItemReport extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          report.date ?? '',
+                          '${report.DateOfOccurrence} ${report.TimeOfOccurrence}',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -52,7 +54,7 @@ class ItemReport extends StatelessWidget {
                         ),
                         Text(
                           LocaleKeys.corps_name.tr(
-                              namedArgs: {'corps_name': report.name ?? ''}),
+                              namedArgs: {'corps_name': report.TeamName ?? ''}),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -68,7 +70,7 @@ class ItemReport extends StatelessWidget {
                     ),
                     Text(
                       LocaleKeys.accident_type.tr(namedArgs: {
-                        'accident_type': report.accident_type ?? '',
+                        'accident_type': finMSClassification()?.Value ?? '',
                       }),
                       textAlign: TextAlign.start,
                       style: TextStyle(
@@ -82,7 +84,7 @@ class ItemReport extends StatelessWidget {
                     ),
                     Text(
                       LocaleKeys.description.tr(namedArgs: {
-                        'description': report.description ?? '',
+                        'description': report.AccidentSummary ?? '',
                       }),
                       textAlign: TextAlign.start,
                       maxLines: 2,
@@ -122,5 +124,9 @@ class ItemReport extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  MSClassification? finMSClassification(){
+    return msClassifications.firstWhere((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
   }
 }

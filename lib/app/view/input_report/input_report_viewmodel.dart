@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:ak_azm_flutter/app/model/ms_classification.dart';
+import 'package:ak_azm_flutter/app/model/ms_team.dart';
+import 'package:ak_azm_flutter/app/model/ms_team_member.dart';
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
+import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../main.dart';
 import '../../di/injection.dart';
 import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
@@ -32,6 +37,9 @@ class InputReportViewModel extends BaseViewModel {
   var portController = TextEditingController();
 
 
+  List<MSClassification>  msClassifications= [];
+  List<MSTeam>  msTeams= [];
+  List<MSTeamMember>  msTeamMembers= [];
   //layout 1
   List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
   List<String> group1No7 = ['保科　久穂',
@@ -68,6 +76,30 @@ class InputReportViewModel extends BaseViewModel {
     return true;
   }
 
+  Future<void> getAllMSClassification() async {
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSClassification) ?? [];
+    msClassifications = datas.map((e) => MSClassification.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  Future<void> getAllMSTeam() async {
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeam) ?? [];
+    msTeams = datas.map((e) => MSTeam.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  Future<void> getAllMSTeamMember() async {
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeamMember) ?? [];
+    msTeamMembers = datas.map((e) => MSTeamMember.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  void initData() {
+    getAllMSClassification();
+    getAllMSTeam();
+    getAllMSTeamMember();
+  }
+
   DatabasesResponse? get databasesResponse => _databasesResponse;
 
   InputReportViewModel(this._dataRepo);
@@ -92,6 +124,8 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     this.ambulanceName = itemSelected ?? '';
+    MSTeam? msTeam = msTeams.firstWhere((e) => e.Name == itemSelected);
+    onSelectAmbulanceTel (msTeam.TEL ?? '');
     notifyListeners();
   }
   onSelectAmbulanceTel(String? itemSelected) {
@@ -172,9 +206,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
 
-  void initData() {
 
-  }
 
   void openSignIn() {
     getDatabasesApi();

@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/model/ms_classification.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,7 +6,7 @@ part 'dt_report.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class DTReport extends Equatable {
-  String? ID;
+  dynamic? ID;
   dynamic TeamName;
   dynamic TeamTEL;
   dynamic TeamCaptainName;
@@ -16,6 +17,7 @@ class DTReport extends Equatable {
   dynamic Total;
   dynamic Team;
   dynamic SickInjuredPersonName;
+  dynamic SickInjuredPersonKANA;
   dynamic SickInjuredPersonAddress;
   dynamic SickInjuredPersonGender;
   dynamic SickInjuredPersonBirthDate;
@@ -25,6 +27,7 @@ class DTReport extends Equatable {
   dynamic SickInjuredPersonHistoryHospital;
   dynamic SickInjuredPersonKakaritsuke;
   dynamic SickInjuredPersonMedication;
+  dynamic SickInjuredPersonMedicationDetail;
   dynamic SickInjuredPersonAllergy;
   dynamic SickInjuredPersonNameOfInjuaryOrSickness;
   dynamic SickInjuredPersonDegree;
@@ -52,6 +55,7 @@ class DTReport extends Equatable {
   dynamic BystanderCPR;
   dynamic VerbalGuidance;
   dynamic ObservationTime;
+  dynamic DescriptionOfObservationTime;
   dynamic JCS;
   dynamic GCS;
   dynamic Respiration;
@@ -100,12 +104,17 @@ class DTReport extends Equatable {
   dynamic ReasonForTransfer;
   dynamic ReasonForNotTransferring;
   dynamic RecordOfRefusalOfTransfer;
+  dynamic Remark;
+  dynamic ReporterName;
+  dynamic ReporterPosition;
   dynamic EntryName;
   dynamic EntryMachine;
   dynamic EntryDate;
   dynamic UpdateName;
   dynamic UpdateMachine;
   dynamic UpdateDate;
+
+  MSClassification? msClassification;
 
   DTReport({
     this.ID,
@@ -119,6 +128,7 @@ class DTReport extends Equatable {
     this.Total,
     this.Team,
     this.SickInjuredPersonName,
+    this.SickInjuredPersonKANA,
     this.SickInjuredPersonAddress,
     this.SickInjuredPersonGender,
     this.SickInjuredPersonBirthDate,
@@ -128,6 +138,7 @@ class DTReport extends Equatable {
     this.SickInjuredPersonHistoryHospital,
     this.SickInjuredPersonKakaritsuke,
     this.SickInjuredPersonMedication,
+    this.SickInjuredPersonMedicationDetail,
     this.SickInjuredPersonAllergy,
     this.SickInjuredPersonNameOfInjuaryOrSickness,
     this.SickInjuredPersonDegree,
@@ -155,6 +166,7 @@ class DTReport extends Equatable {
     this.BystanderCPR,
     this.VerbalGuidance,
     this.ObservationTime,
+    this.DescriptionOfObservationTime,
     this.JCS,
     this.GCS,
     this.Respiration,
@@ -203,12 +215,16 @@ class DTReport extends Equatable {
     this.ReasonForTransfer,
     this.ReasonForNotTransferring,
     this.RecordOfRefusalOfTransfer,
+    this.Remark,
+    this.ReporterName,
+    this.ReporterPosition,
     this.EntryName,
     this.EntryMachine,
     this.EntryDate,
     this.UpdateName,
     this.UpdateMachine,
     this.UpdateDate,
+    this.msClassification,
   });
 
   factory DTReport.fromJson(Map<String, dynamic> json) =>
@@ -230,6 +246,7 @@ class DTReport extends Equatable {
     Total,
     Team,
     SickInjuredPersonName,
+    SickInjuredPersonKANA,
     SickInjuredPersonAddress,
     SickInjuredPersonGender,
     SickInjuredPersonBirthDate,
@@ -239,6 +256,7 @@ class DTReport extends Equatable {
     SickInjuredPersonHistoryHospital,
     SickInjuredPersonKakaritsuke,
     SickInjuredPersonMedication,
+    SickInjuredPersonMedicationDetail,
     SickInjuredPersonAllergy,
     SickInjuredPersonNameOfInjuaryOrSickness,
     SickInjuredPersonDegree,
@@ -266,6 +284,7 @@ class DTReport extends Equatable {
     BystanderCPR,
     VerbalGuidance,
     ObservationTime,
+    DescriptionOfObservationTime,
     JCS,
     GCS,
     Respiration,
@@ -314,6 +333,9 @@ class DTReport extends Equatable {
     ReasonForTransfer,
     ReasonForNotTransferring,
     RecordOfRefusalOfTransfer,
+    Remark,
+    ReporterName,
+    ReporterPosition,
     EntryName,
     EntryMachine,
     EntryDate,

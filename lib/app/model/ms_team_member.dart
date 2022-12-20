@@ -27,10 +27,10 @@ class MSTeamMember extends Equatable {
   //compare two object
   @override
   List<Object?> get props => [
-    TeamMemberCD,
-    Name,
-    Position,
-    TEL,
-    TeamCD,
-  ];
+        TeamMemberCD,
+        Name,
+        Position,
+        TEL,
+        TeamCD,
+      ];
 }

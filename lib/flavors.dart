@@ -11,9 +11,9 @@ class F {
   static String get title {
     switch (appFlavor) {
       case Flavor.DEVELOPMENT:
-        return 'AK AZM(dev)';
+        return 'レポート作成(dev)';
       case Flavor.PRODUCTION:
-        return 'AK AZM';
+        return 'レポート作成';
       default:
         return 'title';
     }

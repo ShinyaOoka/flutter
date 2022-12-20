@@ -99,7 +99,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
               autocorrect: false,
               enableSuggestions: false,
               inputFormatters: widget.inputformatter,
-              maxLength: widget.maxLength ?? TextField.noMaxLength ,
+              maxLength: widget.maxLength  ,
               decoration: InputDecoration(
                 floatingLabelBehavior: widget.isAlwaysShowLable ? FloatingLabelBehavior.always : FloatingLabelBehavior.auto,
                 counter: widget.counterWidget,

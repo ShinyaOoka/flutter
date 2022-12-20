@@ -72,6 +72,8 @@ Widget? prepareWidget(dynamic object,
     if (stringToWidgetFunction == null) {
       return (Text(
         object,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ));
     } else {
       return (stringToWidgetFunction(object));

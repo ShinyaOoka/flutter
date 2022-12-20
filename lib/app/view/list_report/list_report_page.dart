@@ -44,7 +44,8 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
     chooseAccountViewModel.scrollController.addListener(() {
       chooseAccountViewModel.onScroll();
     });
-    chooseAccountViewModel.getLoginData();
+    chooseAccountViewModel.getAllMSClassification();
+    chooseAccountViewModel.getReports();
     super.initState();
   }
 
@@ -130,15 +131,16 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
                                           return Column(
                                             children: [
                                               ItemReport(
-                                                report: value.reports[index],
+                                                report: value.dtReports[index],
+                                                msClassifications: value.msClassifications,
                                                 onDeleteItem: () => null,
                                                 onClickItem: () => chooseAccountViewModel.openPreviewReport(),
                                               ),
-                                              index <= value.reports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
+                                              index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
                                             ],
                                           );
                                         },
-                                        childCount: value.reports.length,
+                                        childCount: value.dtReports.length,
                                       ),
                                     ),
                                     SliverToBoxAdapter(

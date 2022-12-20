@@ -287,7 +287,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             builder: (context, value, child) {
                           return buildDropDownSearch(
                               LocaleKeys.ambulance_name.tr(),
-                              value.group1No7,
+                              value.msTeams
+                                  .map((e) => e.Name.toString())
+                                  .toList(),
                               value.ambulanceName,
                               value.onSelectAmbulanceName);
                         }),
@@ -299,15 +301,25 @@ class InputReportState extends LifecycleState<InputReportContent>
                         padding: EdgeInsets.only(
                           left: 16,
                           right: 16,
+                          top: 16
                         ),
-                        child: Consumer<InputReportViewModel>(
-                            builder: (context, value, child) {
-                          return buildDropDownSearch(
-                              LocaleKeys.ambulance_tel.tr(),
-                              value.group1No7,
-                              value.ambulanceTel,
-                              value.onSelectAmbulanceTel);
-                        }),
+                        child: IgnorePointer(
+                          ignoring: true,
+                          child: Consumer<InputReportViewModel>(
+                              builder: (context, value, child) {
+                            return OutlineTextFormField(
+                              keyboardType: TextInputType.number,
+                              isAlwaysShowLable: true,
+                              controller: TextEditingController(text: value.ambulanceTel),
+                              counterWidget: null,
+                              textColor: kColor4472C4,
+                              colorBorder: Colors.black26,
+                              colorFocusBorder: kColor4472C4,
+                              labelText: LocaleKeys.ambulance_tel.tr(),
+                              onChanged: (value) => {},
+                            );
+                          }),
+                        ),
                       ),
 
                       spaceWidgetColor(),
@@ -319,7 +331,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             builder: (context, value, child) {
                           return buildDropDownSearch(
                               LocaleKeys.captain_name.tr(),
-                              value.group1No7,
+                              value.msTeamMembers
+                                  .map((e) => e.Name.toString())
+                                  .toList(),
                               value.captainName,
                               value.onSelectCaptainName);
                         }),
@@ -362,7 +376,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             builder: (context, value, child) {
                           return buildDropDownSearch(
                               LocaleKeys.report_member_name.tr(),
-                              value.group1No7,
+                              value.msTeamMembers
+                                  .map((e) => e.Name.toString())
+                                  .toList(),
                               value.reportMemberName,
                               value.onSelectReportMemberName,
                               backgroundTextLabel: kColorDEE9F6);
@@ -380,7 +396,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                               builder: (context, value, child) {
                             return buildDropDownSearch(
                                 LocaleKeys.report_name_of_engineer.tr(),
-                                value.group1No7,
+                                value.msTeamMembers
+                                    .map((e) => e.Name.toString())
+                                    .toList(),
                                 value.reportNameOfEngineer,
                                 value.onSelectReportNameOfEngineer,
                                 backgroundTextLabel: kColorDEE9F6);
@@ -500,8 +518,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                     value: item,
                     child: Text(
                       item,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: text_16,
+                        color: kColor4472C4
                       ),
                     ),
                   ),
@@ -552,8 +573,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                   value: string,
                   child: Text(
                     string,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: text_16,
+                        color: kColor4472C4
                     ),
                   ),
                 ));

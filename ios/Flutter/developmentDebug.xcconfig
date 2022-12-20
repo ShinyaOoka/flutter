@@ -2,4 +2,4 @@
 
 FLUTTER_TARGET=lib/main_development.dart
 ASSET_PREFIX=development
-BUNDLE_NAME=AK AZM(dev)
+BUNDLE_NAME=レポート作成(dev)
