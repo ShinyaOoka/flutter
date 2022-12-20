@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
+import 'package:tap_canvas/tap_canvas.dart';
+
 const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
 const EdgeInsets _kUnalignedButtonPadding = EdgeInsets.zero;
@@ -1383,62 +1385,69 @@ class _SearchChoicesState<T> extends FormFieldState<T> {
   }
 
   Widget menuWidget({String searchTerms = ""}) {
-    return StatefulBuilder(
-        builder: (BuildContext menuContext, StateSetter setStateFromBuilder) {
-      return (DropdownDialog(
-        items: widget.items,
-        hint: prepareWidget(widget.searchHint),
-        isCaseSensitiveSearch: widget.isCaseSensitiveSearch,
-        closeButton: widget.closeButton,
-        keyboardType: widget.keyboardType,
-        searchFn: widget.searchFn,
-        multipleSelection: widget.multipleSelection,
-        selectedItems: selectedItems,
-        doneButton: widget.doneButton,
-        displayItem: widget.displayItem,
-        validator: widget.validator,
-        dialogBox: widget.dialogBox,
-        displayMenu: displayMenu,
-        menuConstraints: widget.menuConstraints,
-        menuBackgroundColor: widget.menuBackgroundColor,
-        style: widget.style,
-        iconEnabledColor: widget.iconEnabledColor,
-        iconDisabledColor: widget.iconDisabledColor,
-        callOnPop: () {
-          giveMeThePop(() {});
-          if (!widget.dialogBox &&
-              widget.onChanged != null &&
-              selectedResult != null) {
-            sendSelection(selectedResult, menuContext);
-          }
-          setState(() {});
-        },
-        updateParent: (value) {
-          updateParent!(value);
-          setStateFromBuilder(() {});
-        },
-        rightToLeft: widget.rightToLeft,
-        autofocus: widget.autofocus,
-        initialSearchTerms: searchTerms,
-        buildDropDownDialog: widget.buildDropDownDialog,
-        dropDownDialogPadding: widget.dropDownDialogPadding,
-        searchInputDecoration: widget.searchInputDecoration,
-        itemsPerPage: widget.itemsPerPage,
-        currentPage: widget.currentPage,
-        customPaginationDisplay: widget.customPaginationDisplay,
-        futureSearchFn: widget.futureSearchFn,
-        futureSearchOrderOptions: widget.futureSearchOrderOptions,
-        futureSearchFilterOptions: widget.futureSearchFilterOptions,
-        futureSelectedValues: futureSelectedValues,
-        emptyListWidget: widget.emptyListWidget,
-        onTap: widget.onTap,
-        futureSearchRetryButton: widget.futureSearchRetryButton,
-        searchDelay: widget.searchDelay,
-        giveMeThePop: giveMeThePop,
-        clearSearchIcon: widget.clearSearchIcon,
-        listValidator: widget.listValidator,
-      ));
-    });
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        print('touch outsideo');
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: StatefulBuilder(
+          builder: (BuildContext menuContext, StateSetter setStateFromBuilder) {
+        return (DropdownDialog(
+          items: widget.items,
+          hint: prepareWidget(widget.searchHint),
+          isCaseSensitiveSearch: widget.isCaseSensitiveSearch,
+          closeButton: widget.closeButton,
+          keyboardType: widget.keyboardType,
+          searchFn: widget.searchFn,
+          multipleSelection: widget.multipleSelection,
+          selectedItems: selectedItems,
+          doneButton: widget.doneButton,
+          displayItem: widget.displayItem,
+          validator: widget.validator,
+          dialogBox: widget.dialogBox,
+          displayMenu: displayMenu,
+          menuConstraints: widget.menuConstraints,
+          menuBackgroundColor: widget.menuBackgroundColor,
+          style: widget.style,
+          iconEnabledColor: widget.iconEnabledColor,
+          iconDisabledColor: widget.iconDisabledColor,
+          callOnPop: () {
+            giveMeThePop(() {});
+            if (!widget.dialogBox &&
+                widget.onChanged != null &&
+                selectedResult != null) {
+              sendSelection(selectedResult, menuContext);
+            }
+            setState(() {});
+          },
+          updateParent: (value) {
+            updateParent!(value);
+            setStateFromBuilder(() {});
+          },
+          rightToLeft: widget.rightToLeft,
+          autofocus: widget.autofocus,
+          initialSearchTerms: searchTerms,
+          buildDropDownDialog: widget.buildDropDownDialog,
+          dropDownDialogPadding: widget.dropDownDialogPadding,
+          searchInputDecoration: widget.searchInputDecoration,
+          itemsPerPage: widget.itemsPerPage,
+          currentPage: widget.currentPage,
+          customPaginationDisplay: widget.customPaginationDisplay,
+          futureSearchFn: widget.futureSearchFn,
+          futureSearchOrderOptions: widget.futureSearchOrderOptions,
+          futureSearchFilterOptions: widget.futureSearchFilterOptions,
+          futureSelectedValues: futureSelectedValues,
+          emptyListWidget: widget.emptyListWidget,
+          onTap: widget.onTap,
+          futureSearchRetryButton: widget.futureSearchRetryButton,
+          searchDelay: widget.searchDelay,
+          giveMeThePop: giveMeThePop,
+          clearSearchIcon: widget.clearSearchIcon,
+          listValidator: widget.listValidator,
+        ));
+      }),
+    );
   }
 
   showDialogOrMenu(String searchTerms, {bool closeMenu = false}) async {
@@ -1646,7 +1655,7 @@ class _SearchChoicesState<T> extends FormFieldState<T> {
         padding: treatedPadding,
         child: Container(
           decoration: widget.fieldDecoration,
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           child: result,
         ),
       );
@@ -2322,33 +2331,41 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
       )));
     }
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+      behavior: HitTestBehavior.translucent,
       onTap: () {
+        print('touch outsideo');
+        FocusScope.of(context).requestFocus(new FocusNode());
         pop();
       },
       child: wrapMenuIfDialogBox(AnimatedContainer(
         padding: widget.dropDownDialogPadding ??
             MediaQuery.of(dropdownDialogContext).viewInsets,
         duration: const Duration(milliseconds: 300),
-        child: Card(
-          elevation: 8.0,
-          color: widget.menuBackgroundColor,
-          margin: EdgeInsets.symmetric(
-              vertical: widget.dialogBox ? 10 : 5,
-              horizontal: widget.dialogBox ? 10 : 4),
-          child: Container(
-            constraints: widget.menuConstraints,
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                titleBar(),
-                searchBar(),
-                listWithPagination(),
-                closeButtonWrapper(),
-              ],
+        child: TapOutsideDetectorWidget(
+          onTappedOutside: () {
+            print('touch outsideo');
+            pop();
+          },
+          child: Card(
+            elevation: 8.0,
+            color: widget.menuBackgroundColor,
+            margin: EdgeInsets.symmetric(
+                vertical: widget.dialogBox ? 10 : 5,
+                horizontal: widget.dialogBox ? 10 : 0),
+            child: Container(
+              constraints: widget.menuConstraints,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  titleBar(),
+                  searchBar(),
+                  listWithPagination(),
+                  closeButtonWrapper(),
+                ],
+              ),
             ),
           ),
         ),

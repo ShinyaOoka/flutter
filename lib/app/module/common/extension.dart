@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
 import 'package:ak_azm_flutter/app/module/local_storage/shared_pref_manager.dart';
 import 'package:cached_memory_image/cached_image_base64_manager.dart';
 import 'package:cached_memory_image/cached_memory_image.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -161,16 +160,17 @@ extension FileUtils on String {
 }
 
 Future<String> getDeviceID() async {
-  var deviceInfo = DeviceInfoPlugin();
-  if (Platform.isAndroid) {
-    var androidDeviceInfo = await deviceInfo.androidInfo;
-    return androidDeviceInfo.androidId ?? ''; // unique ID on Android
-  } else if (Platform.isIOS) {
-    var iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor ?? ''; // unique ID on iOS
-  } else {
-    return '';
-  }
+  // var deviceInfo = DeviceInfoPlugin();
+  // if (Platform.isAndroid) {
+  //   var androidDeviceInfo = await deviceInfo.androidInfo;
+  //   return androidDeviceInfo.androidId ?? ''; // unique ID on Android
+  // } else if (Platform.isIOS) {
+  //   var iosDeviceInfo = await deviceInfo.iosInfo;
+  //   return iosDeviceInfo.identifierForVendor ?? ''; // unique ID on iOS
+  // } else {
+  //   return '';
+  // }
+  return '';
 }
 
 extension ContextEx on BuildContext {

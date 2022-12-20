@@ -67,9 +67,8 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
               ),
             ),
             actions: [
-              IconButton(
-
-                icon: Icon(
+              TextButton(
+                child: const Icon(
                   CupertinoIcons.add,
                   color: Colors.white,
                 ),

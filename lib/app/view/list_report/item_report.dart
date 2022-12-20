@@ -127,6 +127,7 @@ class ItemReport extends StatelessWidget {
   }
 
   MSClassification? finMSClassification(){
+    if(msClassifications.isEmpty) return null;
     return msClassifications.firstWhere((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
   }
 }

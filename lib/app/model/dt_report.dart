@@ -114,7 +114,6 @@ class DTReport extends Equatable {
   dynamic UpdateMachine;
   dynamic UpdateDate;
 
-  MSClassification? msClassification;
 
   DTReport({
     this.ID,
@@ -224,7 +223,6 @@ class DTReport extends Equatable {
     this.UpdateName,
     this.UpdateMachine,
     this.UpdateDate,
-    this.msClassification,
   });
 
   factory DTReport.fromJson(Map<String, dynamic> json) =>

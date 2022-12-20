@@ -40,7 +40,7 @@ class _WebviewContentPageState extends State<_WebviewContentPage> {
   void initState() {
     super.initState();
     // Enable hybrid composition.
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    //if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -50,18 +50,18 @@ class _WebviewContentPageState extends State<_WebviewContentPage> {
       title: webviewViewModel.webviewParam?.title ?? '',
       body: Stack(
         children: <Widget>[
-          WebView(
-            onWebViewCreated: (controller) {
-              controller.loadUrl(
-                webviewViewModel.webviewParam?.url ?? '',
-                headers: headers,
-              );
-            },
-            key: UniqueKey(),
-            javascriptMode: JavascriptMode.unrestricted,
-            backgroundColor: Colors.white,
-            onPageFinished: (finish) => webviewViewModel.loading = false,
-          ),
+          // WebView(
+          //   onWebViewCreated: (controller) {
+          //     controller.loadUrl(
+          //       webviewViewModel.webviewParam?.url ?? '',
+          //       headers: headers,
+          //     );
+          //   },
+          //   key: UniqueKey(),
+          //   javascriptMode: JavascriptMode.unrestricted,
+          //   backgroundColor: Colors.white,
+          //   onPageFinished: (finish) => webviewViewModel.loading = false,
+          // ),
           _buildLoading(),
         ],
       ),

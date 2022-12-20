@@ -117,10 +117,6 @@ DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
       UpdateName: json['UpdateName'],
       UpdateMachine: json['UpdateMachine'],
       UpdateDate: json['UpdateDate'],
-      msClassification: json['msClassification'] == null
-          ? null
-          : MSClassification.fromJson(
-              json['msClassification'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
@@ -235,5 +231,4 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'UpdateName': instance.UpdateName,
       'UpdateMachine': instance.UpdateMachine,
       'UpdateDate': instance.UpdateDate,
-      'msClassification': instance.msClassification,
     };
