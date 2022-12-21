@@ -1,4 +1,4 @@
-package com.businesssuite.ak_azm_flutter
+package com.akzoll.ak_azm_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

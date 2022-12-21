@@ -62,10 +62,6 @@ dependencies:
   webview_flutter: ^4.0.0
   transparent_image: ^2.0.0
 
-  # For Google and Firebase
-  #control notification in android & ios
-  flutter_local_notifications: ^9.0.3
-
   #For Local Storage
   shared_preferences: ^2.0.15
 
@@ -181,17 +177,17 @@ flavorizr:
       app:
         name: "レポート作成(dev)"
       android:
-        applicationId: "com.akzoll.reportcreate"
+        applicationId: "com.akzoll.rescurereportcreate"
       ios:
-        bundleId: "com.akzoll.reportcreate"
+        bundleId: "com.akzoll.rescurereportcreate"
 
     production:
       app:
         name: "レポート作成"
       android:
-        applicationId: "com.akzoll.reportcreate"
+        applicationId: "com.akzoll.rescurereportcreate"
       ios:
-        bundleId: "com.akzoll.reportcreate"
+        bundleId: "com.akzoll.rescurereportcreate"
 
 
 flutter:
