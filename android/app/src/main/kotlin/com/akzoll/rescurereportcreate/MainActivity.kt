@@ -1,4 +1,4 @@
-package com.akzoll.ak_azm_flutter
+package com.akzoll.rescurereportcreate
 
 import io.flutter.embedding.android.FlutterActivity
 

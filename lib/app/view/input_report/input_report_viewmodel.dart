@@ -52,6 +52,8 @@ class InputReportViewModel extends BaseViewModel {
     '福島　隼人'];
   bool isExpandQualification = false;
   bool isExpandRide = false;
+
+  //layout 1
   String? ambulanceName;
   String? ambulanceTel;
   String? captainName;
@@ -59,6 +61,12 @@ class InputReportViewModel extends BaseViewModel {
   String? reportMemberName;
   String? reportNameOfEngineer;
   String? emtRide;
+
+
+
+  //layout 2
+  String? sex;
+  String? birthday = '';
 
 
 
@@ -155,6 +163,11 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectReportNameOfEngineer(String? itemSelected) {
     this.reportNameOfEngineer = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onConfirmData(DateTime date) {
+    this.birthday = DateFormat('yyyy年mm月dd日').format(date);
     notifyListeners();
   }
 
