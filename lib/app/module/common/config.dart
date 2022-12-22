@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 enum LoadingState { LOADING, DONE, ERROR, EMPTY }
 
 enum SizeStyle { SMALL, NORMAL, LARGE, SUPER }
+
+const LocaleType localeJP = LocaleType.jp;
 
 //Network Config
 const int CONNECT_TIMEOUT = 30000;
@@ -20,6 +23,8 @@ String getImageUrl(String path) => path;
 //Date time
 const String ddMMyyyy = 'dd/MM/yyyy';
 const String MMddyyyy = 'MM/dd/yyyy';
+const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
+const String hh_mm_ = 'hh時mm分';
 
 //ACCOUNT
 const String APP_NAME = 'AK AZM';

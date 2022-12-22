@@ -283,9 +283,22 @@
   "allergy":"アレルギー",
   "report_name_of_injury_or_disease":"(報)傷病名",
   "report_degree":"(報)程度",
-  "report_age":"(報)年齢"
+  "report_age":"(報)年齢",
 
 
+
+  "awareness_time":"覚知時間",
+  "command_time": "指令時間",
+  "work_time": "出勤時間",
+  "arrival_on_site": "現場到着",
+  "contact_time": "接触時間",
+  "in_car_accommodation":  "車内収容",
+  "start_transportation":  "搬送開始",
+  "arrival_at_hospital":  "病院到着",
+  "family_contact":  "家族連絡",
+  "police_contact":  "警察連絡",
+  "report_cash_on_delivery_time":  "(報)現引時間",
+  "report_return_time":  "(報)帰署時間"
 
 
 }
