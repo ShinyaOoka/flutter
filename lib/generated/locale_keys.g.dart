@@ -278,5 +278,17 @@ abstract class  LocaleKeys {
   static const report_name_of_injury_or_disease = 'report_name_of_injury_or_disease';
   static const report_degree = 'report_degree';
   static const report_age = 'report_age';
+  static const awareness_time = 'awareness_time';
+  static const command_time = 'command_time';
+  static const work_time = 'work_time';
+  static const arrival_on_site = 'arrival_on_site';
+  static const contact_time = 'contact_time';
+  static const in_car_accommodation = 'in_car_accommodation';
+  static const start_transportation = 'start_transportation';
+  static const arrival_at_hospital = 'arrival_at_hospital';
+  static const family_contact = 'family_contact';
+  static const police_contact = 'police_contact';
+  static const report_cash_on_delivery_time = 'report_cash_on_delivery_time';
+  static const report_return_time = 'report_return_time';
 
 }

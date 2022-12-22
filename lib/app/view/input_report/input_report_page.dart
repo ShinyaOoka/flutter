@@ -1,9 +1,11 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:tap_canvas/tap_canvas.dart';
@@ -191,7 +193,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         return buildLayout_2();
 
       case 3:
-        return buildLayout_1();
+        return buildLayout_3();
 
       case 4:
         return buildLayout_1();
@@ -382,11 +384,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                     backgroundTextLabel: kColorDEE9F6);
               })),
 
-          spaceWidgetColor(color: kColorDEE9F6),
+          spaceWidgetColor(color: kColorDEE9F6, height: size_4_w),
           //No.9
           Container(
             color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+            padding: EdgeInsets.only(left: 16, right: 16, top: 12),
             child: OutlineTextFormField(
               keyboardType: TextInputType.number,
               isAlwaysShowLable: true,
@@ -497,6 +499,9 @@ class InputReportState extends LifecycleState<InputReportContent>
           Container(
             padding: EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
+              inputformatter: [
+                FilteringTextInputFormatter.allow(RegExp(r'^[ぁ-ん]+')),
+              ],
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
               maxLength: 20,
@@ -540,7 +545,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     .map((e) => e.Value.toString())
                     .toList(),
                 value.sex,
-                value.onSelectAmbulanceName,
+                value.onSelectSex,
                 height: 220,
               );
             }),
@@ -553,7 +558,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return datePicker(LocaleKeys.birthday.tr(), value.birthday,
-                  value.onConfirmData);
+                  value.onConfirmBirthday);
             }),
           ),
 
@@ -655,8 +660,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                     .toList()
                     .map((e) => e.Value.toString())
                     .toList(),
-                value.captainName,
-                value.onSelectCaptainName,
+                value.dosage,
+                value.onSelectDosage,
                 height: 220,
               );
             }),
@@ -695,11 +700,12 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) => {},
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor( height: size_4_w),
 
           //no.25
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            color: kColorDEE9F6,
+            padding: EdgeInsets.only(left: 16, right: 16, top: 12),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -712,10 +718,11 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) => {},
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(color: kColorDEE9F6),
 
           //no.26
           Container(
+            color: kColorDEE9F6,
             padding: EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
@@ -729,12 +736,23 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) => {},
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(color: kColorDEE9F6),
 
           //no.27
           Container(
+            color: kColorDEE9F6,
             padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
+            child:
+            Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return textShowWithLabel(LocaleKeys.report_age.tr(), value.age, backgroundLableColor: kColorDEE9F6);
+                }),
+
+
+
+
+            //ĐỢI CONFIRM KHÁCH
+            /*OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.number,
               maxLength: 3,
@@ -744,9 +762,139 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.report_age.tr(),
               onChanged: (value) => {},
-            ),
+            ),*/
+          ),
+          spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
+        ]);
+  }
+
+  Widget buildLayout_3() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //no.29
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.awareness_time.tr(), value.awareness_time, value.onConfirmAwarenessTime);
+                }),
           ),
           spaceWidgetColor(),
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.command_time.tr(), value.command_time, value.onConfirmCommandTime);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.work_time.tr(), value.work_time, value.onConfirmWorkTime);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.arrival_on_site.tr(), value.arrival_on_site, value.onConfirmArrivalOnSite);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.contact_time.tr(), value.contact_time, value.onConfirmContactTime);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.in_car_accommodation.tr(), value.in_car_accommodation, value.onConfirmInCarAccommodation);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.start_transportation.tr(), value.start_transportation, value.onConfirmStartTransportation);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.arrival_at_hospital.tr(), value.arrival_at_hospital, value.onConfirmArrivalAtHospital);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.family_contact.tr(), value.family_contact, value.onConfirmFamilyContact);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.police_contact.tr(), value.police_contact, value.onConfirmPoliceContact);
+                }),
+          ),
+          spaceWidgetColor(),
+
+
+          Container(
+            color: kColorDEE9F6,
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.report_cash_on_delivery_time.tr(), value.report_cash_on_delivery_time, value.onConfirmReportCashOnDeliveryTime , backgroundLableColor: kColorDEE9F6);
+                }),
+          ),
+          spaceWidgetColor(color: kColorDEE9F6),
+
+          Container(
+            color: kColorDEE9F6,
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+                  return timePicker(LocaleKeys.report_return_time.tr(), value.report_return_time, value.onConfirmReportReturnTime, backgroundLableColor: kColorDEE9F6);
+                }),
+          ),
+
+          spaceWidgetColor(height: size_28_w),
+
         ]);
   }
 
@@ -851,8 +999,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     height: 1,
   );
 
-  Widget datePicker(
-      String label, String? text, Function(DateTime date) onConfirm) {
+  Widget datePicker(String label, String? text, Function(DateTime date) onConfirm, {DateTime? maxDate,  DateTime? minDate, Color? backgroundLableColor} ) {
     return Stack(
       children: [
         Container(
@@ -885,7 +1032,10 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ),
               ),
               onTap: () => DatePicker.showDatePicker(context,
+                  maxTime: maxDate,
+                  minTime: minDate,
                   showTitleActions: true,
+                  locale: localeJP,
                   onChanged: (date) {
                     //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
                   },
@@ -898,7 +1048,108 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(
                 color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
-          color: Colors.white,
+          color: backgroundLableColor ?? Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4),
+        ),
+      ],
+    );
+  }
+
+  Widget textShowWithLabel(String label, String? text, {Color? backgroundLableColor}) {
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.only(top: 10),
+          child: Container(
+            height: 54,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              border: Border.all(
+                color: Colors.black38,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(text ?? '',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: kColor4472C4,
+                          fontWeight: FontWeight.normal,
+                          fontSize: text_16)),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          child: Text(
+            label,
+            style: TextStyle(
+                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+          ),
+          color: backgroundLableColor ?? Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4),
+        ),
+      ],
+    );
+  }
+
+  Widget timePicker(String label, String? text, Function(DateTime date) onConfirm, {Color? backgroundLableColor}) {
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.only(top: 10),
+          child: InkWell(
+              child: Container(
+                height: 54,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.black38,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(text ?? '',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: kColor4472C4,
+                              fontWeight: FontWeight.normal,
+                              fontSize: text_16)),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () => DatePicker.showTimePicker(context,
+                  showTitleActions: true,
+                  locale: localeJP,
+                  onChanged: (date) {
+                    //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                  },
+                  onConfirm: (date) => onConfirm(date),
+                  currentTime: DateTime.now())),
+        ),
+        Container(
+          child: Text(
+            label,
+            style: TextStyle(
+                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+          ),
+          color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
           padding: EdgeInsets.symmetric(horizontal: 4),
         ),

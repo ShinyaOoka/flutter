@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
 import 'package:ak_azm_flutter/app/model/ms_team_member.dart';
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
@@ -65,8 +66,25 @@ class InputReportViewModel extends BaseViewModel {
 
 
   //layout 2
+  String? dosage;
   String? sex;
   String? birthday = '';
+  String? age = '';
+
+
+  //layout 3
+  String? awareness_time = '';
+  String? command_time = '';
+  String? work_time = '';
+  String? arrival_on_site = '';
+  String? contact_time = '';
+  String? in_car_accommodation = '';
+  String? start_transportation = '';
+  String? arrival_at_hospital = '';
+  String? family_contact = '';
+  String? police_contact = '';
+  String? report_cash_on_delivery_time = '';
+  String? report_return_time = '';
 
 
 
@@ -166,10 +184,79 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onConfirmData(DateTime date) {
-    this.birthday = DateFormat('yyyy年mm月dd日').format(date);
+
+  //layout 2
+  onConfirmBirthday(DateTime date) {
+    this.birthday = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    this.age = Utils.calculateAge(date).toString();
     notifyListeners();
   }
+
+  onSelectSex(String? itemSelected) {
+    this.sex = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectDosage(String? itemSelected) {
+    this.dosage = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onConfirmAwarenessTime(DateTime date) {
+    this.awareness_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmCommandTime(DateTime date) {
+    this.command_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmWorkTime(DateTime date) {
+    this.work_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+onConfirmArrivalOnSite(DateTime date) {
+    this.arrival_on_site = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+  onConfirmContactTime(DateTime date) {
+    this.contact_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+  onConfirmInCarAccommodation(DateTime date) {
+    this.in_car_accommodation = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+  onConfirmStartTransportation(DateTime date) {
+    this.start_transportation = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+  onConfirmArrivalAtHospital(DateTime date) {
+    this.arrival_at_hospital = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmFamilyContact(DateTime date) {
+    this.family_contact = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmPoliceContact(DateTime date) {
+    this.police_contact = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmReportCashOnDeliveryTime(DateTime date) {
+    this.report_cash_on_delivery_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmReportReturnTime(DateTime date) {
+    this.report_return_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
 
   String? invalidServer(String? value) {
     return value == null ||
