@@ -315,28 +315,53 @@
   "report_observation_time_explanation":  "(報)観察時間説明",
   "jcs":  "JCS",
   "gcs":  "GCS",
+  "unit_times_minute": "回／分",
   "breathing":  "呼吸",
   "pulse":  "脈拍",
+  "unit_mmHg": "mmHg",
   "blood_pressure_up":  "血圧_上",
   "blood_pressure_lower":  "血圧_下",
+  "unit_percent": "%",
   "spo2_percent":  "SpO2(%)",
+  "unit_L": "L",
   "spo2_l":  "SpO2(L)",
+  "unit_mm": "mm",
   "right_pupil":  "瞳孔右",
   "left_pupil":  "瞳孔左",
   "light_reflection_right": "対光反射右",
   "light_reflection_left": "対光反射左",
+  "unit_C": "℃",
   "body_temperature": "体温",
   "facial_features": "顔貌",
   "bleeding": "出血",
   "incontinence": "失禁",
   "vomiting": "嘔吐",
-  "limb":  "四肢"
+  "limb":  "四肢",
 
 
 
 
 
-
+  "airway_management": "気道確保",
+  "foreign_matter_removal":  "異物除去",
+  "suction":  "吸引",
+  "artificial_respiration": "人工呼吸",
+  "chest_compression":  "胸骨圧迫",
+  "ecg_monitor":  "ECGモニター",
+  "o2_administration":  "O2投与",
+  "o2_administration_time":  "O2投与時間",
+  "spinal_cord_motion_limitation":  "脊髄運動制限",
+  "hemostasis":  "止血処置",
+  "splint_fixation":  "副子固定",
+  "coating_treatment":  "被覆処置",
+  "burn_treatment":  "熱傷処置",
+  "bs_measurement_1":  "①BS測定",
+  "bs_measurement_time_1":  "①BS測定時間",
+  "puncture_site_1":  "①穿刺部位",
+  "bs_measurement_2":  "②BS測定",
+  "bs_measurement_time_2":  "②BS測定時間",
+  "puncture_site_2":  "②穿刺部位",
+  "others":  "その他"
 
 
 

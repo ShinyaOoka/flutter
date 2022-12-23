@@ -37,8 +37,8 @@ class EditReportViewModel extends BaseViewModel {
   '福島　隼人'];
   bool isExpandQualification = false;
   bool isExpandRide = false;
-  String? emtQualification;
-  String? emtRide;
+  String? emt_qualification;
+  String? emt_ride;
   String server = '';
   String port = '';
   var serverController = TextEditingController();
@@ -84,12 +84,12 @@ class EditReportViewModel extends BaseViewModel {
   }
 
   onSelectQualification(String? itemSelected) {
-    this.emtQualification = itemSelected ?? yesNothings[1];
+    this.emt_qualification = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onSelectRide(String? itemSelected) {
-    this.emtRide = itemSelected ?? yesNothings[1];
+    this.emt_ride = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 

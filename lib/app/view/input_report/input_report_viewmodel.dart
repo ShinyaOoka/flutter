@@ -42,34 +42,41 @@ class InputReportViewModel extends BaseViewModel {
   List<MSTeam>  msTeams= [];
   List<MSTeamMember>  msTeamMembers= [];
   //layout 1
-  List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
-  List<String> group1No7 = ['保科　久穂',
-    '大岡　慎弥',
-    '中村　健',
-    '鷹巣　良右',
-    '柳下　清隆',
-    '青木　栄介',
-    '松岡　和人',
-    '福島　隼人'];
+  List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
   //layout 1
-  String? ambulanceName;
-  String? ambulanceTel;
-  String? captainName;
-  String? emtQualification;
-  String? reportMemberName;
-  String? reportNameOfEngineer;
-  String? emtRide;
+  String? ambulance_name = '';
+  String? ambulance_tel= '';
+  String? captain_name= '';
+  String? emt_qualification= '';
+  String? emt_ride= '';
+  String? report_member_name= '';
+  String? report_name_of_engineer= '';
+  String? report_cumulative_total= '';
+  String? report_team= '';
+
 
 
 
   //layout 2
-  String? dosage;
-  String? sex;
+  String? family_name= '';
+  String? furigana= '';
+  String? address= '';
+  String? sex= '';
   String? birthday = '';
   String? age = '';
+  String? tel = '';
+  String? family_phone = '';
+  String? medical_history = '';
+  String? medical_history_medical_institution = '';
+  String? family = '';
+  String? dosage= '';
+  String? dosing_details= '';
+  String? allergy= '';
+  String? report_name_of_injury_or_disease= '';
+  String? report_degree= '';
 
 
   //layout 3
@@ -90,13 +97,47 @@ class InputReportViewModel extends BaseViewModel {
   String? accident_type_input = '';
   String? accrual_date = '';
   String? occurrence_time = '';
+  String? place_of_occurrence = '';
+  String? summary_of_accident_and_chief_complaint = '';
   String? adl = '';
   String? traffic_accident_category = '';
   String? witness = '';
   String? bystander_cpr = '';
+  String? oral_instruction = '';
 
   //layout 5
   String? observation_time = '';
+  String? report_observation_time_explanation = '';
+  String? jcs = '';
+  String? gcs = '';
+  String? breathing = '';
+  String? pulse = '';
+  String? blood_pressure_up = '';
+  String? blood_pressure_lower = '';
+  String? spo2_percent = '';
+  String? spo2_l = '';
+  String? right_pupil = '';
+  String? left_pupil = '';
+  String? light_reflection_right = '';
+  String? light_reflection_left = '';
+  String? body_temperature = '';
+  String? facial_features = '';
+  String? bleeding = '';
+  List<String> incontinence = [];
+  String? vomiting = '';
+  String? limb = '';
+
+
+  //layout 6
+  String? airway_management = '';
+  String? foreign_matter_removal = '';
+  String? suction = '';
+  String? artificial_respiration = '';
+  String? chest_compression = '';
+  String? ecg_monitor = '';
+  String? o2_administration = '';
+  String? o2_administration_time = '';
+
 
 
   List<dynamic> databaseList = [];
@@ -110,6 +151,15 @@ class InputReportViewModel extends BaseViewModel {
   Future<bool> back() async {
     _navigationService.back();
     return true;
+  }
+
+  void initData() {
+    //fix warning yes_dropdown, nothing not found in EasyLocalization
+    yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
+    //get data from database
+    getAllMSClassification();
+    getAllMSTeam();
+    getAllMSTeamMember();
   }
 
   Future<void> getAllMSClassification() async {
@@ -130,11 +180,7 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void initData() {
-    getAllMSClassification();
-    getAllMSTeam();
-    getAllMSTeamMember();
-  }
+
 
   DatabasesResponse? get databasesResponse => _databasesResponse;
 
@@ -159,43 +205,69 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAmbulanceName(String? itemSelected) {
-    this.ambulanceName = itemSelected ?? '';
+    this.ambulance_name = itemSelected ?? '';
     MSTeam? msTeam = msTeams.firstWhere((e) => e.Name == itemSelected);
     onSelectAmbulanceTel (msTeam.TEL ?? '');
     notifyListeners();
   }
   onSelectAmbulanceTel(String? itemSelected) {
-    this.ambulanceTel = itemSelected ?? '';
+    this.ambulance_tel = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectCaptainName(String? itemSelected) {
-    this.captainName = itemSelected ?? '';
+    this.captain_name = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectQualification(String? itemSelected) {
-    this.emtQualification = itemSelected ?? yesNothings[1];
+  onSelectEmtQualification(String? itemSelected) {
+    this.emt_qualification = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectRide(String? itemSelected) {
-    this.emtRide = itemSelected ?? yesNothings[1];
+  onSelectEmtRide(String? itemSelected) {
+    this.emt_ride = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onSelectReportMemberName(String? itemSelected) {
-    this.reportMemberName = itemSelected ?? '';
+    this.report_member_name = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectReportNameOfEngineer(String? itemSelected) {
-    this.reportNameOfEngineer = itemSelected ?? '';
+    this.report_name_of_engineer = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeReportCumulativeTotal(String? itemSelected) {
+    this.report_cumulative_total = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeReportTeam(String? itemSelected) {
+    this.report_team = itemSelected ?? '';
     notifyListeners();
   }
 
 
   //layout 2
+  onChangeFamilyName(String? itemSelected) {
+    this.family_name = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeFurigana(String? itemSelected) {
+    this.furigana = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeAddress(String? itemSelected) {
+    this.address = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
   onConfirmBirthday(DateTime date) {
     this.birthday = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
     this.age = Utils.calculateAge(date).toString();
@@ -207,8 +279,53 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  onChangeTel(String? itemSelected) {
+    this.tel = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeFamilyPhone(String? itemSelected) {
+    this.family_phone = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeMedicalHistory(String? itemSelected) {
+    this.medical_history = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeMedicalHistoryMedicalInstitution(String? itemSelected) {
+    this.medical_history_medical_institution = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeFamily(String? itemSelected) {
+    this.family = itemSelected ?? '';
+    notifyListeners();
+  }
+
   onSelectDosage(String? itemSelected) {
     this.dosage = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeDosingDetails(String? itemSelected) {
+    this.dosing_details = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeAllergy(String? itemSelected) {
+    this.allergy = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeReportNameOfInjuryOrDisease(String? itemSelected) {
+    this.report_name_of_injury_or_disease = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeReportDegree(String? itemSelected) {
+    this.report_degree = itemSelected ?? '';
     notifyListeners();
   }
 
@@ -282,6 +399,17 @@ onConfirmArrivalOnSite(DateTime date) {
     this.occurrence_time = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
+
+  onChangePlaceOfOccurrence(String? itemSelected) {
+    this.place_of_occurrence = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSummaryOfAccidentAndChiefComplaint(String? itemSelected) {
+    this.oral_instruction = itemSelected ?? '';
+    notifyListeners();
+  }
+
   onSelectAdl(String? itemSelected) {
     this.adl = itemSelected ?? '';
     notifyListeners();
@@ -302,14 +430,159 @@ onConfirmArrivalOnSite(DateTime date) {
     notifyListeners();
   }
 
+  onChangeOralInstruction(String? itemSelected) {
+    this.oral_instruction = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+
+  //layout 5
   onConfirmObservationTime(DateTime date) {
     this.observation_time = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
 
+  onChangeReportObservationTimeExplanation(String? itemSelected) {
+    this.report_observation_time_explanation = itemSelected ?? '';
+    notifyListeners();
+  }
 
 
+  onChangeJcs(String? itemSelected) {
+    this.jcs = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeGcs(String? itemSelected) {
+    this.gcs = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBreathing(String? itemSelected) {
+    this.breathing = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangePulse(String? itemSelected) {
+    this.pulse = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureUp(String? itemSelected) {
+    this.blood_pressure_up = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureLower(String? itemSelected) {
+    this.blood_pressure_lower = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2Percent(String? itemSelected) {
+    this.spo2_percent = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2L(String? itemSelected) {
+    this.spo2_l = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeRightPupil(String? itemSelected) {
+    this.right_pupil = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeLeftPupil(String? itemSelected) {
+    this.left_pupil = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onSelectLightReflectionRight(String? itemSelected) {
+    this.light_reflection_right = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onSelectLightReflectionLeft(String? itemSelected) {
+    this.light_reflection_left = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeBodyTemperature(String? itemSelected) {
+    this.body_temperature = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectFacialFeatures(String? itemSelected) {
+    this.facial_features = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBleeding(String? itemSelected) {
+    this.bleeding = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectVomiting(String? itemSelected) {
+    this.vomiting = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeLimb(String? itemSelected) {
+    this.limb = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectIncontinence(List<String> checkeds) {
+    this.incontinence = checkeds ?? [];
+    notifyListeners();
+  }
+
+
+  //layout 6
+  onSelectAirwayManagement(String? itemSelected) {
+    this.airway_management = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectForeignMatterRemoval(String? itemSelected) {
+    this.foreign_matter_removal = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onSelectSuction(String? itemSelected) {
+    this.suction = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectArtificialRespiration(String? itemSelected) {
+    this.artificial_respiration = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectChestCompression(String? itemSelected) {
+    this.chest_compression = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectEcgMonitor(String? itemSelected) {
+    this.ecg_monitor = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeO2Administration(String? itemSelected) {
+    this.o2_administration = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectO2AdministrationTime(DateTime date) {
+    this.o2_administration_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
 
 
 
