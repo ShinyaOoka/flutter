@@ -290,5 +290,34 @@ abstract class  LocaleKeys {
   static const police_contact = 'police_contact';
   static const report_cash_on_delivery_time = 'report_cash_on_delivery_time';
   static const report_return_time = 'report_return_time';
+  static const accident_type_input = 'accident_type_input';
+  static const accrual_date = 'accrual_date';
+  static const occurrence_time = 'occurrence_time';
+  static const place_of_occurrence = 'place_of_occurrence';
+  static const summary_of_accident_and_chief_complaint = 'summary_of_accident_and_chief_complaint';
+  static const adl = 'adl';
+  static const traffic_accident_category = 'traffic_accident_category';
+  static const witness = 'witness';
+  static const bystander_cpr = 'bystander_cpr';
+  static const oral_instruction = 'oral_instruction';
+  static const observation_time = 'observation_time';
+  static const report_observation_time_explanation = 'report_observation_time_explanation';
+  static const jcs = 'jcs';
+  static const gcs = 'gcs';
+  static const breathing = 'breathing';
+  static const pulse = 'pulse';
+  static const blood_pressure_up = 'blood_pressure_up';
+  static const blood_pressure_lower = 'blood_pressure_lower';
+  static const spo2_percent = 'spo2_percent';
+  static const spo2_l = 'spo2_l';
+  static const right_pupil = 'right_pupil';
+  static const left_pupil = 'left_pupil';
+  static const light_reflection_right = 'light_reflection_right';
+  static const light_reflection_left = 'light_reflection_left';
+  static const body_temperature = 'body_temperature';
+  static const facial_features = 'facial_features';
+  static const bleeding = 'bleeding';
+  static const incontinence = 'incontinence';
+  static const vomiting = 'vomiting';
 
 }

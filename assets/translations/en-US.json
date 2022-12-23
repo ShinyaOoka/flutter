@@ -298,7 +298,61 @@
   "family_contact":  "家族連絡",
   "police_contact":  "警察連絡",
   "report_cash_on_delivery_time":  "(報)現引時間",
-  "report_return_time":  "(報)帰署時間"
+  "report_return_time":  "(報)帰署時間",
+
+  "accident_type_input": "事故種別",
+  "accrual_date":  "発生日",
+  "occurrence_time":  "発生時間",
+  "place_of_occurrence":  "発生場所",
+  "summary_of_accident_and_chief_complaint":  "事故概要・主訴",
+  "adl":  "ADL",
+  "traffic_accident_category":  "交通事故区分",
+  "witness":  "目撃者",
+  "bystander_cpr": "バイスタンダーCPR",
+  "oral_instruction":  "口頭指導事故種別",
+
+  "observation_time":  "観察時間",
+  "report_observation_time_explanation":  "(報)観察時間説明",
+  "jcs":  "JCS",
+  "gcs":  "GCS",
+  "breathing":  "呼吸",
+  "pulse":  "脈拍",
+  "blood_pressure_up":  "血圧_上",
+  "blood_pressure_lower":  "血圧_下",
+  "spo2_percent":  "SpO2(%)",
+  "spo2_l":  "SpO2(L)",
+  "right_pupil":  "瞳孔右",
+  "left_pupil":  "瞳孔左",
+  "light_reflection_right": "対光反射右",
+  "light_reflection_left": "対光反射左",
+  "body_temperature": "体温",
+  "facial_features": "顔貌",
+  "bleeding": "出血",
+  "incontinence": "失禁",
+  "vomiting": "嘔吐",
+  "limb":  "四肢"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

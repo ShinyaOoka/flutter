@@ -86,7 +86,17 @@ class InputReportViewModel extends BaseViewModel {
   String? report_cash_on_delivery_time = '';
   String? report_return_time = '';
 
+  //layout 4
+  String? accident_type_input = '';
+  String? accrual_date = '';
+  String? occurrence_time = '';
+  String? adl = '';
+  String? traffic_accident_category = '';
+  String? witness = '';
+  String? bystander_cpr = '';
 
+  //layout 5
+  String? observation_time = '';
 
 
   List<dynamic> databaseList = [];
@@ -256,6 +266,51 @@ onConfirmArrivalOnSite(DateTime date) {
     this.report_return_time = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
+
+  //layout 4
+  onSelectAccidentTypeInput(String? itemSelected) {
+    this.accident_type_input = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onConfirmAccrualDate(DateTime date) {
+    this.accrual_date = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    notifyListeners();
+  }
+
+  onConfirmOccurrenceTime(DateTime date) {
+    this.occurrence_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+  onSelectAdl(String? itemSelected) {
+    this.adl = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectTrafficAccidentCategory(String? itemSelected) {
+    this.traffic_accident_category = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectWitness(String? itemSelected) {
+    this.witness = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onConfirmBystanderCpr(DateTime date) {
+    this.bystander_cpr = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmObservationTime(DateTime date) {
+    this.observation_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+
+
+
+
 
 
   String? invalidServer(String? value) {
