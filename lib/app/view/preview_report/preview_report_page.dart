@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,8 @@ class InputReportContent extends StatefulWidget {
 
 class InputReportState extends LifecycleState<InputReportContent>
     with SingleTickerProviderStateMixin {
-  PreviewReportViewModel get inputReportViewModel => widget._inputReportViewModel;
+  PreviewReportViewModel get inputReportViewModel =>
+      widget._inputReportViewModel;
   late AnimationController _animationController;
   final List<Item> data = [];
 
@@ -68,50 +70,54 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   @override
   Widget build(BuildContext context) {
-    return
-      WillPopScope(
-          onWillPop: () => inputReportViewModel.back(),
-          child: BaseScaffoldSafeArea(
-            customAppBar: AppBar(
-              backgroundColor: kColor4472C4,
-              centerTitle: true,
-              title: Text(
-                'PREVIEW REPORT',
-                // style: Theme.of(context).appBarTheme.titleTextStyle,
-                style: TextStyle(
-                  fontSize: 16,
+    return WillPopScope(
+        onWillPop: () => inputReportViewModel.back(),
+        child: BaseScaffoldSafeArea(
+          customAppBar: AppBar(
+            backgroundColor: kColor4472C4,
+            centerTitle: true,
+            title: Text(
+              LocaleKeys.report_confirmation.tr(),
+              // style: Theme.of(context).appBarTheme.titleTextStyle,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            leading: TextButton(
+              child: Text(LocaleKeys.back_report.tr(),
+                  // style: Theme.of(context).appBarTheme.titleTextStyle,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+              onPressed: () => inputReportViewModel.back(),
+            ),
+            actions: [
+              TextButton(
+                child: const Icon(
+                  Icons.more_horiz,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
                 ),
-              ),
-              leading: TextButton(
-                child: Text(LocaleKeys.back_report.tr(),
-                    // style: Theme.of(context).appBarTheme.titleTextStyle,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                    )),
-                onPressed: () => inputReportViewModel.back(),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('Send',
+
+                /*Text('Send',
                       // style: Theme.of(context).appBarTheme.titleTextStyle,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
-                      )),
-                  onPressed: () => inputReportViewModel.openSendReport(),
-                ),
-              ],
-              automaticallyImplyLeading: false,
-            ),
-            transparentStatusBar: 0.0,
-            title: LocaleKeys.server_config.tr(),
-            hideBackButton: false,
-            /*body: Container(
+                      )),*/
+                onPressed: () => inputReportViewModel.openSendReport(),
+              ),
+            ],
+            automaticallyImplyLeading: false,
+          ),
+          transparentStatusBar: 0.0,
+          title: LocaleKeys.server_config.tr(),
+          hideBackButton: false,
+          /*body: Container(
               width: double.infinity,
               height: double.infinity,
               child: Column(
@@ -146,7 +152,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ],
               ),
             ),*/
-          ));
+        ));
   }
 
   Widget _buildPanel() {

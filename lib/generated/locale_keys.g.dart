@@ -243,6 +243,11 @@ abstract class  LocaleKeys {
   static const vital_signs_appearance_3 = 'vital_signs_appearance_3';
   static const reporting_information = 'reporting_information';
   static const delivery_information = 'delivery_information';
+  static const report_confirmation = 'report_confirmation';
+  static const list = 'list';
+  static const report_PDF_sending_printing = 'report_PDF_sending_printing';
+  static const injured_person_transport_certificate = 'injured_person_transport_certificate';
+  static const ambulance_service_implementation_report = 'ambulance_service_implementation_report';
   static const report_new_entry = 'report_new_entry';
   static const back_report = 'back_report';
   static const register_report = 'register_report';

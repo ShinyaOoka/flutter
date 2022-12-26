@@ -1950,9 +1950,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget timePicker(
-      String label, String? text, Function(DateTime date) onConfirm,
-      {Color? backgroundLableColor}) {
+  Widget timePicker(String label, String? text, Function(DateTime date) onConfirm, {Color? backgroundLableColor, bool? showSecondCol = false}) {
     return Stack(
       children: [
         Container(
@@ -1987,6 +1985,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               onTap: () => DatePicker.showTimePicker(context,
                   showTitleActions: true,
                   locale: localeJP,
+                  showSecondsColumn: showSecondCol ?? false,
                   onChanged: (date) {
                     //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
                   },

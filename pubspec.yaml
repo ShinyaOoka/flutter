@@ -76,7 +76,7 @@ dependencies:
   path_provider: ^2.0.1
 
   #For access local image
-  image_picker: ^0.8.4+10
+  #image_picker: ^0.8.4+10
 
 
   #launch browser
@@ -104,9 +104,6 @@ dependencies:
     git: https://github.com/magicpro97/flutter_scale_tap
   font_awesome_flutter: ^10.1.0
 
-  #rpc
-  grpc: ^3.0.2
-  protobuf: ^2.1.0
 
   #http
   http: ^0.13.4

@@ -233,6 +233,9 @@
   "product_price_percent": "{money} {currency} ({percent}%)",
 
 
+
+
+
   "participation_information": "出場情報",
   "victim_information": "傷病者情報",
   "time_elapsed": "時間経過",
@@ -243,6 +246,14 @@
   "vital_signs_appearance_3": "バイタルサイン・外見3",
   "reporting_information": "(報)通報情報",
   "delivery_information": "(報)搬送情報",
+
+
+
+  "report_confirmation": "レポート確認",
+  "list": "一覧",
+  "report_PDF_sending_printing": "レポートPDF送信・印刷",
+  "injured_person_transport_certificate": "傷病者輸送証",
+  "ambulance_service_implementation_report": "救急業務実施報告書",
 
 
 
@@ -362,6 +373,8 @@
   "bs_measurement_time_2":  "②BS測定時間",
   "puncture_site_2":  "②穿刺部位",
   "others":  "その他"
+
+
 
 
 
