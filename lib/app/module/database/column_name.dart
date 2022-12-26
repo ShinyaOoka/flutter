@@ -73,8 +73,10 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $VerbalGuidance VARCHAR(60),
     $ObservationTime TIME,
     $DescriptionOfObservationTime VARCHAR(20),
-    $JCS VARCHAR,
-    $GCS VARCHAR,
+    $JCS VARCHAR(3),
+    $GCSE VARCHAR(3),
+    $GCSV VARCHAR(3),
+    $GCSM VARCHAR(3),
     $Respiration INTEGER, 
     $Pulse INTEGER,
     $BloodPressureHigh INTEGER,
@@ -175,6 +177,10 @@ const String CREATE_TABLE_MSClassification = '''CREATE TABLE $tableMSClassificat
       );''';
 
 
+//drop table DTReport
+const String DROP_TABLE_DTReport = '''DROP TABLE IF EXISTS $tableDTReport;''';
+
+
 //DT Report Table
 const String? ID = 'ID';
 const String TeamName = 'TeamName';
@@ -231,7 +237,9 @@ const String VerbalGuidance = 'VerbalGuidance';
 const String ObservationTime = 'ObservationTime';
 const String DescriptionOfObservationTime = 'DescriptionOfObservationTime';
 const String JCS = 'JCS';
-const String GCS = 'GCS';
+const String GCSE = 'GCSE';
+const String GCSV = 'GCSV';
+const String GCSM = 'GCSM';
 const String Respiration = 'Respiration';
 const String Pulse = 'Pulse';
 const String BloodPressureHigh = 'BloodPressureHigh';

@@ -163,7 +163,7 @@ abstract class ButtomSheetUtils {
       actions: [
         BottomSheetAction(
           title: Text(
-            LocaleKeys.preferences.tr(),
+            LocaleKeys.edit.tr(),
             style:
                 TextStyle(color: Colors.black87, fontWeight: FontWeight.normal),
           ),
@@ -171,9 +171,9 @@ abstract class ButtomSheetUtils {
         ),
         BottomSheetAction(
           title: Text(
-            LocaleKeys.log_out.tr(),
+            LocaleKeys.PDF_transmission_printing.tr(),
             style:
-                TextStyle(color: kColorFF4136, fontWeight: FontWeight.normal),
+                TextStyle(color: Colors.black87, fontWeight: FontWeight.normal),
           ),
           onPressed: (context) => onLogout.call(),
         ),

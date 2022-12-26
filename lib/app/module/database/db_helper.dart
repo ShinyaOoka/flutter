@@ -30,7 +30,7 @@ class DBHelper {
   Future<Database?> initDb() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, dbName);
-    var theDb = await openDatabase(path, version: dbVersion, onCreate: _onCreate);
+    var theDb = await openDatabase(path, version: dbVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return theDb;
   }
 
@@ -51,9 +51,19 @@ class DBHelper {
     return res;
   }
 
-  _onUpgrade(Database db, int oldversion, int newversion) {
+  _onUpgrade(Database db, int oldversion, int newversion) async {
     print('onUpgrade Database: oldversion $oldversion - newversion $newversion ====================================\n');
+    if (oldversion < newversion) {
+      // you can execute drop table and create table
+      Batch? batch = db.batch();
+      batch.execute(DROP_TABLE_DTReport);
+      batch.execute(CREATE_TABLE_DTReport);
+      List<dynamic>? res = await batch.commit();
+      return res;
+    }
   }
+
+
 
   /// Count number of tables in DB
   Future countTable() async {

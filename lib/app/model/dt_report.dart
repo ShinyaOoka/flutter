@@ -57,7 +57,9 @@ class DTReport extends Equatable {
   dynamic ObservationTime;
   dynamic DescriptionOfObservationTime;
   dynamic JCS;
-  dynamic GCS;
+  dynamic GCSE;
+  dynamic GCSV;
+  dynamic GCSM;
   dynamic Respiration;
   dynamic Pulse;
   dynamic BloodPressureHigh;
@@ -167,7 +169,9 @@ class DTReport extends Equatable {
     this.ObservationTime,
     this.DescriptionOfObservationTime,
     this.JCS,
-    this.GCS,
+    this.GCSE,
+    this.GCSV,
+    this.GCSM,
     this.Respiration,
     this.Pulse,
     this.BloodPressureHigh,
@@ -284,7 +288,9 @@ class DTReport extends Equatable {
     ObservationTime,
     DescriptionOfObservationTime,
     JCS,
-    GCS,
+    GCSE,
+    GCSV,
+    GCSM,
     Respiration,
     Pulse,
     BloodPressureHigh,

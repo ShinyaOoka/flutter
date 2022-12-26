@@ -254,6 +254,8 @@
   "report_PDF_sending_printing": "レポートPDF送信・印刷",
   "injured_person_transport_certificate": "傷病者輸送証",
   "ambulance_service_implementation_report": "救急業務実施報告書",
+  "edit": "編集",
+  "PDF_transmission_printing": "PDF送信・印刷",
 
 
 
@@ -325,7 +327,7 @@
   "observation_time":  "観察時間",
   "report_observation_time_explanation":  "(報)観察時間説明",
   "jcs":  "JCS",
-  "gcs":  "GCS",
+  "gcse":  "GCS",
   "unit_times_minute": "回／分",
   "breathing":  "呼吸",
   "pulse":  "脈拍",

@@ -59,7 +59,7 @@ dependencies:
   jiffy: ^4.1.0
   flutter_spinkit: ^5.1.0
   page_transition: ^2.0.4
-  webview_flutter: ^4.0.0
+  webview_flutter: ^2.1.1
   transparent_image: ^2.0.0
 
   #For Local Storage
@@ -152,6 +152,19 @@ dependencies:
   #group button
   grouped_buttons_ns:
 
+  #pdf viewer
+  flutter_pdfview: ^1.2.5
+
+  flutter_html_to_pdf: ^0.7.0
+
+  syncfusion_flutter_pdfviewer: ^20.4.38
+
+  pspdfkit_flutter: any
+
+  pdf: ^3.8.4
+
+
+
 
 
 dev_dependencies:
@@ -203,4 +216,5 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/translations/
-    - assets/animations/
+    - assets/report/
+    - assets/report/injured_person_transport_certificate.html
