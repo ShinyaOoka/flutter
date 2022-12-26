@@ -137,6 +137,18 @@ class InputReportViewModel extends BaseViewModel {
   String? ecg_monitor = '';
   String? o2_administration = '';
   String? o2_administration_time = '';
+  String? spinal_cord_motion_limitation = '';
+  String? hemostasis = '';
+  String? splint_fixation = '';
+  String? coating_treatment = '';
+  String? burn_treatment = '';
+  String? bs_measurement_1 = '';
+  String? bs_measurement_time_1 = '';
+  String? puncture_site_1 = '';
+  String? bs_measurement_time_2 = '';
+  String? bs_measurement_2 = '';
+  String? puncture_site_2 = '';
+  String? others = '';
 
 
 
@@ -581,6 +593,72 @@ onConfirmArrivalOnSite(DateTime date) {
 
   onSelectO2AdministrationTime(DateTime date) {
     this.o2_administration_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onSelectSpinalCordMotionLimitation(String? itemSelected) {
+    this.spinal_cord_motion_limitation = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectHemostasis(String? itemSelected) {
+    this.hemostasis = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectSplintFixation(String? itemSelected) {
+    this.splint_fixation = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectCoatingTreatment(String? itemSelected) {
+    this.coating_treatment = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectBurnTreatment(String? itemSelected) {
+    this.burn_treatment = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBsMeasurement1(String? itemSelected) {
+    this.bs_measurement_1 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onSelectBsMeasurementTime1(DateTime date) {
+    this.bs_measurement_time_1 = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+
+
+  onChangePunctureSite1(String? itemSelected) {
+    this.puncture_site_1 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onChangeBsMeasurementTime2(String? itemSelected) {
+    this.bs_measurement_time_2 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectBsMeasurement2(DateTime date) {
+    this.bs_measurement_2 = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+
+  onChangePunctureSite2(String? itemSelected) {
+    this.puncture_site_2 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onChangeOthers(String? itemSelected) {
+    this.others = itemSelected ?? '';
     notifyListeners();
   }
 
