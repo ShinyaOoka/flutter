@@ -70,7 +70,7 @@ dependencies:
   #package_info: ^2.0.2
 
   #For Permission
-  permission_handler: ^8.1.2
+  permission_handler: ^9.2.0
 
   #File path
   path_provider: ^2.0.1
@@ -158,6 +158,7 @@ dependencies:
   flutter_html_to_pdf: ^0.7.0
 
   syncfusion_flutter_pdfviewer: ^20.4.38
+  syncfusion_flutter_pdf: ^20.4.38
 
   pspdfkit_flutter: any
 
