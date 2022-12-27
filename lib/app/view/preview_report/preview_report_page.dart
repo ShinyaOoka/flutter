@@ -4,6 +4,7 @@ import 'package:ak_azm_flutter/app/view/widget_utils/bottom_sheet/bottom_sheet_u
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,9 +14,7 @@ import '../../viewmodel/base_viewmodel.dart';
 import '../../viewmodel/life_cycle_base.dart';
 import '../widget_utils/base_scaffold_safe_area.dart';
 import 'preview_report_viewmodel.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter/services.dart' show Uint8List, rootBundle;
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:convert';
 import 'dart:io';
@@ -43,7 +42,8 @@ class PreviewReportContent extends StatefulWidget {
 
 class PreviewReportState extends LifecycleState<PreviewReportContent>
     with SingleTickerProviderStateMixin {
-  PreviewReportViewModel get previewReportViewModel => widget._previewReportViewModel;
+  PreviewReportViewModel get previewReportViewModel =>
+      widget._previewReportViewModel;
   TapDownDetails? _doubleTapDetails;
   late AnimationController _animationController;
   final pdf = pw.Document();
@@ -53,12 +53,11 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
   int? currentPage = 0;
   bool isReady = false;
   String errorMessage = '';
-
-
-
+  final Completer<PDFViewController> _controller =
+  Completer<PDFViewController>();
 
   @override
-  void initState()  {
+  void initState() {
     previewReportViewModel.initData();
     super.initState();
     _animationController = AnimationController(
@@ -66,8 +65,6 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
       duration: Duration(milliseconds: 300),
       upperBound: 0.5,
     );
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-
   }
 
   @override
@@ -78,18 +75,8 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
     _animationController.dispose();
   }
 
-  late final WebViewController _controller;
 
-  Future<void> loadLocalHTML() async {
-    final fileHtmlContents = await rootBundle.loadString(previewReportViewModel.assetInjuredPersonTransportCertificate);
-    await _controller.loadFlutterAsset(
-      Uri.dataFromString(
-        fileHtmlContents,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8'),
-      ).toString(),
-    );
-  }
+
 
 
   @override
@@ -133,9 +120,11 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
                       )),*/
-                onPressed: () => ButtomSheetUtils.bottomSheetActionAccount(
+                onPressed: () =>
+                    ButtomSheetUtils.bottomSheetActionAccount(
                       context,
-                      onPreferences: () => previewReportViewModel.openEditReport(),
+                      onPreferences: () =>
+                          previewReportViewModel.openEditReport(),
                       onLogout: () => previewReportViewModel.openSendReport(),
                     ),
               ),
@@ -145,14 +134,13 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
           transparentStatusBar: 0.0,
           title: LocaleKeys.server_config.tr(),
           hideBackButton: false,
-          body:WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              _controller = controller;
-
-              loadLocalHTML();
-            },
-          ),
+          body:
+          Consumer<PreviewReportViewModel>(
+              builder: (context, value, child) {
+                return SfPdfViewer.file(
+                    value.pdfFile()
+                );
+              }),
         ));
   }
 

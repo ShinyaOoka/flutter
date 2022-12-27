@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ak_azm_flutter/app/module/common/permission_utils.dart';
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -75,9 +77,11 @@ class PreviewReportViewModel extends BaseViewModel {
   String assetInjuredPersonTransportCertificate = 'assets/report/injured_person_transport_certificate.html';
 
   Future<void> initData() async {
-    generateExampleDocument();
+    //generateExampleDocument();
     //bytes  = (await rootBundle.load(assetInjuredPersonTransportCertificate)) as Uint8List;
-
+    convert(data,"TestPDF");
+    cfPath = (await _localPath)!;
+    notifyListeners();
   }
 
 
@@ -127,15 +131,71 @@ class PreviewReportViewModel extends BaseViewModel {
     </html>
     """;
 
+    if (!(await PermissionUtils.storage())) {
+      return;
+    }
+
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
     final targetFileName = "example-pdf";
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(htmlContent, targetPath, targetFileName);
     generatedPdfFilePath = generatedPdfFile.path;
+    print('Path: $generatedPdfFilePath');
     notifyListeners();
   }
 
 
+   String cfData = 'TestPDF';
+   String cfPath = '';
+
+
+
+  convert(String cfData, String name) async {
+    // Name is File Name that you want to give the file
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+
+    var targetPath = await _localPath;
+    var targetFileName = name;
+
+    var generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        cfData, targetPath!, targetFileName);
+    print(generatedPdfFile);
+    ScaffoldMessenger.of(_navigationService.context).showSnackBar(SnackBar(
+      content: Text(generatedPdfFile.toString()),
+    ));
+  }
+
+  Future<String?> get _localPath async {
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationSupportDirectory();
+      } else {   // if platform is android
+        directory = Directory('/storage/emulated/0/Download');
+        if (!await directory.exists()) {
+          directory = await getExternalStorageDirectory();
+        }
+      }
+    } catch (err, stack) {
+      print("Can-not get download folder path");
+    }
+    return directory?.path;
+  }
+
+  File pdfFile() {
+    if (Platform.isIOS) {
+      return  File(cfPath+"/"+ cfData + '.pdf'); // for ios
+    }
+    else
+    {
+      print("aaaaa "+cfPath);
+      // File('storage/emulated/0/Download/' + cfData + '.pdf')
+      return File(cfPath +"/"+ cfData + '.pdf'); // for android
+    }
+  }
 
   bool get validate =>
       (server.isNotEmpty &&
