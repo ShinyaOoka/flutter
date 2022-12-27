@@ -163,6 +163,8 @@ dependencies:
 
   pdf: ^3.8.4
 
+  custom_pop_up_menu: ^1.2.4
+
 
 
 

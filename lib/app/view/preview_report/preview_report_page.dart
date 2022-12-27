@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ak_azm_flutter/app/view/widget_utils/bottom_sheet/bottom_sheet_utils.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/custom/default_loading_progress.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,8 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
   bool isReady = false;
   String errorMessage = '';
 
+  final Completer<PDFViewController> _controller = Completer<PDFViewController>();
+
 
 
 
@@ -66,7 +69,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
       duration: Duration(milliseconds: 300),
       upperBound: 0.5,
     );
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+   // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
   }
 
@@ -76,19 +79,6 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
     previewReportViewModel.serverFC.dispose();
     previewReportViewModel.portFC.dispose();
     _animationController.dispose();
-  }
-
-  late final WebViewController _controller;
-
-  Future<void> loadLocalHTML() async {
-    final fileHtmlContents = await rootBundle.loadString(previewReportViewModel.assetInjuredPersonTransportCertificate);
-    await _controller.loadFlutterAsset(
-      Uri.dataFromString(
-        fileHtmlContents,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8'),
-      ).toString(),
-    );
   }
 
 
@@ -120,39 +110,80 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
               onPressed: () => previewReportViewModel.back(),
             ),
             actions: [
-              TextButton(
-                child: const Icon(
+              PopupMenuButton<int>(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text(
+                      LocaleKeys.edit.tr(),
+                      style:
+                      TextStyle( fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 2,
+                    child: Text(
+                      LocaleKeys.PDF_transmission_printing.tr(),
+                      style:
+                      TextStyle( fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                ],
+                onSelected: (value) => {
+                    if(value == 1){
+                      previewReportViewModel.openEditReport()
+                    } else {
+                      previewReportViewModel.openSendReport()
+                    }
+                },
+                offset: const Offset(0, 56),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8.0),
+                    bottomRight: Radius.circular(8.0),
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                  ),
+                ),
+                elevation: 4,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                icon: const Icon(
                   Icons.more_horiz,
                   color: Colors.white,
                 ),
-
-                /*Text('Send',
-                      // style: Theme.of(context).appBarTheme.titleTextStyle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      )),*/
-                onPressed: () => ButtomSheetUtils.bottomSheetActionAccount(
-                      context,
-                      onPreferences: () => previewReportViewModel.openEditReport(),
-                      onLogout: () => previewReportViewModel.openSendReport(),
-                    ),
-              ),
+              )
             ],
             automaticallyImplyLeading: false,
           ),
           transparentStatusBar: 0.0,
           title: LocaleKeys.server_config.tr(),
           hideBackButton: false,
-          body:WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              _controller = controller;
-
-              loadLocalHTML();
-            },
-          ),
+          body: Consumer<PreviewReportViewModel>(
+              builder: (context, value, child) {
+                return value.generatedPdfFilePath.isEmpty ? const BuildProgressLoading(): PDFView(
+                  filePath: value.generatedPdfFilePath,
+                  enableSwipe: true,
+                  swipeHorizontal: true,
+                  autoSpacing: false,
+                  pageFling: false,
+                  onRender: (_pages) {
+                    setState(() {
+                      pages = _pages;
+                      isReady = true;
+                    });
+                  },
+                  onError: (error) {
+                    print(error.toString());
+                  },
+                  onPageError: (page, error) {
+                    print('$page: ${error.toString()}');
+                  },
+                  onViewCreated: (PDFViewController pdfViewController) {
+                    _controller.complete(pdfViewController);
+                  },
+                );
+              }),
         ));
   }
 
