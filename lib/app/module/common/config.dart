@@ -26,8 +26,37 @@ const String MMddyyyy = 'MM/dd/yyyy';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String hh_mm_ = 'hh時mm分';
 
-//ACCOUNT
+
+
+
+//Report file
+const String assetInjuredPersonTransportCertificate = 'assets/report/injured_person_transport_certificate.html';
+
+
+
+
 const String APP_NAME = 'AK AZM';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const String BASE_URL = 'http://35.214.179.117:8069';
 const String HOST = '35.214.179.117';
 const int PORT = 8069;

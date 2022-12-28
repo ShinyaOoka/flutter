@@ -103,7 +103,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
                       )),
-                  onPressed: () => inputReportViewModel.openPreviewReport(),
+                  onPressed: () => inputReportViewModel.openConfirmReport(),
                 ),
               ],
               automaticallyImplyLeading: false,

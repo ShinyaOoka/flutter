@@ -1,15 +1,21 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
-import 'package:ak_azm_flutter/app/view/confirm_report/confirm_report_page.dart';
-import 'package:ak_azm_flutter/app/view/preview_report/preview_report_page.dart';
+import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
+import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../di/injection.dart';
 import '../../module/common/extension.dart';
@@ -21,21 +27,14 @@ import '../../module/network/response/databases_response.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
 
-class EditReportViewModel extends BaseViewModel {
+
+class ConfirmReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
   NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
   final serverFC = FocusNode();
   final portFC = FocusNode();
   List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
-  List<String> no7 = ['保科　久穂',
-  '大岡　慎弥',
- '中村　健',
-  '鷹巣　良右',
-  '柳下　清隆',
-  '青木　栄介',
-  '松岡　和人',
-  '福島　隼人'];
   bool isExpandQualification = false;
   bool isExpandRide = false;
   String? emt_qualification;
@@ -58,13 +57,38 @@ class EditReportViewModel extends BaseViewModel {
     return true;
   }
 
-  void openConfirmReport() async {
-    _navigationService.pushScreenWithFade(ConfirmReportPage());
+  void openSendReport() async {
+    _navigationService.pushScreenWithFade(SendReportPage());
+  }
+
+  void openEditReport() async {
+    _navigationService.pushScreenWithFade(EditReportPage());
   }
 
   DatabasesResponse? get databasesResponse => _databasesResponse;
 
-  EditReportViewModel(this._dataRepo);
+  ConfirmReportViewModel(this._dataRepo);
+
+  String generatedPdfFilePath = '';
+  String assetInjuredPersonTransportCertificate = 'assets/report/injured_person_transport_certificate.html';
+
+  Future<void> initData() async {
+    generatedPdfFilePath = await generateExampleDocument(assetInjuredPersonTransportCertificate);
+    print('Test: $generatedPdfFilePath');
+    notifyListeners();
+  }
+
+
+  Future<String> generateExampleDocument(String assetFile) async {
+    final fileHtmlContents = await rootBundle.loadString(assetFile);
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final targetPath = appDocDir.path;
+    const targetFileName = "report";
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    return generatedPdfFile.path;
+  }
+
+
 
   bool get validate =>
       (server.isNotEmpty &&
@@ -113,9 +137,7 @@ class EditReportViewModel extends BaseViewModel {
 
   void submit() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
-    //save server config
-    dio = AppDio.getInstance();
-    openSignIn();
+
   }
 
   //check is server = call api get database
@@ -132,7 +154,9 @@ class EditReportViewModel extends BaseViewModel {
             databasesResponse!.result is List) {
           databaseList = databasesResponse!.result ?? [];
           notifyListeners();
-          //_navigationService.pushScreenNoAnim(SignInPage(databaseList: databaseList,));
+          /*_navigationService.pushScreenNoAnim(SignInPage(
+            databaseList: databaseList,
+          ));*/
         }
       } catch (e) {
         SnackBarUtil.showSnack(title: LocaleKeys.something_is_not_right.tr(), message: LocaleKeys.please_check_your_url.tr(), snackType: SnackType.ERROR);
@@ -144,10 +168,7 @@ class EditReportViewModel extends BaseViewModel {
   }
 
 
-  void initData() {
 
-    notifyListeners();
-  }
 
   void openSignIn() {
     getDatabasesApi();

@@ -133,7 +133,7 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
                                                 report: value.dtReports[index],
                                                 msClassifications: value.msClassifications,
                                                 onDeleteItem: () => null,
-                                                onClickItem: () => chooseAccountViewModel.openPreviewReport(),
+                                                onClickItem: () => chooseAccountViewModel.openConfirmReport(),
                                               ),
                                               index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
                                             ],

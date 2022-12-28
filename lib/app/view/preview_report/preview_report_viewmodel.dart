@@ -29,6 +29,8 @@ import '../../viewmodel/base_viewmodel.dart';
 
 
 class PreviewReportViewModel extends BaseViewModel {
+  late String assetFile;
+  late String pdfName = '';
   final DataRepository _dataRepo;
   NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
@@ -67,13 +69,14 @@ class PreviewReportViewModel extends BaseViewModel {
 
   DatabasesResponse? get databasesResponse => _databasesResponse;
 
-  PreviewReportViewModel(this._dataRepo);
+  PreviewReportViewModel(this._dataRepo, this.assetFile, this.pdfName);
 
   String generatedPdfFilePath = '';
-  String assetInjuredPersonTransportCertificate = 'assets/report/injured_person_transport_certificate.html';
+
+
 
   Future<void> initData() async {
-    generatedPdfFilePath = await generateExampleDocument(assetInjuredPersonTransportCertificate);
+    generatedPdfFilePath = await generateExampleDocument(assetFile ?? '');
     print('Test: $generatedPdfFilePath');
     notifyListeners();
   }

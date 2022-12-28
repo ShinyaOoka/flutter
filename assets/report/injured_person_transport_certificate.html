@@ -1,79 +1,622 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="resources/sheet.css">
 <style type="text/css">
-.numberCircle {
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    padding: 8px;
-
+  .numberCircle {
+    border-radius: 100%;
+    padding: 0px;
     background: #fff;
-    border: 2px solid #666;
-    color: #666;
-    text-align: center;
+    border: 1px solid #000;
+    text-align: center
+  }
 
-    font: 32px Arial, sans-serif;
-}
-    .ritz .waffle a { color: inherit; }.ritz .waffle .s30{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:middle;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s31{border-right: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s11{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s34{border-left: none;border-right: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s39{border-bottom:1px DOTTED #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s10{border-left: none;border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s27{background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s9{border-left: none;border-right: none;border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s14{border-right: none;border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s16{border-right:1px DOTTED #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s18{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s7{background-color:#ffffff;text-align:left;color:#ff0000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s33{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:right;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s5{border-left: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s32{border-left: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s29{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s35{border-right:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s26{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#ff0000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s12{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s37{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s1{background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s24{background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:10pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s22{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s38{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:9pt;vertical-align:middle;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s23{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:middle;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s2{background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s4{border-left: none;border-right: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s15{border-left: none;border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s21{border-right:1px DOTTED #000000;background-color:#ffffff;text-align:left;color:#ff0000;font-family:'Meiryo';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s3{border-right: none;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s25{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:14pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s8{border-right: none;border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:14pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s40{border-bottom:1px DOTTED #000000;border-right:1px DOTTED #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s36{border-bottom:1px SOLID #000000;border-right:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:normal;overflow:hidden;word-wrap:break-word;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s13{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:center;font-weight:bold;color:#000000;font-family:'MS PMincho';font-size:18pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s20{border-bottom:1px SOLID #000000;background-color:#ffffff;text-align:center;color:#000000;font-family:'MS PMincho';font-size:20pt;vertical-align:middle;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s19{border-right:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s28{border-right:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s17{border-right:1px SOLID #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s0{border-right:1px DOTTED #000000;background-color:#ffffff;text-align:left;color:#000000;font-family:'Meiryo';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s6{background-color:#ffffff;text-align:left;color:#000000;font-family:'MS PMincho';font-size:12pt;vertical-align:top;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}
+  .ritz .waffle a {
+    color: inherit
+  }
+
+  .ritz .waffle .s30 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: middle;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s31 {
+    border-right: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s11 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s34 {
+    border-left: none;
+    border-right: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s39 {
+    border-bottom: 1px DOTTED #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s10 {
+    border-left: none;
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s27 {
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s9 {
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s14 {
+    border-right: none;
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s16 {
+    border-right: 1px DOTTED #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s18 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s7 {
+    background-color: #fff;
+    text-align: left;
+    color: red;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s33 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: right;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s5 {
+    border-left: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s32 {
+    border-left: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s29 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s35 {
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s26 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: red;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s12 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s37 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s1 {
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s24 {
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 10pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s22 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s38 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 9pt;
+    vertical-align: middle;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s23 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: middle;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s2 {
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s4 {
+    border-left: none;
+    border-right: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s15 {
+    border-left: none;
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s21 {
+    border-right: 1px DOTTED #000;
+    background-color: #fff;
+    text-align: left;
+    color: red;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s3 {
+    border-right: none;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s25 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 14pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s8 {
+    border-right: none;
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 14pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s40 {
+    border-bottom: 1px DOTTED #000;
+    border-right: 1px DOTTED #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s36 {
+    border-bottom: 1px SOLID #000;
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: normal;
+    overflow: hidden;
+    word-wrap: break-word;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s13 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    font-weight: 700;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 18pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s20 {
+    border-bottom: 1px SOLID #000;
+    background-color: #fff;
+    text-align: center;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 20pt;
+    vertical-align: middle;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s19 {
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s28 {
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s17 {
+    border-right: 1px SOLID #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: bottom;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s0 {
+    border-right: 1px DOTTED #000;
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: Meiryo;
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 0 3px 0 3px
+  }
+
+  .ritz .waffle .s6 {
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    font-family: 'MS PMincho';
+    font-size: 12pt;
+    vertical-align: top;
+    white-space: nowrap;
+    direction: ltr;
+    padding: 3px 3px 0 3px
+  }
 </style>
 <div class="ritz grid-container" dir="ltr">
     <table class="waffle no-grid" cellspacing="0" cellpadding="0">
         <thead>
         <tr>
             <th class="row-header freezebar-origin-ltr"></th>
-            <th id="66606058C0" style="width:23px;" class="column-headers-background">A</th>
-            <th id="66606058C1" style="width:24px;" class="column-headers-background">B</th>
-            <th id="66606058C2" style="width:24px;" class="column-headers-background">C</th>
-            <th id="66606058C3" style="width:24px;" class="column-headers-background">D</th>
-            <th id="66606058C4" style="width:24px;" class="column-headers-background">E</th>
-            <th id="66606058C5" style="width:24px;" class="column-headers-background">F</th>
-            <th id="66606058C6" style="width:24px;" class="column-headers-background">G</th>
-            <th id="66606058C7" style="width:24px;" class="column-headers-background">H</th>
-            <th id="66606058C8" style="width:24px;" class="column-headers-background">I</th>
-            <th id="66606058C9" style="width:24px;" class="column-headers-background">J</th>
-            <th id="66606058C10" style="width:24px;" class="column-headers-background">K</th>
-            <th id="66606058C11" style="width:24px;" class="column-headers-background">L</th>
-            <th id="66606058C12" style="width:24px;" class="column-headers-background">M</th>
-            <th id="66606058C13" style="width:24px;" class="column-headers-background">N</th>
-            <th id="66606058C14" style="width:24px;" class="column-headers-background">O</th>
-            <th id="66606058C15" style="width:24px;" class="column-headers-background">P</th>
-            <th id="66606058C16" style="width:24px;" class="column-headers-background">Q</th>
-            <th id="66606058C17" style="width:24px;" class="column-headers-background">R</th>
-            <th id="66606058C18" style="width:24px;" class="column-headers-background">S</th>
-            <th id="66606058C19" style="width:24px;" class="column-headers-background">T</th>
-            <th id="66606058C20" style="width:24px;" class="column-headers-background">U</th>
-            <th id="66606058C21" style="width:24px;" class="column-headers-background">V</th>
-            <th id="66606058C22" style="width:24px;" class="column-headers-background">W</th>
-            <th id="66606058C23" style="width:24px;" class="column-headers-background">X</th>
-            <th id="66606058C24" style="width:24px;" class="column-headers-background">Y</th>
-            <th id="66606058C25" style="width:24px;" class="column-headers-background">Z</th>
-            <th id="66606058C26" style="width:24px;" class="column-headers-background">AA</th>
-            <th id="66606058C27" style="width:24px;" class="column-headers-background">AB</th>
-            <th id="66606058C28" style="width:24px;" class="column-headers-background">AC</th>
-            <th id="66606058C29" style="width:24px;" class="column-headers-background">AD</th>
-            <th id="66606058C30" style="width:24px;" class="column-headers-background">AE</th>
-            <th id="66606058C31" style="width:24px;" class="column-headers-background">AF</th>
-            <th id="66606058C32" style="width:24px;" class="column-headers-background">AG</th>
-            <th id="66606058C33" style="width:24px;" class="column-headers-background">AH</th>
-            <th id="66606058C34" style="width:24px;" class="column-headers-background">AI</th>
-            <th id="66606058C35" style="width:24px;" class="column-headers-background">AJ</th>
-            <th id="66606058C36" style="width:24px;" class="column-headers-background">AK</th>
-            <th id="66606058C37" style="width:24px;" class="column-headers-background">AL</th>
-            <th id="66606058C38" style="width:24px;" class="column-headers-background">AM</th>
-            <th id="66606058C39" style="width:24px;" class="column-headers-background">AN</th>
-            <th id="66606058C40" style="width:24px;" class="column-headers-background">AO</th>
-            <th id="66606058C41" style="width:24px;" class="column-headers-background">AP</th>
-            <th id="66606058C42" style="width:24px;" class="column-headers-background">AQ</th>
-            <th id="66606058C43" style="width:24px;" class="column-headers-background">AR</th>
-            <th id="66606058C44" style="width:24px;" class="column-headers-background">AS</th>
-            <th id="66606058C45" style="width:24px;" class="column-headers-background">AT</th>
-            <th id="66606058C46" style="width:24px;" class="column-headers-background">AU</th>
+            <th id="66606058C0" style="width:23px" class="column-headers-background">A</th>
+            <th id="66606058C1" style="width:24px" class="column-headers-background">B</th>
+            <th id="66606058C2" style="width:24px" class="column-headers-background">C</th>
+            <th id="66606058C3" style="width:24px" class="column-headers-background">D</th>
+            <th id="66606058C4" style="width:24px" class="column-headers-background">E</th>
+            <th id="66606058C5" style="width:24px" class="column-headers-background">F</th>
+            <th id="66606058C6" style="width:24px" class="column-headers-background">G</th>
+            <th id="66606058C7" style="width:24px" class="column-headers-background">H</th>
+            <th id="66606058C8" style="width:24px" class="column-headers-background">I</th>
+            <th id="66606058C9" style="width:24px" class="column-headers-background">J</th>
+            <th id="66606058C10" style="width:24px" class="column-headers-background">K</th>
+            <th id="66606058C11" style="width:24px" class="column-headers-background">L</th>
+            <th id="66606058C12" style="width:24px" class="column-headers-background">M</th>
+            <th id="66606058C13" style="width:24px" class="column-headers-background">N</th>
+            <th id="66606058C14" style="width:24px" class="column-headers-background">O</th>
+            <th id="66606058C15" style="width:24px" class="column-headers-background">P</th>
+            <th id="66606058C16" style="width:24px" class="column-headers-background">Q</th>
+            <th id="66606058C17" style="width:24px" class="column-headers-background">R</th>
+            <th id="66606058C18" style="width:24px" class="column-headers-background">S</th>
+            <th id="66606058C19" style="width:24px" class="column-headers-background">T</th>
+            <th id="66606058C20" style="width:24px" class="column-headers-background">U</th>
+            <th id="66606058C21" style="width:24px" class="column-headers-background">V</th>
+            <th id="66606058C22" style="width:24px" class="column-headers-background">W</th>
+            <th id="66606058C23" style="width:24px" class="column-headers-background">X</th>
+            <th id="66606058C24" style="width:24px" class="column-headers-background">Y</th>
+            <th id="66606058C25" style="width:24px" class="column-headers-background">Z</th>
+            <th id="66606058C26" style="width:24px" class="column-headers-background">AA</th>
+            <th id="66606058C27" style="width:24px" class="column-headers-background">AB</th>
+            <th id="66606058C28" style="width:24px" class="column-headers-background">AC</th>
+            <th id="66606058C29" style="width:24px" class="column-headers-background">AD</th>
+            <th id="66606058C30" style="width:24px" class="column-headers-background">AE</th>
+            <th id="66606058C31" style="width:24px" class="column-headers-background">AF</th>
+            <th id="66606058C32" style="width:24px" class="column-headers-background">AG</th>
+            <th id="66606058C33" style="width:24px" class="column-headers-background">AH</th>
+            <th id="66606058C34" style="width:24px" class="column-headers-background">AI</th>
+            <th id="66606058C35" style="width:24px" class="column-headers-background">AJ</th>
+            <th id="66606058C36" style="width:24px" class="column-headers-background">AK</th>
+            <th id="66606058C37" style="width:24px" class="column-headers-background">AL</th>
+            <th id="66606058C38" style="width:24px" class="column-headers-background">AM</th>
+            <th id="66606058C39" style="width:24px" class="column-headers-background">AN</th>
+            <th id="66606058C40" style="width:24px" class="column-headers-background">AO</th>
+            <th id="66606058C41" style="width:24px" class="column-headers-background">AP</th>
+            <th id="66606058C42" style="width:24px" class="column-headers-background">AQ</th>
+            <th id="66606058C43" style="width:24px" class="column-headers-background">AR</th>
+            <th id="66606058C44" style="width:24px" class="column-headers-background">AS</th>
+            <th id="66606058C45" style="width:24px" class="column-headers-background">AT</th>
+            <th id="66606058C46" style="width:24px" class="column-headers-background">AU</th>
         </tr>
         </thead>
         <tbody>
-        <tr style="height: 20px">
-            <th id="66606058R0" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">1</div>
+        <tr style="height:20px">
+            <th id="66606058R0" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">1</div>
             </th>
             <td class="s0"></td>
             <td class="s1"></td>
@@ -123,9 +666,9 @@
             <td class="s1"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R1" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">2</div>
+        <tr style="height:20px">
+            <th id="66606058R1" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">2</div>
             </th>
             <td class="s0"></td>
             <td class="s2"></td>
@@ -177,9 +720,9 @@
             <td class="s1"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R2" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">3</div>
+        <tr style="height:20px">
+            <th id="66606058R2" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">3</div>
             </th>
             <td class="s0"></td>
             <td class="s2"></td>
@@ -220,9 +763,9 @@
             <td class="s11">日</td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R3" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">4</div>
+        <tr style="height:23px">
+            <th id="66606058R3" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">4</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -260,9 +803,7 @@
             <td class="s11"></td>
             <td class="s11">□有</td>
             <td class="s11"></td>
-            <td class="s11">
-                □無
-            </td>
+            <td class="s11">□無</td>
             <td class="s11"></td>
             <td class="s18"></td>
             <td class="s14 softmerge">
@@ -280,9 +821,9 @@
             <td class="s18"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R4" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">5</div>
+        <tr style="height:23px">
+            <th id="66606058R4" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">5</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -332,9 +873,9 @@
             <td class="s18"></td>
             <td class="s21"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R5" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">6</div>
+        <tr style="height:23px">
+            <th id="66606058R5" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">6</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -381,9 +922,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R6" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">7</div>
+        <tr style="height:23px">
+            <th id="66606058R6" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">7</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -430,9 +971,9 @@
             <td class="s19">生</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R7" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">8</div>
+        <tr style="height:23px">
+            <th id="66606058R7" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">8</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -483,13 +1024,13 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R8" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">9</div>
+        <tr style="height:23px">
+            <th id="66606058R8" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">9</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
-            <td class="s25">氏名</td>
+            <td class="s6">氏名</td>
             <td class="s11"></td>
             <td class="s26"></td>
             <td class="s11"></td>
@@ -535,19 +1076,19 @@
             <td class="s18">歳</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R9" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">10</div>
+        <tr style="height:23px">
+            <th id="66606058R9" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">10</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
-            <td class="numberCircle">既往歴</td>
+            <td class="s6">既往歴</td>
             <td class="s6"></td>
             <td class="s7"></td>
             <td class="s6"></td>
             <td class="s6">■無</td>
             <td class="s6"></td>
-            <td class="s6">□有</td>
+            <td class="numberCircle">□有</td>
             <td class="s6"></td>
             <td class="s6">：</td>
             <td class="s6"></td>
@@ -587,9 +1128,9 @@
             <td class="s28"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R10" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">11</div>
+        <tr style="height:23px">
+            <th id="66606058R10" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">11</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -637,9 +1178,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R11" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">12</div>
+        <tr style="height:23px">
+            <th id="66606058R11" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">12</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -691,9 +1232,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R12" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">13</div>
+        <tr style="height:23px">
+            <th id="66606058R12" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">13</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -733,9 +1274,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R13" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">14</div>
+        <tr style="height:23px">
+            <th id="66606058R13" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">14</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -776,9 +1317,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R14" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">15</div>
+        <tr style="height:23px">
+            <th id="66606058R14" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">15</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -818,9 +1359,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R15" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">16</div>
+        <tr style="height:23px">
+            <th id="66606058R15" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">16</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -862,9 +1403,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R16" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">17</div>
+        <tr style="height:23px">
+            <th id="66606058R16" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">17</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -904,9 +1445,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R17" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">18</div>
+        <tr style="height:23px">
+            <th id="66606058R17" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">18</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -946,9 +1487,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R18" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">19</div>
+        <tr style="height:23px">
+            <th id="66606058R18" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">19</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -988,9 +1529,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R19" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">20</div>
+        <tr style="height:23px">
+            <th id="66606058R19" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">20</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1030,9 +1571,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R20" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">21</div>
+        <tr style="height:23px">
+            <th id="66606058R20" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">21</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1072,9 +1613,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R21" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">22</div>
+        <tr style="height:23px">
+            <th id="66606058R21" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">22</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1114,9 +1655,9 @@
             <td class="s29" colspan="5">：</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R22" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">23</div>
+        <tr style="height:23px">
+            <th id="66606058R22" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">23</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1168,9 +1709,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R23" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">24</div>
+        <tr style="height:23px">
+            <th id="66606058R23" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">24</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1220,9 +1761,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R24" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">25</div>
+        <tr style="height:23px">
+            <th id="66606058R24" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">25</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1265,9 +1806,9 @@
             <td class="s29" colspan="10">処置</td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R25" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">26</div>
+        <tr style="height:23px">
+            <th id="66606058R25" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">26</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1323,9 +1864,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R26" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">27</div>
+        <tr style="height:23px">
+            <th id="66606058R26" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">27</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1379,9 +1920,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R27" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">28</div>
+        <tr style="height:23px">
+            <th id="66606058R27" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">28</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1405,9 +1946,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R28" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">29</div>
+        <tr style="height:23px">
+            <th id="66606058R28" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">29</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1432,9 +1973,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R29" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">30</div>
+        <tr style="height:23px">
+            <th id="66606058R29" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">30</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1456,9 +1997,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R30" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">31</div>
+        <tr style="height:23px">
+            <th id="66606058R30" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">31</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1480,9 +2021,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R31" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">32</div>
+        <tr style="height:23px">
+            <th id="66606058R31" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">32</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1504,9 +2045,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R32" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">33</div>
+        <tr style="height:23px">
+            <th id="66606058R32" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">33</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1528,9 +2069,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R33" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">34</div>
+        <tr style="height:23px">
+            <th id="66606058R33" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">34</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1552,9 +2093,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R34" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">35</div>
+        <tr style="height:23px">
+            <th id="66606058R34" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">35</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1578,9 +2119,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R35" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">36</div>
+        <tr style="height:23px">
+            <th id="66606058R35" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">36</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1604,9 +2145,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R36" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">37</div>
+        <tr style="height:23px">
+            <th id="66606058R36" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">37</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1628,17 +2169,17 @@
             <td class="s28">）</td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R37" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">38</div>
+        <tr style="height:23px">
+            <th id="66606058R37" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">38</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
             <td class="s23" colspan="2" rowspan="6">外見・その他</td>
             <td class="s29" colspan="4" rowspan="2">顔貌</td>
-            <td class="s36" colspan="9" rowspan="2">正常　紅潮　蒼白<br>チアノーゼ　　発汗　　苦悶</td>
-            <td class="s36" colspan="10" rowspan="2">正常　紅潮　蒼白<br>チアノーゼ　　発汗　　苦悶</td>
-            <td class="s36" colspan="9" rowspan="2">正常　紅潮　蒼白<br>チアノーゼ　　発汗　　苦悶</td>
+            <td class="s36" colspan="9" rowspan="2">正常　紅潮　蒼白 <br>チアノーゼ　　発汗　　苦悶 </td>
+            <td class="s36" colspan="10" rowspan="2">正常　紅潮　蒼白 <br>チアノーゼ　　発汗　　苦悶 </td>
+            <td class="s36" colspan="9" rowspan="2">正常　紅潮　蒼白 <br>チアノーゼ　　発汗　　苦悶 </td>
             <td class="s3 softmerge">
                 <div class="softmerge-inner" style="width:70px;left:-1px">□　BS測定</div>
             </td>
@@ -1653,9 +2194,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R38" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">39</div>
+        <tr style="height:23px">
+            <th id="66606058R38" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">39</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1673,9 +2214,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R39" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">40</div>
+        <tr style="height:23px">
+            <th id="66606058R39" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">40</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1684,7 +2225,7 @@
             <td class="s29" colspan="10"></td>
             <td class="s29" colspan="9"></td>
             <td class="s3 softmerge">
-                <div class="softmerge-inner" style="width:46px;left:-1px"> 穿刺部位</div>
+                <div class="softmerge-inner" style="width:46px;left:-1px">穿刺部位</div>
             </td>
             <td class="s5"></td>
             <td class="s5"></td>
@@ -1697,9 +2238,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R40" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">41</div>
+        <tr style="height:23px">
+            <th id="66606058R40" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">41</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1721,9 +2262,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R41" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">42</div>
+        <tr style="height:23px">
+            <th id="66606058R41" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">42</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1745,9 +2286,9 @@
             <td class="s28"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R42" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">43</div>
+        <tr style="height:23px">
+            <th id="66606058R42" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">43</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1756,7 +2297,7 @@
             <td class="s29" colspan="10"></td>
             <td class="s29" colspan="9"></td>
             <td class="s14 softmerge">
-                <div class="softmerge-inner" style="width:46px;left:-1px"> 穿刺部位</div>
+                <div class="softmerge-inner" style="width:46px;left:-1px">穿刺部位</div>
             </td>
             <td class="s10"></td>
             <td class="s10"></td>
@@ -1769,9 +2310,9 @@
             <td class="s37"></td>
             <td class="s16"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R43" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">44</div>
+        <tr style="height:23px">
+            <th id="66606058R43" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">44</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1822,9 +2363,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R44" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">45</div>
+        <tr style="height:23px">
+            <th id="66606058R44" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">45</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1870,9 +2411,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R45" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">46</div>
+        <tr style="height:23px">
+            <th id="66606058R45" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">46</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1922,9 +2463,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R46" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">47</div>
+        <tr style="height:23px">
+            <th id="66606058R46" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">47</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -1971,9 +2512,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R47" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">48</div>
+        <tr style="height:23px">
+            <th id="66606058R47" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">48</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -2022,9 +2563,9 @@
             <td class="s19"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 23px">
-            <th id="66606058R48" style="height: 23px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 23px">49</div>
+        <tr style="height:23px">
+            <th id="66606058R48" style="height:23px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:23px">49</div>
             </th>
             <td class="s0"></td>
             <td class="s17"></td>
@@ -2071,9 +2612,9 @@
             <td class="s18"></td>
             <td class="s0"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R49" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">50</div>
+        <tr style="height:20px">
+            <th id="66606058R49" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">50</div>
             </th>
             <td class="s0"></td>
             <td class="s39"></td>
@@ -2123,9 +2664,9 @@
             <td class="s39"></td>
             <td class="s40"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R50" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">51</div>
+        <tr style="height:20px">
+            <th id="66606058R50" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">51</div>
             </th>
             <td class="s1"></td>
             <td class="s1"></td>
@@ -2175,9 +2716,9 @@
             <td class="s1"></td>
             <td class="s1"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R51" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">52</div>
+        <tr style="height:20px">
+            <th id="66606058R51" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">52</div>
             </th>
             <td class="s1"></td>
             <td class="s1"></td>
@@ -2227,9 +2768,9 @@
             <td class="s1"></td>
             <td class="s1"></td>
         </tr>
-        <tr style="height: 20px">
-            <th id="66606058R52" style="height: 20px;" class="row-headers-background">
-                <div class="row-header-wrapper" style="line-height: 20px">53</div>
+        <tr style="height:20px">
+            <th id="66606058R52" style="height:20px" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height:20px">53</div>
             </th>
             <td class="s1"></td>
             <td class="s1"></td>

@@ -1,4 +1,6 @@
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
+import 'package:ak_azm_flutter/app/view/confirm_report/confirm_report_viewmodel.dart';
 import 'package:ak_azm_flutter/app/view/home/home_viewmodel.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_viewmodel.dart';
@@ -50,8 +52,10 @@ Future<void> configureDependencies() async {
       () => InputReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<EditReportViewModel>(
       () => EditReportViewModel(getIt<DataRepository>()));
-  getIt.registerFactory<PreviewReportViewModel>(
-      () => PreviewReportViewModel(getIt<DataRepository>()));
+  getIt.registerFactoryParam<PreviewReportViewModel,List<dynamic>, dynamic>(
+          (param1, _) => PreviewReportViewModel(getIt<DataRepository>() ,  param1[0], param1[1]));
   getIt.registerFactory<SendReportViewModel>(
       () => SendReportViewModel(getIt<DataRepository>()));
+  getIt.registerFactory<ConfirmReportViewModel>(
+          () => ConfirmReportViewModel(getIt<DataRepository>()));
 }

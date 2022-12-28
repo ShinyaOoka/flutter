@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
+import 'package:ak_azm_flutter/app/view/preview_report/preview_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/common/toast_util.dart';
 import '../../module/local_storage/shared_pref_manager.dart';
-import '../../module/network/dio_module.dart';
 import '../../module/network/response/databases_response.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
@@ -27,7 +26,10 @@ class SendReportViewModel extends BaseViewModel {
   UserSharePref userSharePref = getIt<UserSharePref>();
   final serverFC = FocusNode();
   final portFC = FocusNode();
-  List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
+  List<String> yesNothings = [
+    LocaleKeys.yes_dropdown.tr(),
+    LocaleKeys.nothing.tr()
+  ];
   bool isExpandQualification = false;
   bool isExpandRide = false;
   String? emt_qualification;
@@ -49,9 +51,16 @@ class SendReportViewModel extends BaseViewModel {
     _navigationService.back();
     return true;
   }
-  void openListReport() async {
+
+  void openListReport() {
     _navigationService.pushAndRemoveUntilWithFade(ListReportPage());
   }
+
+  void openPreviewReport(String assetFileName, {String pdfName = ''}) {
+    _navigationService
+        .pushScreenWithFade(PreviewReportPage(assetFile: assetFileName, pdfName: pdfName,));
+  }
+
   DatabasesResponse? get databasesResponse => _databasesResponse;
 
   SendReportViewModel(this._dataRepo);
@@ -99,12 +108,9 @@ class SendReportViewModel extends BaseViewModel {
         : null;
   }
 
-
-
   void submit() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
     //save server config
-
   }
 
   //check is server = call api get database
@@ -126,7 +132,10 @@ class SendReportViewModel extends BaseViewModel {
           ));*/
         }
       } catch (e) {
-        SnackBarUtil.showSnack(title: LocaleKeys.something_is_not_right.tr(), message: LocaleKeys.please_check_your_url.tr(), snackType: SnackType.ERROR);
+        SnackBarUtil.showSnack(
+            title: LocaleKeys.something_is_not_right.tr(),
+            message: LocaleKeys.please_check_your_url.tr(),
+            snackType: SnackType.ERROR);
       } finally {
         notifyListeners();
       }
@@ -134,10 +143,7 @@ class SendReportViewModel extends BaseViewModel {
     addSubscription(subscript);
   }
 
-
-  void initData() {
-
-  }
+  void initData() {}
 
   void openSignIn() {
     getDatabasesApi();

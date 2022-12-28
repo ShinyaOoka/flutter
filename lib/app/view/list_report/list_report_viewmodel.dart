@@ -8,6 +8,7 @@ import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/database/data.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
+import 'package:ak_azm_flutter/app/view/confirm_report/confirm_report_page.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,8 +63,8 @@ class ListReportViewModel extends BaseViewModel {
     _navigationService.pushScreenWithFade(EditReportPage());
   }
 
-  void openPreviewReport() async {
-    _navigationService.pushScreenWithFade(PreviewReportPage());
+  void openConfirmReport() async {
+    _navigationService.pushScreenWithFade(ConfirmReportPage());
   }
 
   LoginResponse? get loginResponse => _loginResponse;

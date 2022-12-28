@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/buttons/filled_button.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -19,20 +20,20 @@ class SendReportPage extends PageProvideNode<SendReportViewModel> {
 
   @override
   Widget buildContent(BuildContext context) {
-    return InputReportContent(viewModel);
+    return SendReportContent(viewModel);
   }
 }
 
-class InputReportContent extends StatefulWidget {
+class SendReportContent extends StatefulWidget {
   final SendReportViewModel _sendReportViewModel;
 
-  InputReportContent(this._sendReportViewModel);
+  SendReportContent(this._sendReportViewModel);
 
   @override
-  InputReportState createState() => InputReportState();
+  SendReportState createState() => SendReportState();
 }
 
-class InputReportState extends LifecycleState<InputReportContent>
+class SendReportState extends LifecycleState<SendReportContent>
     with SingleTickerProviderStateMixin {
   SendReportViewModel get sendReportViewModel => widget._sendReportViewModel;
   late AnimationController _animationController;
@@ -126,8 +127,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                             ),
                             color: kColor4472C4,
                             text: LocaleKeys.injured_person_transport_certificate.tr(),
-                            onPress: () => ToastUtil.showToast(
-                                LocaleKeys.injured_person_transport_certificate.tr()),
+                            onPress: () => sendReportViewModel.openPreviewReport(assetInjuredPersonTransportCertificate, pdfName: '傷病者輸送証'),
                           ),
                         ),
                         SizedBox(height: size_20_w,),
@@ -142,8 +142,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                             ),
                             color: kColor4472C4,
                             text: LocaleKeys.ambulance_service_implementation_report.tr(),
-                            onPress: () => ToastUtil.showToast(
-                                LocaleKeys.ambulance_service_implementation_report.tr()),
+                            onPress: () => sendReportViewModel.openPreviewReport(assetInjuredPersonTransportCertificate, pdfName: '傷病者輸送証'),
                           ),
                         ),
 
