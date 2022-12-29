@@ -941,6 +941,16 @@ class Utils {
   static String dateTimeToString(DateTime? date,{ String format = MMddyyyy}) {
     return date == null  ? '' : DateFormat(format).format(date).toString();
   }
+
+  static DateTime stringToDateTime(String? stringDate,{ String format = MMddyyyy}) {
+    return stringDate == null  ? DateTime.now() : DateFormat(format).parse(stringDate);
+  }
+
+
+  static String customReplace(String text,String searchText, int replaceOn, String replaceText){
+    Match result = searchText.allMatches(text).elementAt(replaceOn - 1);
+    return text.replaceRange(result.start,result.end,replaceText);
+  }
 }
 
 typedef PrintFunctionCallback = void Function(

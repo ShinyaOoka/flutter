@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
+import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
+import 'package:ak_azm_flutter/app/module/form_report/injured_person_transport_certificate_atribute_name.dart';
 import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
@@ -18,6 +20,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../di/injection.dart';
+import '../../model/dt_report.dart';
 import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/common/toast_util.dart';
@@ -34,6 +37,7 @@ class PreviewReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
   NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
+  DBHelper dbHelper = getIt<DBHelper>();
   final serverFC = FocusNode();
   final portFC = FocusNode();
   List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
@@ -47,6 +51,7 @@ class PreviewReportViewModel extends BaseViewModel {
   var portController = TextEditingController();
 
   List<dynamic> databaseList = [];
+  List<DTReport> dtReports = [];
   DatabasesResponse? _databasesResponse;
 
   set databasesResponse(DatabasesResponse? databasesResponse) {
@@ -76,20 +81,118 @@ class PreviewReportViewModel extends BaseViewModel {
 
 
   Future<void> initData() async {
+    await getReports();
     generatedPdfFilePath = await generateExampleDocument(assetFile ?? '');
     print('Test: $generatedPdfFilePath');
     notifyListeners();
+
+
   }
 
 
   Future<String> generateExampleDocument(String assetFile) async {
-    final fileHtmlContents = await rootBundle.loadString(assetFile);
+    var fileHtmlContents = await rootBundle.loadString(assetFile);
+
+    //format data from db to html file
+    fileHtmlContents = await formatDataToForm(dtReports[0], fileHtmlContents);
+
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
     const targetFileName = "report";
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
     return generatedPdfFile.path;
   }
+
+  Future<void> getReports() async {
+    dtReports = await dbHelper.getAllReport() ?? [];
+    notifyListeners();
+  }
+
+
+  Future<String> formatDataToForm(DTReport dtReport, String htmlInput) async{
+    //fill yyyy mm dd
+    var y = DateFormat.y().format(DateTime.now());
+    var m = DateFormat.M().format(DateTime.now());
+    var d = DateFormat.d().format(DateTime.now());
+    //1
+    htmlInput = htmlInput.replaceFirst('YYYY', y).replaceFirst('MM', m).replaceFirst('DD', d);
+    //2
+    htmlInput = htmlInput.replaceFirst('救急隊', dtReport.TeamName.toString() + ' 救急隊');
+    //3
+    htmlInput = htmlInput.replaceFirst('隊長氏名', '隊長氏名' + ' ' + dtReport.TeamCaptainName.toString());
+    //4
+    if(dtReport.LifesaverQualification == 1){
+      htmlInput = Utils.customReplace(htmlInput, '□有', 1, checkIcon +'有');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 1, checkIcon +'無');
+    }
+
+    //5
+    if(dtReport.WithLifeSavers == 1){
+      htmlInput = Utils.customReplace(htmlInput, '□有', 2, checkIcon +'有');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 2, checkIcon +'無');
+    }
+
+    //6
+    htmlInput = htmlInput.replaceFirst('救急隊TEL', '救急隊TEL' + '  ' + dtReport.TeamTEL.toString());
+
+
+    //7
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress.toString());
+    //8
+    if(dtReport.SickInjuredPersonGender	 == '男性'){
+      htmlInput = Utils.customReplace(htmlInput, '□ 男', 1, checkIcon +' 男');
+    } else if(dtReport.SickInjuredPersonGender	 == '女性') {
+      htmlInput = Utils.customReplace(htmlInput, '□ 女', 1, checkIcon +' 女');
+    }
+
+    //9
+    htmlInput = Utils.customReplace(htmlInput, '年', 2, dtReport.SickInjuredPersonBirthDate.toString());
+    htmlInput = Utils.customReplace(htmlInput, '月', 2,  '');
+    htmlInput = Utils.customReplace(htmlInput, '日', 2,  '');
+
+    //10
+    htmlInput = Utils.customReplace(htmlInput, '歳', 1,  '歳 ' + Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate)).toString());
+    //11
+    htmlInput = Utils.customReplace(htmlInput, 'フリガナ', 1,  'フリガナ ' + dtReport.SickInjuredPersonKANA.toString());
+    //12
+    htmlInput = Utils.customReplace(htmlInput, '氏名', 1,  '氏名 ' + dtReport.SickInjuredPersonName.toString());
+    //13
+    htmlInput = Utils.customReplace(htmlInput, 'TEL', 1,  'TEL ' + dtReport.SickInjuredPersonTEL.toString());
+
+
+
+
+
+
+    /*htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+
+
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');*/
+
+
+
+
+
+    return htmlInput;
+  }
+
 
 
 

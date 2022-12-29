@@ -151,6 +151,29 @@ class InputReportViewModel extends BaseViewModel {
   String? others = '';
 
 
+  //layout 7
+  String? observation_time_7 = '';
+  String? report_observation_time_explanation_7 = '';
+  String? jcs_7 = '';
+  String? gcs_7 = '';
+  String? breathing_7 = '';
+  String? pulse_7 = '';
+  String? blood_pressure_up_7 = '';
+  String? blood_pressure_lower_7 = '';
+  String? spo2_percent_7 = '';
+  String? spo2_l_7 = '';
+  String? right_pupil_7 = '';
+  String? left_pupil_7 = '';
+  String? light_reflection_right_7 = '';
+  String? light_reflection_left_7 = '';
+  String? body_temperature_7 = '';
+  String? facial_features_7 = '';
+  String? bleeding_7 = '';
+  List<String> incontinence_7 = [];
+  String? vomiting_7 = '';
+  String? limb_7 = '';
+
+
 
   List<dynamic> databaseList = [];
   DatabasesResponse? _databasesResponse;
@@ -661,6 +684,137 @@ onConfirmArrivalOnSite(DateTime date) {
     this.others = itemSelected ?? '';
     notifyListeners();
   }
+
+
+
+
+  //layout 7
+  onConfirmObservationTime7(DateTime date) {
+    this.observation_time_7 = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+
+  onChangeReportObservationTimeExplanation7(String? itemSelected) {
+    this.report_observation_time_explanation_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onChangeJcs7(String? itemSelected) {
+    this.jcs_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeGcs7(String? itemSelected) {
+    this.gcs_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBreathing7(String? itemSelected) {
+    this.breathing_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangePulse7(String? itemSelected) {
+    this.pulse_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureUp7(String? itemSelected) {
+    this.blood_pressure_up_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureLower7(String? itemSelected) {
+    this.blood_pressure_lower_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2Percent7(String? itemSelected) {
+    this.spo2_percent_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2L7(String? itemSelected) {
+    this.spo2_l_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeRightPupil7(String? itemSelected) {
+    this.right_pupil_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeLeftPupil7(String? itemSelected) {
+    this.left_pupil_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onSelectLightReflectionRight7(String? itemSelected) {
+    this.light_reflection_right_7 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onSelectLightReflectionLeft7(String? itemSelected) {
+    this.light_reflection_left_7 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeBodyTemperature7(String? itemSelected) {
+    this.body_temperature_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectFacialFeatures7(String? itemSelected) {
+    this.facial_features_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBleeding7(String? itemSelected) {
+    this.bleeding_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectVomiting7(String? itemSelected) {
+    this.vomiting_7 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeLimb7(String? itemSelected) {
+    this.limb_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectIncontinence7(List<String> checkeds) {
+    this.incontinence_7 = checkeds ?? [];
+    notifyListeners();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
