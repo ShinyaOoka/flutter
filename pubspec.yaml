@@ -155,18 +155,16 @@ dependencies:
   #pdf viewer
   flutter_pdfview: ^1.2.5
 
-  flutter_html_to_pdf: ^0.7.0
+  #flutter_html_to_pdf: ^0.7.0
 
   syncfusion_flutter_pdfviewer: ^20.4.38
   syncfusion_flutter_pdf: ^20.4.38
-
-  pspdfkit_flutter: any
 
   pdf: ^3.8.4
 
   custom_pop_up_menu: ^1.2.4
 
-
+  webcontent_converter: ^0.0.8+3
 
 
 

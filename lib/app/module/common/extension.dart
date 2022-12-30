@@ -942,13 +942,13 @@ class Utils {
     return date == null  ? '' : DateFormat(format).format(date).toString();
   }
 
-  static String formatToOtherFormat(String stringDate1, String fromFormat, String toFormat) {
+  static String formatToOtherFormat(String stringInputDate, String fromFormat, String toFormat) {
     var inputFormat = DateFormat(fromFormat);
-    var date1 = inputFormat.parse(stringDate1);
+    var dateInput = inputFormat.parse(stringInputDate);
     var outputFormat = DateFormat(toFormat);
-    var date2 = outputFormat.format(date1); // 2019-08-18
-    return outputFormat.format(date1);  // "2019-08-18"
+    return outputFormat.format(dateInput);  // "2019-08-18"
   }
+
 
   static DateTime stringToDateTime(String? stringDate,{ String format = MMddyyyy}) {
     return stringDate == null  ? DateTime.now() : DateFormat(format).parse(stringDate);

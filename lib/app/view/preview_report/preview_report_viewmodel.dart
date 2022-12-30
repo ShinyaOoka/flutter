@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/app/module/common/config.dart';
@@ -10,15 +9,14 @@ import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webcontent_converter/webcontent_converter.dart';
 
 import '../../di/injection.dart';
 import '../../model/dt_report.dart';
@@ -26,7 +24,6 @@ import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/common/toast_util.dart';
 import '../../module/local_storage/shared_pref_manager.dart';
-import '../../module/network/dio_module.dart';
 import '../../module/network/response/databases_response.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
@@ -96,10 +93,22 @@ class PreviewReportViewModel extends BaseViewModel {
 
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
-    const targetFileName = "report";
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
-        fileHtmlContents, targetPath, targetFileName);
-    return generatedPdfFile.path;
+    const targetFileName = "report.pdf";
+
+    var dir = await getApplicationDocumentsDirectory();
+    var savedPath = join(dir.path, targetFileName);
+    var result = await WebcontentConverter.contentToPDF(
+     content:  fileHtmlContents,
+      savedPath: savedPath,
+      format: PaperFormat.a3,
+      margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
+    );
+
+    return result ?? '';
+
+    // final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+    //     fileHtmlContents, targetPath, targetFileName);
+    // return generatedPdfFile.path;
   }
 
   Future<void> getReports() async {
@@ -337,42 +346,142 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //40
     if (dtReport.Witnesses == 0) {
-      htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+      htmlInput = Utils.customReplace(htmlInput, '□無', 4, checkIcon + '無');
     } else {
-      htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+      htmlInput = Utils.customReplace(htmlInput, '□有', 4, checkIcon + '有');
     }
 
     //41
-    var BystanderCPRHour = DateFormat.j().format(Utils.stringToDateTime(dtReport.BystanderCPR, format: hh_mm_));
-    var BystanderCPRMinute = DateFormat.m().format(Utils.stringToDateTime(dtReport.BystanderCPR, format: hh_mm_));
-    htmlInput = htmlInput.replaceFirst('BystanderCPRHour', BystanderCPRHour.toString());
-    htmlInput = htmlInput.replaceFirst('BystanderCPRMinute', BystanderCPRMinute.toString());
+    htmlInput = htmlInput.replaceFirst('BystanderCPR', Utils.formatToOtherFormat(dtReport.BystanderCPR ?? '', hh_mm_, 'hh: mm' ));
+
 
     //42
     htmlInput = htmlInput.replaceFirst('VerbalGuidance', dtReport.VerbalGuidance ?? '');
 
+    //layout 5
+    //43
+    htmlInput = htmlInput.replaceFirst('ObservationTime1', Utils.formatToOtherFormat(dtReport.ObservationTime ?? '', hh_mm_, 'hh: mm' ) );
+    htmlInput = htmlInput.replaceFirst('ObservationTime2', Utils.formatToOtherFormat(dtReport.ObservationTime ?? '', hh_mm_, 'hh: mm' ) );
+    htmlInput = htmlInput.replaceFirst('ObservationTime3', Utils.formatToOtherFormat(dtReport.ObservationTime ?? '', hh_mm_, 'hh: mm' ) );
+
+    //44
+    htmlInput = htmlInput.replaceFirst('JCS1', dtReport.JCS ?? '');
+    htmlInput = htmlInput.replaceFirst('JCS2', dtReport.JCS ?? '');
+    htmlInput = htmlInput.replaceFirst('JCS3', dtReport.JCS ?? '');
+
+    //45
+    htmlInput = htmlInput.replaceFirst('GCS_E1', dtReport.GCSE ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_E2', dtReport.GCSE ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_E2', dtReport.GCSE ?? '');
+
+    htmlInput = htmlInput.replaceFirst('GCS_V1', dtReport.GCSV ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_V2', dtReport.GCSV ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_V2', dtReport.GCSV ?? '');
+
+    htmlInput = htmlInput.replaceFirst('GCS_M1', dtReport.GCSM ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_M2', dtReport.GCSM ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_M2', dtReport.GCSM ?? '');
+
+    //46
+    htmlInput = htmlInput.replaceFirst('Respiration1', dtReport.Respiration ?? '');
+    htmlInput = htmlInput.replaceFirst('Respiration2', dtReport.Respiration ?? '');
+    htmlInput = htmlInput.replaceFirst('Respiration3', dtReport.Respiration ?? '');
+
+    //47
+    htmlInput = htmlInput.replaceFirst('Pulse1', dtReport.Pulse.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('Pulse2', dtReport.Pulse.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('Pulse3', dtReport.Pulse.toString() ?? '');
+
+    //48
+    htmlInput = htmlInput.replaceFirst('BloodPressure_High1', dtReport.BloodPressureHigh.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BloodPressure_High2', dtReport.BloodPressureHigh.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BloodPressure_High3', dtReport.BloodPressureHigh.toString() ?? '');
+
+    //49
+    htmlInput = htmlInput.replaceFirst('BloodPressure_Low1', dtReport.BloodPressureLow.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BloodPressure_Low2', dtReport.BloodPressureLow.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BloodPressure_Low3', dtReport.BloodPressureLow.toString() ?? '');
+
+    //50
+    htmlInput = htmlInput.replaceFirst('SpO2Percent1', dtReport.SpO2Percent.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SpO2Percent2', dtReport.SpO2Percent.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SpO2Percent3', dtReport.SpO2Percent.toString() ?? '');
+
+    //51
+    htmlInput = htmlInput.replaceFirst('SpO2Liter1', dtReport.SpO2Liter.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SpO2Liter2', dtReport.SpO2Liter.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SpO2Liter3', dtReport.SpO2Liter.toString() ?? '');
+
+    //52
+    htmlInput = htmlInput.replaceFirst('PupilRight1', dtReport.PupilRight.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PupilRight2', dtReport.PupilRight.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PupilRight3', dtReport.PupilRight.toString() ?? '');
+
+
+    //53
+    htmlInput = htmlInput.replaceFirst('PupilLeft1', dtReport.PupilLeft.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PupilLeft2', dtReport.PupilLeft.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PupilLeft3', dtReport.PupilLeft.toString() ?? '');
+
+    //
+    // //54
+    // if (dtReport.Witnesses == 0) {
+    //   htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    // } else {
+    //   htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    // }
+
+    //
+    // //55
+    // if (dtReport.Witnesses == 0) {
+    //   htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    // } else {
+    //   htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    // }
 
 
 
-    /*htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
+    //56
+    htmlInput = htmlInput.replaceFirst('BodyTemperature1', dtReport.BodyTemperature.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BodyTemperature2', dtReport.BodyTemperature.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('BodyTemperature3', dtReport.BodyTemperature.toString() ?? '');
+
+    //
+    // //57
+    // if (dtReport.Witnesses == 0) {
+    //   htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    // } else {
+    //   htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    // }
 
 
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');*/
+
+    //58
+    htmlInput = htmlInput.replaceFirst('Hemorrhage1', dtReport.Hemorrhage.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('Hemorrhage2', dtReport.Hemorrhage.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('Hemorrhage3', dtReport.Hemorrhage.toString() ?? '');
+
+    //
+    // //59
+    // if (dtReport.Witnesses == 0) {
+    //   htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    // } else {
+    //   htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    // }
+
+    //
+    // //60
+    // if (dtReport.Witnesses == 0) {
+    //   htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    // } else {
+    //   htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    // }
+
+    //61
+    htmlInput = htmlInput.replaceFirst('Extremities1', dtReport.Extremities ?? '');
+    htmlInput = htmlInput.replaceFirst('Extremities2', dtReport.Extremities ?? '');
+    htmlInput = htmlInput.replaceFirst('Extremities3', dtReport.Extremities ?? '');
+
 
     return htmlInput;
   }

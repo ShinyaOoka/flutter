@@ -377,13 +377,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
-  flutter_html_to_pdf:
-    dependency: "direct main"
-    description:
-      name: flutter_html_to_pdf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -646,13 +639,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  mockito:
-    dependency: transitive
-    description:
-      name: mockito
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.3.2"
   nested:
     dependency: transitive
     description:
@@ -870,13 +856,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.5"
-  pspdfkit_flutter:
-    dependency: "direct main"
-    description:
-      name: pspdfkit_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.4.1"
   pub_semver:
     dependency: transitive
     description:
@@ -898,6 +877,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  puppeteer:
+    dependency: transitive
+    description:
+      name: puppeteer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.20.0"
   qr:
     dependency: transitive
     description:
@@ -932,7 +918,7 @@ packages:
       name: screenshot
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.3.0"
   search_choices:
     dependency: "direct main"
     description:
@@ -1295,6 +1281,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  webcontent_converter:
+    dependency: "direct main"
+    description:
+      name: webcontent_converter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.8+3"
   webview_flutter:
     dependency: "direct main"
     description:
@@ -1353,4 +1346,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.0 <3.0.0"
-  flutter: ">=3.3.5"
+  flutter: ">=3.3.0"

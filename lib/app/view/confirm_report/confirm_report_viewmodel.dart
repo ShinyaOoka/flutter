@@ -12,7 +12,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -84,8 +83,8 @@ class ConfirmReportViewModel extends BaseViewModel {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
     const targetFileName = "report";
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
-    return generatedPdfFile.path;
+    //final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    return '';
   }
 
 
