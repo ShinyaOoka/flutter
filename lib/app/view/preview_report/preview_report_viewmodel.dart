@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
 import 'package:ak_azm_flutter/app/module/form_report/injured_person_transport_certificate_atribute_name.dart';
@@ -30,7 +31,6 @@ import '../../module/network/response/databases_response.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
 
-
 class PreviewReportViewModel extends BaseViewModel {
   late String assetFile;
   late String pdfName = '';
@@ -40,7 +40,10 @@ class PreviewReportViewModel extends BaseViewModel {
   DBHelper dbHelper = getIt<DBHelper>();
   final serverFC = FocusNode();
   final portFC = FocusNode();
-  List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
+  List<String> yesNothings = [
+    LocaleKeys.yes_dropdown.tr(),
+    LocaleKeys.nothing.tr()
+  ];
   bool isExpandQualification = false;
   bool isExpandRide = false;
   String? emt_qualification;
@@ -78,17 +81,12 @@ class PreviewReportViewModel extends BaseViewModel {
 
   String generatedPdfFilePath = '';
 
-
-
   Future<void> initData() async {
     await getReports();
     generatedPdfFilePath = await generateExampleDocument(assetFile ?? '');
     print('Test: $generatedPdfFilePath');
     notifyListeners();
-
-
   }
-
 
   Future<String> generateExampleDocument(String assetFile) async {
     var fileHtmlContents = await rootBundle.loadString(assetFile);
@@ -99,7 +97,8 @@ class PreviewReportViewModel extends BaseViewModel {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
     const targetFileName = "report";
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
+        fileHtmlContents, targetPath, targetFileName);
     return generatedPdfFile.path;
   }
 
@@ -108,60 +107,249 @@ class PreviewReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-
-  Future<String> formatDataToForm(DTReport dtReport, String htmlInput) async{
+  Future<String> formatDataToForm(DTReport dtReport, String htmlInput) async {
     //fill yyyy mm dd
     var y = DateFormat.y().format(DateTime.now());
     var m = DateFormat.M().format(DateTime.now());
     var d = DateFormat.d().format(DateTime.now());
     //1
-    htmlInput = htmlInput.replaceFirst('YYYY', y).replaceFirst('MM', m).replaceFirst('DD', d);
+    htmlInput = htmlInput
+        .replaceFirst('YYYY', y)
+        .replaceFirst('MM', m)
+        .replaceFirst('DD', d);
     //2
-    htmlInput = htmlInput.replaceFirst('救急隊', dtReport.TeamName.toString() + ' 救急隊');
+    htmlInput = htmlInput.replaceFirst('TeamName', dtReport.TeamName ?? '');
     //3
-    htmlInput = htmlInput.replaceFirst('隊長氏名', '隊長氏名' + ' ' + dtReport.TeamCaptainName.toString());
+    htmlInput = htmlInput.replaceFirst(
+        'TeamCaptainName', dtReport.TeamCaptainName ?? '');
     //4
-    if(dtReport.LifesaverQualification == 1){
-      htmlInput = Utils.customReplace(htmlInput, '□有', 1, checkIcon +'有');
+    if (dtReport.LifesaverQualification == 1) {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 1, checkIcon + '有');
     } else {
-      htmlInput = Utils.customReplace(htmlInput, '□無', 1, checkIcon +'無');
+      htmlInput = Utils.customReplace(htmlInput, '□無', 1, checkIcon + '無');
     }
 
     //5
-    if(dtReport.WithLifeSavers == 1){
-      htmlInput = Utils.customReplace(htmlInput, '□有', 2, checkIcon +'有');
+    if (dtReport.WithLifeSavers == 1) {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 2, checkIcon + '有');
     } else {
-      htmlInput = Utils.customReplace(htmlInput, '□無', 2, checkIcon +'無');
+      htmlInput = Utils.customReplace(htmlInput, '□無', 2, checkIcon + '無');
     }
 
     //6
-    htmlInput = htmlInput.replaceFirst('救急隊TEL', '救急隊TEL' + '  ' + dtReport.TeamTEL.toString());
-
+    htmlInput = htmlInput.replaceFirst('TeamTEL', dtReport.TeamTEL ?? '');
 
     //7
-    htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress.toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonAddress', dtReport.SickInjuredPersonAddress ?? '');
     //8
-    if(dtReport.SickInjuredPersonGender	 == '男性'){
-      htmlInput = Utils.customReplace(htmlInput, '□ 男', 1, checkIcon +' 男');
-    } else if(dtReport.SickInjuredPersonGender	 == '女性') {
-      htmlInput = Utils.customReplace(htmlInput, '□ 女', 1, checkIcon +' 女');
+    if (dtReport.SickInjuredPersonGender == '男性') {
+      htmlInput =  htmlInput.replaceFirst('□　男', checkIcon + '　男');
+    } else if (dtReport.SickInjuredPersonGender == '女性') {
+      htmlInput = htmlInput.replaceFirst('□　女', checkIcon + '　女');
     }
 
     //9
-    htmlInput = Utils.customReplace(htmlInput, '年', 2, dtReport.SickInjuredPersonBirthDate.toString());
-    htmlInput = Utils.customReplace(htmlInput, '月', 2,  '');
-    htmlInput = Utils.customReplace(htmlInput, '日', 2,  '');
+    var SickInjuredPersonBirthDateYear = DateFormat.y().format(
+        Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate,
+            format: yyyy_MM_dd_));
+    var SickInjuredPersonBirthDateMonth = DateFormat.M().format(
+        Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate,
+            format: yyyy_MM_dd_));
+    var SickInjuredPersonBirthDateDay = DateFormat.d().format(
+        Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate,
+            format: yyyy_MM_dd_));
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateYear',
+        SickInjuredPersonBirthDateYear.toString());
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateMonth',
+        SickInjuredPersonBirthDateMonth.toString());
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay',
+        SickInjuredPersonBirthDateDay.toString());
 
     //10
-    htmlInput = Utils.customReplace(htmlInput, '歳', 1,  '歳 ' + Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate)).toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonAge',
+        Utils.calculateAge(
+                Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_))
+            .toString());
+
     //11
-    htmlInput = Utils.customReplace(htmlInput, 'フリガナ', 1,  'フリガナ ' + dtReport.SickInjuredPersonKANA.toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonKANA', dtReport.SickInjuredPersonKANA ?? '');
+
     //12
-    htmlInput = Utils.customReplace(htmlInput, '氏名', 1,  '氏名 ' + dtReport.SickInjuredPersonName.toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonName', dtReport.SickInjuredPersonName ?? '');
+
     //13
-    htmlInput = Utils.customReplace(htmlInput, 'TEL', 1,  'TEL ' + dtReport.SickInjuredPersonTEL.toString());
+    List<String> SickInjuredPersonTELs =
+        Utils.split4CharPhone(dtReport.SickInjuredPersonTEL.toString().trim());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonTELFirst', SickInjuredPersonTELs[0].toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonTELMiddle', SickInjuredPersonTELs[1].toString());
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonTELLast', SickInjuredPersonTELs[2].toString());
+
+    //14
+    List<String> SickInjuredPersonFamilyTELs = Utils.split4CharPhone(
+        dtReport.SickInjuredPersonFamilyTEL.toString().trim());
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELFirst',
+        SickInjuredPersonFamilyTELs[0].toString());
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELMiddle',
+        SickInjuredPersonFamilyTELs[1].toString());
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELLast',
+        SickInjuredPersonFamilyTELs[2].toString());
+
+    //15
+    if (dtReport.SickInjuredPersonMedicalHistroy == null) {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 3, checkIcon + '無');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 3, checkIcon + '有');
+    }
+
+    //16
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonMedicalHistroy',
+        dtReport.SickInjuredPersonMedicalHistroy ?? '');
+
+    //17
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonHistoryHospital',
+        dtReport.SickInjuredPersonHistoryHospital ?? '');
+
+    //18
+    if (dtReport.SickInjuredPersonKakaritsuke == null) {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 4, checkIcon + '無');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 4, checkIcon + '有');
+    }
+
+    //19
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonKakaritsuke',
+        dtReport.SickInjuredPersonKakaritsuke ?? '');
+
+    //20
+    if (dtReport.SickInjuredPersonMedication == '無') {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 5, checkIcon + '無');
+    } else if (dtReport.SickInjuredPersonMedication == '有') {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 5, checkIcon + '有');
+    } else {
+      htmlInput = htmlInput.replaceFirst('□手帳', checkIcon + '手帳');
+    }
+
+    //21
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonMedicationDetail',
+        dtReport.SickInjuredPersonMedicationDetail ?? '');
+
+    //22
+    if (dtReport.SickInjuredPersonAllergy == null) {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 5, checkIcon + '無');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 5, checkIcon + '有');
+    }
+
+    //23
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonAllergy', dtReport.SickInjuredPersonAllergy ?? '');
+
+    //24
+    if (dtReport.TypeOfAccident == '000') {
+      htmlInput = htmlInput.replaceFirst('□急病', checkIcon + '急病');
+    } else if (dtReport.TypeOfAccident == '001') {
+      htmlInput = htmlInput.replaceFirst('□交通', checkIcon + '交通');
+    } else if (dtReport.TypeOfAccident == '002') {
+      htmlInput = htmlInput.replaceFirst('□一般', checkIcon + '一般');
+    } else if (dtReport.TypeOfAccident == '003') {
+      htmlInput = htmlInput.replaceFirst('□労災', checkIcon + '労災');
+    } else if (dtReport.TypeOfAccident == '004') {
+      htmlInput = htmlInput.replaceFirst('□自損', checkIcon + '自損');
+    } else if (dtReport.TypeOfAccident == '005') {
+      htmlInput = htmlInput.replaceFirst('□運動', checkIcon + '運動');
+    } else if (dtReport.TypeOfAccident == '006') {
+      htmlInput = htmlInput.replaceFirst('□転院', checkIcon + '転院');
+    } else {
+      htmlInput = htmlInput.replaceFirst('□その他', checkIcon + 'その他');
+    }
+
+    //25
+    var DateOfOccurrenceYear = DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    var DateOfOccurrenceMonth = DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    var DateOfOccurrenceDay = DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    var TimeOfOccurrenceHour = DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_));
+    var TimeOfOccurrenceMinute = DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_));
+    htmlInput = htmlInput.replaceFirst('DateOfOccurrenceYear', DateOfOccurrenceYear.toString());
+    htmlInput = htmlInput.replaceFirst('DateOfOccurrenceMonth', DateOfOccurrenceMonth.toString());
+    htmlInput = htmlInput.replaceFirst('DateOfOccurrenceDay', DateOfOccurrenceDay.toString());
+    htmlInput = htmlInput.replaceFirst('TimeOfOccurrenceHour', TimeOfOccurrenceHour.toString());
+    htmlInput = htmlInput.replaceFirst('TimeOfOccurrenceMinute', TimeOfOccurrenceMinute.toString());
+
+    //26
+    htmlInput = htmlInput.replaceFirst('PlaceOfIncident', dtReport.PlaceOfIncident ?? '');
+
+    //27
+    htmlInput = htmlInput.replaceFirst('AccidentSummary', dtReport.AccidentSummary ?? '');
 
 
+    //28
+    if (dtReport.ADL == '000') {
+      htmlInput = htmlInput.replaceFirst('□自立', checkIcon + '自立');
+    } else if (dtReport.ADL == '001') {
+      htmlInput = htmlInput.replaceFirst('□全介助', checkIcon + '全介助');
+    } else {
+      htmlInput = htmlInput.replaceFirst('□部分介助', checkIcon + '部分介助');
+    }
+
+    //      "06時30分",
+
+    //29
+    htmlInput = htmlInput.replaceFirst('SenseTime', Utils.formatToOtherFormat(dtReport.SenseTime ?? '', hh_mm_, 'hh: mm' ) );
+    //30
+    htmlInput = htmlInput.replaceFirst('CommandTime', Utils.formatToOtherFormat(dtReport.CommandTime ?? '', hh_mm_, 'hh: mm' ) );
+    //31
+    htmlInput = htmlInput.replaceFirst('AttendanceTime', Utils.formatToOtherFormat(dtReport.AttendanceTime ?? '', hh_mm_, 'hh: mm' ) );
+    //32
+    htmlInput = htmlInput.replaceFirst('On-siteArrivalTime', Utils.formatToOtherFormat(dtReport.OnsiteArrivalTime ?? '', hh_mm_, 'hh: mm' ) );
+    //33
+    htmlInput = htmlInput.replaceFirst('ContactTime', Utils.formatToOtherFormat(dtReport.ContactTime ?? '', hh_mm_, 'hh: mm' ) );
+    //34
+    htmlInput = htmlInput.replaceFirst('In-vehicleTime', Utils.formatToOtherFormat(dtReport.InvehicleTime ?? '', hh_mm_, 'hh: mm' ) );
+    //35
+    htmlInput = htmlInput.replaceFirst('StartOfTransportTime', Utils.formatToOtherFormat(dtReport.StartOfTransportTime ?? '', hh_mm_, 'hh: mm' ) );
+    //36
+    htmlInput = htmlInput.replaceFirst('HospitalArrivalTime', Utils.formatToOtherFormat(dtReport.HospitalArrivalTime ?? '', hh_mm_, 'hh: mm' ) );
+    //37
+    htmlInput = htmlInput.replaceFirst('FamilyContactTime', Utils.formatToOtherFormat(dtReport.FamilyContactTime ?? '', hh_mm_, 'hh: mm' ) );
+    //38
+    htmlInput = htmlInput.replaceFirst('PoliceContactTime', Utils.formatToOtherFormat(dtReport.PoliceContactTime ?? '', hh_mm_, 'hh: mm' ) );
+
+
+    //39
+    if (dtReport.TypeOfAccident == '000') {
+      htmlInput = htmlInput.replaceFirst('□シートベルト', checkIcon + 'シートベルト');
+    } else if (dtReport.TypeOfAccident == '001') {
+      htmlInput = htmlInput.replaceFirst('□エアバック', checkIcon + 'エアバック');
+    } else if (dtReport.TypeOfAccident == '002') {
+      htmlInput = htmlInput.replaceFirst('□不明', checkIcon + '不明');
+    } else if (dtReport.TypeOfAccident == '003') {
+      htmlInput = htmlInput.replaceFirst('□チャイルドシート', checkIcon + 'チャイルドシート');
+    }  else {
+      htmlInput = htmlInput.replaceFirst('□ヘルメット', checkIcon + 'ヘルメット');
+    }
+
+    //40
+    if (dtReport.Witnesses == 0) {
+      htmlInput = Utils.customReplace(htmlInput, '□無', 7, checkIcon + '無');
+    } else {
+      htmlInput = Utils.customReplace(htmlInput, '□有', 7, checkIcon + '有');
+    }
+
+    //41
+    var BystanderCPRHour = DateFormat.j().format(Utils.stringToDateTime(dtReport.BystanderCPR, format: hh_mm_));
+    var BystanderCPRMinute = DateFormat.m().format(Utils.stringToDateTime(dtReport.BystanderCPR, format: hh_mm_));
+    htmlInput = htmlInput.replaceFirst('BystanderCPRHour', BystanderCPRHour.toString());
+    htmlInput = htmlInput.replaceFirst('BystanderCPRMinute', BystanderCPRMinute.toString());
+
+    //42
+    htmlInput = htmlInput.replaceFirst('VerbalGuidance', dtReport.VerbalGuidance ?? '');
 
 
 
@@ -186,15 +374,8 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');
     htmlInput = htmlInput.replaceFirst('住所', '住所' + '  ' + dtReport.SickInjuredPersonAddress ?? '');*/
 
-
-
-
-
     return htmlInput;
   }
-
-
-
 
   bool get validate =>
       (server.isNotEmpty &&
@@ -239,11 +420,8 @@ class PreviewReportViewModel extends BaseViewModel {
         : null;
   }
 
-
-
   void submit() async {
     removeFocus(_navigationService.navigatorKey.currentContext!);
-
   }
 
   //check is server = call api get database
@@ -265,16 +443,16 @@ class PreviewReportViewModel extends BaseViewModel {
           ));*/
         }
       } catch (e) {
-        SnackBarUtil.showSnack(title: LocaleKeys.something_is_not_right.tr(), message: LocaleKeys.please_check_your_url.tr(), snackType: SnackType.ERROR);
+        SnackBarUtil.showSnack(
+            title: LocaleKeys.something_is_not_right.tr(),
+            message: LocaleKeys.please_check_your_url.tr(),
+            snackType: SnackType.ERROR);
       } finally {
         notifyListeners();
       }
     });
     addSubscription(subscript);
   }
-
-
-
 
   void openSignIn() {
     getDatabasesApi();

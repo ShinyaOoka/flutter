@@ -942,6 +942,14 @@ class Utils {
     return date == null  ? '' : DateFormat(format).format(date).toString();
   }
 
+  static String formatToOtherFormat(String stringDate1, String fromFormat, String toFormat) {
+    var inputFormat = DateFormat(fromFormat);
+    var date1 = inputFormat.parse(stringDate1);
+    var outputFormat = DateFormat(toFormat);
+    var date2 = outputFormat.format(date1); // 2019-08-18
+    return outputFormat.format(date1);  // "2019-08-18"
+  }
+
   static DateTime stringToDateTime(String? stringDate,{ String format = MMddyyyy}) {
     return stringDate == null  ? DateTime.now() : DateFormat(format).parse(stringDate);
   }
@@ -951,7 +959,24 @@ class Utils {
     Match result = searchText.allMatches(text).elementAt(replaceOn - 1);
     return text.replaceRange(result.start,result.end,replaceText);
   }
+
+  static List<String> split4CharPhone(String text){
+    var tempTEL = text.replaceAllMapped(RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
+    List<String> temTELs = tempTEL.split(' ');
+    if(temTELs.length < 2) {
+      temTELs.add('');
+      temTELs.add('');
+    }
+    if(temTELs.length < 3){
+      temTELs.add('');
+    }
+    return temTELs;
+  }
+
+
 }
+
+
 
 typedef PrintFunctionCallback = void Function(
     String prefix,
