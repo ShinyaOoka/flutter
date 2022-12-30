@@ -1,5 +1,5 @@
 name: ak_azm_flutter
-description: Business Suite Mobile Pos
+description: Ak AZM Flutter
 
 publish_to: 'none'
 
@@ -13,9 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  # drawer
-  flutter_slider_drawer: ^2.1.1
   # app icon
   flutter_launcher_icons: ^0.9.2
 
@@ -48,10 +45,7 @@ dependencies:
   fluttertoast: ^8.0.8
   flutter_svg: ^0.23.0+1
   bouncing_widget: ^2.0.0
-  roundcheckbox: ^2.0.4
-  flutter_staggered_grid_view: ^0.6.1
-  expandable: ^5.0.1
-  custom_radio_grouped_button: ^2.1.2
+
   #multi adapting screen and font size
   flutter_screenutil: ^5.0.0+2
   intl: ^0.17.0
@@ -59,15 +53,10 @@ dependencies:
   jiffy: ^4.1.0
   flutter_spinkit: ^5.1.0
   page_transition: ^2.0.4
-  webview_flutter: ^2.1.1
-  transparent_image: ^2.0.0
+
 
   #For Local Storage
   shared_preferences: ^2.0.15
-
-  # Package Info
-  #device_info_plus: ^3.1.1
-  #package_info: ^2.0.2
 
   #For Permission
   permission_handler: ^9.2.0
@@ -75,18 +64,11 @@ dependencies:
   #File path
   path_provider: ^2.0.1
 
-  #For access local image
-  #image_picker: ^0.8.4+10
-
-
   #launch browser
   url_launcher: ^6.0.18
 
   #format string
   sprintf: ^6.0.0
-
-  # save widget as image
-  screenshot: ^1.2.3
 
   #Share to SNS
   share: ^2.0.4
@@ -97,34 +79,11 @@ dependencies:
   #multiple language
   easy_localization: ^3.0.1
 
-  smooth_page_indicator: ^0.3.0-nullsafety.0
+
   percent_indicator: ^3.3.0-nullsafety.1
-
-  flutter_scale_tap:
-    git: https://github.com/magicpro97/flutter_scale_tap
-  font_awesome_flutter: ^10.1.0
-
-
-  #http
-  http: ^0.13.4
-
-  #generator and check otp Google Authenticator
-  otp: ^3.1.1
-
-  #parse html
-  html: ^0.15.0
-
-  #gen SHA1, SHA256...
-  crypto: ^3.0.2
-
 
   #item action bottom sheet
   adaptive_action_sheet: ^2.0.2
-
-  responsive_framework: ^0.2.0
-
-  #validator server & port
-  string_validator: ^0.3.0
 
   #dropdown custom
   dropdown_button2: ^1.7.2
@@ -155,16 +114,8 @@ dependencies:
   #pdf viewer
   flutter_pdfview: ^1.2.5
 
-  #flutter_html_to_pdf: ^0.7.0
+  flutter_html_to_pdf: ^0.7.0
 
-  syncfusion_flutter_pdfviewer: ^20.4.38
-  syncfusion_flutter_pdf: ^20.4.38
-
-  pdf: ^3.8.4
-
-  custom_pop_up_menu: ^1.2.4
-
-  webcontent_converter: ^0.0.8+3
 
 
 

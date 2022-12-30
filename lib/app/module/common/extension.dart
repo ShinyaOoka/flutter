@@ -10,8 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
 
 import '../../../flavors.dart';
 import '../../di/injection.dart';
@@ -907,15 +905,7 @@ class Utils {
     final list = segments.map((e) => '/$e');
     return path + list.join();
   }
-  
-  
-  
-  static void getCsrtTokenWeb(String htmlWeb){
-    var document = parse(htmlWeb);
-    var inputElement = document.querySelector('[name="csrf_token"]')?.attributes['value'];
-    print("csrf_token: $inputElement");
-    getIt<UserSharePref>().saveCsrtToken(inputElement);
-  }
+
 
   void back() async {
     NavigationService().back();

@@ -9,9 +9,9 @@ import '../../di/injection.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/res/colors.dart';
 import '../../module/res/dimens.dart';
+import '../../module/res/style.dart';
 import '../../module/res/text.dart';
 import '../widget_utils/anims/touchable_opacity.dart';
-import '../../module/res/style.dart';
 
 class ErrorPage extends StatefulWidget {
   late String? message;
@@ -86,9 +86,7 @@ class _ErrorPageState extends State<ErrorPage> {
                       BouncingWidget(
                         duration: Duration(milliseconds: 100),
                         scaleFactor: 1.0,
-                        onPressed: () {
-                          _navigationService.refreshApp();
-                        },
+                        onPressed: () {},
                         child: Container(
                           width: size_150_w,
                           decoration: BoxDecoration(

@@ -10,42 +10,9 @@ final theme = ThemeData(
     elevation: 0,
     titleTextStyle: TextStyle(
       color: Colors.black,
-      fontFamily: kFSVNGilroy,
     ),
   ),
   scaffoldBackgroundColor: Colors.white,
-  textTheme: TextTheme(
-    headline4: kTSSVNGilroy.copyWith(
-      fontSize: 23.2.sp,
-      color: kCBlack38,
-    ),
-    subtitle1: kTSSVNGilroy.copyWith(
-      fontSize: 16.7.sp,
-    ),
-    headline3: kTSSVNGilroy.copyWith(
-      fontSize: 20.0.sp,
-      color: Colors.black,
-    ),
-    headline1: kTSSVNGilroy.copyWith(
-      fontWeight: FontWeight.bold,
-      fontSize: 18.0.sp,
-    ),
-    headline2: kTSSVNGilroy.copyWith(
-      fontWeight: FontWeight.w600,
-      fontSize: 16.7.sp,
-    ),
-    button: kTSSVNGilroy.copyWith(
-      fontSize: 14.0.sp,
-    ),
-    bodyText1: kTSSVNGilroy.copyWith(
-      fontSize: 16.7.sp,
-      color: Colors.black,
-    ),
-    bodyText2: kTSSVNGilroy.copyWith(
-      fontWeight: FontWeight.w500,
-      fontSize: 15.0.sp,
-    ),
-  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.white,
   ),

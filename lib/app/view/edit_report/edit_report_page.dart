@@ -18,38 +18,27 @@ class EditReportPage extends PageProvideNode<EditReportViewModel> {
 
   @override
   Widget buildContent(BuildContext context) {
-    return InputReportContent(viewModel);
+    return EditReportContent(viewModel);
   }
 }
 
-class InputReportContent extends StatefulWidget {
-  final EditReportViewModel _inputReportViewModel;
+class EditReportContent extends StatefulWidget {
+  final EditReportViewModel _editReportViewModel;
 
-  InputReportContent(this._inputReportViewModel);
+  EditReportContent(this._editReportViewModel);
 
   @override
   InputReportState createState() => InputReportState();
 }
 
-class InputReportState extends LifecycleState<InputReportContent>
+class InputReportState extends LifecycleState<EditReportContent>
     with SingleTickerProviderStateMixin {
-  EditReportViewModel get inputReportViewModel => widget._inputReportViewModel;
+  EditReportViewModel get editReportViewModel => widget._editReportViewModel;
   late AnimationController _animationController;
-  final List<Item> data = [];
 
   @override
   void initState() {
-    data.add(Item(headerValue: LocaleKeys.participation_information.tr()));
-    data.add(Item(headerValue: LocaleKeys.victim_information.tr()));
-    data.add(Item(headerValue: LocaleKeys.time_elapsed.tr()));
-    data.add(Item(headerValue: LocaleKeys.occurrence_status.tr()));
-    data.add(Item(headerValue: LocaleKeys.vital_signs_appearance_1.tr()));
-    data.add(Item(headerValue: LocaleKeys.treatment.tr()));
-    data.add(Item(headerValue: LocaleKeys.vital_signs_appearance_2.tr()));
-    data.add(Item(headerValue: LocaleKeys.vital_signs_appearance_3.tr()));
-    data.add(Item(headerValue: LocaleKeys.reporting_information.tr()));
-    data.add(Item(headerValue: LocaleKeys.delivery_information.tr()));
-    inputReportViewModel.initData();
+    editReportViewModel.initData();
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -61,8 +50,6 @@ class InputReportState extends LifecycleState<InputReportContent>
   @override
   void dispose() {
     super.dispose();
-    inputReportViewModel.serverFC.dispose();
-    inputReportViewModel.portFC.dispose();
     _animationController.dispose();
   }
 
@@ -70,7 +57,7 @@ class InputReportState extends LifecycleState<InputReportContent>
   Widget build(BuildContext context) {
     return
       WillPopScope(
-          onWillPop: () => inputReportViewModel.back(),
+          onWillPop: () => editReportViewModel.back(),
           child: BaseScaffoldSafeArea(
             customAppBar: AppBar(
               backgroundColor: kColor4472C4,
@@ -92,7 +79,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
-                onPressed: () => inputReportViewModel.back(),
+                onPressed: () => editReportViewModel.back(),
               ),
               actions: [
                 TextButton(
@@ -103,7 +90,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
                       )),
-                  onPressed: () => inputReportViewModel.openConfirmReport(),
+                  onPressed: () => editReportViewModel.openConfirmReport(),
                 ),
               ],
               automaticallyImplyLeading: false,
@@ -149,240 +136,5 @@ class InputReportState extends LifecycleState<InputReportContent>
           ));
   }
 
-  Widget _buildPanel() {
-    return ExpansionPanelListRemovePaddingTopBottom(
-      elevation: 1,
-      expandedHeaderPadding: EdgeInsets.zero,
-      dividerColor: Colors.black26,
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          data[index].isExpanded = !isExpanded;
-        });
-      },
-      children: data.map<ExpansionPanel>((Item item) {
-        int indexLayout = data.indexOf(item) + 1;
-        return indexLayout == 9 || indexLayout == 10
-            ? ExpansionPanel(
-                canTapOnHeader: true,
-                backgroundColor: kColorDEE9F6,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    title: Text('$indexLayout. ${item.headerValue}'),
-                  );
-                },
-                body: Container(
-                  padding:
-                      EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.text,
-                        maxLength: 20,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_name.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      spaceWidget,
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.phone,
-                        maxLength: 13,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_tel.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      spaceWidget,
-                      OutlineTextFormField(
-                        keyboardType: TextInputType.number,
-                        isAlwaysShowLable: true,
-                        maxLength: 20,
-                        counterWidget: unitWidget('単位名'),
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.captain_name.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      spaceWidget,
-                    ],
-                  ),
-                ),
-                isExpanded: item.isExpanded,
-              )
-            : ExpansionPanel(
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    title: Text('$indexLayout. ${item.headerValue}'),
-                  );
-                },
-                body: Container(
-                  padding:
-                      EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.text,
-                        maxLength: 20,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_name.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      spaceWidget,
-                      OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.phone,
-                        maxLength: 13,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.ambulance_tel.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      spaceWidget,
-                      OutlineTextFormField(
-                        keyboardType: TextInputType.number,
-                        isAlwaysShowLable: true,
-                        maxLength: 20,
-                        counterWidget: unitWidget('単位名'),
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.captain_name.tr(),
-                        onChanged: (value) => {},
-                      ),
-                      SizedBox(
-                        height: size_8_h,
-                      ),
-                      Consumer<EditReportViewModel>(
-                          builder: (context, value, child) {
-                        return buildDropDown(LocaleKeys.emt_qualification.tr(),
-                            value.yesNothings, value.onSelectQualification);
-                      }),
-                      spaceWidget,
-                      Consumer<EditReportViewModel>(
-                          builder: (context, value, child) {
-                        return buildDropDown(LocaleKeys.emt_ride.tr(),
-                            value.yesNothings, value.onSelectRide);
-                      }),
-                      spaceWidget,
-                      Consumer<EditReportViewModel>(
-                          builder: (context, value, child) {
-                            return buildDropDown('(報)隊員氏名',
-                                value.no7, value.onSelectRide);
-                          }),
-                      spaceWidget,
-                    ],
-                  ),
-                ),
-                isExpanded: item.isExpanded,
-              );
-      }).toList(),
-    );
-  }
-
-  final spaceWidget = SizedBox(
-    height: size_12_h,
-  );
-  final counterStyle = TextStyle(color: Colors.black);
-
-  Widget? unitWidget(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: text_10,
-        color: kColor4472C4,
-      ),
-    );
-  }
-
-  Widget buildDropDown(String label, List<String> list,
-      Function(String? itemSelected) onSelected) {
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(top: 10),
-          child: DropdownButtonFormField2(
-            decoration: InputDecoration(
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                borderSide: BorderSide(color: kColor4472C4),
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              //Add isDense true and zero Padding.
-              //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              //Add more decoration as you want here
-              //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-            ),
-            isExpanded: true,
-            icon: const Icon(
-              Icons.arrow_drop_down,
-              color: Colors.black45,
-            ),
-            iconSize: 30,
-            buttonHeight: 60,
-            buttonPadding: const EdgeInsets.only(left: 10, right: 10),
-            dropdownDecoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            items: list
-                .map(
-                  (item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: TextStyle(
-                        fontSize: text_16,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            onChanged: (String? value) => onSelected(value),
-          ),
-        ),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
-          ),
-          color: Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
-        ),
-      ],
-    );
-  }
 }
 
-// stores ExpansionPanel state information
-class Item {
-  Item({
-    required this.headerValue,
-    this.isExpanded = false,
-  });
-
-  String headerValue;
-  bool isExpanded;
-}

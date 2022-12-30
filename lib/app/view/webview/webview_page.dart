@@ -5,7 +5,6 @@ import 'package:ak_azm_flutter/app/view/widget_utils/base_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../di/injection.dart';
 import '../../model/webview_param.dart';
@@ -35,7 +34,6 @@ class _WebviewContentPage extends StatefulWidget {
 
 class _WebviewContentPageState extends State<_WebviewContentPage> {
   WebviewViewModel get webviewViewModel => widget._webviewViewModel;
-  var headers = {"Cookie": "tz=Asia/Saigon; frontend_lang=en_US; cids=1; session_id=${getIt<UserSharePref>().getAppToken()}"};
   @override
   void initState() {
     super.initState();
@@ -45,7 +43,6 @@ class _WebviewContentPageState extends State<_WebviewContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Header Webview: ${headers}');
     return BaseScaffold(
       title: webviewViewModel.webviewParam?.title ?? '',
       body: Stack(

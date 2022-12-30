@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 
 import '../../../generated/locale_keys.g.dart';
@@ -41,11 +40,8 @@ class PreviewReportContent extends StatefulWidget {
 
 class PreviewReportState extends LifecycleState<PreviewReportContent>
     with SingleTickerProviderStateMixin {
-  PreviewReportViewModel get previewReportViewModel =>
-      widget._previewReportViewModel;
-  TapDownDetails? _doubleTapDetails;
+  PreviewReportViewModel get previewReportViewModel => widget._previewReportViewModel;
   late AnimationController _animationController;
-  final pdf = pw.Document();
 
   int? pages = 0;
   int? currentPage = 0;
@@ -64,14 +60,11 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
       duration: Duration(milliseconds: 300),
       upperBound: 0.5,
     );
-    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
   void dispose() {
     super.dispose();
-    previewReportViewModel.serverFC.dispose();
-    previewReportViewModel.portFC.dispose();
     _animationController.dispose();
   }
 

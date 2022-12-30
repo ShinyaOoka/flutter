@@ -70,8 +70,6 @@ class InputReportState extends LifecycleState<InputReportContent>
   @override
   void dispose() {
     super.dispose();
-    inputReportViewModel.serverFC.dispose();
-    inputReportViewModel.portFC.dispose();
     _animationController.dispose();
   }
 

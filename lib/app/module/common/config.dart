@@ -25,6 +25,10 @@ const String ddMMyyyy = 'dd/MM/yyyy';
 const String MMddyyyy = 'MM/dd/yyyy';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String hh_mm_ = 'hh時mm分';
+const String hh_space_mm = 'hh: mm';
+const String pdfFileName = 'report';
+//css style
+const  String checkIcon = '<span class="square-black"></span>';
 
 
 

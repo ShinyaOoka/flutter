@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
-import 'package:ak_azm_flutter/app/model/init_data.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
-import 'package:ak_azm_flutter/app/module/database/data.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
 import 'package:ak_azm_flutter/app/view/confirm_report/confirm_report_page.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
@@ -17,17 +15,12 @@ import 'package:flutter/services.dart';
 
 import '../../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
-import '../../model/report.dart';
 import '../../module/common/config.dart';
-import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/local_storage/shared_pref_manager.dart';
-import '../../module/network/response/login_response.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
 import '../edit_report/edit_report_page.dart';
-import '../home/home_page.dart';
-import '../preview_report/preview_report_page.dart';
 
 class ListReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
@@ -40,20 +33,11 @@ class ListReportViewModel extends BaseViewModel {
   bool canLoadMore = false;
   LoadingState loadingState = LoadingState.LOADING;
   List<DTReport> dtReports = [];
-  List<MSClassification>  msClassifications= [];
+  List<MSClassification> msClassifications = [];
 
   final ScrollController scrollController = ScrollController();
 
   ListReportViewModel(this._dataRepo);
-
-  LoginResponse? _loginResponse;
-
-  set loginResponse(LoginResponse? loginResponse) {
-    _loginResponse = loginResponse;
-    notifyListeners();
-  }
-
-
 
   void openCreateReport() async {
     _navigationService.pushScreenWithFade(InputReportPage());
@@ -67,10 +51,9 @@ class ListReportViewModel extends BaseViewModel {
     _navigationService.pushScreenWithFade(ConfirmReportPage());
   }
 
-  LoginResponse? get loginResponse => _loginResponse;
-
   Future<void> getAllMSClassification() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSClassification) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSClassification) ?? [];
     msClassifications = datas.map((e) => MSClassification.fromJson(e)).toList();
     notifyListeners();
   }
@@ -100,20 +83,6 @@ class ListReportViewModel extends BaseViewModel {
     if (thresholdReached) {
       // Load more!
     }
-  }
-
-  void openAuthenticationPage() async {
-    // _navigationService.pushReplacementScreenWithSlideRightIn(AuthenticationPage());
-  }
-
-  void openHomePage() async {
-    _navigationService.pushReplacementScreenWithSlideRightIn(HomePage());
-  }
-
-  void openSignInPage() async {
-    removeFocus(_navigationService.navigatorKey.currentContext!);
-    //clear data login config
-    // _navigationService.pushScreenWithFade(InputServerPortPage());
   }
 
   bool doubleBackToExit = false;
