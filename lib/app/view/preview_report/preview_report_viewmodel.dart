@@ -57,7 +57,7 @@ class PreviewReportViewModel extends BaseViewModel {
     var fileHtmlContents = await rootBundle.loadString(assetFile);
 
     //format data from db to html file
-    fileHtmlContents = await formatDataToForm(dtReports[0], fileHtmlContents);
+    fileHtmlContents = await fetchDataToReportForm(dtReports[0], fileHtmlContents);
 
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
@@ -71,12 +71,19 @@ class PreviewReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<String> formatDataToForm(DTReport dtReport, String htmlInput) async {
+  String fetchDataToReportForm(DTReport dtReport, String htmlInput) {
     var totalYesPos = 0;
     var totalNoPos = 0;
     var totalYesDotNoPos = 0;
     var totalYesUrineFecesNoPos = 0;
     var totalYesSpaceNoPos = 0;
+
+    //replace □ => <span class="square"></span>
+    htmlInput = htmlInput.replaceAll('□', '<span class="square"></span>');
+
+    //add style
+    htmlInput = htmlInput.replaceAll('</style>', styleCSSMore + '</style>');
+
 
     //fill yyyy mm dd
     var y = DateFormat.y().format(DateTime.now());
@@ -935,4 +942,5 @@ class PreviewReportViewModel extends BaseViewModel {
 
     return htmlInput;
   }
+
 }

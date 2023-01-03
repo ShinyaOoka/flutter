@@ -40,7 +40,7 @@ void main() async {
       designSize: ScreenUtil.defaultSize,
       builder: (BuildContext context, Widget? child) => EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
-              path: 'assets/translations', // <-- change the path of the translation files
+              path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
               child: const App(),
       ),

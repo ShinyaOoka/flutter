@@ -1,31 +1,21 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/app/module/common/config.dart';
-import 'package:ak_azm_flutter/app/module/common/snack_bar_util.dart';
 import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
-import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../di/injection.dart';
-import '../../module/common/extension.dart';
 import '../../module/common/navigator_screen.dart';
 import '../../module/common/toast_util.dart';
 import '../../module/local_storage/shared_pref_manager.dart';
-import '../../module/network/dio_module.dart';
 import '../../module/repository/data_repository.dart';
 import '../../viewmodel/base_viewmodel.dart';
-
 
 class ConfirmReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
@@ -45,13 +35,13 @@ class ConfirmReportViewModel extends BaseViewModel {
     _navigationService.pushScreenWithFade(EditReportPage());
   }
 
-
   ConfirmReportViewModel(this._dataRepo);
 
   String generatedPdfFilePath = '';
 
   Future<void> initData() async {
-    generatedPdfFilePath = await generateExampleDocument(assetInjuredPersonTransportCertificate);
+    generatedPdfFilePath =
+        await generateExampleDocument(assetInjuredPersonTransportCertificate);
     notifyListeners();
   }
 
@@ -64,7 +54,6 @@ class ConfirmReportViewModel extends BaseViewModel {
         fileHtmlContents, targetPath, pdfFileName);
     return generatedPdfFile.path;
   }
-
 
   bool doubleBackToExit = false;
 
