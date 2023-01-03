@@ -177,8 +177,10 @@ const String CREATE_TABLE_MSClassification = '''CREATE TABLE $tableMSClassificat
       );''';
 
 
+//Upgrade
 //drop table DTReport
 const String DROP_TABLE_DTReport = '''DROP TABLE IF EXISTS $tableDTReport;''';
+const String DROP_TABLE_MSClassification = '''DROP TABLE IF EXISTS $tableMSClassification;''';
 
 
 //DT Report Table

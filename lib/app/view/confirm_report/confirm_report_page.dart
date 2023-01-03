@@ -25,9 +25,9 @@ class ConfirmReportPage extends PageProvideNode<ConfirmReportViewModel> {
 }
 
 class ConfirmReportContent extends StatefulWidget {
-  final ConfirmReportViewModel _previewReportViewModel;
+  final ConfirmReportViewModel _confirmReportViewModel;
 
-  ConfirmReportContent(this._previewReportViewModel);
+  ConfirmReportContent(this._confirmReportViewModel);
 
   @override
   ConfirmReportState createState() => ConfirmReportState();
@@ -35,9 +35,8 @@ class ConfirmReportContent extends StatefulWidget {
 
 class ConfirmReportState extends LifecycleState<ConfirmReportContent>
     with SingleTickerProviderStateMixin {
-  ConfirmReportViewModel get previewReportViewModel =>
-      widget._previewReportViewModel;
-  TapDownDetails? _doubleTapDetails;
+  ConfirmReportViewModel get confirmReportViewModel =>
+      widget._confirmReportViewModel;
   late AnimationController _animationController;
 
   int? pages = 0;
@@ -50,14 +49,13 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
 
   @override
   void initState() {
-    previewReportViewModel.initData();
+    confirmReportViewModel.initData();
     super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
       upperBound: 0.5,
     );
-    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -69,7 +67,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () => previewReportViewModel.back(),
+        onWillPop: () => confirmReportViewModel.back(),
         child: BaseScaffoldSafeArea(
           customAppBar: AppBar(
             backgroundColor: kColor4472C4,
@@ -78,7 +76,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
               LocaleKeys.report_confirmation.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -87,11 +85,11 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
               child: Text(LocaleKeys.back_report.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: text_16,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
-              onPressed: () => previewReportViewModel.back(),
+              onPressed: () => confirmReportViewModel.back(),
             ),
             actions: [
               PopupMenuButton<int>(
@@ -114,9 +112,9 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
                 ],
                 onSelected: (value) => {
                   if (value == 1)
-                    {previewReportViewModel.openEditReport()}
+                    {confirmReportViewModel.openEditReport()}
                   else
-                    {previewReportViewModel.openSendReport()}
+                    {confirmReportViewModel.openSendReport()}
                 },
                 offset: const Offset(0, 56),
                 shape: const RoundedRectangleBorder(
@@ -138,7 +136,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
             automaticallyImplyLeading: false,
           ),
           transparentStatusBar: 0.0,
-          title: LocaleKeys.server_config.tr(),
+          title: '',
           hideBackButton: false,
           body: Consumer<ConfirmReportViewModel>(
               builder: (context, value, child) {

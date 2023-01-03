@@ -1,19 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-
-import '../../../flavors.dart';
-import '../../../generated/locale_keys.g.dart';
-import '../../view/error/error_page.dart';
-import '../../view/widget_utils/dialog/dialog_general_two_action.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
-  int currentHomeIndex = -1;
-  int allNotificationTabIndexFromPush = -1;
-  int myPageGameTitileIdFromPush = -1;
-  String myPageTypeFromPush = "player";
 
   BuildContext get context => navigatorKey.currentContext!;
 
@@ -99,31 +89,7 @@ class NavigationService {
     );
   }
 
-  openErrorPage({String? title, String? message}) {
-    pushAndRemoveUntilWithFade(ErrorPage(
-      title: title,
-      message: message,
-    ));
-  }
-
   back() {
-    navigatorKey.currentState?.pop();
-  }
-
-  void signOut() {
-    showDialog(
-        context: navigatorKey.currentContext!,
-        builder: (BuildContext context) {
-          return DialogGeneralTwoAction(
-            title: F.title,
-            message: LocaleKeys.do_you_want_to_log_out.tr(),
-            textOk: LocaleKeys.log_out.tr(),
-            onOkClick: () {},
-          );
-        });
-  }
-
-  dimiss() {
     navigatorKey.currentState?.pop();
   }
 }

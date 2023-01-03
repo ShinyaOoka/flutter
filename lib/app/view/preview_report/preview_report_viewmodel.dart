@@ -49,7 +49,6 @@ class PreviewReportViewModel extends BaseViewModel {
   Future<void> initData() async {
     await getReports();
     generatedPdfFilePath = await generateExampleDocument(assetFile ?? '');
-    print('Test: $generatedPdfFilePath');
     notifyListeners();
   }
 
@@ -57,7 +56,8 @@ class PreviewReportViewModel extends BaseViewModel {
     var fileHtmlContents = await rootBundle.loadString(assetFile);
 
     //format data from db to html file
-    fileHtmlContents = await fetchDataToReportForm(dtReports[0], fileHtmlContents);
+    fileHtmlContents =
+        await fetchDataToReportForm(dtReports[0], fileHtmlContents);
 
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
@@ -83,7 +83,6 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //add style
     htmlInput = htmlInput.replaceAll('</style>', styleCSSMore + '</style>');
-
 
     //fill yyyy mm dd
     var y = DateFormat.y().format(DateTime.now());
@@ -942,5 +941,4 @@ class PreviewReportViewModel extends BaseViewModel {
 
     return htmlInput;
   }
-
 }

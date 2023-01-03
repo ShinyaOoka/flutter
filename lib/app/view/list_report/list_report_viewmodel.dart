@@ -3,17 +3,14 @@ import 'dart:io';
 
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
-import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
 import 'package:ak_azm_flutter/app/view/confirm_report/confirm_report_page.dart';
 import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../generated/locale_keys.g.dart';
 import '../../di/injection.dart';
 import '../../module/common/config.dart';
 import '../../module/common/navigator_screen.dart';
@@ -97,7 +94,7 @@ class ListReportViewModel extends BaseViewModel {
       return true;
     }
     doubleBackToExit = true;
-    ToastUtil.showToast(LocaleKeys.press_the_back_button_to_exit.tr());
+    //ToastUtil.showToast(LocaleKeys.press_the_back_button_to_exit.tr());
     Future.delayed(Duration(seconds: 2), () {
       doubleBackToExit = false;
     });

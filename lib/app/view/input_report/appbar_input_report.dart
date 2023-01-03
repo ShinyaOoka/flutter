@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/module/res/text.dart';
 import 'package:flutter/material.dart';
 
 
@@ -36,7 +37,7 @@ class AppBarInputReport extends StatelessWidget implements PreferredSizeWidget {
           Text('レポート新規入力',
             // style: Theme.of(context).appBarTheme.titleTextStyle,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: text_16,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -47,7 +48,7 @@ class AppBarInputReport extends StatelessWidget implements PreferredSizeWidget {
         child:  Text('戻る',
             // style: Theme.of(context).appBarTheme.titleTextStyle,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: text_16,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             )),

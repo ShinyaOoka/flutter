@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/module/res/text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
@@ -1913,7 +1914,7 @@ class DropdownDialog<T> extends StatefulWidget {
 class _DropdownDialogState<T> extends State<DropdownDialog> {
   TextEditingController txtSearch = TextEditingController();
   TextStyle defaultButtonStyle = TextStyle(
-    fontSize: 16,
+    fontSize: text_16,
     fontWeight: FontWeight.w500,
   );
   List<int> shownIndexes = [];

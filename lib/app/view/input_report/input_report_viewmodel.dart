@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
+import 'package:ak_azm_flutter/app/model/ms_hospital.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
 import 'package:ak_azm_flutter/app/model/ms_team_member.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
@@ -22,6 +23,7 @@ class InputReportViewModel extends BaseViewModel {
   List<MSClassification> msClassifications = [];
   List<MSTeam> msTeams = [];
   List<MSTeamMember> msTeamMembers = [];
+  List<MSHospital> msHospitals = [];
 
   //layout 1
   List<String> yesNothings = [];
@@ -88,6 +90,9 @@ class InputReportViewModel extends BaseViewModel {
   String? report_observation_time_explanation = '';
   String? jcs = '';
   String? gcs = '';
+  String? gcs_e = '';
+  String? gcs_v = '';
+  String? gcs_m = '';
   String? breathing = '';
   String? pulse = '';
   String? blood_pressure_up = '';
@@ -132,6 +137,9 @@ class InputReportViewModel extends BaseViewModel {
   String? report_observation_time_explanation_7 = '';
   String? jcs_7 = '';
   String? gcs_7 = '';
+  String? gcs_e_7 = '';
+  String? gcs_v_7 = '';
+  String? gcs_m_7 = '';
   String? breathing_7 = '';
   String? pulse_7 = '';
   String? blood_pressure_up_7 = '';
@@ -149,6 +157,48 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting_7 = '';
   String? limb_7 = '';
 
+
+
+  //layout 8
+  String? observation_time_8 = '';
+  String? report_observation_time_explanation_8 = '';
+  String? jcs_8 = '';
+  String? gcs_8 = '';
+  String? gcs_e_8 = '';
+  String? gcs_v_8 = '';
+  String? gcs_m_8 = '';
+  String? breathing_8 = '';
+  String? pulse_8 = '';
+  String? blood_pressure_up_8 = '';
+  String? blood_pressure_lower_8 = '';
+  String? spo2_percent_8 = '';
+  String? spo2_l_8 = '';
+  String? right_pupil_8 = '';
+  String? left_pupil_8 = '';
+  String? light_reflection_right_8 = '';
+  String? light_reflection_left_8 = '';
+  String? body_temperature_8 = '';
+  String? facial_features_8 = '';
+  String? bleeding_8 = '';
+  List<String> incontinence_8 = [];
+  String? vomiting_8 = '';
+  String? limb_8 = '';
+
+  //layout 9
+  String? perceiver = '';
+  String? awareness_type = '';
+  String? whistleblower = '';
+  String? reporting_phone = '';
+
+  //layout 10
+  String? transportation_medical_institution = '';
+  String? forwarding_medical_institution = '';
+  String? transfer_source_pick_up_time = '';
+  String? transfer_reason = '';
+  String? reason_for_non_delivery = '';
+  String? transport_refusal_processing_record = '';
+
+
   Future<bool> back() async {
     _navigationService.back();
     return true;
@@ -161,6 +211,7 @@ class InputReportViewModel extends BaseViewModel {
     getAllMSClassification();
     getAllMSTeam();
     getAllMSTeamMember();
+    getAllMSHospital();
   }
 
   Future<void> getAllMSClassification() async {
@@ -181,6 +232,13 @@ class InputReportViewModel extends BaseViewModel {
     List<Map<String, Object?>>? datas =
         await dbHelper.getAllData(tableMSTeamMember) ?? [];
     msTeamMembers = datas.map((e) => MSTeamMember.fromJson(e)).toList();
+    notifyListeners();
+  }
+
+  Future<void> getAllMSHospital() async {
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSHospital) ?? [];
+    msHospitals = datas.map((e) => MSHospital.fromJson(e)).toList();
     notifyListeners();
   }
 
@@ -433,13 +491,23 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onChangeJcs(String? itemSelected) {
+  onSelectJcs(String? itemSelected) {
     this.jcs = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeGcs(String? itemSelected) {
-    this.gcs = itemSelected ?? '';
+  onSelectGcsE(String? itemSelected) {
+    this.gcs_e = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsV(String? itemSelected) {
+    this.gcs_v = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsM(String? itemSelected) {
+    this.gcs_m = itemSelected ?? '';
     notifyListeners();
   }
 
@@ -604,13 +672,13 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onChangeBsMeasurementTime2(String? itemSelected) {
-    this.bs_measurement_time_2 = itemSelected ?? '';
+  onChangeBsMeasurement2(String? itemSelected) {
+    this.bs_measurement_2 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectBsMeasurement2(DateTime date) {
-    this.bs_measurement_2 = Utils.dateTimeToString(date, format: hh_mm_);
+  onSelectBsMeasurementTime2(DateTime date) {
+    this.bs_measurement_time_2 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
@@ -624,6 +692,8 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+
+
   //layout 7
   onConfirmObservationTime7(DateTime date) {
     this.observation_time_7 = Utils.dateTimeToString(date, format: hh_mm_);
@@ -635,13 +705,23 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onChangeJcs7(String? itemSelected) {
+  onSelectJcs7(String? itemSelected) {
     this.jcs_7 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeGcs7(String? itemSelected) {
-    this.gcs_7 = itemSelected ?? '';
+  onSelectGcsE7(String? itemSelected) {
+    this.gcs_e_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsV7(String? itemSelected) {
+    this.gcs_v_7 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsM7(String? itemSelected) {
+    this.gcs_m_7 = itemSelected ?? '';
     notifyListeners();
   }
 
@@ -724,4 +804,180 @@ class InputReportViewModel extends BaseViewModel {
     this.incontinence_7 = checkeds ?? [];
     notifyListeners();
   }
+
+
+
+  //layout 8
+  onConfirmObservationTime8(DateTime date) {
+    this.observation_time_8 = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onChangeReportObservationTimeExplanation8(String? itemSelected) {
+    this.report_observation_time_explanation_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectJcs8(String? itemSelected) {
+    this.jcs_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsE8(String? itemSelected) {
+    this.gcs_e_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsV8(String? itemSelected) {
+    this.gcs_v_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectGcsM8(String? itemSelected) {
+    this.gcs_m_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBreathing8(String? itemSelected) {
+    this.breathing_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangePulse8(String? itemSelected) {
+    this.pulse_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureUp8(String? itemSelected) {
+    this.blood_pressure_up_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBloodPressureLower8(String? itemSelected) {
+    this.blood_pressure_lower_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2Percent8(String? itemSelected) {
+    this.spo2_percent_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeSpo2L8(String? itemSelected) {
+    this.spo2_l_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeRightPupil8(String? itemSelected) {
+    this.right_pupil_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeLeftPupil8(String? itemSelected) {
+    this.left_pupil_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectLightReflectionRight8(String? itemSelected) {
+    this.light_reflection_right_8 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onSelectLightReflectionLeft8(String? itemSelected) {
+    this.light_reflection_left_8 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeBodyTemperature8(String? itemSelected) {
+    this.body_temperature_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectFacialFeatures8(String? itemSelected) {
+    this.facial_features_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeBleeding8(String? itemSelected) {
+    this.bleeding_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectVomiting8(String? itemSelected) {
+    this.vomiting_8 = itemSelected ?? yesNothings[1];
+    notifyListeners();
+  }
+
+  onChangeLimb8(String? itemSelected) {
+    this.limb_8 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectIncontinence8(List<String> checkeds) {
+    this.incontinence_8 = checkeds ?? [];
+    notifyListeners();
+  }
+
+
+
+
+
+  //layout 9
+  onChangePerceiver(String? itemSelected) {
+    this.perceiver = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectAwarenessType(String? itemSelected) {
+    this.awareness_type = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeWhistleblower(String? itemSelected) {
+    this.whistleblower = itemSelected ?? '';
+    notifyListeners();
+  }
+  onChangeReportingPhone(String? itemSelected) {
+    this.reporting_phone = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+
+  //layout 10
+  onSelectTransportationMedicalInstitution(String? itemSelected) {
+    this.transportation_medical_institution = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectForwardingMedicalInstitution(String? itemSelected) {
+    this.forwarding_medical_institution = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onConfirmTransferSourcePickUpTime(DateTime date) {
+    this.transfer_source_pick_up_time = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+
+  onChangeTransferReason(String? itemSelected) {
+    this.transfer_reason = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onChangeReasonForNonDelivery(String? itemSelected) {
+    this.reason_for_non_delivery = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+  onSelectTransportRefusalProcessingRecord(String? itemSelected) {
+    this.transport_refusal_processing_record = itemSelected ?? '';
+    notifyListeners();
+  }
+
+
+
+
 }

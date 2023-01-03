@@ -1,6 +1,7 @@
+import 'package:ak_azm_flutter/app/module/res/dimens.dart';
+import 'package:ak_azm_flutter/app/module/res/text.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../module/res/style.dart';
 
 class SelectDropList extends StatefulWidget {
   final dynamic itemSelected;
@@ -89,7 +90,7 @@ class _SelectDropListState extends State<SelectDropList>
                   },
                   child: Text(
                     optionItemSelected,
-                    style: TextStyle(color: Color(0xFF307DF1), fontSize: 16),
+                    style: TextStyle(color: Color(0xFF307DF1), fontSize: text_16),
                   ),
                 )),
                 Align(

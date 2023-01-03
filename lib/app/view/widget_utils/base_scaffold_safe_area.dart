@@ -58,7 +58,7 @@ class BaseScaffoldSafeArea extends StatelessWidget {
                       Text(title ?? '',
                           // style: Theme.of(context).appBarTheme.titleTextStyle,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: text_16,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )),

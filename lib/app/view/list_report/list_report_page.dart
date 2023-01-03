@@ -21,31 +21,31 @@ class ListReportPage extends PageProvideNode<ListReportViewModel> {
 
   @override
   Widget buildContent(BuildContext context) {
-    return ChooseAccountContent(viewModel);
+    return ListReportContent(viewModel);
   }
 }
 
-class ChooseAccountContent extends StatefulWidget {
-  final ListReportViewModel _chooseAccountViewModel;
+class ListReportContent extends StatefulWidget {
+  final ListReportViewModel _listReportViewModel;
 
-  ChooseAccountContent(this._chooseAccountViewModel);
+  ListReportContent(this._listReportViewModel);
 
   @override
-  State<ChooseAccountContent> createState() => _ChooseAccountContentState();
+  State<ListReportContent> createState() => _ListReportContentState();
 }
 
-class _ChooseAccountContentState extends State<ChooseAccountContent>
+class _ListReportContentState extends State<ListReportContent>
     with SingleTickerProviderStateMixin {
-  ListReportViewModel get chooseAccountViewModel =>
-      widget._chooseAccountViewModel;
+  ListReportViewModel get listReportViewModel =>
+      widget._listReportViewModel;
 
   @override
   void initState() {
-    chooseAccountViewModel.scrollController.addListener(() {
-      chooseAccountViewModel.onScroll();
+    listReportViewModel.scrollController.addListener(() {
+      listReportViewModel.onScroll();
     });
-    chooseAccountViewModel.getAllMSClassification();
-    chooseAccountViewModel.getReports();
+    listReportViewModel.getAllMSClassification();
+    listReportViewModel.getReports();
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
-        onWillPop: () => chooseAccountViewModel.onDoubleBackToExit(),
+        onWillPop: () => listReportViewModel.onDoubleBackToExit(),
         child: BaseScaffoldSafeArea(
           customAppBar: AppBar(
             backgroundColor: kColor4472C4,
@@ -61,7 +61,7 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
             title: Text(
               LocaleKeys.report_list.tr(),
               style: TextStyle(
-                fontSize: 16,
+                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -72,12 +72,12 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
                   CupertinoIcons.add,
                   color: Colors.white,
                 ),
-                onPressed: () => chooseAccountViewModel.openCreateReport(),
+                onPressed: () => listReportViewModel.openCreateReport(),
               ),
             ],
             automaticallyImplyLeading: false,
           ),
-          onBackPress: () => chooseAccountViewModel.onDoubleBackToExit(),
+          onBackPress: () => listReportViewModel.onDoubleBackToExit(),
           transparentStatusBar: 0.2,
           backgroundColor: kColorF8F9FA,
           body: Stack(
@@ -106,7 +106,7 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
                                   );
                                 },
                                 imgEmpty: '',
-                                emptyText: LocaleKeys.no_account.tr(),
+                                emptyText: '',
                               );
                             case LoadingState.DONE:
                               return RefreshIndicator(
@@ -133,7 +133,7 @@ class _ChooseAccountContentState extends State<ChooseAccountContent>
                                                 report: value.dtReports[index],
                                                 msClassifications: value.msClassifications,
                                                 onDeleteItem: () => null,
-                                                onClickItem: () => chooseAccountViewModel.openConfirmReport(),
+                                                onClickItem: () => listReportViewModel.openConfirmReport(),
                                               ),
                                               index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
                                             ],

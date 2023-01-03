@@ -1,16 +1,11 @@
-import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../generated/locale_keys.g.dart';
 import '../../module/res/style.dart';
 import '../../viewmodel/base_viewmodel.dart';
 import '../../viewmodel/life_cycle_base.dart';
 import '../widget_utils/base_scaffold_safe_area.dart';
-import '../widget_utils/expansion_panel_custom.dart';
-import '../widget_utils/outline_text_form_field.dart';
 import 'edit_report_viewmodel.dart';
 
 class EditReportPage extends PageProvideNode<EditReportViewModel> {
@@ -28,10 +23,10 @@ class EditReportContent extends StatefulWidget {
   EditReportContent(this._editReportViewModel);
 
   @override
-  InputReportState createState() => InputReportState();
+  EditReportState createState() => EditReportState();
 }
 
-class InputReportState extends LifecycleState<EditReportContent>
+class EditReportState extends LifecycleState<EditReportContent>
     with SingleTickerProviderStateMixin {
   EditReportViewModel get editReportViewModel => widget._editReportViewModel;
   late AnimationController _animationController;
@@ -55,50 +50,49 @@ class InputReportState extends LifecycleState<EditReportContent>
 
   @override
   Widget build(BuildContext context) {
-    return
-      WillPopScope(
-          onWillPop: () => editReportViewModel.back(),
-          child: BaseScaffoldSafeArea(
-            customAppBar: AppBar(
-              backgroundColor: kColor4472C4,
-              centerTitle: true,
-              title: Text(
-                'EDIT REPORT',
-                // style: Theme.of(context).appBarTheme.titleTextStyle,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+    return WillPopScope(
+        onWillPop: () => editReportViewModel.back(),
+        child: BaseScaffoldSafeArea(
+          customAppBar: AppBar(
+            backgroundColor: kColor4472C4,
+            centerTitle: true,
+            title: Text(
+              'EDIT REPORT',
+              // style: Theme.of(context).appBarTheme.titleTextStyle,
+              style: TextStyle(
+                fontSize: text_16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-              leading: TextButton(
-                child: Text(LocaleKeys.back_report.tr(),
+            ),
+            leading: TextButton(
+              child: Text(LocaleKeys.back_report.tr(),
+                  // style: Theme.of(context).appBarTheme.titleTextStyle,
+                  style: TextStyle(
+                    fontSize: text_16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  )),
+              onPressed: () => editReportViewModel.back(),
+            ),
+            actions: [
+              TextButton(
+                child: Text('Preview',
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: text_16,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
-                onPressed: () => editReportViewModel.back(),
+                onPressed: () => editReportViewModel.openConfirmReport(),
               ),
-              actions: [
-                TextButton(
-                  child: Text('Preview',
-                      // style: Theme.of(context).appBarTheme.titleTextStyle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      )),
-                  onPressed: () => editReportViewModel.openConfirmReport(),
-                ),
-              ],
-              automaticallyImplyLeading: false,
-            ),
-            transparentStatusBar: 0.0,
-            title: LocaleKeys.server_config.tr(),
-            hideBackButton: false,
-            /*body: Container(
+            ],
+            automaticallyImplyLeading: false,
+          ),
+          transparentStatusBar: 0.0,
+          title: '',
+          hideBackButton: false,
+          /*body: Container(
               width: double.infinity,
               height: double.infinity,
               child: Column(
@@ -133,8 +127,6 @@ class InputReportState extends LifecycleState<EditReportContent>
                 ],
               ),
             ),*/
-          ));
+        ));
   }
-
 }
-

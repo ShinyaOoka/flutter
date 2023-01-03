@@ -651,6 +651,156 @@ dynamic data = {
       "ClassificationSubCD": "002",
       "Value": "手帳",
       "Description": "投薬"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "000",
+      "Value": "０",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "001",
+      "Value": "Ⅰ-1",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "002",
+      "Value": "Ⅰ-2",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "003",
+      "Value": "Ⅰ-3",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "004",
+      "Value": "Ⅱ-10",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "005",
+      "Value": "Ⅱ-20",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "006",
+      "Value": "Ⅱ-30",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "007",
+      "Value": "Ⅲ-100",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "008",
+      "Value": "Ⅲ-200",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "011",
+      "ClassificationSubCD": "009",
+      "Value": "Ⅲ-300",
+      "Description": "JCS"
+    },
+    {
+      "ClassificationCD": "012",
+      "ClassificationSubCD": "000",
+      "Value": "E1",
+      "Description": "GCS-E"
+    },
+    {
+      "ClassificationCD": "012",
+      "ClassificationSubCD": "001",
+      "Value": "E2",
+      "Description": "GCS-E"
+    },
+    {
+      "ClassificationCD": "012",
+      "ClassificationSubCD": "002",
+      "Value": "E3",
+      "Description": "GCS-E"
+    },
+    {
+      "ClassificationCD": "012",
+      "ClassificationSubCD": "003",
+      "Value": "E4",
+      "Description": "GCS-E"
+    },
+    {
+      "ClassificationCD": "013",
+      "ClassificationSubCD": "000",
+      "Value": "V1",
+      "Description": "GCS-V"
+    },
+    {
+      "ClassificationCD": "013",
+      "ClassificationSubCD": "001",
+      "Value": "V2",
+      "Description": "GCS-V"
+    },
+    {
+      "ClassificationCD": "013",
+      "ClassificationSubCD": "002",
+      "Value": "V3",
+      "Description": "GCS-V"
+    },
+    {
+      "ClassificationCD": "013",
+      "ClassificationSubCD": "003",
+      "Value": "V4",
+      "Description": "GCS-V"
+    },
+    {
+      "ClassificationCD": "013",
+      "ClassificationSubCD": "004",
+      "Value": "V5",
+      "Description": "GCS-V"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "000",
+      "Value": "M1",
+      "Description": "GCS-M"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "001",
+      "Value": "M2",
+      "Description": "GCS-M"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "002",
+      "Value": "M3",
+      "Description": "GCS-M"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "003",
+      "Value": "M4",
+      "Description": "GCS-M"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "004",
+      "Value": "M5",
+      "Description": "GCS-M"
+    },
+    {
+      "ClassificationCD": "014",
+      "ClassificationSubCD": "005",
+      "Value": "M6",
+      "Description": "GCS-M"
     }
   ]
 };

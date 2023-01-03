@@ -103,7 +103,7 @@ class DialogGeneralTwoAction extends StatelessWidget {
                             height: heightButton,
                             child: Center(
                               child: Text(
-                                textCancel ?? LocaleKeys.dialog_cancel.tr(),
+                                textCancel ?? '',
                                 style: TextStyle(
                                   color: colorTextCancel ?? kColor027AFF,
                                   fontSize: text_16,
@@ -141,7 +141,7 @@ class DialogGeneralTwoAction extends StatelessWidget {
                             height: heightButton,
                             child: Center(
                               child: Text(
-                                textOk ?? LocaleKeys.dialog_ok.tr(),
+                                textOk ?? '',
                                 style: TextStyle(
                                     color: colorTextOk ?? kColorFF4136,
                                     fontSize: text_16,

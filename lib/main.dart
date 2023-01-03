@@ -1,5 +1,8 @@
 import 'package:ak_azm_flutter/app/model/ms_team_member.dart';
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/custom_animation_loading.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/src/easy_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +15,6 @@ import 'app/model/init_data.dart';
 import 'app/module/database/column_name.dart';
 import 'app/module/database/data.dart';
 import 'app/module/local_storage/shared_pref_manager.dart';
-import 'app/view/widget_utils/custom/flutter_easyloading/custom_animation_loading.dart';
-import 'app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
 import 'flavors.dart';
 
 //event bus global
@@ -32,16 +33,14 @@ void main() async {
   //Start DI
   await SharedPrefManager.getInstance();
   await configureDependencies();
-
-  //await initFirebase();
   configLoading();
   runApp(
     ScreenUtilInit(
       designSize: ScreenUtil.defaultSize,
       builder: (BuildContext context, Widget? child) => EasyLocalization(
-        supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
+        supportedLocales: const [localeJP],
               path: 'assets/translations',
-        fallbackLocale: const Locale('en', 'US'),
+        fallbackLocale: localeJP,
               child: const App(),
       ),
     ),

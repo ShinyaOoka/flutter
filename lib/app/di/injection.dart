@@ -10,12 +10,11 @@ import '../view/edit_report/edit_report_viewmodel.dart';
 import '../view/list_report/list_report_viewmodel.dart';
 import '../view/preview_report/preview_report_viewmodel.dart';
 import '../view/send_report/send_report_viewmodel.dart';
-import '../view/webview/webview_viewmodel.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> configureDependencies() async {
-  //local storage
+  //lazy
   getIt.registerSingleton<UserSharePref>(UserSharePref());
   getIt.registerSingleton<SharedPrefManager>(SharedPrefManager());
   getIt.registerLazySingleton<NavigationService>(() => NavigationService());
@@ -26,10 +25,7 @@ Future<void> configureDependencies() async {
         getIt<UserSharePref>(),
       ));
 
-  getIt.registerFactoryParam<WebviewViewModel, List<dynamic>, dynamic>(
-      (param1, _) => //no need param2
-          WebviewViewModel(webviewParam: param1[0]));
-
+  //view model
   getIt.registerFactory<ListReportViewModel>(
       () => ListReportViewModel(getIt<DataRepository>()));
   getIt.registerFactory<InputReportViewModel>(

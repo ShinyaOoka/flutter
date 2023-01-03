@@ -15,7 +15,7 @@ class F {
       case Flavor.PRODUCTION:
         return 'レポート作成';
       default:
-        return 'title';
+        return 'レポート作成';
     }
   }
 

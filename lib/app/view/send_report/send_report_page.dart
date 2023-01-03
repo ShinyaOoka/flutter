@@ -62,7 +62,7 @@ class SendReportState extends LifecycleState<SendReportContent>
               LocaleKeys.report_PDF_sending_printing.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -71,28 +71,16 @@ class SendReportState extends LifecycleState<SendReportContent>
               child: Text(LocaleKeys.list.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: text_16,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
               onPressed: () => sendReportViewModel.openListReport(),
             ),
-            /*actions: [
-                TextButton(
-                  child: Text('List',
-                      // style: Theme.of(context).appBarTheme.titleTextStyle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      )),
-                  onPressed: () => sendReportViewModel.openListReport(),
-                ),
-              ],*/
             automaticallyImplyLeading: false,
           ),
           transparentStatusBar: 0.0,
-          title: LocaleKeys.server_config.tr(),
+          title: '',
           hideBackButton: false,
           body: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -124,7 +112,7 @@ class SendReportState extends LifecycleState<SendReportContent>
                               .tr(),
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
-                              pdfName: '傷病者輸送証'),
+                              pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
                         ),
                       ),
                       SizedBox(
@@ -145,7 +133,7 @@ class SendReportState extends LifecycleState<SendReportContent>
                               .tr(),
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
-                              pdfName: '傷病者輸送証'),
+                              pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
                         ),
                       ),
 

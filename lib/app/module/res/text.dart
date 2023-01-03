@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'colors.dart';
 
 //dimen
 final text_6 = 6.0.sp;
@@ -23,22 +22,3 @@ final text_26 = 26.0.sp;
 final text_30 = 30.0.sp;
 final text_35 = 35.0.sp;
 final text_64 = 64.0.sp;
-
-//font family
-const kFSVNGilroy = 'SVN Gilroy';
-
-
-//text style
-const kTSSVNGilroy = TextStyle(
-  fontFamily: kFSVNGilroy,
-);
-
-final styleTitleFieldLogin = TextStyle(
-  fontSize: text_14,
-  fontWeight: FontWeight.bold,
-  color: Colors.black87
-);
-
-//example font regular, size 12, color white
-final textRegularColor = kTSSVNGilroy.copyWith(color: kWhite, fontSize: text_12, fontWeight: FontWeight.w100);
-

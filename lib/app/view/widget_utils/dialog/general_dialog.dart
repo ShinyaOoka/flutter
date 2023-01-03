@@ -63,7 +63,7 @@ class GeneralDialog extends StatelessWidget {
                     child: Text(
                       message?? "",
                       textAlign: TextAlign.center,
-                      style: kTSSVNGilroy.copyWith(
+                      style: TextStyle(
                         color: Colors.black,
                         fontSize: text_16,
                         fontWeight: FontWeight.normal,
@@ -94,7 +94,7 @@ class GeneralDialog extends StatelessWidget {
                       child: Center(
                         child: Text(
                           actionString!,
-                          style: kTSSVNGilroy.copyWith(
+                          style: TextStyle(
                               color: kColor247EF1,
                               fontSize: text_18,
                               fontWeight: FontWeight.w500,

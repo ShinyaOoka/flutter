@@ -80,7 +80,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                 LocaleKeys.report_PDF_preview.tr(),
                 // style: Theme.of(context).appBarTheme.titleTextStyle,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: text_16,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -89,7 +89,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                 child: Text(LocaleKeys.back_report.tr(),
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: text_16,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
@@ -98,7 +98,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
               automaticallyImplyLeading: false,
             ),
             transparentStatusBar: 0.0,
-            title: LocaleKeys.server_config.tr(),
+            title: '',
             hideBackButton: false,
             body: Stack(
               children: [

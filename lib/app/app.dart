@@ -1,8 +1,5 @@
-import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
 import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
-import 'package:ak_azm_flutter/app/view/preview_report/preview_report_page.dart';
-import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
-import 'package:ak_azm_flutter/app/view/widget_utils/custom/flutter_easyloading/src/easy_loading.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/src/easy_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +24,6 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     SystemUtils.setPortraitScreenOrientation();
-    //SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: kColor202330));
-    //SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: transparent));
   }
 
   @override
@@ -52,17 +47,11 @@ class _AppState extends State<App> {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         title: F.title,
-        //hide badge debug
         debugShowCheckedModeBanner: false,
-        //home: SplashPage(),
-        //home: ProductsPage(),
-        //home: ListReportPage(),
+        home: ListReportPage(),
         //home: InputReportPage(),
-        home: SendReportPage(),
-         //home: InputServerPortPage(),
-        //   home: CustomerListPage(),
-        //   home: PopupQuotationOrderPage(),
-        //home: AddCustomerPage(),
+        //home: SendReportPage(),
+        //home: InputServerPortPage(),
         builder: EasyLoading.init(),
         navigatorKey: getIt<NavigationService>().navigatorKey,
       ),

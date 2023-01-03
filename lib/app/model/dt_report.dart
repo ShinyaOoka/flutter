@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'dt_report.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
-class DTReport extends Equatable {
+class DTReport {
   dynamic? ID;
   dynamic? TeamName;
   dynamic? TeamTEL;
@@ -115,6 +115,9 @@ class DTReport extends Equatable {
   dynamic? UpdateName;
   dynamic? UpdateMachine;
   dynamic? UpdateDate;
+
+
+
 
 
   DTReport({
@@ -234,117 +237,4 @@ class DTReport extends Equatable {
 
   Map<String, dynamic?> toJson() => _$DTReportToJson(this);
 
-  //compare two object
-  @override
-  List<Object?> get props => [
-    ID,
-    TeamName,
-    TeamTEL,
-    TeamCaptainName,
-    LifesaverQualification,
-    WithLifeSavers,
-    TeamMemberName,
-    InstitutionalMemberName,
-    Total,
-    Team,
-    SickInjuredPersonName,
-    SickInjuredPersonKANA,
-    SickInjuredPersonAddress,
-    SickInjuredPersonGender,
-    SickInjuredPersonBirthDate,
-    SickInjuredPersonTEL,
-    SickInjuredPersonFamilyTEL,
-    SickInjuredPersonMedicalHistroy,
-    SickInjuredPersonHistoryHospital,
-    SickInjuredPersonKakaritsuke,
-    SickInjuredPersonMedication,
-    SickInjuredPersonMedicationDetail,
-    SickInjuredPersonAllergy,
-    SickInjuredPersonNameOfInjuaryOrSickness,
-    SickInjuredPersonDegree,
-    SickInjuredPersonAge,
-    SenseTime,
-    CommandTime,
-    AttendanceTime,
-    OnsiteArrivalTime,
-    ContactTime,
-    InvehicleTime,
-    StartOfTransportTime,
-    HospitalArrivalTime,
-    FamilyContactTime,
-    PoliceContactTime,
-    TimeOfArrival,
-    ReturnTime,
-    TypeOfAccident,
-    DateOfOccurrence,
-    TimeOfOccurrence,
-    PlaceOfIncident,
-    AccidentSummary,
-    ADL,
-    TrafficAccidentClassification,
-    Witnesses,
-    BystanderCPR,
-    VerbalGuidance,
-    ObservationTime,
-    DescriptionOfObservationTime,
-    JCS,
-    GCSE,
-    GCSV,
-    GCSM,
-    Respiration,
-    Pulse,
-    BloodPressureHigh,
-    BloodPressureLow,
-    SpO2Percent,
-    SpO2Liter,
-    PupilRight,
-    PupilLeft,
-    LightReflexRight,
-    PhotoreflexLeft,
-    BodyTemperature,
-    FacialFeatures,
-    Hemorrhage,
-    Incontinence,
-    Vomiting,
-    Extremities,
-    SecuringAirway,
-    ForeignBodyRemoval,
-    Suction,
-    ArtificialRespiration,
-    ChestCompressions,
-    ECGMonitor,
-    O2Administration,
-    O2AdministrationTime,
-    SpinalCordMovementLimitation,
-    HemostaticTreatment,
-    AdductorFixation,
-    Coating,
-    BurnTreatment,
-    BSMeasurement1,
-    BSMeasurementTime1,
-    PunctureSite1,
-    BSMeasurement2,
-    BSMeasurementTime2,
-    PunctureSite2,
-    Other,
-    PerceiverName,
-    TypeOfDetection,
-    CallerName,
-    CallerTEL,
-    MedicalTransportFacility,
-    TransferringMedicalInstitution,
-    TransferSourceReceivingTime,
-    ReasonForTransfer,
-    ReasonForNotTransferring,
-    RecordOfRefusalOfTransfer,
-    Remark,
-    ReporterName,
-    ReporterPosition,
-    EntryName,
-    EntryMachine,
-    EntryDate,
-    UpdateName,
-    UpdateMachine,
-    UpdateDate,
-      ];
 }
