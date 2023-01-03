@@ -7,6 +7,7 @@ enum SizeStyle { SMALL, NORMAL, LARGE, SUPER }
 
 const LocaleType localeTypeJP = LocaleType.jp;
 const Locale localeJP = Locale('ja', 'JP');
+const String comma = ',';
 
 
 //get image url

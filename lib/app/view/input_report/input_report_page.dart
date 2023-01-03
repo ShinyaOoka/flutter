@@ -186,40 +186,40 @@ class InputReportState extends LifecycleState<InputReportContent>
   Widget buildLayoutContent(int index) {
     switch (index) {
       case 1:
-        return buildLayout_1();
+        return buildLayout1();
 
       case 2:
-        return buildLayout_2();
+        return buildLayout2();
 
       case 3:
-        return buildLayout_3();
+        return buildLayout3();
 
       case 4:
-        return buildLayout_4();
+        return buildLayout4();
 
       case 5:
-        return buildLayout_5();
+        return buildLayout5();
 
       case 6:
-        return buildLayout_6();
+        return buildLayout6();
 
       case 7:
-        return buildLayout_7();
+        return buildLayout7();
 
       case 8:
-        return buildLayout_8();
+        return buildLayout8();
 
       case 9:
-        return buildLayout_9();
+        return buildLayout9();
 
       case 10:
-        return buildLayout_10();
+        return buildLayout10();
       default:
         return Container();
     }
   }
 
-  Widget buildLayout_1() {
+  Widget buildLayout1() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,7 +423,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_2() {
+  Widget buildLayout2() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,7 +715,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_3() {
+  Widget buildLayout3() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -865,7 +865,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_4() {
+  Widget buildLayout4() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1038,7 +1038,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_5() {
+  Widget buildLayout5() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1049,7 +1049,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.observation_time.tr(),
-                  value.observation_time, value.onConfirmObservationTime);
+                  value.observationTime1, value.onConfirmObservationTime1);
             }),
           ),
           spaceWidgetColor(height: size_22_w),
@@ -1066,8 +1066,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.jcs,
-                    value.onSelectJcs,
+                    value.jcs1,
+                    value.onSelectJcs1,
                   );
                 }),
           ),
@@ -1086,8 +1086,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_e,
-                    value.onSelectGcsE,
+                    value.gcsE1,
+                    value.onSelectGcsE1,
                   );
                 }),
           ),
@@ -1106,8 +1106,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_v,
-                    value.onSelectGcsV,
+                    value.gcsV1,
+                    value.onSelectGcsV1,
                   );
                 }),
           ),
@@ -1125,8 +1125,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_m,
-                    value.onSelectGcsM,
+                    value.gcsM1,
+                    value.onSelectGcsM1,
                   );
                 }),
           ),
@@ -1146,7 +1146,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing(value),
+              onChanged: (value) => inputReportViewModel.onChangeBreathing1(value),
             ),
           ),
 
@@ -1165,7 +1165,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse(value),
+              onChanged: (value) => inputReportViewModel.onChangePulse1(value),
             ),
           ),
 
@@ -1188,7 +1188,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp1(value),
                   ),
                   flex: 1,
                 ),
@@ -1207,7 +1207,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower1(value),
                   ),
                   flex: 1,
                 )
@@ -1233,7 +1233,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent1(value),
                   ),
                   flex: 1,
                 ),
@@ -1251,7 +1251,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2L1(value),
                   ),
                   flex: 1,
                 )
@@ -1277,7 +1277,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil(value),
+                    onChanged: (value) => inputReportViewModel.onChangeRightPupil1(value),
                   ),
                   flex: 1,
                 ),
@@ -1295,7 +1295,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil(value),
+                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil1(value),
                   ),
                   flex: 1,
                 )
@@ -1311,7 +1311,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                  value.yesNothings, value.onSelectLightReflectionRight);
+                  value.yesNothings, value.onSelectLightReflectionRight1);
             }),
           ),
 
@@ -1323,7 +1323,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                  value.yesNothings, value.onSelectLightReflectionLeft);
+                  value.yesNothings, value.onSelectLightReflectionLeft1);
             }),
           ),
 
@@ -1342,7 +1342,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature(value),
+              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature1(value),
             ),
           ),
 
@@ -1360,8 +1360,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                     .toList()
                     .map((e) => e.Value.toString())
                     .toList(),
-                value.facial_features,
-                value.onSelectFacialFeatures,
+                value.facialFeatures1,
+                value.onSelectFacialFeatures1,
               );
             }),
           ),
@@ -1380,7 +1380,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding(value),
+              onChanged: (value) => inputReportViewModel.onChangeBleeding1(value),
             ),
           ),
 
@@ -1398,7 +1398,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       .toList()
                       .map((e) => e.Value.toString())
                       .toList(),
-                  value.onSelectIncontinence);
+                  value.onSelectIncontinence1);
             }),
           ),
 
@@ -1410,7 +1410,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                  value.onSelectVomiting);
+                  value.onSelectVomiting1);
             }),
           ),
 
@@ -1428,7 +1428,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb(value),
+              onChanged: (value) => inputReportViewModel.onChangeLimb1(value),
             ),
           ),
 
@@ -1446,7 +1446,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation(value),
+              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation1(value),
             ),
           ),
 
@@ -1455,7 +1455,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_6() {
+  Widget buildLayout6() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1787,7 +1787,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         ]);
   }
 
-  Widget buildLayout_7() {
+  Widget buildLayout7() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1798,7 +1798,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return timePicker(LocaleKeys.observation_time.tr(),
-                      value.observation_time_7, value.onConfirmObservationTime7);
+                      value.observationTime2, value.onConfirmObservationTime2);
                 }),
           ),
           spaceWidgetColor(height: size_22_w),
@@ -1815,11 +1815,12 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.jcs,
-                    value.onSelectJcs7,
+                    value.jcs2,
+                    value.onSelectJcs2,
                   );
                 }),
           ),
+
           spaceWidgetColor(),
 
           //no.56
@@ -1834,8 +1835,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_e_7,
-                    value.onSelectGcsE7,
+                    value.gcsE2,
+                    value.onSelectGcsE2,
                   );
                 }),
           ),
@@ -1854,8 +1855,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_v_7,
-                    value.onSelectGcsV7,
+                    value.gcsV2,
+                    value.onSelectGcsV2,
                   );
                 }),
           ),
@@ -1873,12 +1874,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_m_7,
-                    value.onSelectGcsM7,
+                    value.gcsM2,
+                    value.onSelectGcsM2,
                   );
                 }),
           ),
           spaceWidgetColor(),
+
 
           //no.57
           Container(
@@ -1893,7 +1895,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing7(value),
+              onChanged: (value) => inputReportViewModel.onChangeBreathing2(value),
             ),
           ),
 
@@ -1912,7 +1914,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse7(value),
+              onChanged: (value) => inputReportViewModel.onChangePulse2(value),
             ),
           ),
 
@@ -1935,7 +1937,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp2(value),
                   ),
                   flex: 1,
                 ),
@@ -1954,7 +1956,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower2(value),
                   ),
                   flex: 1,
                 )
@@ -1980,7 +1982,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent2(value),
                   ),
                   flex: 1,
                 ),
@@ -1998,7 +2000,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2L2(value),
                   ),
                   flex: 1,
                 )
@@ -2024,7 +2026,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeRightPupil2(value),
                   ),
                   flex: 1,
                 ),
@@ -2042,7 +2044,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil7(value),
+                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil2(value),
                   ),
                   flex: 1,
                 )
@@ -2058,7 +2060,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                      value.yesNothings, value.onSelectLightReflectionRight7);
+                      value.yesNothings, value.onSelectLightReflectionRight2);
                 }),
           ),
 
@@ -2070,7 +2072,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                      value.yesNothings, value.onSelectLightReflectionLeft7);
+                      value.yesNothings, value.onSelectLightReflectionLeft2);
                 }),
           ),
 
@@ -2089,7 +2091,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature7(value),
+              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature2(value),
             ),
           ),
 
@@ -2107,8 +2109,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.facial_features_7,
-                    value.onSelectFacialFeatures7,
+                    value.facialFeatures2,
+                    value.onSelectFacialFeatures2,
                   );
                 }),
           ),
@@ -2127,7 +2129,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding7(value),
+              onChanged: (value) => inputReportViewModel.onChangeBleeding2(value),
             ),
           ),
 
@@ -2145,7 +2147,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                           .toList()
                           .map((e) => e.Value.toString())
                           .toList(),
-                      value.onSelectIncontinence7);
+                      value.onSelectIncontinence2);
                 }),
           ),
 
@@ -2157,7 +2159,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                      value.onSelectVomiting7);
+                      value.onSelectVomiting2);
                 }),
           ),
 
@@ -2175,7 +2177,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb7(value),
+              onChanged: (value) => inputReportViewModel.onChangeLimb2(value),
             ),
           ),
 
@@ -2193,15 +2195,16 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation7(value),
+              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation2(value),
             ),
           ),
+
 
           spaceWidgetColor(height: size_20_w),
         ]);
   }
 
-  Widget buildLayout_8() {
+  Widget buildLayout8() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2212,7 +2215,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return timePicker(LocaleKeys.observation_time.tr(),
-                      value.observation_time_8, value.onConfirmObservationTime8);
+                      value.observationTime3, value.onConfirmObservationTime3);
                 }),
           ),
           spaceWidgetColor(height: size_22_w),
@@ -2229,11 +2232,12 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.jcs,
-                    value.onSelectJcs8,
+                    value.jcs3,
+                    value.onSelectJcs3,
                   );
                 }),
           ),
+
           spaceWidgetColor(),
 
           //no.56
@@ -2248,8 +2252,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_e_8,
-                    value.onSelectGcsE8,
+                    value.gcsE3,
+                    value.onSelectGcsE3,
                   );
                 }),
           ),
@@ -2268,8 +2272,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_v_8,
-                    value.onSelectGcsV8,
+                    value.gcsV3,
+                    value.onSelectGcsV3,
                   );
                 }),
           ),
@@ -2287,12 +2291,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.gcs_m_8,
-                    value.onSelectGcsM8,
+                    value.gcsM3,
+                    value.onSelectGcsM3,
                   );
                 }),
           ),
           spaceWidgetColor(),
+
 
           //no.57
           Container(
@@ -2307,7 +2312,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing8(value),
+              onChanged: (value) => inputReportViewModel.onChangeBreathing3(value),
             ),
           ),
 
@@ -2326,7 +2331,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse8(value),
+              onChanged: (value) => inputReportViewModel.onChangePulse3(value),
             ),
           ),
 
@@ -2349,7 +2354,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp3(value),
                   ),
                   flex: 1,
                 ),
@@ -2368,7 +2373,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower3(value),
                   ),
                   flex: 1,
                 )
@@ -2394,7 +2399,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent3(value),
                   ),
                   flex: 1,
                 ),
@@ -2412,7 +2417,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeSpo2L3(value),
                   ),
                   flex: 1,
                 )
@@ -2438,7 +2443,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeRightPupil3(value),
                   ),
                   flex: 1,
                 ),
@@ -2456,7 +2461,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     colorBorder: Colors.black26,
                     colorFocusBorder: kColor4472C4,
                     labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil8(value),
+                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil3(value),
                   ),
                   flex: 1,
                 )
@@ -2472,7 +2477,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                      value.yesNothings, value.onSelectLightReflectionRight8);
+                      value.yesNothings, value.onSelectLightReflectionRight3);
                 }),
           ),
 
@@ -2484,7 +2489,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                      value.yesNothings, value.onSelectLightReflectionLeft8);
+                      value.yesNothings, value.onSelectLightReflectionLeft3);
                 }),
           ),
 
@@ -2503,7 +2508,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature8(value),
+              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature3(value),
             ),
           ),
 
@@ -2521,8 +2526,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.facial_features_8,
-                    value.onSelectFacialFeatures8,
+                    value.facialFeatures3,
+                    value.onSelectFacialFeatures3,
                   );
                 }),
           ),
@@ -2541,7 +2546,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding8(value),
+              onChanged: (value) => inputReportViewModel.onChangeBleeding3(value),
             ),
           ),
 
@@ -2559,7 +2564,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                           .toList()
                           .map((e) => e.Value.toString())
                           .toList(),
-                      value.onSelectIncontinence8);
+                      value.onSelectIncontinence3);
                 }),
           ),
 
@@ -2571,7 +2576,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                      value.onSelectVomiting8);
+                      value.onSelectVomiting3);
                 }),
           ),
 
@@ -2589,7 +2594,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb8(value),
+              onChanged: (value) => inputReportViewModel.onChangeLimb3(value),
             ),
           ),
 
@@ -2607,15 +2612,17 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation(value),
+              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation3(value),
             ),
           ),
+
 
           spaceWidgetColor(height: size_20_w),
         ]);
   }
 
-  Widget buildLayout_9() {
+
+  Widget buildLayout9() {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
       child: Column(
@@ -2688,7 +2695,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildLayout_10() {
+  Widget buildLayout10() {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Column(
@@ -3131,7 +3138,6 @@ class InputReportState extends LifecycleState<InputReportContent>
       ],
     );
   }
-
 
 }
 

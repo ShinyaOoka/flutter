@@ -71,28 +71,28 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $Witnesses INTEGER,
     $BystanderCPR TIME,
     $VerbalGuidance VARCHAR(60),
-    $ObservationTime TIME,
-    $DescriptionOfObservationTime VARCHAR(20),
-    $JCS VARCHAR(3),
-    $GCSE VARCHAR(3),
-    $GCSV VARCHAR(3),
-    $GCSM VARCHAR(3),
-    $Respiration INTEGER, 
-    $Pulse INTEGER,
-    $BloodPressureHigh INTEGER,
-    $BloodPressureLow INTEGER,
-    $SpO2Percent INTEGER,
-    $SpO2Liter INTEGER,
-    $PupilRight INTEGER,
-    $PupilLeft INTEGER,
-    $LightReflexRight INTEGER,
-    $PhotoreflexLeft INTEGER,
-    $BodyTemperature INTEGER,
-    $FacialFeatures VARCHAR(3),
-    $Hemorrhage VARCHAR(10),
-    $Incontinence VARCHAR(3),
-    $Vomiting INTEGER,
-    $Extremities VARCHAR(10),
+    $ObservationTime VARCHAR,
+    $JCS VARCHAR,
+    $GCSE VARCHAR,
+    $GCSV VARCHAR,
+    $GCSM VARCHAR,
+    $Respiration VARCHAR, 
+    $Pulse VARCHAR,
+    $BloodPressureHigh VARCHAR,
+    $BloodPressureLow VARCHAR,
+    $SpO2Percent VARCHAR,
+    $SpO2Liter VARCHAR,
+    $PupilRight VARCHAR,
+    $PupilLeft VARCHAR,
+    $LightReflexRight VARCHAR,
+    $PhotoreflexLeft VARCHAR,
+    $BodyTemperature VARCHAR,
+    $FacialFeatures VARCHAR,
+    $Hemorrhage VARCHAR,
+    $Incontinence VARCHAR,
+    $Vomiting VARCHAR,
+    $Extremities VARCHAR,
+    $DescriptionOfObservationTime VARCHAR,
     $SecuringAirway VARCHAR(3),
     $ForeignBodyRemoval INTEGER,
     $Suction INTEGER,
@@ -131,7 +131,9 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $EntryDate DATETIME,
     $UpdateName VARCHAR(20),
     $UpdateMachine VARCHAR(20),
-    $UpdateDate DATETIME
+    $UpdateDate DATETIME,
+    $ReporterAffiliation VARCHAR,
+    $ReportingClass VARCHAR
       );''';
 
 const String CREATE_TABLE_MSTeamMember = '''CREATE TABLE $tableMSTeamMember(
@@ -297,6 +299,9 @@ const String EntryDate = 'EntryDate';
 const String UpdateName = 'UpdateName';
 const String UpdateMachine = 'UpdateMachine';
 const String UpdateDate = 'UpdateDate';
+const String ReporterAffiliation = 'ReporterAffiliation';
+const String ReportingClass = 'ReportingClass';
+
 
 //MSTeam Table
 const String TeamCD = 'TeamCD';
