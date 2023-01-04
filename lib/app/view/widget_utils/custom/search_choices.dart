@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:tap_canvas/tap_canvas.dart';
 
 const EdgeInsetsGeometry _kAlignedButtonPadding =
     EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
@@ -2342,34 +2341,28 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
         padding: widget.dropDownDialogPadding ??
             MediaQuery.of(dropdownDialogContext).viewInsets,
         duration: const Duration(milliseconds: 300),
-        child: TapOutsideDetectorWidget(
-          onTappedOutside: () {
-            print('touch outsideo');
-            pop();
-          },
-          child: Card(
-            elevation: 8.0,
-            color: widget.menuBackgroundColor,
-            margin: EdgeInsets.symmetric(
-                vertical: widget.dialogBox ? 10 : 5,
-                horizontal: widget.dialogBox ? 10 : 0),
-            child: Container(
-              constraints: widget.menuConstraints,
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  titleBar(),
-                  searchBar(),
-                  listWithPagination(),
-                  closeButtonWrapper(),
-                ],
-              ),
+        child: Card(
+          elevation: 8.0,
+          color: widget.menuBackgroundColor,
+          margin: EdgeInsets.symmetric(
+              vertical: widget.dialogBox ? 10 : 5,
+              horizontal: widget.dialogBox ? 10 : 0),
+          child: Container(
+            constraints: widget.menuConstraints,
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                titleBar(),
+                searchBar(),
+                listWithPagination(),
+                closeButtonWrapper(),
+              ],
             ),
           ),
-        ),
+        )
       )),
     );
   }

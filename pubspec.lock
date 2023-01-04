@@ -803,13 +803,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0+3"
-  tap_canvas:
-    dependency: "direct main"
-    description:
-      name: tap_canvas
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.4"
   term_glyph:
     dependency: transitive
     description:

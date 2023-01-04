@@ -109,7 +109,7 @@ dynamic data = {
       "VerbalGuidance": "Verbal Guidance Test",
       "Vomiting": 1,
       "WithLifeSavers": 1,
-      "Witnesses": 0,
+      "Witnesses": 0
     }
   ],
   "MSTeamMembers": [
