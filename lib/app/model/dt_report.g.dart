@@ -7,179 +7,128 @@ part of 'dt_report.dart';
 // **************************************************************************
 
 DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
-      ID: json['ID'],
-      TeamName: json['TeamName'],
-      TeamTEL: json['TeamTEL'],
-      TeamCaptainName: json['TeamCaptainName'],
-      LifesaverQualification: json['LifesaverQualification'],
-      WithLifeSavers: json['WithLifeSavers'],
-      TeamMemberName: json['TeamMemberName'],
-      InstitutionalMemberName: json['InstitutionalMemberName'],
-      Total: json['Total'],
-      Team: json['Team'],
-      SickInjuredPersonName: json['SickInjuredPersonName'],
-      SickInjuredPersonKANA: json['SickInjuredPersonKANA'],
-      SickInjuredPersonAddress: json['SickInjuredPersonAddress'],
-      SickInjuredPersonGender: json['SickInjuredPersonGender'],
-      SickInjuredPersonBirthDate: json['SickInjuredPersonBirthDate'],
-      SickInjuredPersonTEL: json['SickInjuredPersonTEL'],
-      SickInjuredPersonFamilyTEL: json['SickInjuredPersonFamilyTEL'],
-      SickInjuredPersonMedicalHistroy: json['SickInjuredPersonMedicalHistroy'],
+      ID: json['ID'] as int?,
+      TeamName: json['TeamName'] as String?,
+      TeamTEL: json['TeamTEL'] as String?,
+      TeamCaptainName: json['TeamCaptainName'] as String?,
+      LifesaverQualification: json['LifesaverQualification'] as int?,
+      WithLifeSavers: json['WithLifeSavers'] as int?,
+      TeamMemberName: json['TeamMemberName'] as String?,
+      InstitutionalMemberName: json['InstitutionalMemberName'] as String?,
+      Total: json['Total'] as int?,
+      Team: json['Team'] as int?,
+      SickInjuredPersonName: json['SickInjuredPersonName'] as String?,
+      SickInjuredPersonKANA: json['SickInjuredPersonKANA'] as String?,
+      SickInjuredPersonAddress: json['SickInjuredPersonAddress'] as String?,
+      SickInjuredPersonGender: json['SickInjuredPersonGender'] as String?,
+      SickInjuredPersonBirthDate: json['SickInjuredPersonBirthDate'] as String?,
+      SickInjuredPersonTEL: json['SickInjuredPersonTEL'] as String?,
+      SickInjuredPersonFamilyTEL: json['SickInjuredPersonFamilyTEL'] as String?,
+      SickInjuredPersonMedicalHistroy:
+          json['SickInjuredPersonMedicalHistroy'] as String?,
       SickInjuredPersonHistoryHospital:
-          json['SickInjuredPersonHistoryHospital'],
-      SickInjuredPersonKakaritsuke: json['SickInjuredPersonKakaritsuke'],
-      SickInjuredPersonMedication: json['SickInjuredPersonMedication'],
+          json['SickInjuredPersonHistoryHospital'] as String?,
+      SickInjuredPersonKakaritsuke:
+          json['SickInjuredPersonKakaritsuke'] as String?,
+      SickInjuredPersonMedication:
+          json['SickInjuredPersonMedication'] as String?,
       SickInjuredPersonMedicationDetail:
-          json['SickInjuredPersonMedicationDetail'],
-      SickInjuredPersonAllergy: json['SickInjuredPersonAllergy'],
+          json['SickInjuredPersonMedicationDetail'] as String?,
+      SickInjuredPersonAllergy: json['SickInjuredPersonAllergy'] as String?,
       SickInjuredPersonNameOfInjuaryOrSickness:
-          json['SickInjuredPersonNameOfInjuaryOrSickness'],
-      SickInjuredPersonDegree: json['SickInjuredPersonDegree'],
-      SickInjuredPersonAge: json['SickInjuredPersonAge'],
-      SenseTime: json['SenseTime'],
-      CommandTime: json['CommandTime'],
-      AttendanceTime: json['AttendanceTime'],
-      OnsiteArrivalTime: json['OnsiteArrivalTime'],
-      ContactTime: json['ContactTime'],
-      InvehicleTime: json['InvehicleTime'],
-      StartOfTransportTime: json['StartOfTransportTime'],
-      HospitalArrivalTime: json['HospitalArrivalTime'],
-      FamilyContactTime: json['FamilyContactTime'],
-      PoliceContactTime: json['PoliceContactTime'],
-      TimeOfArrival: json['TimeOfArrival'],
-      ReturnTime: json['ReturnTime'],
-      TypeOfAccident: json['TypeOfAccident'],
-      DateOfOccurrence: json['DateOfOccurrence'],
-      TimeOfOccurrence: json['TimeOfOccurrence'],
-      PlaceOfIncident: json['PlaceOfIncident'],
-      AccidentSummary: json['AccidentSummary'],
-      ADL: json['ADL'],
-      TrafficAccidentClassification: json['TrafficAccidentClassification'],
-      Witnesses: json['Witnesses'],
-      BystanderCPR: json['BystanderCPR'],
-      VerbalGuidance: json['VerbalGuidance'],
-      ObservationTime: (json['ObservationTime'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-      JCS: (json['JCS'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-          [],
-      GCSE:
-          (json['GCSE'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
-      GCSV:
-          (json['GCSV'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
-      GCSM:
-          (json['GCSM'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              [],
-      Respiration: (json['Respiration'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      Pulse: (json['Pulse'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-          [],
-      BloodPressureHigh: (json['BloodPressureHigh'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      BloodPressureLow: (json['BloodPressureLow'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      SpO2Percent: (json['SpO2Percent'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      SpO2Liter: (json['SpO2Liter'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      PupilRight: (json['PupilRight'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      PupilLeft: (json['PupilLeft'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      LightReflexRight: (json['LightReflexRight'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      PhotoreflexLeft: (json['PhotoreflexLeft'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      BodyTemperature: (json['BodyTemperature'] as List<dynamic>?)
-              ?.map((e) => e as int)
-              .toList() ??
-          [],
-      FacialFeatures: (json['FacialFeatures'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-      Hemorrhage: (json['Hemorrhage'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-      Incontinence: (json['Incontinence'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-      Vomiting:
-          (json['Vomiting'] as List<dynamic>?)?.map((e) => e as int).toList() ??
-              [],
-      Extremities: (json['Extremities'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
+          json['SickInjuredPersonNameOfInjuaryOrSickness'] as String?,
+      SickInjuredPersonDegree: json['SickInjuredPersonDegree'] as String?,
+      SickInjuredPersonAge: json['SickInjuredPersonAge'] as int?,
+      SenseTime: json['SenseTime'] as String?,
+      CommandTime: json['CommandTime'] as String?,
+      AttendanceTime: json['AttendanceTime'] as String?,
+      OnsiteArrivalTime: json['OnsiteArrivalTime'] as String?,
+      ContactTime: json['ContactTime'] as String?,
+      InvehicleTime: json['InvehicleTime'] as String?,
+      StartOfTransportTime: json['StartOfTransportTime'] as String?,
+      HospitalArrivalTime: json['HospitalArrivalTime'] as String?,
+      FamilyContactTime: json['FamilyContactTime'] as String?,
+      PoliceContactTime: json['PoliceContactTime'] as String?,
+      TimeOfArrival: json['TimeOfArrival'] as String?,
+      ReturnTime: json['ReturnTime'] as String?,
+      TypeOfAccident: json['TypeOfAccident'] as String?,
+      DateOfOccurrence: json['DateOfOccurrence'] as String?,
+      TimeOfOccurrence: json['TimeOfOccurrence'] as String?,
+      PlaceOfIncident: json['PlaceOfIncident'] as String?,
+      AccidentSummary: json['AccidentSummary'] as String?,
+      ADL: json['ADL'] as String?,
+      TrafficAccidentClassification:
+          json['TrafficAccidentClassification'] as String?,
+      Witnesses: json['Witnesses'] as int?,
+      BystanderCPR: json['BystanderCPR'] as String?,
+      VerbalGuidance: json['VerbalGuidance'] as String?,
+      ObservationTime: json['ObservationTime'] as String?,
+      JCS: json['JCS'] as String?,
+      GCSE: json['GCSE'] as String?,
+      GCSV: json['GCSV'] as String?,
+      GCSM: json['GCSM'] as String?,
+      Respiration: json['Respiration'] as String?,
+      Pulse: json['Pulse'] as String?,
+      BloodPressureHigh: json['BloodPressureHigh'] as String?,
+      BloodPressureLow: json['BloodPressureLow'] as String?,
+      SpO2Percent: json['SpO2Percent'] as String?,
+      SpO2Liter: json['SpO2Liter'] as String?,
+      PupilRight: json['PupilRight'] as String?,
+      PupilLeft: json['PupilLeft'] as String?,
+      LightReflexRight: json['LightReflexRight'] as String?,
+      PhotoreflexLeft: json['PhotoreflexLeft'] as String?,
+      BodyTemperature: json['BodyTemperature'] as String?,
+      FacialFeatures: json['FacialFeatures'] as String?,
+      Hemorrhage: json['Hemorrhage'] as String?,
+      Incontinence: json['Incontinence'] as String?,
+      Vomiting: json['Vomiting'] as String?,
+      Extremities: json['Extremities'] as String?,
       DescriptionOfObservationTime:
-          (json['DescriptionOfObservationTime'] as List<dynamic>?)
-                  ?.map((e) => e as String)
-                  .toList() ??
-              [],
-      SecuringAirway: json['SecuringAirway'],
-      ForeignBodyRemoval: json['ForeignBodyRemoval'],
-      Suction: json['Suction'],
-      ArtificialRespiration: json['ArtificialRespiration'],
-      ChestCompressions: json['ChestCompressions'],
-      ECGMonitor: json['ECGMonitor'],
-      O2Administration: json['O2Administration'],
-      O2AdministrationTime: json['O2AdministrationTime'],
-      SpinalCordMovementLimitation: json['SpinalCordMovementLimitation'],
-      HemostaticTreatment: json['HemostaticTreatment'],
-      AdductorFixation: json['AdductorFixation'],
-      Coating: json['Coating'],
-      BurnTreatment: json['BurnTreatment'],
-      BSMeasurement1: json['BSMeasurement1'],
-      BSMeasurementTime1: json['BSMeasurementTime1'],
-      PunctureSite1: json['PunctureSite1'],
-      BSMeasurement2: json['BSMeasurement2'],
-      BSMeasurementTime2: json['BSMeasurementTime2'],
-      PunctureSite2: json['PunctureSite2'],
-      Other: json['Other'],
-      PerceiverName: json['PerceiverName'],
-      TypeOfDetection: json['TypeOfDetection'],
-      CallerName: json['CallerName'],
-      CallerTEL: json['CallerTEL'],
-      MedicalTransportFacility: json['MedicalTransportFacility'],
-      TransferringMedicalInstitution: json['TransferringMedicalInstitution'],
-      TransferSourceReceivingTime: json['TransferSourceReceivingTime'],
-      ReasonForTransfer: json['ReasonForTransfer'],
-      ReasonForNotTransferring: json['ReasonForNotTransferring'],
-      RecordOfRefusalOfTransfer: json['RecordOfRefusalOfTransfer'],
-      Remark: json['Remark'],
-      ReporterName: json['ReporterName'],
-      ReporterPosition: json['ReporterPosition'],
-      EntryName: json['EntryName'],
-      EntryMachine: json['EntryMachine'],
-      EntryDate: json['EntryDate'],
-      UpdateName: json['UpdateName'],
-      UpdateMachine: json['UpdateMachine'],
-      UpdateDate: json['UpdateDate'],
-      ReporterAffiliation: json['ReporterAffiliation'],
-      ReportingClass: json['ReportingClass'],
+          json['DescriptionOfObservationTime'] as String?,
+      SecuringAirway: json['SecuringAirway'] as String?,
+      ForeignBodyRemoval: json['ForeignBodyRemoval'] as int?,
+      Suction: json['Suction'] as int?,
+      ArtificialRespiration: json['ArtificialRespiration'] as int?,
+      ChestCompressions: json['ChestCompressions'] as int?,
+      ECGMonitor: json['ECGMonitor'] as int?,
+      O2Administration: json['O2Administration'] as int?,
+      O2AdministrationTime: json['O2AdministrationTime'] as String?,
+      SpinalCordMovementLimitation:
+          json['SpinalCordMovementLimitation'] as String?,
+      HemostaticTreatment: json['HemostaticTreatment'] as int?,
+      AdductorFixation: json['AdductorFixation'] as int?,
+      Coating: json['Coating'] as int?,
+      BurnTreatment: json['BurnTreatment'] as int?,
+      BSMeasurement1: json['BSMeasurement1'] as int?,
+      BSMeasurementTime1: json['BSMeasurementTime1'] as String?,
+      PunctureSite1: json['PunctureSite1'] as String?,
+      BSMeasurement2: json['BSMeasurement2'] as int?,
+      BSMeasurementTime2: json['BSMeasurementTime2'] as String?,
+      PunctureSite2: json['PunctureSite2'] as String?,
+      Other: json['Other'] as String?,
+      PerceiverName: json['PerceiverName'] as String?,
+      TypeOfDetection: json['TypeOfDetection'] as String?,
+      CallerName: json['CallerName'] as String?,
+      CallerTEL: json['CallerTEL'] as String?,
+      MedicalTransportFacility: json['MedicalTransportFacility'] as String?,
+      TransferringMedicalInstitution:
+          json['TransferringMedicalInstitution'] as String?,
+      TransferSourceReceivingTime:
+          json['TransferSourceReceivingTime'] as String?,
+      ReasonForTransfer: json['ReasonForTransfer'] as String?,
+      ReasonForNotTransferring: json['ReasonForNotTransferring'] as String?,
+      RecordOfRefusalOfTransfer: json['RecordOfRefusalOfTransfer'] as int?,
+      Remark: json['Remark'] as String?,
+      ReporterName: json['ReporterName'] as String?,
+      ReporterPosition: json['ReporterPosition'] as String?,
+      EntryName: json['EntryName'] as String?,
+      EntryMachine: json['EntryMachine'] as String?,
+      EntryDate: json['EntryDate'] as String?,
+      UpdateName: json['UpdateName'] as String?,
+      UpdateMachine: json['UpdateMachine'] as String?,
+      UpdateDate: json['UpdateDate'] as String?,
+      ReporterAffiliation: json['ReporterAffiliation'] as String?,
+      ReportingClass: json['ReportingClass'] as String?,
     );
 
 Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{

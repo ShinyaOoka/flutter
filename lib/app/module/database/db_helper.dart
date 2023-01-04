@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   static const String dbName = 'ak_azm.db';
-  static const int dbVersion = 2;
+  static const int dbVersion = 3;
 
   static final DBHelper _instance = DBHelper.internal();
 
@@ -46,6 +46,7 @@ class DBHelper {
     batch.execute(CREATE_TABLE_MSFireStation);
     batch.execute(CREATE_TABLE_MSHospital);
     batch.execute(CREATE_TABLE_MSClassification);
+    batch.execute(CREATE_TABLE_MSMessage);
     List<dynamic>? res = await batch.commit();
     print('onCreate Database: version $version ====================================\n');
     return res;
@@ -60,6 +61,8 @@ class DBHelper {
       batch.execute(CREATE_TABLE_DTReport);
       batch.execute(DROP_TABLE_MSClassification);
       batch.execute(CREATE_TABLE_MSClassification);
+      batch.execute(DROP_TABLE_MSMessage);
+      batch.execute(CREATE_TABLE_MSMessage);
       List<dynamic>? res = await batch.commit();
       return res;
     }
@@ -120,7 +123,19 @@ class DBHelper {
     return await dbClient?.delete(tableName);
   }
 
-  Future putDataToDB(String table, List<dynamic> datas) async {
+  Future putDataToDTReportDb(String table, List<dynamic> datas) async {
+    var dbClient = await DBHelper().db;
+    // Initialize batch
+    final batch = dbClient?.batch();
+    for (var i in datas) {
+      batch?.insert(table, i.toJson());
+    }
+    // Commit
+    await batch?.commit(noResult: true);
+    return "success";
+  }
+
+  Future putDataToDB(String table, List<dynamic> datas, {bool firstWrite = true}) async {
     var dbClient = await DBHelper().db;
     // Initialize batch
     final batch = dbClient?.batch();

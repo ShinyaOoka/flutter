@@ -324,8 +324,6 @@ class PreviewReportViewModel extends BaseViewModel {
           '<span class="square"></span>部分介助', checkIcon + '部分介助');
     }
 
-    //"06時30分",
-
     //29
     htmlInput = htmlInput.replaceFirst(
         'SenseTime',
@@ -416,104 +414,150 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //layout 5
     //43
+
+    List<dynamic?>? ObservationTime = dtReport.ObservationTime?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? JCS = dtReport.JCS?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? GCSE= dtReport.GCSE?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? GCSV= dtReport.GCSV?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? GCSM = dtReport.GCSM?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Respiration = dtReport.Respiration?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Pulse = dtReport.Pulse?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? BloodPressureHigh = dtReport.BloodPressureHigh?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? BloodPressureLow = dtReport.BloodPressureLow?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? SpO2Percent = dtReport.SpO2Percent?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? SpO2Liter = dtReport.SpO2Liter?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? PupilRight = dtReport.PupilRight?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? PupilLeft = dtReport.PupilLeft?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? LightReflexRight = dtReport.LightReflexRight?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? PhotoreflexLeft = dtReport.PhotoreflexLeft?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? BodyTemperature = dtReport.BodyTemperature?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? FacialFeatures = dtReport.FacialFeatures?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Hemorrhage = dtReport.Hemorrhage?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Incontinence = dtReport.Incontinence?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Vomiting= dtReport.Vomiting?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? Extremities= dtReport.Extremities?.split(comma) ?? [null, null, null];
+
+    List<dynamic?>? DescriptionOfObservationTime= dtReport.DescriptionOfObservationTime?.split(comma) ?? [null, null, null];
+
+
     htmlInput = htmlInput.replaceFirst(
         'ObservationTime1',
         Utils.formatToOtherFormat(
-            dtReport.ObservationTime?[0] ?? '', hh_mm_, hh_space_mm));
+            ObservationTime[0] ?? '', hh_mm_, hh_space_mm));
     htmlInput = htmlInput.replaceFirst(
         'ObservationTime2',
         Utils.formatToOtherFormat(
-            dtReport.ObservationTime?[1] ?? '', hh_mm_, hh_space_mm));
+            ObservationTime[1] ?? '', hh_mm_, hh_space_mm));
     htmlInput = htmlInput.replaceFirst(
         'ObservationTime3',
         Utils.formatToOtherFormat(
-            dtReport.ObservationTime?[2] ?? '', hh_mm_, hh_space_mm));
+            ObservationTime[2] ?? '', hh_mm_, hh_space_mm));
 
     //44
-    htmlInput = htmlInput.replaceFirst('JCS1', dtReport.JCS?[0] ?? '');
-    htmlInput = htmlInput.replaceFirst('JCS2', dtReport.JCS?[1] ?? '');
-    htmlInput = htmlInput.replaceFirst('JCS3', dtReport.JCS?[2] ?? '');
+    htmlInput = htmlInput.replaceFirst('JCS1', JCS[0] ?? '');
+    htmlInput = htmlInput.replaceFirst('JCS2', JCS[1] ?? '');
+    htmlInput = htmlInput.replaceFirst('JCS3', JCS[2] ?? '');
 
     //45
-    htmlInput = htmlInput.replaceFirst('GCS_E1', dtReport.GCSE?[0] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_E2', dtReport.GCSE?[1] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_E3', dtReport.GCSE?[2] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_E1', GCSE[0] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_E2', GCSE[1] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_E3', GCSE[2] ?? '');
 
-    htmlInput = htmlInput.replaceFirst('GCS_V1', dtReport.GCSV?[0] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_V2', dtReport.GCSV?[1] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_V3', dtReport.GCSV?[2] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_V1', GCSV[0] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_V2', GCSV[1] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_V3', GCSV[2] ?? '');
 
-    htmlInput = htmlInput.replaceFirst('GCS_M1', dtReport.GCSM?[0] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_M2', dtReport.GCSM?[1] ?? '');
-    htmlInput = htmlInput.replaceFirst('GCS_M3', dtReport.GCSM?[2] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_M1', GCSM[0] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_M2', GCSM[1] ?? '');
+    htmlInput = htmlInput.replaceFirst('GCS_M3', GCSM[2] ?? '');
 
     //46
     htmlInput =
-        htmlInput.replaceFirst('Respiration1', dtReport.Respiration?[0].toString() ?? '');
+        htmlInput.replaceFirst('Respiration1', Respiration[0] ?? '');
     htmlInput =
-        htmlInput.replaceFirst('Respiration2', dtReport.Respiration?[1].toString() ?? '');
+        htmlInput.replaceFirst('Respiration2', Respiration[1] ?? '');
     htmlInput =
-        htmlInput.replaceFirst('Respiration3', dtReport.Respiration?[2].toString() ?? '');
+        htmlInput.replaceFirst('Respiration3', Respiration[2] ?? '');
 
     //47
     htmlInput =
-        htmlInput.replaceFirst('Pulse1', dtReport.Pulse?[0].toString() ?? '');
+        htmlInput.replaceFirst('Pulse1', Pulse[0] ?? '');
     htmlInput =
-        htmlInput.replaceFirst('Pulse2', dtReport.Pulse?[1].toString() ?? '');
+        htmlInput.replaceFirst('Pulse2', Pulse[1] ?? '');
     htmlInput =
-        htmlInput.replaceFirst('Pulse3', dtReport.Pulse?[2].toString() ?? '');
+        htmlInput.replaceFirst('Pulse3', Pulse[2] ?? '');
 
     //48
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_High1', dtReport.BloodPressureHigh?[0].toString() ?? '');
+        'BloodPressure_High1', BloodPressureHigh[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_High2', dtReport.BloodPressureHigh?[1].toString() ?? '');
+        'BloodPressure_High2', BloodPressureHigh[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_High3', dtReport.BloodPressureHigh?[2].toString() ?? '');
+        'BloodPressure_High3', BloodPressureHigh[2] ?? '');
 
     //49
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_Low1', dtReport.BloodPressureLow?[0].toString() ?? '');
+        'BloodPressure_Low1', BloodPressureLow[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_Low2', dtReport.BloodPressureLow?[1].toString() ?? '');
+        'BloodPressure_Low2', BloodPressureLow[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BloodPressure_Low3', dtReport.BloodPressureLow?[2].toString() ?? '');
+        'BloodPressure_Low3', BloodPressureLow[2] ?? '');
 
     //50
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Percent1', dtReport.SpO2Percent?[0].toString() ?? '');
+        'SpO2Percent1', SpO2Percent[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Percent2', dtReport.SpO2Percent?[1].toString() ?? '');
+        'SpO2Percent2', SpO2Percent[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Percent3', dtReport.SpO2Percent?[2].toString() ?? '');
+        'SpO2Percent3', SpO2Percent[2] ?? '');
 
     //51
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Liter1', dtReport.SpO2Liter?[0].toString() ?? '');
+        'SpO2Liter1', SpO2Liter[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Liter2', dtReport.SpO2Liter?[1].toString() ?? '');
+        'SpO2Liter2', SpO2Liter[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'SpO2Liter3', dtReport.SpO2Liter?[2].toString() ?? '');
+        'SpO2Liter3', SpO2Liter[2] ?? '');
 
     //52
     htmlInput = htmlInput.replaceFirst(
-        'PupilRight1', dtReport.PupilRight?[0].toString() ?? '');
+        'PupilRight1', PupilRight[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'PupilRight2', dtReport.PupilRight?[1].toString() ?? '');
+        'PupilRight2', PupilRight[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'PupilRight3', dtReport.PupilRight?[2].toString() ?? '');
+        'PupilRight3', PupilRight[2] ?? '');
 
     //53
     htmlInput = htmlInput.replaceFirst(
-        'PupilLeft1', dtReport.PupilLeft?[0].toString() ?? '');
+        'PupilLeft1', PupilLeft[0] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'PupilLeft2', dtReport.PupilLeft?[1].toString() ?? '');
+        'PupilLeft2', PupilLeft[1] ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'PupilLeft3', dtReport.PupilLeft?[2].toString() ?? '');
+        'PupilLeft3', PupilLeft[2] ?? '');
 
     //54
     //1
-    if (dtReport.LightReflexRight?[0] == 0) {
+    if (LightReflexRight[0] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 1 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -525,7 +569,7 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //55
     //1
-    if (dtReport.PhotoreflexLeft?[0] == 0) {
+    if (PhotoreflexLeft[0] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 2 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -537,7 +581,7 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //54
     //2
-    if (dtReport.LightReflexRight?[1] == 0) {
+    if (LightReflexRight[1] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 3 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -548,7 +592,7 @@ class PreviewReportViewModel extends BaseViewModel {
     }
     //55
     //2
-    if (dtReport.PhotoreflexLeft?[1] == 0) {
+    if (PhotoreflexLeft[1] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 4 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -560,7 +604,7 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //54
     //3
-    if (dtReport.LightReflexRight?[2] == 0) {
+    if (LightReflexRight[2] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 5 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -572,7 +616,7 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //55
     //3
-    if (dtReport.PhotoreflexLeft?[2] == 0) {
+    if (PhotoreflexLeft[2] == 0) {
       htmlInput = Utils.customReplace(htmlInput, '有・無', 6 - totalYesDotNoPos,
           '有・<span class="text-circle">無</span>');
       totalYesDotNoPos += 1;
@@ -584,26 +628,26 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //56
     htmlInput = htmlInput.replaceFirst(
-        'BodyTemperature1', dtReport.BodyTemperature?[0].toString() ?? '');
+        'BodyTemperature1', BodyTemperature[0].toString() ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BodyTemperature2', dtReport.BodyTemperature?[1].toString() ?? '');
+        'BodyTemperature2', BodyTemperature[1].toString() ?? '');
     htmlInput = htmlInput.replaceFirst(
-        'BodyTemperature3', dtReport.BodyTemperature?[2].toString() ?? '');
+        'BodyTemperature3', BodyTemperature[2].toString() ?? '');
 
     // //57
-    if (dtReport.FacialFeatures?[0] == '000') {
+    if (FacialFeatures[0] == '000') {
       htmlInput = Utils.customReplace(
           htmlInput, '正常', 1, '<span class="text-circle">正常</span>');
-    } else if (dtReport.FacialFeatures?[0] == '001') {
+    } else if (FacialFeatures[0] == '001') {
       htmlInput = Utils.customReplace(
           htmlInput, '紅潮', 1, '<span class="text-circle">紅潮</span>');
-    } else if (dtReport.FacialFeatures?[0] == '002') {
+    } else if (FacialFeatures[0] == '002') {
       htmlInput = Utils.customReplace(
           htmlInput, '蒼白', 1, '<span class="text-circle">蒼白</span>');
-    } else if (dtReport.FacialFeatures?[0] == '003') {
+    } else if (FacialFeatures[0] == '003') {
       htmlInput = Utils.customReplace(
           htmlInput, 'チアノーゼ', 1, '<span class="text-circle">チアノーゼ</span>');
-    } else if (dtReport.FacialFeatures?[0] == '004') {
+    } else if (FacialFeatures[0] == '004') {
       htmlInput = Utils.customReplace(
           htmlInput, '発汗', 1, '<span class="text-circle">発汗</span>');
     } else {
@@ -611,10 +655,10 @@ class PreviewReportViewModel extends BaseViewModel {
           htmlInput, '苦悶', 1, '<span class="text-circle">苦悶</span>');
     }
 
-    if (dtReport.FacialFeatures?[1] == '000') {
+    if (FacialFeatures[1] == '000') {
       htmlInput = Utils.customReplace(
           htmlInput, '正常', 2, '<span class="text-circle">正常</span>');
-    } else if (dtReport.FacialFeatures?[1] == '001') {
+    } else if (FacialFeatures[1] == '001') {
       htmlInput = Utils.customReplace(
           htmlInput, '紅潮', 2, '<span class="text-circle">紅潮</span>');
     } else if (dtReport.FacialFeatures?[1] == '002') {
@@ -799,6 +843,8 @@ class PreviewReportViewModel extends BaseViewModel {
         htmlInput.replaceFirst('Extremities2', dtReport.Extremities?[1].toString() ?? '');
     htmlInput =
         htmlInput.replaceFirst('Extremities3', dtReport.Extremities?[2].toString() ?? '');
+
+
 
     //62
     if (dtReport.SecuringAirway != null) {

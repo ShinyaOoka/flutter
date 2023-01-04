@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/viewmodel/base_viewmodel.dart';
+import 'package:ak_azm_flutter/main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +48,16 @@ class _ListReportContentState extends State<ListReportContent>
     });
     listReportViewModel.getAllMSClassification();
     listReportViewModel.getReports();
+
+    //notify add new report
+    eventBus.on<AddReport>().listen((event) {
+      listReportViewModel.refreshData();
+    });
+
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +116,7 @@ class _ListReportContentState extends State<ListReportContent>
                                   );
                                 },
                                 imgEmpty: '',
-                                emptyText: '',
+                                emptyText: 'Empty Data',
                               );
                             case LoadingState.DONE:
                               return RefreshIndicator(

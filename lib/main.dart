@@ -49,12 +49,12 @@ void main() async {
 
 void pushDataToDb() async {
   InitData initData = InitData.fromJson(data);
-  await dbHelper.putDataToDB(tableDTReport, initData.DTReports);
   await dbHelper.putDataToDB(tableMSTeamMember, initData.MSTeamMembers);
   await dbHelper.putDataToDB(tableMSTeam, initData.MSTeams);
   await dbHelper.putDataToDB(tableMSFireStation, initData.MSFireStations);
   await dbHelper.putDataToDB(tableMSHospital, initData.MSHospitals);
   await dbHelper.putDataToDB(tableMSClassification, initData.MSClassifications);
+  await dbHelper.putDataToDB(tableMSMessage, initData.MSMessages);
 }
 
 void configLoading() {

@@ -134,8 +134,8 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                             },
                             child: SvgPicture.asset(
                               isShowPassword
-                                  ? 'assets/icons/ic_eye.svg'
-                                  : 'assets/icons/ic_eye_off.svg',
+                                  ? ''
+                                  : '',
                               width: size_22_w,
                               height: size_22_w,
                               color: kColor89000000,

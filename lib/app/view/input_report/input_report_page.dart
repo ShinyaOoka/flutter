@@ -109,7 +109,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
-                onPressed: () => {ToastUtil.showToast('Save Button')},
+                onPressed: () => inputReportViewModel.onSaveToDb(),
               ),
             ],
             automaticallyImplyLeading: false,
@@ -281,7 +281,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               return buildDropDownSearch(
                   LocaleKeys.ambulance_name.tr(),
                   value.msTeams.map((e) => e.Name.toString()).toList(),
-                  value.ambulance_name,
+                  value.dtReport.TeamName,
                   value.onSelectAmbulanceName);
             }),
           ),
@@ -297,13 +297,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                 return OutlineTextFormField(
                   keyboardType: TextInputType.number,
                   isAlwaysShowLable: true,
-                  controller: TextEditingController(text: value.ambulance_tel),
+                  controller: TextEditingController(text: value.dtReport.TeamTEL),
                   counterWidget: null,
                   textColor: kColor4472C4,
                   colorBorder: Colors.black26,
                   colorFocusBorder: kColor4472C4,
                   labelText: LocaleKeys.ambulance_tel.tr(),
-                  onChanged: (value) => {},
+                  onChanged: (value) => null,
                 );
               }),
             ),
@@ -319,7 +319,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               return buildDropDownSearch(
                   LocaleKeys.captain_name.tr(),
                   value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                  value.captain_name,
+                  value.dtReport.TeamCaptainName,
                   value.onSelectCaptainName);
             }),
           ),
@@ -360,7 +360,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               return buildDropDownSearch(
                   LocaleKeys.report_member_name.tr(),
                   value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                  value.report_member_name,
+                  value.dtReport.TeamMemberName,
                   value.onSelectReportMemberName,
                   backgroundTextLabel: kColorDEE9F6);
             }),
@@ -378,7 +378,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 return buildDropDownSearch(
                     LocaleKeys.report_name_of_engineer.tr(),
                     value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                    value.report_name_of_engineer,
+                    value.dtReport.InstitutionalMemberName	,
                     value.onSelectReportNameOfEngineer,
                     backgroundTextLabel: kColorDEE9F6);
               })),
@@ -507,7 +507,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
-              return datePicker(LocaleKeys.birthday.tr(), value.birthday,
+              return datePicker(LocaleKeys.birthday.tr(), value.dtReport.SickInjuredPersonBirthDate,
                   value.onConfirmBirthday);
             }),
           ),
@@ -518,7 +518,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.phone,
               maxLength: 20,
               counterStyle: counterStyle,
               textColor: kColor4472C4,
@@ -535,7 +535,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.phone,
               maxLength: 20,
               counterStyle: counterStyle,
               textColor: kColor4472C4,
@@ -694,22 +694,9 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
-              return textShowWithLabel(LocaleKeys.report_age.tr(), value.age,
+              return textShowWithLabel(LocaleKeys.report_age.tr(), value.dtReport.SickInjuredPersonAge.toString(),
                   backgroundLableColor: kColorDEE9F6);
             }),
-
-            //ĐỢI CONFIRM KHÁCH
-            /*OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.number,
-              maxLength: 3,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_age.tr(),
-              onChanged: (value) => {},
-            ),*/
           ),
           spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
         ]);
@@ -726,7 +713,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.awareness_time.tr(),
-                  value.awareness_time, value.onConfirmAwarenessTime);
+                  value.dtReport.SenseTime, value.onConfirmAwarenessTime);
             }),
           ),
           spaceWidgetColor(),
@@ -737,7 +724,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.command_time.tr(),
-                  value.command_time, value.onConfirmCommandTime);
+                  value.dtReport.CommandTime, value.onConfirmCommandTime);
             }),
           ),
           spaceWidgetColor(),
@@ -747,7 +734,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
-              return timePicker(LocaleKeys.work_time.tr(), value.work_time,
+              return timePicker(LocaleKeys.work_time.tr(), value.dtReport.AttendanceTime,
                   value.onConfirmWorkTime);
             }),
           ),
@@ -759,7 +746,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.arrival_on_site.tr(),
-                  value.arrival_on_site, value.onConfirmArrivalOnSite);
+                  value.dtReport.OnsiteArrivalTime, value.onConfirmArrivalOnSite);
             }),
           ),
           spaceWidgetColor(),
@@ -770,7 +757,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.contact_time.tr(),
-                  value.contact_time, value.onConfirmContactTime);
+                  value.dtReport.ContactTime, value.onConfirmContactTime);
             }),
           ),
           spaceWidgetColor(),
@@ -782,7 +769,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 builder: (context, value, child) {
               return timePicker(
                   LocaleKeys.in_car_accommodation.tr(),
-                  value.in_car_accommodation,
+                  value.dtReport.InvehicleTime,
                   value.onConfirmInCarAccommodation);
             }),
           ),
@@ -795,7 +782,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 builder: (context, value, child) {
               return timePicker(
                   LocaleKeys.start_transportation.tr(),
-                  value.start_transportation,
+                  value.dtReport.StartOfTransportTime,
                   value.onConfirmStartTransportation);
             }),
           ),
@@ -807,7 +794,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.arrival_at_hospital.tr(),
-                  value.arrival_at_hospital, value.onConfirmArrivalAtHospital);
+                  value.dtReport.HospitalArrivalTime, value.onConfirmArrivalAtHospital);
             }),
           ),
           spaceWidgetColor(),
@@ -818,7 +805,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.family_contact.tr(),
-                  value.family_contact, value.onConfirmFamilyContact);
+                  value.dtReport.FamilyContactTime, value.onConfirmFamilyContact);
             }),
           ),
           spaceWidgetColor(),
@@ -829,7 +816,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.police_contact.tr(),
-                  value.police_contact, value.onConfirmPoliceContact);
+                  value.dtReport.PoliceContactTime, value.onConfirmPoliceContact);
             }),
           ),
           spaceWidgetColor(),
@@ -842,7 +829,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 builder: (context, value, child) {
               return timePicker(
                   LocaleKeys.report_cash_on_delivery_time.tr(),
-                  value.report_cash_on_delivery_time,
+                  value.dtReport.TimeOfArrival,
                   value.onConfirmReportCashOnDeliveryTime,
                   backgroundLableColor: kColorDEE9F6);
             }),
@@ -856,7 +843,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.report_return_time.tr(),
-                  value.report_return_time, value.onConfirmReportReturnTime,
+                  value.dtReport.ReturnTime, value.onConfirmReportReturnTime,
                   backgroundLableColor: kColorDEE9F6);
             }),
           ),
@@ -882,7 +869,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     .toList()
                     .map((e) => e.Value.toString())
                     .toList(),
-                value.accident_type_input,
+                value.accidentTypeInput,
                 value.onSelectAccidentTypeInput,
               );
             }),
@@ -898,7 +885,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
                     return datePicker(LocaleKeys.accrual_date.tr(),
-                        value.accrual_date, value.onConfirmAccrualDate);
+                        value.dtReport.DateOfOccurrence, value.onConfirmAccrualDate);
                   }),
                   flex: 1,
                 ),
@@ -909,7 +896,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
                     return timePicker(LocaleKeys.occurrence_time.tr(),
-                        value.occurrence_time, value.onConfirmOccurrenceTime);
+                        value.dtReport.TimeOfOccurrence, value.onConfirmOccurrenceTime);
                   }),
                   flex: 1,
                 )
@@ -987,7 +974,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     .toList()
                     .map((e) => e.Value.toString())
                     .toList(),
-                value.traffic_accident_category,
+                value.trafficAccidentCategory,
                 value.onSelectTrafficAccidentCategory,
               );
             }),
@@ -1013,7 +1000,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return timePicker(LocaleKeys.bystander_cpr.tr(),
-                  value.bystander_cpr, value.onConfirmBystanderCpr);
+                  value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
             }),
           ),
 
@@ -1472,7 +1459,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.airway_management,
+                    value.airwayManagement,
                     value.onSelectAirwayManagement,
                     height: 180
                   );
@@ -1574,7 +1561,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
                         return timePicker(LocaleKeys.o2_administration_time.tr(),
-                            value.o2_administration_time, value.onSelectO2AdministrationTime);
+                            value.dtReport.O2AdministrationTime, value.onSelectO2AdministrationTime);
                       }),
                   flex: 1,
                 )
@@ -1596,7 +1583,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.spinal_cord_motion_limitation,
+                    value.spinalCordMotionLimitation,
                     value.onSelectSpinalCordMotionLimitation,
                       height: 180
                   );
@@ -1681,7 +1668,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
                         return timePicker(LocaleKeys.bs_measurement_time_1.tr(),
-                            value.bs_measurement_time_1, value.onSelectBsMeasurementTime1);
+                            value.dtReport.BSMeasurementTime1, value.onSelectBsMeasurementTime1);
                       }),
                   flex: 1,
                 )
@@ -1740,7 +1727,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
                         return timePicker(LocaleKeys.bs_measurement_time_2.tr(),
-                            value.bs_measurement_time_2, value.onSelectBsMeasurementTime2);
+                            value.dtReport.BSMeasurementTime2, value.onSelectBsMeasurementTime2);
                       }),
                   flex: 1,
                 )
@@ -2653,7 +2640,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         .toList()
                         .map((e) => e.Value.toString())
                         .toList(),
-                    value.awareness_type,
+                    value.awarenessType,
                     value.onSelectAwarenessType,
                     backgroundTextLabel: kColorDEE9F6,
                     height: 225
@@ -2711,7 +2698,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       value.msHospitals
                           .map((e) => e.Name.toString())
                           .toList(),
-                      value.transportation_medical_institution,
+                      value.dtReport.MedicalTransportFacility,
                       value.onSelectTransportationMedicalInstitution,
                       backgroundTextLabel: kColorDEE9F6
                   );
@@ -2727,7 +2714,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       value.msHospitals
                           .map((e) => e.Name.toString())
                           .toList(),
-                      value.forwarding_medical_institution,
+                      value.dtReport.TransferringMedicalInstitution,
                       value.onSelectForwardingMedicalInstitution,
                       backgroundTextLabel: kColorDEE9F6
                   );
@@ -2740,7 +2727,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
                   return timePicker(LocaleKeys.transfer_source_pick_up_time.tr(),
-                      value.transfer_source_pick_up_time, value.onConfirmTransferSourcePickUpTime, backgroundLableColor: kColorDEE9F6);
+                      value.dtReport.TransferSourceReceivingTime, value.onConfirmTransferSourcePickUpTime, backgroundLableColor: kColorDEE9F6);
                 }),
           ),
           spaceWidgetColor(height: size_22_w),

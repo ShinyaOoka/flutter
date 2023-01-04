@@ -14,8 +14,7 @@ const String comma = ',';
 String getImageUrl(String path) => path;
 
 //Date time
-const String ddMMyyyy = 'dd/MM/yyyy';
-const String MMddyyyy = 'MM/dd/yyyy';
+const String yyyyMMdd = 'yyyy/MM/dd';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String hh_mm_ = 'hh時mm分';
 const String hh_space_mm = 'hh: mm';

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../generated/locale_keys.g.dart';
 import '../../model/ms_classification.dart';
 import '../../module/res/style.dart';
+import 'package:collection/collection.dart';
 
 class ItemReport extends StatelessWidget {
   DTReport report;
@@ -128,6 +129,6 @@ class ItemReport extends StatelessWidget {
 
   MSClassification? finMSClassification(){
     if(msClassifications.isEmpty) return null;
-    return msClassifications.firstWhere((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
+    return msClassifications.firstWhereOrNull((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
   }
 }

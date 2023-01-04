@@ -106,12 +106,13 @@ class Utils {
     return age;
   }
 
-  static String dateTimeToString(DateTime? date, {String format = MMddyyyy}) {
+  static String dateTimeToString(DateTime? date, {String format = yyyyMMdd}) {
     return date == null ? '' : DateFormat(format).format(date).toString();
   }
 
   static String formatToOtherFormat(
       String stringInputDate, String fromFormat, String toFormat) {
+    if(stringInputDate.isEmpty) return '';
     var inputFormat = DateFormat(fromFormat);
     var dateInput = inputFormat.parse(stringInputDate);
     var outputFormat = DateFormat(toFormat);
@@ -119,7 +120,7 @@ class Utils {
   }
 
   static DateTime stringToDateTime(String? stringDate,
-      {String format = MMddyyyy}) {
+      {String format = yyyyMMdd}) {
     return stringDate == null
         ? DateTime.now()
         : DateFormat(format).parse(stringDate);
@@ -145,20 +146,20 @@ class Utils {
     return temTELs;
   }
 
-  void removeFocus(BuildContext context) {
+  static void removeFocus(BuildContext context) {
     final currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
-  Future<ByteData> getByteFromFile(File file) async {
+  static Future<ByteData> getByteFromFile(File file) async {
     return await file
         .readAsBytes()
         .then((data) => ByteData.view(data as ByteBuffer));
   }
 
-  Future<Uint8List?> readFileByte(String? filePath) async {
+  static Future<Uint8List?> readFileByte(String? filePath) async {
     if (filePath == null) return null;
     final myUri = Uri.parse(filePath);
     final audioFile = File.fromUri(myUri);
@@ -168,4 +169,15 @@ class Utils {
       return null;
     }
   }
+
+  static String importStringToDb(dynamic? v1, dynamic? v2, dynamic? v3){
+    return '$v1$comma$v2$comma$v3';
+  }
+
+  static List<dynamic?> exportDataFromDb(String data){
+    return data.split(comma);
+  }
+
+
+
 }
