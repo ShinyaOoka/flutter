@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
 import 'package:ak_azm_flutter/app/model/ms_hospital.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
@@ -86,29 +87,29 @@ class InputReportViewModel extends BaseViewModel {
   String? oral_instruction = '';
 
   //layout 5
-  String? observation_time = '';
-  String? report_observation_time_explanation = '';
-  String? jcs = '';
-  String? gcs = '';
-  String? gcs_e = '';
-  String? gcs_v = '';
-  String? gcs_m = '';
-  String? breathing = '';
-  String? pulse = '';
-  String? blood_pressure_up = '';
-  String? blood_pressure_lower = '';
-  String? spo2_percent = '';
-  String? spo2_l = '';
-  String? right_pupil = '';
-  String? left_pupil = '';
-  String? light_reflection_right = '';
-  String? light_reflection_left = '';
-  String? body_temperature = '';
-  String? facial_features = '';
-  String? bleeding = '';
-  List<String> incontinence = [];
-  String? vomiting = '';
-  String? limb = '';
+  String? observationTime1 = '';
+  String? reportObservationTimeExplanation1 = '';
+  String? jcs1 = '';
+  String? gcs1 = '';
+  String? gcsE1 = '';
+  String? gcsV1 = '';
+  String? gcsM1 = '';
+  String? breathing1 = '';
+  String? pulse1 = '';
+  String? bloodPressureUp1 = '';
+  String? bloodPessureLower1 = '';
+  String? spo2Percent1 = '';
+  String? spo2L1 = '';
+  String? rightPupil1 = '';
+  String? leftPupil1 = '';
+  String? lightReflectionRight1 = '';
+  String? lightReflectionLeft1 = '';
+  String? bodyTemperature1 = '';
+  String? facialFeatures1 = '';
+  String? bleeding1 = '';
+  String incontinence1 = '';
+  String? vomiting1 = '';
+  String? limb1 = '';
 
   //layout 6
   String? airway_management = '';
@@ -133,56 +134,57 @@ class InputReportViewModel extends BaseViewModel {
   String? others = '';
 
   //layout 7
-  String? observation_time_7 = '';
-  String? report_observation_time_explanation_7 = '';
-  String? jcs_7 = '';
-  String? gcs_7 = '';
-  String? gcs_e_7 = '';
-  String? gcs_v_7 = '';
-  String? gcs_m_7 = '';
-  String? breathing_7 = '';
-  String? pulse_7 = '';
-  String? blood_pressure_up_7 = '';
-  String? blood_pressure_lower_7 = '';
-  String? spo2_percent_7 = '';
-  String? spo2_l_7 = '';
-  String? right_pupil_7 = '';
-  String? left_pupil_7 = '';
-  String? light_reflection_right_7 = '';
-  String? light_reflection_left_7 = '';
-  String? body_temperature_7 = '';
-  String? facial_features_7 = '';
-  String? bleeding_7 = '';
-  List<String> incontinence_7 = [];
-  String? vomiting_7 = '';
-  String? limb_7 = '';
+  String? observationTime2 = '';
+  String? reportObservationTimeExplanation2 = '';
+  String? jcs2 = '';
+  String? gcs2 = '';
+  String? gcsE2 = '';
+  String? gcsV2 = '';
+  String? gcsM2 = '';
+  String? breathing2 = '';
+  String? pulse2 = '';
+  String? bloodPressureUp2 = '';
+  String? bloodPessureLower2 = '';
+  String? spo2Percent2 = '';
+  String? spo2L2 = '';
+  String? rightPupil2 = '';
+  String? leftPupil2 = '';
+  String? lightReflectionRight2 = '';
+  String? lightReflectionLeft2 = '';
+  String? bodyTemperature2 = '';
+  String? facialFeatures2 = '';
+  String? bleeding2 = '';
+  String incontinence2 = '';
+  String? vomiting2 = '';
+  String? limb2 = '';
 
 
 
   //layout 8
-  String? observation_time_8 = '';
-  String? report_observation_time_explanation_8 = '';
-  String? jcs_8 = '';
-  String? gcs_8 = '';
-  String? gcs_e_8 = '';
-  String? gcs_v_8 = '';
-  String? gcs_m_8 = '';
-  String? breathing_8 = '';
-  String? pulse_8 = '';
-  String? blood_pressure_up_8 = '';
-  String? blood_pressure_lower_8 = '';
-  String? spo2_percent_8 = '';
-  String? spo2_l_8 = '';
-  String? right_pupil_8 = '';
-  String? left_pupil_8 = '';
-  String? light_reflection_right_8 = '';
-  String? light_reflection_left_8 = '';
-  String? body_temperature_8 = '';
-  String? facial_features_8 = '';
-  String? bleeding_8 = '';
-  List<String> incontinence_8 = [];
-  String? vomiting_8 = '';
-  String? limb_8 = '';
+  String? observationTime3 = '';
+  String? reportObservationTimeExplanation3 = '';
+  String? jcs3 = '';
+  String? gcs3 = '';
+  String? gcsE3 = '';
+  String? gcsV3 = '';
+  String? gcsM3 = '';
+  String? breathing3 = '';
+  String? pulse3 = '';
+  String? bloodPressureUp3 = '';
+  String? bloodPessureLower3 = '';
+  String? spo2Percent3 = '';
+  String? spo2L3 = '';
+  String? rightPupil3 = '';
+  String? leftPupil3 = '';
+  String? lightReflectionRight3 = '';
+  String? lightReflectionLeft3 = '';
+  String? bodyTemperature3 = '';
+  String? facialFeatures3 = '';
+  String? bleeding3 = '';
+  String incontinence3 = '';
+  String? vomiting3 = '';
+  String? limb3 = '';
+
 
   //layout 9
   String? perceiver = '';
@@ -479,117 +481,120 @@ class InputReportViewModel extends BaseViewModel {
     this.oral_instruction = itemSelected ?? '';
     notifyListeners();
   }
+  
 
   //layout 5
-  onConfirmObservationTime(DateTime date) {
-    this.observation_time = Utils.dateTimeToString(date, format: hh_mm_);
+  onConfirmObservationTime1(DateTime date) {
+    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation(String? itemSelected) {
-    this.report_observation_time_explanation = itemSelected ?? '';
+  onChangeReportObservationTimeExplanation1(String? itemSelected) {
+    this.reportObservationTimeExplanation1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectJcs(String? itemSelected) {
-    this.jcs = itemSelected ?? '';
+  onSelectJcs1(String? itemSelected) {
+    this.jcs1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsE(String? itemSelected) {
-    this.gcs_e = itemSelected ?? '';
+  onSelectGcsE1(String? itemSelected) {
+    this.gcsE1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsV(String? itemSelected) {
-    this.gcs_v = itemSelected ?? '';
+  onSelectGcsV1(String? itemSelected) {
+    this.gcsV1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsM(String? itemSelected) {
-    this.gcs_m = itemSelected ?? '';
+  onSelectGcsM1(String? itemSelected) {
+    this.gcsM1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBreathing(String? itemSelected) {
-    this.breathing = itemSelected ?? '';
+  onChangeBreathing1(String? itemSelected) {
+    this.breathing1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangePulse(String? itemSelected) {
-    this.pulse = itemSelected ?? '';
+  onChangePulse1(String? itemSelected) {
+    this.pulse1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureUp(String? itemSelected) {
-    this.blood_pressure_up = itemSelected ?? '';
+  onChangeBloodPressureUp1(String? itemSelected) {
+    this.bloodPressureUp1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureLower(String? itemSelected) {
-    this.blood_pressure_lower = itemSelected ?? '';
+  onChangeBloodPressureLower1(String? itemSelected) {
+    this.bloodPessureLower1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2Percent(String? itemSelected) {
-    this.spo2_percent = itemSelected ?? '';
+  onChangeSpo2Percent1(String? itemSelected) {
+    this.spo2Percent1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2L(String? itemSelected) {
-    this.spo2_l = itemSelected ?? '';
+  onChangeSpo2L1(String? itemSelected) {
+    this.spo2L1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeRightPupil(String? itemSelected) {
-    this.right_pupil = itemSelected ?? '';
+  onChangeRightPupil1(String? itemSelected) {
+    this.rightPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeLeftPupil(String? itemSelected) {
-    this.left_pupil = itemSelected ?? '';
+  onChangeLeftPupil1(String? itemSelected) {
+    this.leftPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectLightReflectionRight(String? itemSelected) {
-    this.light_reflection_right = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionRight1(String? itemSelected) {
+    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectLightReflectionLeft(String? itemSelected) {
-    this.light_reflection_left = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionLeft1(String? itemSelected) {
+    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onChangeBodyTemperature(String? itemSelected) {
-    this.body_temperature = itemSelected ?? '';
+  onChangeBodyTemperature1(String? itemSelected) {
+    this.bodyTemperature1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectFacialFeatures(String? itemSelected) {
-    this.facial_features = itemSelected ?? '';
+  onSelectFacialFeatures1(String? itemSelected) {
+    this.facialFeatures1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBleeding(String? itemSelected) {
-    this.bleeding = itemSelected ?? '';
+  onChangeBleeding1(String? itemSelected) {
+    this.bleeding1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectVomiting(String? itemSelected) {
-    this.vomiting = itemSelected ?? yesNothings[1];
+  onSelectIncontinence1(List<String> checkeds) {
+    this.incontinence1 = checkeds.join(comma);
     notifyListeners();
   }
 
-  onChangeLimb(String? itemSelected) {
-    this.limb = itemSelected ?? '';
+  onSelectVomiting1(String? itemSelected) {
+    this.vomiting1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectIncontinence(List<String> checkeds) {
-    this.incontinence = checkeds ?? [];
+  onChangeLimb1(String? itemSelected) {
+    this.limb1 = itemSelected ?? '';
     notifyListeners();
   }
+
+  
 
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
@@ -695,230 +700,228 @@ class InputReportViewModel extends BaseViewModel {
 
 
   //layout 7
-  onConfirmObservationTime7(DateTime date) {
-    this.observation_time_7 = Utils.dateTimeToString(date, format: hh_mm_);
+  onConfirmObservationTime2(DateTime date) {
+    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation7(String? itemSelected) {
-    this.report_observation_time_explanation_7 = itemSelected ?? '';
+  onChangeReportObservationTimeExplanation2(String? itemSelected) {
+    this.reportObservationTimeExplanation1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectJcs7(String? itemSelected) {
-    this.jcs_7 = itemSelected ?? '';
+  onSelectJcs2(String? itemSelected) {
+    this.jcs1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsE7(String? itemSelected) {
-    this.gcs_e_7 = itemSelected ?? '';
+  onSelectGcsE2(String? itemSelected) {
+    this.gcsE1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsV7(String? itemSelected) {
-    this.gcs_v_7 = itemSelected ?? '';
+  onSelectGcsV2(String? itemSelected) {
+    this.gcsV1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsM7(String? itemSelected) {
-    this.gcs_m_7 = itemSelected ?? '';
+  onSelectGcsM2(String? itemSelected) {
+    this.gcsM1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBreathing7(String? itemSelected) {
-    this.breathing_7 = itemSelected ?? '';
+  onChangeBreathing2(String? itemSelected) {
+    this.breathing1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangePulse7(String? itemSelected) {
-    this.pulse_7 = itemSelected ?? '';
+  onChangePulse2(String? itemSelected) {
+    this.pulse1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureUp7(String? itemSelected) {
-    this.blood_pressure_up_7 = itemSelected ?? '';
+  onChangeBloodPressureUp2(String? itemSelected) {
+    this.bloodPressureUp1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureLower7(String? itemSelected) {
-    this.blood_pressure_lower_7 = itemSelected ?? '';
+  onChangeBloodPressureLower2(String? itemSelected) {
+    this.bloodPessureLower1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2Percent7(String? itemSelected) {
-    this.spo2_percent_7 = itemSelected ?? '';
+  onChangeSpo2Percent2(String? itemSelected) {
+    this.spo2Percent1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2L7(String? itemSelected) {
-    this.spo2_l_7 = itemSelected ?? '';
+  onChangeSpo2L2(String? itemSelected) {
+    this.spo2L1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeRightPupil7(String? itemSelected) {
-    this.right_pupil_7 = itemSelected ?? '';
+  onChangeRightPupil2(String? itemSelected) {
+    this.rightPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeLeftPupil7(String? itemSelected) {
-    this.left_pupil_7 = itemSelected ?? '';
+  onChangeLeftPupil2(String? itemSelected) {
+    this.leftPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectLightReflectionRight7(String? itemSelected) {
-    this.light_reflection_right_7 = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionRight2(String? itemSelected) {
+    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectLightReflectionLeft7(String? itemSelected) {
-    this.light_reflection_left_7 = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionLeft2(String? itemSelected) {
+    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onChangeBodyTemperature7(String? itemSelected) {
-    this.body_temperature_7 = itemSelected ?? '';
+  onChangeBodyTemperature2(String? itemSelected) {
+    this.bodyTemperature1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectFacialFeatures7(String? itemSelected) {
-    this.facial_features_7 = itemSelected ?? '';
+  onSelectFacialFeatures2(String? itemSelected) {
+    this.facialFeatures1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBleeding7(String? itemSelected) {
-    this.bleeding_7 = itemSelected ?? '';
+  onChangeBleeding2(String? itemSelected) {
+    this.bleeding1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectVomiting7(String? itemSelected) {
-    this.vomiting_7 = itemSelected ?? yesNothings[1];
+  onSelectIncontinence2(List<String> checkeds) {
+    this.incontinence1 = checkeds.join(comma);
     notifyListeners();
   }
 
-  onChangeLimb7(String? itemSelected) {
-    this.limb_7 = itemSelected ?? '';
+  onSelectVomiting2(String? itemSelected) {
+    this.vomiting1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectIncontinence7(List<String> checkeds) {
-    this.incontinence_7 = checkeds ?? [];
+  onChangeLimb2(String? itemSelected) {
+    this.limb1 = itemSelected ?? '';
     notifyListeners();
   }
 
 
 
   //layout 8
-  onConfirmObservationTime8(DateTime date) {
-    this.observation_time_8 = Utils.dateTimeToString(date, format: hh_mm_);
+  onConfirmObservationTime3(DateTime date) {
+    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation8(String? itemSelected) {
-    this.report_observation_time_explanation_8 = itemSelected ?? '';
+  onChangeReportObservationTimeExplanation3(String? itemSelected) {
+    this.reportObservationTimeExplanation1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectJcs8(String? itemSelected) {
-    this.jcs_8 = itemSelected ?? '';
+  onSelectJcs3(String? itemSelected) {
+    this.jcs1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsE8(String? itemSelected) {
-    this.gcs_e_8 = itemSelected ?? '';
+  onSelectGcsE3(String? itemSelected) {
+    this.gcsE1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsV8(String? itemSelected) {
-    this.gcs_v_8 = itemSelected ?? '';
+  onSelectGcsV3(String? itemSelected) {
+    this.gcsV1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectGcsM8(String? itemSelected) {
-    this.gcs_m_8 = itemSelected ?? '';
+  onSelectGcsM3(String? itemSelected) {
+    this.gcsM1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBreathing8(String? itemSelected) {
-    this.breathing_8 = itemSelected ?? '';
+  onChangeBreathing3(String? itemSelected) {
+    this.breathing1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangePulse8(String? itemSelected) {
-    this.pulse_8 = itemSelected ?? '';
+  onChangePulse3(String? itemSelected) {
+    this.pulse1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureUp8(String? itemSelected) {
-    this.blood_pressure_up_8 = itemSelected ?? '';
+  onChangeBloodPressureUp3(String? itemSelected) {
+    this.bloodPressureUp1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBloodPressureLower8(String? itemSelected) {
-    this.blood_pressure_lower_8 = itemSelected ?? '';
+  onChangeBloodPressureLower3(String? itemSelected) {
+    this.bloodPessureLower1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2Percent8(String? itemSelected) {
-    this.spo2_percent_8 = itemSelected ?? '';
+  onChangeSpo2Percent3(String? itemSelected) {
+    this.spo2Percent1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeSpo2L8(String? itemSelected) {
-    this.spo2_l_8 = itemSelected ?? '';
+  onChangeSpo2L3(String? itemSelected) {
+    this.spo2L1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeRightPupil8(String? itemSelected) {
-    this.right_pupil_8 = itemSelected ?? '';
+  onChangeRightPupil3(String? itemSelected) {
+    this.rightPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeLeftPupil8(String? itemSelected) {
-    this.left_pupil_8 = itemSelected ?? '';
+  onChangeLeftPupil3(String? itemSelected) {
+    this.leftPupil1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectLightReflectionRight8(String? itemSelected) {
-    this.light_reflection_right_8 = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionRight3(String? itemSelected) {
+    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectLightReflectionLeft8(String? itemSelected) {
-    this.light_reflection_left_8 = itemSelected ?? yesNothings[1];
+  onSelectLightReflectionLeft3(String? itemSelected) {
+    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onChangeBodyTemperature8(String? itemSelected) {
-    this.body_temperature_8 = itemSelected ?? '';
+  onChangeBodyTemperature3(String? itemSelected) {
+    this.bodyTemperature1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectFacialFeatures8(String? itemSelected) {
-    this.facial_features_8 = itemSelected ?? '';
+  onSelectFacialFeatures3(String? itemSelected) {
+    this.facialFeatures1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onChangeBleeding8(String? itemSelected) {
-    this.bleeding_8 = itemSelected ?? '';
+  onChangeBleeding3(String? itemSelected) {
+    this.bleeding1 = itemSelected ?? '';
     notifyListeners();
   }
 
-  onSelectVomiting8(String? itemSelected) {
-    this.vomiting_8 = itemSelected ?? yesNothings[1];
+  onSelectIncontinence3(List<String> checkeds) {
+    this.incontinence1 = checkeds.join(comma);
     notifyListeners();
   }
 
-  onChangeLimb8(String? itemSelected) {
-    this.limb_8 = itemSelected ?? '';
+  onSelectVomiting3(String? itemSelected) {
+    this.vomiting1 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
-  onSelectIncontinence8(List<String> checkeds) {
-    this.incontinence_8 = checkeds ?? [];
+  onChangeLimb3(String? itemSelected) {
+    this.limb1 = itemSelected ?? '';
     notifyListeners();
   }
-
-
 
 
 
@@ -978,6 +981,13 @@ class InputReportViewModel extends BaseViewModel {
   }
 
 
+
+  void onSaveToDb() async {
+    DTReport dtReport = DTReport(
+
+    );
+    await dbHelper.putDataToDB(tableDTReport, [dtReport]);
+  }
 
 
 }

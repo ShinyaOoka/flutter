@@ -54,28 +54,50 @@ class DTReport {
   dynamic? Witnesses;
   dynamic? BystanderCPR;
   dynamic? VerbalGuidance;
-  dynamic? ObservationTime;
-  dynamic? DescriptionOfObservationTime;
-  dynamic? JCS;
-  dynamic? GCSE;
-  dynamic? GCSV;
-  dynamic? GCSM;
-  dynamic? Respiration;
-  dynamic? Pulse;
-  dynamic? BloodPressureHigh;
-  dynamic? BloodPressureLow;
-  dynamic? SpO2Percent;
-  dynamic? SpO2Liter;
-  dynamic? PupilRight;
-  dynamic? PupilLeft;
-  dynamic? LightReflexRight;
-  dynamic? PhotoreflexLeft;
-  dynamic? BodyTemperature;
-  dynamic? FacialFeatures;
-  dynamic? Hemorrhage;
-  dynamic? Incontinence;
-  dynamic? Vomiting;
-  dynamic? Extremities;
+  @JsonKey(defaultValue: [])
+  List<String>? ObservationTime;
+  @JsonKey(defaultValue: [])
+  List<String>? JCS;
+  @JsonKey(defaultValue: [])
+  List<String>? GCSE;
+  @JsonKey(defaultValue: [])
+  List<String>? GCSV;
+  @JsonKey(defaultValue: [])
+  List<String>? GCSM;
+  @JsonKey(defaultValue: [])
+  List<int>? Respiration;
+  @JsonKey(defaultValue: [])
+  List<int>? Pulse;
+  @JsonKey(defaultValue: [])
+  List<int>? BloodPressureHigh;
+  @JsonKey(defaultValue: [])
+  List<int>? BloodPressureLow;
+  @JsonKey(defaultValue: [])
+  List<int>? SpO2Percent;
+  @JsonKey(defaultValue: [])
+  List<int>? SpO2Liter;
+  @JsonKey(defaultValue: [])
+  List<int>? PupilRight;
+  @JsonKey(defaultValue: [])
+  List<int>? PupilLeft;
+  @JsonKey(defaultValue: [])
+  List<int>? LightReflexRight;
+  @JsonKey(defaultValue: [])
+  List<int>? PhotoreflexLeft;
+  @JsonKey(defaultValue: [])
+  List<int>? BodyTemperature;
+  @JsonKey(defaultValue: [])
+  List<String>? FacialFeatures;
+  @JsonKey(defaultValue: [])
+  List<String>? Hemorrhage;
+  @JsonKey(defaultValue: [])
+  List<String>? Incontinence;
+  @JsonKey(defaultValue: [])
+  List<int>? Vomiting;
+  @JsonKey(defaultValue: [])
+  List<String>? Extremities;
+  @JsonKey(defaultValue: [])
+  List<String>? DescriptionOfObservationTime;
   dynamic? SecuringAirway;
   dynamic? ForeignBodyRemoval;
   dynamic? Suction;
@@ -115,6 +137,8 @@ class DTReport {
   dynamic? UpdateName;
   dynamic? UpdateMachine;
   dynamic? UpdateDate;
+  dynamic? ReporterAffiliation;
+  dynamic? ReportingClass;
 
 
 
@@ -169,8 +193,8 @@ class DTReport {
     this.Witnesses,
     this.BystanderCPR,
     this.VerbalGuidance,
+
     this.ObservationTime,
-    this.DescriptionOfObservationTime,
     this.JCS,
     this.GCSE,
     this.GCSV,
@@ -191,6 +215,8 @@ class DTReport {
     this.Incontinence,
     this.Vomiting,
     this.Extremities,
+    this.DescriptionOfObservationTime,
+
     this.SecuringAirway,
     this.ForeignBodyRemoval,
     this.Suction,
@@ -230,6 +256,8 @@ class DTReport {
     this.UpdateName,
     this.UpdateMachine,
     this.UpdateDate,
+    this.ReporterAffiliation,
+    this.ReportingClass,
   });
 
   factory DTReport.fromJson(Map<String, dynamic?> json) =>

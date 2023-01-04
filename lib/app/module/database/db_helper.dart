@@ -148,8 +148,7 @@ class DBHelper {
   Future transaction() async {
     var dbClient = await DBHelper().db;
     await dbClient?.transaction((trans) async {
-      /*await trans.execute("DELETE FROM User");
-      await trans.execute("DELETE FROM Posts");*/
+      /*await trans.execute("DELETE FROM User");*/
     });
   }
 }

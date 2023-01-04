@@ -58,28 +58,87 @@ DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
       Witnesses: json['Witnesses'],
       BystanderCPR: json['BystanderCPR'],
       VerbalGuidance: json['VerbalGuidance'],
-      ObservationTime: json['ObservationTime'],
-      DescriptionOfObservationTime: json['DescriptionOfObservationTime'],
-      JCS: json['JCS'],
-      GCSE: json['GCSE'],
-      GCSV: json['GCSV'],
-      GCSM: json['GCSM'],
-      Respiration: json['Respiration'],
-      Pulse: json['Pulse'],
-      BloodPressureHigh: json['BloodPressureHigh'],
-      BloodPressureLow: json['BloodPressureLow'],
-      SpO2Percent: json['SpO2Percent'],
-      SpO2Liter: json['SpO2Liter'],
-      PupilRight: json['PupilRight'],
-      PupilLeft: json['PupilLeft'],
-      LightReflexRight: json['LightReflexRight'],
-      PhotoreflexLeft: json['PhotoreflexLeft'],
-      BodyTemperature: json['BodyTemperature'],
-      FacialFeatures: json['FacialFeatures'],
-      Hemorrhage: json['Hemorrhage'],
-      Incontinence: json['Incontinence'],
-      Vomiting: json['Vomiting'],
-      Extremities: json['Extremities'],
+      ObservationTime: (json['ObservationTime'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      JCS: (json['JCS'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
+      GCSE:
+          (json['GCSE'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      GCSV:
+          (json['GCSV'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      GCSM:
+          (json['GCSM'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      Respiration: (json['Respiration'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      Pulse: (json['Pulse'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+          [],
+      BloodPressureHigh: (json['BloodPressureHigh'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      BloodPressureLow: (json['BloodPressureLow'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      SpO2Percent: (json['SpO2Percent'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      SpO2Liter: (json['SpO2Liter'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      PupilRight: (json['PupilRight'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      PupilLeft: (json['PupilLeft'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      LightReflexRight: (json['LightReflexRight'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      PhotoreflexLeft: (json['PhotoreflexLeft'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      BodyTemperature: (json['BodyTemperature'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      FacialFeatures: (json['FacialFeatures'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      Hemorrhage: (json['Hemorrhage'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      Incontinence: (json['Incontinence'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      Vomiting:
+          (json['Vomiting'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+              [],
+      Extremities: (json['Extremities'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      DescriptionOfObservationTime:
+          (json['DescriptionOfObservationTime'] as List<dynamic>?)
+                  ?.map((e) => e as String)
+                  .toList() ??
+              [],
       SecuringAirway: json['SecuringAirway'],
       ForeignBodyRemoval: json['ForeignBodyRemoval'],
       Suction: json['Suction'],
@@ -119,6 +178,8 @@ DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
       UpdateName: json['UpdateName'],
       UpdateMachine: json['UpdateMachine'],
       UpdateDate: json['UpdateDate'],
+      ReporterAffiliation: json['ReporterAffiliation'],
+      ReportingClass: json['ReportingClass'],
     );
 
 Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
@@ -175,7 +236,6 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'BystanderCPR': instance.BystanderCPR,
       'VerbalGuidance': instance.VerbalGuidance,
       'ObservationTime': instance.ObservationTime,
-      'DescriptionOfObservationTime': instance.DescriptionOfObservationTime,
       'JCS': instance.JCS,
       'GCSE': instance.GCSE,
       'GCSV': instance.GCSV,
@@ -196,6 +256,7 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'Incontinence': instance.Incontinence,
       'Vomiting': instance.Vomiting,
       'Extremities': instance.Extremities,
+      'DescriptionOfObservationTime': instance.DescriptionOfObservationTime,
       'SecuringAirway': instance.SecuringAirway,
       'ForeignBodyRemoval': instance.ForeignBodyRemoval,
       'Suction': instance.Suction,
@@ -235,4 +296,6 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'UpdateName': instance.UpdateName,
       'UpdateMachine': instance.UpdateMachine,
       'UpdateDate': instance.UpdateDate,
+      'ReporterAffiliation': instance.ReporterAffiliation,
+      'ReportingClass': instance.ReportingClass,
     };
