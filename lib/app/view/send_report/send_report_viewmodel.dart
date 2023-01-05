@@ -23,10 +23,11 @@ class SendReportViewModel extends BaseViewModel {
     _navigationService.pushAndRemoveUntilWithFade(ListReportPage());
   }
 
-  void openPreviewReport(String assetFileName, {String pdfName = ''}) {
+  void openPreviewReport(String assetFileName, DTReport dtReport, {String pdfName = ''}) {
     _navigationService.pushScreenWithFade(PreviewReportPage(
       assetFile: assetFileName,
       pdfName: pdfName,
+      dtReport: dtReport,
     ));
   }
 

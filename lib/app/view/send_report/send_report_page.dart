@@ -113,6 +113,7 @@ class SendReportState extends LifecycleState<SendReportContent>
                               .tr(),
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
+                              sendReportViewModel.dtReport,
                               pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
                         ),
                       ),
@@ -134,6 +135,7 @@ class SendReportState extends LifecycleState<SendReportContent>
                               .tr(),
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
+                              sendReportViewModel.dtReport,
                               pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
                         ),
                       ),
