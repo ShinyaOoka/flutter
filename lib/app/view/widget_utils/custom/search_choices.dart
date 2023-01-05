@@ -2362,7 +2362,7 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
               ],
             ),
           ),
-        ),
+        )
       )),
     );
   }

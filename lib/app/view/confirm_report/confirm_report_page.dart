@@ -141,30 +141,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
           hideBackButton: false,
           body: Consumer<ConfirmReportViewModel>(
               builder: (context, value, child) {
-            return value.generatedPdfFilePath.isEmpty
-                ? const BuildProgressLoading()
-                : PDFView(
-                    filePath: value.generatedPdfFilePath,
-                    enableSwipe: true,
-                    swipeHorizontal: true,
-                    autoSpacing: false,
-                    pageFling: false,
-                    onRender: (_pages) {
-                      setState(() {
-                        pages = _pages;
-                        isReady = true;
-                      });
-                    },
-                    onError: (error) {
-                      print(error.toString());
-                    },
-                    onPageError: (page, error) {
-                      print('$page: ${error.toString()}');
-                    },
-                    onViewCreated: (PDFViewController pdfViewController) {
-                      _controller.complete(pdfViewController);
-                    },
-                  );
+            return Container();
           }),
         ));
   }
