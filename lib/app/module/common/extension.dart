@@ -91,6 +91,7 @@ class Utils {
   }
 
   static calculateAge(DateTime birthDate) {
+    if(birthDate == null) return 0;
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - birthDate.year;
     int month1 = currentDate.month;
