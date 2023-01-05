@@ -147,7 +147,8 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay', SickInjuredPersonBirthDateDay?.toString() ?? '');
 
     //10
-    htmlInput = htmlInput.replaceFirst(SickInjuredPersonAge, Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_))?.toString() ?? '');
+    var age =  Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
+    htmlInput = htmlInput.replaceFirst(SickInjuredPersonAge, age > 0 ? age.toString() : '');
 
     //11
     htmlInput = htmlInput.replaceFirst(SickInjuredPersonKANA, dtReport.SickInjuredPersonKANA ?? '');
