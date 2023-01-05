@@ -9,16 +9,15 @@ import '../../../module/res/colors.dart';
 import '../../../module/res/dimens.dart';
 import '../../../module/res/text.dart';
 
-void showGeneralDialog({String? message}) {
+ void showDialogGeneral({String? message, String? actionString, VoidCallback? actionCallback}) {
   BuildContext context = getIt<NavigationService>().navigatorKey.currentContext!;
   showDialog(
       context: context,
       builder: (BuildContext builderContext) {
         return GeneralDialog(
           message: message,
-          defaultAction: () {
-            Navigator.pop(context);
-          },
+          actionString: actionString,
+          defaultAction: actionCallback,
         );
       });
 }
@@ -61,7 +60,7 @@ class GeneralDialog extends StatelessWidget {
                       horizontal: size_20_w,
                     ),
                     child: Text(
-                      message?? "",
+                      message?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -93,11 +92,11 @@ class GeneralDialog extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: size_14_h),
                       child: Center(
                         child: Text(
-                          actionString!,
+                          actionString ?? '',
                           style: TextStyle(
                               color: kColor247EF1,
-                              fontSize: text_18,
-                              fontWeight: FontWeight.w500,
+                              fontSize: text_16,
+                              fontWeight: FontWeight.normal,
                               fontStyle: FontStyle.normal),
                         ),
                       ),

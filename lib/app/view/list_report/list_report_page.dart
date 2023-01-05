@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/viewmodel/base_viewmodel.dart';
+import 'package:ak_azm_flutter/main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +48,16 @@ class _ListReportContentState extends State<ListReportContent>
     });
     listReportViewModel.getAllMSClassification();
     listReportViewModel.getReports();
+
+    //notify add new report
+    eventBus.on<AddReport>().listen((event) {
+      listReportViewModel.refreshData();
+    });
+
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +98,6 @@ class _ListReportContentState extends State<ListReportContent>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    //body
                     Expanded(
                       child: Consumer<ListReportViewModel>(
                         builder: (context, value, child) {
@@ -106,7 +115,7 @@ class _ListReportContentState extends State<ListReportContent>
                                   );
                                 },
                                 imgEmpty: '',
-                                emptyText: '',
+                                emptyText: LocaleKeys.empty_data.tr(),
                               );
                             case LoadingState.DONE:
                               return RefreshIndicator(
@@ -133,7 +142,7 @@ class _ListReportContentState extends State<ListReportContent>
                                                 report: value.dtReports[index],
                                                 msClassifications: value.msClassifications,
                                                 onDeleteItem: () => null,
-                                                onClickItem: () => listReportViewModel.openConfirmReport(),
+                                                onClickItem: () => listReportViewModel.openConfirmReport(value.dtReports[index]),
                                               ),
                                               index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
                                             ],
@@ -160,19 +169,6 @@ class _ListReportContentState extends State<ListReportContent>
                   ],
                 ),
               ),
-
-              /* //Button goto sign in
-              Positioned(
-                // draw a red marble
-                bottom: size_30_w,
-                left: size_26_w,
-                right: size_26_w,
-                child: FilledButton(
-                  color: kColor4472C4,
-                  text: 'Preview Report',
-                  onPress: () => chooseAccountViewModel.openPreviewReport(),
-                ),
-              ),*/
             ],
           ),
         ));

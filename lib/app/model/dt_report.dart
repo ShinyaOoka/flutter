@@ -6,140 +6,141 @@ part 'dt_report.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class DTReport {
-  dynamic? ID;
-  dynamic? TeamName;
-  dynamic? TeamTEL;
-  dynamic? TeamCaptainName;
-  dynamic? LifesaverQualification;
-  dynamic? WithLifeSavers;
-  dynamic? TeamMemberName;
-  dynamic? InstitutionalMemberName;
-  dynamic? Total;
-  dynamic? Team;
-  dynamic? SickInjuredPersonName;
-  dynamic? SickInjuredPersonKANA;
-  dynamic? SickInjuredPersonAddress;
-  dynamic? SickInjuredPersonGender;
-  dynamic? SickInjuredPersonBirthDate;
-  dynamic? SickInjuredPersonTEL;
-  dynamic? SickInjuredPersonFamilyTEL;
-  dynamic? SickInjuredPersonMedicalHistroy;
-  dynamic? SickInjuredPersonHistoryHospital;
-  dynamic? SickInjuredPersonKakaritsuke;
-  dynamic? SickInjuredPersonMedication;
-  dynamic? SickInjuredPersonMedicationDetail;
-  dynamic? SickInjuredPersonAllergy;
-  dynamic? SickInjuredPersonNameOfInjuaryOrSickness;
-  dynamic? SickInjuredPersonDegree;
-  dynamic? SickInjuredPersonAge;
-  dynamic? SenseTime;
-  dynamic? CommandTime;
-  dynamic? AttendanceTime;
-  dynamic? OnsiteArrivalTime;
-  dynamic? ContactTime;
-  dynamic? InvehicleTime;
-  dynamic? StartOfTransportTime;
-  dynamic? HospitalArrivalTime;
-  dynamic? FamilyContactTime;
-  dynamic? PoliceContactTime;
-  dynamic? TimeOfArrival;
-  dynamic? ReturnTime;
-  dynamic? TypeOfAccident;
-  dynamic? DateOfOccurrence;
-  dynamic? TimeOfOccurrence;
-  dynamic? PlaceOfIncident;
-  dynamic? AccidentSummary;
-  dynamic? ADL;
-  dynamic? TrafficAccidentClassification;
-  dynamic? Witnesses;
-  dynamic? BystanderCPR;
-  dynamic? VerbalGuidance;
-  @JsonKey(defaultValue: [])
-  List<String>? ObservationTime;
-  @JsonKey(defaultValue: [])
-  List<String>? JCS;
-  @JsonKey(defaultValue: [])
-  List<String>? GCSE;
-  @JsonKey(defaultValue: [])
-  List<String>? GCSV;
-  @JsonKey(defaultValue: [])
-  List<String>? GCSM;
-  @JsonKey(defaultValue: [])
-  List<int>? Respiration;
-  @JsonKey(defaultValue: [])
-  List<int>? Pulse;
-  @JsonKey(defaultValue: [])
-  List<int>? BloodPressureHigh;
-  @JsonKey(defaultValue: [])
-  List<int>? BloodPressureLow;
-  @JsonKey(defaultValue: [])
-  List<int>? SpO2Percent;
-  @JsonKey(defaultValue: [])
-  List<int>? SpO2Liter;
-  @JsonKey(defaultValue: [])
-  List<int>? PupilRight;
-  @JsonKey(defaultValue: [])
-  List<int>? PupilLeft;
-  @JsonKey(defaultValue: [])
-  List<int>? LightReflexRight;
-  @JsonKey(defaultValue: [])
-  List<int>? PhotoreflexLeft;
-  @JsonKey(defaultValue: [])
-  List<int>? BodyTemperature;
-  @JsonKey(defaultValue: [])
-  List<String>? FacialFeatures;
-  @JsonKey(defaultValue: [])
-  List<String>? Hemorrhage;
-  @JsonKey(defaultValue: [])
-  List<String>? Incontinence;
-  @JsonKey(defaultValue: [])
-  List<int>? Vomiting;
-  @JsonKey(defaultValue: [])
-  List<String>? Extremities;
-  @JsonKey(defaultValue: [])
-  List<String>? DescriptionOfObservationTime;
-  dynamic? SecuringAirway;
-  dynamic? ForeignBodyRemoval;
-  dynamic? Suction;
-  dynamic? ArtificialRespiration;
-  dynamic? ChestCompressions;
-  dynamic? ECGMonitor;
-  dynamic? O2Administration;
-  dynamic? O2AdministrationTime;
-  dynamic? SpinalCordMovementLimitation;
-  dynamic? HemostaticTreatment;
-  dynamic? AdductorFixation;
-  dynamic? Coating;
-  dynamic? BurnTreatment;
-  dynamic? BSMeasurement1;
-  dynamic? BSMeasurementTime1;
-  dynamic? PunctureSite1;
-  dynamic? BSMeasurement2;
-  dynamic? BSMeasurementTime2;
-  dynamic? PunctureSite2;
-  dynamic? Other;
-  dynamic? PerceiverName;
-  dynamic? TypeOfDetection;
-  dynamic? CallerName;
-  dynamic? CallerTEL;
-  dynamic? MedicalTransportFacility;
-  dynamic? TransferringMedicalInstitution;
-  dynamic? TransferSourceReceivingTime;
-  dynamic? ReasonForTransfer;
-  dynamic? ReasonForNotTransferring;
-  dynamic? RecordOfRefusalOfTransfer;
-  dynamic? Remark;
-  dynamic? ReporterName;
-  dynamic? ReporterPosition;
-  dynamic? EntryName;
-  dynamic? EntryMachine;
-  dynamic? EntryDate;
-  dynamic? UpdateName;
-  dynamic? UpdateMachine;
-  dynamic? UpdateDate;
-  dynamic? ReporterAffiliation;
-  dynamic? ReportingClass;
+  int? ID;
+  String? TeamName;
+  String? TeamTEL;
+  String? TeamCaptainName;
+  int? LifesaverQualification;
+  int? WithLifeSavers;
+  String? TeamMemberName;
+  String? InstitutionalMemberName;
+  int? Total;
+  int? Team;
+  String? SickInjuredPersonName;
+  String? SickInjuredPersonKANA;
+  String? SickInjuredPersonAddress;
+  String? SickInjuredPersonGender;
+  String? SickInjuredPersonBirthDate;
+  String? SickInjuredPersonTEL;
+  String? SickInjuredPersonFamilyTEL;
+  String? SickInjuredPersonMedicalHistroy;
+  String? SickInjuredPersonHistoryHospital;
+  String? SickInjuredPersonKakaritsuke;
+  String? SickInjuredPersonMedication;
+  String? SickInjuredPersonMedicationDetail;
+  String? SickInjuredPersonAllergy;
+  String? SickInjuredPersonNameOfInjuaryOrSickness;
+  String? SickInjuredPersonDegree;
+  int? SickInjuredPersonAge;
+  String? SenseTime;
+  String? CommandTime;
+  String? AttendanceTime;
+  String? OnsiteArrivalTime;
+  String? ContactTime;
+  String? InvehicleTime;
+  String? StartOfTransportTime;
+  String? HospitalArrivalTime;
+  String? FamilyContactTime;
+  String? PoliceContactTime;
+  String? TimeOfArrival;
+  String? ReturnTime;
+  String? TypeOfAccident;
+  String? DateOfOccurrence;
+  String? TimeOfOccurrence;
+  String? PlaceOfIncident;
+  String? AccidentSummary;
+  String? ADL;
+  String? TrafficAccidentClassification;
+  int? Witnesses;
+  String? BystanderCPR;
+  String? VerbalGuidance;
 
+
+  String? ObservationTime;
+
+  String? JCS;
+
+  String? GCSE;
+
+  String? GCSV;
+
+  String? GCSM;
+
+  String? Respiration;
+
+  String? Pulse;
+
+  String? BloodPressureHigh;
+
+  String? BloodPressureLow;
+
+  String? SpO2Percent;
+
+  String? SpO2Liter;
+
+  String? PupilRight;
+
+  String? PupilLeft;
+
+  String? LightReflexRight;
+
+  String? PhotoreflexLeft;
+
+  String? BodyTemperature;
+
+  String? FacialFeatures;
+
+  String? Hemorrhage;
+
+  String? Incontinence;
+
+  String? Vomiting;
+
+  String? Extremities;
+
+  String? DescriptionOfObservationTime;
+
+  String? SecuringAirway;
+  int? ForeignBodyRemoval;
+  int? Suction;
+  int? ArtificialRespiration;
+  int? ChestCompressions;
+  int? ECGMonitor;
+  int? O2Administration;
+  String? O2AdministrationTime;
+  String? SpinalCordMovementLimitation;
+  int? HemostaticTreatment;
+  int? AdductorFixation;
+  int? Coating;
+  int? BurnTreatment;
+  int? BSMeasurement1;
+  String? BSMeasurementTime1;
+  String? PunctureSite1;
+  int? BSMeasurement2;
+  String? BSMeasurementTime2;
+  String? PunctureSite2;
+  String? Other;
+  String? PerceiverName;
+  String? TypeOfDetection;
+  String? CallerName;
+  String? CallerTEL;
+  String? MedicalTransportFacility;
+  String? TransferringMedicalInstitution;
+  String? TransferSourceReceivingTime;
+  String? ReasonForTransfer;
+  String? ReasonForNotTransferring;
+  int? RecordOfRefusalOfTransfer;
+  String? Remark;
+  String? ReporterName;
+  String? ReporterPosition;
+  String? EntryName;
+  String? EntryMachine;
+  String? EntryDate;
+  String? UpdateName;
+  String? UpdateMachine;
+  String? UpdateDate;
+  String? ReporterAffiliation;
+  String? ReportingClass;
 
 
 

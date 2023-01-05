@@ -1,11 +1,15 @@
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
 import 'package:ak_azm_flutter/app/model/ms_hospital.dart';
+import 'package:ak_azm_flutter/app/model/ms_message.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
 import 'package:ak_azm_flutter/app/model/ms_team_member.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
+import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../main.dart';
@@ -21,70 +25,25 @@ class InputReportViewModel extends BaseViewModel {
   final NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
 
+  DTReport dtReport = DTReport();
+
   List<MSClassification> msClassifications = [];
   List<MSTeam> msTeams = [];
   List<MSTeamMember> msTeamMembers = [];
   List<MSHospital> msHospitals = [];
+  List<MSMessage> msMessages = [];
 
-  //layout 1
   List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
-  //layout 1
-  String? ambulance_name = '';
-  String? ambulance_tel = '';
-  String? captain_name = '';
-  String? emt_qualification = '';
-  String? emt_ride = '';
-  String? report_member_name = '';
-  String? report_name_of_engineer = '';
-  String? report_cumulative_total = '';
-  String? report_team = '';
-
   //layout 2
-  String? family_name = '';
-  String? furigana = '';
-  String? address = '';
-  String? sex = '';
-  String? birthday = '';
-  String? age = '';
-  String? tel = '';
-  String? family_phone = '';
-  String? medical_history = '';
-  String? medical_history_medical_institution = '';
-  String? family = '';
-  String? dosage = '';
-  String? dosing_details = '';
-  String? allergy = '';
-  String? report_name_of_injury_or_disease = '';
-  String? report_degree = '';
-
-  //layout 3
-  String? awareness_time = '';
-  String? command_time = '';
-  String? work_time = '';
-  String? arrival_on_site = '';
-  String? contact_time = '';
-  String? in_car_accommodation = '';
-  String? start_transportation = '';
-  String? arrival_at_hospital = '';
-  String? family_contact = '';
-  String? police_contact = '';
-  String? report_cash_on_delivery_time = '';
-  String? report_return_time = '';
+  String? sex;
 
   //layout 4
-  String? accident_type_input = '';
-  String? accrual_date = '';
-  String? occurrence_time = '';
-  String? place_of_occurrence = '';
-  String? summary_of_accident_and_chief_complaint = '';
-  String? adl = '';
-  String? traffic_accident_category = '';
-  String? witness = '';
-  String? bystander_cpr = '';
-  String? oral_instruction = '';
+  String? accidentTypeInput;
+  String? adl;
+  String? trafficAccidentCategory;
 
   //layout 5
   String? observationTime1 = '';
@@ -112,26 +71,8 @@ class InputReportViewModel extends BaseViewModel {
   String? limb1 = '';
 
   //layout 6
-  String? airway_management = '';
-  String? foreign_matter_removal = '';
-  String? suction = '';
-  String? artificial_respiration = '';
-  String? chest_compression = '';
-  String? ecg_monitor = '';
-  String? o2_administration = '';
-  String? o2_administration_time = '';
-  String? spinal_cord_motion_limitation = '';
-  String? hemostasis = '';
-  String? splint_fixation = '';
-  String? coating_treatment = '';
-  String? burn_treatment = '';
-  String? bs_measurement_1 = '';
-  String? bs_measurement_time_1 = '';
-  String? puncture_site_1 = '';
-  String? bs_measurement_time_2 = '';
-  String? bs_measurement_2 = '';
-  String? puncture_site_2 = '';
-  String? others = '';
+  String? airwayManagement = '';
+  String? spinalCordMotionLimitation = '';
 
   //layout 7
   String? observationTime2 = '';
@@ -158,8 +99,6 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting2 = '';
   String? limb2 = '';
 
-
-
   //layout 8
   String? observationTime3 = '';
   String? reportObservationTimeExplanation3 = '';
@@ -185,21 +124,9 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting3 = '';
   String? limb3 = '';
 
-
   //layout 9
   String? perceiver = '';
-  String? awareness_type = '';
-  String? whistleblower = '';
-  String? reporting_phone = '';
-
-  //layout 10
-  String? transportation_medical_institution = '';
-  String? forwarding_medical_institution = '';
-  String? transfer_source_pick_up_time = '';
-  String? transfer_reason = '';
-  String? reason_for_non_delivery = '';
-  String? transport_refusal_processing_record = '';
-
+  String? awarenessType = '';
 
   Future<bool> back() async {
     _navigationService.back();
@@ -214,6 +141,7 @@ class InputReportViewModel extends BaseViewModel {
     getAllMSTeam();
     getAllMSTeamMember();
     getAllMSHospital();
+    getAllMSMessage();
   }
 
   Future<void> getAllMSClassification() async {
@@ -244,244 +172,280 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> getAllMSMessage() async {
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSMessage) ?? [];
+    msMessages = datas.map((e) => MSMessage.fromJson(e)).toList();
+    notifyListeners();
+  }
+
   InputReportViewModel(this._dataRepo);
 
   onSelectAmbulanceName(String? itemSelected) {
-    this.ambulance_name = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhere((e) => e.Name == itemSelected);
-    onSelectAmbulanceTel(msTeam.TEL ?? '');
+    dtReport.TeamName = itemSelected ?? '';
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
+    onSelectAmbulanceTel(msTeam?.TEL ?? '');
     notifyListeners();
   }
 
   onSelectAmbulanceTel(String? itemSelected) {
-    this.ambulance_tel = itemSelected ?? '';
+    dtReport.TeamTEL = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectCaptainName(String? itemSelected) {
-    this.captain_name = itemSelected ?? '';
+    dtReport.TeamCaptainName = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectEmtQualification(String? itemSelected) {
-    this.emt_qualification = itemSelected ?? yesNothings[1];
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.LifesaverQualification = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectEmtRide(String? itemSelected) {
-    this.emt_ride = itemSelected ?? yesNothings[1];
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.WithLifeSavers = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectReportMemberName(String? itemSelected) {
-    this.report_member_name = itemSelected ?? '';
+    dtReport.TeamMemberName = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectReportNameOfEngineer(String? itemSelected) {
-    this.report_name_of_engineer = itemSelected ?? '';
+    dtReport.InstitutionalMemberName = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeReportCumulativeTotal(String? itemSelected) {
-    this.report_cumulative_total = itemSelected ?? '';
+    dtReport.Total = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onChangeReportTeam(String? itemSelected) {
-    this.report_team = itemSelected ?? '';
+    dtReport.Team = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   //layout 2
   onChangeFamilyName(String? itemSelected) {
-    this.family_name = itemSelected ?? '';
+    dtReport.SickInjuredPersonName = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeFurigana(String? itemSelected) {
-    this.furigana = itemSelected ?? '';
+    dtReport.SickInjuredPersonKANA = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeAddress(String? itemSelected) {
-    this.address = itemSelected ?? '';
-    notifyListeners();
-  }
-
-  onConfirmBirthday(DateTime date) {
-    this.birthday = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
-    this.age = Utils.calculateAge(date).toString();
+    dtReport.SickInjuredPersonAddress = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectSex(String? itemSelected) {
     this.sex = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.SickInjuredPersonGender = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
+    notifyListeners();
+  }
+
+  onConfirmBirthday(DateTime date) {
+    dtReport.SickInjuredPersonBirthDate =
+        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    dtReport.SickInjuredPersonAge = Utils.calculateAge(date);
     notifyListeners();
   }
 
   onChangeTel(String? itemSelected) {
-    this.tel = itemSelected ?? '';
+    dtReport.SickInjuredPersonTEL = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeFamilyPhone(String? itemSelected) {
-    this.family_phone = itemSelected ?? '';
+    dtReport.SickInjuredPersonFamilyTEL = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeMedicalHistory(String? itemSelected) {
-    this.medical_history = itemSelected ?? '';
+    dtReport.SickInjuredPersonMedicalHistroy = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeMedicalHistoryMedicalInstitution(String? itemSelected) {
-    this.medical_history_medical_institution = itemSelected ?? '';
+    dtReport.SickInjuredPersonHistoryHospital = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeFamily(String? itemSelected) {
-    this.family = itemSelected ?? '';
+    dtReport.SickInjuredPersonKakaritsuke = itemSelected ?? '';
     notifyListeners();
   }
 
+  String? dosage;
+
   onSelectDosage(String? itemSelected) {
     this.dosage = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.SickInjuredPersonMedication = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onChangeDosingDetails(String? itemSelected) {
-    this.dosing_details = itemSelected ?? '';
+    dtReport.SickInjuredPersonMedicationDetail = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeAllergy(String? itemSelected) {
-    this.allergy = itemSelected ?? '';
+    dtReport.SickInjuredPersonAllergy = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeReportNameOfInjuryOrDisease(String? itemSelected) {
-    this.report_name_of_injury_or_disease = itemSelected ?? '';
+    dtReport.SickInjuredPersonNameOfInjuaryOrSickness = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeReportDegree(String? itemSelected) {
-    this.report_degree = itemSelected ?? '';
+    dtReport.SickInjuredPersonDegree = itemSelected ?? '';
     notifyListeners();
   }
 
   onConfirmAwarenessTime(DateTime date) {
-    this.awareness_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.SenseTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmCommandTime(DateTime date) {
-    this.command_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.CommandTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmWorkTime(DateTime date) {
-    this.work_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.AttendanceTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmArrivalOnSite(DateTime date) {
-    this.arrival_on_site = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.OnsiteArrivalTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmContactTime(DateTime date) {
-    this.contact_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.ContactTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmInCarAccommodation(DateTime date) {
-    this.in_car_accommodation = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.InvehicleTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onConfirmStartTransportation(DateTime date) {
-    this.start_transportation = Utils.dateTimeToString(date, format: hh_mm_);
-    notifyListeners();
-  }
-
-  onConfirmArrivalAtHospital(DateTime date) {
-    this.arrival_at_hospital = Utils.dateTimeToString(date, format: hh_mm_);
-    notifyListeners();
-  }
-
-  onConfirmFamilyContact(DateTime date) {
-    this.family_contact = Utils.dateTimeToString(date, format: hh_mm_);
-    notifyListeners();
-  }
-
-  onConfirmPoliceContact(DateTime date) {
-    this.police_contact = Utils.dateTimeToString(date, format: hh_mm_);
-    notifyListeners();
-  }
-
-  onConfirmReportCashOnDeliveryTime(DateTime date) {
-    this.report_cash_on_delivery_time =
+    dtReport.StartOfTransportTime =
         Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
+  onConfirmArrivalAtHospital(DateTime date) {
+    dtReport.HospitalArrivalTime = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmFamilyContact(DateTime date) {
+    dtReport.FamilyContactTime = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmPoliceContact(DateTime date) {
+    dtReport.PoliceContactTime = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
+  onConfirmReportCashOnDeliveryTime(DateTime date) {
+    dtReport.TimeOfArrival = Utils.dateTimeToString(date, format: hh_mm_);
+    notifyListeners();
+  }
+
   onConfirmReportReturnTime(DateTime date) {
-    this.report_return_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.ReturnTime = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   //layout 4
   onSelectAccidentTypeInput(String? itemSelected) {
-    this.accident_type_input = itemSelected ?? '';
+    this.accidentTypeInput = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.TypeOfAccident = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onConfirmAccrualDate(DateTime date) {
-    this.accrual_date = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    dtReport.DateOfOccurrence =
+        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
     notifyListeners();
   }
 
   onConfirmOccurrenceTime(DateTime date) {
-    this.occurrence_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.TimeOfOccurrence = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangePlaceOfOccurrence(String? itemSelected) {
-    this.place_of_occurrence = itemSelected ?? '';
+    dtReport.PlaceOfIncident = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeSummaryOfAccidentAndChiefComplaint(String? itemSelected) {
-    this.oral_instruction = itemSelected ?? '';
+    dtReport.AccidentSummary = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectAdl(String? itemSelected) {
     this.adl = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.ADL = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectTrafficAccidentCategory(String? itemSelected) {
-    this.traffic_accident_category = itemSelected ?? '';
+    this.trafficAccidentCategory = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.TrafficAccidentClassification = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectWitness(String? itemSelected) {
-    this.witness = itemSelected ?? yesNothings[1];
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.Witnesses = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onConfirmBystanderCpr(DateTime date) {
-    this.bystander_cpr = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BystanderCPR = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangeOralInstruction(String? itemSelected) {
-    this.oral_instruction = itemSelected ?? '';
+    dtReport.VerbalGuidance = itemSelected ?? '';
     notifyListeners();
   }
-  
 
   //layout 5
   onConfirmObservationTime1(DateTime date) {
@@ -594,400 +558,480 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  
-
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
-    this.airway_management = itemSelected ?? '';
+    this.airwayManagement = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.SecuringAirway = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectForeignMatterRemoval(String? itemSelected) {
-    this.foreign_matter_removal = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.ForeignBodyRemoval = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectSuction(String? itemSelected) {
-    this.suction = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.Suction = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectArtificialRespiration(String? itemSelected) {
-    this.artificial_respiration = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.ArtificialRespiration = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectChestCompression(String? itemSelected) {
-    this.chest_compression = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.ChestCompressions = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectEcgMonitor(String? itemSelected) {
-    this.ecg_monitor = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.ECGMonitor = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onChangeO2Administration(String? itemSelected) {
-    this.o2_administration = itemSelected ?? '';
+    dtReport.O2Administration = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onSelectO2AdministrationTime(DateTime date) {
-    this.o2_administration_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.O2AdministrationTime =
+        Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onSelectSpinalCordMotionLimitation(String? itemSelected) {
-    this.spinal_cord_motion_limitation = itemSelected ?? '';
+    this.spinalCordMotionLimitation = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.SpinalCordMovementLimitation = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectHemostasis(String? itemSelected) {
-    this.hemostasis = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.HemostaticTreatment = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectSplintFixation(String? itemSelected) {
-    this.splint_fixation = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.AdductorFixation = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectCoatingTreatment(String? itemSelected) {
-    this.coating_treatment = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.Coating = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onSelectBurnTreatment(String? itemSelected) {
-    this.burn_treatment = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.BurnTreatment = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
 
   onChangeBsMeasurement1(String? itemSelected) {
-    this.bs_measurement_1 = itemSelected ?? '';
+    dtReport.BSMeasurement1 = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onSelectBsMeasurementTime1(DateTime date) {
-    this.bs_measurement_time_1 = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BSMeasurementTime1 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangePunctureSite1(String? itemSelected) {
-    this.puncture_site_1 = itemSelected ?? '';
+    dtReport.PunctureSite1 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBsMeasurement2(String? itemSelected) {
-    this.bs_measurement_2 = itemSelected ?? '';
+    dtReport.BSMeasurement2 = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onSelectBsMeasurementTime2(DateTime date) {
-    this.bs_measurement_time_2 = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BSMeasurementTime2 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangePunctureSite2(String? itemSelected) {
-    this.puncture_site_2 = itemSelected ?? '';
+    dtReport.PunctureSite2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeOthers(String? itemSelected) {
-    this.others = itemSelected ?? '';
+    dtReport.Other = itemSelected ?? '';
     notifyListeners();
   }
 
-
-
   //layout 7
   onConfirmObservationTime2(DateTime date) {
-    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
+    this.observationTime2 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangeReportObservationTimeExplanation2(String? itemSelected) {
-    this.reportObservationTimeExplanation1 = itemSelected ?? '';
+    this.reportObservationTimeExplanation2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectJcs2(String? itemSelected) {
-    this.jcs1 = itemSelected ?? '';
+    this.jcs2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsE2(String? itemSelected) {
-    this.gcsE1 = itemSelected ?? '';
+    this.gcsE2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsV2(String? itemSelected) {
-    this.gcsV1 = itemSelected ?? '';
+    this.gcsV2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsM2(String? itemSelected) {
-    this.gcsM1 = itemSelected ?? '';
+    this.gcsM2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBreathing2(String? itemSelected) {
-    this.breathing1 = itemSelected ?? '';
+    this.breathing2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangePulse2(String? itemSelected) {
-    this.pulse1 = itemSelected ?? '';
+    this.pulse2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBloodPressureUp2(String? itemSelected) {
-    this.bloodPressureUp1 = itemSelected ?? '';
+    this.bloodPressureUp2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBloodPressureLower2(String? itemSelected) {
-    this.bloodPessureLower1 = itemSelected ?? '';
+    this.bloodPessureLower2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeSpo2Percent2(String? itemSelected) {
-    this.spo2Percent1 = itemSelected ?? '';
+    this.spo2Percent2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeSpo2L2(String? itemSelected) {
-    this.spo2L1 = itemSelected ?? '';
+    this.spo2L2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeRightPupil2(String? itemSelected) {
-    this.rightPupil1 = itemSelected ?? '';
+    this.rightPupil2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeLeftPupil2(String? itemSelected) {
-    this.leftPupil1 = itemSelected ?? '';
+    this.leftPupil2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectLightReflectionRight2(String? itemSelected) {
-    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
+    this.lightReflectionRight2 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onSelectLightReflectionLeft2(String? itemSelected) {
-    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
+    this.lightReflectionLeft2 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onChangeBodyTemperature2(String? itemSelected) {
-    this.bodyTemperature1 = itemSelected ?? '';
+    this.bodyTemperature2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectFacialFeatures2(String? itemSelected) {
-    this.facialFeatures1 = itemSelected ?? '';
+    this.facialFeatures2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBleeding2(String? itemSelected) {
-    this.bleeding1 = itemSelected ?? '';
+    this.bleeding2 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectIncontinence2(List<String> checkeds) {
-    this.incontinence1 = checkeds.join(comma);
+    this.incontinence2 = checkeds.join(comma);
     notifyListeners();
   }
 
   onSelectVomiting2(String? itemSelected) {
-    this.vomiting1 = itemSelected ?? yesNothings[1];
+    this.vomiting2 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onChangeLimb2(String? itemSelected) {
-    this.limb1 = itemSelected ?? '';
+    this.limb2 = itemSelected ?? '';
     notifyListeners();
   }
 
-
-
   //layout 8
   onConfirmObservationTime3(DateTime date) {
-    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
+    this.observationTime3 = Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
   onChangeReportObservationTimeExplanation3(String? itemSelected) {
-    this.reportObservationTimeExplanation1 = itemSelected ?? '';
+    this.reportObservationTimeExplanation3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectJcs3(String? itemSelected) {
-    this.jcs1 = itemSelected ?? '';
+    this.jcs3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsE3(String? itemSelected) {
-    this.gcsE1 = itemSelected ?? '';
+    this.gcsE3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsV3(String? itemSelected) {
-    this.gcsV1 = itemSelected ?? '';
+    this.gcsV3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectGcsM3(String? itemSelected) {
-    this.gcsM1 = itemSelected ?? '';
+    this.gcsM3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBreathing3(String? itemSelected) {
-    this.breathing1 = itemSelected ?? '';
+    this.breathing3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangePulse3(String? itemSelected) {
-    this.pulse1 = itemSelected ?? '';
+    this.pulse3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBloodPressureUp3(String? itemSelected) {
-    this.bloodPressureUp1 = itemSelected ?? '';
+    this.bloodPressureUp3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBloodPressureLower3(String? itemSelected) {
-    this.bloodPessureLower1 = itemSelected ?? '';
+    this.bloodPessureLower3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeSpo2Percent3(String? itemSelected) {
-    this.spo2Percent1 = itemSelected ?? '';
+    this.spo2Percent3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeSpo2L3(String? itemSelected) {
-    this.spo2L1 = itemSelected ?? '';
+    this.spo2L3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeRightPupil3(String? itemSelected) {
-    this.rightPupil1 = itemSelected ?? '';
+    this.rightPupil3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeLeftPupil3(String? itemSelected) {
-    this.leftPupil1 = itemSelected ?? '';
+    this.leftPupil3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectLightReflectionRight3(String? itemSelected) {
-    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
+    this.lightReflectionRight3 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onSelectLightReflectionLeft3(String? itemSelected) {
-    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
+    this.lightReflectionLeft3 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onChangeBodyTemperature3(String? itemSelected) {
-    this.bodyTemperature1 = itemSelected ?? '';
+    this.bodyTemperature3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectFacialFeatures3(String? itemSelected) {
-    this.facialFeatures1 = itemSelected ?? '';
+    this.facialFeatures3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeBleeding3(String? itemSelected) {
-    this.bleeding1 = itemSelected ?? '';
+    this.bleeding3 = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectIncontinence3(List<String> checkeds) {
-    this.incontinence1 = checkeds.join(comma);
+    this.incontinence3 = checkeds.join(comma);
     notifyListeners();
   }
 
   onSelectVomiting3(String? itemSelected) {
-    this.vomiting1 = itemSelected ?? yesNothings[1];
+    this.vomiting3 = itemSelected ?? yesNothings[1];
     notifyListeners();
   }
 
   onChangeLimb3(String? itemSelected) {
-    this.limb1 = itemSelected ?? '';
+    this.limb3 = itemSelected ?? '';
     notifyListeners();
   }
 
-
-
   //layout 9
   onChangePerceiver(String? itemSelected) {
-    this.perceiver = itemSelected ?? '';
+    dtReport.PerceiverName = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectAwarenessType(String? itemSelected) {
-    this.awareness_type = itemSelected ?? '';
+    this.awarenessType = itemSelected ?? '';
+    if (itemSelected != null)
+      dtReport.TypeOfDetection = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onChangeWhistleblower(String? itemSelected) {
-    this.whistleblower = itemSelected ?? '';
+    dtReport.CallerName = itemSelected ?? '';
     notifyListeners();
   }
+
   onChangeReportingPhone(String? itemSelected) {
-    this.reporting_phone = itemSelected ?? '';
+    dtReport.CallerTEL = itemSelected ?? '';
     notifyListeners();
   }
-
-
 
   //layout 10
   onSelectTransportationMedicalInstitution(String? itemSelected) {
-    this.transportation_medical_institution = itemSelected ?? '';
+    dtReport.MedicalTransportFacility = itemSelected ?? '';
     notifyListeners();
   }
 
   onSelectForwardingMedicalInstitution(String? itemSelected) {
-    this.forwarding_medical_institution = itemSelected ?? '';
+    dtReport.TransferringMedicalInstitution = itemSelected ?? '';
     notifyListeners();
   }
 
   onConfirmTransferSourcePickUpTime(DateTime date) {
-    this.transfer_source_pick_up_time = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.TransferSourceReceivingTime =
+        Utils.dateTimeToString(date, format: hh_mm_);
     notifyListeners();
   }
 
-
   onChangeTransferReason(String? itemSelected) {
-    this.transfer_reason = itemSelected ?? '';
+    dtReport.ReasonForTransfer = itemSelected ?? '';
     notifyListeners();
   }
 
   onChangeReasonForNonDelivery(String? itemSelected) {
-    this.reason_for_non_delivery = itemSelected ?? '';
+    dtReport.ReasonForNotTransferring = itemSelected ?? '';
     notifyListeners();
   }
-
 
   onSelectTransportRefusalProcessingRecord(String? itemSelected) {
-    this.transport_refusal_processing_record = itemSelected ?? '';
-    notifyListeners();
+    if (itemSelected != null) {
+      dtReport.RecordOfRefusalOfTransfer = yesNothings.indexOf(itemSelected);
+      notifyListeners();
+    }
   }
-
-
 
   void onSaveToDb() async {
-    DTReport dtReport = DTReport(
+    //join data layout 5, 7 & 8
+    dtReport.ObservationTime = Utils.importStringToDb(
+        observationTime1, observationTime2, observationTime3);
+    dtReport.JCS = Utils.importStringToDb(jcs1, jcs2, jcs3);
+    dtReport.GCSE = Utils.importStringToDb(gcsE1, gcsE2, gcsE3);
+    dtReport.GCSV = Utils.importStringToDb(gcsV1, gcsV2, gcsV3);
+    dtReport.GCSM = Utils.importStringToDb(gcsM1, gcsM2, gcsM3);
+    dtReport.Respiration =
+        Utils.importStringToDb(breathing1, breathing2, breathing3);
+    dtReport.Pulse = Utils.importStringToDb(pulse1, pulse2, pulse3);
+    dtReport.BloodPressureHigh = Utils.importStringToDb(
+        bloodPressureUp1, bloodPressureUp2, bloodPressureUp3);
+    dtReport.BloodPressureLow = Utils.importStringToDb(
+        bloodPessureLower1, bloodPessureLower2, bloodPessureLower3);
+    dtReport.SpO2Percent =
+        Utils.importStringToDb(spo2Percent1, spo2Percent2, spo2Percent3);
+    dtReport.SpO2Liter = Utils.importStringToDb(spo2L1, spo2L2, spo2L3);
+    dtReport.PupilRight =
+        Utils.importStringToDb(rightPupil1, rightPupil2, rightPupil3);
+    dtReport.PupilLeft =
+        Utils.importStringToDb(leftPupil1, leftPupil2, leftPupil3);
+    dtReport.LightReflexRight = Utils.importStringToDb(
+        lightReflectionRight1, lightReflectionRight2, lightReflectionRight3);
+    dtReport.PhotoreflexLeft = Utils.importStringToDb(
+        lightReflectionLeft1, lightReflectionLeft2, lightReflectionLeft3);
+    dtReport.BodyTemperature = Utils.importStringToDb(
+        bodyTemperature1, bodyTemperature2, bodyTemperature3);
+    dtReport.FacialFeatures = Utils.importStringToDb(
+        facialFeatures1, facialFeatures2, facialFeatures3);
+    dtReport.Hemorrhage =
+        Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
+    dtReport.Incontinence =
+        Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
+    dtReport.Vomiting = Utils.importStringToDb(vomiting1, vomiting2, vomiting3);
+    dtReport.Extremities = Utils.importStringToDb(limb1, limb1, limb1);
+    dtReport.DescriptionOfObservationTime = Utils.importStringToDb(
+        reportObservationTimeExplanation1,
+        reportObservationTimeExplanation2,
+        reportObservationTimeExplanation3);
 
+    //extra
+    dtReport.Remark = null;
+    MSTeamMember? msTeamMemberReporterAffiliation =
+        msTeamMembers.firstWhereOrNull(
+            (element) => element.Name == dtReport.TeamCaptainName);
+    dtReport.ReporterAffiliation = msTeams
+        .firstWhereOrNull((element) =>
+            element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)
+        ?.Name;
+    dtReport.ReportingClass = msTeamMembers
+        .firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)
+        ?.Position;
+
+    await dbHelper.putDataToDTReportDb(tableDTReport, [dtReport]);
+    //show alert add success
+    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
+    showDialogGeneral(
+      message: msMessageAdd?.MessageContent,
+      actionString: msMessageAdd?.Button,
+      actionCallback: () {
+        _navigationService.back();
+        //refresh list report
+        eventBus.fire(AddReport());
+      },
     );
-    await dbHelper.putDataToDB(tableDTReport, [dtReport]);
   }
-
-
 }

@@ -31,6 +31,10 @@ InitData _$InitDataFromJson(Map<String, dynamic> json) => InitData(
               ?.map((e) => MSClassification.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      MSMessages: (json['MSMessages'] as List<dynamic>?)
+              ?.map((e) => MSMessage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$InitDataToJson(InitData instance) => <String, dynamic>{
@@ -40,4 +44,5 @@ Map<String, dynamic> _$InitDataToJson(InitData instance) => <String, dynamic>{
       'MSFireStations': instance.MSFireStations,
       'MSHospitals': instance.MSHospitals,
       'MSClassifications': instance.MSClassifications,
+      'MSMessages': instance.MSMessages,
     };

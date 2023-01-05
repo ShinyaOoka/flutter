@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/default_loading_progress.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,8 @@ import '../widget_utils/base_scaffold_safe_area.dart';
 import 'confirm_report_viewmodel.dart';
 
 class ConfirmReportPage extends PageProvideNode<ConfirmReportViewModel> {
-  ConfirmReportPage() : super();
+  ConfirmReportPage({Key? key, DTReport? dtReport})
+      : super(key: key, params: [dtReport]);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -83,7 +85,6 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
             ),
             leading: TextButton(
               child: Text(LocaleKeys.back_report.tr(),
-                  // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
                     fontSize: text_16,
                     color: Colors.white,
@@ -114,7 +115,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
                   if (value == 1)
                     {confirmReportViewModel.openEditReport()}
                   else
-                    {confirmReportViewModel.openSendReport()}
+                    {confirmReportViewModel.openSendReport(confirmReportViewModel.dtReport)}
                 },
                 offset: const Offset(0, 56),
                 shape: const RoundedRectangleBorder(

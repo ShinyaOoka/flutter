@@ -6,6 +6,6 @@ class PushUpdateNotificationEvent {
 }
 
 
-class CloseScreenSettleOrder {
-  CloseScreenSettleOrder();
+class AddReport {
+  AddReport();
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../generated/locale_keys.g.dart';
 import '../../model/ms_classification.dart';
 import '../../module/res/style.dart';
+import 'package:collection/collection.dart';
 
 class ItemReport extends StatelessWidget {
   DTReport report;
@@ -44,7 +45,7 @@ class ItemReport extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '${report.DateOfOccurrence} ${report.TimeOfOccurrence}',
+                          '${report.DateOfOccurrence ?? ''} ${report.TimeOfOccurrence ?? ''}',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -97,28 +98,6 @@ class ItemReport extends StatelessWidget {
                   ],
                 ),
               ),
-              /*SizedBox(
-                width: size_10_w,
-              ),
-              Container(
-                height: size_26_w,
-                child: TouchableOpacity(
-                  onPressed: () => onDeleteItem.call(),
-                  child: Container(
-                    width: size_26_w,
-                    height: size_26_w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.black26),
-                    child: Center(
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: size_18_w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),
@@ -128,6 +107,6 @@ class ItemReport extends StatelessWidget {
 
   MSClassification? finMSClassification(){
     if(msClassifications.isEmpty) return null;
-    return msClassifications.firstWhere((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
+    return msClassifications.firstWhereOrNull((element) => report.TypeOfAccident == element.ClassificationSubCD && element.ClassificationCD == '002');
   }
 }

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -106,12 +107,13 @@ class Utils {
     return age;
   }
 
-  static String dateTimeToString(DateTime? date, {String format = MMddyyyy}) {
+  static String dateTimeToString(DateTime? date, {String format = yyyyMMdd}) {
     return date == null ? '' : DateFormat(format).format(date).toString();
   }
 
   static String formatToOtherFormat(
       String stringInputDate, String fromFormat, String toFormat) {
+    if(stringInputDate.isEmpty) return '';
     var inputFormat = DateFormat(fromFormat);
     var dateInput = inputFormat.parse(stringInputDate);
     var outputFormat = DateFormat(toFormat);
@@ -119,7 +121,7 @@ class Utils {
   }
 
   static DateTime stringToDateTime(String? stringDate,
-      {String format = MMddyyyy}) {
+      {String format = yyyyMMdd}) {
     return stringDate == null
         ? DateTime.now()
         : DateFormat(format).parse(stringDate);
@@ -132,8 +134,8 @@ class Utils {
   }
 
   static List<String> split4CharPhone(String text) {
-    var tempTEL = text.replaceAllMapped(
-        RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
+    if(text.isBlank == true) return ['','',''];
+    var tempTEL = text.replaceAllMapped(RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
     List<String> temTELs = tempTEL.split(' ');
     if (temTELs.length < 2) {
       temTELs.add('');
@@ -145,20 +147,20 @@ class Utils {
     return temTELs;
   }
 
-  void removeFocus(BuildContext context) {
+  static void removeFocus(BuildContext context) {
     final currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
-  Future<ByteData> getByteFromFile(File file) async {
+  static Future<ByteData> getByteFromFile(File file) async {
     return await file
         .readAsBytes()
         .then((data) => ByteData.view(data as ByteBuffer));
   }
 
-  Future<Uint8List?> readFileByte(String? filePath) async {
+  static Future<Uint8List?> readFileByte(String? filePath) async {
     if (filePath == null) return null;
     final myUri = Uri.parse(filePath);
     final audioFile = File.fromUri(myUri);
@@ -168,4 +170,24 @@ class Utils {
       return null;
     }
   }
+
+  static String importStringToDb(dynamic? v1, dynamic? v2, dynamic? v3){
+    return '$v1$slash$v2$slash$v3';
+  }
+
+  static List<dynamic?> exportDataFromDb(String? data){
+    if(data.isBlank == true) return [null, null, null];
+    List<dynamic?> list = data!.split(slash);
+    if (list.length < 2) {
+      list.add(null);
+      list.add(null);
+    }
+    if (list.length < 3) {
+      list.add(null);
+    }
+    return list;
+  }
+
+
+
 }

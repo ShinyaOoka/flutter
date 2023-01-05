@@ -33,10 +33,9 @@ Future<void> configureDependencies() async {
   getIt.registerFactory<EditReportViewModel>(
       () => EditReportViewModel(getIt<DataRepository>()));
   getIt.registerFactoryParam<PreviewReportViewModel, List<dynamic>, dynamic>(
-      (param1, _) => PreviewReportViewModel(
-          getIt<DataRepository>(), param1[0], param1[1]));
-  getIt.registerFactory<SendReportViewModel>(
-      () => SendReportViewModel(getIt<DataRepository>()));
-  getIt.registerFactory<ConfirmReportViewModel>(
-      () => ConfirmReportViewModel(getIt<DataRepository>()));
+      (param1, _) => PreviewReportViewModel(getIt<DataRepository>(), param1[0], param1[1], param1[2]));
+  getIt.registerFactoryParam<SendReportViewModel, List<dynamic>, dynamic>(
+      (param1, _) => SendReportViewModel(getIt<DataRepository>(), param1[0]));
+  getIt.registerFactoryParam<ConfirmReportViewModel, List<dynamic>, dynamic>(
+      (param1, _) => ConfirmReportViewModel(getIt<DataRepository>(), param1[0]));
 }

@@ -13,8 +13,8 @@ const String tableMSFireStation = 'MSFireStation';
 //table MSHospital
 const String tableMSHospital = 'MSHospital';
 
-//table PRMessage
-const String tablePRMessage = 'PRMessage';
+//table MSMessage
+const String tableMSMessage = 'MSMessage';
 
 //table MSClassification
 const String tableMSClassification = 'MSClassification';
@@ -164,12 +164,13 @@ const String CREATE_TABLE_MSHospital = '''CREATE TABLE $tableMSHospital (
     $TEL VARCHAR(20)
       );''';
 
-/*const String CREATE_TABLE_PRMessage = '''CREATE TABLE $tablePRMessage (
-    $HospitalCD VARCHAR(20),
-    $Name VARCHAR(20),
-    $Address VARCHAR(60),
-    $TEL VARCHAR(20)
-      );''';*/
+const String CREATE_TABLE_MSMessage = '''CREATE TABLE $tableMSMessage (
+    $CD VARCHAR,
+    $MessageType VARCHAR,
+    $MessageContent VARCHAR,
+    $Button VARCHAR,
+    $Purpose VARCHAR
+      );''';
 
 const String CREATE_TABLE_MSClassification = '''CREATE TABLE $tableMSClassification (
     $ClassificationCD VARCHAR(3),
@@ -183,6 +184,7 @@ const String CREATE_TABLE_MSClassification = '''CREATE TABLE $tableMSClassificat
 //drop table DTReport
 const String DROP_TABLE_DTReport = '''DROP TABLE IF EXISTS $tableDTReport;''';
 const String DROP_TABLE_MSClassification = '''DROP TABLE IF EXISTS $tableMSClassification;''';
+const String DROP_TABLE_MSMessage = '''DROP TABLE IF EXISTS $tableMSMessage;''';
 
 
 //DT Report Table
@@ -332,3 +334,11 @@ const String HospitalCD = 'HospitalCD';
 //const String Name = 'Name';
 //const String Address = 'Address';
 //const String TEL = 'TEL';
+
+
+//MSMessage table
+const String CD = 'CD';
+const String MessageType = 'MessageType';
+const String MessageContent = 'MessageContent';
+const String Button = 'Button';
+const String Purpose = 'Purpose';

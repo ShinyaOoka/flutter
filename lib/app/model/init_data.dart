@@ -5,6 +5,7 @@ import 'dt_report.dart';
 import 'ms_classification.dart';
 import 'ms_fire_station.dart';
 import 'ms_hospital.dart';
+import 'ms_message.dart';
 import 'ms_team.dart';
 
 part 'init_data.g.dart';
@@ -23,6 +24,9 @@ class InitData {
   List<MSHospital> MSHospitals;
   @JsonKey(defaultValue: [])
   List<MSClassification> MSClassifications;
+  @JsonKey(defaultValue: [])
+  List<MSMessage> MSMessages;
+
 
   InitData({
     required this.DTReports,
@@ -31,6 +35,7 @@ class InitData {
     required this.MSFireStations,
     required this.MSHospitals,
     required this.MSClassifications,
+    required this.MSMessages,
   });
 
   factory InitData.fromJson(Map<String, dynamic> json) =>

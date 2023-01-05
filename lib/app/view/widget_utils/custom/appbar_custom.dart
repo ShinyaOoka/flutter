@@ -44,7 +44,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: size_16_w),
               child: SvgPicture.asset(
-                'assets/icons/ic_close.svg',
+                '',
                 width: size_20_w,
                 height: size_20_w,
                 color: Colors.white,
