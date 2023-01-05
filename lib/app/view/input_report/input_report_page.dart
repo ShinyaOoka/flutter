@@ -1,6 +1,7 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
 import 'package:ak_azm_flutter/app/module/common/config.dart';
+import 'package:ak_azm_flutter/app/module/common/extension.dart';
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/checkbox_group.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
@@ -39,8 +40,7 @@ class InputReportContent extends StatefulWidget {
   InputReportState createState() => InputReportState();
 }
 
-class InputReportState extends LifecycleState<InputReportContent>
-    with SingleTickerProviderStateMixin {
+class InputReportState extends LifecycleState<InputReportContent> with SingleTickerProviderStateMixin {
   InputReportViewModel get inputReportViewModel => widget._inputReportViewModel;
   late AnimationController _animationController;
   final List<Item> data = [];
@@ -141,8 +141,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                           ),
                           color: kColor4472C4,
                           text: LocaleKeys.x_series_data_acquisition.tr(),
-                          onPress: () => ToastUtil.showToast(
-                              LocaleKeys.x_series_data_acquisition.tr()),
+                          onPress: () => ToastUtil.showToast(LocaleKeys.x_series_data_acquisition.tr()),
                         ),
                       ),
                       _buildPanel(),
@@ -169,8 +168,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         int indexLayout = data.indexOf(item) + 1;
         return ExpansionPanel(
           canTapOnHeader: true,
-          backgroundColor:
-              indexLayout == 9 || indexLayout == 10 ? kColorDEE9F6 : null,
+          backgroundColor: indexLayout == 9 || indexLayout == 10 ? kColorDEE9F6 : null,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
               title: Text('$indexLayout. ${item.headerValue}'),
@@ -220,12 +218,9 @@ class InputReportState extends LifecycleState<InputReportContent>
   }
 
   Widget buildLayout1() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //example set max length & unit for text field
-          /*Container(
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //example set max length & unit for text field
+      /*Container(
                       padding: EdgeInsets.only(left: 16, right: 16, top: 10),
                       child: OutlineTextFormField(
                         isAlwaysShowLable: true,
@@ -273,2341 +268,2042 @@ class InputReportState extends LifecycleState<InputReportContent>
                       height: size_8_h,
                     ),*/
 
-          //No.2
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                  LocaleKeys.ambulance_name.tr(),
-                  value.msTeams.map((e) => e.Name.toString()).toList(),
-                  value.dtReport.TeamName,
-                  value.onSelectAmbulanceName);
-            }),
-          ),
-          spaceWidgetColor(),
+      //No.2
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(LocaleKeys.ambulance_name.tr(), value.msTeams.map((e) => e.Name.toString()).toList(), value.dtReport.TeamName, value.onSelectAmbulanceName);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //No.3
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-            child: IgnorePointer(
-              ignoring: true,
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return OutlineTextFormField(
-                  keyboardType: TextInputType.number,
-                  isAlwaysShowLable: true,
-                  controller: TextEditingController(text: value.dtReport.TeamTEL),
-                  counterWidget: null,
-                  textColor: kColor4472C4,
-                  colorBorder: Colors.black26,
-                  colorFocusBorder: kColor4472C4,
-                  labelText: LocaleKeys.ambulance_tel.tr(),
-                  onChanged: (value) => null,
-                );
-              }),
-            ),
-          ),
-
-          spaceWidgetColor(),
-
-          //No.4
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                  LocaleKeys.captain_name.tr(),
-                  value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                  value.dtReport.TeamCaptainName,
-                  value.onSelectCaptainName);
-            }),
-          ),
-
-          spaceWidgetColor(),
-
-          //No.5
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.emt_qualification.tr(),
-                  value.yesNothings, value.onSelectEmtQualification);
-            }),
-          ),
-          spaceWidgetColor(),
-
-          //No.6
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.emt_ride.tr(), value.yesNothings,
-                  value.onSelectEmtRide);
-            }),
-          ),
-          spaceWidgetColor(),
-
-          //No.7
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                  LocaleKeys.report_member_name.tr(),
-                  value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                  value.dtReport.TeamMemberName,
-                  value.onSelectReportMemberName,
-                  backgroundTextLabel: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
-          //No.8
-          Container(
-              color: kColorDEE9F6,
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return buildDropDownSearch(
-                    LocaleKeys.report_name_of_engineer.tr(),
-                    value.msTeamMembers.map((e) => e.Name.toString()).toList(),
-                    value.dtReport.InstitutionalMemberName	,
-                    value.onSelectReportNameOfEngineer,
-                    backgroundTextLabel: kColorDEE9F6);
-              })),
-
-          spaceWidgetColor(color: kColorDEE9F6,),
-          //No.9
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16, top: 12),
-            child: OutlineTextFormField(
+      //No.3
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+        child: IgnorePointer(
+          ignoring: true,
+          child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+            return OutlineTextFormField(
               keyboardType: TextInputType.number,
               isAlwaysShowLable: true,
-              maxLength: 6,
-              counterStyle: counterStyle,
+              controller: TextEditingController(text: value.dtReport.TeamTEL),
+              counterWidget: null,
               textColor: kColor4472C4,
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_cumulative_total.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportCumulativeTotal(value),
-            ),
-          ),
+              labelText: LocaleKeys.ambulance_tel.tr(),
+              onChanged: (value) => null,
+            );
+          }),
+        ),
+      ),
 
-          //spaceWidget,
-          spaceWidgetColor(color: kColorDEE9F6),
+      spaceWidgetColor(),
 
-          //No.10
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 6,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_team.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportTeam(value),
-            ),
+      //No.4
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(LocaleKeys.captain_name.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.TeamCaptainName, value.onSelectCaptainName);
+        }),
+      ),
+
+      spaceWidgetColor(),
+
+      //No.5
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.emt_qualification.tr(), value.yesNothings, value.onSelectEmtQualification);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //No.6
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.emt_ride.tr(), value.yesNothings, value.onSelectEmtRide);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //No.7
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+        ),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(LocaleKeys.report_member_name.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.TeamMemberName, value.onSelectReportMemberName, backgroundTextLabel: kColorDEE9F6);
+        }),
+      ),
+      spaceWidgetColor(color: kColorDEE9F6),
+      //No.8
+      Container(
+          color: kColorDEE9F6,
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
           ),
-        ]);
+          child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+            return buildDropDownSearch(LocaleKeys.report_name_of_engineer.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.InstitutionalMemberName, value.onSelectReportNameOfEngineer, backgroundTextLabel: kColorDEE9F6);
+          })),
+
+      spaceWidgetColor(
+        color: kColorDEE9F6,
+      ),
+      //No.9
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16, top: 12),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 6,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_cumulative_total.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportCumulativeTotal(value),
+        ),
+      ),
+
+      //spaceWidget,
+      spaceWidgetColor(color: kColorDEE9F6),
+
+      //No.10
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 6,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_team.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportTeam(value),
+        ),
+      ),
+    ]);
   }
 
   Widget buildLayout2() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.12
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.family_name.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeFamilyName(value),
-            ),
-          ),
-          spaceWidgetColor(),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.12
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.family_name.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeFamilyName(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.13
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              inputformatter: [
-                FilteringTextInputFormatter.allow(RegExp(r'^[ぁ-ん]+')),
-              ],
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.furigana.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeFurigana(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.13
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          inputformatter: [
+            FilteringTextInputFormatter.allow(RegExp(r'^[ぁ-ん]+')),
+          ],
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.furigana.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeFurigana(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.14
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 60,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.address.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeAddress(value),
-            ),
-          ),
-          spaceWidgetColor(height: size_6_w),
+      //no.14
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 60,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.address.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeAddress(value),
+        ),
+      ),
+      spaceWidgetColor(height: size_6_w),
 
-          //No.15
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.sex.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '001')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.sex,
-                value.onSelectSex,
-                height: 220,
-              );
-            }),
-          ),
-          spaceWidgetColor(height: size_18_w),
+      //No.15
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.sex.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '001').toList().map((e) => e.Value.toString()).toList(),
+            value.sex,
+            value.onSelectSex,
+            height: 220,
+          );
+        }),
+      ),
+      spaceWidgetColor(height: size_18_w),
 
-          //no.16
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return datePicker(LocaleKeys.birthday.tr(), value.dtReport.SickInjuredPersonBirthDate,
-                  value.onConfirmBirthday);
-            }),
-          ),
+      //no.16
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return datePicker(LocaleKeys.birthday.tr(), value.dtReport.SickInjuredPersonBirthDate, value.onConfirmBirthday);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_28_w),
-          //no.17
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.phone,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.tel.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeTel(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      spaceWidgetColor(height: size_28_w),
+      //no.17
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.phone,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.tel.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeTel(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.18
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.phone,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.family_phone.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeFamilyPhone(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.18
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.phone,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.family_phone.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeFamilyPhone(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.19
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.medical_history.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeMedicalHistory(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.19
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.medical_history.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeMedicalHistory(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.20
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.medical_history_medical_institution.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeMedicalHistoryMedicalInstitution(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.20
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.medical_history_medical_institution.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeMedicalHistoryMedicalInstitution(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.21
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.family.tr(),
-              onChanged: (value) =>  inputReportViewModel.onChangeFamily(value),
-            ),
-          ),
-          spaceWidgetColor(height: size_6_w),
+      //no.21
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.family.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeFamily(value),
+        ),
+      ),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.22
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.dosage.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '010')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.dosage,
-                value.onSelectDosage,
-                height: 220,
-              );
-            }),
-          ),
-          spaceWidgetColor(height: size_28_w),
+      //no.22
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.dosage.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '010').toList().map((e) => e.Value.toString()).toList(),
+            value.dosage,
+            value.onSelectDosage,
+            height: 220,
+          );
+        }),
+      ),
+      spaceWidgetColor(height: size_28_w),
 
-          //no.23
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.dosing_details.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeDosingDetails(value),
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.23
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.dosing_details.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeDosingDetails(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.24
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.allergy.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeAllergy(value),
-            ),
-          ),
-          spaceWidgetColor(height: size_4_w),
+      //no.24
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.allergy.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeAllergy(value),
+        ),
+      ),
+      spaceWidgetColor(height: size_4_w),
 
-          //no.25
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16, top: 12),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 60,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_name_of_injury_or_disease.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportNameOfInjuryOrDisease(value),
-            ),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
+      //no.25
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16, top: 12),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 60,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_name_of_injury_or_disease.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportNameOfInjuryOrDisease(value),
+        ),
+      ),
+      spaceWidgetColor(color: kColorDEE9F6),
 
-          //no.26
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 60,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_degree.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportDegree(value),
-            ),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
+      //no.26
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 60,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_degree.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportDegree(value),
+        ),
+      ),
+      spaceWidgetColor(color: kColorDEE9F6),
 
-          //no.27
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return textShowWithLabel(LocaleKeys.report_age.tr(), value.dtReport.SickInjuredPersonAge.toString(),
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
-        ]);
+      //no.27
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return textShowWithLabel(LocaleKeys.report_age.tr(), value.dtReport.SickInjuredPersonAge?.toString() ?? '', backgroundLableColor: kColorDEE9F6);
+        }),
+      ),
+      spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
+    ]);
   }
 
   Widget buildLayout3() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.29
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.awareness_time.tr(),
-                  value.dtReport.SenseTime, value.onConfirmAwarenessTime);
-            }),
-          ),
-          spaceWidgetColor(),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.29
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.awareness_time.tr(), value.dtReport.SenseTime, value.onConfirmAwarenessTime);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.30
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.command_time.tr(),
-                  value.dtReport.CommandTime, value.onConfirmCommandTime);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.30
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.command_time.tr(), value.dtReport.CommandTime, value.onConfirmCommandTime);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.31
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.work_time.tr(), value.dtReport.AttendanceTime,
-                  value.onConfirmWorkTime);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.31
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.work_time.tr(), value.dtReport.AttendanceTime, value.onConfirmWorkTime);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.32
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.arrival_on_site.tr(),
-                  value.dtReport.OnsiteArrivalTime, value.onConfirmArrivalOnSite);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.32
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.arrival_on_site.tr(), value.dtReport.OnsiteArrivalTime, value.onConfirmArrivalOnSite);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.33
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.contact_time.tr(),
-                  value.dtReport.ContactTime, value.onConfirmContactTime);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.33
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.contact_time.tr(), value.dtReport.ContactTime, value.onConfirmContactTime);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.34
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.in_car_accommodation.tr(),
-                  value.dtReport.InvehicleTime,
-                  value.onConfirmInCarAccommodation);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.34
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.in_car_accommodation.tr(), value.dtReport.InvehicleTime, value.onConfirmInCarAccommodation);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.35
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.start_transportation.tr(),
-                  value.dtReport.StartOfTransportTime,
-                  value.onConfirmStartTransportation);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.35
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.start_transportation.tr(), value.dtReport.StartOfTransportTime, value.onConfirmStartTransportation);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.36
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.arrival_at_hospital.tr(),
-                  value.dtReport.HospitalArrivalTime, value.onConfirmArrivalAtHospital);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.36
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.arrival_at_hospital.tr(), value.dtReport.HospitalArrivalTime, value.onConfirmArrivalAtHospital);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.37
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.family_contact.tr(),
-                  value.dtReport.FamilyContactTime, value.onConfirmFamilyContact);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.37
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.family_contact.tr(), value.dtReport.FamilyContactTime, value.onConfirmFamilyContact);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.38
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.police_contact.tr(),
-                  value.dtReport.PoliceContactTime, value.onConfirmPoliceContact);
-            }),
-          ),
-          spaceWidgetColor(),
+      //no.38
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.police_contact.tr(), value.dtReport.PoliceContactTime, value.onConfirmPoliceContact);
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.39
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.report_cash_on_delivery_time.tr(),
-                  value.dtReport.TimeOfArrival,
-                  value.onConfirmReportCashOnDeliveryTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
+      //no.39
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.report_cash_on_delivery_time.tr(), value.dtReport.TimeOfArrival, value.onConfirmReportCashOnDeliveryTime, backgroundLableColor: kColorDEE9F6);
+        }),
+      ),
+      spaceWidgetColor(color: kColorDEE9F6),
 
-          //no.40
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.report_return_time.tr(),
-                  value.dtReport.ReturnTime, value.onConfirmReportReturnTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
+      //no.40
+      Container(
+        color: kColorDEE9F6,
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.report_return_time.tr(), value.dtReport.ReturnTime, value.onConfirmReportReturnTime, backgroundLableColor: kColorDEE9F6);
+        }),
+      ),
 
-          spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
-        ]);
+      spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
+    ]);
   }
 
   Widget buildLayout4() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.42
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.accident_type_input.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '002')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.accidentTypeInput,
-                value.onSelectAccidentTypeInput,
-              );
-            }),
-          ),
-          spaceWidgetColor(),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.42
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.accident_type_input.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '002').toList().map((e) => e.Value.toString()).toList(),
+            value.accidentTypeInput,
+            value.onSelectAccidentTypeInput,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.43, 44
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return datePicker(LocaleKeys.accrual_date.tr(),
-                        value.dtReport.DateOfOccurrence, value.onConfirmAccrualDate);
-                  }),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return timePicker(LocaleKeys.occurrence_time.tr(),
-                        value.dtReport.TimeOfOccurrence, value.onConfirmOccurrenceTime);
-                  }),
-                  flex: 1,
-                )
-              ],
+      //no.43, 44
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+                return datePicker(LocaleKeys.accrual_date.tr(), value.dtReport.DateOfOccurrence, value.onConfirmAccrualDate);
+              }),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(height: size_22_w),
-
-          //no.45
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 100,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.place_of_occurrence.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePlaceOfOccurrence(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
-          spaceWidgetColor(),
+            Expanded(
+              child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+                return timePicker(LocaleKeys.occurrence_time.tr(), value.dtReport.TimeOfOccurrence, value.onConfirmOccurrenceTime);
+              }),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          //No.46
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 100,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText:
-                  LocaleKeys.summary_of_accident_and_chief_complaint.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeSummaryOfAccidentAndChiefComplaint(value),
-            ),
-          ),
+      spaceWidgetColor(height: size_22_w),
 
-          spaceWidgetColor(height: size_6_w),
+      //no.45
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 100,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.place_of_occurrence.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePlaceOfOccurrence(value),
+        ),
+      ),
+      spaceWidgetColor(),
 
-          //no.47
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.adl.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '003')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.adl,
-                value.onSelectAdl,
-              );
-            }),
-          ),
+      //No.46
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 100,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.summary_of_accident_and_chief_complaint.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeSummaryOfAccidentAndChiefComplaint(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.48
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.traffic_accident_category.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '004')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.trafficAccidentCategory,
-                value.onSelectTrafficAccidentCategory,
-              );
-            }),
-          ),
+      //no.47
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.adl.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '003').toList().map((e) => e.Value.toString()).toList(),
+            value.adl,
+            value.onSelectAdl,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.49
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.witness.tr(), value.yesNothings,
-                  value.onSelectWitness);
-            }),
-          ),
+      //no.48
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.traffic_accident_category.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '004').toList().map((e) => e.Value.toString()).toList(),
+            value.trafficAccidentCategory,
+            value.onSelectTrafficAccidentCategory,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.50
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.bystander_cpr.tr(),
-                  value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
-            }),
-          ),
+      //no.49
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.witness.tr(), value.yesNothings, value.onSelectWitness);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(),
 
-          //no.51
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 60,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.oral_instruction.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeOralInstruction(value),
-            ),
-          ),
-          spaceWidgetColor(height: size_20_w),
-        ]);
+      //no.50
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.bystander_cpr.tr(), value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
+        }),
+      ),
+
+      spaceWidgetColor(height: size_22_w),
+
+      //no.51
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 60,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.oral_instruction.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeOralInstruction(value),
+        ),
+      ),
+      spaceWidgetColor(height: size_20_w),
+    ]);
   }
 
   Widget buildLayout5() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.53
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.observation_time.tr(),
-                  value.observationTime1, value.onConfirmObservationTime1);
-            }),
-          ),
-          spaceWidgetColor(height: size_22_w),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.53
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.observation_time.tr(), value.observationTime1, value.onConfirmObservationTime1);
+        }),
+      ),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.55
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.jcs.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '011')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.jcs1,
-                    value.onSelectJcs1,
-                  );
-                }),
-          ),
+      //no.55
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.jcs.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '011').toList().map((e) => e.Value.toString()).toList(),
+            value.jcs1,
+            value.onSelectJcs1,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_e.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '012')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsE1,
-                    value.onSelectGcsE1,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_e.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '012').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsE1,
+            value.onSelectGcsE1,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_v.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '013').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsV1,
+            value.onSelectGcsV1,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_v.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '013')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsV1,
-                    value.onSelectGcsV1,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_m.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '014').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsM1,
+            value.onSelectGcsM1,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_m.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '014')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsM1,
-                    value.onSelectGcsM1,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.57
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.breathing.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBreathing1(value),
+        ),
+      ),
 
+      spaceWidgetColor(),
 
-          //no.57
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing1(value),
+      //no.58
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.pulse.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePulse1(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.59 & 60
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_up.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp1(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.58
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse1(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_lower.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower1(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.59 & 60
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                        unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp1(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                        unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower1(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.61 & 62
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_percent.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2Percent1(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.61 & 62
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent1(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L1(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_l.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2L1(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.63 & 64
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil1(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil1(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.63 & 64
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.right_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeRightPupil1(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(height: size_6_w),
-
-          //no.65
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                  value.yesNothings, value.onSelectLightReflectionRight1);
-            }),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.66
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                  value.yesNothings, value.onSelectLightReflectionLeft1);
-            }),
-          ),
-
-          spaceWidgetColor(height: size_22_w),
-
-          //no.67
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature1(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.left_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeLeftPupil1(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(height: size_6_w),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.68
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDownSearch(
-                LocaleKeys.facial_features.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '005')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.facialFeatures1,
-                value.onSelectFacialFeatures1,
-              );
-            }),
-          ),
+      //no.65
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_right.tr(), value.yesNothings, value.onSelectLightReflectionRight1);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(),
 
-          //no.69
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding1(value),
-            ),
-          ),
+      //no.66
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_left.tr(), value.yesNothings, value.onSelectLightReflectionLeft1);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_6_w,),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.70
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildCheckbox(
-                  LocaleKeys.incontinence.tr(),
-                  value.msClassifications
-                      .where((element) => element.ClassificationCD == '006')
-                      .toList()
-                      .map((e) => e.Value.toString())
-                      .toList(),
-                  value.onSelectIncontinence1);
-            }),
-          ),
+      //no.67
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.body_temperature.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBodyTemperature1(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.71
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                  value.onSelectVomiting1);
-            }),
-          ),
+      //no.68
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.facial_features.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '005').toList().map((e) => e.Value.toString()).toList(),
+            value.facialFeatures1,
+            value.onSelectFacialFeatures1,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.72
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb1(value),
-            ),
-          ),
+      //no.69
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.bleeding.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBleeding1(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(
+        height: size_6_w,
+      ),
 
-          //no.75
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation1(value),
-            ),
-          ),
+      //no.70
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence1);
+        }),
+      ),
 
+      spaceWidgetColor(),
 
-          spaceWidgetColor(height: size_20_w),
-        ]);
+      //no.71
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings, value.onSelectVomiting1);
+        }),
+      ),
+
+      spaceWidgetColor(height: size_22_w),
+
+      //no.72
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.limb.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeLimb1(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.75
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_observation_time_explanation.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation1(value),
+        ),
+      ),
+
+      spaceWidgetColor(height: size_20_w),
+    ]);
   }
 
   Widget buildLayout6() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.77
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.airway_management.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '007')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.airwayManagement,
-                    value.onSelectAirwayManagement,
-                    height: 180
-                  );
-                }),
-          ),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.77
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(LocaleKeys.airway_management.tr(), value.msClassifications.where((element) => element.ClassificationCD == '007').toList().map((e) => e.Value.toString()).toList(), value.airwayManagement, value.onSelectAirwayManagement, height: 180);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.78
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.foreign_matter_removal.tr(), value.yesNothings,
-                      value.onSelectForeignMatterRemoval);
-                }),
-          ),
+      //no.78
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.foreign_matter_removal.tr(), value.yesNothings, value.onSelectForeignMatterRemoval);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.79
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.suction.tr(), value.yesNothings,
-                      value.onSelectSuction);
-                }),
-          ),
+      //no.79
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.suction.tr(), value.yesNothings, value.onSelectSuction);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.80
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.artificial_respiration.tr(), value.yesNothings,
-                      value.onSelectArtificialRespiration);
-                }),
-          ),
+      //no.80
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.artificial_respiration.tr(), value.yesNothings, value.onSelectArtificialRespiration);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.81
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.chest_compression.tr(), value.yesNothings,
-                      value.onSelectChestCompression);
-                }),
-          ),
+      //no.81
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.chest_compression.tr(), value.yesNothings, value.onSelectChestCompression);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.82
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.ecg_monitor.tr(), value.yesNothings,
-                      value.onSelectEcgMonitor);
-                }),
-          ),
+      //no.82
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.ecg_monitor.tr(), value.yesNothings, value.onSelectEcgMonitor);
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-
-          //no.83 & 84
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: OutlineTextFormField(
-                      keyboardType: TextInputType.number,
-                      isAlwaysShowLable: true,
-                      maxLength: 3,
-                      counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                      counterStyle: counterStyle,
-                      textColor: kColor4472C4,
-                      colorBorder: Colors.black26,
-                      colorFocusBorder: kColor4472C4,
-                      labelText: LocaleKeys.o2_administration.tr(),
-                      onChanged: (value) => inputReportViewModel.onChangeO2Administration(value),
-                    ),
-                  ),
-                  flex: 1,
+      //no.83 & 84
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                child: OutlineTextFormField(
+                  keyboardType: TextInputType.number,
+                  isAlwaysShowLable: true,
+                  maxLength: 3,
+                  counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.o2_administration.tr(),
+                  onChanged: (value) => inputReportViewModel.onChangeO2Administration(value),
                 ),
-                SizedBox(
-                  width: 16,
+              ),
+              flex: 1,
+            ),
+            SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+                return timePicker(LocaleKeys.o2_administration_time.tr(), value.dtReport.O2AdministrationTime, value.onSelectO2AdministrationTime);
+              }),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
+
+      spaceWidgetColor(height: size_6_w),
+
+      //no.85
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(LocaleKeys.spinal_cord_motion_limitation.tr(), value.msClassifications.where((element) => element.ClassificationCD == '008').toList().map((e) => e.Value.toString()).toList(), value.spinalCordMotionLimitation, value.onSelectSpinalCordMotionLimitation, height: 180);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //no.86
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.hemostasis.tr(), value.yesNothings, value.onSelectHemostasis);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //no.87
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.splint_fixation.tr(), value.yesNothings, value.onSelectSplintFixation);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //no.88
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.coating_treatment.tr(), value.yesNothings, value.onSelectCoatingTreatment);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //no.89
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.burn_treatment.tr(), value.yesNothings, value.onSelectBurnTreatment);
+        }),
+      ),
+      spaceWidgetColor(),
+
+      //no.90 & 91
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                child: OutlineTextFormField(
+                  keyboardType: TextInputType.number,
+                  isAlwaysShowLable: true,
+                  maxLength: 3,
+                  counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.bs_measurement_1.tr(),
+                  onChanged: (value) => inputReportViewModel.onChangeBsMeasurement1(value),
                 ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                        return timePicker(LocaleKeys.o2_administration_time.tr(),
-                            value.dtReport.O2AdministrationTime, value.onSelectO2AdministrationTime);
-                      }),
-                  flex: 1,
-                )
-              ],
+              ),
+              flex: 1,
             ),
-          ),
+            SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+                return timePicker(LocaleKeys.bs_measurement_time_1.tr(), value.dtReport.BSMeasurementTime1, value.onSelectBsMeasurementTime1);
+              }),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
+      spaceWidgetColor(),
 
-          spaceWidgetColor(height: size_6_w),
+      //no.92
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.puncture_site_1.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePunctureSite1(value),
+        ),
+      ),
 
-          //no.85
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.spinal_cord_motion_limitation.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '008')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.spinalCordMotionLimitation,
-                    value.onSelectSpinalCordMotionLimitation,
-                      height: 180
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
-
-          //no.86
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.hemostasis.tr(), value.yesNothings,
-                      value.onSelectHemostasis);
-                }),
-          ),
-          spaceWidgetColor(),
-
-          //no.87
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.splint_fixation.tr(), value.yesNothings,
-                      value.onSelectSplintFixation);
-                }),
-          ),
-          spaceWidgetColor(),
-
-          //no.88
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.coating_treatment.tr(), value.yesNothings,
-                      value.onSelectCoatingTreatment);
-                }),
-          ),
-          spaceWidgetColor(),
-
-
-          //no.89
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.burn_treatment.tr(), value.yesNothings,
-                      value.onSelectBurnTreatment);
-                }),
-          ),
-          spaceWidgetColor(),
-
-          //no.90 & 91
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: OutlineTextFormField(
-                      keyboardType: TextInputType.number,
-                      isAlwaysShowLable: true,
-                      maxLength: 3,
-                      counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
-                      counterStyle: counterStyle,
-                      textColor: kColor4472C4,
-                      colorBorder: Colors.black26,
-                      colorFocusBorder: kColor4472C4,
-                      labelText: LocaleKeys.bs_measurement_1.tr(),
-                      onChanged: (value) => inputReportViewModel.onChangeBsMeasurement1(value),
-                    ),
-                  ),
-                  flex: 1,
+      //no.93 & 94
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                child: OutlineTextFormField(
+                  keyboardType: TextInputType.number,
+                  isAlwaysShowLable: true,
+                  maxLength: 3,
+                  counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.bs_measurement_2.tr(),
+                  onChanged: (value) => inputReportViewModel.onChangeBsMeasurement2(value),
                 ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                        return timePicker(LocaleKeys.bs_measurement_time_1.tr(),
-                            value.dtReport.BSMeasurementTime1, value.onSelectBsMeasurementTime1);
-                      }),
-                  flex: 1,
-                )
-              ],
+              ),
+              flex: 1,
             ),
-          ),
-          spaceWidgetColor(),
-
-          //no.92
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.puncture_site_1.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePunctureSite1(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+                return timePicker(LocaleKeys.bs_measurement_time_2.tr(), value.dtReport.BSMeasurementTime2, value.onSelectBsMeasurementTime2);
+              }),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
+      spaceWidgetColor(),
 
+      //no.95
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.puncture_site_2.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePunctureSite2(value),
+        ),
+      ),
 
-          //no.93 & 94
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: OutlineTextFormField(
-                      keyboardType: TextInputType.number,
-                      isAlwaysShowLable: true,
-                      maxLength: 3,
-                      counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
-                      counterStyle: counterStyle,
-                      textColor: kColor4472C4,
-                      colorBorder: Colors.black26,
-                      colorFocusBorder: kColor4472C4,
-                      labelText: LocaleKeys.bs_measurement_2.tr(),
-                      onChanged: (value) => inputReportViewModel.onChangeBsMeasurement2(value),
-                    ),
-                  ),
+      spaceWidgetColor(),
 
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                        return timePicker(LocaleKeys.bs_measurement_time_2.tr(),
-                            value.dtReport.BSMeasurementTime2, value.onSelectBsMeasurementTime2);
-                      }),
-                  flex: 1,
-                )
-              ],
-            ),
-          ),
-          spaceWidgetColor(),
+      //no.96
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 60,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.others.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeOthers(value),
+        ),
+      ),
 
-          //no.95
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.puncture_site_2.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePunctureSite2(value),
-            ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.96
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 60,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.others.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeOthers(value),
-            ),
-          ),
-
-          spaceWidgetColor(height: size_20_w),
-        ]);
+      spaceWidgetColor(height: size_20_w),
+    ]);
   }
 
   Widget buildLayout7() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.53
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return timePicker(LocaleKeys.observation_time.tr(),
-                      value.observationTime2, value.onConfirmObservationTime2);
-                }),
-          ),
-          spaceWidgetColor(height: size_22_w),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.53
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.observation_time.tr(), value.observationTime2, value.onConfirmObservationTime2);
+        }),
+      ),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.55
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.jcs.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '011')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.jcs2,
-                    value.onSelectJcs2,
-                  );
-                }),
-          ),
+      //no.55
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.jcs.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '011').toList().map((e) => e.Value.toString()).toList(),
+            value.jcs2,
+            value.onSelectJcs2,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_e.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '012')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsE2,
-                    value.onSelectGcsE2,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_e.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '012').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsE2,
+            value.onSelectGcsE2,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_v.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '013').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsV2,
+            value.onSelectGcsV2,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_v.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '013')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsV2,
-                    value.onSelectGcsV2,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_m.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '014').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsM2,
+            value.onSelectGcsM2,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_m.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '014')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsM2,
-                    value.onSelectGcsM2,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.57
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.breathing.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBreathing2(value),
+        ),
+      ),
 
+      spaceWidgetColor(),
 
-          //no.57
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing2(value),
+      //no.58
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.pulse.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePulse2(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.59 & 60
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_up.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp2(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.58
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse2(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_lower.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower2(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.59 & 60
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                    unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp2(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                    unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower2(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.61 & 62
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_percent.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2Percent2(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.61 & 62
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent2(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L2(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_l.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2L2(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.63 & 64
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil2(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil2(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.63 & 64
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.right_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeRightPupil2(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(height: size_6_w),
-
-          //no.65
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                      value.yesNothings, value.onSelectLightReflectionRight2);
-                }),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.66
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                      value.yesNothings, value.onSelectLightReflectionLeft2);
-                }),
-          ),
-
-          spaceWidgetColor(height: size_22_w),
-
-          //no.67
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature2(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.left_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeLeftPupil2(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(height: size_6_w),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.68
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.facial_features.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '005')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.facialFeatures2,
-                    value.onSelectFacialFeatures2,
-                  );
-                }),
-          ),
+      //no.65
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_right.tr(), value.yesNothings, value.onSelectLightReflectionRight2);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(),
 
-          //no.69
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding2(value),
-            ),
-          ),
+      //no.66
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_left.tr(), value.yesNothings, value.onSelectLightReflectionLeft2);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_6_w,),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.70
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildCheckbox(
-                      LocaleKeys.incontinence.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '006')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectIncontinence2);
-                }),
-          ),
+      //no.67
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.body_temperature.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBodyTemperature2(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.71
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                      value.onSelectVomiting2);
-                }),
-          ),
+      //no.68
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.facial_features.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '005').toList().map((e) => e.Value.toString()).toList(),
+            value.facialFeatures2,
+            value.onSelectFacialFeatures2,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.72
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb2(value),
-            ),
-          ),
+      //no.69
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.bleeding.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBleeding2(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(
+        height: size_6_w,
+      ),
 
-          //no.75
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation2(value),
-            ),
-          ),
+      //no.70
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence2);
+        }),
+      ),
 
+      spaceWidgetColor(),
 
-          spaceWidgetColor(height: size_20_w),
-        ]);
+      //no.71
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings, value.onSelectVomiting2);
+        }),
+      ),
+
+      spaceWidgetColor(height: size_22_w),
+
+      //no.72
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.limb.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeLimb2(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.75
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_observation_time_explanation.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation2(value),
+        ),
+      ),
+
+      spaceWidgetColor(height: size_20_w),
+    ]);
   }
 
   Widget buildLayout8() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //no.53
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return timePicker(LocaleKeys.observation_time.tr(),
-                      value.observationTime3, value.onConfirmObservationTime3);
-                }),
-          ),
-          spaceWidgetColor(height: size_22_w),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+      //no.53
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return timePicker(LocaleKeys.observation_time.tr(), value.observationTime3, value.onConfirmObservationTime3);
+        }),
+      ),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.55
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.jcs.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '011')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.jcs3,
-                    value.onSelectJcs3,
-                  );
-                }),
-          ),
+      //no.55
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.jcs.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '011').toList().map((e) => e.Value.toString()).toList(),
+            value.jcs3,
+            value.onSelectJcs3,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_e.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '012')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsE3,
-                    value.onSelectGcsE3,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_e.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '012').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsE3,
+            value.onSelectGcsE3,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_v.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '013').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsV3,
+            value.onSelectGcsV3,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_v.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '013')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsV3,
-                    value.onSelectGcsV3,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.56
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.gcs_m.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '014').toList().map((e) => e.Value.toString()).toList(),
+            value.gcsM3,
+            value.onSelectGcsM3,
+          );
+        }),
+      ),
+      spaceWidgetColor(),
 
-          //no.56
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.gcs_m.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '014')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.gcsM3,
-                    value.onSelectGcsM3,
-                  );
-                }),
-          ),
-          spaceWidgetColor(),
+      //no.57
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.breathing.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBreathing3(value),
+        ),
+      ),
 
+      spaceWidgetColor(),
 
-          //no.57
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.breathing.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBreathing3(value),
+      //no.58
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.pulse.tr(),
+          onChanged: (value) => inputReportViewModel.onChangePulse3(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.59 & 60
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_up.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp3(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.58
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.pulse.tr(),
-              onChanged: (value) => inputReportViewModel.onChangePulse3(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.blood_pressure_lower.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower3(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.59 & 60
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                    unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_up.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureUp3(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget:
-                    unitWidget(LocaleKeys.unit_mmHg.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.blood_pressure_lower.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeBloodPressureLower3(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.61 & 62
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_percent.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2Percent3(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.61 & 62
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_percent.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_percent.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2Percent3(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.spo2_l.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeSpo2L3(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.spo2_l.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeSpo2L3(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(),
 
-          //no.63 & 64
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.right_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeRightPupil3(value),
-                  ),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: OutlineTextFormField(
-                    keyboardType: TextInputType.number,
-                    isAlwaysShowLable: true,
-                    maxLength: 3,
-                    counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                    counterStyle: counterStyle,
-                    textColor: kColor4472C4,
-                    colorBorder: Colors.black26,
-                    colorFocusBorder: kColor4472C4,
-                    labelText: LocaleKeys.left_pupil.tr(),
-                    onChanged: (value) => inputReportViewModel.onChangeLeftPupil3(value),
-                  ),
-                  flex: 1,
-                )
-              ],
+      //no.63 & 64
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.right_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeRightPupil3(value),
+              ),
+              flex: 1,
             ),
-          ),
-
-          spaceWidgetColor(height: size_6_w),
-
-          //no.65
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                      value.yesNothings, value.onSelectLightReflectionRight3);
-                }),
-          ),
-
-          spaceWidgetColor(),
-
-          //no.66
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                      value.yesNothings, value.onSelectLightReflectionLeft3);
-                }),
-          ),
-
-          spaceWidgetColor(height: size_22_w),
-
-          //no.67
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              keyboardType: TextInputType.number,
-              isAlwaysShowLable: true,
-              maxLength: 3,
-              counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.body_temperature.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBodyTemperature3(value),
+            SizedBox(
+              width: 16,
             ),
-          ),
+            Expanded(
+              child: OutlineTextFormField(
+                keyboardType: TextInputType.number,
+                isAlwaysShowLable: true,
+                maxLength: 3,
+                counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.left_pupil.tr(),
+                onChanged: (value) => inputReportViewModel.onChangeLeftPupil3(value),
+              ),
+              flex: 1,
+            )
+          ],
+        ),
+      ),
 
-          spaceWidgetColor(height: size_6_w),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.68
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.facial_features.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '005')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.facialFeatures3,
-                    value.onSelectFacialFeatures3,
-                  );
-                }),
-          ),
+      //no.65
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_right.tr(), value.yesNothings, value.onSelectLightReflectionRight3);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(),
 
-          //no.69
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.bleeding.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeBleeding3(value),
-            ),
-          ),
+      //no.66
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.light_reflection_left.tr(), value.yesNothings, value.onSelectLightReflectionLeft3);
+        }),
+      ),
 
-          spaceWidgetColor(height: size_6_w,),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.70
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildCheckbox(
-                      LocaleKeys.incontinence.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '006')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectIncontinence3);
-                }),
-          ),
+      //no.67
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          keyboardType: TextInputType.number,
+          isAlwaysShowLable: true,
+          maxLength: 3,
+          counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.body_temperature.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBodyTemperature3(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(height: size_6_w),
 
-          //no.71
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings,
-                      value.onSelectVomiting3);
-                }),
-          ),
+      //no.68
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDownSearch(
+            LocaleKeys.facial_features.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '005').toList().map((e) => e.Value.toString()).toList(),
+            value.facialFeatures3,
+            value.onSelectFacialFeatures3,
+          );
+        }),
+      ),
 
-          spaceWidgetColor(height: size_22_w),
+      spaceWidgetColor(height: size_22_w),
 
-          //no.72
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 10,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.limb.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeLimb3(value),
-            ),
-          ),
+      //no.69
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.bleeding.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeBleeding3(value),
+        ),
+      ),
 
-          spaceWidgetColor(),
+      spaceWidgetColor(
+        height: size_6_w,
+      ),
 
-          //no.75
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: OutlineTextFormField(
-              isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
-              maxLength: 20,
-              counterStyle: counterStyle,
-              textColor: kColor4472C4,
-              colorBorder: Colors.black26,
-              colorFocusBorder: kColor4472C4,
-              labelText: LocaleKeys.report_observation_time_explanation.tr(),
-              onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation3(value),
-            ),
-          ),
+      //no.70
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence3);
+        }),
+      ),
 
+      spaceWidgetColor(),
 
-          spaceWidgetColor(height: size_20_w),
-        ]);
+      //no.71
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+          return buildDropDown(LocaleKeys.vomiting.tr(), value.yesNothings, value.onSelectVomiting3);
+        }),
+      ),
+
+      spaceWidgetColor(height: size_22_w),
+
+      //no.72
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 10,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.limb.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeLimb3(value),
+        ),
+      ),
+
+      spaceWidgetColor(),
+
+      //no.75
+      Container(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: OutlineTextFormField(
+          isAlwaysShowLable: true,
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          counterStyle: counterStyle,
+          textColor: kColor4472C4,
+          colorBorder: Colors.black26,
+          colorFocusBorder: kColor4472C4,
+          labelText: LocaleKeys.report_observation_time_explanation.tr(),
+          onChanged: (value) => inputReportViewModel.onChangeReportObservationTimeExplanation3(value),
+        ),
+      ),
+
+      spaceWidgetColor(height: size_20_w),
+    ]);
   }
-
 
   Widget buildLayout9() {
     return Container(
@@ -2631,21 +2327,9 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(height: size_6_w),
           //no.99
           Container(
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                    LocaleKeys.awareness_type.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '009')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.awarenessType,
-                    value.onSelectAwarenessType,
-                    backgroundTextLabel: kColorDEE9F6,
-                    height: 225
-                  );
-                }),
+            child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+              return buildDropDownSearch(LocaleKeys.awareness_type.tr(), value.msClassifications.where((element) => element.ClassificationCD == '009').toList().map((e) => e.Value.toString()).toList(), value.awarenessType, value.onSelectAwarenessType, backgroundTextLabel: kColorDEE9F6, height: 225);
+            }),
           ),
           spaceWidgetColor(height: size_22_w),
           //no.100
@@ -2691,44 +2375,24 @@ class InputReportState extends LifecycleState<InputReportContent>
         children: [
           //no.103
           Container(
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                      LocaleKeys.transportation_medical_institution.tr(),
-                      value.msHospitals
-                          .map((e) => e.Name.toString())
-                          .toList(),
-                      value.dtReport.MedicalTransportFacility,
-                      value.onSelectTransportationMedicalInstitution,
-                      backgroundTextLabel: kColorDEE9F6
-                  );
-                }),
+            child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+              return buildDropDownSearch(LocaleKeys.transportation_medical_institution.tr(), value.msHospitals.map((e) => e.Name.toString()).toList(), value.dtReport.MedicalTransportFacility, value.onSelectTransportationMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
+            }),
           ),
           spaceWidgetColor(),
           //no.104
           Container(
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDownSearch(
-                      LocaleKeys.forwarding_medical_institution.tr(),
-                      value.msHospitals
-                          .map((e) => e.Name.toString())
-                          .toList(),
-                      value.dtReport.TransferringMedicalInstitution,
-                      value.onSelectForwardingMedicalInstitution,
-                      backgroundTextLabel: kColorDEE9F6
-                  );
-                }),
+            child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+              return buildDropDownSearch(LocaleKeys.forwarding_medical_institution.tr(), value.msHospitals.map((e) => e.Name.toString()).toList(), value.dtReport.TransferringMedicalInstitution, value.onSelectForwardingMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
+            }),
           ),
           spaceWidgetColor(),
 
           //no.105
           Container(
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return timePicker(LocaleKeys.transfer_source_pick_up_time.tr(),
-                      value.dtReport.TransferSourceReceivingTime, value.onConfirmTransferSourcePickUpTime, backgroundLableColor: kColorDEE9F6);
-                }),
+            child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+              return timePicker(LocaleKeys.transfer_source_pick_up_time.tr(), value.dtReport.TransferSourceReceivingTime, value.onConfirmTransferSourcePickUpTime, backgroundLableColor: kColorDEE9F6);
+            }),
           ),
           spaceWidgetColor(height: size_22_w),
 
@@ -2762,11 +2426,9 @@ class InputReportState extends LifecycleState<InputReportContent>
 
           //no.108
           Container(
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-                  return buildDropDown(LocaleKeys.transport_refusal_processing_record.tr(), value.yesNothings,
-                      value.onSelectTransportRefusalProcessingRecord , backgroundTextLabel: kColorDEE9F6);
-                }),
+            child: Consumer<InputReportViewModel>(builder: (context, value, child) {
+              return buildDropDown(LocaleKeys.transport_refusal_processing_record.tr(), value.yesNothings, value.onSelectTransportRefusalProcessingRecord, backgroundTextLabel: kColorDEE9F6);
+            }),
           ),
           spaceWidgetColor(height: size_28_w),
         ],
@@ -2779,9 +2441,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     height: 1,
   );
 
-  Widget datePicker(
-      String label, String? text, Function(DateTime date) onConfirm,
-      {DateTime? maxDate, DateTime? minDate, Color? backgroundLableColor}) {
+  Widget datePicker(String label, String? text, Function(DateTime date) onConfirm, {DateTime? maxDate, DateTime? minDate, Color? backgroundLableColor}) {
     return Stack(
       children: [
         Container(
@@ -2803,32 +2463,31 @@ class InputReportState extends LifecycleState<InputReportContent>
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(text ?? '',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: kColor4472C4,
-                              fontWeight: FontWeight.normal,
-                              fontSize: text_16)),
+                      child: Text(text ?? '', textAlign: TextAlign.left, style: TextStyle(color: kColor4472C4, fontWeight: FontWeight.normal, fontSize: text_16)),
                     ),
                   ],
                 ),
               ),
-              onTap: () => DatePicker.showDatePicker(context,
-                  maxTime: maxDate,
-                  minTime: minDate,
-                  showTitleActions: true,
-                  locale: localeTypeJP,
-                  onChanged: (date) {
-                    //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                  },
-                  onConfirm: (date) => onConfirm(date),
-                  currentTime: DateTime.now())),
+              onTap: () => {
+                    Utils.removeFocus(context),
+                    DatePicker.showDatePicker(
+                      context,
+                      maxTime: maxDate,
+                      minTime: minDate,
+                      showTitleActions: true,
+                      locale: localeTypeJP,
+                      onChanged: (date) {
+                        //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                      },
+                      onConfirm: (date) => onConfirm(date),
+                      currentTime: DateTime.now(),
+                    ),
+                  }),
         ),
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -2838,8 +2497,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget textShowWithLabel(String label, String? text,
-      {Color? backgroundLableColor}) {
+  Widget textShowWithLabel(String label, String? text, {Color? backgroundLableColor}) {
     return Stack(
       children: [
         Container(
@@ -2860,12 +2518,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(text ?? '',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: kColor4472C4,
-                          fontWeight: FontWeight.normal,
-                          fontSize: text_16)),
+                  child: Text(text ?? '', textAlign: TextAlign.left, style: TextStyle(color: kColor4472C4, fontWeight: FontWeight.normal, fontSize: text_16)),
                 ),
               ],
             ),
@@ -2874,8 +2527,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -2907,31 +2559,30 @@ class InputReportState extends LifecycleState<InputReportContent>
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(text ?? '',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: kColor4472C4,
-                              fontWeight: FontWeight.normal,
-                              fontSize: text_16)),
+                      child: Text(text ?? '', textAlign: TextAlign.left, style: TextStyle(color: kColor4472C4, fontWeight: FontWeight.normal, fontSize: text_16)),
                     ),
                   ],
                 ),
               ),
-              onTap: () => DatePicker.showTimePicker(context,
-                  showTitleActions: true,
-                  locale: localeTypeJP,
-                  showSecondsColumn: showSecondCol ?? false,
-                  onChanged: (date) {
-                    //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                  },
-                  onConfirm: (date) => onConfirm(date),
-                  currentTime: DateTime.now())),
+              onTap: () => {
+                    Utils.removeFocus(context),
+                    DatePicker.showTimePicker(
+                      context,
+                      showTitleActions: true,
+                      locale: localeTypeJP,
+                      showSecondsColumn: showSecondCol ?? false,
+                      onChanged: (date) {
+                        //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                      },
+                      onConfirm: (date) => onConfirm(date),
+                      currentTime: DateTime.now(),
+                    ),
+                  }),
         ),
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -2960,8 +2611,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildDropDown(String label, List<String> list,
-      Function(String? itemSelected) onSelected, {Color? backgroundTextLabel}) {
+  Widget buildDropDown(String label, List<String> list, Function(String? itemSelected) onSelected, {Color? backgroundTextLabel}) {
     return Stack(
       children: [
         Container(
@@ -3013,8 +2663,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: backgroundTextLabel ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3024,9 +2673,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildDropDownSearch(String label, List<String> list,
-      String? valueSelect, Function(String? itemSelected) onSelected,
-      {Color? backgroundTextLabel, double? height}) {
+  Widget buildDropDownSearch(String label, List<String> list, String? valueSelect, Function(String? itemSelected) onSelected, {Color? backgroundTextLabel, double? height}) {
     return Stack(
       children: [
         Container(
@@ -3058,6 +2705,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   ),
                 ));
               }).toList(),
+              onTap: () => Utils.removeFocus(context),
               value: valueSelect,
               hint: '',
               searchHint: null,
@@ -3069,14 +2717,12 @@ class InputReportState extends LifecycleState<InputReportContent>
               },
               dialogBox: false,
               isExpanded: true,
-              menuConstraints:
-                  BoxConstraints.tight(Size.fromHeight(height ?? 300)),
+              menuConstraints: BoxConstraints.tight(Size.fromHeight(height ?? 300)),
             )),
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: backgroundTextLabel ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3086,8 +2732,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildCheckbox(String label, List<String> list,
-      Function(List<String> checkeds) onSelecteds) {
+  Widget buildCheckbox(String label, List<String> list, Function(List<String> checkeds) onSelecteds) {
     return Stack(
       children: [
         Container(
@@ -3115,8 +2760,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3125,7 +2769,6 @@ class InputReportState extends LifecycleState<InputReportContent>
       ],
     );
   }
-
 }
 
 // stores ExpansionPanel state information
