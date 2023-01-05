@@ -9,6 +9,7 @@ const LocaleType localeTypeJP = LocaleType.jp;
 const Locale localeJP = Locale('ja', 'JP');
 const String comma = ',';
 const String slash = '/';
+const String space = ' ';
 
 
 //get image url

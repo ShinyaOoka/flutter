@@ -156,10 +156,10 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst(SickInjuredPersonName, dtReport.SickInjuredPersonName ?? '');
 
     //13
-    List<String> SickInjuredPersonTELs = Utils.split4CharPhone(dtReport.SickInjuredPersonTEL?.toString().trim() ?? '');
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELFirst', SickInjuredPersonTELs[0].toString());
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELMiddle', SickInjuredPersonTELs[1].toString());
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELLast', SickInjuredPersonTELs[2].toString());
+    List<String?> SickInjuredPersonTELs = Utils.split4CharPhone(dtReport.SickInjuredPersonTEL?.toString().trim() ?? '');
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELFirst', SickInjuredPersonTELs[0]?.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELMiddle', SickInjuredPersonTELs[1]?.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELLast', SickInjuredPersonTELs[2]?.toString() ?? '');
 
     //14
     List<String?> SickInjuredPersonFamilyTELs = Utils.split4CharPhone(dtReport.SickInjuredPersonFamilyTEL?.toString().trim() ?? '');
