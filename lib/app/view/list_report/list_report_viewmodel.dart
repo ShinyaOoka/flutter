@@ -44,8 +44,8 @@ class ListReportViewModel extends BaseViewModel {
     _navigationService.pushScreenWithFade(EditReportPage());
   }
 
-  void openConfirmReport() async {
-    _navigationService.pushScreenWithFade(ConfirmReportPage());
+  void openConfirmReport(DTReport dtReport) async {
+    _navigationService.pushScreenWithFade(ConfirmReportPage(dtReport: dtReport));
   }
 
   Future<void> getAllMSClassification() async {

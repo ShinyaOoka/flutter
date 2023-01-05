@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -133,8 +134,8 @@ class Utils {
   }
 
   static List<String> split4CharPhone(String text) {
-    var tempTEL = text.replaceAllMapped(
-        RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
+    if(text.isBlank == true) return ['','',''];
+    var tempTEL = text.replaceAllMapped(RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
     List<String> temTELs = tempTEL.split(' ');
     if (temTELs.length < 2) {
       temTELs.add('');
@@ -171,11 +172,20 @@ class Utils {
   }
 
   static String importStringToDb(dynamic? v1, dynamic? v2, dynamic? v3){
-    return '$v1$comma$v2$comma$v3';
+    return '$v1$slash$v2$slash$v3';
   }
 
-  static List<dynamic?> exportDataFromDb(String data){
-    return data.split(comma);
+  static List<dynamic?> exportDataFromDb(String? data){
+    if(data.isBlank == true) return [null, null, null];
+    List<dynamic?> list = data!.split(slash);
+    if (list.length < 2) {
+      list.add(null);
+      list.add(null);
+    }
+    if (list.length < 3) {
+      list.add(null);
+    }
+    return list;
   }
 
 

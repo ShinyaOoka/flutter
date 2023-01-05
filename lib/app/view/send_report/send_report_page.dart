@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/buttons/filled_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,7 +12,7 @@ import '../widget_utils/base_scaffold_safe_area.dart';
 import 'send_report_viewmodel.dart';
 
 class SendReportPage extends PageProvideNode<SendReportViewModel> {
-  SendReportPage() : super();
+  SendReportPage({Key? key, DTReport? dtReport}) : super(key: key, params: [dtReport]);
 
   @override
   Widget buildContent(BuildContext context) {

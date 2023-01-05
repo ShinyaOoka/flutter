@@ -98,7 +98,6 @@ class _ListReportContentState extends State<ListReportContent>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    //body
                     Expanded(
                       child: Consumer<ListReportViewModel>(
                         builder: (context, value, child) {
@@ -116,7 +115,7 @@ class _ListReportContentState extends State<ListReportContent>
                                   );
                                 },
                                 imgEmpty: '',
-                                emptyText: 'Empty Data',
+                                emptyText: LocaleKeys.empty_data.tr(),
                               );
                             case LoadingState.DONE:
                               return RefreshIndicator(
@@ -143,7 +142,7 @@ class _ListReportContentState extends State<ListReportContent>
                                                 report: value.dtReports[index],
                                                 msClassifications: value.msClassifications,
                                                 onDeleteItem: () => null,
-                                                onClickItem: () => listReportViewModel.openConfirmReport(),
+                                                onClickItem: () => listReportViewModel.openConfirmReport(value.dtReports[index]),
                                               ),
                                               index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
                                             ],
@@ -170,19 +169,6 @@ class _ListReportContentState extends State<ListReportContent>
                   ],
                 ),
               ),
-
-              /* //Button goto sign in
-              Positioned(
-                // draw a red marble
-                bottom: size_30_w,
-                left: size_26_w,
-                right: size_26_w,
-                child: FilledButton(
-                  color: kColor4472C4,
-                  text: 'Preview Report',
-                  onPress: () => chooseAccountViewModel.openPreviewReport(),
-                ),
-              ),*/
             ],
           ),
         ));

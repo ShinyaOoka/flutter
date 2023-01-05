@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/default_loading_progress.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +17,8 @@ import '../widget_utils/base_scaffold_safe_area.dart';
 import 'preview_report_viewmodel.dart';
 
 class PreviewReportPage extends PageProvideNode<PreviewReportViewModel> {
-  PreviewReportPage({Key? key, String assetFile = '', String pdfName = ''})
-      : super(key: key, params: [assetFile, pdfName]);
+  PreviewReportPage({Key? key, String assetFile = '', String pdfName = '', DTReport? dtReport})
+      : super(key: key, params: [assetFile, pdfName, dtReport]);
 
   @override
   Widget buildContent(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/utils.dart';
 
 import '../../module/res/style.dart';
 
@@ -25,11 +26,11 @@ class EmptyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                imgEmpty ?? '',
+              imgEmpty.isBlank == true ? Container() : SvgPicture.asset(
+                imgEmpty!,
                 width: size_160_w,
                 fit: BoxFit.fitWidth,
-              ),
+              )  ,
               SizedBox(
                 height: size_20_w,
               ),

@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
 import 'package:ak_azm_flutter/app/view/preview_report/preview_report_page.dart';
 
@@ -9,6 +10,7 @@ import '../../viewmodel/base_viewmodel.dart';
 
 class SendReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
+  final DTReport dtReport;
   NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
 
@@ -28,7 +30,7 @@ class SendReportViewModel extends BaseViewModel {
     ));
   }
 
-  SendReportViewModel(this._dataRepo);
+  SendReportViewModel(this._dataRepo, this.dtReport);
 
   void initData() {}
 }

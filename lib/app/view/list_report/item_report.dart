@@ -45,7 +45,7 @@ class ItemReport extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '${report.DateOfOccurrence} ${report.TimeOfOccurrence}',
+                          '${report.DateOfOccurrence ?? ''} ${report.TimeOfOccurrence ?? ''}',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -98,28 +98,6 @@ class ItemReport extends StatelessWidget {
                   ],
                 ),
               ),
-              /*SizedBox(
-                width: size_10_w,
-              ),
-              Container(
-                height: size_26_w,
-                child: TouchableOpacity(
-                  onPressed: () => onDeleteItem.call(),
-                  child: Container(
-                    width: size_26_w,
-                    height: size_26_w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.black26),
-                    child: Center(
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: size_18_w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),

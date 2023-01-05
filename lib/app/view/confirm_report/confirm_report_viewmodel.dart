@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
@@ -16,6 +17,7 @@ import '../../viewmodel/base_viewmodel.dart';
 
 class ConfirmReportViewModel extends BaseViewModel {
   final DataRepository _dataRepo;
+  final DTReport dtReport;
   NavigationService _navigationService = getIt<NavigationService>();
   UserSharePref userSharePref = getIt<UserSharePref>();
 
@@ -24,15 +26,15 @@ class ConfirmReportViewModel extends BaseViewModel {
     return true;
   }
 
-  void openSendReport() async {
-    _navigationService.pushScreenWithFade(SendReportPage());
+  void openSendReport(DTReport dtReport) async {
+    _navigationService.pushScreenWithFade(SendReportPage(dtReport: dtReport));
   }
 
   void openEditReport() async {
     _navigationService.pushScreenWithFade(EditReportPage());
   }
 
-  ConfirmReportViewModel(this._dataRepo);
+  ConfirmReportViewModel(this._dataRepo, this.dtReport);
 
   String generatedPdfFilePath = '';
 

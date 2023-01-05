@@ -134,6 +134,6 @@
   "transfer_source_pick_up_time":  "転送元收容時間",
   "transfer_reason":  "転送理由",
   "reason_for_non_delivery":  "不搬送理由",
-  "transport_refusal_processing_record":  "搬送拒否処理記録"
-
+  "transport_refusal_processing_record":  "搬送拒否処理記録",
+  "empty_data": "Empty Data"
 }
