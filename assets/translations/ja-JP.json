@@ -135,5 +135,6 @@
   "transfer_reason":  "転送理由",
   "reason_for_non_delivery":  "不搬送理由",
   "transport_refusal_processing_record":  "搬送拒否処理記録",
-  "empty_data": "Empty Data"
+  "empty_data": "Empty Data",
+  "text_circle": "<span class=\"text-circle\">{text}</span>"
 }

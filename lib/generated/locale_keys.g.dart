@@ -138,5 +138,6 @@ abstract class  LocaleKeys {
   static const reason_for_non_delivery = 'reason_for_non_delivery';
   static const transport_refusal_processing_record = 'transport_refusal_processing_record';
   static const empty_data = 'empty_data';
+  static const text_circle = 'text_circle';
 
 }
