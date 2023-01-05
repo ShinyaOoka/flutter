@@ -148,7 +148,7 @@ class Utils {
         buffer.write(space);
       }
     }
-    List<String> tempTELs =  buffer.toString().split(space).reversed.toList();
+    List<String> tempTELs =  buffer.toString().split(space);
     //if list = 1 add middle & first
     if (tempTELs.length < 2) {
       tempTELs.add('');
