@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
+import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/default_loading_progress.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:provider/provider.dart';
 
 import '../../../generated/locale_keys.g.dart';
@@ -43,14 +45,6 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
     with SingleTickerProviderStateMixin {
   PreviewReportViewModel get previewReportViewModel => widget._previewReportViewModel;
   late AnimationController _animationController;
-
-  int? pages = 0;
-  int? currentPage = 0;
-  bool isReady = false;
-  String errorMessage = '';
-
-  final Completer<PDFViewController> _controller =
-      Completer<PDFViewController>();
 
   @override
   void initState() {
@@ -107,29 +101,17 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                     builder: (context, value, child) {
                   return value.generatedPdfFilePath.isEmpty
                       ? const BuildProgressLoading()
-                      : PDFView(
-                          filePath: value.generatedPdfFilePath,
-                          enableSwipe: true,
-                          swipeHorizontal: true,
-                          autoSpacing: true,
-                          pageFling: false,
-                          fitPolicy: FitPolicy.BOTH,
-                          onRender: (_pages) {
-                            setState(() {
-                              pages = _pages;
-                              isReady = true;
-                            });
-                          },
-                          onError: (error) {
-                            print(error.toString());
-                          },
-                          onPageError: (page, error) {
-                            print('$page: ${error.toString()}');
-                          },
-                          onViewCreated: (PDFViewController pdfViewController) {
-                            _controller.complete(pdfViewController);
-                          },
-                        );
+                      : PdfView(
+                    controller: PdfController(
+                      document: PdfDocument.openFile(previewReportViewModel.generatedPdfFilePath),
+                    ),
+                    renderer: (PdfPage page) => page.render(
+                      width: page.width * 2,
+                      height: page.height * 2,
+                      format: PdfPageImageFormat.jpeg,
+                      backgroundColor: strColorWhite,
+                    ),
+                  );
                 }),
                 Container(
                   height: kToolbarHeight,
