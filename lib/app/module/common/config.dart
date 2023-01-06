@@ -20,7 +20,7 @@ const String yyyyMMdd = 'yyyy/MM/dd';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String hh_mm_ = 'hh時mm分';
 const String hh_space_mm = 'hh: mm';
-const String pdfFileName = 'report';
+const String pdfFile = 'report.pdf';
 //css style
 const  String uncheckIcon = '<span class="square"></span>';
 const  String checkIcon = '<span class="square-black"></span>';
@@ -30,6 +30,7 @@ const uncheckYes = '$uncheckIcon有';
 const checkedYes = '$checkIcon有';
 const uncheckNo = '$uncheckIcon無';
 const checkedNo = '$checkIcon無';
+const strColorWhite = '#FFFFFF';
 
 
 

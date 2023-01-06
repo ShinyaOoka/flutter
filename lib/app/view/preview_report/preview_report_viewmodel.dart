@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:path/path.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
@@ -9,8 +9,8 @@ import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:webcontent_converter/webcontent_converter.dart';
 
 import '../../di/injection.dart';
 import '../../model/dt_report.dart';
@@ -59,9 +59,15 @@ class PreviewReportViewModel extends BaseViewModel {
     fileHtmlContents = await fetchDataToReportForm(dtReport, fileHtmlContents);
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    final targetPath = appDocDir.path;
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, pdfFileName);
-    return generatedPdfFile.path;
+    var savedPath = join(appDocDir.path, pdfFile);
+    var pdfPath = await WebcontentConverter.contentToPDF(
+      content: fileHtmlContents,
+      savedPath: savedPath,
+      format: PaperFormat.a4,
+      margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
+    );
+
+    return pdfPath ?? '';
   }
 
   void getListDataLayout578() {
@@ -150,7 +156,7 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay', SickInjuredPersonBirthDateDay?.toString() ?? '');
 
     //10
-    var age =  Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
+    var age = Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
     htmlInput = htmlInput.replaceFirst(SickInjuredPersonAge, age > 0 ? age.toString() : '');
 
     //11
