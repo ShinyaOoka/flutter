@@ -260,7 +260,8 @@ class InputReportViewModel extends BaseViewModel {
   onConfirmBirthday(DateTime date) {
     dtReport.SickInjuredPersonBirthDate =
         Utils.dateTimeToString(date, format: yyyy_MM_dd_);
-    dtReport.SickInjuredPersonAge = Utils.calculateAge(date);
+    int? age = Utils.calculateAge(date, Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    dtReport.SickInjuredPersonAge = age == null || age == 0 ? null : age;
     notifyListeners();
   }
 
