@@ -10,7 +10,7 @@ const Locale localeJP = Locale('ja', 'JP');
 const String comma = ',';
 const String slash = '/';
 const String dot5pt = '.5pt';
-const String zeroDot6pt = '0.6pt';
+const String zeroDot5pt = '0.5pt';
 
 //get image url
 String getImageUrl(String path) => path;
