@@ -95,6 +95,9 @@ class PreviewReportViewModel extends BaseViewModel {
     //replace □ => uncheckIcon style
     htmlInput = htmlInput.replaceAll('□', uncheckIcon);
 
+    //increment border-width style: .5pt - 0.6pt
+    htmlInput = htmlInput.replaceAll(dot5pt, zeroDot6pt);
+
     //add style
     htmlInput = htmlInput.replaceAll('</style>', '$styleCSSMore</style>');
 
