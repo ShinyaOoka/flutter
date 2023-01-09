@@ -1,6 +1,7 @@
 dynamic data = {
   "DTReports": [
     {
+      "FireStationName": "袖ヶ浦市消防本部",
       "ADL": "002",
       "AccidentSummary": "This is accident summary 1",
       "AdductorFixation": 1,
@@ -23,6 +24,7 @@ dynamic data = {
       "ContactTime": "06時30分",
       "DateOfOccurrence": "2022年07月14日",
       "DescriptionOfObservationTime": ", , ",
+      "OtherOfObservationTime": ", , ",
       "ECGMonitor": 1,
       "EntryDate": null,
       "EntryMachine": null,
@@ -63,8 +65,6 @@ dynamic data = {
       "ReasonForTransfer": null,
       "RecordOfRefusalOfTransfer": null,
       "Remark": null,
-      "ReporterName": null,
-      "ReporterPosition": null,
       "Respiration": "123, 123, 123",
       "ReturnTime": null,
       "SecuringAirway": "000",
@@ -109,7 +109,13 @@ dynamic data = {
       "VerbalGuidance": "Verbal Guidance Test",
       "Vomiting": "1, 1, 1",
       "WithLifeSavers": 1,
-      "Witnesses": 0
+      "Witnesses": 0,
+      "NumberOfDispatches": null,
+      "NumberOfDispatchesPerTeam": null,
+      "NameOfReporter": null,
+      "AffiliationOfReporter": null,
+      "PositionOfReporter": null,
+      "SummaryOfOccurrence": null,
     }
   ],
   "MSTeamMembers": [
