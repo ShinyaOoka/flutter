@@ -145,36 +145,31 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   Future<void> getAllMSClassification() async {
-    List<Map<String, Object?>>? datas =
-        await dbHelper.getAllData(tableMSClassification) ?? [];
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSClassification) ?? [];
     msClassifications = datas.map((e) => MSClassification.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSTeam() async {
-    List<Map<String, Object?>>? datas =
-        await dbHelper.getAllData(tableMSTeam) ?? [];
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeam) ?? [];
     msTeams = datas.map((e) => MSTeam.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSTeamMember() async {
-    List<Map<String, Object?>>? datas =
-        await dbHelper.getAllData(tableMSTeamMember) ?? [];
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeamMember) ?? [];
     msTeamMembers = datas.map((e) => MSTeamMember.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSHospital() async {
-    List<Map<String, Object?>>? datas =
-        await dbHelper.getAllData(tableMSHospital) ?? [];
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSHospital) ?? [];
     msHospitals = datas.map((e) => MSHospital.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSMessage() async {
-    List<Map<String, Object?>>? datas =
-        await dbHelper.getAllData(tableMSMessage) ?? [];
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSMessage) ?? [];
     msMessages = datas.map((e) => MSMessage.fromJson(e)).toList();
     notifyListeners();
   }
@@ -250,16 +245,12 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectSex(String? itemSelected) {
     this.sex = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.SickInjuredPersonGender = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SickInjuredPersonGender = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
   onConfirmBirthday(DateTime date) {
-    dtReport.SickInjuredPersonBirthDate =
-        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    dtReport.SickInjuredPersonBirthDate = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
     int? age = Utils.calculateAge(date, Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
     dtReport.SickInjuredPersonAge = age == null || age == 0 ? null : age;
     notifyListeners();
@@ -294,10 +285,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectDosage(String? itemSelected) {
     this.dosage = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.SickInjuredPersonMedication = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SickInjuredPersonMedication = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -322,84 +310,79 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onConfirmAwarenessTime(DateTime date) {
-    dtReport.SenseTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.SenseTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmCommandTime(DateTime date) {
-    dtReport.CommandTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.CommandTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmWorkTime(DateTime date) {
-    dtReport.AttendanceTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.AttendanceTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmArrivalOnSite(DateTime date) {
-    dtReport.OnsiteArrivalTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.OnsiteArrivalTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmContactTime(DateTime date) {
-    dtReport.ContactTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.ContactTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmInCarAccommodation(DateTime date) {
-    dtReport.InvehicleTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.InvehicleTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmStartTransportation(DateTime date) {
-    dtReport.StartOfTransportTime =
-        Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.StartOfTransportTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmArrivalAtHospital(DateTime date) {
-    dtReport.HospitalArrivalTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.HospitalArrivalTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmFamilyContact(DateTime date) {
-    dtReport.FamilyContactTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.FamilyContactTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmPoliceContact(DateTime date) {
-    dtReport.PoliceContactTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.PoliceContactTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmReportCashOnDeliveryTime(DateTime date) {
-    dtReport.TimeOfArrival = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.TimeOfArrival = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onConfirmReportReturnTime(DateTime date) {
-    dtReport.ReturnTime = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.ReturnTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   //layout 4
   onSelectAccidentTypeInput(String? itemSelected) {
     this.accidentTypeInput = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.TypeOfAccident = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TypeOfAccident = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
   onConfirmAccrualDate(DateTime date) {
-    dtReport.DateOfOccurrence =
-        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    dtReport.DateOfOccurrence = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
     notifyListeners();
   }
 
   onConfirmOccurrenceTime(DateTime date) {
-    dtReport.TimeOfOccurrence = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.TimeOfOccurrence = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -415,19 +398,13 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAdl(String? itemSelected) {
     this.adl = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.ADL = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.ADL = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectTrafficAccidentCategory(String? itemSelected) {
     this.trafficAccidentCategory = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.TrafficAccidentClassification = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TrafficAccidentClassification = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -439,7 +416,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onConfirmBystanderCpr(DateTime date) {
-    dtReport.BystanderCPR = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BystanderCPR = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -450,7 +427,7 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 5
   onConfirmObservationTime1(DateTime date) {
-    this.observationTime1 = Utils.dateTimeToString(date, format: hh_mm_);
+    this.observationTime1 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -562,10 +539,7 @@ class InputReportViewModel extends BaseViewModel {
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
     this.airwayManagement = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.SecuringAirway = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SecuringAirway = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -610,17 +584,13 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectO2AdministrationTime(DateTime date) {
-    dtReport.O2AdministrationTime =
-        Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.O2AdministrationTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onSelectSpinalCordMotionLimitation(String? itemSelected) {
     this.spinalCordMotionLimitation = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.SpinalCordMovementLimitation = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SpinalCordMovementLimitation = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -658,7 +628,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectBsMeasurementTime1(DateTime date) {
-    dtReport.BSMeasurementTime1 = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BSMeasurementTime1 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -673,7 +643,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectBsMeasurementTime2(DateTime date) {
-    dtReport.BSMeasurementTime2 = Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.BSMeasurementTime2 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -689,7 +659,7 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 7
   onConfirmObservationTime2(DateTime date) {
-    this.observationTime2 = Utils.dateTimeToString(date, format: hh_mm_);
+    this.observationTime2 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -800,7 +770,7 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 8
   onConfirmObservationTime3(DateTime date) {
-    this.observationTime3 = Utils.dateTimeToString(date, format: hh_mm_);
+    this.observationTime3 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -917,10 +887,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAwarenessType(String? itemSelected) {
     this.awarenessType = itemSelected ?? '';
-    if (itemSelected != null)
-      dtReport.TypeOfDetection = msClassifications
-          .firstWhereOrNull((element) => element.Value == itemSelected)
-          ?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TypeOfDetection = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -946,8 +913,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onConfirmTransferSourcePickUpTime(DateTime date) {
-    dtReport.TransferSourceReceivingTime =
-        Utils.dateTimeToString(date, format: hh_mm_);
+    dtReport.TransferSourceReceivingTime = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -970,57 +936,34 @@ class InputReportViewModel extends BaseViewModel {
 
   void onSaveToDb() async {
     //join data layout 5, 7 & 8
-    dtReport.ObservationTime = Utils.importStringToDb(
-        observationTime1, observationTime2, observationTime3);
+    dtReport.ObservationTime = Utils.importStringToDb(observationTime1, observationTime2, observationTime3);
     dtReport.JCS = Utils.importStringToDb(jcs1, jcs2, jcs3);
     dtReport.GCSE = Utils.importStringToDb(gcsE1, gcsE2, gcsE3);
     dtReport.GCSV = Utils.importStringToDb(gcsV1, gcsV2, gcsV3);
     dtReport.GCSM = Utils.importStringToDb(gcsM1, gcsM2, gcsM3);
-    dtReport.Respiration =
-        Utils.importStringToDb(breathing1, breathing2, breathing3);
+    dtReport.Respiration = Utils.importStringToDb(breathing1, breathing2, breathing3);
     dtReport.Pulse = Utils.importStringToDb(pulse1, pulse2, pulse3);
-    dtReport.BloodPressureHigh = Utils.importStringToDb(
-        bloodPressureUp1, bloodPressureUp2, bloodPressureUp3);
-    dtReport.BloodPressureLow = Utils.importStringToDb(
-        bloodPessureLower1, bloodPessureLower2, bloodPessureLower3);
-    dtReport.SpO2Percent =
-        Utils.importStringToDb(spo2Percent1, spo2Percent2, spo2Percent3);
+    dtReport.BloodPressureHigh = Utils.importStringToDb(bloodPressureUp1, bloodPressureUp2, bloodPressureUp3);
+    dtReport.BloodPressureLow = Utils.importStringToDb(bloodPessureLower1, bloodPessureLower2, bloodPessureLower3);
+    dtReport.SpO2Percent = Utils.importStringToDb(spo2Percent1, spo2Percent2, spo2Percent3);
     dtReport.SpO2Liter = Utils.importStringToDb(spo2L1, spo2L2, spo2L3);
-    dtReport.PupilRight =
-        Utils.importStringToDb(rightPupil1, rightPupil2, rightPupil3);
-    dtReport.PupilLeft =
-        Utils.importStringToDb(leftPupil1, leftPupil2, leftPupil3);
-    dtReport.LightReflexRight = Utils.importStringToDb(
-        lightReflectionRight1, lightReflectionRight2, lightReflectionRight3);
-    dtReport.PhotoreflexLeft = Utils.importStringToDb(
-        lightReflectionLeft1, lightReflectionLeft2, lightReflectionLeft3);
-    dtReport.BodyTemperature = Utils.importStringToDb(
-        bodyTemperature1, bodyTemperature2, bodyTemperature3);
-    dtReport.FacialFeatures = Utils.importStringToDb(
-        facialFeatures1, facialFeatures2, facialFeatures3);
-    dtReport.Hemorrhage =
-        Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
-    dtReport.Incontinence =
-        Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
+    dtReport.PupilRight = Utils.importStringToDb(rightPupil1, rightPupil2, rightPupil3);
+    dtReport.PupilLeft = Utils.importStringToDb(leftPupil1, leftPupil2, leftPupil3);
+    dtReport.LightReflexRight = Utils.importStringToDb(lightReflectionRight1, lightReflectionRight2, lightReflectionRight3);
+    dtReport.PhotoreflexLeft = Utils.importStringToDb(lightReflectionLeft1, lightReflectionLeft2, lightReflectionLeft3);
+    dtReport.BodyTemperature = Utils.importStringToDb(bodyTemperature1, bodyTemperature2, bodyTemperature3);
+    dtReport.FacialFeatures = Utils.importStringToDb(facialFeatures1, facialFeatures2, facialFeatures3);
+    dtReport.Hemorrhage = Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
+    dtReport.Incontinence = Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
     dtReport.Vomiting = Utils.importStringToDb(vomiting1, vomiting2, vomiting3);
     dtReport.Extremities = Utils.importStringToDb(limb1, limb1, limb1);
-    dtReport.DescriptionOfObservationTime = Utils.importStringToDb(
-        reportObservationTimeExplanation1,
-        reportObservationTimeExplanation2,
-        reportObservationTimeExplanation3);
+    dtReport.DescriptionOfObservationTime = Utils.importStringToDb(reportObservationTimeExplanation1, reportObservationTimeExplanation2, reportObservationTimeExplanation3);
 
     //extra
     dtReport.Remark = null;
-    MSTeamMember? msTeamMemberReporterAffiliation =
-        msTeamMembers.firstWhereOrNull(
-            (element) => element.Name == dtReport.TeamCaptainName);
-    dtReport.ReporterAffiliation = msTeams
-        .firstWhereOrNull((element) =>
-            element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)
-        ?.Name;
-    dtReport.ReportingClass = msTeamMembers
-        .firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)
-        ?.Position;
+    MSTeamMember? msTeamMemberReporterAffiliation = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName);
+    dtReport.ReporterAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)?.Name;
+    dtReport.ReportingClass = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)?.Position;
 
     await dbHelper.putDataToDTReportDb(tableDTReport, [dtReport]);
     //show alert add success
