@@ -2642,7 +2642,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
             ),
             iconSize: 30,
             buttonHeight: 54,
-            buttonPadding: const EdgeInsets.only(left: 10, right: 10),
             dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
             ),
