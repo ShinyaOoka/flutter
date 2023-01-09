@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/view/edit_report/edit_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../di/injection.dart';
@@ -36,21 +35,7 @@ class ConfirmReportViewModel extends BaseViewModel {
 
   ConfirmReportViewModel(this._dataRepo, this.dtReport);
 
-  String generatedPdfFilePath = '';
+  Future<void> initData() async {}
 
-  Future<void> initData() async {
-    generatedPdfFilePath =
-        await generateExampleDocument(assetInjuredPersonTransportCertificate);
-    notifyListeners();
-  }
 
-  Future<String> generateExampleDocument(String assetFile) async {
-    var fileHtmlContents = await rootBundle.loadString(assetFile);
-
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    final targetPath = appDocDir.path;
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(
-        fileHtmlContents, targetPath, pdfFileName);
-    return generatedPdfFile.path;
-  }
 }

@@ -89,8 +89,9 @@ dependencies:
   #pdf viewer
   flutter_pdfview: ^1.2.5
 
-  flutter_html_to_pdf: ^0.7.0
+  webcontent_converter: ^0.0.8+3
 
+  pdfx: ^2.3.0
 
 
 dev_dependencies:

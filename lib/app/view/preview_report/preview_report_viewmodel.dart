@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:path/path.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/database/db_helper.dart';
@@ -9,8 +9,8 @@ import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:webcontent_converter/webcontent_converter.dart';
 
 import '../../di/injection.dart';
 import '../../model/dt_report.dart';
@@ -59,9 +59,15 @@ class PreviewReportViewModel extends BaseViewModel {
     fileHtmlContents = await fetchDataToReportForm(dtReport, fileHtmlContents);
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    final targetPath = appDocDir.path;
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, pdfFileName);
-    return generatedPdfFile.path;
+    var savedPath = join(appDocDir.path, pdfFile);
+    var pdfPath = await WebcontentConverter.contentToPDF(
+      content: fileHtmlContents,
+      savedPath: savedPath,
+      format: PaperFormat.a4,
+      margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
+    );
+
+    return pdfPath ?? '';
   }
 
   void getListDataLayout578() {
@@ -94,6 +100,9 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //replace □ => uncheckIcon style
     htmlInput = htmlInput.replaceAll('□', uncheckIcon);
+
+    //increment border-width style: .5pt - 0.5pt
+    htmlInput = htmlInput.replaceAll(dot5pt, zeroDot5pt);
 
     //add style
     htmlInput = htmlInput.replaceAll('</style>', '$styleCSSMore</style>');
@@ -139,15 +148,16 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //9
-    dynamic? SickInjuredPersonBirthDateYear = DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
-    dynamic? SickInjuredPersonBirthDateMonth = DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
-    dynamic? SickInjuredPersonBirthDateDay = DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_));
+    dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate ??  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateYear', SickInjuredPersonBirthDateYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateMonth', SickInjuredPersonBirthDateMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay', SickInjuredPersonBirthDateDay?.toString() ?? '');
 
     //10
-    htmlInput = htmlInput.replaceFirst(SickInjuredPersonAge, Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_))?.toString() ?? '');
+    var age = Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_), Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    htmlInput = htmlInput.replaceFirst(SickInjuredPersonAge, age > 0 ? age.toString() : '');
 
     //11
     htmlInput = htmlInput.replaceFirst(SickInjuredPersonKANA, dtReport.SickInjuredPersonKANA ?? '');
@@ -240,11 +250,11 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //25
-    dynamic? DateOfOccurrenceYear = DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
-    dynamic? DateOfOccurrenceMonth = DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
-    dynamic? DateOfOccurrenceDay = DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
-    dynamic? TimeOfOccurrenceHour = DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_));
-    dynamic? TimeOfOccurrenceMinute = DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_));
+    dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence ?? DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence ?? DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_)!);
+    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence ?? DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_)!);
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceYear', DateOfOccurrenceYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceMonth', DateOfOccurrenceMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceDay', DateOfOccurrenceDay?.toString() ?? '');
