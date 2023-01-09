@@ -253,8 +253,8 @@ class PreviewReportViewModel extends BaseViewModel {
     dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence ?? DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
     dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
     dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence ?? DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_)!);
-    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence ?? DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: hh_mm_)!);
+    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence ?? DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
+    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence ?? DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceYear', DateOfOccurrenceYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceMonth', DateOfOccurrenceMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceDay', DateOfOccurrenceDay?.toString() ?? '');
@@ -277,25 +277,25 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //29
-    htmlInput = htmlInput.replaceFirst(SenseTime, Utils.formatToOtherFormat(dtReport.SenseTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(SenseTime, Utils.formatToOtherFormat(dtReport.SenseTime ?? '', HH_mm_, HH_space_mm));
     //30
-    htmlInput = htmlInput.replaceFirst(CommandTime, Utils.formatToOtherFormat(dtReport.CommandTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(CommandTime, Utils.formatToOtherFormat(dtReport.CommandTime ?? '', HH_mm_, HH_space_mm));
     //31
-    htmlInput = htmlInput.replaceFirst(AttendanceTime, Utils.formatToOtherFormat(dtReport.AttendanceTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(AttendanceTime, Utils.formatToOtherFormat(dtReport.AttendanceTime ?? '', HH_mm_, HH_space_mm));
     //32
-    htmlInput = htmlInput.replaceFirst('On-siteArrivalTime', Utils.formatToOtherFormat(dtReport.OnsiteArrivalTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst('On-siteArrivalTime', Utils.formatToOtherFormat(dtReport.OnsiteArrivalTime ?? '', HH_mm_, HH_space_mm));
     //33
-    htmlInput = htmlInput.replaceFirst(ContactTime, Utils.formatToOtherFormat(dtReport.ContactTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(ContactTime, Utils.formatToOtherFormat(dtReport.ContactTime ?? '', HH_mm_, HH_space_mm));
     //34
-    htmlInput = htmlInput.replaceFirst('In-vehicleTime', Utils.formatToOtherFormat(dtReport.InvehicleTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst('In-vehicleTime', Utils.formatToOtherFormat(dtReport.InvehicleTime ?? '', HH_mm_, HH_space_mm));
     //35
-    htmlInput = htmlInput.replaceFirst(StartOfTransportTime, Utils.formatToOtherFormat(dtReport.StartOfTransportTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(StartOfTransportTime, Utils.formatToOtherFormat(dtReport.StartOfTransportTime ?? '', HH_mm_, HH_space_mm));
     //36
-    htmlInput = htmlInput.replaceFirst(HospitalArrivalTime, Utils.formatToOtherFormat(dtReport.HospitalArrivalTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(HospitalArrivalTime, Utils.formatToOtherFormat(dtReport.HospitalArrivalTime ?? '', HH_mm_, HH_space_mm));
     //37
-    htmlInput = htmlInput.replaceFirst(FamilyContactTime, Utils.formatToOtherFormat(dtReport.FamilyContactTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(FamilyContactTime, Utils.formatToOtherFormat(dtReport.FamilyContactTime ?? '', HH_mm_, HH_space_mm));
     //38
-    htmlInput = htmlInput.replaceFirst(PoliceContactTime, Utils.formatToOtherFormat(dtReport.PoliceContactTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(PoliceContactTime, Utils.formatToOtherFormat(dtReport.PoliceContactTime ?? '', HH_mm_, HH_space_mm));
 
     //39
     if (dtReport.TypeOfAccident == '000') {
@@ -318,7 +318,7 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //41
-    htmlInput = htmlInput.replaceFirst(BystanderCPR, Utils.formatToOtherFormat(dtReport.BystanderCPR ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(BystanderCPR, Utils.formatToOtherFormat(dtReport.BystanderCPR ?? '', HH_mm_, HH_space_mm));
 
     //42
     htmlInput = htmlInput.replaceFirst(VerbalGuidance, dtReport.VerbalGuidance ?? '');
@@ -372,7 +372,7 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst(O2Administration, dtReport.O2Administration?.toString() ?? '');
 
     //71
-    htmlInput = htmlInput.replaceFirst(O2AdministrationTime, Utils.formatToOtherFormat(dtReport.O2AdministrationTime ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(O2AdministrationTime, Utils.formatToOtherFormat(dtReport.O2AdministrationTime ?? '', HH_mm_, HH_space_mm));
 
     //72
     if (dtReport.SpinalCordMovementLimitation != null) {
@@ -423,7 +423,7 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst(BSMeasurement1, dtReport.BSMeasurement1?.toString() ?? '');
 
     //82
-    htmlInput = htmlInput.replaceFirst(BSMeasurementTime1, Utils.formatToOtherFormat(dtReport.BSMeasurementTime1 ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(BSMeasurementTime1, Utils.formatToOtherFormat(dtReport.BSMeasurementTime1 ?? '', HH_mm_, HH_space_mm));
 
     //83
     htmlInput = htmlInput.replaceFirst(PunctureSite1, dtReport.PunctureSite1?.toString() ?? '');
@@ -437,7 +437,7 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst(BSMeasurement2, dtReport.BSMeasurement2?.toString() ?? '');
 
     //86
-    htmlInput = htmlInput.replaceFirst(BSMeasurementTime2, Utils.formatToOtherFormat(dtReport.BSMeasurementTime2 ?? '', hh_mm_, hh_space_mm));
+    htmlInput = htmlInput.replaceFirst(BSMeasurementTime2, Utils.formatToOtherFormat(dtReport.BSMeasurementTime2 ?? '', HH_mm_, HH_space_mm));
 
     //87
     htmlInput = htmlInput.replaceFirst(PunctureSite2, dtReport.PunctureSite2?.toString() ?? '');
@@ -452,7 +452,7 @@ class PreviewReportViewModel extends BaseViewModel {
 
     for (var i = 0; i < 3; i++) {
       //43
-      htmlInput = htmlInput.replaceFirst('$ObservationTime${i + 1}', Utils.formatToOtherFormat(ObservationTimes?[i] ?? '', hh_mm_, hh_space_mm));
+      htmlInput = htmlInput.replaceFirst('$ObservationTime${i + 1}', Utils.formatToOtherFormat(ObservationTimes?[i] ?? '', HH_mm_, HH_space_mm));
       //44
       htmlInput = htmlInput.replaceFirst('$JCS${i + 1}', JCSs?[i] ?? '');
       //45

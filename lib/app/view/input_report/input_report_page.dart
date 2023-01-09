@@ -2444,6 +2444,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
   );
 
   Widget datePicker(String label, String? text, Function(DateTime date) onConfirm, {DateTime? maxDate, DateTime? minDate, Color? backgroundLableColor}) {
+    DateTime? currentDate = Utils.stringToDateTime(text, format: yyyy_MM_dd_);
     return Stack(
       children: [
         Container(
@@ -2482,7 +2483,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
                         //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
                       },
                       onConfirm: (date) => onConfirm(date),
-                      currentTime: DateTime.now(),
+                      currentTime: currentDate ?? DateTime.now(),
                     ),
                   }),
         ),
@@ -2540,6 +2541,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
   }
 
   Widget timePicker(String label, String? text, Function(DateTime date) onConfirm, {Color? backgroundLableColor, bool? showSecondCol = false}) {
+    DateTime? currentTime = Utils.stringToDateTime(text, format: HH_mm_);
     return Stack(
       children: [
         Container(
@@ -2577,7 +2579,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
                         //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
                       },
                       onConfirm: (date) => onConfirm(date),
-                      currentTime: DateTime.now(),
+                      currentTime: currentTime ?? DateTime.now(),
                     ),
                   }),
         ),

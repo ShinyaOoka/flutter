@@ -126,7 +126,7 @@ class Utils {
 
   static DateTime? stringToDateTime(String? stringDate,
       {String format = yyyyMMdd}) {
-    return stringDate == null
+    return stringDate == null || stringDate.isEmpty
         ? null
         : DateFormat(format).parse(stringDate);
   }
