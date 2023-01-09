@@ -11,6 +11,7 @@ const String comma = ',';
 const String slash = '/';
 const String dot5pt = '.5pt';
 const String zeroDot5pt = '0.5pt';
+const String space = ' ';
 
 //get image url
 String getImageUrl(String path) => path;

@@ -66,6 +66,10 @@ extension DateTimeFormatter on DateTime {
           : shortTimeFormatted();
 }
 
+extension Ex on String {
+  String get reverse => split('').reversed.join();
+}
+
 extension ContextEx on BuildContext {
   void hideKeyboardIfShowed() {
     if (WidgetsBinding.instance.window.viewInsets.bottom > 0.0) {
@@ -135,16 +139,29 @@ class Utils {
 
   static List<String> split4CharPhone(String text) {
     if(text.isBlank == true) return ['','',''];
-    var tempTEL = text.replaceAllMapped(RegExp(r'(\d+)(\d{4})(\d{4})'), (Match m) => "${m[1]} ${m[2]} ${m[3]}");
-    List<String> temTELs = tempTEL.split(' ');
-    if (temTELs.length < 2) {
-      temTELs.add('');
-      temTELs.add('');
+    var tempText = text.reverse;
+    var buffer = new StringBuffer();
+    for (int i = 0; i < tempText.length; i++) {
+      buffer.write(tempText[i]);
+      var nonZeroIndex = i + 1;
+      if (nonZeroIndex % 4 == 0 && nonZeroIndex != tempText.length && nonZeroIndex < 9) {
+        buffer.write(space);
+      }
     }
-    if (temTELs.length < 3) {
-      temTELs.add('');
+    List<String> tempTELs =  buffer.toString().split(space);
+    //if list = 1 add middle & first
+    if (tempTELs.length < 2) {
+      tempTELs.add('');
+      tempTELs.add('');
     }
-    return temTELs;
+    //if list = 2 add  first
+    if (tempTELs.length < 3) {
+      tempTELs.add('');
+    }
+    //revert list
+    tempTELs = tempTELs.reversed.toList();
+    //revert string in element of list
+    return tempTELs.map((e) => e.reverse).toList();
   }
 
   static void removeFocus(BuildContext context) {

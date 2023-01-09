@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ak_azm_flutter/app/module/common/extension.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/viewmodel/base_viewmodel.dart';
 import 'package:ak_azm_flutter/main.dart';
@@ -53,7 +54,6 @@ class _ListReportContentState extends State<ListReportContent>
     eventBus.on<AddReport>().listen((event) {
       listReportViewModel.refreshData();
     });
-
     super.initState();
   }
 
