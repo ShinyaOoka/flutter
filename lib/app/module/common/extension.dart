@@ -90,9 +90,8 @@ class Utils {
     NavigationService().back();
   }
 
-  static calculateAge(DateTime birthDate) {
-    if(birthDate == null) return 0;
-    DateTime currentDate = DateTime.now();
+  static calculateAge(DateTime? birthDate, DateTime? currentDate) {
+    if (birthDate == null || currentDate == null) return 0;
     int age = currentDate.year - birthDate.year;
     int month1 = currentDate.month;
     int month2 = birthDate.month;
@@ -114,17 +113,17 @@ class Utils {
 
   static String formatToOtherFormat(
       String stringInputDate, String fromFormat, String toFormat) {
-    if(stringInputDate.isEmpty) return '';
+    if (stringInputDate.isEmpty) return '';
     var inputFormat = DateFormat(fromFormat);
     var dateInput = inputFormat.parse(stringInputDate);
     var outputFormat = DateFormat(toFormat);
     return outputFormat.format(dateInput); // "2019-08-18"
   }
 
-  static DateTime stringToDateTime(String? stringDate,
+  static DateTime? stringToDateTime(String? stringDate,
       {String format = yyyyMMdd}) {
     return stringDate == null
-        ? DateTime.now()
+        ? null
         : DateFormat(format).parse(stringDate);
   }
 
