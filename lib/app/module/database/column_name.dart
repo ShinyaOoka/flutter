@@ -26,6 +26,7 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     $TeamName VARCHAR(20),
     $TeamTEL VARCHAR(20),
+    $FireStationName VARCHAR(20),
     $TeamCaptainName VARCHAR(20),
     $LifesaverQualification INTEGER,
     $WithLifeSavers INTEGER,
@@ -43,7 +44,7 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $SickInjuredPersonMedicalHistroy VARCHAR(20),
     $SickInjuredPersonHistoryHospital VARCHAR(20),
     $SickInjuredPersonKakaritsuke VARCHAR(20),
-    $SickInjuredPersonMedication VARCHAR(20),
+    $SickInjuredPersonMedication VARCHAR(3),
     $SickInjuredPersonMedicationDetail VARCHAR(20),
     $SickInjuredPersonAllergy VARCHAR(20),
     $SickInjuredPersonNameOfInjuaryOrSickness VARCHAR(60),
@@ -93,6 +94,7 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $Vomiting VARCHAR,
     $Extremities VARCHAR,
     $DescriptionOfObservationTime VARCHAR,
+    $OtherOfObservationTime VARCHAR,
     $SecuringAirway VARCHAR(3),
     $ForeignBodyRemoval INTEGER,
     $Suction INTEGER,
@@ -124,8 +126,6 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $ReasonForNotTransferring VARCHAR(100),
     $RecordOfRefusalOfTransfer INTEGER,
     $Remark VARCHAR(180),
-    $ReporterName VARCHAR(20),
-    $ReporterPosition VARCHAR(20),
     $EntryName VARCHAR(20),
     $EntryMachine VARCHAR(20),
     $EntryDate DATETIME,
@@ -133,8 +133,15 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $UpdateMachine VARCHAR(20),
     $UpdateDate DATETIME,
     $ReporterAffiliation VARCHAR,
-    $ReportingClass VARCHAR
+    $ReportingClass VARCHAR,
+    $NumberOfDispatches VARCHAR(20),
+    $NumberOfDispatchesPerTeam VARCHAR(20),
+    $NameOfReporter VARCHAR(20),
+    $AffiliationOfReporter VARCHAR(20),
+    $PositionOfReporter VARCHAR(20),
+    $SummaryOfOccurrence VARCHAR(500)
       );''';
+
 
 const String CREATE_TABLE_MSTeamMember = '''CREATE TABLE $tableMSTeamMember(
     $TeamMemberCD VARCHAR,
@@ -195,6 +202,7 @@ const String DROP_TABLE_MSTeam = '''DROP TABLE IF EXISTS $tableMSTeam;''';
 const String? ID = 'ID';
 const String TeamName = 'TeamName';
 const String TeamTEL = 'TeamTEL';
+const String FireStationName = 'FireStationName';
 const String TeamCaptainName = 'TeamCaptainName';
 const String LifesaverQualification = 'LifesaverQualification';
 const String WithLifeSavers = 'WithLifeSavers';
@@ -246,6 +254,7 @@ const String BystanderCPR = 'BystanderCPR';
 const String VerbalGuidance = 'VerbalGuidance';
 const String ObservationTime = 'ObservationTime';
 const String DescriptionOfObservationTime = 'DescriptionOfObservationTime';
+const String OtherOfObservationTime = 'OtherOfObservationTime';
 const String JCS = 'JCS';
 const String GCSE = 'GCSE';
 const String GCSV = 'GCSV';
@@ -297,8 +306,7 @@ const String ReasonForTransfer = 'ReasonForTransfer';
 const String ReasonForNotTransferring = 'ReasonForNotTransferring';
 const String RecordOfRefusalOfTransfer = 'RecordOfRefusalOfTransfer';
 const String Remark = 'Remark';
-const String ReporterName = 'ReporterName';
-const String ReporterPosition = 'ReporterPosition';
+const String AffiliationOfReporter = 'AffiliationOfReporter';
 const String EntryName = 'EntryName';
 const String EntryMachine = 'EntryMachine';
 const String EntryDate = 'EntryDate';
@@ -307,6 +315,12 @@ const String UpdateMachine = 'UpdateMachine';
 const String UpdateDate = 'UpdateDate';
 const String ReporterAffiliation = 'ReporterAffiliation';
 const String ReportingClass = 'ReportingClass';
+
+const String NumberOfDispatches = "NumberOfDispatches";
+const String NumberOfDispatchesPerTeam = "NumberOfDispatchesPerTeam";
+const String PositionOfReporter = 'PositionOfReporter';
+const String NameOfReporter = "NameOfReporter";
+const String SummaryOfOccurrence = "SummaryOfOccurrence";
 
 
 //MSTeam Table

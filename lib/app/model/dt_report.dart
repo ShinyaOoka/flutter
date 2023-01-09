@@ -9,6 +9,7 @@ class DTReport {
   int? ID;
   String? TeamName;
   String? TeamTEL;
+  String? FireStationName;
   String? TeamCaptainName;
   int? LifesaverQualification;
   int? WithLifeSavers;
@@ -100,6 +101,8 @@ class DTReport {
 
   String? DescriptionOfObservationTime;
 
+  String? OtherOfObservationTime;
+
   String? SecuringAirway;
   int? ForeignBodyRemoval;
   int? Suction;
@@ -131,8 +134,6 @@ class DTReport {
   String? ReasonForNotTransferring;
   int? RecordOfRefusalOfTransfer;
   String? Remark;
-  String? ReporterName;
-  String? ReporterPosition;
   String? EntryName;
   String? EntryMachine;
   String? EntryDate;
@@ -141,6 +142,13 @@ class DTReport {
   String? UpdateDate;
   String? ReporterAffiliation;
   String? ReportingClass;
+  String? NumberOfDispatches;
+  String? NumberOfDispatchesPerTeam;
+  String? NameOfReporter;
+  String? AffiliationOfReporter;
+  String? PositionOfReporter;
+  String? SummaryOfOccurrence;
+
 
 
 
@@ -194,7 +202,6 @@ class DTReport {
     this.Witnesses,
     this.BystanderCPR,
     this.VerbalGuidance,
-
     this.ObservationTime,
     this.JCS,
     this.GCSE,
@@ -217,7 +224,6 @@ class DTReport {
     this.Vomiting,
     this.Extremities,
     this.DescriptionOfObservationTime,
-
     this.SecuringAirway,
     this.ForeignBodyRemoval,
     this.Suction,
@@ -249,8 +255,6 @@ class DTReport {
     this.ReasonForNotTransferring,
     this.RecordOfRefusalOfTransfer,
     this.Remark,
-    this.ReporterName,
-    this.ReporterPosition,
     this.EntryName,
     this.EntryMachine,
     this.EntryDate,
@@ -259,7 +263,14 @@ class DTReport {
     this.UpdateDate,
     this.ReporterAffiliation,
     this.ReportingClass,
+    this.NumberOfDispatches,
+    this.NumberOfDispatchesPerTeam,
+    this.NameOfReporter,
+    this.AffiliationOfReporter,
+    this.PositionOfReporter,
+    this.SummaryOfOccurrence,
   });
+
 
   factory DTReport.fromJson(Map<String, dynamic?> json) =>
       _$DTReportFromJson(json);

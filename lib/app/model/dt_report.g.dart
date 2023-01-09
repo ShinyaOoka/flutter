@@ -119,8 +119,6 @@ DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
       ReasonForNotTransferring: json['ReasonForNotTransferring'] as String?,
       RecordOfRefusalOfTransfer: json['RecordOfRefusalOfTransfer'] as int?,
       Remark: json['Remark'] as String?,
-      ReporterName: json['ReporterName'] as String?,
-      ReporterPosition: json['ReporterPosition'] as String?,
       EntryName: json['EntryName'] as String?,
       EntryMachine: json['EntryMachine'] as String?,
       EntryDate: json['EntryDate'] as String?,
@@ -129,12 +127,21 @@ DTReport _$DTReportFromJson(Map<String, dynamic> json) => DTReport(
       UpdateDate: json['UpdateDate'] as String?,
       ReporterAffiliation: json['ReporterAffiliation'] as String?,
       ReportingClass: json['ReportingClass'] as String?,
-    );
+      NumberOfDispatches: json['NumberOfDispatches'] as String?,
+      NumberOfDispatchesPerTeam: json['NumberOfDispatchesPerTeam'] as String?,
+      NameOfReporter: json['NameOfReporter'] as String?,
+      AffiliationOfReporter: json['AffiliationOfReporter'] as String?,
+      PositionOfReporter: json['PositionOfReporter'] as String?,
+      SummaryOfOccurrence: json['SummaryOfOccurrence'] as String?,
+    )
+      ..FireStationName = json['FireStationName'] as String?
+      ..OtherOfObservationTime = json['OtherOfObservationTime'] as String?;
 
 Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'ID': instance.ID,
       'TeamName': instance.TeamName,
       'TeamTEL': instance.TeamTEL,
+      'FireStationName': instance.FireStationName,
       'TeamCaptainName': instance.TeamCaptainName,
       'LifesaverQualification': instance.LifesaverQualification,
       'WithLifeSavers': instance.WithLifeSavers,
@@ -206,6 +213,7 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'Vomiting': instance.Vomiting,
       'Extremities': instance.Extremities,
       'DescriptionOfObservationTime': instance.DescriptionOfObservationTime,
+      'OtherOfObservationTime': instance.OtherOfObservationTime,
       'SecuringAirway': instance.SecuringAirway,
       'ForeignBodyRemoval': instance.ForeignBodyRemoval,
       'Suction': instance.Suction,
@@ -237,8 +245,6 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'ReasonForNotTransferring': instance.ReasonForNotTransferring,
       'RecordOfRefusalOfTransfer': instance.RecordOfRefusalOfTransfer,
       'Remark': instance.Remark,
-      'ReporterName': instance.ReporterName,
-      'ReporterPosition': instance.ReporterPosition,
       'EntryName': instance.EntryName,
       'EntryMachine': instance.EntryMachine,
       'EntryDate': instance.EntryDate,
@@ -247,4 +253,10 @@ Map<String, dynamic> _$DTReportToJson(DTReport instance) => <String, dynamic>{
       'UpdateDate': instance.UpdateDate,
       'ReporterAffiliation': instance.ReporterAffiliation,
       'ReportingClass': instance.ReportingClass,
+      'NumberOfDispatches': instance.NumberOfDispatches,
+      'NumberOfDispatchesPerTeam': instance.NumberOfDispatchesPerTeam,
+      'NameOfReporter': instance.NameOfReporter,
+      'AffiliationOfReporter': instance.AffiliationOfReporter,
+      'PositionOfReporter': instance.PositionOfReporter,
+      'SummaryOfOccurrence': instance.SummaryOfOccurrence,
     };
