@@ -273,7 +273,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-
           return buildDropDownSearchObject(LocaleKeys.ambulance_name.tr(), value.msTeams.map((e) => ObjectSearch(CD: e.TeamCD, Name: e.Name)).toList(), value.dtReport.TeamName, value.onSelectAmbulanceName);
         }),
       ),
@@ -455,13 +454,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
-            LocaleKeys.sex.tr(),
-            value.msClassifications.where((element) => element.ClassificationCD == '001').toList().map((e) => e.Value.toString()).toList(),
-            value.sex,
-            value.onSelectSex,
-            height: 220,
-          );
+          return buildDropDown(LocaleKeys.sex.tr(), value.msClassifications.where((element) => element.ClassificationCD == '001').toList().map((e) => e.Value.toString()).toList(), value.onSelectSex);
         }),
       ),
       spaceWidgetColor(height: size_18_w),
@@ -778,10 +771,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.accident_type_input.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '002').toList().map((e) => e.Value.toString()).toList(),
-            value.accidentTypeInput,
             value.onSelectAccidentTypeInput,
           );
         }),
@@ -853,10 +845,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.adl.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '003').toList().map((e) => e.Value.toString()).toList(),
-            value.adl,
             value.onSelectAdl,
           );
         }),
@@ -868,10 +859,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.traffic_accident_category.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '004').toList().map((e) => e.Value.toString()).toList(),
-            value.trafficAccidentCategory,
             value.onSelectTrafficAccidentCategory,
           );
         }),
@@ -933,10 +923,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.jcs.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '011').toList().map((e) => e.Value.toString()).toList(),
-            value.jcs1,
             value.onSelectJcs1,
           );
         }),
@@ -948,10 +937,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.gcs_e.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '012').toList().map((e) => e.Value.toString()).toList(),
-            value.gcsE1,
             value.onSelectGcsE1,
           );
         }),
@@ -962,10 +950,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.gcs_v.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '013').toList().map((e) => e.Value.toString()).toList(),
-            value.gcsV1,
             value.onSelectGcsV1,
           );
         }),
@@ -976,10 +963,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.gcs_m.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '014').toList().map((e) => e.Value.toString()).toList(),
-            value.gcsM1,
             value.onSelectGcsM1,
           );
         }),
@@ -1199,10 +1185,9 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
+          return buildDropDown(
             LocaleKeys.facial_features.tr(),
             value.msClassifications.where((element) => element.ClassificationCD == '005').toList().map((e) => e.Value.toString()).toList(),
-            value.facialFeatures1,
             value.onSelectFacialFeatures1,
           );
         }),
@@ -1294,7 +1279,11 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(LocaleKeys.airway_management.tr(), value.msClassifications.where((element) => element.ClassificationCD == '007').toList().map((e) => e.Value.toString()).toList(), value.airwayManagement, value.onSelectAirwayManagement, height: 180);
+          return buildDropDown(
+            LocaleKeys.airway_management.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '007').toList().map((e) => e.Value.toString()).toList(),
+            value.onSelectAirwayManagement,
+          );
         }),
       ),
 
@@ -1394,7 +1383,11 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(LocaleKeys.spinal_cord_motion_limitation.tr(), value.msClassifications.where((element) => element.ClassificationCD == '008').toList().map((e) => e.Value.toString()).toList(), value.spinalCordMotionLimitation, value.onSelectSpinalCordMotionLimitation, height: 180);
+          return buildDropDown(
+            LocaleKeys.spinal_cord_motion_limitation.tr(),
+            value.msClassifications.where((element) => element.ClassificationCD == '008').toList().map((e) => e.Value.toString()).toList(),
+            value.onSelectSpinalCordMotionLimitation,
+          );
         }),
       ),
       spaceWidgetColor(),
@@ -2330,7 +2323,12 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
           //no.99
           Container(
             child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-              return buildDropDownSearch(LocaleKeys.awareness_type.tr(), value.msClassifications.where((element) => element.ClassificationCD == '009').toList().map((e) => e.Value.toString()).toList(), value.awarenessType, value.onSelectAwarenessType, backgroundTextLabel: kColorDEE9F6, height: 225);
+              return buildDropDown(
+                LocaleKeys.awareness_type.tr(),
+                value.msClassifications.where((element) => element.ClassificationCD == '009').toList().map((e) => e.Value.toString()).toList(),
+                value.onSelectAwarenessType,
+                backgroundTextLabel: kColorDEE9F6,
+              );
             }),
           ),
           spaceWidgetColor(height: size_22_w),
@@ -2378,7 +2376,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
           //no.103
           Container(
             child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-              return buildDropDownSearchObject(LocaleKeys.transportation_medical_institution.tr(), value.msHospitals.map((e) =>  ObjectSearch(CD: e.HospitalCD, Name: e.Name)).toList(), value.dtReport.MedicalTransportFacility, value.onSelectTransportationMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
+              return buildDropDownSearchObject(LocaleKeys.transportation_medical_institution.tr(), value.msHospitals.map((e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name)).toList(), value.dtReport.MedicalTransportFacility, value.onSelectTransportationMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
             }),
           ),
           spaceWidgetColor(),
@@ -2644,7 +2642,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
             ),
             iconSize: 30,
             buttonHeight: 54,
-            buttonPadding: const EdgeInsets.only(left: 10, right: 10),
             dropdownDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -2737,7 +2734,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
   }
 
   Widget buildDropDownSearchObject(String label, List<ObjectSearch> list, String? valueSelect, Function(String? itemSelected) onSelected, {Color? backgroundTextLabel, double? height}) {
-
     /*String get numberString {
       return ((map.containsKey(number) ? map[number] : "unknown") ?? "unknown");
     }*/
