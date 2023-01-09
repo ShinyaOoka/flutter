@@ -37,13 +37,6 @@ class InputReportViewModel extends BaseViewModel {
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
-  //layout 2
-  String? sex;
-
-  //layout 4
-  String? accidentTypeInput;
-  String? adl;
-  String? trafficAccidentCategory;
 
   //layout 5
   String? observationTime1 = '';
@@ -70,9 +63,6 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting1 = '';
   String? limb1 = '';
 
-  //layout 6
-  String? airwayManagement = '';
-  String? spinalCordMotionLimitation = '';
 
   //layout 7
   String? observationTime2 = '';
@@ -124,9 +114,6 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting3 = '';
   String? limb3 = '';
 
-  //layout 9
-  String? perceiver = '';
-  String? awarenessType = '';
 
   Future<bool> back() async {
     _navigationService.back();
@@ -244,7 +231,6 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectSex(String? itemSelected) {
-    this.sex = itemSelected ?? '';
     if (itemSelected != null) dtReport.SickInjuredPersonGender = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
@@ -371,7 +357,6 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 4
   onSelectAccidentTypeInput(String? itemSelected) {
-    this.accidentTypeInput = itemSelected ?? '';
     if (itemSelected != null) dtReport.TypeOfAccident = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
@@ -397,13 +382,11 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAdl(String? itemSelected) {
-    this.adl = itemSelected ?? '';
     if (itemSelected != null) dtReport.ADL = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectTrafficAccidentCategory(String? itemSelected) {
-    this.trafficAccidentCategory = itemSelected ?? '';
     if (itemSelected != null) dtReport.TrafficAccidentClassification = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
@@ -538,7 +521,6 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
-    this.airwayManagement = itemSelected ?? '';
     if (itemSelected != null) dtReport.SecuringAirway = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
@@ -589,7 +571,6 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectSpinalCordMotionLimitation(String? itemSelected) {
-    this.spinalCordMotionLimitation = itemSelected ?? '';
     if (itemSelected != null) dtReport.SpinalCordMovementLimitation = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
@@ -886,7 +867,6 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAwarenessType(String? itemSelected) {
-    this.awarenessType = itemSelected ?? '';
     if (itemSelected != null) dtReport.TypeOfDetection = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
