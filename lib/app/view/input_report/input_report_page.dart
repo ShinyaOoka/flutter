@@ -2378,14 +2378,14 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
           //no.103
           Container(
             child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-              return buildDropDownSearch(LocaleKeys.transportation_medical_institution.tr(), value.msHospitals.map((e) => e.Name.toString()).toList(), value.dtReport.MedicalTransportFacility, value.onSelectTransportationMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
+              return buildDropDownSearchObject(LocaleKeys.transportation_medical_institution.tr(), value.msHospitals.map((e) =>  ObjectSearch(CD: e.HospitalCD, Name: e.Name)).toList(), value.dtReport.MedicalTransportFacility, value.onSelectTransportationMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
             }),
           ),
           spaceWidgetColor(),
           //no.104
           Container(
             child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-              return buildDropDownSearch(LocaleKeys.forwarding_medical_institution.tr(), value.msHospitals.map((e) => e.Name.toString()).toList(), value.dtReport.TransferringMedicalInstitution, value.onSelectForwardingMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
+              return buildDropDownSearchObject(LocaleKeys.forwarding_medical_institution.tr(), value.msHospitals.map((e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name)).toList(), value.dtReport.TransferringMedicalInstitution, value.onSelectForwardingMedicalInstitution, backgroundTextLabel: kColorDEE9F6);
             }),
           ),
           spaceWidgetColor(),
