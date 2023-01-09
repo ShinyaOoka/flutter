@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   static const String dbName = 'ak_azm.db';
-  static const int dbVersion = 3;
+  static const int dbVersion = 4;
 
   static final DBHelper _instance = DBHelper.internal();
 
@@ -63,6 +63,10 @@ class DBHelper {
       batch.execute(CREATE_TABLE_MSClassification);
       batch.execute(DROP_TABLE_MSMessage);
       batch.execute(CREATE_TABLE_MSMessage);
+      batch.execute(DROP_TABLE_MSTeamMember);
+      batch.execute(CREATE_TABLE_MSTeamMember);
+      batch.execute(DROP_TABLE_MSTeam);
+      batch.execute(CREATE_TABLE_MSTeam);
       List<dynamic>? res = await batch.commit();
       return res;
     }

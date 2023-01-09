@@ -141,13 +141,15 @@ const String CREATE_TABLE_MSTeamMember = '''CREATE TABLE $tableMSTeamMember(
     $Name VARCHAR,
     $Position VARCHAR,
     $TEL VARCHAR,
-    $TeamCD VARCHAR
+    $TeamCD VARCHAR,
+    $LifesaverQualification INTEGER
       );''';
 
 const String CREATE_TABLE_MSTeam = '''CREATE TABLE $tableMSTeam (
     $TeamCD VARCHAR(20),
     $Name VARCHAR(20),
-    $TEL VARCHAR(20)
+    $TEL VARCHAR(20),
+    $FireStationCD VARCHAR(20)
       );''';
 
 const String CREATE_TABLE_MSFireStation = '''CREATE TABLE $tableMSFireStation (
@@ -185,6 +187,8 @@ const String CREATE_TABLE_MSClassification = '''CREATE TABLE $tableMSClassificat
 const String DROP_TABLE_DTReport = '''DROP TABLE IF EXISTS $tableDTReport;''';
 const String DROP_TABLE_MSClassification = '''DROP TABLE IF EXISTS $tableMSClassification;''';
 const String DROP_TABLE_MSMessage = '''DROP TABLE IF EXISTS $tableMSMessage;''';
+const String DROP_TABLE_MSTeamMember = '''DROP TABLE IF EXISTS $tableMSTeamMember;''';
+const String DROP_TABLE_MSTeam = '''DROP TABLE IF EXISTS $tableMSTeam;''';
 
 
 //DT Report Table
