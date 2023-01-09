@@ -1,5 +1,6 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
+import 'package:ak_azm_flutter/app/model/object_search.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/common/extension.dart';
 import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
@@ -272,7 +273,8 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(LocaleKeys.ambulance_name.tr(), value.msTeams.map((e) => e.Name.toString()).toList(), value.dtReport.TeamName, value.onSelectAmbulanceName);
+
+          return buildDropDownSearchObject(LocaleKeys.ambulance_name.tr(), value.msTeams.map((e) => ObjectSearch(CD: e.TeamCD, Name: e.Name)).toList(), value.dtReport.TeamName, value.onSelectAmbulanceName);
         }),
       ),
       spaceWidgetColor(),
@@ -304,7 +306,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(LocaleKeys.captain_name.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.TeamCaptainName, value.onSelectCaptainName);
+          return buildDropDownSearchObject(LocaleKeys.captain_name.tr(), value.msTeamMembers.map((e) => ObjectSearch(CD: e.TeamMemberCD, Name: e.Name)).toList(), value.dtReport.TeamCaptainName, value.onSelectCaptainName);
         }),
       ),
 
@@ -336,7 +338,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
           right: 16,
         ),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(LocaleKeys.report_member_name.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.TeamMemberName, value.onSelectReportMemberName, backgroundTextLabel: kColorDEE9F6);
+          return buildDropDownSearchObject(LocaleKeys.report_member_name.tr(), value.msTeamMembers.map((e) => ObjectSearch(CD: e.TeamMemberCD, Name: e.Name)).toList(), value.dtReport.TeamMemberName, value.onSelectReportMemberName, backgroundTextLabel: kColorDEE9F6);
         }),
       ),
       spaceWidgetColor(color: kColorDEE9F6),
@@ -348,7 +350,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
             right: 16,
           ),
           child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-            return buildDropDownSearch(LocaleKeys.report_name_of_engineer.tr(), value.msTeamMembers.map((e) => e.Name.toString()).toList(), value.dtReport.InstitutionalMemberName, value.onSelectReportNameOfEngineer, backgroundTextLabel: kColorDEE9F6);
+            return buildDropDownSearchObject(LocaleKeys.report_name_of_engineer.tr(), value.msTeamMembers.map((e) => ObjectSearch(CD: e.TeamMemberCD, Name: e.Name)).toList(), value.dtReport.InstitutionalMemberName, value.onSelectReportNameOfEngineer, backgroundTextLabel: kColorDEE9F6);
           })),
 
       spaceWidgetColor(
@@ -2699,6 +2701,70 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
                   value: string,
                   child: Text(
                     string,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: text_16, color: kColor4472C4),
+                  ),
+                ));
+              }).toList(),
+              onTap: () => Utils.removeFocus(context),
+              value: valueSelect,
+              hint: '',
+              searchHint: null,
+              onChanged: (value) {
+                setState(() {
+                  valueSelect = value;
+                });
+                onSelected(valueSelect);
+              },
+              dialogBox: false,
+              isExpanded: true,
+              menuConstraints: BoxConstraints.tight(Size.fromHeight(height ?? 300)),
+            )),
+        Container(
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.black.withOpacity(0.6), fontSize: text_12),
+          ),
+          color: backgroundTextLabel ?? Colors.white,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4),
+        ),
+      ],
+    );
+  }
+
+  Widget buildDropDownSearchObject(String label, List<ObjectSearch> list, String? valueSelect, Function(String? itemSelected) onSelected, {Color? backgroundTextLabel, double? height}) {
+
+    /*String get numberString {
+      return ((map.containsKey(number) ? map[number] : "unknown") ?? "unknown");
+    }*/
+
+    return Stack(
+      children: [
+        Container(
+            padding: const EdgeInsets.only(top: 10),
+            child: SearchChoices.single(
+              autofocus: false,
+              closeButton: null,
+              fieldDecoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.black38,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              displayClearIcon: false,
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                size: 30,
+                color: Colors.black38,
+              ),
+              items: list.map<DropdownMenuItem<String>>((e) {
+                return (DropdownMenuItem(
+                  value: '${e.CD} ${e.Name}',
+                  child: Text(
+                    e.Name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: text_16, color: kColor4472C4),
