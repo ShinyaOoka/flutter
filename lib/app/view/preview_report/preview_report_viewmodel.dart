@@ -148,9 +148,10 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //9
-    dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate ??  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
-    dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
-    dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+
+    dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate == null ? null :  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateYear', SickInjuredPersonBirthDateYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateMonth', SickInjuredPersonBirthDateMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay', SickInjuredPersonBirthDateDay?.toString() ?? '');
@@ -250,11 +251,11 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //25
-    dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence ?? DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence ?? DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
-    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence ?? DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
+    dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence == null ? null : DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence == null ? null : DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence == null ? null : DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence == null ? null : DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
+    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence == null ? null : DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceYear', DateOfOccurrenceYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceMonth', DateOfOccurrenceMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceDay', DateOfOccurrenceDay?.toString() ?? '');
