@@ -142,8 +142,8 @@ class DTReport {
   String? UpdateDate;
   String? ReporterAffiliation;
   String? ReportingClass;
-  String? NumberOfDispatches;
-  String? NumberOfDispatchesPerTeam;
+  int? NumberOfDispatches;
+  int? NumberOfDispatchesPerTeam;
   String? NameOfReporter;
   String? AffiliationOfReporter;
   String? PositionOfReporter;
