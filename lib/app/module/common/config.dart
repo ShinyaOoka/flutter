@@ -20,7 +20,7 @@ String getImageUrl(String path) => path;
 const String yyyyMMdd = 'yyyy/MM/dd';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String HH_mm_ = 'HH時mm分';
-const String HH_space_mm = 'HH: mm';
+const String HH_space_mm = 'HH : mm';
 const String pdfFile = 'report.pdf';
 //css style
 const  String uncheckIcon = '<span class="square"></span>';

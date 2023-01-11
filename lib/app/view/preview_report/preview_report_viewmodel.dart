@@ -153,7 +153,6 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //9
-
     dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate == null ? null :  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
     dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
     dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
