@@ -89,7 +89,8 @@ dependencies:
   #pdf viewer
   flutter_pdfview: ^1.2.5
 
-  webcontent_converter: ^0.0.8+3
+  #webcontent_converter: ^0.0.8+3
+  flutter_html_to_pdf: ^0.7.0
 
   pdfx: ^2.3.0
 
@@ -143,3 +144,4 @@ flutter:
     - assets/translations/
     - assets/report/
     - assets/report/injured_person_transport_certificate.html
+    - assets/report/test.png
