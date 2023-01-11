@@ -450,6 +450,7 @@ class PreviewReportViewModel extends BaseViewModel {
     var totalYesDotNoPos = 0;
     var totalYesUrineFecesNoPos = 0;
     var totalYesSpaceNoPos = 0;
+    String defaultIncontinenceStr = '有（　尿　　便　）　無';
 
     for (var i = 0; i < 3; i++) {
       //43
@@ -477,66 +478,72 @@ class PreviewReportViewModel extends BaseViewModel {
       //53
       htmlInput = htmlInput.replaceFirst('$PupilLeft${i + 1}', PupilLefts?[i] ?? '');
       //54
-      //1
-      if (LightReflexRights?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      if (LightReflexRights?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 + 2 * i - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesDotNoPos += 1;
-      } else if (LightReflexRights?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
+      } else if (LightReflexRights?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 + 2 * i - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
         totalYesDotNoPos += 1;
       }
-
       //55
-      //1
-      if (PhotoreflexLefts?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      if (PhotoreflexLefts?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 + 2 * i- totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesDotNoPos += 1;
-      } else if (PhotoreflexLefts?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
+      } else if (PhotoreflexLefts?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 + 2 * i - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
         totalYesDotNoPos += 1;
       }
       //56
       htmlInput = htmlInput.replaceFirst('$BodyTemperature${i + 1}', BodyTemperatures?[i].toString() ?? '');
       //57
       if (FacialFeaturess?[i] == '000') {
-        htmlInput = Utils.customReplace(htmlInput, '正常', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '正常'}));
+        htmlInput = Utils.customReplace(htmlInput, '正常', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '正常'}));
       } else if (FacialFeaturess?[i] == '001') {
-        htmlInput = Utils.customReplace(htmlInput, '紅潮', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '紅潮'}));
+        htmlInput = Utils.customReplace(htmlInput, '紅潮', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '紅潮'}));
       } else if (FacialFeaturess?[i] == '002') {
-        htmlInput = Utils.customReplace(htmlInput, '蒼白', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '蒼白'}));
+        htmlInput = Utils.customReplace(htmlInput, '蒼白', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '蒼白'}));
       } else if (FacialFeaturess?[i] == '003') {
-        htmlInput = Utils.customReplace(htmlInput, 'チアノーゼ', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': 'チアノーゼ'}));
+        htmlInput = Utils.customReplace(htmlInput, 'チアノーゼ', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': 'チアノーゼ'}));
       } else if (FacialFeaturess?[i] == '004') {
-        htmlInput = Utils.customReplace(htmlInput, '発汗', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '発汗'}));
+        htmlInput = Utils.customReplace(htmlInput, '発汗', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '発汗'}));
       } else if (FacialFeaturess?[i] == '005') {
-        htmlInput = Utils.customReplace(htmlInput, '苦悶', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '苦悶'}));
+        htmlInput = Utils.customReplace(htmlInput, '苦悶', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '苦悶'}));
       }
       //58
       htmlInput = htmlInput.replaceFirst('$Hemorrhage${i + 1}', Hemorrhages?[i].toString() ?? '');
-
       //59
       List<String> incontinences = Incontinences?[i].split(comma) ?? [];
+      int index001 = incontinences.indexOf("001");
+      int index002 = incontinences.indexOf("002");
+      int index003 = incontinences.indexOf("003");
+      if(index001 >= 0 && index003 >= 0) incontinences[index001] = '';
+      if(index002 >= 0 && index003 >= 0) incontinences[index002] = '';
+      print(incontinences);
+      String incontinenceStr = defaultIncontinenceStr;
       for (String incon in incontinences) {
         if (incon == '000') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　尿　　便　）　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('無', LocaleKeys.text_circle.tr(namedArgs: {'text': '無'}));
         } else if (incon == '001') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　${LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'})}　　便　）　無');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('尿', LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'}));
         } else if (incon == '002') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　尿　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '便'})}　）　無');
-          totalYesUrineFecesNoPos += 1;
-        } else if (incon == '003') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　${LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'})}　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '便'})}　）　無');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('便', LocaleKeys.text_circle.tr(namedArgs: {'text': '便'}));
+        }else if (incon == '003') {
+          incontinenceStr = incontinenceStr.replaceFirst('尿', LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'}));
+          incontinenceStr = incontinenceStr.replaceFirst('便', LocaleKeys.text_circle.tr(namedArgs: {'text': '便'}));
         }
       }
+      if(incontinenceStr != defaultIncontinenceStr){
+        htmlInput = Utils.customReplace(htmlInput, defaultIncontinenceStr, i + 1 - totalYesUrineFecesNoPos, incontinenceStr);
+         totalYesUrineFecesNoPos += 1;
+      }
+
+
       //60
-      if (Vomitings?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有　　無', 1 - totalYesSpaceNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}　　無');
+      if (Vomitings?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}　　無');
         totalYesSpaceNoPos += 1;
-      } else if (Vomitings?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有　　無', 1 - totalYesSpaceNoPos, '有　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      } else if (Vomitings?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos, '有　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesSpaceNoPos += 1;
       }
       //61

@@ -1219,7 +1219,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence1);
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence1);
         }),
       ),
 
@@ -1876,7 +1876,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence2);
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence2);
         }),
       ),
 
@@ -2246,7 +2246,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassifications.where((element) => element.ClassificationCD == '006').toList().map((e) => e.Value.toString()).toList(), value.onSelectIncontinence3);
+          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence3);
         }),
       ),
 
