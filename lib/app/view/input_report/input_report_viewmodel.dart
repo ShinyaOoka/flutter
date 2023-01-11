@@ -936,7 +936,7 @@ class InputReportViewModel extends BaseViewModel {
     dtReport.Hemorrhage = Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
     dtReport.Incontinence = Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
     dtReport.Vomiting = Utils.importStringToDb(vomiting1, vomiting2, vomiting3);
-    dtReport.Extremities = Utils.importStringToDb(limb1, limb1, limb1);
+    dtReport.Extremities = Utils.importStringToDb(limb1, limb2, limb3);
     dtReport.DescriptionOfObservationTime = Utils.importStringToDb(reportObservationTimeExplanation1, reportObservationTimeExplanation2, reportObservationTimeExplanation3);
 
     //extra
