@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   static const String dbName = 'ak_azm.db';
-  static const int dbVersion = 4;
+  static const int dbVersion = 5;
 
   static final DBHelper _instance = DBHelper.internal();
 
