@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
+import 'package:ak_azm_flutter/app/model/ms_fire_station.dart';
 import 'package:ak_azm_flutter/app/model/ms_hospital.dart';
 import 'package:ak_azm_flutter/app/model/ms_message.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
@@ -9,8 +10,8 @@ import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/utils.dart';
 
 import '../../../main.dart';
 import '../../di/injection.dart';
@@ -32,88 +33,151 @@ class InputReportViewModel extends BaseViewModel {
   List<MSTeamMember> msTeamMembers = [];
   List<MSHospital> msHospitals = [];
   List<MSMessage> msMessages = [];
+  List<MSFireStation> msFireStations = [];
 
-  List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
+  //layout 1
+  String? ambulanceName;
+  String? captainName;
+  String? memberName;
+  String? nameOfEngineer;
+  String? emtQualification;
+  String? emtRide;
+  int? lifesaverQualificationNo8;
+  int? lifesaverQualificationNo9;
+  int? indexEmtRide;
 
   //layout 5
-  String? observationTime1 = '';
-  String? reportObservationTimeExplanation1 = '';
-  String? jcs1 = '';
-  String? gcs1 = '';
-  String? gcsE1 = '';
-  String? gcsV1 = '';
-  String? gcsM1 = '';
-  String? breathing1 = '';
-  String? pulse1 = '';
-  String? bloodPressureUp1 = '';
-  String? bloodPessureLower1 = '';
-  String? spo2Percent1 = '';
-  String? spo2L1 = '';
-  String? rightPupil1 = '';
-  String? leftPupil1 = '';
-  String? lightReflectionRight1 = '';
-  String? lightReflectionLeft1 = '';
-  String? bodyTemperature1 = '';
-  String? facialFeatures1 = '';
-  String? bleeding1 = '';
-  String incontinence1 = '';
-  String? vomiting1 = '';
-  String? limb1 = '';
+  String? observationTime1;
+  String? reportObservationTimeExplanation1;
+  String? jcs1;
+  String? gcs1;
 
+  String? gcsE1;
+  String? gcsV1;
+
+  String? gcsM1;
+
+  String? breathing1;
+
+  String? pulse1;
+
+  String? bloodPressureUp1;
+  String? bloodPessureLower1;
+  String? spo2Percent1;
+  String? spo2L1;
+  String? rightPupil1;
+  String? leftPupil1;
+  String? lightReflectionRight1;
+
+  String? lightReflectionLeft1;
+  String? bodyTemperature1;
+  String? facialFeatures1;
+  String? bleeding1;
+  String? incontinence1;
+  String? vomiting1;
+
+  String? limb1;
 
   //layout 7
-  String? observationTime2 = '';
-  String? reportObservationTimeExplanation2 = '';
-  String? jcs2 = '';
-  String? gcs2 = '';
-  String? gcsE2 = '';
-  String? gcsV2 = '';
-  String? gcsM2 = '';
-  String? breathing2 = '';
-  String? pulse2 = '';
-  String? bloodPressureUp2 = '';
-  String? bloodPessureLower2 = '';
-  String? spo2Percent2 = '';
-  String? spo2L2 = '';
-  String? rightPupil2 = '';
-  String? leftPupil2 = '';
-  String? lightReflectionRight2 = '';
-  String? lightReflectionLeft2 = '';
-  String? bodyTemperature2 = '';
-  String? facialFeatures2 = '';
-  String? bleeding2 = '';
-  String incontinence2 = '';
-  String? vomiting2 = '';
-  String? limb2 = '';
+  String? observationTime2;
+
+  String? reportObservationTimeExplanation2;
+
+  String? jcs2;
+
+  String? gcs2;
+
+  String? gcsE2;
+
+  String? gcsV2;
+
+  String? gcsM2;
+
+  String? breathing2;
+
+  String? pulse2;
+
+  String? bloodPressureUp2;
+
+  String? bloodPessureLower2;
+
+  String? spo2Percent2;
+
+  String? spo2L2;
+
+  String? rightPupil2;
+
+  String? leftPupil2;
+
+  String? lightReflectionRight2;
+
+  String? lightReflectionLeft2;
+
+  String? bodyTemperature2;
+
+  String? facialFeatures2;
+
+  String? bleeding2;
+
+  String? incontinence2;
+
+  String? vomiting2;
+
+  String? limb2;
 
   //layout 8
-  String? observationTime3 = '';
-  String? reportObservationTimeExplanation3 = '';
-  String? jcs3 = '';
-  String? gcs3 = '';
-  String? gcsE3 = '';
-  String? gcsV3 = '';
-  String? gcsM3 = '';
-  String? breathing3 = '';
-  String? pulse3 = '';
-  String? bloodPressureUp3 = '';
-  String? bloodPessureLower3 = '';
-  String? spo2Percent3 = '';
-  String? spo2L3 = '';
-  String? rightPupil3 = '';
-  String? leftPupil3 = '';
-  String? lightReflectionRight3 = '';
-  String? lightReflectionLeft3 = '';
-  String? bodyTemperature3 = '';
-  String? facialFeatures3 = '';
-  String? bleeding3 = '';
-  String incontinence3 = '';
-  String? vomiting3 = '';
-  String? limb3 = '';
+  String? observationTime3;
 
+  String? reportObservationTimeExplanation3;
+
+  String? jcs3;
+
+  String? gcs3;
+
+  String? gcsE3;
+
+  String? gcsV3;
+
+  String? gcsM3;
+
+  String? breathing3;
+
+  String? pulse3;
+
+  String? bloodPressureUp3;
+
+  String? bloodPessureLower3;
+
+  String? spo2Percent3;
+
+  String? spo2L3;
+
+  String? rightPupil3;
+
+  String? leftPupil3;
+
+  String? lightReflectionRight3;
+
+  String? lightReflectionLeft3;
+
+  String? bodyTemperature3;
+
+  String? facialFeatures3;
+
+  String? bleeding3;
+
+  String? incontinence3;
+
+  String? vomiting3;
+
+  String? limb3;
+
+  //layout 10
+  String? transportationMedicalInstitution;
+  String? forwardingMedicalInstitution;
 
   Future<bool> back() async {
     _navigationService.back();
@@ -121,14 +185,13 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   void initData() {
-    //fix warning yes_dropdown, nothing not found in EasyLocalization
-    yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
     //get data from database
     getAllMSClassification();
     getAllMSTeam();
     getAllMSTeamMember();
     getAllMSHospital();
     getAllMSMessage();
+    getAllMSFireStation();
   }
 
   Future<void> getAllMSClassification() async {
@@ -161,12 +224,22 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> getAllMSFireStation() async {
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSFireStation) ?? [];
+    msFireStations = datas.map((e) => MSFireStation.fromJson(e)).toList();
+    notifyListeners();
+  }
+
   InputReportViewModel(this._dataRepo);
 
   onSelectAmbulanceName(String? itemSelected) {
-    dtReport.TeamName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
+    ambulanceName = itemSelected ?? '';
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
+    if (itemSelected != null) dtReport.FireStationName = msFireStations
+        .firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)
+        ?.Name;
     notifyListeners();
   }
 
@@ -176,16 +249,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectCaptainName(String? itemSelected) {
-    dtReport.TeamCaptainName = itemSelected ?? '';
+    captainName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.TeamCaptainName = msTeamMember?.Name;
+    dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
+    if (msTeamMember?.LifesaverQualification != null) {
+      emtQualification = yesNothings[msTeamMember?.LifesaverQualification];
+    }
     notifyListeners();
   }
 
-  onSelectEmtQualification(String? itemSelected) {
-    if (itemSelected != null) {
-      dtReport.LifesaverQualification = yesNothings.indexOf(itemSelected);
-      notifyListeners();
-    }
-  }
 
   onSelectEmtRide(String? itemSelected) {
     if (itemSelected != null) {
@@ -194,13 +267,36 @@ class InputReportViewModel extends BaseViewModel {
     }
   }
 
+
+  int? getIndexEmtRide() {
+    if (lifesaverQualificationNo8 == null || lifesaverQualificationNo9 == null) {
+      if (lifesaverQualificationNo8 != null)
+        return lifesaverQualificationNo8;
+      else if (lifesaverQualificationNo9 == null)
+        return lifesaverQualificationNo9;
+      else
+        return null;
+    } else
+      return lifesaverQualificationNo8! | lifesaverQualificationNo9!;
+  }
+
   onSelectReportMemberName(String? itemSelected) {
-    dtReport.TeamMemberName = itemSelected ?? '';
+    memberName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.TeamMemberName = msTeamMember?.Name;
+    lifesaverQualificationNo8 = msTeamMember?.LifesaverQualification;
+    indexEmtRide = getIndexEmtRide();
+    if(indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
 
   onSelectReportNameOfEngineer(String? itemSelected) {
-    dtReport.InstitutionalMemberName = itemSelected ?? '';
+    nameOfEngineer = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.InstitutionalMemberName = msTeamMember?.Name;
+    lifesaverQualificationNo9 = msTeamMember?.LifesaverQualification;
+    indexEmtRide = getIndexEmtRide();
+    if(indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
 
@@ -231,7 +327,9 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectSex(String? itemSelected) {
-    if (itemSelected != null) dtReport.SickInjuredPersonGender = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SickInjuredPersonGender = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -271,7 +369,9 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectDosage(String? itemSelected) {
     this.dosage = itemSelected ?? '';
-    if (itemSelected != null) dtReport.SickInjuredPersonMedication = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SickInjuredPersonMedication = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -357,7 +457,9 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 4
   onSelectAccidentTypeInput(String? itemSelected) {
-    if (itemSelected != null) dtReport.TypeOfAccident = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TypeOfAccident = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -382,12 +484,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAdl(String? itemSelected) {
-    if (itemSelected != null) dtReport.ADL = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.ADL = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectTrafficAccidentCategory(String? itemSelected) {
-    if (itemSelected != null) dtReport.TrafficAccidentClassification = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TrafficAccidentClassification = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -521,7 +627,9 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
-    if (itemSelected != null) dtReport.SecuringAirway = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SecuringAirway = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -571,7 +679,9 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectSpinalCordMotionLimitation(String? itemSelected) {
-    if (itemSelected != null) dtReport.SpinalCordMovementLimitation = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.SpinalCordMovementLimitation = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -867,7 +977,9 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAwarenessType(String? itemSelected) {
-    if (itemSelected != null) dtReport.TypeOfDetection = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null) dtReport.TypeOfDetection = msClassifications
+        .firstWhereOrNull((element) => element.Value == itemSelected)
+        ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -883,12 +995,18 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 10
   onSelectTransportationMedicalInstitution(String? itemSelected) {
-    dtReport.MedicalTransportFacility = itemSelected ?? '';
+    transportationMedicalInstitution = itemSelected ?? '';
+    dtReport.MedicalTransportFacility = msHospitals
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)
+        ?.Name;
     notifyListeners();
   }
 
   onSelectForwardingMedicalInstitution(String? itemSelected) {
-    dtReport.TransferringMedicalInstitution = itemSelected ?? '';
+    forwardingMedicalInstitution = itemSelected ?? '';
+    dtReport.TransferringMedicalInstitution = msHospitals
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)
+        ?.Name;
     notifyListeners();
   }
 
@@ -915,6 +1033,19 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   void onSaveToDb() async {
+    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
+    //check regex katakana full width in layout 2/ no.14
+    if(dtReport.SickInjuredPersonKANA != null && !regexKana.hasMatch(dtReport.SickInjuredPersonKANA!)){
+      showDialogGeneral(
+        message: LocaleKeys.please_enter_full_width_katakana,
+        actionString: msMessageAdd?.Button,
+        actionCallback: () {
+          _navigationService.back();
+        },
+      );
+      return;
+    }
+
     //join data layout 5, 7 & 8
     dtReport.ObservationTime = Utils.importStringToDb(observationTime1, observationTime2, observationTime3);
     dtReport.JCS = Utils.importStringToDb(jcs1, jcs2, jcs3);
@@ -942,12 +1073,16 @@ class InputReportViewModel extends BaseViewModel {
     //extra
     dtReport.Remark = null;
     MSTeamMember? msTeamMemberReporterAffiliation = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName);
-    dtReport.ReporterAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)?.Name;
-    dtReport.ReportingClass = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)?.Position;
+    dtReport.ReporterAffiliation = msTeams
+        .firstWhereOrNull((element) => element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)
+        ?.Name;
+    dtReport.ReportingClass = msTeamMembers
+        .firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)
+        ?.Position;
 
     await dbHelper.putDataToDTReportDb(tableDTReport, [dtReport]);
     //show alert add success
-    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
+
     showDialogGeneral(
       message: msMessageAdd?.MessageContent,
       actionString: msMessageAdd?.Button,
@@ -958,4 +1093,6 @@ class InputReportViewModel extends BaseViewModel {
       },
     );
   }
+
+
 }

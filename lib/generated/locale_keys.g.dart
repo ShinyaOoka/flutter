@@ -139,5 +139,10 @@ abstract class  LocaleKeys {
   static const transport_refusal_processing_record = 'transport_refusal_processing_record';
   static const empty_data = 'empty_data';
   static const text_circle = 'text_circle';
+  static const report_transport_information = 'report_transport_information';
+  static const report_reporter = 'report_reporter';
+  static const report_remarks = 'report_remarks';
+  static const fire_signature = 'fire_signature';
+  static const please_enter_full_width_katakana = 'please_enter_full_width_katakana';
 
 }
