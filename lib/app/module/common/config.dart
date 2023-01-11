@@ -32,6 +32,8 @@ const checkedYes = '$checkIcon有';
 const uncheckNo = '$uncheckIcon無';
 const checkedNo = '$checkIcon無';
 const strColorWhite = '#FFFFFF';
+const overflow = ';overflow: hidden;';
+const overflowStyle = 'style=\'overflow: hidden\'';
 
 
 

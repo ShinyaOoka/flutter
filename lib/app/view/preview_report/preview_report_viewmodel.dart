@@ -107,6 +107,11 @@ class PreviewReportViewModel extends BaseViewModel {
     //add style
     htmlInput = htmlInput.replaceAll('</style>', '$styleCSSMore</style>');
 
+    //add overflow hide in TeamName, TeamCaptainName, Other
+    htmlInput = htmlInput.replaceFirst('\'>$TeamName', overflow + '\'>$TeamName');
+    htmlInput = htmlInput.replaceFirst('\'>$TeamCaptainName', overflow + '\'>$TeamCaptainName');
+    htmlInput = htmlInput.replaceFirst('>$Other', overflowStyle + '>$Other');
+
     //fill yyyy mm dd now
     var y = DateFormat.y().format(DateTime.now());
     var m = DateFormat.M().format(DateTime.now());
