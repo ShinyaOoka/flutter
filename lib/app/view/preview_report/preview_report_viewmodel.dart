@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path/path.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
@@ -10,7 +11,7 @@ import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:webcontent_converter/webcontent_converter.dart';
+//import 'package:webcontent_converter/webcontent_converter.dart';
 
 import '../../di/injection.dart';
 import '../../model/dt_report.dart';
@@ -60,14 +61,18 @@ class PreviewReportViewModel extends BaseViewModel {
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
     var savedPath = join(appDocDir.path, pdfFile);
-    var pdfPath = await WebcontentConverter.contentToPDF(
+    /*var pdfPath = await WebcontentConverter.contentToPDF(
       content: fileHtmlContents,
       savedPath: savedPath,
       format: PaperFormat.a4,
       margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
-    );
+    );*/
+    final targetPath = appDocDir.path;
+    final targetFileName = "example-pdf";
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    generatedPdfFilePath = generatedPdfFile.path;
 
-    return pdfPath ?? '';
+    return generatedPdfFilePath ?? '';
   }
 
   void getListDataLayout578() {
