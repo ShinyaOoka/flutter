@@ -144,5 +144,12 @@ abstract class  LocaleKeys {
   static const report_remarks = 'report_remarks';
   static const fire_signature = 'fire_signature';
   static const please_enter_full_width_katakana = 'please_enter_full_width_katakana';
+  static const grand_total = 'grand_total';
+  static const corps = 'corps';
+  static const reporter_s_name = 'reporter_s_name';
+  static const reporter_s_affiliation = 'reporter_s_affiliation';
+  static const reporting_class = 'reporting_class';
+  static const overview_of_the_outbreak = 'overview_of_the_outbreak';
+  static const remarks = 'remarks';
 
 }

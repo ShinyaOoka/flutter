@@ -36,6 +36,7 @@ const checkedNo = '$checkIcon無';
 const strColorWhite = '#FFFFFF';
 List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
 RegExp regexKana = RegExp(r'^([ァ-ン]|ー)+');
+RegExp allowPhoneNumber = RegExp("[\\+\\-0-9]");
 
 
 
