@@ -38,7 +38,7 @@ class ListReportContent extends StatefulWidget {
 }
 
 class _ListReportContentState extends State<ListReportContent>
-    with SingleTickerProviderStateMixin  {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver  {
   ListReportViewModel get listReportViewModel =>
       widget._listReportViewModel;
 
@@ -46,6 +46,14 @@ class _ListReportContentState extends State<ListReportContent>
   void initState() {
     initData();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
@@ -54,6 +62,8 @@ class _ListReportContentState extends State<ListReportContent>
     super.didUpdateWidget(oldWidget);
   }
 
+
+  @override
   void initData(){
     listReportViewModel.scrollController.addListener(() {
       listReportViewModel.onScroll();
@@ -65,6 +75,26 @@ class _ListReportContentState extends State<ListReportContent>
     eventBus.on<AddReport>().listen((event) {
       listReportViewModel.refreshData();
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('appLifeCycleState inactive');
+        break;
+      case AppLifecycleState.resumed:
+        initData();
+        print('appLifeCycleState resumed');
+        break;
+      case AppLifecycleState.paused:
+        print('appLifeCycleState paused');
+        break;
+      case AppLifecycleState.detached:
+        print('appLifeCycleState suspending');
+        break;
+    }
   }
 
   @override
