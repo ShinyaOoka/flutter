@@ -38,30 +38,37 @@ class ListReportContent extends StatefulWidget {
 }
 
 class _ListReportContentState extends State<ListReportContent>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin  {
   ListReportViewModel get listReportViewModel =>
       widget._listReportViewModel;
 
   @override
   void initState() {
-    listReportViewModel.scrollController.addListener(() {
-      listReportViewModel.onScroll();
-    });
-    listReportViewModel.getAllMSClassification();
-    listReportViewModel.getReports();
-
-    //notify add new report
-    eventBus.on<AddReport>().listen((event) {
-      listReportViewModel.refreshData();
-    });
+    initData();
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant ListReportContent oldWidget) {
+    initData();
+    super.didUpdateWidget(oldWidget);
+  }
 
+  void initData(){
+    listReportViewModel.scrollController.addListener(() {
+      listReportViewModel.onScroll();
+    });
+    //get data from db
+    listReportViewModel.getAllMSClassification();
+    listReportViewModel.getReports();
+    //notify when add new report
+    eventBus.on<AddReport>().listen((event) {
+      listReportViewModel.refreshData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: () => listReportViewModel.onDoubleBackToExit(),
         child: BaseScaffoldSafeArea(
