@@ -1,3 +1,5 @@
+import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -34,6 +36,9 @@ const checkedNo = '$checkIcon無';
 const strColorWhite = '#FFFFFF';
 const overflow = ';overflow: hidden;';
 const overflowStyle = 'style=\'overflow: hidden\'';
+List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
+RegExp regexKana = RegExp(r'^([ァ-ン]|ー)+');
+RegExp allowPhoneNumber = RegExp("[\\+\\-0-9]");
 
 
 

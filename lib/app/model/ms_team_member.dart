@@ -10,6 +10,7 @@ class MSTeamMember extends Equatable {
   dynamic Position;
   dynamic TEL;
   dynamic TeamCD;
+  dynamic LifesaverQualification;
 
   MSTeamMember({
     this.TeamMemberCD,
@@ -17,10 +18,10 @@ class MSTeamMember extends Equatable {
     this.Position,
     this.TEL,
     this.TeamCD,
+    this.LifesaverQualification,
   });
 
-  factory MSTeamMember.fromJson(Map<String, dynamic> json) =>
-      _$MSTeamMemberFromJson(json);
+  factory MSTeamMember.fromJson(Map<String, dynamic> json) => _$MSTeamMemberFromJson(json);
 
   Map<String, dynamic> toJson() => _$MSTeamMemberToJson(this);
 
@@ -32,5 +33,6 @@ class MSTeamMember extends Equatable {
         Position,
         TEL,
         TeamCD,
+        LifesaverQualification,
       ];
 }

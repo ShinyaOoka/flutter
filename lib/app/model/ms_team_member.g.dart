@@ -12,6 +12,7 @@ MSTeamMember _$MSTeamMemberFromJson(Map<String, dynamic> json) => MSTeamMember(
       Position: json['Position'],
       TEL: json['TEL'],
       TeamCD: json['TeamCD'],
+      LifesaverQualification: json['LifesaverQualification'],
     );
 
 Map<String, dynamic> _$MSTeamMemberToJson(MSTeamMember instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$MSTeamMemberToJson(MSTeamMember instance) =>
       'Position': instance.Position,
       'TEL': instance.TEL,
       'TeamCD': instance.TeamCD,
+      'LifesaverQualification': instance.LifesaverQualification,
     };

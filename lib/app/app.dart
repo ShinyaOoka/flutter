@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/app/view/input_report/input_report_page.dart';
 import 'package:ak_azm_flutter/app/view/list_report/list_report_page.dart';
 import 'package:ak_azm_flutter/app/view/send_report/send_report_page.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/src/easy_loading.dart';
@@ -49,8 +50,8 @@ class _AppState extends State<App> {
         locale: context.locale,
         title: F.title,
         debugShowCheckedModeBanner: false,
-        home: ListReportPage(),
-        //home: InputReportPage(),
+        //home: ListReportPage(),
+        home: InputReportPage(),
         //home: SendReportPage(),
         builder: EasyLoading.init(),
         navigatorKey: getIt<NavigationService>().navigatorKey,

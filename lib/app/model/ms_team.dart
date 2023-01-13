@@ -8,11 +8,13 @@ class MSTeam extends Equatable {
  dynamic  TeamCD;
  dynamic Name;
  dynamic TEL;
+ dynamic FireStationCD;
 
   MSTeam({
     this.TeamCD,
     this.Name,
     this.TEL,
+    this.FireStationCD,
   });
 
   factory MSTeam.fromJson(Map<String, dynamic> json) =>
@@ -26,5 +28,6 @@ class MSTeam extends Equatable {
     TeamCD,
     Name,
     TEL,
+    FireStationCD,
   ];
 }

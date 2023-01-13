@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/app/model/dt_report.dart';
 import 'package:ak_azm_flutter/app/model/ms_classification.dart';
+import 'package:ak_azm_flutter/app/model/ms_fire_station.dart';
 import 'package:ak_azm_flutter/app/model/ms_hospital.dart';
 import 'package:ak_azm_flutter/app/model/ms_message.dart';
 import 'package:ak_azm_flutter/app/model/ms_team.dart';
@@ -8,9 +9,7 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
-import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:collection/collection.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/utils.dart';
 
 import '../../../main.dart';
 import '../../di/injection.dart';
@@ -32,12 +31,24 @@ class InputReportViewModel extends BaseViewModel {
   List<MSTeamMember> msTeamMembers = [];
   List<MSHospital> msHospitals = [];
   List<MSMessage> msMessages = [];
+  List<MSFireStation> msFireStations = [];
 
   List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
   List<MSClassification> msClassification006s = [];
+  //layout 1
+  String? ambulanceName;
+  String? captainName;
+  String? memberName;
+  String? nameOfEngineer;
+  String? emtQualification;
+  int? lifesaverQualificationNo8;
+  int? lifesaverQualificationNo9;
+  int? indexEmtRide;
+  String? emtRide;
+
   //layout 5
   String? observationTime1 = '';
   String? reportObservationTimeExplanation1 = '';
@@ -113,20 +124,23 @@ class InputReportViewModel extends BaseViewModel {
   String? vomiting3 = '';
   String? limb3 = '';
 
+  //layout 11
+  String? transportationMedicalInstitution = "";
+  String? forwardingMedicalInstitution = "";
+
   Future<bool> back() async {
     _navigationService.back();
     return true;
   }
 
   void initData() {
-    //fix warning yes_dropdown, nothing not found in EasyLocalization
-    yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
     //get data from database
     getAllMSClassification();
     getAllMSTeam();
     getAllMSTeamMember();
     getAllMSHospital();
     getAllMSMessage();
+    getAllMSFireStation();
   }
 
   Future<void> getAllMSClassification() async {
@@ -160,12 +174,20 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<void> getAllMSFireStation() async {
+    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSFireStation) ?? [];
+    msFireStations = datas.map((e) => MSFireStation.fromJson(e)).toList();
+    notifyListeners();
+  }
+
   InputReportViewModel(this._dataRepo);
 
   onSelectAmbulanceName(String? itemSelected) {
-    dtReport.TeamName = itemSelected ?? '';
+    ambulanceName = itemSelected ?? '';
     MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
+    dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
+    if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
     notifyListeners();
   }
 
@@ -175,15 +197,14 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectCaptainName(String? itemSelected) {
-    dtReport.TeamCaptainName = itemSelected ?? '';
-    notifyListeners();
-  }
-
-  onSelectEmtQualification(String? itemSelected) {
-    if (itemSelected != null) {
-      dtReport.LifesaverQualification = yesNothings.indexOf(itemSelected);
-      notifyListeners();
+    captainName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.TeamCaptainName = msTeamMember?.Name;
+    dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
+    if (msTeamMember?.LifesaverQualification != null) {
+      dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
     }
+    notifyListeners();
   }
 
   onSelectEmtRide(String? itemSelected) {
@@ -193,13 +214,37 @@ class InputReportViewModel extends BaseViewModel {
     }
   }
 
+  int? getIndexEmtRide() {
+    if (lifesaverQualificationNo8 == null || lifesaverQualificationNo9 == null) {
+      if (lifesaverQualificationNo8 != null)
+        return lifesaverQualificationNo8;
+      else if (lifesaverQualificationNo9 == null)
+        return lifesaverQualificationNo9;
+      else
+        return null;
+    } else
+      return lifesaverQualificationNo8! | lifesaverQualificationNo9!;
+  }
+
   onSelectReportMemberName(String? itemSelected) {
-    dtReport.TeamMemberName = itemSelected ?? '';
+    memberName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.TeamMemberName = msTeamMember?.Name;
+    lifesaverQualificationNo8 = msTeamMember?.LifesaverQualification;
+    indexEmtRide = getIndexEmtRide();
+    dtReport.WithLifeSavers = indexEmtRide;
+    if (indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
 
   onSelectReportNameOfEngineer(String? itemSelected) {
-    dtReport.InstitutionalMemberName = itemSelected ?? '';
+    nameOfEngineer = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReport.InstitutionalMemberName = msTeamMember?.Name;
+    lifesaverQualificationNo9 = msTeamMember?.LifesaverQualification;
+    indexEmtRide = getIndexEmtRide();
+    dtReport.WithLifeSavers = indexEmtRide;
+    if (indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
 
@@ -413,11 +458,6 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation1(String? itemSelected) {
-    this.reportObservationTimeExplanation1 = itemSelected ?? '';
-    notifyListeners();
-  }
-
   onSelectJcs1(String? itemSelected) {
     this.jcs1 = itemSelected ?? '';
     notifyListeners();
@@ -508,9 +548,6 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-
-
-
   onSelectVomiting1(String? itemSelected) {
     if (itemSelected != null) this.vomiting1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
@@ -518,6 +555,11 @@ class InputReportViewModel extends BaseViewModel {
 
   onChangeLimb1(String? itemSelected) {
     this.limb1 = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onSelectObservationTimeExplanation1(String? itemSelected) {
+    if (itemSelected != null) reportObservationTimeExplanation1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -646,11 +688,6 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation2(String? itemSelected) {
-    this.reportObservationTimeExplanation2 = itemSelected ?? '';
-    notifyListeners();
-  }
-
   onSelectJcs2(String? itemSelected) {
     this.jcs2 = itemSelected ?? '';
     notifyListeners();
@@ -751,14 +788,14 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  //layout 8
-  onConfirmObservationTime3(DateTime date) {
-    this.observationTime3 = Utils.dateTimeToString(date, format: HH_mm_);
+  onSelectObservationTimeExplanation2(String? itemSelected) {
+    if (itemSelected != null) reportObservationTimeExplanation2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
-  onChangeReportObservationTimeExplanation3(String? itemSelected) {
-    this.reportObservationTimeExplanation3 = itemSelected ?? '';
+  //layout 8
+  onConfirmObservationTime3(DateTime date) {
+    this.observationTime3 = Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -862,7 +899,23 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  onSelectObservationTimeExplanation3(String? itemSelected) {
+    if (itemSelected != null) reportObservationTimeExplanation3 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    notifyListeners();
+  }
+
   //layout 9
+  onChangeGrandTotal(String? itemSelected) {
+    dtReport.NumberOfDispatches = int.tryParse(itemSelected ?? '', radix: null);
+    notifyListeners();
+  }
+
+  onChangeCorps(String? itemSelected) {
+    dtReport.NumberOfDispatchesPerTeam = int.tryParse(itemSelected ?? '', radix: null);
+    notifyListeners();
+  }
+
+  //layout 10
   onChangePerceiver(String? itemSelected) {
     dtReport.PerceiverName = itemSelected ?? '';
     notifyListeners();
@@ -883,14 +936,16 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  //layout 10
+  //layout 11
   onSelectTransportationMedicalInstitution(String? itemSelected) {
-    dtReport.MedicalTransportFacility = itemSelected ?? '';
+    transportationMedicalInstitution = itemSelected ?? '';
+    dtReport.MedicalTransportFacility = msHospitals.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)?.Name;
     notifyListeners();
   }
 
   onSelectForwardingMedicalInstitution(String? itemSelected) {
-    dtReport.TransferringMedicalInstitution = itemSelected ?? '';
+    forwardingMedicalInstitution = itemSelected ?? '';
+    dtReport.TransferringMedicalInstitution = msHospitals.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)?.Name;
     notifyListeners();
   }
 
@@ -916,7 +971,35 @@ class InputReportViewModel extends BaseViewModel {
     }
   }
 
+
+  String? reportersName = "";
+  String? dtReportReportersName = "";
+  String? reportersAffiliation = "";
+  String? reportingClass = "";
+
+  //layout 12
+  onSelectReportersName(String? itemSelected) {
+    reportersName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReportReportersName = msTeamMember?.Name;
+    reportersAffiliation = msTeamMember?.Name;
+    reportersAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMember?.TeamMemberCD)?.Name ?? '';
+    notifyListeners();
+  }
+
+
+  //layout 13
+  onChangeOverviewOfTheOutbreak(String? itemSelected) {
+    dtReport.SummaryOfOccurrence = itemSelected ?? '';
+    notifyListeners();
+  }
+  onChangeRemars(String? itemSelected) {
+    dtReport.Remark = itemSelected ?? '';
+    notifyListeners();
+  }
+
   void onSaveToDb() async {
+    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
     //join data layout 5, 7 & 8
     dtReport.ObservationTime = Utils.importStringToDb(observationTime1, observationTime2, observationTime3);
     dtReport.JCS = Utils.importStringToDb(jcs1, jcs2, jcs3);
@@ -949,7 +1032,7 @@ class InputReportViewModel extends BaseViewModel {
 
     await dbHelper.putDataToDTReportDb(tableDTReport, [dtReport]);
     //show alert add success
-    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
+
     showDialogGeneral(
       message: msMessageAdd?.MessageContent,
       actionString: msMessageAdd?.Button,

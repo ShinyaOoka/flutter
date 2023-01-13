@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ak_azm_flutter/app/model/object_search.dart';
 import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/utils.dart';
@@ -33,37 +34,10 @@ extension DateTimeFormatter on DateTime {
   }
 
   String fromNowShort() {
-    return Jiffy(this)
-        .fromNow()
-        .replaceAll('a few seconds', '1s')
-        .replaceAll('a second', '1s')
-        .replaceAll('seconds', 's')
-        .replaceAll('second', 's')
-        .replaceAll('a minute', '1m')
-        .replaceAll('minutes', 'm')
-        .replaceAll('minute', 'm')
-        .replaceAll('an hour', '1h')
-        .replaceAll('hours', 'h')
-        .replaceAll('hour', 'h')
-        .replaceAll('a day', '1d')
-        .replaceAll('days', 'd')
-        .replaceAll('day', 'd')
-        .replaceAll('a month', '1M')
-        .replaceAll('an month', '1M')
-        .replaceAll('months', 'M')
-        .replaceAll('month', 'M')
-        .replaceAll('a year', '1y')
-        .replaceAll('an year', '1y')
-        .replaceAll('years', 'y')
-        .replaceAll('year', 'y')
-        .replaceAll('ago', '')
-        .replaceAll(' ', '');
+    return Jiffy(this).fromNow().replaceAll('a few seconds', '1s').replaceAll('a second', '1s').replaceAll('seconds', 's').replaceAll('second', 's').replaceAll('a minute', '1m').replaceAll('minutes', 'm').replaceAll('minute', 'm').replaceAll('an hour', '1h').replaceAll('hours', 'h').replaceAll('hour', 'h').replaceAll('a day', '1d').replaceAll('days', 'd').replaceAll('day', 'd').replaceAll('a month', '1M').replaceAll('an month', '1M').replaceAll('months', 'M').replaceAll('month', 'M').replaceAll('a year', '1y').replaceAll('an year', '1y').replaceAll('years', 'y').replaceAll('year', 'y').replaceAll('ago', '').replaceAll(' ', '');
   }
 
-  String fromNowLimit({int dayDiff = 1}) =>
-      DateTime.now().difference(this).inDays > dayDiff
-          ? shortDateFormatted()
-          : shortTimeFormatted();
+  String fromNowLimit({int dayDiff = 1}) => DateTime.now().difference(this).inDays > dayDiff ? shortDateFormatted() : shortTimeFormatted();
 }
 
 extension Ex on String {
@@ -81,9 +55,7 @@ extension ContextEx on BuildContext {
 //validate email
 extension EmailValidate on String {
   bool isValidEmail() {
-    return RegExp(
-            r"^[ a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(this);
+    return RegExp(r"^[ a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(this);
   }
 }
 
@@ -115,8 +87,7 @@ class Utils {
     return date == null ? '' : DateFormat(format).format(date).toString();
   }
 
-  static String formatToOtherFormat(
-      String stringInputDate, String fromFormat, String toFormat) {
+  static String formatToOtherFormat(String stringInputDate, String fromFormat, String toFormat) {
     if (stringInputDate.isEmpty) return '';
     var inputFormat = DateFormat(fromFormat);
     var dateInput = inputFormat.parse(stringInputDate);
@@ -124,11 +95,8 @@ class Utils {
     return outputFormat.format(dateInput); // "2019-08-18"
   }
 
-  static DateTime? stringToDateTime(String? stringDate,
-      {String format = yyyyMMdd}) {
-    return stringDate == null || stringDate.isEmpty
-        ? null
-        : DateFormat(format).parse(stringDate);
+  static DateTime? stringToDateTime(String? stringDate, {String format = yyyyMMdd}) {
+    return stringDate == null || stringDate.isEmpty ? null : DateFormat(format).parse(stringDate);
   }
 
   static String customReplace(String text, String searchText, int replaceOn, String replaceText) {
@@ -137,7 +105,7 @@ class Utils {
   }
 
   static List<String> split4CharPhone(String text) {
-    if(text.isBlank == true) return ['','',''];
+    if (text.isBlank == true) return ['', '', ''];
     var tempText = text.reverse;
     var buffer = new StringBuffer();
     for (int i = 0; i < tempText.length; i++) {
@@ -147,7 +115,7 @@ class Utils {
         buffer.write(space);
       }
     }
-    List<String> tempTELs =  buffer.toString().split(space);
+    List<String> tempTELs = buffer.toString().split(space);
     //if list = 1 add middle & first
     if (tempTELs.length < 2) {
       tempTELs.add('');
@@ -171,9 +139,7 @@ class Utils {
   }
 
   static Future<ByteData> getByteFromFile(File file) async {
-    return await file
-        .readAsBytes()
-        .then((data) => ByteData.view(data as ByteBuffer));
+    return await file.readAsBytes().then((data) => ByteData.view(data as ByteBuffer));
   }
 
   static Future<Uint8List?> readFileByte(String? filePath) async {
@@ -187,12 +153,12 @@ class Utils {
     }
   }
 
-  static String importStringToDb(dynamic? v1, dynamic? v2, dynamic? v3){
+  static String importStringToDb(dynamic? v1, dynamic? v2, dynamic? v3) {
     return '$v1$slash$v2$slash$v3';
   }
 
-  static List<dynamic?> exportDataFromDb(String? data){
-    if(data.isBlank == true) return [null, null, null];
+  static List<dynamic?> exportDataFromDb(String? data) {
+    if (data.isBlank == true) return [null, null, null];
     List<dynamic?> list = data!.split(slash);
     if (list.length < 2) {
       list.add(null);
@@ -203,7 +169,5 @@ class Utils {
     }
     return list;
   }
-
-
 
 }
