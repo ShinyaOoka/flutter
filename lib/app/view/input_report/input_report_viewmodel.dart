@@ -9,8 +9,6 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
-import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:get/utils.dart';
 
 import '../../../main.dart';
@@ -35,149 +33,100 @@ class InputReportViewModel extends BaseViewModel {
   List<MSMessage> msMessages = [];
   List<MSFireStation> msFireStations = [];
 
+  List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
+  List<MSClassification> msClassification006s = [];
   //layout 1
   String? ambulanceName;
   String? captainName;
   String? memberName;
   String? nameOfEngineer;
   String? emtQualification;
-  String? emtRide;
   int? lifesaverQualificationNo8;
   int? lifesaverQualificationNo9;
   int? indexEmtRide;
+  String? emtRide;
 
   //layout 5
-  String? observationTime1;
-  String? reportObservationTimeExplanation1;
-  String? jcs1;
-  String? gcs1;
-
-  String? gcsE1;
-  String? gcsV1;
-
-  String? gcsM1;
-
-  String? breathing1;
-
-  String? pulse1;
-
-  String? bloodPressureUp1;
-  String? bloodPessureLower1;
-  String? spo2Percent1;
-  String? spo2L1;
-  String? rightPupil1;
-  String? leftPupil1;
-  String? lightReflectionRight1;
-
-  String? lightReflectionLeft1;
-  String? bodyTemperature1;
-  String? facialFeatures1;
-  String? bleeding1;
-  String? incontinence1;
-  String? vomiting1;
-
-  String? limb1;
+  String? observationTime1 = '';
+  String? reportObservationTimeExplanation1 = '';
+  String? jcs1 = '';
+  String? gcs1 = '';
+  String? gcsE1 = '';
+  String? gcsV1 = '';
+  String? gcsM1 = '';
+  String? breathing1 = '';
+  String? pulse1 = '';
+  String? bloodPressureUp1 = '';
+  String? bloodPessureLower1 = '';
+  String? spo2Percent1 = '';
+  String? spo2L1 = '';
+  String? rightPupil1 = '';
+  String? leftPupil1 = '';
+  String? lightReflectionRight1 = '';
+  String? lightReflectionLeft1 = '';
+  String? bodyTemperature1 = '';
+  String? facialFeatures1 = '';
+  String? bleeding1 = '';
+  String incontinence1 = '';
+  String? vomiting1 = '';
+  String? limb1 = '';
 
   //layout 7
-  String? observationTime2;
-
-  String? reportObservationTimeExplanation2;
-
-  String? jcs2;
-
-  String? gcs2;
-
-  String? gcsE2;
-
-  String? gcsV2;
-
-  String? gcsM2;
-
-  String? breathing2;
-
-  String? pulse2;
-
-  String? bloodPressureUp2;
-
-  String? bloodPessureLower2;
-
-  String? spo2Percent2;
-
-  String? spo2L2;
-
-  String? rightPupil2;
-
-  String? leftPupil2;
-
-  String? lightReflectionRight2;
-
-  String? lightReflectionLeft2;
-
-  String? bodyTemperature2;
-
-  String? facialFeatures2;
-
-  String? bleeding2;
-
-  String? incontinence2;
-
-  String? vomiting2;
-
-  String? limb2;
+  String? observationTime2 = '';
+  String? reportObservationTimeExplanation2 = '';
+  String? jcs2 = '';
+  String? gcs2 = '';
+  String? gcsE2 = '';
+  String? gcsV2 = '';
+  String? gcsM2 = '';
+  String? breathing2 = '';
+  String? pulse2 = '';
+  String? bloodPressureUp2 = '';
+  String? bloodPessureLower2 = '';
+  String? spo2Percent2 = '';
+  String? spo2L2 = '';
+  String? rightPupil2 = '';
+  String? leftPupil2 = '';
+  String? lightReflectionRight2 = '';
+  String? lightReflectionLeft2 = '';
+  String? bodyTemperature2 = '';
+  String? facialFeatures2 = '';
+  String? bleeding2 = '';
+  String incontinence2 = '';
+  String? vomiting2 = '';
+  String? limb2 = '';
 
   //layout 8
-  String? observationTime3;
+  String? observationTime3 = '';
+  String? reportObservationTimeExplanation3 = '';
+  String? jcs3 = '';
+  String? gcs3 = '';
+  String? gcsE3 = '';
+  String? gcsV3 = '';
+  String? gcsM3 = '';
+  String? breathing3 = '';
+  String? pulse3 = '';
+  String? bloodPressureUp3 = '';
+  String? bloodPessureLower3 = '';
+  String? spo2Percent3 = '';
+  String? spo2L3 = '';
+  String? rightPupil3 = '';
+  String? leftPupil3 = '';
+  String? lightReflectionRight3 = '';
+  String? lightReflectionLeft3 = '';
+  String? bodyTemperature3 = '';
+  String? facialFeatures3 = '';
+  String? bleeding3 = '';
+  String incontinence3 = '';
+  String? vomiting3 = '';
+  String? limb3 = '';
 
-  String? reportObservationTimeExplanation3;
-
-  String? jcs3;
-
-  String? gcs3;
-
-  String? gcsE3;
-
-  String? gcsV3;
-
-  String? gcsM3;
-
-  String? breathing3;
-
-  String? pulse3;
-
-  String? bloodPressureUp3;
-
-  String? bloodPessureLower3;
-
-  String? spo2Percent3;
-
-  String? spo2L3;
-
-  String? rightPupil3;
-
-  String? leftPupil3;
-
-  String? lightReflectionRight3;
-
-  String? lightReflectionLeft3;
-
-  String? bodyTemperature3;
-
-  String? facialFeatures3;
-
-  String? bleeding3;
-
-  String? incontinence3;
-
-  String? vomiting3;
-
-  String? limb3;
-
-  //layout 10
-  String? transportationMedicalInstitution;
-  String? forwardingMedicalInstitution;
+  //layout 11
+  String? transportationMedicalInstitution = "";
+  String? forwardingMedicalInstitution = "";
 
   Future<bool> back() async {
     _navigationService.back();
@@ -197,6 +146,7 @@ class InputReportViewModel extends BaseViewModel {
   Future<void> getAllMSClassification() async {
     List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSClassification) ?? [];
     msClassifications = datas.map((e) => MSClassification.fromJson(e)).toList();
+    msClassification006s = msClassifications.where((element) => element.ClassificationCD == '006').toList();
     notifyListeners();
   }
 
@@ -234,7 +184,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     ambulanceName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
     dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
     if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
@@ -252,7 +202,7 @@ class InputReportViewModel extends BaseViewModel {
     dtReport.TeamCaptainName = msTeamMember?.Name;
     dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
     if (msTeamMember?.LifesaverQualification != null) {
-      emtQualification = yesNothings[msTeamMember?.LifesaverQualification];
+      dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
     }
     notifyListeners();
   }
@@ -282,6 +232,7 @@ class InputReportViewModel extends BaseViewModel {
     dtReport.TeamMemberName = msTeamMember?.Name;
     lifesaverQualificationNo8 = msTeamMember?.LifesaverQualification;
     indexEmtRide = getIndexEmtRide();
+    dtReport.WithLifeSavers = indexEmtRide;
     if (indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
@@ -292,6 +243,7 @@ class InputReportViewModel extends BaseViewModel {
     dtReport.InstitutionalMemberName = msTeamMember?.Name;
     lifesaverQualificationNo9 = msTeamMember?.LifesaverQualification;
     indexEmtRide = getIndexEmtRide();
+    dtReport.WithLifeSavers = indexEmtRide;
     if (indexEmtRide != null) emtRide = yesNothings[indexEmtRide!];
     notifyListeners();
   }
@@ -567,12 +519,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight1(String? itemSelected) {
-    this.lightReflectionRight1 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionRight1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft1(String? itemSelected) {
-    this.lightReflectionLeft1 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionLeft1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -582,7 +534,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectFacialFeatures1(String? itemSelected) {
-    this.facialFeatures1 = itemSelected ?? '';
+    if (itemSelected != null) facialFeatures1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -592,12 +544,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence1(List<String> checkeds) {
-    this.incontinence1 = checkeds.join(comma);
+    if(checkeds.isNotEmpty) this.incontinence1 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
     notifyListeners();
   }
 
   onSelectVomiting1(String? itemSelected) {
-    this.vomiting1 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.vomiting1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -797,12 +749,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight2(String? itemSelected) {
-    this.lightReflectionRight2 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionRight2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft2(String? itemSelected) {
-    this.lightReflectionLeft2 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionLeft2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -812,7 +764,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectFacialFeatures2(String? itemSelected) {
-    this.facialFeatures2 = itemSelected ?? '';
+    if (itemSelected != null) facialFeatures2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -822,12 +774,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence2(List<String> checkeds) {
-    this.incontinence2 = checkeds.join(comma);
+    if(checkeds.isNotEmpty) this.incontinence2 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
     notifyListeners();
   }
 
   onSelectVomiting2(String? itemSelected) {
-    this.vomiting2 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.vomiting2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -908,12 +860,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight3(String? itemSelected) {
-    this.lightReflectionRight3 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionRight3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft3(String? itemSelected) {
-    this.lightReflectionLeft3 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.lightReflectionLeft3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -923,7 +875,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectFacialFeatures3(String? itemSelected) {
-    this.facialFeatures3 = itemSelected ?? '';
+    if (itemSelected != null) facialFeatures3 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -933,12 +885,12 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence3(List<String> checkeds) {
-    this.incontinence3 = checkeds.join(comma);
+    if(checkeds.isNotEmpty) this.incontinence3 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
     notifyListeners();
   }
 
   onSelectVomiting3(String? itemSelected) {
-    this.vomiting3 = itemSelected ?? yesNothings[1];
+    if (itemSelected != null) this.vomiting3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -954,12 +906,12 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 9
   onChangeGrandTotal(String? itemSelected) {
-    dtReport.NumberOfDispatches = itemSelected ?? '';
+    dtReport.NumberOfDispatches = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onChangeCorps(String? itemSelected) {
-    dtReport.NumberOfDispatchesPerTeam = itemSelected ?? '';
+    dtReport.NumberOfDispatchesPerTeam = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
@@ -1021,12 +973,17 @@ class InputReportViewModel extends BaseViewModel {
 
 
   String? reportersName = "";
+  String? dtReportReportersName = "";
   String? reportersAffiliation = "";
   String? reportingClass = "";
 
   //layout 12
   onSelectReportersName(String? itemSelected) {
     reportersName = itemSelected ?? '';
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    dtReportReportersName = msTeamMember?.Name;
+    reportersAffiliation = msTeamMember?.Name;
+    reportersAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMember?.TeamMemberCD)?.Name ?? '';
     notifyListeners();
   }
 
@@ -1064,7 +1021,7 @@ class InputReportViewModel extends BaseViewModel {
     dtReport.Hemorrhage = Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
     dtReport.Incontinence = Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
     dtReport.Vomiting = Utils.importStringToDb(vomiting1, vomiting2, vomiting3);
-    dtReport.Extremities = Utils.importStringToDb(limb1, limb1, limb1);
+    dtReport.Extremities = Utils.importStringToDb(limb1, limb2, limb3);
     dtReport.DescriptionOfObservationTime = Utils.importStringToDb(reportObservationTimeExplanation1, reportObservationTimeExplanation2, reportObservationTimeExplanation3);
 
     //extra

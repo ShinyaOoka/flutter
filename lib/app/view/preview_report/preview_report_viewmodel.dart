@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path/path.dart';
 import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
@@ -10,7 +11,6 @@ import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:webcontent_converter/webcontent_converter.dart';
 
 import '../../di/injection.dart';
 import '../../model/dt_report.dart';
@@ -60,14 +60,18 @@ class PreviewReportViewModel extends BaseViewModel {
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
     var savedPath = join(appDocDir.path, pdfFile);
-    var pdfPath = await WebcontentConverter.contentToPDF(
+    /*var pdfPath = await WebcontentConverter.contentToPDF(
       content: fileHtmlContents,
       savedPath: savedPath,
       format: PaperFormat.a4,
       margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
-    );
+    );*/
+    final targetPath = appDocDir.path;
+    final targetFileName = "example-pdf";
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    generatedPdfFilePath = generatedPdfFile.path;
 
-    return pdfPath ?? '';
+    return generatedPdfFilePath ?? '';
   }
 
   void getListDataLayout578() {
@@ -106,6 +110,11 @@ class PreviewReportViewModel extends BaseViewModel {
 
     //add style
     htmlInput = htmlInput.replaceAll('</style>', '$styleCSSMore</style>');
+
+    //add overflow hide in TeamName, TeamCaptainName, Other
+    htmlInput = htmlInput.replaceFirst('\'>$TeamName', overflow + '\'>$TeamName');
+    htmlInput = htmlInput.replaceFirst('\'>$TeamCaptainName', overflow + '\'>$TeamCaptainName');
+    htmlInput = htmlInput.replaceFirst('>$Other', overflowStyle + '>$Other');
 
     //fill yyyy mm dd now
     var y = DateFormat.y().format(DateTime.now());
@@ -148,9 +157,9 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //9
-    dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate ??  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
-    dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
-    dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateYear = dtReport.SickInjuredPersonBirthDate == null ? null :  DateFormat.y().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateMonth = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.M().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
+    dynamic? SickInjuredPersonBirthDateDay = dtReport.SickInjuredPersonBirthDate == null ? null : DateFormat.d().format(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_)!);
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateYear', SickInjuredPersonBirthDateYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateMonth', SickInjuredPersonBirthDateMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonBirthDateDay', SickInjuredPersonBirthDateDay?.toString() ?? '');
@@ -250,11 +259,11 @@ class PreviewReportViewModel extends BaseViewModel {
     }
 
     //25
-    dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence ?? DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence ?? DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence ?? DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
-    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence ?? DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
-    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence ?? DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
+    dynamic? DateOfOccurrenceYear = dtReport.DateOfOccurrence == null ? null : DateFormat.y().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceMonth = dtReport.DateOfOccurrence == null ? null : DateFormat.M().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? DateOfOccurrenceDay = dtReport.DateOfOccurrence == null ? null : DateFormat.d().format(Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_)!);
+    dynamic? TimeOfOccurrenceHour = dtReport.TimeOfOccurrence == null ? null : DateFormat.j().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
+    dynamic? TimeOfOccurrenceMinute = dtReport.TimeOfOccurrence == null ? null : DateFormat.m().format(Utils.stringToDateTime(dtReport.TimeOfOccurrence, format: HH_mm_)!);
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceYear', DateOfOccurrenceYear?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceMonth', DateOfOccurrenceMonth?.toString() ?? '');
     htmlInput = htmlInput.replaceFirst('DateOfOccurrenceDay', DateOfOccurrenceDay?.toString() ?? '');
@@ -449,6 +458,7 @@ class PreviewReportViewModel extends BaseViewModel {
     var totalYesDotNoPos = 0;
     var totalYesUrineFecesNoPos = 0;
     var totalYesSpaceNoPos = 0;
+    String defaultIncontinenceStr = '有（　尿　　便　）　無';
 
     for (var i = 0; i < 3; i++) {
       //43
@@ -476,66 +486,72 @@ class PreviewReportViewModel extends BaseViewModel {
       //53
       htmlInput = htmlInput.replaceFirst('$PupilLeft${i + 1}', PupilLefts?[i] ?? '');
       //54
-      //1
-      if (LightReflexRights?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      if (LightReflexRights?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 + 2 * i - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesDotNoPos += 1;
-      } else if (LightReflexRights?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
+      } else if (LightReflexRights?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 1 + 2 * i - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
         totalYesDotNoPos += 1;
       }
-
       //55
-      //1
-      if (PhotoreflexLefts?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 - totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      if (PhotoreflexLefts?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 + 2 * i- totalYesDotNoPos, '有・${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesDotNoPos += 1;
-      } else if (PhotoreflexLefts?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
+      } else if (PhotoreflexLefts?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有・無', 2 + 2 * i - totalYesDotNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}・無');
         totalYesDotNoPos += 1;
       }
       //56
       htmlInput = htmlInput.replaceFirst('$BodyTemperature${i + 1}', BodyTemperatures?[i].toString() ?? '');
       //57
       if (FacialFeaturess?[i] == '000') {
-        htmlInput = Utils.customReplace(htmlInput, '正常', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '正常'}));
+        htmlInput = Utils.customReplace(htmlInput, '正常', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '正常'}));
       } else if (FacialFeaturess?[i] == '001') {
-        htmlInput = Utils.customReplace(htmlInput, '紅潮', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '紅潮'}));
+        htmlInput = Utils.customReplace(htmlInput, '紅潮', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '紅潮'}));
       } else if (FacialFeaturess?[i] == '002') {
-        htmlInput = Utils.customReplace(htmlInput, '蒼白', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '蒼白'}));
+        htmlInput = Utils.customReplace(htmlInput, '蒼白', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '蒼白'}));
       } else if (FacialFeaturess?[i] == '003') {
-        htmlInput = Utils.customReplace(htmlInput, 'チアノーゼ', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': 'チアノーゼ'}));
+        htmlInput = Utils.customReplace(htmlInput, 'チアノーゼ', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': 'チアノーゼ'}));
       } else if (FacialFeaturess?[i] == '004') {
-        htmlInput = Utils.customReplace(htmlInput, '発汗', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '発汗'}));
+        htmlInput = Utils.customReplace(htmlInput, '発汗', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '発汗'}));
       } else if (FacialFeaturess?[i] == '005') {
-        htmlInput = Utils.customReplace(htmlInput, '苦悶', 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '苦悶'}));
+        htmlInput = Utils.customReplace(htmlInput, '苦悶', i + 1, LocaleKeys.text_circle.tr(namedArgs: {'text': '苦悶'}));
       }
       //58
       htmlInput = htmlInput.replaceFirst('$Hemorrhage${i + 1}', Hemorrhages?[i].toString() ?? '');
-
       //59
       List<String> incontinences = Incontinences?[i].split(comma) ?? [];
+      int index001 = incontinences.indexOf("001");
+      int index002 = incontinences.indexOf("002");
+      int index003 = incontinences.indexOf("003");
+      if(index001 >= 0 && index003 >= 0) incontinences[index001] = '';
+      if(index002 >= 0 && index003 >= 0) incontinences[index002] = '';
+      print(incontinences);
+      String incontinenceStr = defaultIncontinenceStr;
       for (String incon in incontinences) {
         if (incon == '000') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　尿　　便　）　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('無', LocaleKeys.text_circle.tr(namedArgs: {'text': '無'}));
         } else if (incon == '001') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　${LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'})}　　便　）　無');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('尿', LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'}));
         } else if (incon == '002') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　尿　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '便'})}　）　無');
-          totalYesUrineFecesNoPos += 1;
-        } else if (incon == '003') {
-          htmlInput = Utils.customReplace(htmlInput, '有（　尿　　便　）　無', 1 - totalYesUrineFecesNoPos, '有（　${LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'})}　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '便'})}　）　無');
-          totalYesUrineFecesNoPos += 1;
+          incontinenceStr = incontinenceStr.replaceFirst('便', LocaleKeys.text_circle.tr(namedArgs: {'text': '便'}));
+        }else if (incon == '003') {
+          incontinenceStr = incontinenceStr.replaceFirst('尿', LocaleKeys.text_circle.tr(namedArgs: {'text': '尿'}));
+          incontinenceStr = incontinenceStr.replaceFirst('便', LocaleKeys.text_circle.tr(namedArgs: {'text': '便'}));
         }
       }
+      if(incontinenceStr != defaultIncontinenceStr){
+        htmlInput = Utils.customReplace(htmlInput, defaultIncontinenceStr, i + 1 - totalYesUrineFecesNoPos, incontinenceStr);
+         totalYesUrineFecesNoPos += 1;
+      }
+
+
       //60
-      if (Vomitings?[i] == 0) {
-        htmlInput = Utils.customReplace(htmlInput, '有　　無', 1 - totalYesSpaceNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}　　無');
+      if (Vomitings?[i] == "0") {
+        htmlInput = Utils.customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos, '${LocaleKeys.text_circle.tr(namedArgs: {'text': '有'})}　　無');
         totalYesSpaceNoPos += 1;
-      } else if (Vomitings?[i] == 1) {
-        htmlInput = Utils.customReplace(htmlInput, '有　　無', 1 - totalYesSpaceNoPos, '有　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
+      } else if (Vomitings?[i] == "1") {
+        htmlInput = Utils.customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos, '有　　${LocaleKeys.text_circle.tr(namedArgs: {'text': '無'})}');
         totalYesSpaceNoPos += 1;
       }
       //61

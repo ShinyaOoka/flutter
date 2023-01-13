@@ -22,7 +22,7 @@ String getImageUrl(String path) => path;
 const String yyyyMMdd = 'yyyy/MM/dd';
 const String yyyy_MM_dd_ = 'yyyy年MM月dd日';
 const String HH_mm_ = 'HH時mm分';
-const String HH_space_mm = 'HH: mm';
+const String HH_space_mm = 'HH : mm';
 const String pdfFile = 'report.pdf';
 //css style
 const  String uncheckIcon = '<span class="square"></span>';
@@ -34,6 +34,8 @@ const checkedYes = '$checkIcon有';
 const uncheckNo = '$uncheckIcon無';
 const checkedNo = '$checkIcon無';
 const strColorWhite = '#FFFFFF';
+const overflow = ';overflow: hidden;';
+const overflowStyle = 'style=\'overflow: hidden\'';
 List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
 RegExp regexKana = RegExp(r'^([ァ-ン]|ー)+');
 RegExp allowPhoneNumber = RegExp("[\\+\\-0-9]");
