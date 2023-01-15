@@ -1,8 +1,15 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ak_azm_flutter/app/model/init_data.dart';
 import 'package:ak_azm_flutter/app/model/object_search.dart';
 import 'package:ak_azm_flutter/app/module/common/navigator_screen.dart';
+import 'package:ak_azm_flutter/app/module/database/column_name.dart';
+import 'package:ak_azm_flutter/app/module/database/data.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/custom_animation_loading.dart';
+import 'package:ak_azm_flutter/app/view/widget_utils/flutter_easyloading/src/easy_loading.dart';
+import 'package:ak_azm_flutter/main.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
@@ -168,6 +175,35 @@ class Utils {
       list.add(null);
     }
     return list;
+  }
+
+  static pushDataToDb() async {
+    InitData initData = InitData.fromJson(data);
+    await dbHelper.putDataToDB(tableMSTeamMember, initData.MSTeamMembers);
+    await dbHelper.putDataToDB(tableMSTeam, initData.MSTeams);
+    await dbHelper.putDataToDB(tableMSFireStation, initData.MSFireStations);
+    await dbHelper.putDataToDB(tableMSHospital, initData.MSHospitals);
+    await dbHelper.putDataToDB(tableMSClassification, initData.MSClassifications);
+    await dbHelper.putDataToDB(tableMSMessage, initData.MSMessages);
+  }
+
+  static configLoading() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.circle
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..contentPadding = EdgeInsets.zero
+      ..progressColor = Colors.white
+      ..backgroundColor = Colors.black26
+      ..indicatorColor = Colors.white
+      ..textColor = Colors.yellow
+      ..maskColor = Colors.black.withOpacity(0.3)
+      ..maskType = EasyLoadingMaskType.custom
+      ..userInteractions = false
+      ..dismissOnTap = false
+      ..customAnimation = CustomAnimation();
   }
 
 }
