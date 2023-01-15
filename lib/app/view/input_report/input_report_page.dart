@@ -46,11 +46,27 @@ class InputReportContent extends StatefulWidget {
 
 class InputReportState extends LifecycleState<InputReportContent> with SingleTickerProviderStateMixin {
   InputReportViewModel get inputReportViewModel => widget._inputReportViewModel;
-  late AnimationController _animationController;
   final List<Item> data = [];
 
   @override
   void initState() {
+    init();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant InputReportContent oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
     data.add(Item(headerValue: LocaleKeys.participation_information.tr()));
     data.add(Item(headerValue: LocaleKeys.victim_information.tr()));
     data.add(Item(headerValue: LocaleKeys.time_elapsed.tr()));
@@ -64,20 +80,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
     data.add(Item(headerValue: LocaleKeys.report_transport_information.tr()));
     data.add(Item(headerValue: LocaleKeys.report_reporter.tr()));
     data.add(Item(headerValue: LocaleKeys.report_remarks.tr()));
-
     inputReportViewModel.initData();
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      upperBound: 0.5,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
   }
 
   @override

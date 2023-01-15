@@ -29,23 +29,27 @@ class EditReportContent extends StatefulWidget {
 class EditReportState extends LifecycleState<EditReportContent>
     with SingleTickerProviderStateMixin {
   EditReportViewModel get editReportViewModel => widget._editReportViewModel;
-  late AnimationController _animationController;
 
   @override
   void initState() {
-    editReportViewModel.initData();
+    init();
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      upperBound: 0.5,
-    );
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
+  void didUpdateWidget(covariant EditReportContent oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
+    editReportViewModel.initData();
   }
 
   @override
