@@ -44,23 +44,27 @@ class PreviewReportContent extends StatefulWidget {
 class PreviewReportState extends LifecycleState<PreviewReportContent>
     with SingleTickerProviderStateMixin {
   PreviewReportViewModel get previewReportViewModel => widget._previewReportViewModel;
-  late AnimationController _animationController;
 
   @override
   void initState() {
-    previewReportViewModel.initData();
+    init();
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      upperBound: 0.5,
-    );
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
+  void didUpdateWidget(covariant PreviewReportContent oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
+    previewReportViewModel.initData();
   }
 
   @override

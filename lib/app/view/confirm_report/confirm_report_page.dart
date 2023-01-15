@@ -37,9 +37,7 @@ class ConfirmReportContent extends StatefulWidget {
 
 class ConfirmReportState extends LifecycleState<ConfirmReportContent>
     with SingleTickerProviderStateMixin {
-  ConfirmReportViewModel get confirmReportViewModel =>
-      widget._confirmReportViewModel;
-  late AnimationController _animationController;
+  ConfirmReportViewModel get confirmReportViewModel => widget._confirmReportViewModel;
 
   int? pages = 0;
   int? currentPage = 0;
@@ -51,19 +49,24 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
 
   @override
   void initState() {
-    confirmReportViewModel.initData();
+    init();
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      upperBound: 0.5,
-    );
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
+  void didUpdateWidget(covariant ConfirmReportContent oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
+    confirmReportViewModel.initData();
   }
 
   @override

@@ -32,23 +32,27 @@ class SendReportContent extends StatefulWidget {
 class SendReportState extends LifecycleState<SendReportContent>
     with SingleTickerProviderStateMixin {
   SendReportViewModel get sendReportViewModel => widget._sendReportViewModel;
-  late AnimationController _animationController;
 
   @override
   void initState() {
-    sendReportViewModel.initData();
+    init();
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-      upperBound: 0.5,
-    );
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
+  void didUpdateWidget(covariant SendReportContent oldWidget) {
+    init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
+    sendReportViewModel.initData();
   }
 
   @override
