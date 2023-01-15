@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ak_azm_flutter/app/module/common/extension.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/viewmodel/base_viewmodel.dart';
+import 'package:ak_azm_flutter/app/viewmodel/life_cycle_base.dart';
 import 'package:ak_azm_flutter/main.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,24 +38,30 @@ class ListReportContent extends StatefulWidget {
   State<ListReportContent> createState() => _ListReportContentState();
 }
 
-class _ListReportContentState extends State<ListReportContent>
-    with SingleTickerProviderStateMixin  {
+class _ListReportContentState extends LifecycleState<ListReportContent>
+    with SingleTickerProviderStateMixin {
   ListReportViewModel get listReportViewModel =>
       widget._listReportViewModel;
 
   @override
   void initState() {
-    initData();
+    init();
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant ListReportContent oldWidget) {
-    initData();
+    init();
     super.didUpdateWidget(oldWidget);
   }
 
-  void initData(){
+  @override
+  void onResume() {
+    init();
+    super.onResume();
+  }
+
+  void init(){
     listReportViewModel.scrollController.addListener(() {
       listReportViewModel.onScroll();
     });
