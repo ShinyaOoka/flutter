@@ -75,7 +75,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
     data.add(Item(headerValue: LocaleKeys.treatment.tr()));
     data.add(Item(headerValue: LocaleKeys.vital_signs_appearance_2.tr()));
     data.add(Item(headerValue: LocaleKeys.vital_signs_appearance_3.tr()));
-    data.add(Item(headerValue: LocaleKeys.reporting_information.tr()));
     data.add(Item(headerValue: LocaleKeys.delivery_information.tr()));
     data.add(Item(headerValue: LocaleKeys.report_transport_information.tr()));
     data.add(Item(headerValue: LocaleKeys.report_reporter.tr()));
@@ -178,7 +177,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
         int indexLayout = data.indexOf(item) + 1;
         return ExpansionPanel(
           canTapOnHeader: true,
-          backgroundColor: indexLayout == 9 || indexLayout == 10 || indexLayout == 11 || indexLayout == 12 || indexLayout == 13 ? kColorDEE9F6 : null,
+          backgroundColor: indexLayout == 9 || indexLayout == 10 || indexLayout == 11 || indexLayout == 12 ? kColorDEE9F6 : null,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
               title: Text('$indexLayout. ${item.headerValue}'),
@@ -229,8 +228,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       case 12:
         return buildLayout12();
 
-      case 13:
-        return buildLayout13();
       default:
         return Container();
     }
@@ -2153,44 +2150,6 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //no.99
-          OutlineTextFormField(
-            isAlwaysShowLable: true,
-            keyboardType: TextInputType.number,
-            maxLength: 8,
-            counterStyle: counterStyle,
-            textColor: kColor4472C4,
-            colorBorder: Colors.black26,
-            colorFocusBorder: kColor4472C4,
-            labelText: LocaleKeys.grand_total.tr(),
-            onChanged: (value) => inputReportViewModel.onChangeGrandTotal(value),
-          ),
-          spaceWidgetColor(),
-          //no.100
-          OutlineTextFormField(
-            keyboardType: TextInputType.number,
-            isAlwaysShowLable: true,
-            maxLength: 8,
-            counterStyle: counterStyle,
-            textColor: kColor4472C4,
-            colorBorder: Colors.black26,
-            colorFocusBorder: kColor4472C4,
-            labelText: LocaleKeys.corps.tr(),
-            onChanged: (value) => inputReportViewModel.onChangeCorps(value),
-          ),
-          spaceWidgetColor(),
-        ],
-      ),
-    );
-  }
-
-  Widget buildLayout10() {
-    return Container(
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
           //no.102
           OutlineTextFormField(
             isAlwaysShowLable: true,
@@ -2250,7 +2209,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
     );
   }
 
-  Widget buildLayout11() {
+  Widget buildLayout10() {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Column(
@@ -2317,7 +2276,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
     );
   }
 
-  Widget buildLayout12() {
+  Widget buildLayout11() {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16),
       child: Column(
@@ -2350,7 +2309,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
     );
   }
 
-  Widget buildLayout13() {
+  Widget buildLayout12() {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, top: 10),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
