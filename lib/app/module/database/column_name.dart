@@ -134,8 +134,6 @@ const String CREATE_TABLE_DTReport = '''CREATE TABLE $tableDTReport (
     $UpdateDate DATETIME,
     $ReporterAffiliation VARCHAR,
     $ReportingClass VARCHAR,
-    $NumberOfDispatches INTEGER(8),
-    $NumberOfDispatchesPerTeam INTEGER(8),
     $NameOfReporter VARCHAR(20),
     $AffiliationOfReporter VARCHAR(20),
     $PositionOfReporter VARCHAR(20),
@@ -315,9 +313,6 @@ const String UpdateMachine = 'UpdateMachine';
 const String UpdateDate = 'UpdateDate';
 const String ReporterAffiliation = 'ReporterAffiliation';
 const String ReportingClass = 'ReportingClass';
-
-const String NumberOfDispatches = "NumberOfDispatches";
-const String NumberOfDispatchesPerTeam = "NumberOfDispatchesPerTeam";
 const String PositionOfReporter = 'PositionOfReporter';
 const String NameOfReporter = "NameOfReporter";
 const String SummaryOfOccurrence = "SummaryOfOccurrence";

@@ -110,8 +110,6 @@ dynamic data = {
       "Vomiting": "1, 1, 1",
       "WithLifeSavers": 1,
       "Witnesses": 0,
-      "NumberOfDispatches": null,
-      "NumberOfDispatchesPerTeam": null,
       "NameOfReporter": null,
       "AffiliationOfReporter": null,
       "PositionOfReporter": null,

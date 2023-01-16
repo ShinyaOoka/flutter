@@ -906,12 +906,10 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 9
   onChangeGrandTotal(String? itemSelected) {
-    dtReport.NumberOfDispatches = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
   onChangeCorps(String? itemSelected) {
-    dtReport.NumberOfDispatchesPerTeam = int.tryParse(itemSelected ?? '', radix: null);
     notifyListeners();
   }
 
