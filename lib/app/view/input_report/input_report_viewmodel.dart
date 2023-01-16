@@ -128,6 +128,12 @@ class InputReportViewModel extends BaseViewModel {
   String? transportationMedicalInstitution = "";
   String? forwardingMedicalInstitution = "";
 
+  //layout 12
+  String? reportersName = "";
+  String? dtReportReportersName = "";
+  String? reportersAffiliation = "";
+  String? reportingClass = "";
+
   Future<bool> back() async {
     _navigationService.back();
     return true;
@@ -905,15 +911,6 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   //layout 9
-  onChangeGrandTotal(String? itemSelected) {
-    notifyListeners();
-  }
-
-  onChangeCorps(String? itemSelected) {
-    notifyListeners();
-  }
-
-  //layout 10
   onChangePerceiver(String? itemSelected) {
     dtReport.PerceiverName = itemSelected ?? '';
     notifyListeners();
@@ -934,7 +931,7 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  //layout 11
+  //layout 10
   onSelectTransportationMedicalInstitution(String? itemSelected) {
     transportationMedicalInstitution = itemSelected ?? '';
     dtReport.MedicalTransportFacility = msHospitals.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)?.Name;
@@ -970,12 +967,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
 
-  String? reportersName = "";
-  String? dtReportReportersName = "";
-  String? reportersAffiliation = "";
-  String? reportingClass = "";
-
-  //layout 12
+  //layout 11
   onSelectReportersName(String? itemSelected) {
     reportersName = itemSelected ?? '';
     MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
@@ -986,7 +978,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
 
-  //layout 13
+  //layout 12
   onChangeOverviewOfTheOutbreak(String? itemSelected) {
     dtReport.SummaryOfOccurrence = itemSelected ?? '';
     notifyListeners();
