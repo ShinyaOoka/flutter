@@ -142,8 +142,6 @@ class DTReport {
   String? UpdateDate;
   String? ReporterAffiliation;
   String? ReportingClass;
-  int? NumberOfDispatches;
-  int? NumberOfDispatchesPerTeam;
   String? NameOfReporter;
   String? AffiliationOfReporter;
   String? PositionOfReporter;
@@ -263,8 +261,6 @@ class DTReport {
     this.UpdateDate,
     this.ReporterAffiliation,
     this.ReportingClass,
-    this.NumberOfDispatches,
-    this.NumberOfDispatchesPerTeam,
     this.NameOfReporter,
     this.AffiliationOfReporter,
     this.PositionOfReporter,
