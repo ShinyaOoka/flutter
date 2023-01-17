@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path/path.dart';
@@ -61,6 +62,9 @@ class PreviewReportViewModel extends BaseViewModel {
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final targetPath = appDocDir.path;
+    final image = await rootBundle.load('assets/report/test.png');
+    final imageData = base64.encode(image.buffer.asUint8List());
+    fileHtmlContents = fileHtmlContents.replaceAll('IMAGE_PLACEHOLDER', imageData);
     final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, pdfFile);
     generatedPdfFilePath = generatedPdfFile.path;
     return generatedPdfFilePath ?? '';
