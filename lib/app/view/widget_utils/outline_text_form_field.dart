@@ -92,7 +92,6 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
     return Stack(
       children: [
         Container(
-            height: 54,
             alignment: Alignment.center,
             color: widget.colorBackground ?? Colors.transparent,
             child: TextFormField(
@@ -147,10 +146,6 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                             ),
                           )
                         : null),
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: size_14_h,
-                  horizontal: size_10_w,
-                ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: widget.borderRadius ??
                       const BorderRadius.all(Radius.circular(4.0)),
