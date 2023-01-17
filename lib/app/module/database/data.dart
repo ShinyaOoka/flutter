@@ -326,8 +326,8 @@ dynamic data = {
     {"ClassificationCD": "014", "ClassificationSubCD": "004", "Value": "M5", "Description": "GCS-M"},
     {"ClassificationCD": "014", "ClassificationSubCD": "005", "Value": "M6", "Description": "GCS-M"},
     {"ClassificationCD": "015", "ClassificationSubCD": "000", "Value": "M6", "Description": "観察時間説明"},
-    {"ClassificationCD": "015", "ClassificationSubCD": "001", "Value": "M6", "Description": "観察時間説明"},
-    {"ClassificationCD": "015", "ClassificationSubCD": "002", "Value": "M6", "Description": "観察時間説明"},
+    {"ClassificationCD": "015", "ClassificationSubCD": "001", "Value": "M6 ", "Description": "観察時間説明"},
+    {"ClassificationCD": "015", "ClassificationSubCD": "002", "Value": "M6   ", "Description": "観察時間説明"},
   ],
   "MSMessages": [
     {"CD": "001", "MessageType": "Warning", "MessageContent": "入力内容を保存せずに戻ります。よろしいですか？", "Button": "はい,」「キャンセル", "Purpose": "未登録終了確認"},

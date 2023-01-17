@@ -60,18 +60,9 @@ class PreviewReportViewModel extends BaseViewModel {
     fileHtmlContents = await fetchDataToReportForm(dtReport, fileHtmlContents);
     //get pdf file
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    var savedPath = join(appDocDir.path, pdfFile);
-    /*var pdfPath = await WebcontentConverter.contentToPDF(
-      content: fileHtmlContents,
-      savedPath: savedPath,
-      format: PaperFormat.a4,
-      margins: PdfMargins.px(top: 35, bottom: 35, right: 35, left: 35),
-    );*/
     final targetPath = appDocDir.path;
-    final targetFileName = "example-pdf";
-    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, targetFileName);
+    final generatedPdfFile = await FlutterHtmlToPdf.convertFromHtmlContent(fileHtmlContents, targetPath, pdfFile);
     generatedPdfFilePath = generatedPdfFile.path;
-
     return generatedPdfFilePath ?? '';
   }
 
@@ -118,9 +109,9 @@ class PreviewReportViewModel extends BaseViewModel {
     htmlInput = htmlInput.replaceFirst('>$Other', overflowStyle + '>$Other');
 
     //fill yyyy mm dd now
-    var y = DateFormat.y().format(DateTime.now());
-    var m = DateFormat.M().format(DateTime.now());
-    var d = DateFormat.d().format(DateTime.now());
+    var y = DateFormat.y().format(DateTime.now()).replaceFirst('年', '');
+    var m = DateFormat.M().format(DateTime.now()).replaceFirst('月', '');
+    var d = DateFormat.d().format(DateTime.now()).replaceFirst('日', '');
     //1
     htmlInput = htmlInput.replaceFirst('YYYY', y).replaceFirst('MM', m).replaceFirst('DD', d);
     //2

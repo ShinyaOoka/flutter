@@ -9,6 +9,7 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
+import 'package:flutter_flavorizr/parser/parser.dart';
 import 'package:get/utils.dart';
 
 import '../../../main.dart';
@@ -33,7 +34,6 @@ class InputReportViewModel extends BaseViewModel {
   List<MSMessage> msMessages = [];
   List<MSFireStation> msFireStations = [];
 
-  List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
@@ -190,7 +190,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     ambulanceName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.TeamCD) == true);
     dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
     if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
@@ -204,12 +204,10 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectCaptainName(String? itemSelected) {
     captainName = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.TeamMemberCD) == true);
     dtReport.TeamCaptainName = msTeamMember?.Name;
     dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
-    if (msTeamMember?.LifesaverQualification != null) {
-      dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
-    }
+    emtQualification = yesNothings[msTeamMember?.LifesaverQualification];
     notifyListeners();
   }
 
@@ -535,7 +533,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature1(String? itemSelected) {
-    this.bodyTemperature1 = itemSelected ?? '';
+    this.bodyTemperature1 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
@@ -765,7 +763,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature2(String? itemSelected) {
-    this.bodyTemperature2 = itemSelected ?? '';
+    this.bodyTemperature2 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
@@ -876,7 +874,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature3(String? itemSelected) {
-    this.bodyTemperature3 = itemSelected ?? '';
+    this.bodyTemperature3 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
