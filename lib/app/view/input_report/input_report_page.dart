@@ -697,7 +697,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_28_w),
+          spaceWidgetColor(),
           //no.24
           flexibleLayout([
             SizedBox(
@@ -3458,53 +3458,23 @@ class InputReportState extends LifecycleState<InputReportContent>
       children: [
         Container(
             padding: const EdgeInsets.only(top: 10),
-            child: SearchChoices.single(
-              autofocus: false,
-              closeButton: null,
-              fieldDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.black38,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              displayClearIcon: false,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                size: 30,
-                color: Colors.black38,
-              ),
-              items: list.map<DropdownMenuItem>((string) {
-                return (DropdownMenuItem(
-                  value: string,
-                  child: Text(
-                    string,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: text_16, color: kColor4472C4),
-                  ),
-                ));
-              }).toList(),
-              onTap: () => Utils.removeFocus(context),
-              value: valueSelect,
-              hint: '',
-              searchHint: null,
-              onChanged: (value) {
-                setState(() {
-                  valueSelect = value;
-                });
-                onSelected(valueSelect);
-              },
-              dialogBox: false,
-              isExpanded: true,
-              menuConstraints:
-                  BoxConstraints.tight(Size.fromHeight(height ?? 300)),
-            )),
+            child: DropdownSearch<String>(
+                popupProps: PopupProps.menu(showSearchBox: true),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.all(16))),
+                items: list,
+                onChanged: (value) {
+                  setState(() {
+                    valueSelect = value;
+                  });
+                  onSelected(valueSelect);
+                })),
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3522,55 +3492,30 @@ class InputReportState extends LifecycleState<InputReportContent>
       children: [
         Container(
             padding: const EdgeInsets.only(top: 10),
-            child: SearchChoices.single(
-              autofocus: false,
-              closeButton: null,
-              fieldDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.black38,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              displayClearIcon: false,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                size: 30,
-                color: Colors.black38,
-              ),
-              items: list.map<DropdownMenuItem<String>>((e) {
-                return (DropdownMenuItem(
-                  value: '${e.CD} ${e.Name}',
-                  child: Text(
-                    e.Name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: text_16, color: kColor4472C4),
-                  ),
-                ));
-              }).toList(),
-              onTap: () => Utils.removeFocus(context),
-              value: valueSelect,
-              hint: '',
-              searchHint: null,
-              onChanged: (value) {
-                setState(() {
-                  valueSelect = value;
-                });
-                onSelected(valueSelect);
-              },
-              dialogBox: false,
-              isExpanded: true,
-              menuConstraints:
-                  BoxConstraints.tight(Size.fromHeight(height ?? 300)),
-            )),
+            child: DropdownSearch<ObjectSearch>(
+                popupProps: PopupProps.menu(showSearchBox: true),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.all(16))),
+                items: list,
+                itemAsString: ((item) => item.Name),
+                filterFn: ((item, filter) =>
+                    item.Name.toString().contains(filter)),
+                onChanged: (e) {
+                  setState(() {
+                    valueSelect = '${e?.CD} ${e?.Name}';
+                  });
+                  onSelected(valueSelect);
+                })),
         Container(
           child: Text(
             label,
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: EdgeInsets.only(left: 10),
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
