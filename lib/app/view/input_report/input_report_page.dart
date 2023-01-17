@@ -834,144 +834,157 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.awareness_time.tr(),
+                        value.dtReport.SenseTime, value.onConfirmAwarenessTime);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.31
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.command_time.tr(),
+                        value.dtReport.CommandTime, value.onConfirmCommandTime);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            spaceWidgetColor(),
+            //no.32
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.work_time.tr(),
+                        value.dtReport.AttendanceTime, value.onConfirmWorkTime);
+                  }),
+            ),
+          ]),
           //no.30
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.awareness_time.tr(),
-                  value.dtReport.SenseTime, value.onConfirmAwarenessTime);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.31
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.command_time.tr(),
-                  value.dtReport.CommandTime, value.onConfirmCommandTime);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.32
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.work_time.tr(),
-                  value.dtReport.AttendanceTime, value.onConfirmWorkTime);
-            }),
-          ),
+
           spaceWidgetColor(),
           //no.33
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.arrival_on_site.tr(),
-                  value.dtReport.OnsiteArrivalTime,
-                  value.onConfirmArrivalOnSite);
-            }),
-          ),
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.arrival_on_site.tr(),
+                        value.dtReport.OnsiteArrivalTime,
+                        value.onConfirmArrivalOnSite);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.34
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.contact_time.tr(),
+                        value.dtReport.ContactTime, value.onConfirmContactTime);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.35
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.in_car_accommodation.tr(),
+                        value.dtReport.InvehicleTime,
+                        value.onConfirmInCarAccommodation);
+                  }),
+            ),
+          ]),
+
           spaceWidgetColor(),
-          //no.34
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.contact_time.tr(),
-                  value.dtReport.ContactTime, value.onConfirmContactTime);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.35
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.in_car_accommodation.tr(),
-                  value.dtReport.InvehicleTime,
-                  value.onConfirmInCarAccommodation);
-            }),
-          ),
-          spaceWidgetColor(),
+
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.start_transportation.tr(),
+                        value.dtReport.StartOfTransportTime,
+                        value.onConfirmStartTransportation);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.37
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.arrival_at_hospital.tr(),
+                        value.dtReport.HospitalArrivalTime,
+                        value.onConfirmArrivalAtHospital);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.38
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.family_contact.tr(),
+                        value.dtReport.FamilyContactTime,
+                        value.onConfirmFamilyContact);
+                  }),
+            ),
+          ]),
           //no.36
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.start_transportation.tr(),
-                  value.dtReport.StartOfTransportTime,
-                  value.onConfirmStartTransportation);
-            }),
-          ),
+
           spaceWidgetColor(),
-          //no.37
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.arrival_at_hospital.tr(),
-                  value.dtReport.HospitalArrivalTime,
-                  value.onConfirmArrivalAtHospital);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.38
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.family_contact.tr(),
-                  value.dtReport.FamilyContactTime,
-                  value.onConfirmFamilyContact);
-            }),
-          ),
-          spaceWidgetColor(),
+
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.police_contact.tr(),
+                        value.dtReport.PoliceContactTime,
+                        value.onConfirmPoliceContact);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.40
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(
+                        LocaleKeys.report_cash_on_delivery_time.tr(),
+                        value.dtReport.TimeOfArrival,
+                        value.onConfirmReportCashOnDeliveryTime,
+                        backgroundLableColor: kColorDEE9F6);
+                  }),
+            ),
+            const SizedBox(width: 16, height: 16,),
+            //no.41
+            SizedBox(
+              width: getWidthWidget(3),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.report_return_time.tr(),
+                        value.dtReport.ReturnTime, value.onConfirmReportReturnTime,
+                        backgroundLableColor: kColorDEE9F6);
+                  }),
+            ),
+          ]),
           //no.39
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.police_contact.tr(),
-                  value.dtReport.PoliceContactTime,
-                  value.onConfirmPoliceContact);
-            }),
-          ),
+
           spaceWidgetColor(),
-          //no.40
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.report_cash_on_delivery_time.tr(),
-                  value.dtReport.TimeOfArrival,
-                  value.onConfirmReportCashOnDeliveryTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
-          //no.41
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.report_return_time.tr(),
-                  value.dtReport.ReturnTime, value.onConfirmReportReturnTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
         ]);
   }
 
