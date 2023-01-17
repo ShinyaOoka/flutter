@@ -179,7 +179,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                               ),
                             ),
                           ),
-                          onTap: () => null,
+                          onTap: () => previewReportViewModel.generatedPdfFilePath.isEmpty ? null : previewReportViewModel.openSystemPrintDialog(),
                         ),
                       ),
                     ],
