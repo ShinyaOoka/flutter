@@ -1121,7 +1121,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence1);
+          return buildDropDown(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence1);
         }),
       ),
       spaceWidgetColor(),
@@ -1751,7 +1751,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence2);
+          return buildDropDown(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence2);
         }),
       ),
       spaceWidgetColor(),
@@ -2094,7 +2094,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildCheckbox(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence3);
+          return buildDropDown(LocaleKeys.incontinence.tr(), value.msClassification006s.map((e) => e.Value.toString()).toList(), value.onSelectIncontinence3);
         }),
       ),
       spaceWidgetColor(),

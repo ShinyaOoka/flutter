@@ -547,8 +547,8 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onSelectIncontinence1(List<String> checkeds) {
-    if(checkeds.isNotEmpty) this.incontinence1 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
+  onSelectIncontinence1(String? itemSelected) {
+    if (itemSelected != null) incontinence1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -777,8 +777,8 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onSelectIncontinence2(List<String> checkeds) {
-    if(checkeds.isNotEmpty) this.incontinence2 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
+  onSelectIncontinence2(String? itemSelected) {
+    if (itemSelected != null) incontinence2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -888,8 +888,8 @@ class InputReportViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  onSelectIncontinence3(List<String> checkeds) {
-    if(checkeds.isNotEmpty) this.incontinence3 = checkeds.map((stringChecked) => msClassification006s.firstWhere((msClassification) => msClassification.Value == stringChecked).ClassificationSubCD.toString()).toList().join(comma);
+  onSelectIncontinence3(String? itemSelected) {
+    if (itemSelected != null) incontinence2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
     notifyListeners();
   }
 
