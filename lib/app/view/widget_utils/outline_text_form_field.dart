@@ -27,6 +27,7 @@ class OutlineTextFormField extends StatefulWidget {
   final Color? colorFocusBorder;
   final Color? colorDisableBorder;
   final Color? colorBackground;
+  final Color? labelBackgroundColor;
   final Widget? widgetSuffix;
   final BorderRadius? borderRadius;
   final int? maxLength;
@@ -63,7 +64,8 @@ class OutlineTextFormField extends StatefulWidget {
     this.counterWidget,
     this.counterStyle,
     this.isAlwaysShowLable = false,
-    this.labelText
+    this.labelText,
+    this.labelBackgroundColor
   }) : super(key: key);
 
   @override
@@ -104,7 +106,8 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                 counter: widget.counterWidget,
                 counterStyle: widget.counterStyle,
                 hintText: widget.hintText,
-                labelStyle: TextStyle(color: Colors.black.withOpacity(0.6)),
+                labelStyle: TextStyle(color: Colors.black.withOpacity(0.6),
+                    backgroundColor: widget.labelBackgroundColor?? widget.labelBackgroundColor),
                 labelText: widget.labelText,
                 border: OutlineInputBorder(
                   borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(4.0)),
