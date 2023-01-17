@@ -993,56 +993,58 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return buildDropDown(
+                      LocaleKeys.accident_type_input.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '002')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectAccidentTypeInput,
+                    );
+                  }),
+            ),
+            const SizedBox(width: 16, height:  16,),
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Consumer<InputReportViewModel>(
+                        builder: (context, value, child) {
+                          return datePicker(
+                              LocaleKeys.accrual_date.tr(),
+                              value.dtReport.DateOfOccurrence,
+                              value.onConfirmAccrualDate);
+                        }),
+                    flex: 1,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Consumer<InputReportViewModel>(
+                        builder: (context, value, child) {
+                          return timePicker(
+                              LocaleKeys.occurrence_time.tr(),
+                              value.dtReport.TimeOfOccurrence,
+                              value.onConfirmOccurrenceTime);
+                        }),
+                    flex: 1,
+                  )
+                ],
+              ),
+            ),
+
+          ]),
           //no.43
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.accident_type_input.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '002')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectAccidentTypeInput,
-              );
-            }),
-          ),
           spaceWidgetColor(),
           //no.44, 45
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return datePicker(
-                        LocaleKeys.accrual_date.tr(),
-                        value.dtReport.DateOfOccurrence,
-                        value.onConfirmAccrualDate);
-                  }),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return timePicker(
-                        LocaleKeys.occurrence_time.tr(),
-                        value.dtReport.TimeOfOccurrence,
-                        value.onConfirmOccurrenceTime);
-                  }),
-                  flex: 1,
-                )
-              ],
-            ),
-          ),
-          spaceWidgetColor(height: size_22_w),
-          //no.46
           Container(
             padding: EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
@@ -1076,61 +1078,67 @@ class InputReportState extends LifecycleState<InputReportContent>
                   .onChangeSummaryOfAccidentAndChiefComplaint(value),
             ),
           ),
-          spaceWidgetColor(height: size_6_w),
-          //no.48
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.adl.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '003')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectAdl,
-              );
-            }),
-          ),
           spaceWidgetColor(),
-          //no.49
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.traffic_accident_category.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '004')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectTrafficAccidentCategory,
-              );
-            }),
-          ),
+          //no.48
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return buildDropDown(
+                      LocaleKeys.adl.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '003')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectAdl,
+                    );
+                  }),
+            ),
+            const SizedBox(width: 16, height:  16,),
+            //no.49
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return buildDropDown(
+                      LocaleKeys.traffic_accident_category.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '004')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectTrafficAccidentCategory,
+                    );
+                  }),
+            ),
+          ]),
+
           spaceWidgetColor(),
           //no.50
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                  LocaleKeys.witness.tr(), yesNothings, value.onSelectWitness);
-            }),
-          ),
+          flexibleLayout([
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return buildDropDown(
+                        LocaleKeys.witness.tr(), yesNothings, value.onSelectWitness);
+                  }),
+            ),
+            const SizedBox(width: 16, height:  16,),
+            //no.51
+            SizedBox(
+              width: getWidthWidget(2),
+              child: Consumer<InputReportViewModel>(
+                  builder: (context, value, child) {
+                    return timePicker(LocaleKeys.bystander_cpr.tr(),
+                        value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
+                  }),
+            ),
+          ]),
+
           spaceWidgetColor(),
-          //no.51
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.bystander_cpr.tr(),
-                  value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
-            }),
-          ),
-          spaceWidgetColor(height: size_22_w),
           //no.52
           Container(
             padding: EdgeInsets.only(left: 16, right: 16),
