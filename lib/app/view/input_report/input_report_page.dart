@@ -3342,7 +3342,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Text(text ?? '',
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                          color: kColor4472C4, fontWeight: FontWeight.normal)),
+                          color: kColor4472C4,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20)),
                 ),
               ],
             ),
@@ -3505,45 +3507,6 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  Widget buildDropDownSearch(String label, List<String> list,
-      String? valueSelect, Function(String? itemSelected) onSelected,
-      {Color? backgroundTextLabel, double? height}) {
-    return Stack(
-      children: [
-        Container(
-            padding: const EdgeInsets.only(top: 10),
-            child: DropdownSearch<String>(
-                popupProps: const PopupProps.menu(
-                    showSearchBox: true,
-                    searchFieldProps: TextFieldProps(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder()))),
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                    baseStyle: TextStyle(color: kColor4472C4),
-                    dropdownSearchDecoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.all(16))),
-                items: list,
-                onChanged: (value) {
-                  setState(() {
-                    valueSelect = value;
-                  });
-                  onSelected(valueSelect);
-                })),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-          ),
-          color: backgroundTextLabel ?? Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-        ),
-      ],
-    );
-  }
-
   Widget buildDropDownSearchObject(String label, List<ObjectSearch> list,
       String? valueSelect, Function(String? itemSelected) onSelected,
       {Color? backgroundTextLabel, double? height}) {
@@ -3559,11 +3522,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.search),
                             border: OutlineInputBorder()))),
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                    baseStyle: TextStyle(color: kColor4472C4),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                    baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
                     dropdownSearchDecoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(16),
+                      contentPadding: valueSelect == null
+                          ? EdgeInsets.all(16)
+                          : EdgeInsets.all(12),
                     )),
                 items: list,
                 itemAsString: ((item) => item.Name),
