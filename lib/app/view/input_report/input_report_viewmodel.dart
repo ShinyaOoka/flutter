@@ -411,7 +411,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onConfirmAccrualDate(DateTime date) {
     dtReport.DateOfOccurrence = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
-    int? age = Utils.calculateAge(date, Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    int? age = Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_), Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
     dtReport.SickInjuredPersonAge = age == null || age == 0 ? null : age;
     notifyListeners();
   }
