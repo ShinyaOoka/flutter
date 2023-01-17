@@ -83,11 +83,9 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
   @override
   Widget build(BuildContext context) {
     final hintTextStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
-        fontSize: text_16,
         fontWeight: FontWeight.normal,
         color: Colors.black.withOpacity(0.6));
-    final textStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
-          fontSize: text_16,
+    final textStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.normal,
         );
     return Stack(
@@ -122,7 +120,6 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                   borderSide:
                       BorderSide(color: widget.colorBorder ?? kColorCED4DA),
                 ),
-                hintStyle: hintTextStyle,
                 isDense: true,
                 suffixIcon: widget.widgetSuffix ??
                     (widget.obscureText == true
@@ -154,7 +151,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
               ),
               keyboardType: widget.keyboardType,
               obscureText: widget.obscureText ? isShowPassword : false,
-              style: widget.textColor != null ? textStyle?.copyWith(color: widget.textColor) : textStyle,
+              style: TextStyle(color: widget.textColor),
               enabled: widget.enabled,
               controller: widget.controller,
               textCapitalization: TextCapitalization.sentences,
