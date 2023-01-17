@@ -255,7 +255,8 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Container(
       child: useMobileLayout()
           ? Column(children: children)
-          : Row(children: children),
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start, children: children),
     );
   }
 
@@ -1896,17 +1897,20 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.92
             SizedBox(
               width: getWidthWidget(2),
-              child: OutlineTextFormField(
-                isAlwaysShowLable: true,
-                keyboardType: TextInputType.text,
-                maxLength: 10,
-                counterStyle: counterStyle,
-                textColor: kColor4472C4,
-                colorBorder: Colors.black26,
-                colorFocusBorder: kColor4472C4,
-                labelText: LocaleKeys.puncture_site_1.tr(),
-                onChanged: (value) =>
-                    inputReportViewModel.onChangePunctureSite1(value),
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                child: OutlineTextFormField(
+                  isAlwaysShowLable: true,
+                  keyboardType: TextInputType.text,
+                  maxLength: 10,
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.puncture_site_1.tr(),
+                  onChanged: (value) =>
+                      inputReportViewModel.onChangePunctureSite1(value),
+                ),
               ),
             ),
           ]),
@@ -1961,17 +1965,20 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.95
             SizedBox(
               width: getWidthWidget(2),
-              child: OutlineTextFormField(
-                isAlwaysShowLable: true,
-                keyboardType: TextInputType.text,
-                maxLength: 10,
-                counterStyle: counterStyle,
-                textColor: kColor4472C4,
-                colorBorder: Colors.black26,
-                colorFocusBorder: kColor4472C4,
-                labelText: LocaleKeys.puncture_site_2.tr(),
-                onChanged: (value) =>
-                    inputReportViewModel.onChangePunctureSite2(value),
+              child: Container(
+                padding: EdgeInsets.only(top: 10),
+                child: OutlineTextFormField(
+                  isAlwaysShowLable: true,
+                  keyboardType: TextInputType.text,
+                  maxLength: 10,
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.puncture_site_2.tr(),
+                  onChanged: (value) =>
+                      inputReportViewModel.onChangePunctureSite2(value),
+                ),
               ),
             ),
 
@@ -2375,7 +2382,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           //no.72
           flexibleLayout([
             Container(
@@ -2773,7 +2780,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   //no.68
                   flexibleLayoutWithoutPadding([
                     Container(
-                      padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.only(top: 6),
                       width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
@@ -2789,13 +2796,15 @@ class InputReportState extends LifecycleState<InputReportContent>
                     ),
                     SizedBox(
                       width: getWidthWidget(4),
-                      child: Consumer<InputReportViewModel>(
-                          builder: (context, value, child) {
-                        return buildDropDown(
-                            LocaleKeys.light_reflection_left.tr(),
-                            yesNothings,
-                            value.onSelectLightReflectionLeft3);
-                      }),
+                      child: Container(
+                          padding: EdgeInsets.only(top: 6),
+                          child: Consumer<InputReportViewModel>(
+                              builder: (context, value, child) {
+                            return buildDropDown(
+                                LocaleKeys.light_reflection_left.tr(),
+                                yesNothings,
+                                value.onSelectLightReflectionLeft3);
+                          })),
                     ),
                   ])
                 ],
@@ -2845,7 +2854,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           //no.72
           flexibleLayout([
             Container(
@@ -3474,7 +3483,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       item,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: text_16, color: kColor4472C4),
+                      style: TextStyle(color: kColor4472C4),
                     ),
                   ),
                 )
@@ -3505,6 +3514,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: DropdownSearch<String>(
                 popupProps: PopupProps.menu(showSearchBox: true),
                 dropdownDecoratorProps: DropDownDecoratorProps(
+                    baseStyle: TextStyle(color: kColor4472C4),
                     dropdownSearchDecoration: InputDecoration(
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.all(16))),
@@ -3539,9 +3549,11 @@ class InputReportState extends LifecycleState<InputReportContent>
             child: DropdownSearch<ObjectSearch>(
                 popupProps: PopupProps.menu(showSearchBox: true),
                 dropdownDecoratorProps: DropDownDecoratorProps(
+                    baseStyle: TextStyle(color: kColor4472C4),
                     dropdownSearchDecoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.all(16))),
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(16),
+                    )),
                 items: list,
                 itemAsString: ((item) => item.Name),
                 filterFn: ((item, filter) =>
