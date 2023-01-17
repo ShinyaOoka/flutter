@@ -36,7 +36,7 @@ const checkedNo = '$checkIcon無';
 const strColorWhite = '#FFFFFF';
 const overflow = ';overflow: hidden;';
 const overflowStyle = 'style=\'overflow: hidden\'';
-List<String> yesNothings = [LocaleKeys.yes_dropdown.tr(), LocaleKeys.nothing.tr()];
+List<String> yesNothings = [LocaleKeys.nothing.tr(), LocaleKeys.yes_dropdown.tr()];
 RegExp regexKana = RegExp(r'^([ァ-ン]|ー)+');
 RegExp allowPhoneNumber = RegExp("[\\+\\-0-9]");
 
