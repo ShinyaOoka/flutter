@@ -9,6 +9,7 @@ import 'package:ak_azm_flutter/app/module/common/toast_util.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/custom/checkbox_group.dart';
 import 'package:ak_azm_flutter/generated/locale_keys.g.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -3109,48 +3110,15 @@ class InputReportState extends LifecycleState<InputReportContent>
       children: [
         Container(
             padding: const EdgeInsets.only(top: 10),
-            child: SearchChoices.single(
-              autofocus: false,
-              closeButton: null,
-              fieldDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.black38,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              displayClearIcon: false,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                size: 30,
-                color: Colors.black38,
-              ),
-              items: list.map<DropdownMenuItem>((string) {
-                return (DropdownMenuItem(
-                  value: string,
-                  child: Text(
-                    string,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: text_16, color: kColor4472C4),
-                  ),
-                ));
-              }).toList(),
-              onTap: () => Utils.removeFocus(context),
-              value: valueSelect,
-              hint: '',
-              searchHint: null,
-              onChanged: (value) {
-                setState(() {
-                  valueSelect = value;
-                });
-                onSelected(valueSelect);
-              },
-              dialogBox: false,
-              isExpanded: true,
-              menuConstraints:
-                  BoxConstraints.tight(Size.fromHeight(height ?? 300)),
-            )),
+            child: DropdownSearch<String>(
+                popupProps: PopupProps.menu(showSearchBox: true),
+                items: list,
+                onChanged: (value) {
+                  setState(() {
+                    valueSelect = value;
+                  });
+                  onSelected(valueSelect);
+                })),
         Container(
           child: Text(
             label,
@@ -3172,48 +3140,18 @@ class InputReportState extends LifecycleState<InputReportContent>
       children: [
         Container(
             padding: const EdgeInsets.only(top: 10),
-            child: SearchChoices.single(
-              autofocus: false,
-              closeButton: null,
-              fieldDecoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Colors.black38,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              displayClearIcon: false,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                size: 30,
-                color: Colors.black38,
-              ),
-              items: list.map<DropdownMenuItem<String>>((e) {
-                return (DropdownMenuItem(
-                  value: '${e.CD} ${e.Name}',
-                  child: Text(
-                    e.Name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: text_16, color: kColor4472C4),
-                  ),
-                ));
-              }).toList(),
-              onTap: () => Utils.removeFocus(context),
-              value: valueSelect,
-              hint: '',
-              searchHint: null,
-              onChanged: (value) {
-                setState(() {
-                  valueSelect = value;
-                });
-                onSelected(valueSelect);
-              },
-              dialogBox: false,
-              isExpanded: true,
-              menuConstraints:
-                  BoxConstraints.tight(Size.fromHeight(height ?? 300)),
-            )),
+            child: DropdownSearch<ObjectSearch>(
+                popupProps: PopupProps.menu(showSearchBox: true),
+                items: list,
+                itemAsString: ((item) => item.Name),
+                filterFn: ((item, filter) =>
+                    item.Name.toString().contains(filter)),
+                onChanged: (e) {
+                  setState(() {
+                    valueSelect = '${e?.CD} ${e?.Name}';
+                  });
+                  onSelected(valueSelect);
+                })),
         Container(
           child: Text(
             label,

@@ -96,6 +96,8 @@ dependencies:
 
   printing: ^5.9.3
 
+  dropdown_search: ^5.0.5
+
 
 dev_dependencies:
   flutter_test:
