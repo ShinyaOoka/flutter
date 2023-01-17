@@ -406,45 +406,6 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-
-          spaceWidgetColor(),
-          //No.8
-          flexibleLayout([
-            SizedBox(
-              width: getWidthWidget(2),
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return buildDropDownSearchObject(
-                    LocaleKeys.report_member_name.tr(),
-                    value.msTeamMembers
-                        .map((e) =>
-                            ObjectSearch(CD: e.TeamMemberCD, Name: e.Name))
-                        .toList(),
-                    value.memberName,
-                    value.onSelectReportMemberName,
-                    backgroundTextLabel: kColorDEE9F6);
-              }),
-            ),
-            //No.9
-            const SizedBox(
-              width: 16,
-              height: 16,
-            ),
-            SizedBox(
-                width: getWidthWidget(2),
-                child: Consumer<InputReportViewModel>(
-                    builder: (context, value, child) {
-                  return buildDropDownSearchObject(
-                      LocaleKeys.report_name_of_engineer.tr(),
-                      value.msTeamMembers
-                          .map((e) =>
-                              ObjectSearch(CD: e.TeamMemberCD, Name: e.Name))
-                          .toList(),
-                      value.nameOfEngineer,
-                      value.onSelectReportNameOfEngineer,
-                      backgroundTextLabel: kColorDEE9F6);
-                })),
-          ]),
           spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
@@ -489,17 +450,17 @@ class InputReportState extends LifecycleState<InputReportContent>
             SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
-                keyboardType: TextInputType.number,
-                isAlwaysShowLable: true,
-                maxLength: 6,
-                counterStyle: counterStyle,
-                textColor: kColor4472C4,
-                colorBorder: Colors.black26,
-                colorFocusBorder: kColor4472C4,
-                labelText: LocaleKeys.report_cumulative_total.tr(),
-                onChanged: (value) =>
-                    inputReportViewModel.onChangeReportCumulativeTotal(value),
-              ),
+                  keyboardType: TextInputType.number,
+                  isAlwaysShowLable: true,
+                  maxLength: 6,
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.report_cumulative_total.tr(),
+                  onChanged: (value) =>
+                      inputReportViewModel.onChangeReportCumulativeTotal(value),
+                  labelBackgroundColor: kColorDEE9F6),
             ),
             const SizedBox(
               width: 16,
@@ -508,17 +469,17 @@ class InputReportState extends LifecycleState<InputReportContent>
             SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
-                keyboardType: TextInputType.number,
-                isAlwaysShowLable: true,
-                maxLength: 6,
-                counterStyle: counterStyle,
-                textColor: kColor4472C4,
-                colorBorder: Colors.black26,
-                colorFocusBorder: kColor4472C4,
-                labelText: LocaleKeys.report_team.tr(),
-                onChanged: (value) =>
-                    inputReportViewModel.onChangeReportTeam(value),
-              ),
+                  keyboardType: TextInputType.number,
+                  isAlwaysShowLable: true,
+                  maxLength: 6,
+                  counterStyle: counterStyle,
+                  textColor: kColor4472C4,
+                  colorBorder: Colors.black26,
+                  colorFocusBorder: kColor4472C4,
+                  labelText: LocaleKeys.report_team.tr(),
+                  onChanged: (value) =>
+                      inputReportViewModel.onChangeReportTeam(value),
+                  labelBackgroundColor: kColorDEE9F6),
             ),
           ]),
           spaceWidgetColor(),
@@ -1336,11 +1297,14 @@ class InputReportState extends LifecycleState<InputReportContent>
           ]),
           //no.60
 
-          const SizedBox(width: 16, height: 16,),
+          const SizedBox(
+            width: 16,
+            height: 16,
+          ),
           //no.62 & 63
           flexibleLayout([
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 children: [
                   Container(
@@ -1351,7 +1315,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -1362,13 +1327,17 @@ class InputReportState extends LifecycleState<InputReportContent>
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -1382,10 +1351,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16, height: 16,),
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                  ),
                   //no.64 & 65
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       children: [
                         Expanded(
@@ -1400,13 +1372,15 @@ class InputReportState extends LifecycleState<InputReportContent>
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
                             labelText: LocaleKeys.spo2_percent.tr(),
-                            onChanged: (value) =>
-                                inputReportViewModel.onChangeSpo2Percent1(value),
+                            onChanged: (value) => inputReportViewModel
+                                .onChangeSpo2Percent1(value),
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
-
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
@@ -1429,17 +1403,20 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ],
               ),
             ),
-            const SizedBox(width: 16, height:  16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.66 & 67
 
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -1529,22 +1506,25 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBodyTemperature1(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.71
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.facial_features.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '005')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectFacialFeatures1,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.facial_features.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '005')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectFacialFeatures1,
+                );
+              }),
             ),
           ]),
 
@@ -1567,19 +1547,22 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBleeding1(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.73
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.incontinence.tr(),
-                        value.msClassification006s
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectIncontinence1);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.incontinence.tr(),
+                    value.msClassification006s
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectIncontinence1);
+              }),
             ),
           ]),
 
@@ -1590,11 +1573,14 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
-                        value.onSelectVomiting1);
-                  }),
+                return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
+                    value.onSelectVomiting1);
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.75
             Container(
               padding: const EdgeInsets.only(top: 10),
@@ -1620,21 +1606,19 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.report_observation_time_explanation.tr(),
-                        value.msClassifications
-                            .where((element) => element.ClassificationCD == '015')
-                            .toList()
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectObservationTimeExplanation1,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.report_observation_time_explanation.tr(),
+                    value.msClassifications
+                        .where((element) => element.ClassificationCD == '015')
+                        .toList()
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectObservationTimeExplanation1,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
-
           ]),
           spaceWidgetColor(),
-
         ]);
   }
 
@@ -1648,32 +1632,34 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.airway_management.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '007')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectAirwayManagement,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.airway_management.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '007')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectAirwayManagement,
+                );
+              }),
             ),
 
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
 
             //no.78
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.foreign_matter_removal.tr(),
-                        yesNothings, value.onSelectForeignMatterRemoval);
-                  }),
+                return buildDropDown(LocaleKeys.foreign_matter_removal.tr(),
+                    yesNothings, value.onSelectForeignMatterRemoval);
+              }),
             ),
           ]),
           //no.77
-
 
           spaceWidgetColor(),
 
@@ -1682,23 +1668,22 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.suction.tr(), yesNothings, value.onSelectSuction);
-                  }),
+                return buildDropDown(LocaleKeys.suction.tr(), yesNothings,
+                    value.onSelectSuction);
+              }),
             ),
-
-            const SizedBox(width: 16, height: 16,),
-
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.artificial_respiration.tr(),
-                        yesNothings, value.onSelectArtificialRespiration);
-                  }),
+                return buildDropDown(LocaleKeys.artificial_respiration.tr(),
+                    yesNothings, value.onSelectArtificialRespiration);
+              }),
             ),
-
-
           ]),
           //no.79
 
@@ -1709,23 +1694,25 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.chest_compression.tr(),
-                        yesNothings, value.onSelectChestCompression);
-                  }),
+                return buildDropDown(LocaleKeys.chest_compression.tr(),
+                    yesNothings, value.onSelectChestCompression);
+              }),
             ),
 
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
 
             //no.82
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.ecg_monitor.tr(), yesNothings,
-                        value.onSelectEcgMonitor);
-                  }),
+                return buildDropDown(LocaleKeys.ecg_monitor.tr(), yesNothings,
+                    value.onSelectEcgMonitor);
+              }),
             ),
-
           ]),
           //no.81
 
@@ -1781,26 +1768,29 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.spinal_cord_motion_limitation.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '008')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectSpinalCordMotionLimitation,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.spinal_cord_motion_limitation.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '008')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectSpinalCordMotionLimitation,
+                );
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.86
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.hemostasis.tr(), yesNothings,
-                        value.onSelectHemostasis);
-                  }),
+                return buildDropDown(LocaleKeys.hemostasis.tr(), yesNothings,
+                    value.onSelectHemostasis);
+              }),
             ),
           ]),
 
@@ -1812,20 +1802,23 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.splint_fixation.tr(), yesNothings,
-                        value.onSelectSplintFixation);
-                  }),
+                return buildDropDown(LocaleKeys.splint_fixation.tr(),
+                    yesNothings, value.onSelectSplintFixation);
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
 
             //no.88
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.coating_treatment.tr(),
-                        yesNothings, value.onSelectCoatingTreatment);
-                  }),
+                return buildDropDown(LocaleKeys.coating_treatment.tr(),
+                    yesNothings, value.onSelectCoatingTreatment);
+              }),
             ),
           ]),
           //no.87
@@ -1836,9 +1829,9 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.burn_treatment.tr(), yesNothings,
-                        value.onSelectBurnTreatment);
-                  }),
+                return buildDropDown(LocaleKeys.burn_treatment.tr(),
+                    yesNothings, value.onSelectBurnTreatment);
+              }),
             ),
           ]),
 
@@ -1871,21 +1864,27 @@ class InputReportState extends LifecycleState<InputReportContent>
                     ),
                     flex: 1,
                   ),
-                  const SizedBox(width: 16, height: 16,),
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                  ),
                   Expanded(
                     child: Consumer<InputReportViewModel>(
                         builder: (context, value, child) {
-                          return timePicker(
-                              LocaleKeys.bs_measurement_time_1.tr(),
-                              value.dtReport.BSMeasurementTime1,
-                              value.onSelectBsMeasurementTime1);
-                        }),
+                      return timePicker(
+                          LocaleKeys.bs_measurement_time_1.tr(),
+                          value.dtReport.BSMeasurementTime1,
+                          value.onSelectBsMeasurementTime1);
+                    }),
                     flex: 1,
                   )
                 ],
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.92
             SizedBox(
               width: getWidthWidget(2),
@@ -1936,17 +1935,20 @@ class InputReportState extends LifecycleState<InputReportContent>
                   Expanded(
                     child: Consumer<InputReportViewModel>(
                         builder: (context, value, child) {
-                          return timePicker(
-                              LocaleKeys.bs_measurement_time_2.tr(),
-                              value.dtReport.BSMeasurementTime2,
-                              value.onSelectBsMeasurementTime2);
-                        }),
+                      return timePicker(
+                          LocaleKeys.bs_measurement_time_2.tr(),
+                          value.dtReport.BSMeasurementTime2,
+                          value.onSelectBsMeasurementTime2);
+                    }),
                     flex: 1,
                   )
                 ],
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
 
             //no.95
             SizedBox(
@@ -1985,7 +1987,6 @@ class InputReportState extends LifecycleState<InputReportContent>
 
           //no.93 & 94
 
-
           spaceWidgetColor(),
         ]);
   }
@@ -2000,9 +2001,9 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return timePicker(LocaleKeys.observation_time.tr(),
-                        value.observationTime2, value.onConfirmObservationTime2);
-                  }),
+                return timePicker(LocaleKeys.observation_time.tr(),
+                    value.observationTime2, value.onConfirmObservationTime2);
+              }),
             ),
             const SizedBox(
               width: 16,
@@ -2013,16 +2014,16 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.jcs.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '011')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectJcs2,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.jcs.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '011')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectJcs2,
+                );
+              }),
             ),
           ]),
           //no.54
@@ -2036,16 +2037,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_e.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '012')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsE2,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_e.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '012')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsE2,
+                    );
+                  }),
                   flex: 1,
                 ),
                 SizedBox(
@@ -2054,16 +2055,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_v.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '013')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsV2,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_v.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '013')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsV2,
+                    );
+                  }),
                   flex: 1,
                 ),
                 SizedBox(
@@ -2072,16 +2073,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_m.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '014')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsM2,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_m.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '014')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsM2,
+                    );
+                  }),
                   flex: 1,
                 )
               ],
@@ -2128,11 +2129,14 @@ class InputReportState extends LifecycleState<InputReportContent>
           ]),
           //no.60
 
-          const SizedBox(width: 16, height: 16,),
+          const SizedBox(
+            width: 16,
+            height: 16,
+          ),
           //no.62 & 63
           flexibleLayout([
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 children: [
                   Container(
@@ -2143,7 +2147,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -2154,13 +2159,17 @@ class InputReportState extends LifecycleState<InputReportContent>
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -2174,10 +2183,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16, height: 16,),
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                  ),
                   //no.64 & 65
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       children: [
                         Expanded(
@@ -2186,19 +2198,21 @@ class InputReportState extends LifecycleState<InputReportContent>
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
-                            unitWidget(LocaleKeys.unit_percent.tr()),
+                                unitWidget(LocaleKeys.unit_percent.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
                             labelText: LocaleKeys.spo2_percent.tr(),
-                            onChanged: (value) =>
-                                inputReportViewModel.onChangeSpo2Percent2(value),
+                            onChanged: (value) => inputReportViewModel
+                                .onChangeSpo2Percent2(value),
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
-
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
@@ -2221,17 +2235,20 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ],
               ),
             ),
-            const SizedBox(width: 16, height:  16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.66 & 67
 
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -2322,22 +2339,25 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBodyTemperature2(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.71
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.facial_features.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '005')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectFacialFeatures2,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.facial_features.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '005')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectFacialFeatures2,
+                );
+              }),
             ),
           ]),
 
@@ -2360,19 +2380,22 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBleeding2(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.73
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.incontinence.tr(),
-                        value.msClassification006s
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectIncontinence2);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.incontinence.tr(),
+                    value.msClassification006s
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectIncontinence2);
+              }),
             ),
           ]),
 
@@ -2383,11 +2406,14 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
-                        value.onSelectVomiting2);
-                  }),
+                return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
+                    value.onSelectVomiting2);
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.75
             Container(
               padding: const EdgeInsets.only(top: 10),
@@ -2413,21 +2439,19 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.report_observation_time_explanation.tr(),
-                        value.msClassifications
-                            .where((element) => element.ClassificationCD == '015')
-                            .toList()
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectObservationTimeExplanation2,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.report_observation_time_explanation.tr(),
+                    value.msClassifications
+                        .where((element) => element.ClassificationCD == '015')
+                        .toList()
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectObservationTimeExplanation2,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
-
           ]),
           spaceWidgetColor(),
-
         ]);
   }
 
@@ -2441,9 +2465,9 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return timePicker(LocaleKeys.observation_time.tr(),
-                        value.observationTime3, value.onConfirmObservationTime3);
-                  }),
+                return timePicker(LocaleKeys.observation_time.tr(),
+                    value.observationTime3, value.onConfirmObservationTime3);
+              }),
             ),
             const SizedBox(
               width: 16,
@@ -2454,16 +2478,16 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.jcs.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '011')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectJcs1,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.jcs.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '011')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectJcs1,
+                );
+              }),
             ),
           ]),
           //no.54
@@ -2477,16 +2501,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_e.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '012')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsE3,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_e.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '012')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsE3,
+                    );
+                  }),
                   flex: 1,
                 ),
                 SizedBox(
@@ -2495,16 +2519,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_v.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '013')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsV3,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_v.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '013')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsV3,
+                    );
+                  }),
                   flex: 1,
                 ),
                 SizedBox(
@@ -2513,16 +2537,16 @@ class InputReportState extends LifecycleState<InputReportContent>
                 Expanded(
                   child: Consumer<InputReportViewModel>(
                       builder: (context, value, child) {
-                        return buildDropDown(
-                          LocaleKeys.gcs_m.tr(),
-                          value.msClassifications
-                              .where((element) => element.ClassificationCD == '014')
-                              .toList()
-                              .map((e) => e.Value.toString())
-                              .toList(),
-                          value.onSelectGcsM3,
-                        );
-                      }),
+                    return buildDropDown(
+                      LocaleKeys.gcs_m.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '014')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectGcsM3,
+                    );
+                  }),
                   flex: 1,
                 )
               ],
@@ -2569,11 +2593,14 @@ class InputReportState extends LifecycleState<InputReportContent>
           ]),
           //no.60
 
-          const SizedBox(width: 16, height: 16,),
+          const SizedBox(
+            width: 16,
+            height: 16,
+          ),
           //no.62 & 63
           flexibleLayout([
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 children: [
                   Container(
@@ -2584,7 +2611,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -2595,13 +2623,17 @@ class InputReportState extends LifecycleState<InputReportContent>
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
+                            counterWidget:
+                                unitWidget(LocaleKeys.unit_mmHg.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
@@ -2615,10 +2647,13 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
-                  const SizedBox(width: 16, height: 16,),
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                  ),
                   //no.64 & 65
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       children: [
                         Expanded(
@@ -2627,19 +2662,21 @@ class InputReportState extends LifecycleState<InputReportContent>
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
-                            unitWidget(LocaleKeys.unit_percent.tr()),
+                                unitWidget(LocaleKeys.unit_percent.tr()),
                             counterStyle: counterStyle,
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
                             labelText: LocaleKeys.spo2_percent.tr(),
-                            onChanged: (value) =>
-                                inputReportViewModel.onChangeSpo2Percent3(value),
+                            onChanged: (value) => inputReportViewModel
+                                .onChangeSpo2Percent3(value),
                           ),
                           flex: 1,
                         ),
-                        const SizedBox(width: 16, height: 16,),
-
+                        const SizedBox(
+                          width: 16,
+                          height: 16,
+                        ),
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
@@ -2662,17 +2699,20 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ],
               ),
             ),
-            const SizedBox(width: 16, height:  16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.66 & 67
 
             Container(
-              width:getWidthWidget(2),
+              width: getWidthWidget(2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    width:getWidthWidget(2),
+                    width: getWidthWidget(2),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -2763,22 +2803,25 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBodyTemperature3(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.71
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.facial_features.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '005')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectFacialFeatures3,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.facial_features.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '005')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectFacialFeatures3,
+                );
+              }),
             ),
           ]),
 
@@ -2801,19 +2844,22 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeBleeding3(value),
               ),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.73
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.incontinence.tr(),
-                        value.msClassification006s
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectIncontinence3);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.incontinence.tr(),
+                    value.msClassification006s
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectIncontinence3);
+              }),
             ),
           ]),
 
@@ -2824,11 +2870,14 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
-                        value.onSelectVomiting3);
-                  }),
+                return buildDropDown(LocaleKeys.vomiting.tr(), yesNothings,
+                    value.onSelectVomiting3);
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //no.75
             Container(
               padding: const EdgeInsets.only(top: 10),
@@ -2854,21 +2903,19 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                        LocaleKeys.report_observation_time_explanation.tr(),
-                        value.msClassifications
-                            .where((element) => element.ClassificationCD == '015')
-                            .toList()
-                            .map((e) => e.Value.toString())
-                            .toList(),
-                        value.onSelectObservationTimeExplanation3,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDown(
+                    LocaleKeys.report_observation_time_explanation.tr(),
+                    value.msClassifications
+                        .where((element) => element.ClassificationCD == '015')
+                        .toList()
+                        .map((e) => e.Value.toString())
+                        .toList(),
+                    value.onSelectObservationTimeExplanation3,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
-
           ]),
           spaceWidgetColor(),
-
         ]);
   }
 
@@ -3218,8 +3265,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3236,7 +3282,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           padding: EdgeInsets.only(top: 10),
           child: Container(
-            height: 54,
+            height: 52,
             width: double.infinity,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -3254,9 +3300,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Text(text ?? '',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          color: kColor4472C4,
-                          fontWeight: FontWeight.normal,
-                          fontSize: text_16)),
+                          color: kColor4472C4, fontWeight: FontWeight.normal)),
                 ),
               ],
             ),
@@ -3265,12 +3309,11 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: EdgeInsets.only(left: 8),
+          padding: EdgeInsets.only(left: 4),
         ),
       ],
     );
@@ -3329,8 +3372,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3412,8 +3454,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
           margin: EdgeInsets.symmetric(horizontal: 10),
@@ -3539,12 +3580,10 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.6), fontSize: text_12),
+            style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: EdgeInsets.only(left: 10),
         ),
       ],
     );
