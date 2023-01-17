@@ -9,6 +9,7 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
+import 'package:flutter_flavorizr/parser/parser.dart';
 import 'package:get/utils.dart';
 
 import '../../../main.dart';
@@ -526,7 +527,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature1(String? itemSelected) {
-    this.bodyTemperature1 = itemSelected ?? '';
+    this.bodyTemperature1 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
@@ -756,7 +757,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature2(String? itemSelected) {
-    this.bodyTemperature2 = itemSelected ?? '';
+    this.bodyTemperature2 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
@@ -867,7 +868,7 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onChangeBodyTemperature3(String? itemSelected) {
-    this.bodyTemperature3 = itemSelected ?? '';
+    this.bodyTemperature3 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
