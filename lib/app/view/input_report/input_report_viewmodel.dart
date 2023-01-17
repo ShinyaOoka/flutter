@@ -9,6 +9,7 @@ import 'package:ak_azm_flutter/app/module/common/config.dart';
 import 'package:ak_azm_flutter/app/module/database/column_name.dart';
 import 'package:ak_azm_flutter/app/module/event_bus/event_bus.dart';
 import 'package:ak_azm_flutter/app/view/widget_utils/dialog/general_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_flavorizr/parser/parser.dart';
 import 'package:get/utils.dart';
 
@@ -133,6 +134,8 @@ class InputReportViewModel extends BaseViewModel {
   String? dtReportReportersName = "";
   String? reportersAffiliation = "";
   String? reportingClass = "";
+
+  TextEditingController furiganaController = TextEditingController(text: "");
 
   Future<bool> back() async {
     _navigationService.back();
@@ -270,6 +273,12 @@ class InputReportViewModel extends BaseViewModel {
 
   onChangeFurigana(String? itemSelected) {
     dtReport.SickInjuredPersonKANA = itemSelected ?? '';
+    notifyListeners();
+  }
+
+  onUnfocusFurigana() {
+    dtReport.SickInjuredPersonKANA = regexKana.allMatches(dtReport.SickInjuredPersonKANA ?? "").map((x) => x.group(0)).join();
+    furiganaController.text = dtReport.SickInjuredPersonKANA ?? "";
     notifyListeners();
   }
 

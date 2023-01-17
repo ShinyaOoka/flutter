@@ -454,18 +454,23 @@ class InputReportState extends LifecycleState<InputReportContent>
                       flex: 1),
                   SizedBox(width: 16),
                   Expanded(
-                      child: OutlineTextFormField(
-                        isAlwaysShowLable: true,
-                        keyboardType: TextInputType.text,
-                        maxLength: 20,
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.furigana.tr(),
-                        onChanged: (value) =>
-                            inputReportViewModel.onChangeFurigana(value),
-                      ),
+                      child: Focus(
+                          child: OutlineTextFormField(
+                            isAlwaysShowLable: true,
+                            keyboardType: TextInputType.text,
+                            maxLength: 20,
+                            counterStyle: counterStyle,
+                            textColor: kColor4472C4,
+                            colorBorder: Colors.black26,
+                            colorFocusBorder: kColor4472C4,
+                            labelText: LocaleKeys.furigana.tr(),
+                            controller: inputReportViewModel.furiganaController,
+                            onChanged: (value) =>
+                                inputReportViewModel.onChangeFurigana(value),
+                          ),
+                          onFocusChange: (hasFocus) => !hasFocus
+                              ? inputReportViewModel.onUnfocusFurigana()
+                              : null),
                       flex: 1)
                 ],
               )),
