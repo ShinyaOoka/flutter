@@ -91,6 +91,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
     return Stack(
       children: [
         Container(
+            height: 54,
             alignment: Alignment.center,
             color: widget.colorBackground ?? Colors.transparent,
             child: TextFormField(
