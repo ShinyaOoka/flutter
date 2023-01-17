@@ -142,10 +142,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                        padding:
+                            const EdgeInsets.only(top: 16, left: 16, right: 16),
                         child: FilledButton(
                           borderRadius: size_4_r,
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
@@ -243,7 +244,7 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget flexibleLayout(children) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: useMobileLayout()
           ? Column(children: children)
           : Row(
@@ -536,7 +537,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.15
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -751,7 +752,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.26
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 12),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               labelBackgroundColor: kColorDEE9F6,
@@ -769,7 +770,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.27
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -787,7 +788,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.28
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return textShowWithLabel(LocaleKeys.report_age.tr(),
@@ -1042,7 +1043,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.44, 45
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -1059,7 +1060,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //No.47
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -1143,7 +1144,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.52
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -1201,7 +1202,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.57,58,59
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               children: [
                 Expanded(
@@ -1219,7 +1220,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -1237,7 +1238,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -1465,7 +1466,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   //no.68
                   flexibleLayoutWithoutPadding([
                     Container(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
@@ -1729,14 +1730,14 @@ class InputReportState extends LifecycleState<InputReportContent>
 
           //no.83 & 84
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: OutlineTextFormField(
                       keyboardType: TextInputType.number,
                       isAlwaysShowLable: true,
@@ -1753,7 +1754,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   ),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -1856,7 +1857,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: OutlineTextFormField(
                         keyboardType: TextInputType.number,
                         isAlwaysShowLable: true,
@@ -1898,7 +1899,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             SizedBox(
               width: getWidthWidget(2),
               child: Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: OutlineTextFormField(
                   isAlwaysShowLable: true,
                   keyboardType: TextInputType.text,
@@ -1924,7 +1925,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: OutlineTextFormField(
                         keyboardType: TextInputType.number,
                         isAlwaysShowLable: true,
@@ -1941,7 +1942,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     ),
                     flex: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   Expanded(
@@ -1966,7 +1967,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             SizedBox(
               width: getWidthWidget(2),
               child: Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: OutlineTextFormField(
                   isAlwaysShowLable: true,
                   keyboardType: TextInputType.text,
@@ -1986,7 +1987,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           ]),
           spaceWidgetColor(),
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -2046,7 +2047,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.57,58,59
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               children: [
                 Expanded(
@@ -2064,7 +2065,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -2082,7 +2083,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -2310,7 +2311,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   //no.68
                   flexibleLayoutWithoutPadding([
                     Container(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
@@ -2516,7 +2517,7 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.57,58,59
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Row(
               children: [
                 Expanded(
@@ -2534,7 +2535,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -2552,7 +2553,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   }),
                   flex: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -2780,7 +2781,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   //no.68
                   flexibleLayoutWithoutPadding([
                     Container(
-                      padding: EdgeInsets.only(top: 6),
+                      padding: const EdgeInsets.only(top: 6),
                       width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
@@ -2797,7 +2798,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     SizedBox(
                       width: getWidthWidget(4),
                       child: Container(
-                          padding: EdgeInsets.only(top: 6),
+                          padding: const EdgeInsets.only(top: 6),
                           child: Consumer<InputReportViewModel>(
                               builder: (context, value, child) {
                             return buildDropDown(
@@ -2950,7 +2951,7 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildLayout9() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3047,7 +3048,7 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildLayout10() {
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3155,7 +3156,7 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildLayout11() {
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -3211,7 +3212,7 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildLayout12() {
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -3259,7 +3260,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: InkWell(
               child: Container(
                 height: 54,
@@ -3269,14 +3270,14 @@ class InputReportState extends LifecycleState<InputReportContent>
                   border: Border.all(
                     color: Colors.black38,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(text ?? '',
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -3309,8 +3310,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
@@ -3321,7 +3322,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Container(
             height: 52,
             width: double.infinity,
@@ -3330,17 +3331,17 @@ class InputReportState extends LifecycleState<InputReportContent>
               border: Border.all(
                 color: Colors.black38,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(4.0)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(text ?? '',
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: kColor4472C4, fontWeight: FontWeight.normal)),
                 ),
               ],
@@ -3353,8 +3354,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
-          margin: EdgeInsets.only(left: 8),
-          padding: EdgeInsets.only(left: 4),
+          margin: const EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(left: 4),
         ),
       ],
     );
@@ -3367,7 +3368,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: InkWell(
               child: Container(
                 height: 54,
@@ -3377,14 +3378,14 @@ class InputReportState extends LifecycleState<InputReportContent>
                   border: Border.all(
                     color: Colors.black38,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(text ?? '',
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -3416,8 +3417,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundLableColor ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
@@ -3430,12 +3431,12 @@ class InputReportState extends LifecycleState<InputReportContent>
     );
   }
 
-  final counterStyle = TextStyle(color: Colors.black);
+  final counterStyle = const TextStyle(color: Colors.black);
 
   Widget? unitWidget(String text) {
     return Text(
       text,
-      style: TextStyle(
+      style: const TextStyle(
         color: kColor4472C4,
       ),
     );
@@ -3447,7 +3448,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: DropdownButtonFormField2(
             decoration: InputDecoration(
               focusedBorder: const OutlineInputBorder(
@@ -3483,7 +3484,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       item,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: kColor4472C4),
+                      style: const TextStyle(color: kColor4472C4),
                     ),
                   ),
                 )
@@ -3497,8 +3498,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
@@ -3512,8 +3513,13 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
             padding: const EdgeInsets.only(top: 10),
             child: DropdownSearch<String>(
-                popupProps: PopupProps.menu(showSearchBox: true),
-                dropdownDecoratorProps: DropDownDecoratorProps(
+                popupProps: const PopupProps.menu(
+                    showSearchBox: true,
+                    searchFieldProps: TextFieldProps(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder()))),
+                dropdownDecoratorProps: const DropDownDecoratorProps(
                     baseStyle: TextStyle(color: kColor4472C4),
                     dropdownSearchDecoration: InputDecoration(
                         border: OutlineInputBorder(),
@@ -3531,8 +3537,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
@@ -3547,8 +3553,13 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
             padding: const EdgeInsets.only(top: 10),
             child: DropdownSearch<ObjectSearch>(
-                popupProps: PopupProps.menu(showSearchBox: true),
-                dropdownDecoratorProps: DropDownDecoratorProps(
+                popupProps: const PopupProps.menu(
+                    showSearchBox: true,
+                    searchFieldProps: TextFieldProps(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder()))),
+                dropdownDecoratorProps: const DropDownDecoratorProps(
                     baseStyle: TextStyle(color: kColor4472C4),
                     dropdownSearchDecoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -3570,8 +3581,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6)),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
@@ -3582,7 +3593,7 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Container(
             padding: EdgeInsets.only(top: size_14_w),
             height: size_200_w,
@@ -3593,7 +3604,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               border: Border.all(
                 color: Colors.black38,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(4.0)),
             ),
             child: CheckboxGroup(
               padding: EdgeInsets.zero,
@@ -3611,8 +3622,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 color: Colors.black.withOpacity(0.6), fontSize: text_12),
           ),
           color: Colors.white,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ],
     );
