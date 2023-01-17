@@ -99,24 +99,8 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
             transparentStatusBar: 0.0,
             title: '',
             hideBackButton: false,
-            body: Stack(
+            body: Column(
               children: [
-                Consumer<PreviewReportViewModel>(
-                    builder: (context, value, child) {
-                  return value.generatedPdfFilePath.isEmpty
-                      ? const BuildProgressLoading()
-                      : PdfView(
-                    controller: PdfController(
-                      document: PdfDocument.openFile(previewReportViewModel.generatedPdfFilePath),
-                    ),
-                    renderer: (PdfPage page) => page.render(
-                      width: page.width * 2,
-                      height: page.height * 2,
-                      format: PdfPageImageFormat.png,
-                      backgroundColor: strColorWhite,
-                    ),
-                  );
-                }),
                 Container(
                   height: kToolbarHeight,
                   color: Colors.black12,
@@ -152,12 +136,12 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                         child: previewReportViewModel.pdfName.isEmpty
                             ? Container()
                             : Center(
-                                child: Text(
-                                  previewReportViewModel.pdfName,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: text_16),
-                                ),
-                              ),
+                          child: Text(
+                            previewReportViewModel.pdfName,
+                            style: TextStyle(
+                                color: Colors.black, fontSize: text_16),
+                          ),
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 10),
@@ -185,6 +169,25 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                     ],
                   ),
                 ),
+                Expanded(
+                  child: Consumer<PreviewReportViewModel>(
+                      builder: (context, value, child) {
+                    return value.generatedPdfFilePath.isEmpty
+                        ? const BuildProgressLoading()
+                        : PdfView(
+                      controller: PdfController(
+                        document: PdfDocument.openFile(previewReportViewModel.generatedPdfFilePath),
+                      ),
+                      renderer: (PdfPage page) => page.render(
+                        width: page.width * 2,
+                        height: page.height * 2,
+                        format: PdfPageImageFormat.webp,
+                        backgroundColor: strColorWhite,
+                      ),
+                    );
+                  }),
+                ),
+
               ],
             )));
   }
