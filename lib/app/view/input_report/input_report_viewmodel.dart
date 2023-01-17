@@ -184,7 +184,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     ambulanceName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => e.Name == itemSelected);
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
     dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
     if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
