@@ -243,10 +243,11 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget flexibleLayout(children) {
     return Container(
-      padding:  EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: useMobileLayout()
           ? Column(children: children)
-          : Row(children: children),
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start, children: children),
     );
   }
 
@@ -705,7 +706,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_28_w),
+          spaceWidgetColor(),
           //no.24
           flexibleLayout([
             SizedBox(
@@ -746,7 +747,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.25
           ]),
 
-          spaceWidgetColor(height: size_4_w),
+          spaceWidgetColor(),
           //no.26
           Container(
             padding: EdgeInsets.only(left: 16, right: 16, top: 12),
@@ -1256,7 +1257,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               ],
             ),
           ),
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -1464,21 +1465,28 @@ class InputReportState extends LifecycleState<InputReportContent>
                   flexibleLayoutWithoutPadding([
                     Container(
                       padding: EdgeInsets.all(0),
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                                yesNothings, value.onSelectLightReflectionRight1);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_right.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionRight1);
+                      }),
                     ),
-                    const SizedBox(width: 16, height: 16,),
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                    ),
                     SizedBox(
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                                yesNothings, value.onSelectLightReflectionLeft1);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_left.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionLeft1);
+                      }),
                     ),
                   ])
                 ],
@@ -1528,7 +1536,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           //no.72
           flexibleLayout([
             Container(
@@ -2296,24 +2304,30 @@ class InputReportState extends LifecycleState<InputReportContent>
                   flexibleLayoutWithoutPadding([
                     Container(
                       padding: EdgeInsets.all(0),
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                                yesNothings, value.onSelectLightReflectionRight2);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_right.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionRight2);
+                      }),
                     ),
-                    const SizedBox(width: 16, height: 16,),
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                    ),
                     SizedBox(
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                                yesNothings, value.onSelectLightReflectionLeft2);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_left.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionLeft2);
+                      }),
                     ),
                   ])
-
                 ],
               ),
             ),
@@ -2760,24 +2774,30 @@ class InputReportState extends LifecycleState<InputReportContent>
                   flexibleLayoutWithoutPadding([
                     Container(
                       padding: EdgeInsets.all(0),
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_right.tr(),
-                                yesNothings, value.onSelectLightReflectionRight3);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_right.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionRight3);
+                      }),
                     ),
-                    const SizedBox(width: 16, height: 16,),
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                    ),
                     SizedBox(
-                      width:getWidthWidget(4),
+                      width: getWidthWidget(4),
                       child: Consumer<InputReportViewModel>(
                           builder: (context, value, child) {
-                            return buildDropDown(LocaleKeys.light_reflection_left.tr(),
-                                yesNothings, value.onSelectLightReflectionLeft3);
-                          }),
+                        return buildDropDown(
+                            LocaleKeys.light_reflection_left.tr(),
+                            yesNothings,
+                            value.onSelectLightReflectionLeft3);
+                      }),
                     ),
                   ])
-
                 ],
               ),
             ),
@@ -2940,26 +2960,30 @@ class InputReportState extends LifecycleState<InputReportContent>
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
                 labelText: LocaleKeys.perceiver.tr(),
-                onChanged: (value) => inputReportViewModel.onChangePerceiver(value),
+                onChanged: (value) =>
+                    inputReportViewModel.onChangePerceiver(value),
               ),
             ),
-            const SizedBox(height: 16, width: 16,),
+            const SizedBox(
+              height: 16,
+              width: 16,
+            ),
             //no.103
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDown(
-                      LocaleKeys.awareness_type.tr(),
-                      value.msClassifications
-                          .where((element) => element.ClassificationCD == '009')
-                          .toList()
-                          .map((e) => e.Value.toString())
-                          .toList(),
-                      value.onSelectAwarenessType,
-                      backgroundTextLabel: kColorDEE9F6,
-                    );
-                  }),
+                return buildDropDown(
+                  LocaleKeys.awareness_type.tr(),
+                  value.msClassifications
+                      .where((element) => element.ClassificationCD == '009')
+                      .toList()
+                      .map((e) => e.Value.toString())
+                      .toList(),
+                  value.onSelectAwarenessType,
+                  backgroundTextLabel: kColorDEE9F6,
+                );
+              }),
             ),
           ]),
 
@@ -2981,7 +3005,10 @@ class InputReportState extends LifecycleState<InputReportContent>
                     inputReportViewModel.onChangeWhistleblower(value),
               ),
             ),
-            const SizedBox(height: 16, width: 16,),
+            const SizedBox(
+              height: 16,
+              width: 16,
+            ),
             //no.105
             SizedBox(
               width: getWidthWidget(2),
@@ -3021,31 +3048,36 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDownSearchObject(
-                        LocaleKeys.transportation_medical_institution.tr(),
-                        value.msHospitals
-                            .map((e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name))
-                            .toList(),
-                        value.transportationMedicalInstitution,
-                        value.onSelectTransportationMedicalInstitution,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDownSearchObject(
+                    LocaleKeys.transportation_medical_institution.tr(),
+                    value.msHospitals
+                        .map(
+                            (e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name))
+                        .toList(),
+                    value.transportationMedicalInstitution,
+                    value.onSelectTransportationMedicalInstitution,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
-            const SizedBox(height: 16, width: 16,),
+            const SizedBox(
+              height: 16,
+              width: 16,
+            ),
             //no.108
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDownSearchObject(
-                        LocaleKeys.forwarding_medical_institution.tr(),
-                        value.msHospitals
-                            .map((e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name))
-                            .toList(),
-                        value.forwardingMedicalInstitution,
-                        value.onSelectForwardingMedicalInstitution,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDownSearchObject(
+                    LocaleKeys.forwarding_medical_institution.tr(),
+                    value.msHospitals
+                        .map(
+                            (e) => ObjectSearch(CD: e.HospitalCD, Name: e.Name))
+                        .toList(),
+                    value.forwardingMedicalInstitution,
+                    value.onSelectForwardingMedicalInstitution,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
           ]),
           //no.107
@@ -3057,14 +3089,13 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return timePicker(
-                        LocaleKeys.transfer_source_pick_up_time.tr(),
-                        value.dtReport.TransferSourceReceivingTime,
-                        value.onConfirmTransferSourcePickUpTime,
-                        backgroundLableColor: kColorDEE9F6);
-                  }),
+                return timePicker(
+                    LocaleKeys.transfer_source_pick_up_time.tr(),
+                    value.dtReport.TransferSourceReceivingTime,
+                    value.onConfirmTransferSourcePickUpTime,
+                    backgroundLableColor: kColorDEE9F6);
+              }),
             ),
-
           ]),
           //no.109
           spaceWidgetColor(height: size_22_w),
@@ -3126,42 +3157,43 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return buildDropDownSearchObject(
-                        LocaleKeys.reporter_s_name.tr(),
-                        value.msTeamMembers
-                            .map(
-                                (e) => ObjectSearch(CD: e.TeamMemberCD, Name: e.Name))
-                            .toList(),
-                        value.reportersName,
-                        value.onSelectReportersName,
-                        backgroundTextLabel: kColorDEE9F6);
-                  }),
+                return buildDropDownSearchObject(
+                    LocaleKeys.reporter_s_name.tr(),
+                    value.msTeamMembers
+                        .map((e) =>
+                            ObjectSearch(CD: e.TeamMemberCD, Name: e.Name))
+                        .toList(),
+                    value.reportersName,
+                    value.onSelectReportersName,
+                    backgroundTextLabel: kColorDEE9F6);
+              }),
             ),
-            const SizedBox(width: 16, height: 16,),
+            const SizedBox(
+              width: 16,
+              height: 16,
+            ),
             //No.115
             SizedBox(
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                    return textShowWithLabel(LocaleKeys.reporter_s_affiliation.tr(),
-                        value.reportersAffiliation ?? '',
-                        backgroundLableColor: kColorDEE9F6);
-                  }),
+                return textShowWithLabel(LocaleKeys.reporter_s_affiliation.tr(),
+                    value.reportersAffiliation ?? '',
+                    backgroundLableColor: kColorDEE9F6);
+              }),
             ),
           ]),
 
           spaceWidgetColor(),
           //No.116
-          flexibleLayoutWithoutPadding([
-            Container(
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                    return textShowWithLabel(LocaleKeys.reporting_class.tr(),
-                        value.reportersAffiliation ?? '',
-                        backgroundLableColor: kColorDEE9F6);
-                  }),
-            ),
-          ]),
+          Container(
+            child: Consumer<InputReportViewModel>(
+                builder: (context, value, child) {
+              return textShowWithLabel(LocaleKeys.reporting_class.tr(),
+                  value.reportersAffiliation ?? '',
+                  backgroundLableColor: kColorDEE9F6);
+            }),
+          ),
           spaceWidgetColor(height: size_28_w),
         ],
       ),
@@ -3395,7 +3427,6 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Text(
       text,
       style: TextStyle(
-        fontSize: text_10,
         color: kColor4472C4,
       ),
     );
