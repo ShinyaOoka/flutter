@@ -241,6 +241,11 @@ class InputReportState extends LifecycleState<InputReportContent>
     }
   }
 
+  bool useMobileLayout() {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    return shortestSide <= 500;
+  }
+
   Widget buildLayout1() {
     bool isWidescreen = MediaQuery.of(context).size.width >= 500;
     return Column(
@@ -826,138 +831,172 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.36
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.start_transportation.tr(),
-                  value.dtReport.StartOfTransportTime,
-                  value.onConfirmStartTransportation);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.37
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.arrival_at_hospital.tr(),
-                  value.dtReport.HospitalArrivalTime,
-                  value.onConfirmArrivalAtHospital);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.38
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.family_contact.tr(),
-                  value.dtReport.FamilyContactTime,
-                  value.onConfirmFamilyContact);
-            }),
-          ),
+              padding: const EdgeInsets.only(right: 16),
+              child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  direction: isWidescreen ? Axis.horizontal : Axis.vertical,
+                  children: [
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.start_transportation.tr(),
+                            value.dtReport.StartOfTransportTime,
+                            value.onConfirmStartTransportation);
+                      }),
+                    ),
+                    //no.37
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.arrival_at_hospital.tr(),
+                            value.dtReport.HospitalArrivalTime,
+                            value.onConfirmArrivalAtHospital);
+                      }),
+                    ),
+                    //no.38
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.family_contact.tr(),
+                            value.dtReport.FamilyContactTime,
+                            value.onConfirmFamilyContact);
+                      }),
+                    ),
+                  ])),
+
           spaceWidgetColor(),
           //no.39
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.police_contact.tr(),
-                  value.dtReport.PoliceContactTime,
-                  value.onConfirmPoliceContact);
-            }),
-          ),
+              padding: const EdgeInsets.only(right: 16),
+              child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  direction: isWidescreen ? Axis.horizontal : Axis.vertical,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.police_contact.tr(),
+                            value.dtReport.PoliceContactTime,
+                            value.onConfirmPoliceContact);
+                      }),
+                    ),
+                    //no.40
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.report_cash_on_delivery_time.tr(),
+                            value.dtReport.TimeOfArrival,
+                            value.onConfirmReportCashOnDeliveryTime,
+                            backgroundLableColor: kColorDEE9F6);
+                      }),
+                    ),
+                    //no.41
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.report_return_time.tr(),
+                            value.dtReport.ReturnTime,
+                            value.onConfirmReportReturnTime,
+                            backgroundLableColor: kColorDEE9F6);
+                      }),
+                    ),
+                  ])),
+
           spaceWidgetColor(),
-          //no.40
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(
-                  LocaleKeys.report_cash_on_delivery_time.tr(),
-                  value.dtReport.TimeOfArrival,
-                  value.onConfirmReportCashOnDeliveryTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6),
-          //no.41
-          Container(
-            color: kColorDEE9F6,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.report_return_time.tr(),
-                  value.dtReport.ReturnTime, value.onConfirmReportReturnTime,
-                  backgroundLableColor: kColorDEE9F6);
-            }),
-          ),
-          spaceWidgetColor(color: kColorDEE9F6, height: size_28_w),
         ]);
   }
 
   Widget buildLayout4() {
+    bool isWidescreen = MediaQuery.of(context).size.width >= 500;
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Container(
+              padding: const EdgeInsets.only(right: 16),
+              child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  direction: isWidescreen ? Axis.horizontal : Axis.vertical,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return buildDropDown(
+                          LocaleKeys.accident_type_input.tr(),
+                          value.msClassifications
+                              .where((element) =>
+                                  element.ClassificationCD == '002')
+                              .toList()
+                              .map((e) => e.Value.toString())
+                              .toList(),
+                          value.onSelectAccidentTypeInput,
+                        );
+                      }),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Consumer<InputReportViewModel>(
+                                builder: (context, value, child) {
+                              return datePicker(
+                                  LocaleKeys.accrual_date.tr(),
+                                  value.dtReport.DateOfOccurrence,
+                                  value.onConfirmAccrualDate);
+                            }),
+                            flex: 1,
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Consumer<InputReportViewModel>(
+                                builder: (context, value, child) {
+                              return timePicker(
+                                  LocaleKeys.occurrence_time.tr(),
+                                  value.dtReport.TimeOfOccurrence,
+                                  value.onConfirmOccurrenceTime);
+                            }),
+                            flex: 1,
+                          )
+                        ],
+                      ),
+                    ),
+                  ])),
+          spaceWidgetColor(),
           //no.43
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.accident_type_input.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '002')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectAccidentTypeInput,
-              );
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.44, 45
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return datePicker(
-                        LocaleKeys.accrual_date.tr(),
-                        value.dtReport.DateOfOccurrence,
-                        value.onConfirmAccrualDate);
-                  }),
-                  flex: 1,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: Consumer<InputReportViewModel>(
-                      builder: (context, value, child) {
-                    return timePicker(
-                        LocaleKeys.occurrence_time.tr(),
-                        value.dtReport.TimeOfOccurrence,
-                        value.onConfirmOccurrenceTime);
-                  }),
-                  flex: 1,
-                )
-              ],
-            ),
-          ),
-          spaceWidgetColor(height: size_22_w),
-          //no.46
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -971,6 +1010,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangePlaceOfOccurrence(value),
             ),
           ),
+
           spaceWidgetColor(),
           //No.47
           Container(
@@ -989,61 +1029,89 @@ class InputReportState extends LifecycleState<InputReportContent>
                   .onChangeSummaryOfAccidentAndChiefComplaint(value),
             ),
           ),
-          spaceWidgetColor(height: size_6_w),
+          spaceWidgetColor(),
           //no.48
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.adl.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '003')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectAdl,
-              );
-            }),
-          ),
+              padding: const EdgeInsets.only(right: 16),
+              child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  direction: isWidescreen ? Axis.horizontal : Axis.vertical,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return buildDropDown(
+                          LocaleKeys.adl.tr(),
+                          value.msClassifications
+                              .where((element) =>
+                                  element.ClassificationCD == '003')
+                              .toList()
+                              .map((e) => e.Value.toString())
+                              .toList(),
+                          value.onSelectAdl,
+                        );
+                      }),
+                    ),
+
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return buildDropDown(
+                          LocaleKeys.traffic_accident_category.tr(),
+                          value.msClassifications
+                              .where((element) =>
+                                  element.ClassificationCD == '004')
+                              .toList()
+                              .map((e) => e.Value.toString())
+                              .toList(),
+                          value.onSelectTrafficAccidentCategory,
+                        );
+                      }),
+                    ),
+
+                    //no.50
+                  ])),
           spaceWidgetColor(),
-          //no.49
+
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                LocaleKeys.traffic_accident_category.tr(),
-                value.msClassifications
-                    .where((element) => element.ClassificationCD == '004')
-                    .toList()
-                    .map((e) => e.Value.toString())
-                    .toList(),
-                value.onSelectTrafficAccidentCategory,
-              );
-            }),
-          ),
+              padding: const EdgeInsets.only(right: 16),
+              child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  direction: isWidescreen ? Axis.horizontal : Axis.vertical,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return buildDropDown(LocaleKeys.witness.tr(),
+                            yesNothings, value.onSelectWitness);
+                      }),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Consumer<InputReportViewModel>(
+                          builder: (context, value, child) {
+                        return timePicker(
+                            LocaleKeys.bystander_cpr.tr(),
+                            value.dtReport.BystanderCPR,
+                            value.onConfirmBystanderCpr);
+                      }),
+                    ),
+                  ])),
+
           spaceWidgetColor(),
-          //no.50
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return buildDropDown(
-                  LocaleKeys.witness.tr(), yesNothings, value.onSelectWitness);
-            }),
-          ),
-          spaceWidgetColor(),
-          //no.51
-          Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Consumer<InputReportViewModel>(
-                builder: (context, value, child) {
-              return timePicker(LocaleKeys.bystander_cpr.tr(),
-                  value.dtReport.BystanderCPR, value.onConfirmBystanderCpr);
-            }),
-          ),
-          spaceWidgetColor(height: size_22_w),
           //no.52
           Container(
             padding: EdgeInsets.only(left: 16, right: 16),
@@ -1060,7 +1128,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangeOralInstruction(value),
             ),
           ),
-          spaceWidgetColor(height: size_20_w),
+          spaceWidgetColor(),
         ]);
   }
 
