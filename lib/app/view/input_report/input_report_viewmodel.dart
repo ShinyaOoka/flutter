@@ -33,7 +33,6 @@ class InputReportViewModel extends BaseViewModel {
   List<MSMessage> msMessages = [];
   List<MSFireStation> msFireStations = [];
 
-  List<String> yesNothings = [];
   bool isExpandQualification = false;
   bool isExpandRide = false;
 
@@ -184,7 +183,7 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     ambulanceName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.TeamCD) == true);
     dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
     if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
@@ -198,12 +197,10 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectCaptainName(String? itemSelected) {
     captainName = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.TeamMemberCD) == true);
     dtReport.TeamCaptainName = msTeamMember?.Name;
     dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
-    if (msTeamMember?.LifesaverQualification != null) {
-      dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
-    }
+    emtQualification = yesNothings[msTeamMember?.LifesaverQualification];
     notifyListeners();
   }
 

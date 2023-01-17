@@ -274,6 +274,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
           return textShowWithLabel(LocaleKeys.fire_signature.tr(), value.dtReport.FireStationName ?? '');
         }),
       ),
+      spaceWidgetColor(),
       //No.5
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
@@ -515,13 +516,7 @@ class InputReportState extends LifecycleState<InputReportContent> with SingleTic
       Container(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Consumer<InputReportViewModel>(builder: (context, value, child) {
-          return buildDropDownSearch(
-            LocaleKeys.dosage.tr(),
-            value.msClassifications.where((element) => element.ClassificationCD == '010').toList().map((e) => e.Value.toString()).toList(),
-            value.dosage,
-            value.onSelectDosage,
-            height: 220,
-          );
+          return buildDropDown(LocaleKeys.dosage.tr(), value.msClassifications.where((element) => element.ClassificationCD == '010').toList().map((e) => e.Value.toString()).toList(), value.onSelectDosage);
         }),
       ),
       spaceWidgetColor(height: size_28_w),
