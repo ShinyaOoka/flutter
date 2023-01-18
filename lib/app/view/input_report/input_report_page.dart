@@ -280,8 +280,9 @@ class InputReportState extends LifecycleState<InputReportContent>
     }
   }
 
-  Widget flexibleLayout(children) {
+  Widget flexibleLayout(children, {Color? color}) {
     return Container(
+      color: color,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: useMobileLayout()
           ? Column(children: children)
@@ -364,6 +365,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                           colorBorder: Colors.black26,
                           colorFocusBorder: kColor4472C4,
                           labelText: LocaleKeys.ambulance_tel.tr(),
+                          enabled: false,
                           onChanged: (value) => null,
                         );
                       }),
@@ -447,7 +449,8 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 6),
+          spaceWidgetColor(height: 4, color: kColorDEE9F6),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -483,9 +486,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                       value.onSelectReportNameOfEngineer,
                       backgroundTextLabel: kColorDEE9F6);
                 })),
-          ]),
+          ], color: kColorDEE9F6),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(color: kColorDEE9F6),
           //No.10
           flexibleLayout([
             SizedBox(
@@ -508,7 +511,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: 16,
               height: 16,
             ), //No.11
-            SizedBox(
+            Container(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                   keyboardType: TextInputType.number,
@@ -524,8 +527,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                       inputReportViewModel.onChangeReportTeam(value),
                   labelBackgroundColor: kColorDEE9F6),
             ),
-          ]),
-          spaceWidgetColor(),
+          ], color: kColorDEE9F6),
+          spaceWidgetColor(color: kColorDEE9F6),
         ]);
   }
 
@@ -794,9 +797,10 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.25
           ]),
 
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(height: 4, color: kColorDEE9F6),
           //no.26
           Container(
+            color: kColorDEE9F6,
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
@@ -812,10 +816,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                   .onChangeReportNameOfInjuryOrDisease(value),
             ),
           ),
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(height: 4, color: kColorDEE9F6),
           //no.27
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
+            color: kColorDEE9F6,
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               keyboardType: TextInputType.text,
@@ -830,10 +835,11 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangeReportDegree(value),
             ),
           ),
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(height: 4, color: kColorDEE9F6),
           //no.28
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
+            color: kColorDEE9F6,
             child: Consumer<InputReportViewModel>(
                 builder: (context, value, child) {
               return textShowWithLabel(LocaleKeys.report_age.tr(),
@@ -841,7 +847,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   backgroundLableColor: kColorDEE9F6);
             }),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(color: kColorDEE9F6),
         ]);
   }
 
@@ -979,10 +985,11 @@ class InputReportState extends LifecycleState<InputReportContent>
           ]),
           //no.36
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 10),
 
           flexibleLayout([
-            SizedBox(
+            Container(
+              padding: EdgeInsets.only(top: 4),
               width: getWidthWidget(3),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
@@ -992,12 +999,14 @@ class InputReportState extends LifecycleState<InputReportContent>
                     value.onConfirmPoliceContact);
               }),
             ),
-            const SizedBox(
+            Container(
               width: 16,
-              height: 16,
+              color: kColorDEE9F6,
             ),
             //no.40
-            SizedBox(
+            Container(
+              color: kColorDEE9F6,
+              padding: EdgeInsets.only(top: 4),
               width: getWidthWidget(3),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
@@ -1013,7 +1022,9 @@ class InputReportState extends LifecycleState<InputReportContent>
               height: 16,
             ),
             //no.41
-            SizedBox(
+            Container(
+              color: kColorDEE9F6,
+              padding: EdgeInsets.only(top: 4),
               width: getWidthWidget(3),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
@@ -1659,26 +1670,34 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(
+            height: 4,
+            color: kColorDEE9F6,
+          ),
           //no.76
-          flexibleLayout([
-            SizedBox(
-              width: getWidthWidget(2),
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return buildDropDown(
-                    LocaleKeys.report_observation_time_explanation.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '015')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.onSelectObservationTimeExplanation1,
-                    backgroundTextLabel: kColorDEE9F6);
-              }),
-            ),
-          ]),
-          spaceWidgetColor(),
+          flexibleLayout(
+            [
+              SizedBox(
+                width: getWidthWidget(2),
+                child: Consumer<InputReportViewModel>(
+                    builder: (context, value, child) {
+                  return buildDropDown(
+                      LocaleKeys.report_observation_time_explanation.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '015')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectObservationTimeExplanation1,
+                      backgroundTextLabel: kColorDEE9F6);
+                }),
+              ),
+            ],
+            color: kColorDEE9F6,
+          ),
+          spaceWidgetColor(
+            color: kColorDEE9F6,
+          ),
         ]);
   }
 
@@ -2501,26 +2520,34 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(
+            height: 4,
+            color: kColorDEE9F6,
+          ),
           //no.76
-          flexibleLayout([
-            SizedBox(
-              width: getWidthWidget(2),
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return buildDropDown(
-                    LocaleKeys.report_observation_time_explanation.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '015')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.onSelectObservationTimeExplanation2,
-                    backgroundTextLabel: kColorDEE9F6);
-              }),
-            ),
-          ]),
-          spaceWidgetColor(),
+          flexibleLayout(
+            [
+              SizedBox(
+                width: getWidthWidget(2),
+                child: Consumer<InputReportViewModel>(
+                    builder: (context, value, child) {
+                  return buildDropDown(
+                      LocaleKeys.report_observation_time_explanation.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '015')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectObservationTimeExplanation2,
+                      backgroundTextLabel: kColorDEE9F6);
+                }),
+              ),
+            ],
+            color: kColorDEE9F6,
+          ),
+          spaceWidgetColor(
+            color: kColorDEE9F6,
+          ),
         ]);
   }
 
@@ -2981,26 +3008,34 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: 4),
+          spaceWidgetColor(
+            height: 4,
+            color: kColorDEE9F6,
+          ),
           //no.76
-          flexibleLayout([
-            SizedBox(
-              width: getWidthWidget(2),
-              child: Consumer<InputReportViewModel>(
-                  builder: (context, value, child) {
-                return buildDropDown(
-                    LocaleKeys.report_observation_time_explanation.tr(),
-                    value.msClassifications
-                        .where((element) => element.ClassificationCD == '015')
-                        .toList()
-                        .map((e) => e.Value.toString())
-                        .toList(),
-                    value.onSelectObservationTimeExplanation3,
-                    backgroundTextLabel: kColorDEE9F6);
-              }),
-            ),
-          ]),
-          spaceWidgetColor(),
+          flexibleLayout(
+            [
+              SizedBox(
+                width: getWidthWidget(2),
+                child: Consumer<InputReportViewModel>(
+                    builder: (context, value, child) {
+                  return buildDropDown(
+                      LocaleKeys.report_observation_time_explanation.tr(),
+                      value.msClassifications
+                          .where((element) => element.ClassificationCD == '015')
+                          .toList()
+                          .map((e) => e.Value.toString())
+                          .toList(),
+                      value.onSelectObservationTimeExplanation3,
+                      backgroundTextLabel: kColorDEE9F6);
+                }),
+              ),
+            ],
+            color: kColorDEE9F6,
+          ),
+          spaceWidgetColor(
+            color: kColorDEE9F6,
+          ),
         ]);
   }
 
@@ -3362,6 +3397,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         colorFocusBorder: kColor4472C4,
         labelBackgroundColor: backgroundLableColor,
         labelText: label,
+        enabled: false,
         onChanged: (value) => null);
   }
 
