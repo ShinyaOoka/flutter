@@ -1010,6 +1010,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                       .toList(),
                   value.dtReport.TypeOfAccident,
                   value.onSelectAccidentTypeInput,
+                  filterFn: (obj, keyword) =>
+                      obj.Name.toString().contains(keyword) ||
+                      obj.CD.toString().contains(keyword),
                 );
               }),
             ),
@@ -3022,15 +3025,21 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                return buildDropDown(
+                return buildDropDownSearchObject(
                   LocaleKeys.awareness_type.tr(),
                   value.msClassifications
                       .where((element) => element.ClassificationCD == '009')
                       .toList()
-                      .map((e) => e.Value.toString())
+                      .map((e) => ObjectSearch(
+                          CD: e.ClassificationSubCD.toString(),
+                          Name: e.Value.toString()))
                       .toList(),
+                  value.dtReport.TypeOfDetection,
                   value.onSelectAwarenessType,
                   backgroundTextLabel: kColorDEE9F6,
+                  filterFn: (obj, keyword) =>
+                      obj.Name.toString().contains(keyword) ||
+                      obj.CD.toString().contains(keyword),
                 );
               }),
             ),
@@ -3548,7 +3557,9 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildDropDownSearchObject(String label, List<ObjectSearch> list,
       String? valueSelect, Function(String? itemSelected) onSelected,
-      {Color? backgroundTextLabel, double? height}) {
+      {Color? backgroundTextLabel,
+      double? height,
+      bool Function(ObjectSearch, String)? filterFn}) {
     print(valueSelect);
     return Stack(
       children: [
@@ -3571,8 +3582,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                     )),
                 items: list,
                 itemAsString: ((item) => item.Name),
-                filterFn: ((item, filter) =>
-                    item.Name.toString().contains(filter)),
+                filterFn: filterFn ??
+                    ((item, filter) => item.Name.toString().contains(filter)),
                 onChanged: (e) {
                   setState(() {
                     valueSelect = '${e?.CD} ${e?.Name}';
