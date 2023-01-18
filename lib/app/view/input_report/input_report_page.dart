@@ -3227,7 +3227,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   backgroundLableColor: kColorDEE9F6);
             }),
           ),
-          spaceWidgetColor(height: size_28_w),
+          spaceWidgetColor(),
         ],
       ),
     );
@@ -3235,11 +3235,12 @@ class InputReportState extends LifecycleState<InputReportContent>
 
   Widget buildLayout12() {
     return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            spaceWidgetColor(),
             //No.118
             OutlineTextFormField(
               keyboardType: TextInputType.multiline,
@@ -3254,7 +3255,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) =>
                   inputReportViewModel.onChangeOverviewOfTheOutbreak(value),
             ),
-            spaceWidgetColor(),
+            spaceWidgetColor(height: 4),
             //No.119
             OutlineTextFormField(
               keyboardType: TextInputType.multiline,
@@ -3268,7 +3269,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               labelText: LocaleKeys.remarks.tr(),
               onChanged: (value) => inputReportViewModel.onChangeRemars(value),
             ),
-            spaceWidgetColor(height: size_20_w),
+            spaceWidgetColor(),
           ]),
     );
   }
