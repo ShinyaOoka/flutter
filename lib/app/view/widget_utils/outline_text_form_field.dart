@@ -38,6 +38,7 @@ class OutlineTextFormField extends StatefulWidget {
   final bool isAlwaysShowLable;
   final String? labelText;
   final TextAlign? textAlign;
+  final String? counterText;
 
   OutlineTextFormField(
       {Key? key,
@@ -69,7 +70,8 @@ class OutlineTextFormField extends StatefulWidget {
       this.labelText,
       this.labelBackgroundColor,
       this.textAlign,
-      this.onTap})
+      this.onTap,
+      this.counterText})
       : super(key: key);
 
   @override
@@ -112,6 +114,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                     ? FloatingLabelBehavior.always
                     : FloatingLabelBehavior.auto,
                 counter: widget.counterWidget,
+                counterText: widget.counterText,
                 counterStyle: widget.counterStyle?.copyWith(height: 0.5),
                 hintText: widget.hintText,
                 labelStyle: TextStyle(

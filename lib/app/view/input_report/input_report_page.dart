@@ -1283,8 +1283,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -1304,8 +1304,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -1315,12 +1315,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-          //no.60
-
-          const SizedBox(
-            width: 16,
-            height: 16,
-          ),
+          spaceWidgetColor(height: 4),
           //no.62 & 63
           flexibleLayout([
             Container(
@@ -1336,9 +1331,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1358,9 +1353,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1373,10 +1368,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                  ),
+                  spaceWidgetColor(height: 4),
                   //no.64 & 65
                   Container(
                     width: getWidthWidget(2),
@@ -1388,9 +1380,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_percent.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_percent.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1410,8 +1402,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_L.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1427,12 +1420,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 ],
               ),
             ),
-            const SizedBox(
-              width: 16,
-              height: 16,
-            ),
-            //no.66 & 67
-
+            SizedBox(width: 16, height: 16),
             Container(
               width: getWidthWidget(2),
               child: Column(
@@ -1451,8 +1439,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1471,8 +1460,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -1485,6 +1475,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
+                  spaceWidgetColor(height: 4),
                   // const SizedBox(width: 16, height: 16,),
                   //no.68
                   flexibleLayoutWithoutPadding([
@@ -1518,20 +1509,18 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-          //no.69
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.70
           flexibleLayout([
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_C.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -1562,11 +1551,10 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.72
           flexibleLayout([
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -1600,7 +1588,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.74
           flexibleLayout([
             SizedBox(
@@ -1616,8 +1604,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               height: 16,
             ),
             //no.75
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -1632,8 +1619,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               ),
             ),
           ]),
-
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.76
           flexibleLayout([
             SizedBox(
@@ -1661,6 +1647,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -1749,9 +1736,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
           //no.81
-
           spaceWidgetColor(),
-
           //no.83 & 84
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -1761,14 +1746,13 @@ class InputReportState extends LifecycleState<InputReportContent>
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.only(top: 10),
                     child: OutlineTextFormField(
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.end,
                       isAlwaysShowLable: true,
                       maxLength: 3,
-                      counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                      counterStyle: counterStyle,
+                      counterText: LocaleKeys.unit_L.tr(),
+                      counterStyle: counterStyle.copyWith(color: kColor4472C4),
                       textColor: kColor4472C4,
                       colorBorder: Colors.black26,
                       colorFocusBorder: kColor4472C4,
@@ -1796,8 +1780,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ),
 
-          spaceWidgetColor(height: size_6_w),
-
+          spaceWidgetColor(height: 4),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -1881,22 +1864,19 @@ class InputReportState extends LifecycleState<InputReportContent>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: OutlineTextFormField(
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.end,
-                        isAlwaysShowLable: true,
-                        maxLength: 3,
-                        counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.bs_measurement_1.tr(),
-                        onChanged: (value) =>
-                            inputReportViewModel.onChangeBsMeasurement1(value),
-                      ),
+                    child: OutlineTextFormField(
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.end,
+                      isAlwaysShowLable: true,
+                      maxLength: 3,
+                      counterText: LocaleKeys.unit_mmHg.tr(),
+                      counterStyle: counterStyle.copyWith(color: kColor4472C4),
+                      textColor: kColor4472C4,
+                      colorBorder: Colors.black26,
+                      colorFocusBorder: kColor4472C4,
+                      labelText: LocaleKeys.bs_measurement_1.tr(),
+                      onChanged: (value) =>
+                          inputReportViewModel.onChangeBsMeasurement1(value),
                     ),
                     flex: 1,
                   ),
@@ -1924,24 +1904,22 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.92
             SizedBox(
               width: getWidthWidget(2),
-              child: Container(
-                padding: const EdgeInsets.only(top: 10),
-                child: OutlineTextFormField(
-                  isAlwaysShowLable: true,
-                  keyboardType: TextInputType.text,
-                  maxLength: 10,
-                  counterStyle: counterStyle,
-                  textColor: kColor4472C4,
-                  colorBorder: Colors.black26,
-                  colorFocusBorder: kColor4472C4,
-                  labelText: LocaleKeys.puncture_site_1.tr(),
-                  onChanged: (value) =>
-                      inputReportViewModel.onChangePunctureSite1(value),
-                ),
+              child: OutlineTextFormField(
+                isAlwaysShowLable: true,
+                keyboardType: TextInputType.text,
+                maxLength: 10,
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.puncture_site_1.tr(),
+                onChanged: (value) =>
+                    inputReportViewModel.onChangePunctureSite1(value),
               ),
             ),
           ]),
 
+          spaceWidgetColor(height: 4),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -1950,22 +1928,19 @@ class InputReportState extends LifecycleState<InputReportContent>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: OutlineTextFormField(
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.end,
-                        isAlwaysShowLable: true,
-                        maxLength: 3,
-                        counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
-                        counterStyle: counterStyle,
-                        textColor: kColor4472C4,
-                        colorBorder: Colors.black26,
-                        colorFocusBorder: kColor4472C4,
-                        labelText: LocaleKeys.bs_measurement_2.tr(),
-                        onChanged: (value) =>
-                            inputReportViewModel.onChangeBsMeasurement2(value),
-                      ),
+                    child: OutlineTextFormField(
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.end,
+                      isAlwaysShowLable: true,
+                      maxLength: 3,
+                      counterText: LocaleKeys.unit_mmHg.tr(),
+                      counterStyle: counterStyle.copyWith(color: kColor4472C4),
+                      textColor: kColor4472C4,
+                      colorBorder: Colors.black26,
+                      colorFocusBorder: kColor4472C4,
+                      labelText: LocaleKeys.bs_measurement_2.tr(),
+                      onChanged: (value) =>
+                          inputReportViewModel.onChangeBsMeasurement2(value),
                     ),
                     flex: 1,
                   ),
@@ -1993,26 +1968,23 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.95
             SizedBox(
               width: getWidthWidget(2),
-              child: Container(
-                padding: const EdgeInsets.only(top: 10),
-                child: OutlineTextFormField(
-                  isAlwaysShowLable: true,
-                  keyboardType: TextInputType.text,
-                  maxLength: 10,
-                  counterStyle: counterStyle,
-                  textColor: kColor4472C4,
-                  colorBorder: Colors.black26,
-                  colorFocusBorder: kColor4472C4,
-                  labelText: LocaleKeys.puncture_site_2.tr(),
-                  onChanged: (value) =>
-                      inputReportViewModel.onChangePunctureSite2(value),
-                ),
+              child: OutlineTextFormField(
+                isAlwaysShowLable: true,
+                keyboardType: TextInputType.text,
+                maxLength: 10,
+                counterStyle: counterStyle,
+                textColor: kColor4472C4,
+                colorBorder: Colors.black26,
+                colorFocusBorder: kColor4472C4,
+                labelText: LocaleKeys.puncture_site_2.tr(),
+                onChanged: (value) =>
+                    inputReportViewModel.onChangePunctureSite2(value),
               ),
             ),
 
             //no.96
           ]),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
@@ -2039,6 +2011,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -2131,7 +2104,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               ],
             ),
           ),
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -2140,8 +2113,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -2161,8 +2134,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -2193,9 +2166,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2215,9 +2188,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2230,10 +2203,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                  ),
+                  spaceWidgetColor(height: 4),
                   //no.64 & 65
                   Container(
                     width: getWidthWidget(2),
@@ -2245,9 +2215,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_percent.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_percent.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2267,8 +2237,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_L.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2308,8 +2279,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2328,8 +2300,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2342,6 +2315,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       ],
                     ),
                   ),
+                  spaceWidgetColor(height: 4),
                   // const SizedBox(width: 16, height: 16,),
                   //no.68
                   flexibleLayoutWithoutPadding([
@@ -2376,19 +2350,18 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
           //no.69
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.70
           flexibleLayout([
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_C.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -2419,11 +2392,10 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.72
           flexibleLayout([
             Container(
-              padding: const EdgeInsets.only(top: 10),
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -2457,7 +2429,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.74
           flexibleLayout([
             SizedBox(
@@ -2473,8 +2445,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               height: 16,
             ),
             //no.75
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -2490,7 +2461,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.76
           flexibleLayout([
             SizedBox(
@@ -2619,8 +2590,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -2640,8 +2611,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_times_minute.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
@@ -2672,9 +2643,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2694,9 +2665,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_mmHg.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mmHg.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2724,9 +2695,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget:
-                                unitWidget(LocaleKeys.unit_percent.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_percent.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2746,8 +2717,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_L.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2787,8 +2759,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2807,8 +2780,9 @@ class InputReportState extends LifecycleState<InputReportContent>
                             textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
-                            counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
-                            counterStyle: counterStyle,
+                            counterText: LocaleKeys.unit_mm.tr(),
+                            counterStyle:
+                                counterStyle.copyWith(color: kColor4472C4),
                             textColor: kColor4472C4,
                             colorBorder: Colors.black26,
                             colorFocusBorder: kColor4472C4,
@@ -2868,8 +2842,8 @@ class InputReportState extends LifecycleState<InputReportContent>
                 textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
-                counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
-                counterStyle: counterStyle,
+                counterText: LocaleKeys.unit_C.tr(),
+                counterStyle: counterStyle.copyWith(color: kColor4472C4),
                 textColor: kColor4472C4,
                 colorBorder: Colors.black26,
                 colorFocusBorder: kColor4472C4,
