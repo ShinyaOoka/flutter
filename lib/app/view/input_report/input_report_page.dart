@@ -1000,13 +1000,15 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: Consumer<InputReportViewModel>(
                   builder: (context, value, child) {
-                return buildDropDown(
+                return buildDropDownSearchObject(
                   LocaleKeys.accident_type_input.tr(),
                   value.msClassifications
                       .where((element) => element.ClassificationCD == '002')
                       .toList()
-                      .map((e) => e.Value.toString())
+                      .map((e) => ObjectSearch(
+                          CD: e.ClassificationSubCD, Name: e.Value.toString()))
                       .toList(),
+                  value.dtReport.TypeOfAccident,
                   value.onSelectAccidentTypeInput,
                 );
               }),
