@@ -153,38 +153,46 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   Future<void> getAllMSClassification() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSClassification) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSClassification) ?? [];
     msClassifications = datas.map((e) => MSClassification.fromJson(e)).toList();
-    msClassification006s = msClassifications.where((element) => element.ClassificationCD == '006').toList();
+    msClassification006s = msClassifications
+        .where((element) => element.ClassificationCD == '006')
+        .toList();
     notifyListeners();
   }
 
   Future<void> getAllMSTeam() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeam) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSTeam) ?? [];
     msTeams = datas.map((e) => MSTeam.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSTeamMember() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSTeamMember) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSTeamMember) ?? [];
     msTeamMembers = datas.map((e) => MSTeamMember.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSHospital() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSHospital) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSHospital) ?? [];
     msHospitals = datas.map((e) => MSHospital.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSMessage() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSMessage) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSMessage) ?? [];
     msMessages = datas.map((e) => MSMessage.fromJson(e)).toList();
     notifyListeners();
   }
 
   Future<void> getAllMSFireStation() async {
-    List<Map<String, Object?>>? datas = await dbHelper.getAllData(tableMSFireStation) ?? [];
+    List<Map<String, Object?>>? datas =
+        await dbHelper.getAllData(tableMSFireStation) ?? [];
     msFireStations = datas.map((e) => MSFireStation.fromJson(e)).toList();
     notifyListeners();
   }
@@ -193,10 +201,15 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectAmbulanceName(String? itemSelected) {
     ambulanceName = itemSelected ?? '';
-    MSTeam? msTeam = msTeams.firstWhereOrNull((e) => itemSelected?.contains(e.TeamCD) == true);
+    MSTeam? msTeam = msTeams
+        .firstWhereOrNull((e) => itemSelected?.contains(e.TeamCD) == true);
     dtReport.TeamName = msTeam?.Name ?? '';
     onSelectAmbulanceTel(msTeam?.TEL ?? '');
-    if (itemSelected != null) dtReport.FireStationName = msFireStations.firstWhereOrNull((element) => element.FireStationCD == msTeam?.TeamCD)?.Name;
+    if (itemSelected != null)
+      dtReport.FireStationName = msFireStations
+          .firstWhereOrNull(
+              (element) => element.FireStationCD == msTeam?.TeamCD)
+          ?.Name;
     notifyListeners();
   }
 
@@ -207,7 +220,8 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectCaptainName(String? itemSelected) {
     captainName = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.TeamMemberCD) == true);
+    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull(
+        (e) => itemSelected?.contains(e.TeamMemberCD) == true);
     dtReport.TeamCaptainName = msTeamMember?.Name;
     dtReport.LifesaverQualification = msTeamMember?.LifesaverQualification;
     emtQualification = yesNothings[msTeamMember?.LifesaverQualification];
@@ -222,7 +236,8 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   int? getIndexEmtRide() {
-    if (lifesaverQualificationNo8 == null || lifesaverQualificationNo9 == null) {
+    if (lifesaverQualificationNo8 == null ||
+        lifesaverQualificationNo9 == null) {
       if (lifesaverQualificationNo8 != null)
         return lifesaverQualificationNo8;
       else if (lifesaverQualificationNo9 == null)
@@ -235,7 +250,8 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectReportMemberName(String? itemSelected) {
     memberName = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeamMember? msTeamMember = msTeamMembers
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
     dtReport.TeamMemberName = msTeamMember?.Name;
     lifesaverQualificationNo8 = msTeamMember?.LifesaverQualification;
     indexEmtRide = getIndexEmtRide();
@@ -246,7 +262,8 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectReportNameOfEngineer(String? itemSelected) {
     nameOfEngineer = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeamMember? msTeamMember = msTeamMembers
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
     dtReport.InstitutionalMemberName = msTeamMember?.Name;
     lifesaverQualificationNo9 = msTeamMember?.LifesaverQualification;
     indexEmtRide = getIndexEmtRide();
@@ -277,7 +294,10 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onUnfocusFurigana() {
-    dtReport.SickInjuredPersonKANA = regexKana.allMatches(dtReport.SickInjuredPersonKANA ?? "").map((x) => x.group(0)).join();
+    dtReport.SickInjuredPersonKANA = regexKana
+        .allMatches(dtReport.SickInjuredPersonKANA ?? "")
+        .map((x) => x.group(0))
+        .join();
     furiganaController.text = dtReport.SickInjuredPersonKANA ?? "";
     notifyListeners();
   }
@@ -288,13 +308,18 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectSex(String? itemSelected) {
-    if (itemSelected != null) dtReport.SickInjuredPersonGender = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.SickInjuredPersonGender = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onConfirmBirthday(DateTime date) {
-    dtReport.SickInjuredPersonBirthDate = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
-    int? age = Utils.calculateAge(date, Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    dtReport.SickInjuredPersonBirthDate =
+        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    int? age = Utils.calculateAge(date,
+        Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
     dtReport.SickInjuredPersonAge = age == null || age == 0 ? null : age;
     notifyListeners();
   }
@@ -328,7 +353,10 @@ class InputReportViewModel extends BaseViewModel {
 
   onSelectDosage(String? itemSelected) {
     this.dosage = itemSelected ?? '';
-    if (itemSelected != null) dtReport.SickInjuredPersonMedication = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.SickInjuredPersonMedication = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -383,7 +411,8 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onConfirmStartTransportation(DateTime date) {
-    dtReport.StartOfTransportTime = Utils.dateTimeToString(date, format: HH_mm_);
+    dtReport.StartOfTransportTime =
+        Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -414,13 +443,20 @@ class InputReportViewModel extends BaseViewModel {
 
   //layout 4
   onSelectAccidentTypeInput(String? itemSelected) {
-    if (itemSelected != null) dtReport.TypeOfAccident = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.TypeOfAccident = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onConfirmAccrualDate(DateTime date) {
-    dtReport.DateOfOccurrence = Utils.dateTimeToString(date, format: yyyy_MM_dd_);
-    int? age = Utils.calculateAge(Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate, format: yyyy_MM_dd_), Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
+    dtReport.DateOfOccurrence =
+        Utils.dateTimeToString(date, format: yyyy_MM_dd_);
+    int? age = Utils.calculateAge(
+        Utils.stringToDateTime(dtReport.SickInjuredPersonBirthDate,
+            format: yyyy_MM_dd_),
+        Utils.stringToDateTime(dtReport.DateOfOccurrence, format: yyyy_MM_dd_));
     dtReport.SickInjuredPersonAge = age == null || age == 0 ? null : age;
     notifyListeners();
   }
@@ -441,12 +477,18 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAdl(String? itemSelected) {
-    if (itemSelected != null) dtReport.ADL = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.ADL = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectTrafficAccidentCategory(String? itemSelected) {
-    if (itemSelected != null) dtReport.TrafficAccidentClassification = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.TrafficAccidentClassification = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -534,22 +576,28 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight1(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionRight1 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionRight1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft1(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionLeft1 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionLeft1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onChangeBodyTemperature1(String? itemSelected) {
-    this.bodyTemperature1 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
+    this.bodyTemperature1 =
+        double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
   onSelectFacialFeatures1(String? itemSelected) {
-    if (itemSelected != null) facialFeatures1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      facialFeatures1 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -559,12 +607,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence1(String? itemSelected) {
-    if (itemSelected != null) incontinence1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      incontinence1 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectVomiting1(String? itemSelected) {
-    if (itemSelected != null) this.vomiting1 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.vomiting1 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -574,13 +626,19 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectObservationTimeExplanation1(String? itemSelected) {
-    if (itemSelected != null) reportObservationTimeExplanation1 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      reportObservationTimeExplanation1 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   //layout 6
   onSelectAirwayManagement(String? itemSelected) {
-    if (itemSelected != null) dtReport.SecuringAirway = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.SecuringAirway = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -625,12 +683,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectO2AdministrationTime(DateTime date) {
-    dtReport.O2AdministrationTime = Utils.dateTimeToString(date, format: HH_mm_);
+    dtReport.O2AdministrationTime =
+        Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
   onSelectSpinalCordMotionLimitation(String? itemSelected) {
-    if (itemSelected != null) dtReport.SpinalCordMovementLimitation = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.SpinalCordMovementLimitation = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -764,22 +826,28 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight2(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionRight2 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionRight2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft2(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionLeft2 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionLeft2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onChangeBodyTemperature2(String? itemSelected) {
-    this.bodyTemperature2 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
+    this.bodyTemperature2 =
+        double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
   onSelectFacialFeatures2(String? itemSelected) {
-    if (itemSelected != null) facialFeatures2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      facialFeatures2 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -789,12 +857,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence2(String? itemSelected) {
-    if (itemSelected != null) incontinence2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      incontinence2 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectVomiting2(String? itemSelected) {
-    if (itemSelected != null) this.vomiting2 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.vomiting2 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -804,7 +876,10 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectObservationTimeExplanation2(String? itemSelected) {
-    if (itemSelected != null) reportObservationTimeExplanation2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      reportObservationTimeExplanation2 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -875,22 +950,28 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectLightReflectionRight3(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionRight3 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionRight3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onSelectLightReflectionLeft3(String? itemSelected) {
-    if (itemSelected != null) this.lightReflectionLeft3 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.lightReflectionLeft3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
   onChangeBodyTemperature3(String? itemSelected) {
-    this.bodyTemperature3 = double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
+    this.bodyTemperature3 =
+        double.tryParse(itemSelected ?? '')?.toStringAsFixed(1);
     notifyListeners();
   }
 
   onSelectFacialFeatures3(String? itemSelected) {
-    if (itemSelected != null) facialFeatures3 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      facialFeatures3 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -900,12 +981,16 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectIncontinence3(String? itemSelected) {
-    if (itemSelected != null) incontinence2 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      incontinence2 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
   onSelectVomiting3(String? itemSelected) {
-    if (itemSelected != null) this.vomiting3 = yesNothings.indexOf(itemSelected).toString();
+    if (itemSelected != null)
+      this.vomiting3 = yesNothings.indexOf(itemSelected).toString();
     notifyListeners();
   }
 
@@ -915,7 +1000,10 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectObservationTimeExplanation3(String? itemSelected) {
-    if (itemSelected != null) reportObservationTimeExplanation3 = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      reportObservationTimeExplanation3 = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -926,7 +1014,10 @@ class InputReportViewModel extends BaseViewModel {
   }
 
   onSelectAwarenessType(String? itemSelected) {
-    if (itemSelected != null) dtReport.TypeOfDetection = msClassifications.firstWhereOrNull((element) => element.Value == itemSelected)?.ClassificationSubCD;
+    if (itemSelected != null)
+      dtReport.TypeOfDetection = msClassifications
+          .firstWhereOrNull((element) => element.Value == itemSelected)
+          ?.ClassificationSubCD;
     notifyListeners();
   }
 
@@ -943,18 +1034,23 @@ class InputReportViewModel extends BaseViewModel {
   //layout 10
   onSelectTransportationMedicalInstitution(String? itemSelected) {
     transportationMedicalInstitution = itemSelected ?? '';
-    dtReport.MedicalTransportFacility = msHospitals.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)?.Name;
+    dtReport.MedicalTransportFacility = msHospitals
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)
+        ?.Name;
     notifyListeners();
   }
 
   onSelectForwardingMedicalInstitution(String? itemSelected) {
     forwardingMedicalInstitution = itemSelected ?? '';
-    dtReport.TransferringMedicalInstitution = msHospitals.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)?.Name;
+    dtReport.TransferringMedicalInstitution = msHospitals
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true)
+        ?.Name;
     notifyListeners();
   }
 
   onConfirmTransferSourcePickUpTime(DateTime date) {
-    dtReport.TransferSourceReceivingTime = Utils.dateTimeToString(date, format: HH_mm_);
+    dtReport.TransferSourceReceivingTime =
+        Utils.dateTimeToString(date, format: HH_mm_);
     notifyListeners();
   }
 
@@ -975,59 +1071,87 @@ class InputReportViewModel extends BaseViewModel {
     }
   }
 
-
   //layout 11
   onSelectReportersName(String? itemSelected) {
     reportersName = itemSelected ?? '';
-    MSTeamMember? msTeamMember = msTeamMembers.firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
+    MSTeamMember? msTeamMember = msTeamMembers
+        .firstWhereOrNull((e) => itemSelected?.contains(e.Name) == true);
     dtReportReportersName = msTeamMember?.Name;
     reportersAffiliation = msTeamMember?.Name;
-    reportersAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMember?.TeamMemberCD)?.Name ?? '';
+    reportersAffiliation = msTeams
+            .firstWhereOrNull(
+                (element) => element.TeamCD == msTeamMember?.TeamMemberCD)
+            ?.Name ??
+        '';
     notifyListeners();
   }
-
 
   //layout 12
   onChangeOverviewOfTheOutbreak(String? itemSelected) {
     dtReport.SummaryOfOccurrence = itemSelected ?? '';
     notifyListeners();
   }
+
   onChangeRemars(String? itemSelected) {
     dtReport.Remark = itemSelected ?? '';
     notifyListeners();
   }
 
   void onSaveToDb() async {
-    MSMessage? msMessageAdd = msMessages.firstWhereOrNull((element) => element.CD == '003');
+    MSMessage? msMessageAdd =
+        msMessages.firstWhereOrNull((element) => element.CD == '003');
     //join data layout 5, 7 & 8
-    dtReport.ObservationTime = Utils.importStringToDb(observationTime1, observationTime2, observationTime3);
+    dtReport.ObservationTime = Utils.importStringToDb(
+        observationTime1, observationTime2, observationTime3);
     dtReport.JCS = Utils.importStringToDb(jcs1, jcs2, jcs3);
     dtReport.GCSE = Utils.importStringToDb(gcsE1, gcsE2, gcsE3);
     dtReport.GCSV = Utils.importStringToDb(gcsV1, gcsV2, gcsV3);
     dtReport.GCSM = Utils.importStringToDb(gcsM1, gcsM2, gcsM3);
-    dtReport.Respiration = Utils.importStringToDb(breathing1, breathing2, breathing3);
+    dtReport.Respiration =
+        Utils.importStringToDb(breathing1, breathing2, breathing3);
     dtReport.Pulse = Utils.importStringToDb(pulse1, pulse2, pulse3);
-    dtReport.BloodPressureHigh = Utils.importStringToDb(bloodPressureUp1, bloodPressureUp2, bloodPressureUp3);
-    dtReport.BloodPressureLow = Utils.importStringToDb(bloodPessureLower1, bloodPessureLower2, bloodPessureLower3);
-    dtReport.SpO2Percent = Utils.importStringToDb(spo2Percent1, spo2Percent2, spo2Percent3);
+    dtReport.BloodPressureHigh = Utils.importStringToDb(
+        bloodPressureUp1, bloodPressureUp2, bloodPressureUp3);
+    dtReport.BloodPressureLow = Utils.importStringToDb(
+        bloodPessureLower1, bloodPessureLower2, bloodPessureLower3);
+    dtReport.SpO2Percent =
+        Utils.importStringToDb(spo2Percent1, spo2Percent2, spo2Percent3);
     dtReport.SpO2Liter = Utils.importStringToDb(spo2L1, spo2L2, spo2L3);
-    dtReport.PupilRight = Utils.importStringToDb(rightPupil1, rightPupil2, rightPupil3);
-    dtReport.PupilLeft = Utils.importStringToDb(leftPupil1, leftPupil2, leftPupil3);
-    dtReport.LightReflexRight = Utils.importStringToDb(lightReflectionRight1, lightReflectionRight2, lightReflectionRight3);
-    dtReport.PhotoreflexLeft = Utils.importStringToDb(lightReflectionLeft1, lightReflectionLeft2, lightReflectionLeft3);
-    dtReport.BodyTemperature = Utils.importStringToDb(bodyTemperature1, bodyTemperature2, bodyTemperature3);
-    dtReport.FacialFeatures = Utils.importStringToDb(facialFeatures1, facialFeatures2, facialFeatures3);
-    dtReport.Hemorrhage = Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
-    dtReport.Incontinence = Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
+    dtReport.PupilRight =
+        Utils.importStringToDb(rightPupil1, rightPupil2, rightPupil3);
+    dtReport.PupilLeft =
+        Utils.importStringToDb(leftPupil1, leftPupil2, leftPupil3);
+    dtReport.LightReflexRight = Utils.importStringToDb(
+        lightReflectionRight1, lightReflectionRight2, lightReflectionRight3);
+    dtReport.PhotoreflexLeft = Utils.importStringToDb(
+        lightReflectionLeft1, lightReflectionLeft2, lightReflectionLeft3);
+    dtReport.BodyTemperature = Utils.importStringToDb(
+        bodyTemperature1, bodyTemperature2, bodyTemperature3);
+    dtReport.FacialFeatures = Utils.importStringToDb(
+        facialFeatures1, facialFeatures2, facialFeatures3);
+    dtReport.Hemorrhage =
+        Utils.importStringToDb(bleeding1, bleeding2, bleeding3);
+    dtReport.Incontinence =
+        Utils.importStringToDb(incontinence1, incontinence2, incontinence3);
     dtReport.Vomiting = Utils.importStringToDb(vomiting1, vomiting2, vomiting3);
     dtReport.Extremities = Utils.importStringToDb(limb1, limb2, limb3);
-    dtReport.DescriptionOfObservationTime = Utils.importStringToDb(reportObservationTimeExplanation1, reportObservationTimeExplanation2, reportObservationTimeExplanation3);
+    dtReport.DescriptionOfObservationTime = Utils.importStringToDb(
+        reportObservationTimeExplanation1,
+        reportObservationTimeExplanation2,
+        reportObservationTimeExplanation3);
 
     //extra
     dtReport.Remark = null;
-    MSTeamMember? msTeamMemberReporterAffiliation = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName);
-    dtReport.ReporterAffiliation = msTeams.firstWhereOrNull((element) => element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)?.Name;
-    dtReport.ReportingClass = msTeamMembers.firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)?.Position;
+    MSTeamMember? msTeamMemberReporterAffiliation =
+        msTeamMembers.firstWhereOrNull(
+            (element) => element.Name == dtReport.TeamCaptainName);
+    dtReport.ReporterAffiliation = msTeams
+        .firstWhereOrNull((element) =>
+            element.TeamCD == msTeamMemberReporterAffiliation?.TeamMemberCD)
+        ?.Name;
+    dtReport.ReportingClass = msTeamMembers
+        .firstWhereOrNull((element) => element.Name == dtReport.TeamCaptainName)
+        ?.Position;
 
     await dbHelper.putDataToDTReportDb(tableDTReport, [dtReport]);
     //show alert add success
@@ -1039,6 +1163,7 @@ class InputReportViewModel extends BaseViewModel {
         _navigationService.back();
         //refresh list report
         eventBus.fire(AddReport());
+        _navigationService.back();
       },
     );
   }
