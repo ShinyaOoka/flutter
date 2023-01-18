@@ -37,7 +37,8 @@ class ConfirmReportContent extends StatefulWidget {
 
 class ConfirmReportState extends LifecycleState<ConfirmReportContent>
     with SingleTickerProviderStateMixin {
-  ConfirmReportViewModel get confirmReportViewModel => widget._confirmReportViewModel;
+  ConfirmReportViewModel get confirmReportViewModel =>
+      widget._confirmReportViewModel;
 
   int? pages = 0;
   int? currentPage = 0;
@@ -65,7 +66,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
     super.onResume();
   }
 
-  void init(){
+  void init() {
     confirmReportViewModel.initData();
   }
 
@@ -81,20 +82,21 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
               LocaleKeys.report_confirmation.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
-                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: TextButton(
-              child: Text(LocaleKeys.back_report.tr(),
+            leading: TextButton.icon(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              label: Text(LocaleKeys.back_report.tr(),
+                  // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
-                    fontSize: text_16,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
               onPressed: () => confirmReportViewModel.back(),
             ),
+            leadingWidth: 80,
             actions: [
               PopupMenuButton<int>(
                 itemBuilder: (context) => [
@@ -118,7 +120,10 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
                   if (value == 1)
                     {confirmReportViewModel.openEditReport()}
                   else
-                    {confirmReportViewModel.openSendReport(confirmReportViewModel.dtReport)}
+                    {
+                      confirmReportViewModel
+                          .openSendReport(confirmReportViewModel.dtReport)
+                    }
                 },
                 offset: const Offset(0, 56),
                 shape: const RoundedRectangleBorder(

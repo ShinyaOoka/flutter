@@ -19,7 +19,11 @@ import '../widget_utils/base_scaffold_safe_area.dart';
 import 'preview_report_viewmodel.dart';
 
 class PreviewReportPage extends PageProvideNode<PreviewReportViewModel> {
-  PreviewReportPage({Key? key, String assetFile = '', String pdfName = '', DTReport? dtReport})
+  PreviewReportPage(
+      {Key? key,
+      String assetFile = '',
+      String pdfName = '',
+      DTReport? dtReport})
       : super(key: key, params: [assetFile, pdfName, dtReport]);
 
   @override
@@ -43,7 +47,8 @@ class PreviewReportContent extends StatefulWidget {
 
 class PreviewReportState extends LifecycleState<PreviewReportContent>
     with SingleTickerProviderStateMixin {
-  PreviewReportViewModel get previewReportViewModel => widget._previewReportViewModel;
+  PreviewReportViewModel get previewReportViewModel =>
+      widget._previewReportViewModel;
 
   @override
   void initState() {
@@ -63,7 +68,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
     super.onResume();
   }
 
-  void init(){
+  void init() {
     previewReportViewModel.initData();
   }
 
@@ -79,21 +84,21 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                 LocaleKeys.report_PDF_preview.tr(),
                 // style: Theme.of(context).appBarTheme.titleTextStyle,
                 style: TextStyle(
-                  fontSize: text_16,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              leading: TextButton(
-                child: Text(LocaleKeys.back_report.tr(),
+              leading: TextButton.icon(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                label: Text(LocaleKeys.back_report.tr(),
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
-                      fontSize: text_16,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
                 onPressed: () => previewReportViewModel.back(),
               ),
+              leadingWidth: 80,
               automaticallyImplyLeading: false,
             ),
             transparentStatusBar: 0.0,
@@ -120,11 +125,10 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: size_12_w, vertical: size_6_w),
+                                    horizontal: 16, vertical: 8),
                                 child: Text(
                                   LocaleKeys.send.tr(),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: text_12),
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),
@@ -136,12 +140,11 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                         child: previewReportViewModel.pdfName.isEmpty
                             ? Container()
                             : Center(
-                          child: Text(
-                            previewReportViewModel.pdfName,
-                            style: TextStyle(
-                                color: Colors.black, fontSize: text_16),
-                          ),
-                        ),
+                                child: Text(
+                                  previewReportViewModel.pdfName,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 10),
@@ -154,16 +157,18 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: size_12_w, vertical: size_6_w),
+                                    horizontal: 16, vertical: 8),
                                 child: Text(
                                   LocaleKeys.printing.tr(),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: text_12),
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ),
                           ),
-                          onTap: () => previewReportViewModel.generatedPdfFilePath.isEmpty ? null : previewReportViewModel.openSystemPrintDialog(),
+                          onTap: () => previewReportViewModel
+                                  .generatedPdfFilePath.isEmpty
+                              ? null
+                              : previewReportViewModel.openSystemPrintDialog(),
                         ),
                       ),
                     ],
@@ -175,19 +180,19 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                     return value.generatedPdfFilePath.isEmpty
                         ? const BuildProgressLoading()
                         : PdfView(
-                      controller: PdfController(
-                        document: PdfDocument.openFile(previewReportViewModel.generatedPdfFilePath),
-                      ),
-                      renderer: (PdfPage page) => page.render(
-                        width: page.width * 2,
-                        height: page.height * 2,
-                        format: PdfPageImageFormat.png,
-                        backgroundColor: strColorWhite,
-                      ),
-                    );
+                            controller: PdfController(
+                              document: PdfDocument.openFile(
+                                  previewReportViewModel.generatedPdfFilePath),
+                            ),
+                            renderer: (PdfPage page) => page.render(
+                              width: page.width * 2,
+                              height: page.height * 2,
+                              format: PdfPageImageFormat.png,
+                              backgroundColor: strColorWhite,
+                            ),
+                          );
                   }),
                 ),
-
               ],
             )));
   }

@@ -40,8 +40,7 @@ class ListReportContent extends StatefulWidget {
 
 class _ListReportContentState extends LifecycleState<ListReportContent>
     with SingleTickerProviderStateMixin {
-  ListReportViewModel get listReportViewModel =>
-      widget._listReportViewModel;
+  ListReportViewModel get listReportViewModel => widget._listReportViewModel;
 
   @override
   void initState() {
@@ -61,7 +60,7 @@ class _ListReportContentState extends LifecycleState<ListReportContent>
     super.onResume();
   }
 
-  void init(){
+  void init() {
     listReportViewModel.scrollController.addListener(() {
       listReportViewModel.onScroll();
     });
@@ -85,7 +84,6 @@ class _ListReportContentState extends LifecycleState<ListReportContent>
             title: Text(
               LocaleKeys.report_list.tr(),
               style: TextStyle(
-                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -143,7 +141,8 @@ class _ListReportContentState extends LifecycleState<ListReportContent>
                                   );
                                 },
                                 child: CustomScrollView(
-                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   controller: value.scrollController,
                                   slivers: <Widget>[
@@ -154,11 +153,21 @@ class _ListReportContentState extends LifecycleState<ListReportContent>
                                             children: [
                                               ItemReport(
                                                 report: value.dtReports[index],
-                                                msClassifications: value.msClassifications,
+                                                msClassifications:
+                                                    value.msClassifications,
                                                 onDeleteItem: () => null,
-                                                onClickItem: () => listReportViewModel.openConfirmReport(value.dtReports[index]),
+                                                onClickItem: () =>
+                                                    listReportViewModel
+                                                        .openConfirmReport(value
+                                                            .dtReports[index]),
                                               ),
-                                              index <= value.dtReports.length - 1 ? const Divider(height: 1, color: Colors.black26,) : Container()
+                                              index <=
+                                                      value.dtReports.length - 1
+                                                  ? const Divider(
+                                                      height: 1,
+                                                      color: Colors.black26,
+                                                    )
+                                                  : Container()
                                             ],
                                           );
                                         },

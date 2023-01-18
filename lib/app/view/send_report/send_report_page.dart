@@ -12,7 +12,8 @@ import '../widget_utils/base_scaffold_safe_area.dart';
 import 'send_report_viewmodel.dart';
 
 class SendReportPage extends PageProvideNode<SendReportViewModel> {
-  SendReportPage({Key? key, DTReport? dtReport}) : super(key: key, params: [dtReport]);
+  SendReportPage({Key? key, DTReport? dtReport})
+      : super(key: key, params: [dtReport]);
 
   @override
   Widget buildContent(BuildContext context) {
@@ -51,7 +52,7 @@ class SendReportState extends LifecycleState<SendReportContent>
     super.onResume();
   }
 
-  void init(){
+  void init() {
     sendReportViewModel.initData();
   }
 
@@ -67,21 +68,21 @@ class SendReportState extends LifecycleState<SendReportContent>
               LocaleKeys.report_PDF_sending_printing.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
-                fontSize: text_16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: TextButton(
-              child: Text(LocaleKeys.list.tr(),
+            leading: TextButton.icon(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              label: Text(LocaleKeys.back_report.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
-                    fontSize: text_16,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
-              onPressed: () => sendReportViewModel.openListReport(),
+              onPressed: () => sendReportViewModel.back(),
             ),
+            leadingWidth: 80,
             automaticallyImplyLeading: false,
           ),
           transparentStatusBar: 0.0,
@@ -100,9 +101,6 @@ class SendReportState extends LifecycleState<SendReportContent>
                   width: double.infinity,
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: size_20_w,
-                      ),
                       Padding(
                         padding: EdgeInsets.only(top: 16, left: 16, right: 16),
                         child: FilledButton(
@@ -118,11 +116,10 @@ class SendReportState extends LifecycleState<SendReportContent>
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
                               sendReportViewModel.dtReport,
-                              pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
+                              pdfName: LocaleKeys
+                                  .injured_person_transport_certificate
+                                  .tr()),
                         ),
-                      ),
-                      SizedBox(
-                        height: size_20_w,
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -140,7 +137,9 @@ class SendReportState extends LifecycleState<SendReportContent>
                           onPress: () => sendReportViewModel.openPreviewReport(
                               assetInjuredPersonTransportCertificate,
                               sendReportViewModel.dtReport,
-                              pdfName: LocaleKeys.injured_person_transport_certificate.tr()),
+                              pdfName: LocaleKeys
+                                  .injured_person_transport_certificate
+                                  .tr()),
                         ),
                       ),
 
