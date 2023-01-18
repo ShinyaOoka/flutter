@@ -279,6 +279,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          spaceWidgetColor(),
           //No.2
           flexibleLayout(
             [
@@ -304,8 +305,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                 width: 16,
                 height: 16,
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 10),
+              SizedBox(
                 width: useMobileLayout
                     ? MediaQuery.of(context).size.width
                     : MediaQuery.of(context).size.width / 2 - 24,
@@ -540,7 +540,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       : null),
             ),
           ]),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.15
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -556,7 +556,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) => inputReportViewModel.onChangeAddress(value),
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //No.16
           flexibleLayout([
             SizedBox(
@@ -589,7 +589,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: 32),
+          spaceWidgetColor(),
           //no.18
           flexibleLayout([
             SizedBox(
@@ -634,7 +634,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.20
           flexibleLayout([
             SizedBox(
@@ -673,7 +673,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.22
           flexibleLayout([
             SizedBox(
@@ -714,7 +714,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.24
           flexibleLayout([
             SizedBox(
@@ -736,8 +736,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: 16,
               height: 16,
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -755,10 +754,10 @@ class InputReportState extends LifecycleState<InputReportContent>
             //no.25
           ]),
 
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.26
           Container(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 12),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
               labelBackgroundColor: kColorDEE9F6,
@@ -773,7 +772,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   .onChangeReportNameOfInjuryOrDisease(value),
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.27
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -791,7 +790,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangeReportDegree(value),
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.28
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -811,6 +810,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(3),
@@ -994,6 +994,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -1069,7 +1070,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangePlaceOfOccurrence(value),
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //No.47
           Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -1088,7 +1089,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   .onChangeSummaryOfAccidentAndChiefComplaint(value),
             ),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.48
           flexibleLayout([
             SizedBox(
@@ -1171,7 +1172,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   inputReportViewModel.onChangeOralInstruction(value),
             ),
           ),
-          spaceWidgetColor(height: size_20_w),
+          spaceWidgetColor(),
         ]);
   }
 
@@ -1180,6 +1181,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayout([
             SizedBox(
               width: getWidthWidget(2),
@@ -3309,170 +3311,77 @@ class InputReportState extends LifecycleState<InputReportContent>
       String label, String? text, Function(DateTime date) onConfirm,
       {DateTime? maxDate, DateTime? minDate, Color? backgroundLableColor}) {
     DateTime? currentDate = Utils.stringToDateTime(text, format: yyyy_MM_dd_);
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 10),
-          child: InkWell(
-              child: Container(
-                height: 54,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.black38,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(text ?? '',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: kColor4472C4,
-                              fontWeight: FontWeight.normal)),
-                    ),
-                  ],
-                ),
+    return OutlineTextFormField(
+        isAlwaysShowLable: true,
+        readOnly: true,
+        controller: TextEditingController(text: text),
+        counterWidget: null,
+        textColor: kColor4472C4,
+        colorBorder: Colors.black26,
+        colorFocusBorder: kColor4472C4,
+        labelText: label,
+        onChanged: (value) => null,
+        onTap: () => {
+              Utils.removeFocus(context),
+              DatePicker.showDatePicker(
+                context,
+                maxTime: maxDate,
+                minTime: minDate,
+                showTitleActions: true,
+                locale: localeTypeJP,
+                onChanged: (date) {
+                  //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                },
+                onConfirm: (date) => onConfirm(date),
+                currentTime: currentDate ?? DateTime.now(),
               ),
-              onTap: () => {
-                    Utils.removeFocus(context),
-                    DatePicker.showDatePicker(
-                      context,
-                      maxTime: maxDate,
-                      minTime: minDate,
-                      showTitleActions: true,
-                      locale: localeTypeJP,
-                      onChanged: (date) {
-                        //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                      },
-                      onConfirm: (date) => onConfirm(date),
-                      currentTime: currentDate ?? DateTime.now(),
-                    ),
-                  }),
-        ),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-          ),
-          color: backgroundLableColor ?? Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-        ),
-      ],
-    );
+            });
   }
 
   Widget textShowWithLabel(String label, String? text,
       {Color? backgroundLableColor}) {
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 10),
-          child: Container(
-            height: 52,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
-                color: Colors.black38,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(text ?? '',
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          color: kColor4472C4,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20)),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-          ),
-          color: backgroundLableColor ?? Colors.white,
-          margin: const EdgeInsets.only(left: 8),
-          padding: const EdgeInsets.only(left: 4),
-        ),
-      ],
-    );
+    return OutlineTextFormField(
+        isAlwaysShowLable: true,
+        readOnly: true,
+        controller: TextEditingController(text: text),
+        counterWidget: null,
+        textColor: kColor4472C4,
+        colorBorder: Colors.black26,
+        colorFocusBorder: kColor4472C4,
+        labelBackgroundColor: backgroundLableColor,
+        labelText: label,
+        onChanged: (value) => null);
   }
 
   Widget timePicker(
       String label, String? text, Function(DateTime date) onConfirm,
       {Color? backgroundLableColor, bool? showSecondCol = false}) {
     DateTime? currentTime = Utils.stringToDateTime(text, format: HH_mm_);
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 10),
-          child: InkWell(
-              child: Container(
-                height: 54,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.black38,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(text ?? '',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: kColor4472C4,
-                              fontWeight: FontWeight.normal)),
-                    ),
-                  ],
-                ),
+
+    return OutlineTextFormField(
+        isAlwaysShowLable: true,
+        readOnly: true,
+        controller: TextEditingController(text: text),
+        counterWidget: null,
+        textColor: kColor4472C4,
+        colorBorder: Colors.black26,
+        colorFocusBorder: kColor4472C4,
+        labelText: label,
+        onChanged: (value) => null,
+        onTap: () => {
+              Utils.removeFocus(context),
+              DatePicker.showTimePicker(
+                context,
+                showTitleActions: true,
+                locale: localeTypeJP,
+                showSecondsColumn: showSecondCol ?? false,
+                onChanged: (date) {
+                  //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                },
+                onConfirm: (date) => onConfirm(date),
+                currentTime: currentTime ?? DateTime.now(),
               ),
-              onTap: () => {
-                    Utils.removeFocus(context),
-                    DatePicker.showTimePicker(
-                      context,
-                      showTitleActions: true,
-                      locale: localeTypeJP,
-                      showSecondsColumn: showSecondCol ?? false,
-                      onChanged: (date) {
-                        //print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-                      },
-                      onConfirm: (date) => onConfirm(date),
-                      currentTime: currentTime ?? DateTime.now(),
-                    ),
-                  }),
-        ),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6), height: 1),
-          ),
-          color: backgroundLableColor ?? Colors.white,
-          margin: const EdgeInsets.only(left: 10, top: 4),
-        ),
-      ],
-    );
+            });
   }
 
   Widget spaceWidgetColor({double? height, Color? color}) {
@@ -3487,9 +3396,7 @@ class InputReportState extends LifecycleState<InputReportContent>
   Widget? unitWidget(String text) {
     return Text(
       text,
-      style: const TextStyle(
-        color: kColor4472C4,
-      ),
+      style: const TextStyle(color: kColor4472C4, height: 0.5),
     );
   }
 
@@ -3499,7 +3406,6 @@ class InputReportState extends LifecycleState<InputReportContent>
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.only(top: 10),
           child: DropdownButtonFormField2(
             decoration: InputDecoration(
               focusedBorder: const OutlineInputBorder(
@@ -3549,7 +3455,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             style: TextStyle(color: Colors.black.withOpacity(0.6), height: 1),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: const EdgeInsets.only(left: 10, top: 4),
+          margin: const EdgeInsets.only(left: 10),
+          transform: Matrix4.translationValues(0.0, -8.0, 0.0),
         ),
       ],
     );
@@ -3560,42 +3467,40 @@ class InputReportState extends LifecycleState<InputReportContent>
       {Color? backgroundTextLabel,
       double? height,
       bool Function(ObjectSearch, String)? filterFn}) {
-    return Container(
-        padding: const EdgeInsets.only(top: 10),
-        child: DropdownSearch<ObjectSearch>(
-            popupProps: const PopupProps.menu(
-                scrollbarProps: ScrollbarProps(thumbVisibility: true),
-                showSearchBox: true,
-                searchFieldProps: TextFieldProps(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: kColorCED4DA),
-                        )))),
-            dropdownDecoratorProps: DropDownDecoratorProps(
-                baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
-                dropdownSearchDecoration: InputDecoration(
+    return DropdownSearch<ObjectSearch>(
+        popupProps: const PopupProps.menu(
+            scrollbarProps: ScrollbarProps(thumbVisibility: true),
+            showSearchBox: true,
+            searchFieldProps: TextFieldProps(
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: kColorCED4DA, width: 10),
-                    ),
-                    contentPadding: valueSelect == null
-                        ? EdgeInsets.all(16)
-                        : EdgeInsets.all(12),
-                    labelText: label,
-                    labelStyle: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        backgroundColor: backgroundTextLabel),
-                    floatingLabelBehavior: FloatingLabelBehavior.always)),
-            items: list,
-            itemAsString: ((item) => item.Name),
-            filterFn: filterFn ??
-                ((item, filter) => item.Name.toString().contains(filter)),
-            onChanged: (e) {
-              setState(() {
-                valueSelect = '${e?.CD} ${e?.Name}';
-              });
-              onSelected(valueSelect);
-            }));
+                      borderSide: BorderSide(color: kColorCED4DA),
+                    )))),
+        dropdownDecoratorProps: DropDownDecoratorProps(
+            baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
+            dropdownSearchDecoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: kColorCED4DA, width: 10),
+                ),
+                contentPadding: valueSelect == null
+                    ? EdgeInsets.all(16)
+                    : EdgeInsets.all(12),
+                labelText: label,
+                labelStyle: TextStyle(
+                    color: Colors.black.withOpacity(0.6),
+                    backgroundColor: backgroundTextLabel),
+                floatingLabelBehavior: FloatingLabelBehavior.always)),
+        items: list,
+        itemAsString: ((item) => item.Name),
+        filterFn: filterFn ??
+            ((item, filter) => item.Name.toString().contains(filter)),
+        onChanged: (e) {
+          setState(() {
+            valueSelect = '${e?.CD} ${e?.Name}';
+          });
+          onSelected(valueSelect);
+        });
   }
 
   Widget buildCheckbox(String label, List<String> list,

@@ -13,6 +13,7 @@ class OutlineTextFormField extends StatefulWidget {
   final bool enabled;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final void Function()? onTap;
   final void Function(String)? onFieldSubmitted;
   final TextInputAction textInputAction;
   final TextInputType? keyboardType;
@@ -67,7 +68,8 @@ class OutlineTextFormField extends StatefulWidget {
       this.isAlwaysShowLable = false,
       this.labelText,
       this.labelBackgroundColor,
-      this.textAlign})
+      this.textAlign,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -110,7 +112,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                     ? FloatingLabelBehavior.always
                     : FloatingLabelBehavior.auto,
                 counter: widget.counterWidget,
-                counterStyle: widget.counterStyle,
+                counterStyle: widget.counterStyle?.copyWith(height: 0.5),
                 hintText: widget.hintText,
                 labelStyle: TextStyle(
                     color: Colors.black.withOpacity(0.6),
@@ -169,6 +171,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
 
                 widget.onChanged?.call(value);
               },
+              onTap: widget.onTap,
               onFieldSubmitted: (value) {
                 if (widget.textInputAction == TextInputAction.next) {
                   widget.nextFocusNode?.requestFocus();
