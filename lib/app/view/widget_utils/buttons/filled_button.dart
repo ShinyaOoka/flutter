@@ -32,7 +32,7 @@ class FilledButton extends StatelessWidget {
           color: !enable ? kColorPrimaryDisable : color ?? kColorPrimary,
         ),
         child: Container(
-          height: size_46_h,
+          height: 50,
           alignment: Alignment.center,
           child: Text(
             text,

@@ -146,7 +146,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         child: FilledButton(
                           borderRadius: size_4_r,
                           textStyle: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.normal,
                           ),
