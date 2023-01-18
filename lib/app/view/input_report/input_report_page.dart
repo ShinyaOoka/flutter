@@ -96,6 +96,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               LocaleKeys.report_new_entry.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
+                fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -105,17 +106,19 @@ class InputReportState extends LifecycleState<InputReportContent>
               label: Text(LocaleKeys.back_report.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
               onPressed: () => inputReportViewModel.back(),
             ),
-            leadingWidth: 80,
+            leadingWidth: 100,
             actions: [
               TextButton(
                 child: Text(LocaleKeys.register_report.tr(),
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
+                      fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),

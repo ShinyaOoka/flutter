@@ -84,6 +84,7 @@ class _ListReportContentState extends LifecycleState<ListReportContent>
             title: Text(
               LocaleKeys.report_list.tr(),
               style: TextStyle(
+                fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

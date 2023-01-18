@@ -82,6 +82,7 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
               LocaleKeys.report_confirmation.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
+                fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -91,12 +92,13 @@ class ConfirmReportState extends LifecycleState<ConfirmReportContent>
               label: Text(LocaleKeys.back_report.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
               onPressed: () => confirmReportViewModel.back(),
             ),
-            leadingWidth: 80,
+            leadingWidth: 100,
             actions: [
               PopupMenuButton<int>(
                 itemBuilder: (context) => [

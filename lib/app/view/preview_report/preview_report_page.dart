@@ -84,6 +84,7 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                 LocaleKeys.report_PDF_preview.tr(),
                 // style: Theme.of(context).appBarTheme.titleTextStyle,
                 style: TextStyle(
+                  fontSize: 18,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -93,12 +94,13 @@ class PreviewReportState extends LifecycleState<PreviewReportContent>
                 label: Text(LocaleKeys.back_report.tr(),
                     // style: Theme.of(context).appBarTheme.titleTextStyle,
                     style: TextStyle(
+                      fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )),
                 onPressed: () => previewReportViewModel.back(),
               ),
-              leadingWidth: 80,
+              leadingWidth: 100,
               automaticallyImplyLeading: false,
             ),
             transparentStatusBar: 0.0,

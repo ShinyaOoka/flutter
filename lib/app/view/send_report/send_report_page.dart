@@ -68,6 +68,7 @@ class SendReportState extends LifecycleState<SendReportContent>
               LocaleKeys.report_PDF_sending_printing.tr(),
               // style: Theme.of(context).appBarTheme.titleTextStyle,
               style: TextStyle(
+                fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -77,12 +78,13 @@ class SendReportState extends LifecycleState<SendReportContent>
               label: Text(LocaleKeys.back_report.tr(),
                   // style: Theme.of(context).appBarTheme.titleTextStyle,
                   style: TextStyle(
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
                   )),
               onPressed: () => sendReportViewModel.back(),
             ),
-            leadingWidth: 80,
+            leadingWidth: 100,
             automaticallyImplyLeading: false,
           ),
           transparentStatusBar: 0.0,
