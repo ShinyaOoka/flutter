@@ -3508,7 +3508,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               isDense: true,
               contentPadding: EdgeInsets.zero,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(color: kColorCED4DA),
               ),
               //Add more decoration as you want here
               //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
@@ -3564,15 +3564,20 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: const EdgeInsets.only(top: 10),
             child: DropdownSearch<ObjectSearch>(
                 popupProps: const PopupProps.menu(
+                    scrollbarProps: ScrollbarProps(thumbVisibility: true),
                     showSearchBox: true,
                     searchFieldProps: TextFieldProps(
                         decoration: InputDecoration(
                             prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder()))),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: kColorCED4DA),
+                            )))),
                 dropdownDecoratorProps: DropDownDecoratorProps(
                     baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
                     dropdownSearchDecoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: kColorCED4DA, width: 10),
+                      ),
                       contentPadding: valueSelect == null
                           ? EdgeInsets.all(16)
                           : EdgeInsets.all(12),

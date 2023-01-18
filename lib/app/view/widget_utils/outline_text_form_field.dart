@@ -116,8 +116,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                 border: OutlineInputBorder(
                   borderRadius: widget.borderRadius ??
                       const BorderRadius.all(Radius.circular(4.0)),
-                  borderSide:
-                      BorderSide(color: widget.colorBorder ?? kColorCED4DA),
+                  borderSide: BorderSide(color: kColorCED4DA, width: 1),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: widget.borderRadius ??
@@ -128,8 +127,8 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                 enabledBorder: OutlineInputBorder(
                   borderRadius: widget.borderRadius ??
                       const BorderRadius.all(Radius.circular(4.0)),
-                  borderSide:
-                      BorderSide(color: widget.colorBorder ?? kColorCED4DA),
+                  borderSide: BorderSide(
+                      color: widget.colorBorder ?? kColorCED4DA, width: 1.5),
                 ),
                 isDense: true,
                 suffixIcon: widget.widgetSuffix ??
