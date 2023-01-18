@@ -2973,8 +2973,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         children: [
           //no.102
           flexibleLayoutWithoutPadding([
-            Container(
-              padding: const EdgeInsets.only(top: 10),
+            SizedBox(
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 isAlwaysShowLable: true,
@@ -3018,7 +3017,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(height: 4),
           //no.104
           flexibleLayoutWithoutPadding([
             SizedBox(
@@ -3074,6 +3073,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           flexibleLayoutWithoutPadding([
             SizedBox(
               width: getWidthWidget(2),
@@ -3129,7 +3129,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
           //no.109
-          spaceWidgetColor(height: size_22_w),
+          spaceWidgetColor(),
           //no.110
           OutlineTextFormField(
             keyboardType: TextInputType.text,
@@ -3143,7 +3143,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             onChanged: (value) =>
                 inputReportViewModel.onChangeTransferReason(value),
           ),
-          spaceWidgetColor(),
+          spaceWidgetColor(height: 4),
           //no.111
           OutlineTextFormField(
             keyboardType: TextInputType.multiline,
@@ -3158,7 +3158,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             onChanged: (value) =>
                 inputReportViewModel.onChangeReasonForNonDelivery(value),
           ),
-          spaceWidgetColor(height: size_6_w),
+          spaceWidgetColor(height: 4),
           //no.112
           Container(
             child: Consumer<InputReportViewModel>(
@@ -3170,7 +3170,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                   backgroundTextLabel: kColorDEE9F6);
             }),
           ),
-          spaceWidgetColor(height: size_28_w),
+          spaceWidgetColor(),
         ],
       ),
     );
@@ -3183,6 +3183,7 @@ class InputReportState extends LifecycleState<InputReportContent>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          spaceWidgetColor(),
           //no.114
           flexibleLayoutWithoutPadding([
             SizedBox(
