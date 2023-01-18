@@ -117,6 +117,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                 counterText: widget.counterText,
                 counterStyle: widget.counterStyle?.copyWith(height: 0.5),
                 hintText: widget.hintText,
+                hintStyle: TextStyle(color: kColorCED4DA),
                 labelStyle: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     backgroundColor: widget.labelBackgroundColor ??

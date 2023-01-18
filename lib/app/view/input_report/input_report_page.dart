@@ -553,6 +553,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               colorBorder: Colors.black26,
               colorFocusBorder: kColor4472C4,
               labelText: LocaleKeys.address.tr(),
+              hintText: "〇〇県△△市□□NN-NN-NN",
               onChanged: (value) => inputReportViewModel.onChangeAddress(value),
             ),
           ),
