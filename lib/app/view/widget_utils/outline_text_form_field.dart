@@ -36,6 +36,7 @@ class OutlineTextFormField extends StatefulWidget {
   final TextStyle? counterStyle;
   final bool isAlwaysShowLable;
   final String? labelText;
+  final TextAlign? textAlign;
 
   OutlineTextFormField(
       {Key? key,
@@ -65,7 +66,8 @@ class OutlineTextFormField extends StatefulWidget {
       this.counterStyle,
       this.isAlwaysShowLable = false,
       this.labelText,
-      this.labelBackgroundColor})
+      this.labelBackgroundColor,
+      this.textAlign})
       : super(key: key);
 
   @override
@@ -178,6 +180,7 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
                 hasError = errorText == null;
                 return errorText;
               },
+              textAlign: widget.textAlign ?? TextAlign.start,
               autovalidateMode: AutovalidateMode.onUserInteraction,
             )),
       ],

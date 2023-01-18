@@ -454,6 +454,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                   keyboardType: TextInputType.number,
+                  textAlign: TextAlign.end,
                   isAlwaysShowLable: true,
                   maxLength: 6,
                   counterStyle: counterStyle,
@@ -473,6 +474,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                   keyboardType: TextInputType.number,
+                  textAlign: TextAlign.end,
                   isAlwaysShowLable: true,
                   maxLength: 6,
                   counterStyle: counterStyle,
@@ -1270,6 +1272,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -1290,6 +1293,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -1321,6 +1325,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -1342,6 +1347,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -1371,6 +1377,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -1392,6 +1399,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
@@ -1432,6 +1440,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -1451,6 +1460,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -1509,6 +1519,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
@@ -1745,6 +1756,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                     padding: const EdgeInsets.only(top: 10),
                     child: OutlineTextFormField(
                       keyboardType: TextInputType.number,
+                      textAlign: TextAlign.end,
                       isAlwaysShowLable: true,
                       maxLength: 3,
                       counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
@@ -1865,6 +1877,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       padding: const EdgeInsets.only(top: 10),
                       child: OutlineTextFormField(
                         keyboardType: TextInputType.number,
+                        textAlign: TextAlign.end,
                         isAlwaysShowLable: true,
                         maxLength: 3,
                         counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
@@ -1933,6 +1946,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                       padding: const EdgeInsets.only(top: 10),
                       child: OutlineTextFormField(
                         keyboardType: TextInputType.number,
+                        textAlign: TextAlign.end,
                         isAlwaysShowLable: true,
                         maxLength: 3,
                         counterWidget: unitWidget(LocaleKeys.unit_mmHg.tr()),
@@ -2115,6 +2129,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -2135,6 +2150,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -2166,6 +2182,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2187,6 +2204,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2216,6 +2234,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2237,6 +2256,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
@@ -2277,6 +2297,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -2296,6 +2317,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -2354,6 +2376,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
@@ -2585,6 +2608,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -2605,6 +2629,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_times_minute.tr()),
@@ -2636,6 +2661,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2657,6 +2683,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2686,6 +2713,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget:
@@ -2707,6 +2735,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_L.tr()),
@@ -2747,6 +2776,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -2766,6 +2796,7 @@ class InputReportState extends LifecycleState<InputReportContent>
                         Expanded(
                           child: OutlineTextFormField(
                             keyboardType: TextInputType.number,
+                            textAlign: TextAlign.end,
                             isAlwaysShowLable: true,
                             maxLength: 3,
                             counterWidget: unitWidget(LocaleKeys.unit_mm.tr()),
@@ -2826,6 +2857,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               width: getWidthWidget(2),
               child: OutlineTextFormField(
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
                 isAlwaysShowLable: true,
                 maxLength: 3,
                 counterWidget: unitWidget(LocaleKeys.unit_C.tr()),
