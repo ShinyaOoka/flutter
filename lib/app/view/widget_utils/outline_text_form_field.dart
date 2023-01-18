@@ -97,6 +97,10 @@ class _OutlineTextFormFieldState extends State<OutlineTextFormField> {
             alignment: Alignment.center,
             color: widget.colorBackground ?? Colors.transparent,
             child: TextFormField(
+              minLines:
+                  widget.maxLength != null && widget.maxLength! >= 100 ? 3 : 1,
+              maxLines:
+                  widget.maxLength != null && widget.maxLength! >= 100 ? 3 : 1,
               autocorrect: false,
               enableSuggestions: false,
               inputFormatters: widget.inputformatter,

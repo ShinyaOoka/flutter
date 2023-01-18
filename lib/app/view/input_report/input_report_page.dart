@@ -1057,7 +1057,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               maxLength: 100,
               counterStyle: counterStyle,
               textColor: kColor4472C4,
@@ -1074,7 +1075,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: OutlineTextFormField(
               isAlwaysShowLable: true,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               maxLength: 100,
               counterStyle: counterStyle,
               textColor: kColor4472C4,
@@ -3172,7 +3174,8 @@ class InputReportState extends LifecycleState<InputReportContent>
           spaceWidgetColor(),
           //no.111
           OutlineTextFormField(
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
             isAlwaysShowLable: true,
             maxLength: 100,
             counterStyle: counterStyle,
@@ -3266,7 +3269,8 @@ class InputReportState extends LifecycleState<InputReportContent>
           children: [
             //No.118
             OutlineTextFormField(
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               isAlwaysShowLable: true,
               maxLength: 500,
               counterStyle: counterStyle,
@@ -3280,7 +3284,8 @@ class InputReportState extends LifecycleState<InputReportContent>
             spaceWidgetColor(),
             //No.119
             OutlineTextFormField(
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
               isAlwaysShowLable: true,
               maxLength: 180,
               counterStyle: counterStyle,
