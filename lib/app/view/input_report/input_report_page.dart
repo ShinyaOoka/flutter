@@ -190,7 +190,43 @@ class InputReportState extends LifecycleState<InputReportContent>
               ? kColorDEE9F6
               : null,
           headerBuilder: (BuildContext context, bool isExpanded) {
+            var icon;
+            switch (indexLayout) {
+              case 1:
+                icon = Icons.commute;
+                break;
+              case 2:
+                icon = Icons.personal_injury;
+                break;
+              case 3:
+                icon = Icons.watch_later;
+                break;
+              case 4:
+                icon = Icons.add_location_alt;
+                break;
+              case 6:
+                icon = Icons.medical_services;
+                break;
+              case 5:
+              case 7:
+              case 8:
+                icon = Icons.monitor_heart;
+                break;
+              case 9:
+                icon = Icons.add_ic_call;
+                break;
+              case 10:
+                icon = Icons.airport_shuttle;
+                break;
+              case 11:
+                icon = Icons.account_circle;
+                break;
+              case 12:
+                icon = Icons.article;
+                break;
+            }
             return ListTile(
+              leading: Icon(icon),
               title: Text('$indexLayout. ${item.headerValue}'),
             );
           },
