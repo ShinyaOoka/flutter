@@ -3461,11 +3461,10 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), height: 1),
           ),
           color: backgroundLableColor ?? Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.only(left: 10, top: 4),
         ),
       ],
     );
@@ -3542,11 +3541,10 @@ class InputReportState extends LifecycleState<InputReportContent>
         Container(
           child: Text(
             label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+            style: TextStyle(color: Colors.black.withOpacity(0.6), height: 1),
           ),
           color: backgroundTextLabel ?? Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.only(left: 10, top: 4),
         ),
       ],
     );
@@ -3557,52 +3555,42 @@ class InputReportState extends LifecycleState<InputReportContent>
       {Color? backgroundTextLabel,
       double? height,
       bool Function(ObjectSearch, String)? filterFn}) {
-    print(valueSelect);
-    return Stack(
-      children: [
-        Container(
-            padding: const EdgeInsets.only(top: 10),
-            child: DropdownSearch<ObjectSearch>(
-                popupProps: const PopupProps.menu(
-                    scrollbarProps: ScrollbarProps(thumbVisibility: true),
-                    showSearchBox: true,
-                    searchFieldProps: TextFieldProps(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: kColorCED4DA),
-                            )))),
-                dropdownDecoratorProps: DropDownDecoratorProps(
-                    baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
-                    dropdownSearchDecoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: kColorCED4DA, width: 10),
-                      ),
-                      contentPadding: valueSelect == null
-                          ? EdgeInsets.all(16)
-                          : EdgeInsets.all(12),
-                    )),
-                items: list,
-                itemAsString: ((item) => item.Name),
-                filterFn: filterFn ??
-                    ((item, filter) => item.Name.toString().contains(filter)),
-                onChanged: (e) {
-                  setState(() {
-                    valueSelect = '${e?.CD} ${e?.Name}';
-                  });
-                  onSelected(valueSelect);
-                })),
-        Container(
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-          ),
-          color: backgroundTextLabel ?? Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-        ),
-      ],
-    );
+    return Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: DropdownSearch<ObjectSearch>(
+            popupProps: const PopupProps.menu(
+                scrollbarProps: ScrollbarProps(thumbVisibility: true),
+                showSearchBox: true,
+                searchFieldProps: TextFieldProps(
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: kColorCED4DA),
+                        )))),
+            dropdownDecoratorProps: DropDownDecoratorProps(
+                baseStyle: TextStyle(color: kColor4472C4, fontSize: 20),
+                dropdownSearchDecoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: kColorCED4DA, width: 10),
+                    ),
+                    contentPadding: valueSelect == null
+                        ? EdgeInsets.all(16)
+                        : EdgeInsets.all(12),
+                    labelText: label,
+                    labelStyle: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        backgroundColor: backgroundTextLabel),
+                    floatingLabelBehavior: FloatingLabelBehavior.always)),
+            items: list,
+            itemAsString: ((item) => item.Name),
+            filterFn: filterFn ??
+                ((item, filter) => item.Name.toString().contains(filter)),
+            onChanged: (e) {
+              setState(() {
+                valueSelect = '${e?.CD} ${e?.Name}';
+              });
+              onSelected(valueSelect);
+            }));
   }
 
   Widget buildCheckbox(String label, List<String> list,
