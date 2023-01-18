@@ -556,7 +556,7 @@ class InputReportState extends LifecycleState<InputReportContent>
               onChanged: (value) => inputReportViewModel.onChangeAddress(value),
             ),
           ),
-          spaceWidgetColor(height: size_6_w),
+          spaceWidgetColor(),
           //No.16
           flexibleLayout([
             SizedBox(
@@ -589,7 +589,7 @@ class InputReportState extends LifecycleState<InputReportContent>
             ),
           ]),
 
-          spaceWidgetColor(height: size_28_w),
+          spaceWidgetColor(height: 32),
           //no.18
           flexibleLayout([
             SizedBox(
@@ -3324,13 +3324,12 @@ class InputReportState extends LifecycleState<InputReportContent>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(text ?? '',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: kColor4472C4,
-                              fontWeight: FontWeight.normal,
-                              fontSize: text_16)),
+                              fontWeight: FontWeight.normal)),
                     ),
                   ],
                 ),
@@ -3434,13 +3433,12 @@ class InputReportState extends LifecycleState<InputReportContent>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(text ?? '',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: kColor4472C4,
-                              fontWeight: FontWeight.normal,
-                              fontSize: text_16)),
+                              fontWeight: FontWeight.normal)),
                     ),
                   ],
                 ),
