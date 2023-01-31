@@ -1,0 +1,30 @@
+{
+    
+   "stj_hint" : "Validate rendering fidelity by referencing the 1 mV ECG calibration signals.",
+   "grid_info" : "Grid size is 0.2 s x 0.5 mV",
+   "not_available" : "NA",
+   "patient_name" : "PATIENT NAME:",
+   "patient_id" : "PATIENT ID:",
+   "patient_age" : "PATIENT AGE:",
+   "patient_sex" : "PATIENT SEX:",
+   "device_id" : "DEVICE ID:",
+   "recorded" : "RECORDED:",
+   "heart_rate" : "HR:",
+   "pr_interval" : "PR Interval:",
+   "qrs_duration" : "QRS Duration:",
+   "qt_qtc" : "QT/QTc:",
+   "p_r_t_axis" : "P-R-T Axis:",
+   "hr_pr": "HR/PR",
+   "rr": "RR",
+   "etco2": "ETCO2",
+   "snapshot": "snapshot",
+   "spo2": "SPO2",
+   "nibp": "NIBP",
+   "ibp1": "IBP1",
+   "ibp2": "IBP2",
+   "ibp3": "IBP3",
+   "temp": "Temp",
+   "version": "2.4.0.14"
+   
+}
+

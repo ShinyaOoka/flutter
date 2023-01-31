@@ -1,0 +1,12 @@
+{
+  "PatientDemographicData": {
+    "FirstName": "FirstName",
+    "MiddleName": "MiddleName",
+    "LastName": "LastName",
+    "Age": 45,
+    "PatientId": "Patient 0271",
+    "Gender": 1,
+    "UnitSerialNumber": "UnitSerialNumber",
+    "UnitId": "UnitId 0272"
+  }
+}

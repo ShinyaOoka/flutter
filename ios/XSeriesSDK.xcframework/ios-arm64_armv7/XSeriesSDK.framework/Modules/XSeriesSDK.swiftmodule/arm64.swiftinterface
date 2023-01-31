@@ -1,0 +1,666 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name XSeriesSDK
+import Foundation
+import Swift
+import UIKit
+@objc public class IBPReport : ObjectiveC.NSObject {
+  @objc final public let chanNum: Swift.Int
+  @objc final public let sourse: XSeriesSDK.IBPSource
+  @objc final public let diastolicBloodPressure: XSeriesSDK.TrendData
+  @objc final public let systolicBloodPressure: XSeriesSDK.TrendData
+  @objc final public let meanArterialPressure: XSeriesSDK.TrendData
+  @objc public init(chanNum: Swift.Int, sourse: XSeriesSDK.IBPSource, diastolicBloodPressure: XSeriesSDK.TrendData, systolicBloodPressure: XSeriesSDK.TrendData, meanArterialPressure: XSeriesSDK.TrendData)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol ReportGenerator {
+  @objc func generate12LeadPDF(twelveLead: XSeriesSDK.TwelveLead, format: XSeriesSDK.TwelveLeadPrintFormat, filePath: Foundation.URL, footer: Swift.String, locale: Foundation.Locale?) throws
+  @objc func generate12LeadPNG(twelveLead: XSeriesSDK.TwelveLead, format: XSeriesSDK.TwelveLeadPrintFormat, filePath: Foundation.URL, footer: Swift.String, locale: Foundation.Locale?) throws
+  @objc func generateSnapshotPDF(snapshot: XSeriesSDK.Snapshot, filePath: Foundation.URL, footer: Swift.String, locale: Foundation.Locale?) throws
+  @objc func generateSnapshotPNG(snapshot: XSeriesSDK.Snapshot, filePath: Foundation.URL, footer: Swift.String, locale: Foundation.Locale?) throws
+}
+@objc public protocol CurrentTrendDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, trend: XSeriesSDK.TrendReport)
+}
+@objc public class Defibrillator : ObjectiveC.NSObject {
+  @objc final public let serialNumber: Swift.String
+  @objc final public let unitId: Swift.String
+  @objc final public let softwareVersion: Swift.String
+  @objc public init(serialNumber: Swift.String, unitId: Swift.String, softwareVersion: Swift.String)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol MidCaseListDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, midCases: [XSeriesSDK.MidCaseInfo])
+}
+extension Date {
+  public func toDefaultString() -> Swift.String
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class ZOXSeries : ObjectiveC.NSObject {
+  @objc public static var shared: XSeriesSDK.ZOXSeries
+  @objc final public let deviceBrowser: XSeriesSDK.DeviceApi
+  @objc final public let xSeriesBrowser: XSeriesSDK.DevicesBrowser
+  @objc final public let caseParser: XSeriesSDK.CaseParser
+  @objc final public let reportGenerator: XSeriesSDK.ReportGenerator
+  @objc final public let about: XSeriesSDK.About
+  @objc deinit
+}
+@objc public class RespirationRate : ObjectiveC.NSObject {
+  @objc final public let trendData: XSeriesSDK.TrendData
+  @objc final public let source: XSeriesSDK.RespirationSource
+  @objc public init(trendData: XSeriesSDK.TrendData, source: XSeriesSDK.RespirationSource)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol DevicesDelegate {
+  @objc func onDeviceFound(device: XSeriesSDK.XSeriesDevice)
+  @objc func onDeviceLost(device: XSeriesSDK.XSeriesDevice)
+  @objc func onBrowseError(error: XSeriesSDK.ZOXError)
+}
+@objc public class Temperature : ObjectiveC.NSObject {
+  @objc final public let trendData: XSeriesSDK.TrendData
+  @objc final public let source: XSeriesSDK.TemperatureSource
+  @objc public init(trendData: XSeriesSDK.TrendData, source: XSeriesSDK.TemperatureSource)
+  @objc public func getValue() -> Swift.Float
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension String {
+  public static let dateFormatter: Foundation.DateFormatter
+  public static let DATE_LOCALE: Swift.String
+  public func stringToDate(format: Swift.String, locale: Swift.String) -> Foundation.Date?
+}
+@objc public class TwelveLeadEvent : XSeriesSDK.Event {
+  @objc final public let twelveLeadId: Swift.String
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType, twelveLeadId: Swift.String)
+  @objc override public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc deinit
+}
+@objc public class XCaseCatalogItem : ObjectiveC.NSObject {
+  @objc final public let status: XSeriesSDK.CaseStatus
+  @objc final public let uploadTime: Foundation.Date?
+  @objc final public let numberOf12Leads: Swift.Int
+  @objc final public let numberOfShocks: Swift.Int
+  @objc final public let startTime: Foundation.Date?
+  @objc final public let endTime: Foundation.Date?
+  @objc final public let caseId: Swift.String
+  @objc final public let audioAvailable: Swift.Bool
+  public var duration: Swift.Int?
+  @objc public var _duration: Foundation.NSNumber?
+  public init(status: XSeriesSDK.CaseStatus, uploadTime: Foundation.Date?, numberOf12Leads: Swift.Int, numberOfShocks: Swift.Int, startTime: Foundation.Date?, endTime: Foundation.Date?, caseId: Swift.String, audioAvailable: Swift.Bool, duration: Swift.Int?)
+  @objc public init(status: XSeriesSDK.CaseStatus, uploadTime: Foundation.Date?, numberOf12Leads: Swift.Int, numberOfShocks: Swift.Int, startTime: Foundation.Date?, endTime: Foundation.Date?, caseId: Swift.String, audioAvailable: Swift.Bool, duration: Foundation.NSNumber?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class Case : ObjectiveC.NSObject {
+  @objc final public let caseDate: Foundation.Date
+  @objc final public let trends: [XSeriesSDK.TrendReport]
+  @objc final public let events: [XSeriesSDK.Event]
+  @objc final public let snapshots: [XSeriesSDK.Snapshot]
+  @objc final public let patient: XSeriesSDK.Patient
+  @objc final public let twelveLeads: [XSeriesSDK.TwelveLead]
+  @objc final public let defibrillator: XSeriesSDK.Defibrillator
+  @objc public init(caseDate: Foundation.Date, trends: [XSeriesSDK.TrendReport], events: [XSeriesSDK.Event], snapshots: [XSeriesSDK.Snapshot], patient: XSeriesSDK.Patient, twelveLeads: [XSeriesSDK.TwelveLead], defibrillator: XSeriesSDK.Defibrillator)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class WaveformView : UIKit.UIScrollView, UIKit.UIScrollViewDelegate {
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  public func initView()
+  public func setWaveformData(waveform: XSeriesSDK.Waveform)
+  public func setViewWidth(width: Swift.Float)
+  public func getActualHeight() -> Swift.Float
+  @objc public func handleTap(_ recognizer: UIKit.UITapGestureRecognizer?)
+  @objc public func viewForZooming(in scrollView: UIKit.UIScrollView) -> UIKit.UIView?
+  @objc public func scrollViewDidEndZooming(_ scrollView: UIKit.UIScrollView, with view: UIKit.UIView?, atScale scale: CoreGraphics.CGFloat)
+  @objc deinit
+}
+@objc public protocol CaseParser {
+  @objc func parseCaseFrom(json: [Swift.String : Any]) throws -> XSeriesSDK.Case
+  @objc func parseCaseFrom(json: [Swift.String : Any], delegate: XSeriesSDK.CaseParserDelegate)
+  @objc func parseZolFile(file: Foundation.Data) throws -> XSeriesSDK.Case
+  @objc func parseZolFile(file: Foundation.Data, delegate: XSeriesSDK.CaseParserDelegate)
+}
+@objc public enum RespirationSource : ObjectiveC.NSInteger {
+  case unspecified, CO_2, impedence_respiration
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class AnalysisResult : ObjectiveC.NSObject {
+  public var heartRate: Swift.Int?
+  @objc public var _heartRate: Foundation.NSNumber?
+  public var prInterval: Swift.Int?
+  @objc public var _prInterval: Foundation.NSNumber?
+  public var qtInterval: Swift.Int?
+  @objc public var _qtInterval: Foundation.NSNumber?
+  public var correctedQTInterval: Swift.Int?
+  @objc public var _correctedQTInterval: Foundation.NSNumber?
+  public var qrsDuration: Swift.Int?
+  @objc public var _qrsDuration: Foundation.NSNumber?
+  public var pAxis: Swift.Int?
+  @objc public var _pAxis: Foundation.NSNumber?
+  public var qrsAxis: Swift.Int?
+  @objc public var _qrsAxis: Foundation.NSNumber?
+  public var tAxis: Swift.Int?
+  @objc public var _tAxis: Foundation.NSNumber?
+  public var statements: [Swift.String]
+  public var stjValues: [Swift.Double?]
+  @objc public var _stjValues: Foundation.NSArray
+  public init(heartRate: Swift.Int?, prInterval: Swift.Int?, qtInterval: Swift.Int?, correctedQTInterval: Swift.Int?, qrsDuration: Swift.Int?, pAxis: Swift.Int?, qrsAxis: Swift.Int?, tAxis: Swift.Int?, statements: [Swift.String], stjValues: [Swift.Int?])
+  @objc public init(heartRate: Foundation.NSNumber?, prInterval: Foundation.NSNumber?, qtInterval: Foundation.NSNumber?, correctedQTInterval: Foundation.NSNumber?, qrsDuration: Foundation.NSNumber?, pAxis: Foundation.NSNumber?, qrsAxis: Foundation.NSNumber?, tAxis: Foundation.NSNumber?, statements: [Swift.String], stjValues: [Foundation.NSNumber])
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class SnapshotEvent : XSeriesSDK.Event {
+  @objc final public let snapshotId: Swift.String
+  @objc final public let snapshotType: XSeriesSDK.SnapshotType
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType, snapshotId: Swift.String, snapshotType: XSeriesSDK.SnapshotType)
+  @objc override public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc deinit
+}
+@objc public class PatientDemographicInfo : ObjectiveC.NSObject {
+  @objc final public let firstName: Swift.String?
+  @objc final public let middleName: Swift.String?
+  @objc final public let lastName: Swift.String?
+  @objc final public let age: Swift.Int
+  @objc final public let sex: XSeriesSDK.Gender
+  @objc final public let patientId: Swift.String?
+  @objc final public let unitSerialNumber: Swift.String?
+  @objc final public let unitId: Swift.String?
+  @objc public init(firstName: Swift.String?, middleName: Swift.String?, lastName: Swift.String?, age: Swift.Int, sex: XSeriesSDK.Gender, patientId: Swift.String?, unitSerialNumber: Swift.String?, unitId: Swift.String?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol DevicesBrowser {
+  @objc func start(delegate: XSeriesSDK.DevicesDelegate)
+  @objc func stop()
+}
+@objc public enum HeartRateSource : ObjectiveC.NSInteger {
+  case unspecified, ECG, SPO_2, IBP_1, IBP_2, IBP_3, NIBP
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class PacerStartEvent : XSeriesSDK.Event {
+  @objc final public let current: XSeriesSDK.ValueUnitPair
+  @objc final public let rate: XSeriesSDK.ValueUnitPair
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType, current: XSeriesSDK.ValueUnitPair, rate: XSeriesSDK.ValueUnitPair)
+  @objc override public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc deinit
+}
+@objc public class TrendReport : ObjectiveC.NSObject, XSeriesSDK.VitalSigns {
+  @objc final public let date: Foundation.Date
+  @objc final public let etco2: XSeriesSDK.TrendData
+  @objc final public let spo2: XSeriesSDK.TrendData
+  @objc final public let heartRate: XSeriesSDK.HeartRate
+  @objc final public let temperature1: XSeriesSDK.Temperature
+  @objc final public let temperature2: XSeriesSDK.Temperature
+  @objc final public let temperatureDelta: XSeriesSDK.Temperature
+  @objc final public let diastolicBloodPressure: XSeriesSDK.TrendData
+  @objc final public let systolicBloodPressure: XSeriesSDK.TrendData
+  @objc final public let meanArterialPressure: XSeriesSDK.TrendData
+  @objc final public let respiration: XSeriesSDK.RespirationRate
+  @objc final public let ibp1: XSeriesSDK.IBPReport
+  @objc final public let ibp2: XSeriesSDK.IBPReport
+  @objc final public let ibp3: XSeriesSDK.IBPReport
+  @objc final public let trendOrigin: XSeriesSDK.TrendOrigin
+  @objc public func getVitalSignsReport() -> XSeriesSDK.TrendReport
+  @objc public init(date: Foundation.Date, etco2: XSeriesSDK.TrendData, spo2: XSeriesSDK.TrendData, heartRate: XSeriesSDK.HeartRate, temperature1: XSeriesSDK.Temperature, temperature2: XSeriesSDK.Temperature, temperatureDelta: XSeriesSDK.Temperature, diastolicBloodPressure: XSeriesSDK.TrendData, systolicBloodPressure: XSeriesSDK.TrendData, meanArterialPressure: XSeriesSDK.TrendData, respiration: XSeriesSDK.RespirationRate, ibp1: XSeriesSDK.IBPReport, ibp2: XSeriesSDK.IBPReport, ibp3: XSeriesSDK.IBPReport, trendOrigin: XSeriesSDK.TrendOrigin)
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol VitalSigns {
+  @objc func getVitalSignsReport() -> XSeriesSDK.TrendReport
+}
+@objc public enum Lead : ObjectiveC.NSInteger {
+  case I, II, III, AVR, AVL, AVF, V1, V2, V3, V4, V5, V6
+  public var readableString: Swift.String {
+    get
+  }
+  public var readableCabreraString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class TrendData : ObjectiveC.NSObject {
+  @objc final public let value: XSeriesSDK.ValueUnitPair
+  @objc final public let alarm: XSeriesSDK.AlarmStatus
+  @objc final public let dataStatus: XSeriesSDK.DataStatus
+  @objc public init(value: XSeriesSDK.ValueUnitPair, alarm: XSeriesSDK.AlarmStatus, dataStatus: XSeriesSDK.DataStatus)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum TrendOrigin : ObjectiveC.NSInteger {
+  case PERIODIC, NIBP, SNAPSHOT, TWELVELEAD
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum EventType : ObjectiveC.NSInteger {
+  case syncOn, syncOff, syncFailure, noShokAdvised, shokAdvised, pacerStart, pacerOff, shock, treatment, snapshot, twelveLead, systemOn
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum AlarmStatus : ObjectiveC.NSInteger {
+  case not_alarming = 0, alarming = 1
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class ShockEvent : XSeriesSDK.Event {
+  @objc final public let energySelected: XSeriesSDK.ValueUnitPair
+  @objc final public let energyDelivered: XSeriesSDK.ValueUnitPair
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType, energySelected: XSeriesSDK.ValueUnitPair, energyDelivered: XSeriesSDK.ValueUnitPair)
+  @objc override public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc deinit
+}
+@objc public protocol XCaseCatalogItemDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, cases: [XSeriesSDK.XCaseCatalogItem])
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class ECGView : UIKit.UIScrollView, UIKit.UIScrollViewDelegate {
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  public func setTwelveLeadData(twelveLead: XSeriesSDK.TwelveLead)
+  public func setTwelveLeadPrintFormat(format: XSeriesSDK.TwelveLeadPrintFormat)
+  @objc public func handleTap(_ recognizer: UIKit.UITapGestureRecognizer?)
+  @objc public func scrollViewWillBeginZooming(_ scrollView: UIKit.UIScrollView, with view: UIKit.UIView?)
+  @objc public func viewForZooming(in scrollView: UIKit.UIScrollView) -> UIKit.UIView?
+  @objc public func scrollViewDidEndZooming(_ scrollView: UIKit.UIScrollView, with view: UIKit.UIView?, atScale scale: CoreGraphics.CGFloat)
+  @objc deinit
+}
+@objc public enum TwelveLeadPrintFormat : ObjectiveC.NSInteger {
+  case standart, cabrera
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum DataStatus : ObjectiveC.NSInteger {
+  case valid = 0, invalid = 1, underrange = 2, overrange = 3
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public protocol VitalSignsDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, vitalSignsReport: XSeriesSDK.VitalSignsReport)
+}
+@objc public protocol CurrentSnapshotDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, snapshot: XSeriesSDK.Snapshot)
+}
+@objc public protocol SnapshotDelegate : XSeriesSDK.RequestItemDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, snapshotId: Swift.String, shapshot: XSeriesSDK.Snapshot)
+}
+@objc public enum WaveformSource : ObjectiveC.NSInteger {
+  case unknown, unspecified, none, abp, art, ao, cvp, icp, lap, p1, p2, p3, pap, rap, uap, uvp, bap, fap
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum Unit : ObjectiveC.NSInteger {
+  case undefined, none, kpa, mmhg, c, f, percent, bpmBeats, bpmBreaths, nanovolts, microvolts, millivolts, volts, ppm, pacerPerMin, rpm, mah, ma, mOm, g_dl, mmo_l, ml_dl, j
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public protocol TrendDelegate : XSeriesSDK.RequestItemDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, trendId: Swift.String, trend: XSeriesSDK.TrendReport)
+}
+@objc public class Waveform : ObjectiveC.NSObject {
+  @objc final public let startTime: Foundation.Date
+  @objc final public let endTime: Foundation.Date
+  @objc final public let type: XSeriesSDK.WaveformType
+  @objc final public let source: XSeriesSDK.WaveformSource
+  @objc final public let units: XSeriesSDK.Unit
+  @objc final public let samples: [Swift.Int]
+  @objc final public let status: [Swift.Int]
+  @objc final public let multiplier: Swift.Float
+  @objc public init(startTime: Foundation.Date, endTime: Foundation.Date, type: XSeriesSDK.WaveformType, source: XSeriesSDK.WaveformSource, units: XSeriesSDK.Unit, samples: [Swift.Int], multiplier: Swift.Float, status: [Swift.Int])
+  @objc public func getDuration() -> Foundation.TimeInterval
+  @objc public func getSamples(position: Swift.Int) -> Swift.Float
+  @objc public func isValidSample(index: Swift.Int) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class XSeriesDevice : ObjectiveC.NSObject {
+  @objc final public let serialNumber: Swift.String
+  @objc final public let ipAdress: Swift.String
+  @objc public init(serialNumber: Swift.String, ipAdress: Swift.String)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum CaseStatus : ObjectiveC.NSInteger {
+  case past, current, unknow
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class ValueUnitPair : ObjectiveC.NSObject {
+  @objc final public let value: Swift.Float
+  @objc final public let units: XSeriesSDK.Unit
+  @objc final public let isValid: Swift.Bool
+  @objc public init(value: Swift.Float, units: XSeriesSDK.Unit, isValid: Swift.Bool)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol DownloadCaseDelegate {
+  @objc func onDownloadCompleted(requestCode: Swift.Int, deviceId: Swift.String, caseId: Swift.String, file: Foundation.URL)
+  @objc func onDownloadFailed(requestCode: Swift.Int, deviceId: Swift.String, caseId: Swift.String, error: XSeriesSDK.ZOXError)
+  @objc func onAuthenticationFailed(requestCode: Swift.Int, deviceId: Swift.String)
+}
+@objc public class Event : ObjectiveC.NSObject {
+  @objc final public let date: Foundation.Date
+  @objc final public let type: XSeriesSDK.EventType
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol FullCaseDelegate : XSeriesSDK.RequestItemDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, caseId: Swift.String, fullCase: XSeriesSDK.Case)
+}
+@objc public enum Gender : ObjectiveC.NSInteger {
+  case male, female, unknown
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum SnapshotType : ObjectiveC.NSInteger {
+  case unknown, pacer, defib, treatment, monitor, alarm, aedPresenting, aedCheckPatient, aedAnalysisResults, ltaAlarm
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public enum MidCaseType : ObjectiveC.NSInteger {
+  case twelveLead, trend, snapshot
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class MidCaseInfo : ObjectiveC.NSObject {
+  @objc final public let type: XSeriesSDK.MidCaseType
+  @objc final public let rtcTime: Foundation.Date
+  @objc final public let caseID: Swift.String
+  @objc final public let UID: Swift.String
+  @objc public init(type: XSeriesSDK.MidCaseType, rtcTime: Foundation.Date, caseID: Swift.String, UID: Swift.String)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol PatientDemographicDelegate : XSeriesSDK.RequestDelegate {
+  @objc func onGetDemographicInfoRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, patientDemographicInfo: XSeriesSDK.PatientDemographicInfo)
+  @objc func onSaveDemographicInfoRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, patientInfo: XSeriesSDK.Patient)
+}
+@objc public protocol RequestItemDelegate {
+  @objc func onRequestFailed(requestCode: Swift.Int, deviceId: Swift.String, itemId: Swift.String, error: XSeriesSDK.ZOXError)
+  @objc func onAuthenticationFailed(requestCode: Swift.Int, deviceId: Swift.String)
+}
+@objc public class ZOXError : ObjectiveC.NSObject, Foundation.CustomNSError {
+  @objc final public let errorMessage: Swift.String
+  @objc final public let errorType: XSeriesSDK.ZOXError.ZOXErrorType
+  @objc public init(type: XSeriesSDK.ZOXError.ZOXErrorType, message: Swift.String)
+  @objc public enum ZOXErrorType : ObjectiveC.NSInteger {
+    case undefined
+    case deviceDiscovering
+    case deviceDiscoveryResolve
+    case responseParse
+    case jsonParse
+    case network
+    case notEnoughtFreeSpace
+    case fileSaving
+    case imageCreate
+    case fileNotFound
+    case unsuportedFormat
+    case invalidSchema
+    case invalidCredentials
+    case invalidCharacter
+    public init?(rawValue: ObjectiveC.NSInteger)
+    public typealias RawValue = ObjectiveC.NSInteger
+    public var rawValue: ObjectiveC.NSInteger {
+      get
+    }
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum TemperatureSource : ObjectiveC.NSInteger {
+  case na, unspecified, none, art, core, cereb, rect, skin
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public class Snapshot : ObjectiveC.NSObject {
+  @objc final public let Id: Swift.String
+  @objc final public let type: XSeriesSDK.SnapshotType
+  @objc final public let date: Foundation.Date
+  @objc final public let startDate: Foundation.Date
+  @objc final public let trendReport: XSeriesSDK.TrendReport?
+  @objc final public let waveForms: [XSeriesSDK.Waveform]
+  @objc public init(Id: Swift.String, type: XSeriesSDK.SnapshotType, date: Foundation.Date, startDate: Foundation.Date, trendReport: XSeriesSDK.TrendReport?, waveForms: [XSeriesSDK.Waveform])
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class TwelveLead : ObjectiveC.NSObject {
+  @objc final public let leadCount: Swift.Int
+  @objc final public let leadStatus: [Swift.Int]
+  @objc final public let leadSamples: [[Swift.Int]]
+  @objc final public let twelveLeadId: Swift.String
+  @objc final public let amplitude: Swift.Double
+  @objc final public let date: Foundation.Date
+  @objc final public let sampleRate: Swift.Double
+  @objc final public let sampleCount: Swift.Int
+  @objc final public let unitId: Swift.String
+  @objc final public let patient: XSeriesSDK.Patient
+  @objc final public let analysisResult: XSeriesSDK.AnalysisResult?
+  @objc final public let trendReport: XSeriesSDK.TrendReport?
+  @objc public init(leadStatus: [Swift.Int], leadSamples: [[Swift.Int]], twelveLeadId: Swift.String, amplitude: Swift.Double, date: Foundation.Date, sampleRate: Swift.Double, sampleCount: Swift.Int, unitId: Swift.String, patient: XSeriesSDK.Patient, analysisResult: XSeriesSDK.AnalysisResult?, trendReport: XSeriesSDK.TrendReport?)
+  @objc public func totalDurationInSeconds() -> Swift.Float
+  @objc public func getRawSampleFromLead(lead: XSeriesSDK.Lead, index: Swift.Int) -> Swift.Int
+  @objc public func getSampleFromLead(lead: XSeriesSDK.Lead, index: Swift.Int) -> Swift.Float
+  @objc public func getMultiplier() -> Swift.Double
+  @objc public func isValidSampleFromLead(lead: XSeriesSDK.Lead, index: Swift.Int) -> Swift.Bool
+  @objc public func empty() -> XSeriesSDK.AnalysisResult
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol PatientDemographicApi : XSeriesSDK.DeviceApi {
+  @objc func getPatientDemographicInfo(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.PatientDemographicDelegate) -> Swift.Int
+  @objc func savePatientDemographicInfo(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, patient: XSeriesSDK.Patient, delegate: XSeriesSDK.PatientDemographicDelegate) -> Swift.Int
+}
+@objc public class Patient : ObjectiveC.NSObject {
+  @objc final public let age: Swift.Int
+  @objc final public let sex: XSeriesSDK.Gender
+  @objc final public let firstName: Swift.String?
+  @objc final public let middleName: Swift.String?
+  @objc final public let lastName: Swift.String?
+  @objc final public let patientId: Swift.String?
+  @objc public init(age: Swift.Int, sex: XSeriesSDK.Gender, firstName: Swift.String?, middleName: Swift.String?, lastName: Swift.String?, patientId: Swift.String?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum IBPSource : ObjectiveC.NSInteger {
+  case unspecified, none, ABP, ART, AO, CVP, ICP, LAP, P1, P2, P3, PAP, RAP, UAP, UVP, BAP, FAP
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc public class About : ObjectiveC.NSObject {
+  @objc public func Version() -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class VitalSignsReport : ObjectiveC.NSObject {
+  @objc final public let date: Foundation.Date
+  @objc final public let vitalSigns: XSeriesSDK.VitalSigns?
+  @objc public init(date: Foundation.Date, vitalSigns: XSeriesSDK.VitalSigns?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum WaveformType : ObjectiveC.NSInteger {
+  case unknown, pads, leadI, leadII, leadIII, leadAvr, leadAvl, leadAvf, leadV5LeadCable, leadV1, leadV2, leadV3, leadV4, leadV5, leadV6, co2, spo2, ibp1, ibp2, ibp3, filteredEcg, co2Kpa, co2Percent, ibp1Kpa, ibp2Kpa, ibp3Kpa
+  public var readableString: Swift.String {
+    get
+  }
+  public init?(rawValue: ObjectiveC.NSInteger)
+  public typealias RawValue = ObjectiveC.NSInteger
+  public var rawValue: ObjectiveC.NSInteger {
+    get
+  }
+}
+@objc public protocol RequestDelegate {
+  @objc func onRequestFailed(requestCode: Swift.Int, deviceId: Swift.String, error: XSeriesSDK.ZOXError)
+  @objc func onAuthenticationFailed(requestCode: Swift.Int, deviceId: Swift.String)
+}
+@objc public protocol DeviceApi {
+  @objc func getXCaseCatalogItem(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.XCaseCatalogItemDelegate) -> Swift.Int
+  @objc func getCase(device: XSeriesSDK.XSeriesDevice, caseId: Swift.String, password: Swift.String?, delegate: XSeriesSDK.FullCaseDelegate) -> Swift.Int
+  @objc func downloadCase(device: XSeriesSDK.XSeriesDevice, caseId: Swift.String, folder: Foundation.URL, password: Swift.String?, delegate: XSeriesSDK.DownloadCaseDelegate) -> Swift.Int
+  @objc func getTwelveLeadList(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.MidCaseListDelegate) -> Swift.Int
+  @objc func getTwelveLead(device: XSeriesSDK.XSeriesDevice, twelveLeadId: Swift.String, password: Swift.String?, delegate: XSeriesSDK.TwelveLeadDelegate) -> Swift.Int
+  @objc func getTrendList(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.MidCaseListDelegate) -> Swift.Int
+  @objc func getTrend(device: XSeriesSDK.XSeriesDevice, trendId: Swift.String, password: Swift.String?, delegate: XSeriesSDK.TrendDelegate) -> Swift.Int
+  @objc func getCurrentTrend(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.CurrentTrendDelegate) -> Swift.Int
+  @objc func getSnapshotList(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.MidCaseListDelegate) -> Swift.Int
+  @objc func getSnapshot(device: XSeriesSDK.XSeriesDevice, shapshotId: Swift.String, password: Swift.String?, delegate: XSeriesSDK.SnapshotDelegate) -> Swift.Int
+  @objc func getCurrentSnapshot(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.CurrentSnapshotDelegate) -> Swift.Int
+  @objc func getCurrentVitalSignsReport(device: XSeriesSDK.XSeriesDevice, password: Swift.String?, delegate: XSeriesSDK.VitalSignsDelegate) -> Swift.Int
+  @objc func cancelRequest(requestId: Swift.Int)
+}
+@objc public class TreatmentEvent : XSeriesSDK.Event {
+  @objc final public let label: Swift.String
+  @objc public init(date: Foundation.Date, type: XSeriesSDK.EventType, label: Swift.String)
+  @objc override public init(date: Foundation.Date, type: XSeriesSDK.EventType)
+  @objc deinit
+}
+@objc public protocol TwelveLeadDelegate : XSeriesSDK.RequestItemDelegate {
+  @objc func onRequestSuccess(requestCode: Swift.Int, deviceId: Swift.String, twelveLeadId: Swift.String, twelveLead: XSeriesSDK.TwelveLead)
+}
+@objc public class HeartRate : ObjectiveC.NSObject {
+  @objc final public let trendData: XSeriesSDK.TrendData
+  @objc final public let source: XSeriesSDK.HeartRateSource
+  @objc public init(trendData: XSeriesSDK.TrendData, source: XSeriesSDK.HeartRateSource)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol CaseParserDelegate {
+  @objc func onCaseParsedSuccess(fullCase: XSeriesSDK.Case)
+  @objc func onCaseParseError(error: XSeriesSDK.ZOXError)
+}
+extension XSeriesSDK.RespirationSource : Swift.Equatable {}
+extension XSeriesSDK.RespirationSource : Swift.Hashable {}
+extension XSeriesSDK.RespirationSource : Swift.RawRepresentable {}
+extension XSeriesSDK.HeartRateSource : Swift.Equatable {}
+extension XSeriesSDK.HeartRateSource : Swift.Hashable {}
+extension XSeriesSDK.HeartRateSource : Swift.RawRepresentable {}
+extension XSeriesSDK.Lead : Swift.Equatable {}
+extension XSeriesSDK.Lead : Swift.Hashable {}
+extension XSeriesSDK.Lead : Swift.RawRepresentable {}
+extension XSeriesSDK.TrendOrigin : Swift.Equatable {}
+extension XSeriesSDK.TrendOrigin : Swift.Hashable {}
+extension XSeriesSDK.TrendOrigin : Swift.RawRepresentable {}
+extension XSeriesSDK.EventType : Swift.Equatable {}
+extension XSeriesSDK.EventType : Swift.Hashable {}
+extension XSeriesSDK.EventType : Swift.RawRepresentable {}
+extension XSeriesSDK.AlarmStatus : Swift.Equatable {}
+extension XSeriesSDK.AlarmStatus : Swift.Hashable {}
+extension XSeriesSDK.AlarmStatus : Swift.RawRepresentable {}
+extension XSeriesSDK.TwelveLeadPrintFormat : Swift.Equatable {}
+extension XSeriesSDK.TwelveLeadPrintFormat : Swift.Hashable {}
+extension XSeriesSDK.TwelveLeadPrintFormat : Swift.RawRepresentable {}
+extension XSeriesSDK.DataStatus : Swift.Equatable {}
+extension XSeriesSDK.DataStatus : Swift.Hashable {}
+extension XSeriesSDK.DataStatus : Swift.RawRepresentable {}
+extension XSeriesSDK.WaveformSource : Swift.Equatable {}
+extension XSeriesSDK.WaveformSource : Swift.Hashable {}
+extension XSeriesSDK.WaveformSource : Swift.RawRepresentable {}
+extension XSeriesSDK.Unit : Swift.Equatable {}
+extension XSeriesSDK.Unit : Swift.Hashable {}
+extension XSeriesSDK.Unit : Swift.RawRepresentable {}
+extension XSeriesSDK.CaseStatus : Swift.Equatable {}
+extension XSeriesSDK.CaseStatus : Swift.Hashable {}
+extension XSeriesSDK.CaseStatus : Swift.RawRepresentable {}
+extension XSeriesSDK.Gender : Swift.Equatable {}
+extension XSeriesSDK.Gender : Swift.Hashable {}
+extension XSeriesSDK.Gender : Swift.RawRepresentable {}
+extension XSeriesSDK.SnapshotType : Swift.Equatable {}
+extension XSeriesSDK.SnapshotType : Swift.Hashable {}
+extension XSeriesSDK.SnapshotType : Swift.RawRepresentable {}
+extension XSeriesSDK.MidCaseType : Swift.Equatable {}
+extension XSeriesSDK.MidCaseType : Swift.Hashable {}
+extension XSeriesSDK.MidCaseType : Swift.RawRepresentable {}
+extension XSeriesSDK.ZOXError.ZOXErrorType : Swift.Equatable {}
+extension XSeriesSDK.ZOXError.ZOXErrorType : Swift.Hashable {}
+extension XSeriesSDK.ZOXError.ZOXErrorType : Swift.RawRepresentable {}
+extension XSeriesSDK.TemperatureSource : Swift.Equatable {}
+extension XSeriesSDK.TemperatureSource : Swift.Hashable {}
+extension XSeriesSDK.TemperatureSource : Swift.RawRepresentable {}
+extension XSeriesSDK.IBPSource : Swift.Equatable {}
+extension XSeriesSDK.IBPSource : Swift.Hashable {}
+extension XSeriesSDK.IBPSource : Swift.RawRepresentable {}
+extension XSeriesSDK.WaveformType : Swift.Equatable {}
+extension XSeriesSDK.WaveformType : Swift.Hashable {}
+extension XSeriesSDK.WaveformType : Swift.RawRepresentable {}
