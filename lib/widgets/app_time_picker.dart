@@ -42,7 +42,7 @@ class AppTimePicker extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 6)
+        const SizedBox(height: 4)
       ],
     );
   }

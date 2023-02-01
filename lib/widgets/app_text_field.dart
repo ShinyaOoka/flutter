@@ -40,7 +40,7 @@ class AppTextField extends StatelessWidget {
           onEditingComplete: onEditingComplete,
           inputFormatters: inputFormatters,
         ),
-        const SizedBox(height: 6)
+        const SizedBox(height: 4)
       ],
     );
   }

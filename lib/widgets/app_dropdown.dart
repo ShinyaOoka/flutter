@@ -50,7 +50,7 @@ class AppDropdown<T> extends StatelessWidget {
           compareFn: compareFn,
           selectedItem: selectedItem,
         ),
-        const SizedBox(height: 6)
+        const SizedBox(height: 4)
       ],
     );
   }
