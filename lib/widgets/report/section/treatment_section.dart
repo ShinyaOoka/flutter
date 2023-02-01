@@ -49,6 +49,10 @@ class TreatmentSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.securingAirwayType = value,
           selectedItem: report.securingAirwayType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDropdown<bool>(
           items: const [true, false],
@@ -143,6 +147,10 @@ class TreatmentSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.spinalCordMovementLimitationType = value,
           selectedItem: report.spinalCordMovementLimitationType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDropdown<bool>(
           items: const [true, false],
@@ -268,6 +276,7 @@ class TreatmentSection extends StatelessWidget with ReportSectionMixin {
         label: 'other'.i18n(),
         onChanged: (value) => report.other = value,
         maxLength: 60,
+        maxLines: 1,
       ),
     ]);
   }

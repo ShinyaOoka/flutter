@@ -9,13 +9,12 @@ class ReportDataSource {
 
   Future<List<Report>> getReports() async {
     final List<Map<String, dynamic>> reportMaps =
-        await _db.query(DBConstants.reportTable);
+        await _db.query(DBConstants.reportTable, orderBy: "ID DESC");
 
     return reportMaps.map((reportMap) => Report.fromJson(reportMap)).toList();
   }
 
   Future createReport(Report report) async {
-    print(report.respiration);
     await _db.insert(DBConstants.reportTable, report.toJson());
   }
 }

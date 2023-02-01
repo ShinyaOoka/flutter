@@ -32,11 +32,16 @@ class ReporterSection extends StatelessWidget with ReportSectionMixin {
       final selectedReporterTeam = teamStore.teams[report.reporter?.teamCd];
       return lineLayout(children: [
         AppDropdown(
+          showSearchBox: true,
           items: teamMemberStore.teamMembers.values.toList(),
           label: 'name_of_reporter'.i18n(),
           itemAsString: (item) => item.name ?? '',
           onChanged: (value) => report.reporter = value,
           selectedItem: report.reporter,
+          filterFn: (teamMember, filter) =>
+              (teamMember.name != null && teamMember.name!.contains(filter)) ||
+              (teamMember.teamMemberCd != null &&
+                  teamMember.teamMemberCd!.contains(filter)),
         ),
         AppTextField(
           label: 'affiliation_of_reporter'.i18n(),

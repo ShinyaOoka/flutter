@@ -12,13 +12,14 @@ class AppDatePicker extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
+          style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               label: label != null ? Text(label!) : null,
               border: const OutlineInputBorder(),
               hintText: hintText,
               counterText: " ",
-              counterStyle: const TextStyle(height: 0.2, fontSize: 12)),
+              counterStyle: const TextStyle(height: 0.4, fontSize: 10)),
           controller: controller ??
               TextEditingController(
                   text: selectedDate != null

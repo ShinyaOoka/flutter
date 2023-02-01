@@ -1,6 +1,7 @@
 {
   "error_occurred": "エラーが発生しました",
   "no_report_found": "レポートが見つかりません",
+  "no_data_found": "データなし",
   "back": "戻る",
   "create": "登録",
   "yes": "有",

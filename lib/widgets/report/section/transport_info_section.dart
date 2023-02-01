@@ -45,6 +45,7 @@ class TransportInfoSection extends StatelessWidget with ReportSectionMixin {
               );
       return lineLayout(children: [
         AppDropdown<Hospital>(
+          showSearchBox: true,
           items: hospitalStore.hospitals?.toList(),
           label: 'medical_transport_facility'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
@@ -52,8 +53,13 @@ class TransportInfoSection extends StatelessWidget with ReportSectionMixin {
             report.medicalTransportFacility = value?.hospitalCd;
           },
           selectedItem: selectedMedicalTransportFacility,
+          filterFn: (hospital, filter) =>
+              (hospital.name != null && hospital.name!.contains(filter)) ||
+              (hospital.hospitalCd != null &&
+                  hospital.hospitalCd!.contains(filter)),
         ),
         AppDropdown<Hospital>(
+          showSearchBox: true,
           items: hospitalStore.hospitals?.toList(),
           label: 'transferring_medical_institution'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
@@ -61,6 +67,10 @@ class TransportInfoSection extends StatelessWidget with ReportSectionMixin {
             report.transferringMedicalInstitution = value?.hospitalCd;
           },
           selectedItem: selectedTransferringMedicalInstitution,
+          filterFn: (hospital, filter) =>
+              (hospital.name != null && hospital.name!.contains(filter)) ||
+              (hospital.hospitalCd != null &&
+                  hospital.hospitalCd!.contains(filter)),
         ),
       ]);
     });
@@ -84,6 +94,7 @@ class TransportInfoSection extends StatelessWidget with ReportSectionMixin {
         label: 'reason_for_transfer'.i18n(),
         onChanged: (value) => report.reasonForTransfer = value,
         maxLength: 60,
+        maxLines: 1,
       ),
     ]);
   }

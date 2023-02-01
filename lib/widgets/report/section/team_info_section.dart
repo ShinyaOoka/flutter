@@ -36,17 +36,22 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppDropdown<Team>(
-            items: teamStore.teams.values.toList(),
-            label: 'team_name'.i18n(),
-            itemAsString: ((item) => item.name ?? ''),
-            onChanged: (value) {
-              if (value?.teamCd == report.teamCd) return;
-              report.team = value;
-              report.teamCaptain = null;
-              report.teamMember = null;
-              report.institutionalMember = null;
-            },
-            selectedItem: report.team),
+          showSearchBox: true,
+          items: teamStore.teams.values.toList(),
+          label: 'team_name'.i18n(),
+          itemAsString: ((item) => item.name ?? ''),
+          onChanged: (value) {
+            if (value?.teamCd == report.teamCd) return;
+            report.team = value;
+            report.teamCaptain = null;
+            report.teamMember = null;
+            report.institutionalMember = null;
+          },
+          selectedItem: report.team,
+          filterFn: (team, filter) =>
+              (team.name != null && team.name!.contains(filter)) ||
+              (team.teamCd != null && team.teamCd!.contains(filter)),
+        ),
         AppTextField(
           label: 'team_tel'.i18n(),
           controller: TextEditingController(
@@ -68,16 +73,18 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
           enabled: false,
         ),
         AppDropdown<TeamMember>(
+          showSearchBox: true,
           items: teamMemberStore.teamMembers.values
-              .where((element) =>
-                  element.teamCd == report.teamCd &&
-                  element.teamMemberCd != report.teamMemberCd &&
-                  element.teamMemberCd != report.institutionalMemberCd)
+              .where((element) => element.teamCd == report.teamCd)
               .toList(),
           label: 'team_captain_name'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) => report.teamCaptain = value,
           selectedItem: report.teamCaptain,
+          filterFn: (teamMember, filter) =>
+              (teamMember.name != null && teamMember.name!.contains(filter)) ||
+              (teamMember.teamMemberCd != null &&
+                  teamMember.teamMemberCd!.contains(filter)),
         ),
       ]);
     });
@@ -120,26 +127,27 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
       return lineLayout(children: [
         optional(
           child: AppDropdown<TeamMember>(
+            showSearchBox: true,
             items: teamMemberStore.teamMembers.values
-                .where((element) =>
-                    element.teamCd == report.teamCd &&
-                    element.teamMemberCd != report.teamCaptainCd &&
-                    element.teamMemberCd != report.institutionalMemberCd)
+                .where((element) => element.teamCd == report.teamCd)
                 .toList(),
             label: 'team_member_name'.i18n(),
             itemAsString: ((item) => item.name ?? ''),
             onChanged: (value) => report.teamMember = value,
             selectedItem: report.teamMember,
+            filterFn: (teamMember, filter) =>
+                (teamMember.name != null &&
+                    teamMember.name!.contains(filter)) ||
+                (teamMember.teamMemberCd != null &&
+                    teamMember.teamMemberCd!.contains(filter)),
           ),
           context: context,
         ),
         optional(
           child: AppDropdown<TeamMember>(
+            showSearchBox: true,
             items: teamMemberStore.teamMembers.values
-                .where((element) =>
-                    element.teamCd == report.teamCd &&
-                    element.teamMemberCd != report.teamCaptainCd &&
-                    element.teamMemberCd != report.teamMemberCd)
+                .where((element) => element.teamCd == report.teamCd)
                 .toList(),
             label: 'institutional_member_name'.i18n(),
             itemAsString: ((item) => item.name ?? ''),
@@ -147,6 +155,11 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
               report.institutionalMember = value;
             },
             selectedItem: report.institutionalMember,
+            filterFn: (teamMember, filter) =>
+                (teamMember.name != null &&
+                    teamMember.name!.contains(filter)) ||
+                (teamMember.teamMemberCd != null &&
+                    teamMember.teamMemberCd!.contains(filter)),
           ),
           context: context,
         ),

@@ -31,6 +31,20 @@ class ListIntConverter implements JsonConverter<ObservableList<int?>, String> {
   String toJson(ObservableList<int?> object) => jsonEncode(object.toList());
 }
 
+class ListDoubleConverter
+    implements JsonConverter<ObservableList<double?>, String> {
+  const ListDoubleConverter();
+
+  @override
+  ObservableList<double?> fromJson(String json) {
+    return ObservableList.of(
+        (jsonDecode(json) as Iterable<dynamic>).map((e) => e as double?));
+  }
+
+  @override
+  String toJson(ObservableList<double?> object) => jsonEncode(object.toList());
+}
+
 class ListBoolConverter
     implements JsonConverter<ObservableList<bool?>, String> {
   const ListBoolConverter();

@@ -108,8 +108,8 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['LightReflexRight'], const ListBoolConverter().fromJson)
   ..lightReflexLeft = _$JsonConverterFromJson<String, ObservableList<bool?>>(
       json['LightReflexLeft'], const ListBoolConverter().fromJson)
-  ..bodyTemperature = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['BodyTemperature'], const ListIntConverter().fromJson)
+  ..bodyTemperature = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['BodyTemperature'], const ListDoubleConverter().fromJson)
   ..facialFeatures = _$JsonConverterFromJson<String, ObservableList<String?>>(
       json['FacialFeatures'], const ListStringConverter().fromJson)
   ..hemorrhage = _$JsonConverterFromJson<String, ObservableList<String?>>(
@@ -282,8 +282,8 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.lightReflexRight, const ListBoolConverter().toJson),
       'LightReflexLeft': _$JsonConverterToJson<String, ObservableList<bool?>>(
           instance.lightReflexLeft, const ListBoolConverter().toJson),
-      'BodyTemperature': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.bodyTemperature, const ListIntConverter().toJson),
+      'BodyTemperature': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.bodyTemperature, const ListDoubleConverter().toJson),
       'FacialFeatures': _$JsonConverterToJson<String, ObservableList<String?>>(
           instance.facialFeatures, const ListStringConverter().toJson),
       'Hemorrhage': _$JsonConverterToJson<String, ObservableList<String?>>(
@@ -395,6 +395,12 @@ mixin _$Report on _Report, Store {
   TeamMember? get institutionalMember => (_$institutionalMemberComputed ??=
           Computed<TeamMember?>(() => super.institutionalMember,
               name: '_Report.institutionalMember'))
+      .value;
+  Computed<TeamMember?>? _$reporterComputed;
+
+  @override
+  TeamMember? get reporter => (_$reporterComputed ??=
+          Computed<TeamMember?>(() => super.reporter, name: '_Report.reporter'))
       .value;
   Computed<Team?>? _$teamComputed;
 
@@ -1488,13 +1494,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.bodyTemperature', context: context);
 
   @override
-  ObservableList<int?>? get bodyTemperature {
+  ObservableList<double?>? get bodyTemperature {
     _$bodyTemperatureAtom.reportRead();
     return super.bodyTemperature;
   }
 
   @override
-  set bodyTemperature(ObservableList<int?>? value) {
+  set bodyTemperature(ObservableList<double?>? value) {
     _$bodyTemperatureAtom.reportWrite(value, super.bodyTemperature, () {
       super.bodyTemperature = value;
     });
@@ -2342,6 +2348,17 @@ mixin _$Report on _Report, Store {
   }
 
   @override
+  dynamic setReporter(TeamMember? value) {
+    final _$actionInfo =
+        _$_ReportActionController.startAction(name: '_Report.setReporter');
+    try {
+      return super.setReporter(value);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setTeam(Team? team) {
     final _$actionInfo =
         _$_ReportActionController.startAction(name: '_Report.setTeam');
@@ -2634,6 +2651,7 @@ classificationStore: ${classificationStore},
 teamCaptain: ${teamCaptain},
 teamMember: ${teamMember},
 institutionalMember: ${institutionalMember},
+reporter: ${reporter},
 team: ${team},
 gender: ${gender},
 medication: ${medication},

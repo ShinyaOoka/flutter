@@ -37,6 +37,7 @@ class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
       final classificationStore = Provider.of<ClassificationStore>(context);
       return lineLayout(children: [
         AppDropdown<Classification>(
+          showSearchBox: true,
           items: classificationStore.classifications.values
               .where((element) =>
                   element.classificationCd == AppConstants.typeOfAccidentCode)
@@ -45,6 +46,10 @@ class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.accidentType = value,
           selectedItem: report.accidentType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         Row(
           children: [
@@ -105,6 +110,10 @@ class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.adlType = value,
           selectedItem: report.adlType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -117,6 +126,10 @@ class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
             report.trafficAccidentType = value;
           },
           selectedItem: report.trafficAccidentType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
       ]);
     });
@@ -147,6 +160,7 @@ class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
         label: 'verbal_guidance'.i18n(),
         onChanged: (value) => report.verbalGuidance = value,
         maxLength: 60,
+        maxLines: 1,
       ),
     ]);
   }

@@ -1,6 +1,8 @@
+import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
@@ -20,17 +22,12 @@ class ChooseDeviceScreen extends StatefulWidget {
   _ChooseDeviceScreenState createState() => _ChooseDeviceScreenState();
 }
 
-class _ChooseDeviceScreenState extends State<ChooseDeviceScreen> {
+class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
+    with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
-
-  late TeamStore _teamStore;
-  late TeamMemberStore _teamMemberStore;
-  late FireStationStore _fireStationStore;
-  late ClassificationStore _classificationStore;
-  late HospitalStore _hospitalStore;
-
-  final Report _report = Report();
+  final RouteObserver<ModalRoute<void>> _routeObserver =
+      getIt<RouteObserver<ModalRoute<void>>>();
 
   @override
   void initState() {
@@ -40,16 +37,27 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _hostApi = Provider.of<ZollSdkHostApi>(context);
-    print('start');
-    _hostApi.browserStart();
+    _routeObserver.subscribe(this, ModalRoute.of(context)!);
   }
 
   @override
   void dispose() {
     super.dispose();
-    print('stop');
+    _routeObserver.unsubscribe(this);
+  }
+
+  @override
+  void didPush() {
+    _hostApi = Provider.of<ZollSdkHostApi>(context);
+    _zollSdkStore = context.read();
+    _zollSdkStore.devices = ObservableList();
+    _hostApi.browserStart();
+    _zollSdkStore.devices.add(
+        XSeriesDevice(address: 'some_address', serialNumber: 'some_device'));
+  }
+
+  @override
+  void didPop() {
     _hostApi.browserStop();
   }
 
@@ -99,10 +107,11 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen> {
   }
 
   Widget _buildMainContent() {
-    return Observer(
-      builder: (context) {
-        return const CustomProgressIndicatorWidget();
-      },
+    return ListView.separated(
+      itemCount: _zollSdkStore.devices.length,
+      itemBuilder: (context, index) => ListTile(
+          title: Text(_zollSdkStore.devices[index].serialNumber), onTap: () {}),
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 

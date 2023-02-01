@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
@@ -36,6 +37,7 @@ class ReportingStatusSection extends StatelessWidget with ReportSectionMixin {
           maxLength: 20,
         ),
         AppDropdown<Classification>(
+          showSearchBox: true,
           items: classificationStore.classifications.values
               .where((element) =>
                   element.classificationCd == AppConstants.typeOfDetectionCode)
@@ -46,6 +48,10 @@ class ReportingStatusSection extends StatelessWidget with ReportSectionMixin {
             report.detectionType = value;
           },
           selectedItem: report.detectionType,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
       ]);
     });
@@ -60,6 +66,8 @@ class ReportingStatusSection extends StatelessWidget with ReportSectionMixin {
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
+        keyboardType: TextInputType.phone,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.callerTel = value,
         maxLength: 20,
       ),

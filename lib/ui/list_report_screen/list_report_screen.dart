@@ -141,14 +141,14 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '発生日なし'} ${item.timeOfOccurrence?.format(context) ?? '発生時間なし'}',
+            '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '発生日：なし'} ${item.timeOfOccurrence?.format(context) ?? '発生時間：なし'}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
-            '${'list_report_team_name'.i18n()} : ${team?.name ?? '隊名なし'}',
+            '${'list_report_team_name'.i18n()} : ${team?.name ?? 'なし'}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
@@ -164,14 +164,14 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             height: 16,
           ),
           Text(
-            '${'type_of_accident'.i18n()} : ${typeOfAccident?.value ?? '事故種別なし'}',
+            '${'type_of_accident'.i18n()} : ${typeOfAccident?.value ?? 'なし'}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
-            '${'accident_summary'.i18n()} : ${item.accidentSummary ?? '事故概要・主訴なし'}',
+            '${'accident_summary'.i18n()} : ${item.accidentSummary ?? 'なし'}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,

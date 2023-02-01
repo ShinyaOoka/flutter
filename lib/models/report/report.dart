@@ -237,9 +237,9 @@ abstract class _Report with Store {
   @JsonKey(name: "LightReflexLeft")
   ObservableList<bool?>? lightReflexLeft;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "BodyTemperature")
-  ObservableList<int?>? bodyTemperature;
+  ObservableList<double?>? bodyTemperature;
   @observable
   @ListStringConverter()
   @JsonKey(name: "FacialFeatures")

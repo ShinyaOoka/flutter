@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
@@ -72,6 +73,7 @@ class SickInjuredPersonInfoSection extends StatelessWidget
         hintText: '〇〇県△△市□□NN-NN-NN',
         onChanged: (value) => report.sickInjuredPersonAddress = value,
         maxLength: 60,
+        maxLines: 1,
       ),
     ]);
   }
@@ -89,6 +91,10 @@ class SickInjuredPersonInfoSection extends StatelessWidget
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.gender = value,
           selectedItem: report.gender,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDatePicker(
           label: 'sick_injured_person_birth_date'.i18n(),
@@ -106,12 +112,14 @@ class SickInjuredPersonInfoSection extends StatelessWidget
       AppTextField(
         label: 'sick_injured_person_tel'.i18n(),
         keyboardType: TextInputType.phone,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.sickInjuredPersonTel = value,
         maxLength: 20,
       ),
       AppTextField(
         label: 'sick_injured_person_family_tel'.i18n(),
         keyboardType: TextInputType.phone,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.sickInjuredPersonFamilyTel = value,
         maxLength: 20,
       ),
@@ -161,6 +169,10 @@ class SickInjuredPersonInfoSection extends StatelessWidget
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.medication = value,
           selectedItem: report.medication,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppTextField(
           label: 'sick_injured_person_medication_detail'.i18n(),
@@ -180,6 +192,7 @@ class SickInjuredPersonInfoSection extends StatelessWidget
             onChanged: (value) =>
                 report.sickInjuredPersonNameOfInjuryOrSickness = value,
             maxLength: 60,
+            maxLines: 1,
           ),
           context: context),
     ]);
@@ -194,6 +207,7 @@ class SickInjuredPersonInfoSection extends StatelessWidget
               controller:
                   TextEditingController(text: report.sickInjuredPersonDegree),
               maxLength: 60,
+              maxLines: 1,
             ),
             context: context),
       ]);

@@ -81,6 +81,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.jcsTypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         )
       ]);
     });
@@ -101,6 +105,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.gcsETypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -113,6 +121,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.gcsVTypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -125,6 +137,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.gcsMTypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
       ]);
     });
@@ -269,9 +285,11 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
         AppTextField(
           label: 'body_temperature'.i18n(),
           keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp('[0-9.]'))
+          ],
           onChanged: (value) =>
-              report.bodyTemperature?[index] = int.parse(value),
+              report.bodyTemperature?[index] = double.parse(value),
           counterText: 'celsius'.i18n(),
           counterColor: Theme.of(context).primaryColor,
         ),
@@ -287,6 +305,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.facialFeatureTypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         )
       ]);
     });
@@ -315,6 +337,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               .mapIndexed((i, e) => i == index ? value : e)
               .toList(),
           selectedItem: report.incontinenceTypes[index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
         ),
       ]);
     });
@@ -359,6 +385,10 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                     .mapIndexed((i, e) => i == index ? value : e)
                     .toList(),
             selectedItem: report.observationTimeDescriptionTypes[index],
+            filterFn: (c, filter) =>
+                (c.value != null && c.value!.contains(filter)) ||
+                (c.classificationSubCd != null &&
+                    c.classificationSubCd!.contains(filter)),
           ),
           context: context,
         ),
