@@ -29,16 +29,14 @@ class ReporterSection extends StatelessWidget with ReportSectionMixin {
     return Observer(builder: (context) {
       final teamMemberStore = Provider.of<TeamMemberStore>(context);
       final teamStore = Provider.of<TeamStore>(context);
-      final selectedReporter =
-          teamMemberStore.teamMembers[report.nameOfReporter];
-      final selectedReporterTeam = teamStore.teams[selectedReporter?.teamCd];
+      final selectedReporterTeam = teamStore.teams[report.reporter?.teamCd];
       return lineLayout(children: [
         AppDropdown(
           items: teamMemberStore.teamMembers.values.toList(),
           label: 'name_of_reporter'.i18n(),
           itemAsString: (item) => item.name ?? '',
-          onChanged: (value) => report.nameOfReporter = value?.teamMemberCd,
-          selectedItem: selectedReporter,
+          onChanged: (value) => report.reporter = value,
+          selectedItem: report.reporter,
         ),
         AppTextField(
           label: 'affiliation_of_reporter'.i18n(),
@@ -51,14 +49,11 @@ class ReporterSection extends StatelessWidget with ReportSectionMixin {
 
   Widget _buildLine2(Report report) {
     return Observer(builder: (context) {
-      final teamMemberStore = Provider.of<TeamMemberStore>(context);
-      final selectedReporter =
-          teamMemberStore.teamMembers[report.nameOfReporter];
       return lineLayout(children: [
         AppTextField(
           label: 'position_of_reporter'.i18n(),
           controller: TextEditingController(
-            text: selectedReporter?.position,
+            text: report.reporter?.position,
           ),
           enabled: false,
         ),

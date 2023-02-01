@@ -27,10 +27,12 @@ class _Section {
 
 class ReportForm extends StatelessWidget {
   final Report report;
-  late final List<_Section> _sections;
 
-  ReportForm({super.key, required this.report}) {
-    _sections = [
+  const ReportForm({super.key, required this.report});
+
+  @override
+  Widget build(BuildContext context) {
+    final sections = [
       _Section(
         icon: const Icon(Icons.commute),
         title: 'team_info'.i18n(),
@@ -130,31 +132,25 @@ class ReportForm extends StatelessWidget {
         optional: true,
       ),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: ExpansionPanelList.radio(
-            expandedHeaderPadding: EdgeInsets.zero,
-            expansionCallback: (panelIndex, isExpanded) {},
-            children: _sections
-                .asMap()
-                .map((index, section) => MapEntry(
-                    index,
-                    ExpansionPanelRadio(
-                        value: index,
-                        canTapOnHeader: true,
-                        backgroundColor: section.optional
-                            ? Theme.of(context).secondaryHeaderColor
-                            : null,
-                        headerBuilder: (context, isExpanded) {
-                          return ListTile(
-                              leading: section.icon,
-                              title: Text('${index + 1}. ${section.title}'));
-                        },
-                        body: section.widget)))
-                .values
-                .toList()));
+    return ExpansionPanelList.radio(
+        expandedHeaderPadding: EdgeInsets.zero,
+        children: sections
+            .asMap()
+            .map((index, section) => MapEntry(
+                index,
+                ExpansionPanelRadio(
+                    value: index,
+                    canTapOnHeader: true,
+                    backgroundColor: section.optional
+                        ? Theme.of(context).secondaryHeaderColor
+                        : null,
+                    headerBuilder: (context, isExpanded) {
+                      return ListTile(
+                          leading: section.icon,
+                          title: Text('${index + 1}. ${section.title}'));
+                    },
+                    body: section.widget)))
+            .values
+            .toList());
   }
 }

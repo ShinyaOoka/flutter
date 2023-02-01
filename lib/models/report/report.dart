@@ -456,6 +456,22 @@ abstract class _Report with Store {
 
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)
+  TeamMember? get reporter {
+    assert(teamMemberStore != null);
+    return teamMemberStore!.teamMembers[nameOfReporter];
+  }
+
+  @action
+  setReporter(TeamMember? value) {
+    nameOfReporter = value?.teamMemberCd;
+  }
+
+  set reporter(TeamMember? value) {
+    setReporter(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
   Team? get team {
     assert(teamStore != null);
     return teamStore!.teams[teamCd];
