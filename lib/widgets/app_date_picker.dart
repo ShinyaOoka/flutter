@@ -21,7 +21,7 @@ class AppDatePicker extends StatelessWidget {
               border: const OutlineInputBorder(),
               hintText: hintText,
               counterText: " ",
-              counterStyle: const TextStyle(height: 0.4, fontSize: 10)),
+              counterStyle: const TextStyle(height: 0.2, fontSize: 10)),
           controller: controller ??
               TextEditingController(
                   text: selectedDate != null
@@ -38,7 +38,7 @@ class AppDatePicker extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 4)
+        const SizedBox(height: 6)
       ],
     );
   }

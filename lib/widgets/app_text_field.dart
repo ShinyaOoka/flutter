@@ -33,14 +33,14 @@ class AppTextField extends StatelessWidget {
               hintText: hintText,
               counterText: _counterText,
               counterStyle:
-                  TextStyle(height: 0.4, color: counterColor, fontSize: 10)),
+                  TextStyle(height: 0.2, color: counterColor, fontSize: 10)),
           controller: controller,
           enabled: enabled,
           onChanged: onChanged,
           onEditingComplete: onEditingComplete,
           inputFormatters: inputFormatters,
         ),
-        const SizedBox(height: 4)
+        const SizedBox(height: 6)
       ],
     );
   }

@@ -19,7 +19,7 @@ class AppTimePicker extends StatelessWidget {
               border: const OutlineInputBorder(),
               hintText: hintText,
               counterText: " ",
-              counterStyle: const TextStyle(height: 0.4, fontSize: 10)),
+              counterStyle: const TextStyle(height: 0.2, fontSize: 10)),
           controller: controller ??
               TextEditingController(
                   text: selectedTime != null
@@ -42,7 +42,7 @@ class AppTimePicker extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 4)
+        const SizedBox(height: 6)
       ],
     );
   }

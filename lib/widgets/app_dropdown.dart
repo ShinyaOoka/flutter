@@ -45,12 +45,12 @@ class AppDropdown<T> extends StatelessWidget {
                   labelText: label,
                   border: const OutlineInputBorder(),
                   counterText: ' ',
-                  counterStyle: const TextStyle(height: 0.4, fontSize: 10))),
+                  counterStyle: const TextStyle(height: 0.2, fontSize: 10))),
           onChanged: onChanged ?? (_) {},
           compareFn: compareFn,
           selectedItem: selectedItem,
         ),
-        const SizedBox(height: 4)
+        const SizedBox(height: 6)
       ],
     );
   }
