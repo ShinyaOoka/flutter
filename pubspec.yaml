@@ -37,6 +37,7 @@ dependencies:
   flutter_html_to_pdf: ^0.7.0
   pdf: ^3.8.4
   tuple: ^2.0.1
+  flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
   flutter_test:
@@ -48,8 +49,6 @@ dev_dependencies:
   mobx_codegen: ^2.1.1
   build_runner: ^2.3.3
   pigeon: ^7.1.4
-
-
 
 flavorizr:
   flavors:
@@ -68,7 +67,6 @@ flavorizr:
         applicationId: "com.akzoll.rescuereportcreate"
       ios:
         bundleId: "com.akzoll.rescuereportcreate"
-
 
 flutter:
   uses-material-design: true

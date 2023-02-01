@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class AppTimePicker extends StatelessWidget {
   final String? label;
@@ -26,11 +27,19 @@ class AppTimePicker extends StatelessWidget {
                       : null),
           readOnly: true,
           onTap: () async {
-            final date = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.now(),
+            final now = DateTime.now();
+            DatePicker.showTimePicker(
+              context,
+              showTitleActions: true,
+              locale: LocaleType.jp,
+              onConfirm: (date) =>
+                  onChanged?.call(TimeOfDay.fromDateTime(date)),
+              currentTime: selectedTime != null
+                  ? DateTime(now.year, now.month, now.day, selectedTime!.hour,
+                      selectedTime!.minute)
+                  : DateTime.now(),
+              showSecondsColumn: false,
             );
-            onChanged?.call(date);
           },
         ),
         const SizedBox(height: 6)

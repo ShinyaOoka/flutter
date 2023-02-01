@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
 class AppDatePicker extends StatelessWidget {
@@ -27,13 +29,13 @@ class AppDatePicker extends StatelessWidget {
                       : null),
           readOnly: true,
           onTap: () async {
-            final date = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1970),
-              lastDate: DateTime.now(),
+            DatePicker.showDatePicker(
+              context,
+              showTitleActions: true,
+              locale: LocaleType.jp,
+              onConfirm: (date) => onChanged?.call(date),
+              currentTime: selectedDate ?? DateTime.now(),
             );
-            onChanged?.call(date);
           },
         ),
         const SizedBox(height: 6)
