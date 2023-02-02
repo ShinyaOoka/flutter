@@ -52,8 +52,6 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
     _zollSdkStore = context.read();
     _zollSdkStore.devices = ObservableList();
     _hostApi.browserStart();
-    _zollSdkStore.devices.add(
-        XSeriesDevice(address: 'some_address', serialNumber: 'some_device'));
   }
 
   @override
