@@ -316,13 +316,16 @@ abstract class ZollSdkFlutterApi {
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
+        print("channel");
         channel.setMessageHandler((Object? message) async {
+           print("channel 2");
           assert(message != null,
           'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final XSeriesDevice? arg_device = (args[0] as XSeriesDevice?);
           assert(arg_device != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound was null, expected non-null XSeriesDevice.');
+          print(arg_device);
           api.onDeviceFound(arg_device!);
           return;
         });

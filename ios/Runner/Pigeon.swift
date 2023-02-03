@@ -312,10 +312,15 @@ class ZollSdkFlutterApi {
     return ZollSdkFlutterApiCodec.shared
   }
   func onDeviceFound(device deviceArg: XSeriesDevice, completion: @escaping () -> Void) {
+    print("asdfasfd");
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound", binaryMessenger: binaryMessenger, codec: codec)
+    print("asdfasfd");
+    
     channel.sendMessage([deviceArg] as [Any?]) { _ in
       completion()
     }
+    print("asdfasfd");
+
   }
   func onDeviceLost(device deviceArg: XSeriesDevice, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceLost", binaryMessenger: binaryMessenger, codec: codec)

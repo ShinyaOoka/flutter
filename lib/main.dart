@@ -10,8 +10,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   return runZonedGuarded(() async {
-    runApp(MyApp());
     ZollSdkFlutterApi.setup(getIt<ZollSdkFlutterApiImpl>());
+    runApp(MyApp());
   }, (error, stack) {
     print(stack);
     print(error);
