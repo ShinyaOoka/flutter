@@ -14,10 +14,12 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     
     func browserStart() {
         browser.start(delegate: self)
+        print("Start browsing device")
     }
     
     func browserStop() {
         browser.stop()
+        print("Stop browsing device")
     }
     
     func deviceGetCurrentVitalSigns(callbackId: String?, device: XSeriesDevice, password: String, completion: @escaping (Int32) -> Void) {
@@ -180,6 +182,7 @@ extension ZollSdkHostApiImpl: DevicesDelegate {
     }
     
     func onBrowseError(error: ZOXError) {
+        print(error.errorMessage)
         self.flutterApi.onBrowseError() {}
     }
 }
