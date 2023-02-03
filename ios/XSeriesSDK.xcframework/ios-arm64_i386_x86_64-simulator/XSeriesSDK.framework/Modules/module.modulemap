@@ -1,0 +1,4 @@
+framework module XSeriesSDK {
+  header "XSeriesSDK-Swift.h"
+  requires objc
+}
