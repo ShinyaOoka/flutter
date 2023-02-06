@@ -14,6 +14,9 @@ abstract class _ZollSdkStore with Store {
   @observable
   ObservableList<XSeriesDevice> devices = ObservableList();
 
+  @observable
+  ObservableMap<String, List<CaseListItem>> cases = ObservableMap();
+
   @action
   void onDeviceFound(XSeriesDevice device) {
     devices.add(device);
@@ -27,4 +30,11 @@ abstract class _ZollSdkStore with Store {
 
   @action
   void onBrowseError() {}
+
+  @action
+  void onGetCaseListSuccess(
+      int requestCode, String deviceId, List<CaseListItem?> cases) {
+    this.cases[deviceId] =
+        cases.where((e) => e != null).map((e) => e!).toList();
+  }
 }

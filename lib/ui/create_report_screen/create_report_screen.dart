@@ -159,7 +159,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
             padding: const EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: () async {
-                await Navigator.of(context).pushNamed(Routes.chooseDevice);
+                await Navigator.of(context).pushNamed(Routes.listDevice);
               },
               style: ButtonStyle(
                   minimumSize:

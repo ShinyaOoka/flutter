@@ -1,4 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
+import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,15 +17,14 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class ChooseDeviceScreen extends StatefulWidget {
-  const ChooseDeviceScreen({super.key});
+class ListDeviceScreen extends StatefulWidget {
+  const ListDeviceScreen({super.key});
 
   @override
-  _ChooseDeviceScreenState createState() => _ChooseDeviceScreenState();
+  _ListDeviceScreenState createState() => _ListDeviceScreenState();
 }
 
-class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
-    with RouteAware {
+class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -69,7 +70,7 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text('choose_device'.i18n()),
+      title: Text('get_xseries_data'.i18n()),
       actions: _buildActions(),
       centerTitle: true,
       leading: _buildBackButton(),
@@ -105,14 +106,30 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
   }
 
   Widget _buildMainContent() {
-    return Observer(
-        builder: (context) => ListView.separated(
+    return Column(
+      children: [
+        Container(
+          child: Text("please_choose_device".i18n(),
+              style: Theme.of(context).textTheme.titleLarge),
+          padding: EdgeInsets.all(16),
+        ),
+        Expanded(
+          child: Observer(
+            builder: (context) => ListView.separated(
               itemCount: _zollSdkStore.devices.length,
               itemBuilder: (context, index) => ListTile(
                   title: Text(_zollSdkStore.devices[index].serialNumber),
-                  onTap: () {}),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.listCase,
+                        arguments: ListCaseScreenArguments(
+                            device: _zollSdkStore.devices[index]));
+                  }),
               separatorBuilder: (context, index) => const Divider(),
-            ));
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   _showErrorMessage(String message) {

@@ -25,6 +25,21 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
+  late final _$casesAtom = Atom(name: '_ZollSdkStore.cases', context: context);
+
+  @override
+  ObservableMap<String, List<CaseListItem>> get cases {
+    _$casesAtom.reportRead();
+    return super.cases;
+  }
+
+  @override
+  set cases(ObservableMap<String, List<CaseListItem>> value) {
+    _$casesAtom.reportWrite(value, super.cases, () {
+      super.cases = value;
+    });
+  }
+
   late final _$_ZollSdkStoreActionController =
       ActionController(name: '_ZollSdkStore', context: context);
 
@@ -62,9 +77,22 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
   }
 
   @override
+  void onGetCaseListSuccess(
+      int requestCode, String deviceId, List<CaseListItem?> cases) {
+    final _$actionInfo = _$_ZollSdkStoreActionController.startAction(
+        name: '_ZollSdkStore.onGetCaseListSuccess');
+    try {
+      return super.onGetCaseListSuccess(requestCode, deviceId, cases);
+    } finally {
+      _$_ZollSdkStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-devices: ${devices}
+devices: ${devices},
+cases: ${cases}
     ''';
   }
 }

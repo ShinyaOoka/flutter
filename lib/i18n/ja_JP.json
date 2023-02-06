@@ -14,6 +14,7 @@
   "confirm_report": "レポート確認",
   "send_report": "レポートPDF送信・印刷",
   "preview_report": "レポートPDFプレビュー",
+  "get_xseries_data": "X Seriesデータ取得",
 
   "team_info": "出場情報",
   "team_name": "救急隊名",
@@ -142,5 +143,8 @@
   "summary_of_occurrence": "発生概要及び現場到着時の状況と救急処置",
   "remarks": "備考",
 
-  "list_report_team_name": "隊名"
+  "list_report_team_name": "隊名",
+
+  "please_choose_device": "取得対象の機器を選択してください",
+  "please_choose_case": "取得対象のデータを選択してください"
 }

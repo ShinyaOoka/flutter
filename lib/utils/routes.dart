@@ -1,5 +1,6 @@
+import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ak_azm_flutter/ui/choose_device_screen/choose_device_screen.dart';
+import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/ui/create_report_screen/create_report_screen.dart';
 import 'package:ak_azm_flutter/ui/list_report_screen/list_report_screen.dart';
 import 'package:ak_azm_flutter/ui/confirm_report_screen/confirm_report_screen.dart';
@@ -15,7 +16,8 @@ class Routes {
   static const String confirmReport = '/confirm_report';
   static const String sendReport = '/send_report';
   static const String previewReport = '/preview_report';
-  static const String chooseDevice = '/choose_device';
+  static const String listDevice = '/list_device';
+  static const String listCase = '/list_case';
 
   static final routes = <String, WidgetBuilder>{
     listReport: (BuildContext context) => const ListReportScreen(),
@@ -23,6 +25,7 @@ class Routes {
     confirmReport: (BuildContext context) => const ConfirmReportScreen(),
     sendReport: (BuildContext context) => const SendReportScreen(),
     previewReport: (BuildContext context) => const PreviewReportScreen(),
-    chooseDevice: (BuildContext context) => const ChooseDeviceScreen()
+    listDevice: (BuildContext context) => const ListDeviceScreen(),
+    listCase: (BuildContext context) => const ListCaseScreen(),
   };
 }
