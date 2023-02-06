@@ -40,6 +40,7 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     
     func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
         let flutterCases = cases.map {hostToFlutterCaseListItem($0) };
+        print("get case list returned");
         self.flutterApi.onGetCaseListSuccess(
             requestCode: Int32(requestCode),
             deviceId: deviceId,
@@ -50,7 +51,6 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
 
 func hostToFlutterCaseListItem(_ x: XCaseCatalogItem) -> CaseListItem {
     let formatter = ISO8601DateFormatter();
-    print("get case list returned");
     return CaseListItem(startTime: x.startTime != nil ? formatter.string(from: x.startTime!) : nil, endTime: x.endTime != nil ? formatter.string(from: x.endTime!) : nil)
 }
 

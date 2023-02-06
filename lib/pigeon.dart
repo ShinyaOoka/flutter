@@ -302,6 +302,7 @@ abstract class ZollSdkFlutterApi {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
+          print('case list received from host');
           assert(message != null,
           'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null.');
           final List<Object?> args = (message as List<Object?>?)!;
