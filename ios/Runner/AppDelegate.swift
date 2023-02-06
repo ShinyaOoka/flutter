@@ -21,6 +21,7 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
 
     func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
+        print("start get case list");
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
         completion(Int32(requestCode))
@@ -30,9 +31,11 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
 
 extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
+        print("requet failed");
     }
     
     func onAuthenticationFailed(requestCode: Int, deviceId: String) {
+        print("authentication needed");
     }
     
     func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
@@ -47,6 +50,7 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
 
 func hostToFlutterCaseListItem(_ x: XCaseCatalogItem) -> CaseListItem {
     let formatter = ISO8601DateFormatter();
+    print("get case list returned");
     return CaseListItem(startTime: x.startTime != nil ? formatter.string(from: x.startTime!) : nil, endTime: x.endTime != nil ? formatter.string(from: x.endTime!) : nil)
 }
 
