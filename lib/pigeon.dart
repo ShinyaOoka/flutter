@@ -71,89 +71,6 @@ class XSeriesDevice {
   }
 }
 
-class ValueUnitPair {
-  ValueUnitPair({
-    required this.value,
-    required this.unit,
-    required this.isValid,
-  });
-
-  double value;
-
-  Unit unit;
-
-  bool isValid;
-
-  Object encode() {
-    return <Object?>[
-      value,
-      unit.index,
-      isValid,
-    ];
-  }
-
-  static ValueUnitPair decode(Object result) {
-    result as List<Object?>;
-    return ValueUnitPair(
-      value: result[0]! as double,
-      unit: Unit.values[result[1]! as int],
-      isValid: result[2]! as bool,
-    );
-  }
-}
-
-class TrendData {
-  TrendData({
-    required this.value,
-    required this.alarm,
-    required this.dataStatus,
-  });
-
-  ValueUnitPair value;
-
-  AlarmStatus alarm;
-
-  DataStatus dataStatus;
-
-  Object encode() {
-    return <Object?>[
-      value.encode(),
-      alarm.index,
-      dataStatus.index,
-    ];
-  }
-
-  static TrendData decode(Object result) {
-    result as List<Object?>;
-    return TrendData(
-      value: ValueUnitPair.decode(result[0]! as List<Object?>),
-      alarm: AlarmStatus.values[result[1]! as int],
-      dataStatus: DataStatus.values[result[2]! as int],
-    );
-  }
-}
-
-class VitalSigns {
-  VitalSigns({
-    required this.spo2,
-  });
-
-  TrendData spo2;
-
-  Object encode() {
-    return <Object?>[
-      spo2.encode(),
-    ];
-  }
-
-  static VitalSigns decode(Object result) {
-    result as List<Object?>;
-    return VitalSigns(
-      spo2: TrendData.decode(result[0]! as List<Object?>),
-    );
-  }
-}
-
 class CaseListItem {
   CaseListItem({
     required this.startTime,
@@ -257,33 +174,6 @@ class ZollSdkHostApi {
     }
   }
 
-  Future<int> deviceGetCurrentVitalSigns(XSeriesDevice arg_device, String arg_password) async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.ZollSdkHostApi.deviceGetCurrentVitalSigns', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_device, arg_password]) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else if (replyList[0] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
-    } else {
-      return (replyList[0] as int?)!;
-    }
-  }
-
   Future<int> deviceGetCaseList(XSeriesDevice arg_device, String? arg_password) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ZollSdkHostApi.deviceGetCaseList', codec,
@@ -319,17 +209,8 @@ class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
     if (value is CaseListItem) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is TrendData) {
-      buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    } else if (value is ValueUnitPair) {
-      buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    } else if (value is VitalSigns) {
-      buffer.putUint8(131);
-      writeValue(buffer, value.encode());
     } else if (value is XSeriesDevice) {
-      buffer.putUint8(132);
+      buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -342,12 +223,6 @@ class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
       case 128: 
         return CaseListItem.decode(readValue(buffer)!);
       case 129: 
-        return TrendData.decode(readValue(buffer)!);
-      case 130: 
-        return ValueUnitPair.decode(readValue(buffer)!);
-      case 131: 
-        return VitalSigns.decode(readValue(buffer)!);
-      case 132: 
         return XSeriesDevice.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -363,8 +238,6 @@ abstract class ZollSdkFlutterApi {
   void onDeviceLost(XSeriesDevice device);
 
   void onBrowseError();
-
-  void onVitalSignsReceived(int requestCode, String serialNumber, VitalSigns? report);
 
   void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases);
 
@@ -417,29 +290,6 @@ abstract class ZollSdkFlutterApi {
         channel.setMessageHandler((Object? message) async {
           // ignore message
           api.onBrowseError();
-          return;
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived', codec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_requestCode = (args[0] as int?);
-          assert(arg_requestCode != null,
-              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null, expected non-null int.');
-          final String? arg_serialNumber = (args[1] as String?);
-          assert(arg_serialNumber != null,
-              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null, expected non-null String.');
-          final VitalSigns? arg_report = (args[2] as VitalSigns?);
-          api.onVitalSignsReceived(arg_requestCode!, arg_serialNumber!, arg_report);
           return;
         });
       }
