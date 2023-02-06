@@ -257,12 +257,12 @@ class ZollSdkHostApi {
     }
   }
 
-  Future<int> deviceGetCurrentVitalSigns(String? arg_callbackId, XSeriesDevice arg_device, String arg_password) async {
+  Future<int> deviceGetCurrentVitalSigns(XSeriesDevice arg_device, String arg_password) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ZollSdkHostApi.deviceGetCurrentVitalSigns', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_callbackId, arg_device, arg_password]) as List<Object?>?;
+        await channel.send(<Object?>[arg_device, arg_password]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -364,7 +364,7 @@ abstract class ZollSdkFlutterApi {
 
   void onBrowseError();
 
-  void onVitalSignsReceived(String? callbackId, int requestCode, String serialNumber, VitalSigns? report);
+  void onVitalSignsReceived(int requestCode, String serialNumber, VitalSigns? report);
 
   void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases);
 
@@ -432,15 +432,14 @@ abstract class ZollSdkFlutterApi {
           assert(message != null,
           'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final String? arg_callbackId = (args[0] as String?);
-          final int? arg_requestCode = (args[1] as int?);
+          final int? arg_requestCode = (args[0] as int?);
           assert(arg_requestCode != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null, expected non-null int.');
-          final String? arg_serialNumber = (args[2] as String?);
+          final String? arg_serialNumber = (args[1] as String?);
           assert(arg_serialNumber != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null, expected non-null String.');
-          final VitalSigns? arg_report = (args[3] as VitalSigns?);
-          api.onVitalSignsReceived(arg_callbackId, arg_requestCode!, arg_serialNumber!, arg_report);
+          final VitalSigns? arg_report = (args[2] as VitalSigns?);
+          api.onVitalSignsReceived(arg_requestCode!, arg_serialNumber!, arg_report);
           return;
         });
       }

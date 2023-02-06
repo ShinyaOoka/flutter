@@ -222,7 +222,7 @@ class ZollSdkHostApiCodec: FlutterStandardMessageCodec {
 protocol ZollSdkHostApi {
   func browserStart() throws
   func browserStop() throws
-  func deviceGetCurrentVitalSigns(callbackId: String?, device: XSeriesDevice, password: String, completion: @escaping (Int32) -> Void)
+  func deviceGetCurrentVitalSigns(device: XSeriesDevice, password: String, completion: @escaping (Int32) -> Void)
   func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void)
 }
 
@@ -262,10 +262,9 @@ class ZollSdkHostApiSetup {
     if let api = api {
       deviceGetCurrentVitalSignsChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let callbackIdArg = args[0] as? String
-        let deviceArg = args[1] as! XSeriesDevice
-        let passwordArg = args[2] as! String
-        api.deviceGetCurrentVitalSigns(callbackId: callbackIdArg, device: deviceArg, password: passwordArg) { result in
+        let deviceArg = args[0] as! XSeriesDevice
+        let passwordArg = args[1] as! String
+        api.deviceGetCurrentVitalSigns(device: deviceArg, password: passwordArg) { result in
           reply(wrapResult(result))
         }
       }
@@ -370,9 +369,9 @@ class ZollSdkFlutterApi {
       completion()
     }
   }
-  func onVitalSignsReceived(callbackId callbackIdArg: String?, requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, report reportArg: VitalSigns?, completion: @escaping () -> Void) {
+  func onVitalSignsReceived(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, report reportArg: VitalSigns?, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([callbackIdArg, requestCodeArg, serialNumberArg, reportArg] as [Any?]) { _ in
+    channel.sendMessage([requestCodeArg, serialNumberArg, reportArg] as [Any?]) { _ in
       completion()
     }
   }

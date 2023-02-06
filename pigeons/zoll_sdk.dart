@@ -73,8 +73,7 @@ abstract class ZollSdkHostApi {
   void browserStop();
 
   @async
-  int deviceGetCurrentVitalSigns(
-      String? callbackId, XSeriesDevice device, String password);
+  int deviceGetCurrentVitalSigns(XSeriesDevice device, String password);
 
   @async
   int deviceGetCaseList(XSeriesDevice device, String? password);
@@ -86,8 +85,8 @@ abstract class ZollSdkFlutterApi {
   void onDeviceLost(XSeriesDevice device);
   void onBrowseError();
 
-  void onVitalSignsReceived(String? callbackId, int requestCode,
-      String serialNumber, VitalSigns? report);
+  void onVitalSignsReceived(
+      int requestCode, String serialNumber, VitalSigns? report);
 
   void onGetCaseListSuccess(
       int requestCode, String deviceId, List<CaseListItem?> cases);
