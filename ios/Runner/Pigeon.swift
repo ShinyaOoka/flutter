@@ -92,12 +92,12 @@ struct XSeriesDevice {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct CaseListItem {
-  var startTime: Int32
-  var endTime: Int32
+  var startTime: String? = nil
+  var endTime: String? = nil
 
   static func fromList(_ list: [Any?]) -> CaseListItem? {
-    let startTime = list[0] as! Int32
-    let endTime = list[1] as! Int32
+    let startTime = list[0] as? String 
+    let endTime = list[1] as? String 
 
     return CaseListItem(
       startTime: startTime,

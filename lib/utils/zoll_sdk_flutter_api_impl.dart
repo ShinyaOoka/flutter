@@ -21,8 +21,7 @@ class ZollSdkFlutterApiImpl extends ZollSdkFlutterApi {
   }
 
   @override
-  void onVitalSignsReceived(String? callbackId, int requestCode,
-      String serialNumber, VitalSigns? report) {
-    store.onVitalSignsReceived(callbackId, requestCode, serialNumber, report);
+  void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases) {
+    
   }
 }

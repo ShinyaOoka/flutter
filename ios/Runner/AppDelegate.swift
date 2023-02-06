@@ -1,6 +1,6 @@
 import UIKit
-import Flutter
 import XSeriesSDK
+import Flutter
 
 class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     private var browser = ZOXSeries.shared.xSeriesBrowser
@@ -21,8 +21,8 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
 
     func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
-        let nativeDevice = XSeriesSDK.XSeriesDevice(ipAddress: device.ipAddress, serialNumber: device.serialNumber)
-        let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: ZollSdkHostApiDelegate(self))
+        let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
+        let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
         completion(Int32(requestCode))
     }
 }
@@ -41,17 +41,13 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
             requestCode: Int32(requestCode),
             deviceId: deviceId,
             cases: flutterCases
-        );
+        ) {};
     }
 }
 
-class ZollSdkHostApiDelegate {
-    private var callbackId: String?
-    private var flutterApi: ZollSdkFlutterApi
-    init(callbackId: String?, flutterApi: ZollSdkFlutterApi) {
-        self.callbackId = callbackId
-        self.flutterApi = flutterApi
-    }
+func hostToFlutterCaseListItem(_ x: XCaseCatalogItem) -> CaseListItem {
+    let formatter = ISO8601DateFormatter();
+    return CaseListItem(startTime: x.startTime != nil ? formatter.string(from: x.startTime!) : nil, endTime: x.endTime != nil ? formatter.string(from: x.endTime!) : nil)
 }
 
 func hostToFlutterUnit(_ x: XSeriesSDK.Unit) -> Unit {
@@ -133,45 +129,16 @@ func hostToFlutterDataStatus(_ x: XSeriesSDK.DataStatus) -> DataStatus {
     }
 }
 
-func hostToFlutterValueUnitPair(_ x: XSeriesSDK.ValueUnitPair) -> ValueUnitPair {
-    return ValueUnitPair(value: Double(x.value) , unit: hostToFlutterUnit(x.units), isValid: x.isValid)
-}
-
-func hostToFlutterTrendData(_ x: XSeriesSDK.TrendData) -> TrendData {
-    return TrendData(value: hostToFlutterValueUnitPair(x.value),
-                     alarm: hostToFlutterAlarmStatus(x.alarm),
-                     dataStatus: hostToFlutterDataStatus(x.dataStatus)
-    )
-}
-
-extension ZollSdkHostApiDelegate: VitalSignsDelegate {
-    func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
-    }
-    
-    func onAuthenticationFailed(requestCode: Int, deviceId: String) {
-    }
-    
-    func onRequestSuccess(requestCode: Int, deviceId: String, vitalSignsReport: VitalSignsReport) {
-        let vitalSigns = vitalSignsReport.vitalSigns?.getVitalSignsReport()
-        if vitalSigns == nil {
-            self.flutterApi.onVitalSignsReceived(
-                callbackId: self.callbackId,
-                requestCode: Int32(requestCode),
-                serialNumber: deviceId,
-                report: nil
-            ) {}
-        }
-        let flutterVitalSigns = VitalSigns(
-            spo2: hostToFlutterTrendData(vitalSigns!.spo2)
-        )
-        self.flutterApi.onVitalSignsReceived(
-            callbackId: self.callbackId,
-            requestCode: Int32(requestCode),
-            serialNumber: deviceId,
-            report: flutterVitalSigns
-        ) {}
-    }
-}
+//func hostToFlutterValueUnitPair(_ x: XSeriesSDK.ValueUnitPair) -> ValueUnitPair {
+//    return ValueUnitPair(value: Float(x.value) , units: hostToFlutterUnit(x.units), isValid: x.isValid)
+//}
+//
+//func hostToFlutterTrendData(_ x: XSeriesSDK.TrendData) -> TrendData {
+//    return TrendData(value: hostToFlutterValueUnitPair(x.value),
+//                     alarm: hostToFlutterAlarmStatus(x.alarm),
+//                     dataStatus: hostToFlutterDataStatus(x.dataStatus)
+//    )
+//}
 
 extension ZollSdkHostApiImpl: DevicesDelegate {
     func onDeviceFound(device: XSeriesSDK.XSeriesDevice) {

@@ -14,9 +14,6 @@ abstract class _ZollSdkStore with Store {
   @observable
   ObservableList<XSeriesDevice> devices = ObservableList();
 
-  @observable
-  ObservableMap<int, VitalSigns?> vitalSigns = ObservableMap();
-
   @action
   void onDeviceFound(XSeriesDevice device) {
     devices.add(device);
@@ -30,10 +27,4 @@ abstract class _ZollSdkStore with Store {
 
   @action
   void onBrowseError() {}
-
-  @action
-  void onVitalSignsReceived(String? callbackId, int requestCode,
-      String serialNumber, VitalSigns? report) {
-    vitalSigns[requestCode] = report;
-  }
 }

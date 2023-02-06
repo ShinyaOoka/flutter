@@ -63,8 +63,8 @@ class Case {
 }
 
 class CaseListItem {
-  late int startTime;
-  late int endTime;
+  late String? startTime;
+  late String? endTime;
 }
 
 @HostApi()

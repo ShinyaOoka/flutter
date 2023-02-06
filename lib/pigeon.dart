@@ -73,13 +73,13 @@ class XSeriesDevice {
 
 class CaseListItem {
   CaseListItem({
-    required this.startTime,
-    required this.endTime,
+    this.startTime,
+    this.endTime,
   });
 
-  int startTime;
+  String? startTime;
 
-  int endTime;
+  String? endTime;
 
   Object encode() {
     return <Object?>[
@@ -91,8 +91,8 @@ class CaseListItem {
   static CaseListItem decode(Object result) {
     result as List<Object?>;
     return CaseListItem(
-      startTime: result[0]! as int,
-      endTime: result[1]! as int,
+      startTime: result[0] as String?,
+      endTime: result[1] as String?,
     );
   }
 }

@@ -25,22 +25,6 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
-  late final _$vitalSignsAtom =
-      Atom(name: '_ZollSdkStore.vitalSigns', context: context);
-
-  @override
-  ObservableMap<int, VitalSigns?> get vitalSigns {
-    _$vitalSignsAtom.reportRead();
-    return super.vitalSigns;
-  }
-
-  @override
-  set vitalSigns(ObservableMap<int, VitalSigns?> value) {
-    _$vitalSignsAtom.reportWrite(value, super.vitalSigns, () {
-      super.vitalSigns = value;
-    });
-  }
-
   late final _$_ZollSdkStoreActionController =
       ActionController(name: '_ZollSdkStore', context: context);
 
@@ -78,23 +62,9 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
   }
 
   @override
-  void onVitalSignsReceived(String? callbackId, int requestCode,
-      String serialNumber, VitalSigns? report) {
-    final _$actionInfo = _$_ZollSdkStoreActionController.startAction(
-        name: '_ZollSdkStore.onVitalSignsReceived');
-    try {
-      return super
-          .onVitalSignsReceived(callbackId, requestCode, serialNumber, report);
-    } finally {
-      _$_ZollSdkStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
-devices: ${devices},
-vitalSigns: ${vitalSigns}
+devices: ${devices}
     ''';
   }
 }
