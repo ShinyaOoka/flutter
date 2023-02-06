@@ -19,10 +19,7 @@ abstract class _ZollSdkStore with Store {
 
   @action
   void onDeviceFound(XSeriesDevice device) {
-    print('store');
-    print(device);
     devices.add(device);
-    print(devices);
   }
 
   @action

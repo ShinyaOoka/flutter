@@ -154,6 +154,32 @@ class VitalSigns {
   }
 }
 
+class CaseListItem {
+  CaseListItem({
+    required this.startTime,
+    required this.endTime,
+  });
+
+  int startTime;
+
+  int endTime;
+
+  Object encode() {
+    return <Object?>[
+      startTime,
+      endTime,
+    ];
+  }
+
+  static CaseListItem decode(Object result) {
+    result as List<Object?>;
+    return CaseListItem(
+      startTime: result[0]! as int,
+      endTime: result[1]! as int,
+    );
+  }
+}
+
 class _ZollSdkHostApiCodec extends StandardMessageCodec {
   const _ZollSdkHostApiCodec();
   @override
@@ -257,23 +283,53 @@ class ZollSdkHostApi {
       return (replyList[0] as int?)!;
     }
   }
+
+  Future<int> deviceGetCaseList(XSeriesDevice arg_device, String? arg_password) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ZollSdkHostApi.deviceGetCaseList', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_device, arg_password]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else if (replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyList[0] as int?)!;
+    }
+  }
 }
 
 class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
   const _ZollSdkFlutterApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is TrendData) {
+    if (value is CaseListItem) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is ValueUnitPair) {
+    } else if (value is TrendData) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else if (value is VitalSigns) {
+    } else if (value is ValueUnitPair) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else if (value is XSeriesDevice) {
+    } else if (value is VitalSigns) {
       buffer.putUint8(131);
+      writeValue(buffer, value.encode());
+    } else if (value is XSeriesDevice) {
+      buffer.putUint8(132);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -284,12 +340,14 @@ class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
-        return TrendData.decode(readValue(buffer)!);
+        return CaseListItem.decode(readValue(buffer)!);
       case 129: 
-        return ValueUnitPair.decode(readValue(buffer)!);
+        return TrendData.decode(readValue(buffer)!);
       case 130: 
-        return VitalSigns.decode(readValue(buffer)!);
+        return ValueUnitPair.decode(readValue(buffer)!);
       case 131: 
+        return VitalSigns.decode(readValue(buffer)!);
+      case 132: 
         return XSeriesDevice.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -308,6 +366,8 @@ abstract class ZollSdkFlutterApi {
 
   void onVitalSignsReceived(String? callbackId, int requestCode, String serialNumber, VitalSigns? report);
 
+  void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases);
+
   static void setup(ZollSdkFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -316,16 +376,13 @@ abstract class ZollSdkFlutterApi {
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
-        print("channel");
         channel.setMessageHandler((Object? message) async {
-           print("channel 2");
           assert(message != null,
           'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final XSeriesDevice? arg_device = (args[0] as XSeriesDevice?);
           assert(arg_device != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound was null, expected non-null XSeriesDevice.');
-          print(arg_device);
           api.onDeviceFound(arg_device!);
           return;
         });
@@ -384,6 +441,31 @@ abstract class ZollSdkFlutterApi {
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived was null, expected non-null String.');
           final VitalSigns? arg_report = (args[3] as VitalSigns?);
           api.onVitalSignsReceived(arg_callbackId, arg_requestCode!, arg_serialNumber!, arg_report);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_requestCode = (args[0] as int?);
+          assert(arg_requestCode != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null int.');
+          final String? arg_deviceId = (args[1] as String?);
+          assert(arg_deviceId != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null String.');
+          final List<CaseListItem?>? arg_cases = (args[2] as List<Object?>?)?.cast<CaseListItem?>();
+          assert(arg_cases != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null List<CaseListItem?>.');
+          api.onGetCaseListSuccess(arg_requestCode!, arg_deviceId!, arg_cases!);
           return;
         });
       }

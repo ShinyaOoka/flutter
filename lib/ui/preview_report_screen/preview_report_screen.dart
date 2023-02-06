@@ -676,7 +676,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                   ?.value ??
               '');
       //46
-      print(report.respiration);
       htmlInput = htmlInput.replaceFirst(
           'Respiration${i + 1}',
           report.respiration?.firstWhereIndexedOrNull(

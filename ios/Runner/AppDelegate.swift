@@ -14,26 +14,35 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     
     func browserStart() {
         browser.start(delegate: self)
-        print("Start browsing device")
     }
     
     func browserStop() {
         browser.stop()
-        print("Stop browsing device")
     }
-    
-    func deviceGetCurrentVitalSigns(callbackId: String?, device: XSeriesDevice, password: String, completion: @escaping (Int32) -> Void) {
-        let nativeDevice = devices.first(where: {$0.serialNumber == device.serialNumber})!
-        
-        let requestCode = deviceApi.getCurrentVitalSignsReport(
-            device: nativeDevice,
-            password: password,
-            delegate: ZollSdkHostApiDelegate(callbackId: callbackId, flutterApi: flutterApi)
-        )
+
+    func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
+        let nativeDevice = XSeriesSDK.XSeriesDevice(ipAddress: device.ipAddress, serialNumber: device.serialNumber)
+        let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: ZollSdkHostApiDelegate(self))
         completion(Int32(requestCode))
     }
+}
+
+
+extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
+    func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
+    }
     
+    func onAuthenticationFailed(requestCode: Int, deviceId: String) {
+    }
     
+    func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
+        let flutterCases = cases.map {hostToFlutterCaseListItem($0) };
+        self.flutterApi.onGetCaseListSuccess(
+            requestCode: Int32(requestCode),
+            deviceId: deviceId,
+            cases: flutterCases
+        );
+    }
 }
 
 class ZollSdkHostApiDelegate {

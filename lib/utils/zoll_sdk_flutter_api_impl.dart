@@ -7,9 +7,6 @@ class ZollSdkFlutterApiImpl extends ZollSdkFlutterApi {
 
   @override
   void onDeviceFound(XSeriesDevice device) {
-    print('zzz');
-    print(store);
-    print(store.hashCode);
     store.onDeviceFound(device);
   }
 

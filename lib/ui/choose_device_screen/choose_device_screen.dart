@@ -50,8 +50,6 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
   void didPush() {
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
-    print(_zollSdkStore);
-    print(_zollSdkStore.hashCode);
     _zollSdkStore.devices = ObservableList();
     _hostApi.browserStart();
   }
@@ -107,12 +105,14 @@ class _ChooseDeviceScreenState extends State<ChooseDeviceScreen>
   }
 
   Widget _buildMainContent() {
-    return Observer(builder: (context) => ListView.separated(
-      itemCount: _zollSdkStore.devices.length,
-      itemBuilder: (context, index) => ListTile(
-          title: Text(_zollSdkStore.devices[index].serialNumber), onTap: () {}),
-      separatorBuilder: (context, index) => const Divider(),
-    ));
+    return Observer(
+        builder: (context) => ListView.separated(
+              itemCount: _zollSdkStore.devices.length,
+              itemBuilder: (context, index) => ListTile(
+                  title: Text(_zollSdkStore.devices[index].serialNumber),
+                  onTap: () {}),
+              separatorBuilder: (context, index) => const Divider(),
+            ));
   }
 
   _showErrorMessage(String message) {

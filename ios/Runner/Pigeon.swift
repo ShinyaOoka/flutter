@@ -160,6 +160,28 @@ struct VitalSigns {
   }
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct CaseListItem {
+  var startTime: Int32
+  var endTime: Int32
+
+  static func fromList(_ list: [Any?]) -> CaseListItem? {
+    let startTime = list[0] as! Int32
+    let endTime = list[1] as! Int32
+
+    return CaseListItem(
+      startTime: startTime,
+      endTime: endTime
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      startTime,
+      endTime,
+    ]
+  }
+}
+
 private class ZollSdkHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -201,6 +223,7 @@ protocol ZollSdkHostApi {
   func browserStart() throws
   func browserStop() throws
   func deviceGetCurrentVitalSigns(callbackId: String?, device: XSeriesDevice, password: String, completion: @escaping (Int32) -> Void)
+  func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -249,18 +272,33 @@ class ZollSdkHostApiSetup {
     } else {
       deviceGetCurrentVitalSignsChannel.setMessageHandler(nil)
     }
+    let deviceGetCaseListChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkHostApi.deviceGetCaseList", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      deviceGetCaseListChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let deviceArg = args[0] as! XSeriesDevice
+        let passwordArg = args[1] as? String
+        api.deviceGetCaseList(device: deviceArg, password: passwordArg) { result in
+          reply(wrapResult(result))
+        }
+      }
+    } else {
+      deviceGetCaseListChannel.setMessageHandler(nil)
+    }
   }
 }
 private class ZollSdkFlutterApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
-        return TrendData.fromList(self.readValue() as! [Any])
+        return CaseListItem.fromList(self.readValue() as! [Any])
       case 129:
-        return ValueUnitPair.fromList(self.readValue() as! [Any])
+        return TrendData.fromList(self.readValue() as! [Any])
       case 130:
-        return VitalSigns.fromList(self.readValue() as! [Any])
+        return ValueUnitPair.fromList(self.readValue() as! [Any])
       case 131:
+        return VitalSigns.fromList(self.readValue() as! [Any])
+      case 132:
         return XSeriesDevice.fromList(self.readValue() as! [Any])
       default:
         return super.readValue(ofType: type)
@@ -270,17 +308,20 @@ private class ZollSdkFlutterApiCodecReader: FlutterStandardReader {
 
 private class ZollSdkFlutterApiCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? TrendData {
+    if let value = value as? CaseListItem {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? ValueUnitPair {
+    } else if let value = value as? TrendData {
       super.writeByte(129)
       super.writeValue(value.toList())
-    } else if let value = value as? VitalSigns {
+    } else if let value = value as? ValueUnitPair {
       super.writeByte(130)
       super.writeValue(value.toList())
-    } else if let value = value as? XSeriesDevice {
+    } else if let value = value as? VitalSigns {
       super.writeByte(131)
+      super.writeValue(value.toList())
+    } else if let value = value as? XSeriesDevice {
+      super.writeByte(132)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -312,15 +353,10 @@ class ZollSdkFlutterApi {
     return ZollSdkFlutterApiCodec.shared
   }
   func onDeviceFound(device deviceArg: XSeriesDevice, completion: @escaping () -> Void) {
-    print("asdfasfd");
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceFound", binaryMessenger: binaryMessenger, codec: codec)
-    print("asdfasfd");
-    
     channel.sendMessage([deviceArg] as [Any?]) { _ in
       completion()
     }
-    print("asdfasfd");
-
   }
   func onDeviceLost(device deviceArg: XSeriesDevice, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDeviceLost", binaryMessenger: binaryMessenger, codec: codec)
@@ -337,6 +373,12 @@ class ZollSdkFlutterApi {
   func onVitalSignsReceived(callbackId callbackIdArg: String?, requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, report reportArg: VitalSigns?, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onVitalSignsReceived", binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage([callbackIdArg, requestCodeArg, serialNumberArg, reportArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onGetCaseListSuccess(requestCode requestCodeArg: Int32, deviceId deviceIdArg: String, cases casesArg: [CaseListItem?], completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([requestCodeArg, deviceIdArg, casesArg] as [Any?]) { _ in
       completion()
     }
   }
