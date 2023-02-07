@@ -3,15 +3,9 @@ import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
-import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
-import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
@@ -44,12 +38,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
-
-    device = args.device;
-
     _routeObserver.subscribe(this, ModalRoute.of(context)!);
   }
 
@@ -61,6 +49,10 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   void didPush() {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
+    device = args.device;
+
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
     _hostApi.deviceGetCaseList(device, null);
@@ -145,7 +137,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   }
 
   _formatTime(String? time) {
-    return time;
+    if (time == null) return '';
+    return DateFormat.yMd().add_Hm().format(DateTime.parse(time));
   }
 
   _showErrorMessage(String message) {
