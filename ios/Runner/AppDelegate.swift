@@ -21,6 +21,7 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
 
     func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
+        print("start get case list");
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
         completion(Int32(requestCode))
@@ -30,13 +31,16 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
 
 extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
+        print("requet failed");
     }
     
     func onAuthenticationFailed(requestCode: Int, deviceId: String) {
+        print("authentication needed");
     }
     
     func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
         let flutterCases = cases.map {hostToFlutterCaseListItem($0) };
+        print("get case list returned");
         self.flutterApi.onGetCaseListSuccess(
             requestCode: Int32(requestCode),
             deviceId: deviceId,

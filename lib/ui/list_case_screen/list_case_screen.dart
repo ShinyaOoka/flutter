@@ -55,6 +55,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
+    print('device serial number');
+    print(device.serialNumber);
     _hostApi.deviceGetCaseList(device, null);
   }
 
@@ -98,9 +100,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        _zollSdkStore.cases[device.serialNumber] != null
+        Observer(builder: (context) => _zollSdkStore.cases[device.serialNumber] != null
             ? _buildMainContent()
-            : CustomProgressIndicatorWidget(),
+            : CustomProgressIndicatorWidget()),
       ],
     );
   }
@@ -123,9 +125,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     title: Text(
                         '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
                     onTap: () {
-                      Navigator.of(context).pushNamed(Routes.listCase,
-                          arguments: ListCaseScreenArguments(
-                              device: _zollSdkStore.devices[index]));
+                     
                     }),
                 separatorBuilder: (context, index) => const Divider(),
               );
