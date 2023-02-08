@@ -64,6 +64,15 @@ class CaseListItem {
   late String caseId;
 }
 
+class NativeEvent {
+  late String date;
+  late String type;
+}
+
+class NativeCase {
+  late List<NativeEvent?> events;
+}
+
 @HostApi()
 abstract class ZollSdkHostApi {
   void browserStart();
@@ -84,8 +93,8 @@ abstract class ZollSdkFlutterApi {
   void onBrowseError();
 
   void onGetCaseListSuccess(
-      int requestCode, String serialNumber, List<CaseListItem?> cases);
+      int requestCode, String deviceId, List<CaseListItem?> cases);
 
   void onDownloadCaseSuccess(
-      int requestCode, String serialNumber, String caseId, String path);
+      int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase);
 }

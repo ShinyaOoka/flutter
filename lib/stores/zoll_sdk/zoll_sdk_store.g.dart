@@ -60,10 +60,11 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
       AsyncAction('_ZollSdkStore.onDownloadCaseSuccess', context: context);
 
   @override
-  Future<void> onDownloadCaseSuccess(
-      int requestCode, String serialNumber, String caseId, String path) {
-    return _$onDownloadCaseSuccessAsyncAction.run(() =>
-        super.onDownloadCaseSuccess(requestCode, serialNumber, caseId, path));
+  Future<void> onDownloadCaseSuccess(int requestCode, String serialNumber,
+      String caseId, String path, NativeCase nativeCase) {
+    return _$onDownloadCaseSuccessAsyncAction.run(() => super
+        .onDownloadCaseSuccess(
+            requestCode, serialNumber, caseId, path, nativeCase));
   }
 
   late final _$_ZollSdkStoreActionController =

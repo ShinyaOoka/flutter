@@ -18,12 +18,15 @@ class CaseParser {
     )["FullDisclosureRecord"];
     final events = fullDisclosureRecord.map((e) {
       final event = e as Map<String, dynamic>;
-      final eventType = event.keys.first;
+      var eventType = event.keys.first;
       final eventData = event.values.first;
       final stdHdr = ((eventData as Map<String, dynamic>)["StdHdr"]
           as Map<String, dynamic>);
       final dateString = stdHdr["DevDateTime"] as String;
       final date = DateTime.parse(dateString);
+      if (eventType == "AnnotationEvt") {
+        eventType += " " + eventData["@EvtName"];
+      }
       final caseEvent = CaseEvent(
           date: date,
           type: eventType,
@@ -32,7 +35,7 @@ class CaseParser {
       caseEvent.date = date;
       caseEvent.type = eventType;
       return caseEvent;
-    }).toList();
+    }).where((element) => !element.type.startsWith("AnnotationEvt") && element.type != "SysLogEntry"  && element.type != "PrtTrace" && element.type != "DefibTrace"  ).toList();
     events.sort((a, b) {
       final dateCompare = a.date.compareTo(b.date);
       if (dateCompare == 0) {

@@ -127,6 +127,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 itemBuilder: (context, index) => ListTile(
                     title: Text(
                         '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
+                    dense: true,
                     onTap: () {
                       Navigator.of(context).pushNamed(Routes.listEvent,
                           arguments: ListEventScreenArguments(

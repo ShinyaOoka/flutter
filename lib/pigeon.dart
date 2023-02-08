@@ -102,6 +102,53 @@ class CaseListItem {
   }
 }
 
+class NativeEvent {
+  NativeEvent({
+    required this.date,
+    required this.type,
+  });
+
+  String date;
+
+  String type;
+
+  Object encode() {
+    return <Object?>[
+      date,
+      type,
+    ];
+  }
+
+  static NativeEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeEvent(
+      date: result[0]! as String,
+      type: result[1]! as String,
+    );
+  }
+}
+
+class NativeCase {
+  NativeCase({
+    required this.events,
+  });
+
+  List<NativeEvent?> events;
+
+  Object encode() {
+    return <Object?>[
+      events,
+    ];
+  }
+
+  static NativeCase decode(Object result) {
+    result as List<Object?>;
+    return NativeCase(
+      events: (result[0] as List<Object?>?)!.cast<NativeEvent?>(),
+    );
+  }
+}
+
 class _ZollSdkHostApiCodec extends StandardMessageCodec {
   const _ZollSdkHostApiCodec();
   @override
@@ -241,8 +288,14 @@ class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
     if (value is CaseListItem) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is XSeriesDevice) {
+    } else if (value is NativeCase) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeEvent) {
+      buffer.putUint8(130);
+      writeValue(buffer, value.encode());
+    } else if (value is XSeriesDevice) {
+      buffer.putUint8(131);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -255,6 +308,10 @@ class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
       case 128: 
         return CaseListItem.decode(readValue(buffer)!);
       case 129: 
+        return NativeCase.decode(readValue(buffer)!);
+      case 130: 
+        return NativeEvent.decode(readValue(buffer)!);
+      case 131: 
         return XSeriesDevice.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -271,9 +328,9 @@ abstract class ZollSdkFlutterApi {
 
   void onBrowseError();
 
-  void onGetCaseListSuccess(int requestCode, String serialNumber, List<CaseListItem?> cases);
+  void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases);
 
-  void onDownloadCaseSuccess(int requestCode, String serialNumber, String caseId, String path);
+  void onDownloadCaseSuccess(int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase);
 
   static void setup(ZollSdkFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -342,13 +399,13 @@ abstract class ZollSdkFlutterApi {
           final int? arg_requestCode = (args[0] as int?);
           assert(arg_requestCode != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null int.');
-          final String? arg_serialNumber = (args[1] as String?);
-          assert(arg_serialNumber != null,
+          final String? arg_deviceId = (args[1] as String?);
+          assert(arg_deviceId != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null String.');
           final List<CaseListItem?>? arg_cases = (args[2] as List<Object?>?)?.cast<CaseListItem?>();
           assert(arg_cases != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null List<CaseListItem?>.');
-          api.onGetCaseListSuccess(arg_requestCode!, arg_serialNumber!, arg_cases!);
+          api.onGetCaseListSuccess(arg_requestCode!, arg_deviceId!, arg_cases!);
           return;
         });
       }
@@ -376,7 +433,10 @@ abstract class ZollSdkFlutterApi {
           final String? arg_path = (args[3] as String?);
           assert(arg_path != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null String.');
-          api.onDownloadCaseSuccess(arg_requestCode!, arg_serialNumber!, arg_caseId!, arg_path!);
+          final NativeCase? arg_nativeCase = (args[4] as NativeCase?);
+          assert(arg_nativeCase != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null NativeCase.');
+          api.onDownloadCaseSuccess(arg_requestCode!, arg_serialNumber!, arg_caseId!, arg_path!, arg_nativeCase!);
           return;
         });
       }
