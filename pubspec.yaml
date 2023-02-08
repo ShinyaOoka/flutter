@@ -75,3 +75,4 @@ flutter:
     - lib/i18n/
     - assets/template/
     - assets/img/
+    - assets/example/

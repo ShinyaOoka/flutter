@@ -25,19 +25,45 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
+  late final _$caseListItemsAtom =
+      Atom(name: '_ZollSdkStore.caseListItems', context: context);
+
+  @override
+  ObservableMap<String, List<CaseListItem>> get caseListItems {
+    _$caseListItemsAtom.reportRead();
+    return super.caseListItems;
+  }
+
+  @override
+  set caseListItems(ObservableMap<String, List<CaseListItem>> value) {
+    _$caseListItemsAtom.reportWrite(value, super.caseListItems, () {
+      super.caseListItems = value;
+    });
+  }
+
   late final _$casesAtom = Atom(name: '_ZollSdkStore.cases', context: context);
 
   @override
-  ObservableMap<String, List<CaseListItem>> get cases {
+  ObservableMap<String, Case> get cases {
     _$casesAtom.reportRead();
     return super.cases;
   }
 
   @override
-  set cases(ObservableMap<String, List<CaseListItem>> value) {
+  set cases(ObservableMap<String, Case> value) {
     _$casesAtom.reportWrite(value, super.cases, () {
       super.cases = value;
     });
+  }
+
+  late final _$onDownloadCaseSuccessAsyncAction =
+      AsyncAction('_ZollSdkStore.onDownloadCaseSuccess', context: context);
+
+  @override
+  Future<void> onDownloadCaseSuccess(
+      int requestCode, String serialNumber, String caseId, String path) {
+    return _$onDownloadCaseSuccessAsyncAction.run(() =>
+        super.onDownloadCaseSuccess(requestCode, serialNumber, caseId, path));
   }
 
   late final _$_ZollSdkStoreActionController =
@@ -92,6 +118,7 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
   String toString() {
     return '''
 devices: ${devices},
+caseListItems: ${caseListItems},
 cases: ${cases}
     ''';
   }

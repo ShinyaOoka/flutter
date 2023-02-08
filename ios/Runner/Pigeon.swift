@@ -94,20 +94,24 @@ struct XSeriesDevice {
 struct CaseListItem {
   var startTime: String? = nil
   var endTime: String? = nil
+  var caseId: String
 
   static func fromList(_ list: [Any?]) -> CaseListItem? {
     let startTime = list[0] as? String 
     let endTime = list[1] as? String 
+    let caseId = list[2] as! String
 
     return CaseListItem(
       startTime: startTime,
-      endTime: endTime
+      endTime: endTime,
+      caseId: caseId
     )
   }
   func toList() -> [Any?] {
     return [
       startTime,
       endTime,
+      caseId,
     ]
   }
 }
@@ -153,6 +157,7 @@ protocol ZollSdkHostApi {
   func browserStart() throws
   func browserStop() throws
   func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void)
+  func deviceDownloadCase(device: XSeriesDevice, caseId: String, path: String, password: String?, completion: @escaping (Int32) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -199,6 +204,21 @@ class ZollSdkHostApiSetup {
       }
     } else {
       deviceGetCaseListChannel.setMessageHandler(nil)
+    }
+    let deviceDownloadCaseChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkHostApi.deviceDownloadCase", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      deviceDownloadCaseChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let deviceArg = args[0] as! XSeriesDevice
+        let caseIdArg = args[1] as! String
+        let pathArg = args[2] as! String
+        let passwordArg = args[3] as? String
+        api.deviceDownloadCase(device: deviceArg, caseId: caseIdArg, path: pathArg, password: passwordArg) { result in
+          reply(wrapResult(result))
+        }
+      }
+    } else {
+      deviceDownloadCaseChannel.setMessageHandler(nil)
     }
   }
 }
@@ -270,9 +290,15 @@ class ZollSdkFlutterApi {
       completion()
     }
   }
-  func onGetCaseListSuccess(requestCode requestCodeArg: Int32, deviceId deviceIdArg: String, cases casesArg: [CaseListItem?], completion: @escaping () -> Void) {
+  func onGetCaseListSuccess(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, cases casesArg: [CaseListItem?], completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([requestCodeArg, deviceIdArg, casesArg] as [Any?]) { _ in
+    channel.sendMessage([requestCodeArg, serialNumberArg, casesArg] as [Any?]) { _ in
+      completion()
+    }
+  }
+  func onDownloadCaseSuccess(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, caseId caseIdArg: String, path pathArg: String, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([requestCodeArg, serialNumberArg, caseIdArg, pathArg] as [Any?]) { _ in
       completion()
     }
   }

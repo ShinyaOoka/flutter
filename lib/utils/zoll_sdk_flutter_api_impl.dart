@@ -22,10 +22,13 @@ class ZollSdkFlutterApiImpl extends ZollSdkFlutterApi {
 
   @override
   void onGetCaseListSuccess(
-      int requestCode, String deviceId, List<CaseListItem?> cases) {
-    print(requestCode);
-    print(deviceId);
-    print(cases);
-    store.onGetCaseListSuccess(requestCode, deviceId, cases);
+      int requestCode, String serialNumber, List<CaseListItem?> cases) {
+    store.onGetCaseListSuccess(requestCode, serialNumber, cases);
+  }
+
+  @override
+  void onDownloadCaseSuccess(
+      int requestCode, String serialNumber, String caseId, String path) {
+    store.onDownloadCaseSuccess(requestCode, serialNumber, caseId, path);
   }
 }

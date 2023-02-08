@@ -26,12 +26,18 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
         completion(Int32(requestCode))
     }
+
+    func deviceDownloadCase(device: XSeriesDevice, caseId: String, path: String, password: String?, completion: @escaping (Int32) -> Void) {
+        let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
+        let folder = Folder;
+        let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: folder, password: password, delegate: self)
+    }
 }
 
 
 extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
-        print("requet failed");
+        print("request failed");
     }
     
     func onAuthenticationFailed(requestCode: Int, deviceId: String) {
@@ -49,9 +55,39 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     }
 }
 
+extension ZollSdkHostApiImpl: DownloadCaseDelegate {
+    func onDownloadCompleted(requestCode: Int, deviceId: String,caseId:String, file:File) {
+        let path = file.path;
+        self.flutterApi.onDownloadCaseSuccess(
+            requestCode: Int32(requestCode),
+            serialNumber: deviceId,
+            caseId: caseId,
+            path: path
+        ) {};
+    }
+
+    func onDownloadFailed(requestCode: Int, deviceId: String, caseId: String, error: XSeriesSDK.ZOXError) {
+        print("request failed");
+    }
+    
+    func onAuthenticationFailed(requestCode: Int, deviceId: String) {
+        print("authentication needed");
+    }
+    
+    func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
+        let flutterCases = cases.map {hostToFlutterCaseListItem($0) };
+        print("get case list returned");
+        self.flutterApi.onGetCaseListSuccess(
+            requestCode: Int32(requestCode),
+            serialNumber: deviceId,
+            cases: flutterCases
+        ) {};
+    }
+}
+
 func hostToFlutterCaseListItem(_ x: XCaseCatalogItem) -> CaseListItem {
     let formatter = ISO8601DateFormatter();
-    return CaseListItem(startTime: x.startTime != nil ? formatter.string(from: x.startTime!) : nil, endTime: x.endTime != nil ? formatter.string(from: x.endTime!) : nil)
+    return CaseListItem(startTime: x.startTime != nil ? formatter.string(from: x.startTime!) : nil, endTime: x.endTime != nil ? formatter.string(from: x.endTime!) : nil, caseId: x.caseId)
 }
 
 func hostToFlutterUnit(_ x: XSeriesSDK.Unit) -> Unit {

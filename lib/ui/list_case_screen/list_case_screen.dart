@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -100,9 +101,11 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        Observer(builder: (context) => _zollSdkStore.cases[device.serialNumber] != null
-            ? _buildMainContent()
-            : CustomProgressIndicatorWidget()),
+        Observer(
+            builder: (context) =>
+                _zollSdkStore.caseListItems[device.serialNumber] != null
+                    ? _buildMainContent()
+                    : CustomProgressIndicatorWidget()),
       ],
     );
   }
@@ -118,14 +121,16 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         Expanded(
           child: Observer(
             builder: (context) {
-              final cases = _zollSdkStore.cases[device.serialNumber]!;
+              final cases = _zollSdkStore.caseListItems[device.serialNumber]!;
               return ListView.separated(
                 itemCount: cases.length,
                 itemBuilder: (context, index) => ListTile(
                     title: Text(
                         '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
                     onTap: () {
-                     
+                      Navigator.of(context).pushNamed(Routes.listEvent,
+                          arguments: ListEventScreenArguments(
+                              device: device, caseId: cases[index].caseId));
                     }),
                 separatorBuilder: (context, index) => const Divider(),
               );

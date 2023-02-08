@@ -58,13 +58,10 @@ class VitalSigns {
   late TrendData spo2;
 }
 
-class Case {
-  late String foo;
-}
-
 class CaseListItem {
   late String? startTime;
   late String? endTime;
+  late String caseId;
 }
 
 @HostApi()
@@ -74,6 +71,10 @@ abstract class ZollSdkHostApi {
 
   @async
   int deviceGetCaseList(XSeriesDevice device, String? password);
+
+  @async
+  int deviceDownloadCase(
+      XSeriesDevice device, String caseId, String path, String? password);
 }
 
 @FlutterApi()
@@ -83,5 +84,8 @@ abstract class ZollSdkFlutterApi {
   void onBrowseError();
 
   void onGetCaseListSuccess(
-      int requestCode, String deviceId, List<CaseListItem?> cases);
+      int requestCode, String serialNumber, List<CaseListItem?> cases);
+
+  void onDownloadCaseSuccess(
+      int requestCode, String serialNumber, String caseId, String path);
 }

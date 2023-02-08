@@ -75,16 +75,20 @@ class CaseListItem {
   CaseListItem({
     this.startTime,
     this.endTime,
+    required this.caseId,
   });
 
   String? startTime;
 
   String? endTime;
 
+  String caseId;
+
   Object encode() {
     return <Object?>[
       startTime,
       endTime,
+      caseId,
     ];
   }
 
@@ -93,6 +97,7 @@ class CaseListItem {
     return CaseListItem(
       startTime: result[0] as String?,
       endTime: result[1] as String?,
+      caseId: result[2]! as String,
     );
   }
 }
@@ -200,6 +205,33 @@ class ZollSdkHostApi {
       return (replyList[0] as int?)!;
     }
   }
+
+  Future<int> deviceDownloadCase(XSeriesDevice arg_device, String arg_caseId, String arg_path, String? arg_password) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ZollSdkHostApi.deviceDownloadCase', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_device, arg_caseId, arg_path, arg_password]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else if (replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (replyList[0] as int?)!;
+    }
+  }
 }
 
 class _ZollSdkFlutterApiCodec extends StandardMessageCodec {
@@ -239,7 +271,9 @@ abstract class ZollSdkFlutterApi {
 
   void onBrowseError();
 
-  void onGetCaseListSuccess(int requestCode, String deviceId, List<CaseListItem?> cases);
+  void onGetCaseListSuccess(int requestCode, String serialNumber, List<CaseListItem?> cases);
+
+  void onDownloadCaseSuccess(int requestCode, String serialNumber, String caseId, String path);
 
   static void setup(ZollSdkFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -302,20 +336,47 @@ abstract class ZollSdkFlutterApi {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          print('case list received from host');
           assert(message != null,
           'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_requestCode = (args[0] as int?);
           assert(arg_requestCode != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null int.');
-          final String? arg_deviceId = (args[1] as String?);
-          assert(arg_deviceId != null,
+          final String? arg_serialNumber = (args[1] as String?);
+          assert(arg_serialNumber != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null String.');
           final List<CaseListItem?>? arg_cases = (args[2] as List<Object?>?)?.cast<CaseListItem?>();
           assert(arg_cases != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess was null, expected non-null List<CaseListItem?>.');
-          api.onGetCaseListSuccess(arg_requestCode!, arg_deviceId!, arg_cases!);
+          api.onGetCaseListSuccess(arg_requestCode!, arg_serialNumber!, arg_cases!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_requestCode = (args[0] as int?);
+          assert(arg_requestCode != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null int.');
+          final String? arg_serialNumber = (args[1] as String?);
+          assert(arg_serialNumber != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null String.');
+          final String? arg_caseId = (args[2] as String?);
+          assert(arg_caseId != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null String.');
+          final String? arg_path = (args[3] as String?);
+          assert(arg_path != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null String.');
+          api.onDownloadCaseSuccess(arg_requestCode!, arg_serialNumber!, arg_caseId!, arg_path!);
           return;
         });
       }

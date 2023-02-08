@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
+import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/ui/create_report_screen/create_report_screen.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const String previewReport = '/preview_report';
   static const String listDevice = '/list_device';
   static const String listCase = '/list_case';
+  static const String listEvent = '/list_event';
 
   static final routes = <String, WidgetBuilder>{
     listReport: (BuildContext context) => const ListReportScreen(),
@@ -27,5 +29,6 @@ class Routes {
     previewReport: (BuildContext context) => const PreviewReportScreen(),
     listDevice: (BuildContext context) => const ListDeviceScreen(),
     listCase: (BuildContext context) => const ListCaseScreen(),
+    listEvent: (BuildContext context) => const ListEventScreen(),
   };
 }
