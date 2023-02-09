@@ -24,10 +24,27 @@ mixin _$Case on _Case, Store {
     });
   }
 
+  late final _$nativeCaseAtom =
+      Atom(name: '_Case.nativeCase', context: context);
+
+  @override
+  NativeCase? get nativeCase {
+    _$nativeCaseAtom.reportRead();
+    return super.nativeCase;
+  }
+
+  @override
+  set nativeCase(NativeCase? value) {
+    _$nativeCaseAtom.reportWrite(value, super.nativeCase, () {
+      super.nativeCase = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-events: ${events}
+events: ${events},
+nativeCase: ${nativeCase}
     ''';
   }
 }

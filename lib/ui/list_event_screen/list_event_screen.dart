@@ -114,7 +114,7 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
       children: <Widget>[
         // _handleErrorMessage(),
         Observer(
-            builder: (context) => _zollSdkStore.cases[caseId] != null
+            builder: (context) => _zollSdkStore.cases[caseId]?.nativeCase != null
                 ? _buildMainContent()
                 : CustomProgressIndicatorWidget()),
       ],
@@ -133,11 +133,12 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
           child: Observer(
             builder: (context) {
               final caseData = _zollSdkStore.cases[caseId]!;
+              print(caseData.events.length);
               return ListView.separated(
                 itemCount: caseData.events.length,
                 itemBuilder: (context, index) => ListTile(
                     title: Text(
-                        '${DateFormat.yMd().add_Hm().format(caseData.events[index].date)} ${caseData.events[index].type}'),
+                        '${caseData.events[index]?.date} ${caseData.events[index]?.type}'),
                     onTap: () {}),
                 separatorBuilder: (context, index) => const Divider(),
               );

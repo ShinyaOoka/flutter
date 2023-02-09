@@ -116,6 +116,46 @@ struct CaseListItem {
   }
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeEvent {
+  var date: String
+  var type: String
+
+  static func fromList(_ list: [Any?]) -> NativeEvent? {
+    let date = list[0] as! String
+    let type = list[1] as! String
+
+    return NativeEvent(
+      date: date,
+      type: type
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      date,
+      type,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeCase {
+  var events: [NativeEvent?]
+
+  static func fromList(_ list: [Any?]) -> NativeCase? {
+    let events = list[0] as! [NativeEvent?]
+
+    return NativeCase(
+      events: events
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      events,
+    ]
+  }
+}
+
 private class ZollSdkHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -228,6 +268,10 @@ private class ZollSdkFlutterApiCodecReader: FlutterStandardReader {
       case 128:
         return CaseListItem.fromList(self.readValue() as! [Any])
       case 129:
+        return NativeCase.fromList(self.readValue() as! [Any])
+      case 130:
+        return NativeEvent.fromList(self.readValue() as! [Any])
+      case 131:
         return XSeriesDevice.fromList(self.readValue() as! [Any])
       default:
         return super.readValue(ofType: type)
@@ -240,8 +284,14 @@ private class ZollSdkFlutterApiCodecWriter: FlutterStandardWriter {
     if let value = value as? CaseListItem {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? XSeriesDevice {
+    } else if let value = value as? NativeCase {
       super.writeByte(129)
+      super.writeValue(value.toList())
+    } else if let value = value as? NativeEvent {
+      super.writeByte(130)
+      super.writeValue(value.toList())
+    } else if let value = value as? XSeriesDevice {
+      super.writeByte(131)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -290,15 +340,15 @@ class ZollSdkFlutterApi {
       completion()
     }
   }
-  func onGetCaseListSuccess(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, cases casesArg: [CaseListItem?], completion: @escaping () -> Void) {
+  func onGetCaseListSuccess(requestCode requestCodeArg: Int32, deviceId deviceIdArg: String, cases casesArg: [CaseListItem?], completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onGetCaseListSuccess", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([requestCodeArg, serialNumberArg, casesArg] as [Any?]) { _ in
+    channel.sendMessage([requestCodeArg, deviceIdArg, casesArg] as [Any?]) { _ in
       completion()
     }
   }
-  func onDownloadCaseSuccess(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, caseId caseIdArg: String, path pathArg: String, completion: @escaping () -> Void) {
+  func onDownloadCaseSuccess(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, caseId caseIdArg: String, path pathArg: String, nativeCase nativeCaseArg: NativeCase, completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess", binaryMessenger: binaryMessenger, codec: codec)
-    channel.sendMessage([requestCodeArg, serialNumberArg, caseIdArg, pathArg] as [Any?]) { _ in
+    channel.sendMessage([requestCodeArg, serialNumberArg, caseIdArg, pathArg, nativeCaseArg] as [Any?]) { _ in
       completion()
     }
   }

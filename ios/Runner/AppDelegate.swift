@@ -5,6 +5,7 @@ import Flutter
 class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     private var browser = ZOXSeries.shared.xSeriesBrowser
     private var deviceApi = ZOXSeries.shared.deviceBrowser
+    private var caseParser = ZOXSeries.shared.caseParser
     private var devices = [XSeriesSDK.XSeriesDevice]()
     private var flutterApi: ZollSdkFlutterApi
     
@@ -14,6 +15,7 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     
     func browserStart() {
         browser.start(delegate: self)
+        self.onDeviceFound(device: XSeriesSDK.XSeriesDevice(serialNumber: "serial", ipAdress: "address"));
     }
     
     func browserStop() {
@@ -24,17 +26,36 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
         print("start get case list");
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
+        self.flutterApi.onGetCaseListSuccess(requestCode: 123, deviceId: "serial", cases: [
+            CaseListItem(caseId: "case")
+        ]) {};
         completion(Int32(requestCode))
     }
 
     func deviceDownloadCase(device: XSeriesDevice, caseId: String, path: String, password: String?, completion: @escaping (Int32) -> Void) {
+        print(path);
+        print(FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask));
+        print(URL(fileURLWithPath: path))
+        print(URL(fileURLWithPath: path) == FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first);
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
-        let folder = Folder;
-        let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: folder, password: password, delegate: self)
+        let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: URL(fileURLWithPath: path), password: password, delegate: self)
+        completion(Int32(requestCode))
+        
+        self.onDownloadCompleted(requestCode: 1234, deviceId: "serial", caseId: "case", file: URL(fileURLWithPath: path).appendingPathComponent("demo.json"))
     }
 }
 
-
+func convertToDictionary(text: String) -> [String:Any]? {
+    if let data = text.data(using: .utf8) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
+            return json
+        } catch {
+            print("Something went wrong")
+        }
+    }
+    return nil
+}
 extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
         print("request failed");
@@ -56,32 +77,22 @@ extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
 }
 
 extension ZollSdkHostApiImpl: DownloadCaseDelegate {
-    func onDownloadCompleted(requestCode: Int, deviceId: String,caseId:String, file:File) {
+    func onDownloadCompleted(requestCode: Int, deviceId: String,caseId:String, file: URL) {
         let path = file.path;
+        let sdkCase = try! self.caseParser.parseCaseFrom(json: convertToDictionary(text: String(contentsOf: file) )! )
+        let formatter = ISO8601DateFormatter();
+        let nativeCase = NativeCase(events: sdkCase.events.map { NativeEvent(date: formatter.string(from: $0.date), type: $0.type.readableString) } )
         self.flutterApi.onDownloadCaseSuccess(
             requestCode: Int32(requestCode),
             serialNumber: deviceId,
             caseId: caseId,
-            path: path
+            path: path,
+            nativeCase: nativeCase
         ) {};
     }
 
     func onDownloadFailed(requestCode: Int, deviceId: String, caseId: String, error: XSeriesSDK.ZOXError) {
         print("request failed");
-    }
-    
-    func onAuthenticationFailed(requestCode: Int, deviceId: String) {
-        print("authentication needed");
-    }
-    
-    func onRequestSuccess(requestCode: Int, deviceId: String, cases: [XCaseCatalogItem]) {
-        let flutterCases = cases.map {hostToFlutterCaseListItem($0) };
-        print("get case list returned");
-        self.flutterApi.onGetCaseListSuccess(
-            requestCode: Int32(requestCode),
-            serialNumber: deviceId,
-            cases: flutterCases
-        ) {};
     }
 }
 
