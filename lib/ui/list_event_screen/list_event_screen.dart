@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
@@ -33,6 +36,8 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+  int? activeIndex;
+
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
@@ -139,7 +144,75 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
             },
           ),
         ),
+        Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _buildCard(0),
+              SizedBox(height: 16),
+              _buildCard(1),
+              SizedBox(height: 16),
+              _buildCard(2),
+            ],
+          ),
+        )
       ],
+    );
+  }
+
+  _buildCard(int index) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          activeIndex = index;
+        });
+      },
+      child: Card(
+        color:
+            activeIndex == index ? Theme.of(context).primaryColorLight : null,
+        child: Column(children: [
+          Container(
+            child: Text("1回目取得結果"),
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(8),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      child: Text("HR"),
+                      padding: EdgeInsets.all(8),
+                    )),
+                    Expanded(
+                        child: Container(
+                      child: Text("BR"),
+                      padding: EdgeInsets.all(8),
+                    )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      child: Text("SPO2"),
+                      padding: EdgeInsets.all(8),
+                    )),
+                    Expanded(
+                        child: Container(
+                      child: Text("血圧"),
+                      padding: EdgeInsets.all(8),
+                    )),
+                  ],
+                )
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 
