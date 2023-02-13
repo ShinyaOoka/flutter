@@ -31,12 +31,17 @@ class ListEventScreen extends StatefulWidget {
   _ListEventScreenState createState() => _ListEventScreenState();
 }
 
+class TrendData {
+  int? heartRate;
+}
+
 class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
   int? activeIndex;
+  List<TrendData> trendData = [TrendData(), TrendData(), TrendData()];
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -114,7 +119,7 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
       children: <Widget>[
         // _handleErrorMessage(),
         Observer(
-            builder: (context) => _zollSdkStore.cases[caseId]?.nativeCase != null
+            builder: (context) => _zollSdkStore.cases[caseId] != null
                 ? _buildMainContent()
                 : CustomProgressIndicatorWidget()),
       ],
@@ -139,7 +144,36 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                 itemBuilder: (context, index) => ListTile(
                     title: Text(
                         '${caseData.events[index]?.date} ${caseData.events[index]?.type}'),
-                    onTap: () {}),
+                    onTap: () {
+                      print('tap');
+                      for (var i = index; i > 0; i++) {
+                        if (caseData.events[i].type == 'TrendRpt') {
+                          if (activeIndex != null) {
+                            setState(() {
+                              final hrTrendData = caseData.events[i]
+                                  .rawData["Trend"]["Hr"]["TrendData"];
+                              trendData[activeIndex!].heartRate =
+                                  hrTrendData["Val"]["#text"];
+                            });
+                          }
+                          return;
+                        }
+                      }
+
+                      for (var i = index; i < caseData.events.length; i++) {
+                        if (caseData.events[i].type == 'TrendRpt') {
+                          if (activeIndex != null) {
+                            setState(() {
+                              final hrTrendData = caseData.events[i]
+                                  .rawData["Trend"]["Hr"]["TrendData"];
+                              trendData[activeIndex!].heartRate =
+                                  hrTrendData["Val"]["#text"];
+                            });
+                          }
+                          return;
+                        }
+                      }
+                    }),
                 separatorBuilder: (context, index) => const Divider(),
               );
             },
@@ -185,7 +219,8 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                   children: [
                     Expanded(
                         child: Container(
-                      child: Text("HR"),
+                      child: Text("HR: " +
+                          (trendData[index].heartRate?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                     Expanded(

@@ -71,13 +71,29 @@ mixin _$CaseEvent on _CaseEvent, Store {
     });
   }
 
+  late final _$rawDataAtom = Atom(name: '_CaseEvent.rawData', context: context);
+
+  @override
+  Map<String, dynamic> get rawData {
+    _$rawDataAtom.reportRead();
+    return super.rawData;
+  }
+
+  @override
+  set rawData(Map<String, dynamic> value) {
+    _$rawDataAtom.reportWrite(value, super.rawData, () {
+      super.rawData = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 date: ${date},
 type: ${type},
 elapsedTime: ${elapsedTime},
-msecTime: ${msecTime}
+msecTime: ${msecTime},
+rawData: ${rawData}
     ''';
   }
 }

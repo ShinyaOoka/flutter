@@ -17,9 +17,13 @@ abstract class _CaseEvent with Store {
   @observable
   late int msecTime;
 
+  @observable
+  late Map<String, dynamic> rawData;
+
   _CaseEvent(
       {required this.date,
       required this.type,
       required this.elapsedTime,
-      required this.msecTime});
+      required this.msecTime,
+      required this.rawData});
 }
