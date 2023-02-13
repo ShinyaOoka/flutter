@@ -40,8 +40,6 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: URL(fileURLWithPath: path), password: password, delegate: self)
         completion(Int32(requestCode))
-        
-        self.onDownloadCompleted(requestCode: 1234, deviceId: "serial", caseId: "case", file: URL(fileURLWithPath: path).appendingPathComponent("demo.json"))
     }
 }
 
