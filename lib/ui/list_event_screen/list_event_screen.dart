@@ -33,6 +33,9 @@ class ListEventScreen extends StatefulWidget {
 
 class TrendData {
   int? heartRate;
+  int? br;
+  int? spo2;
+  int? nibp;
 }
 
 class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
@@ -70,11 +73,16 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
     device = args.device;
     caseId = args.caseId;
 
+    // device = XSeriesDevice(address: 'address', serialNumber: 'serial_number');
+    // caseId = 'case';
+
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
     final tempDir = await getTemporaryDirectory();
     await File(tempDir.path + '/demo.json')
         .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
+    _zollSdkStore.cases['case'] = CaseParser.parse(
+        await rootBundle.loadString("assets/example/demo.json"));
     _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
   }
 
@@ -146,14 +154,25 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                         '${caseData.events[index]?.date} ${caseData.events[index]?.type}'),
                     onTap: () {
                       print('tap');
-                      for (var i = index; i > 0; i++) {
+                      print(index);
+                      for (var i = index; i > 0; i--) {
                         if (caseData.events[i].type == 'TrendRpt') {
+                          print('get');
+                          print(i);
                           if (activeIndex != null) {
                             setState(() {
-                              final hrTrendData = caseData.events[i]
-                                  .rawData["Trend"]["Hr"]["TrendData"];
                               trendData[activeIndex!].heartRate =
-                                  hrTrendData["Val"]["#text"];
+                                  caseData.events[i].rawData["Trend"]["Hr"]
+                                      ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibp =
+                                  caseData.events[i].rawData["Trend"]["Nibp"]
+                                      ["Map"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].spo2 =
+                                  caseData.events[i].rawData["Trend"]["Spo2"]
+                                      ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].br =
+                                  caseData.events[i].rawData["Trend"]["Resp"]
+                                      ["TrendData"]["Val"]["#text"];
                             });
                           }
                           return;
@@ -162,12 +181,22 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
 
                       for (var i = index; i < caseData.events.length; i++) {
                         if (caseData.events[i].type == 'TrendRpt') {
+                          print('get');
+                          print(i);
                           if (activeIndex != null) {
                             setState(() {
-                              final hrTrendData = caseData.events[i]
-                                  .rawData["Trend"]["Hr"]["TrendData"];
                               trendData[activeIndex!].heartRate =
-                                  hrTrendData["Val"]["#text"];
+                                  caseData.events[i].rawData["Trend"]["Hr"]
+                                      ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibp =
+                                  caseData.events[i].rawData["Trend"]["Nibp"]
+                                      ["Map"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].spo2 =
+                                  caseData.events[i].rawData["Trend"]["Spo2"]
+                                      ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].br =
+                                  caseData.events[i].rawData["Trend"]["Resp"]
+                                      ["TrendData"]["Val"]["#text"];
                             });
                           }
                           return;
@@ -225,7 +254,8 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                     )),
                     Expanded(
                         child: Container(
-                      child: Text("BR"),
+                      child: Text(
+                          "BR: " + (trendData[index].br?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                   ],
@@ -234,12 +264,14 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                   children: [
                     Expanded(
                         child: Container(
-                      child: Text("SPO2"),
+                      child: Text(
+                          "SPO2: " + (trendData[index].spo2?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                     Expanded(
                         child: Container(
-                      child: Text("血圧"),
+                      child: Text(
+                          "血圧: " + (trendData[index].nibp?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                   ],
