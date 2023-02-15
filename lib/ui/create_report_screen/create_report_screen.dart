@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -159,7 +160,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
             padding: const EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: () async {
-                await Navigator.of(context).pushNamed(Routes.listDevice);
+                await Navigator.of(context).pushNamed(Routes.listDevice,
+                    arguments: ListDeviceScreenArguments(report: _report));
               },
               style: ButtonStyle(
                   minimumSize:

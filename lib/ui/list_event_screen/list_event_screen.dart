@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,10 @@ import 'package:localization/localization.dart';
 class ListEventScreenArguments {
   final XSeriesDevice device;
   final String caseId;
+  final Report report;
 
-  ListEventScreenArguments({required this.device, required this.caseId});
+  ListEventScreenArguments(
+      {required this.device, required this.caseId, required this.report});
 }
 
 class ListEventScreen extends StatefulWidget {
@@ -31,20 +34,28 @@ class ListEventScreen extends StatefulWidget {
   _ListEventScreenState createState() => _ListEventScreenState();
 }
 
-class TrendData {
-  int? heartRate;
-  int? br;
+class EditingVitalSign {
+  int? hr;
+  int? resp;
   int? spo2;
-  int? nibp;
+  int? nibpSys;
+  int? nibpDia;
+
+  EditingVitalSign({this.hr, this.resp, this.spo2, this.nibpSys, this.nibpDia});
 }
 
 class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
+  late Report _report;
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
   int? activeIndex;
-  List<TrendData> trendData = [TrendData(), TrendData(), TrendData()];
+  List<EditingVitalSign> trendData = [
+    EditingVitalSign(),
+    EditingVitalSign(),
+    EditingVitalSign()
+  ];
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -72,16 +83,41 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
         ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
     device = args.device;
     caseId = args.caseId;
+    _report = args.report;
 
-    // device = XSeriesDevice(address: 'address', serialNumber: 'serial_number');
-    // caseId = 'case';
-
-    _hostApi = Provider.of<ZollSdkHostApi>(context);
+    _hostApi = context.read();
     _zollSdkStore = context.read();
+
+    setState(() {
+      trendData = [
+        EditingVitalSign(
+          hr: _report.pulse?[0],
+          nibpDia: _report.bloodPressureLow?[0],
+          nibpSys: _report.bloodPressureHigh?[0],
+          resp: _report.respiration?[0],
+          spo2: _report.spO2Percent?[0],
+        ),
+        EditingVitalSign(
+          hr: _report.pulse?[1],
+          nibpDia: _report.bloodPressureLow?[1],
+          nibpSys: _report.bloodPressureHigh?[1],
+          resp: _report.respiration?[1],
+          spo2: _report.spO2Percent?[1],
+        ),
+        EditingVitalSign(
+          hr: _report.pulse?[2],
+          nibpDia: _report.bloodPressureLow?[2],
+          nibpSys: _report.bloodPressureHigh?[2],
+          resp: _report.respiration?[2],
+          spo2: _report.spO2Percent?[2],
+        ),
+      ];
+    });
+
     final tempDir = await getTemporaryDirectory();
     await File(tempDir.path + '/demo.json')
         .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['case'] = CaseParser.parse(
+    _zollSdkStore.cases['caseId'] = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
     _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
   }
@@ -106,8 +142,27 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
 
   List<Widget> _buildActions() {
     return <Widget>[
-      // _buildCreateReportButton(),
+      _buildConfirmButton(),
     ];
+  }
+
+  Widget _buildConfirmButton() {
+    return TextButton(
+      onPressed: () {
+        _report.pulse = ObservableList.of(trendData.map((e) => e.hr));
+        _report.bloodPressureLow =
+            ObservableList.of(trendData.map((e) => e.nibpDia));
+        _report.bloodPressureHigh =
+            ObservableList.of(trendData.map((e) => e.nibpSys));
+        _report.respiration = ObservableList.of(trendData.map((e) => e.resp));
+        _report.spO2Percent = ObservableList.of(trendData.map((e) => e.spo2));
+        Navigator.of(context)
+            .popUntil(ModalRoute.withName(Routes.createReport));
+      },
+      style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      child: const Text('取得'),
+    );
   }
 
   Widget _buildBackButton() {
@@ -161,16 +216,19 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                           print(i);
                           if (activeIndex != null) {
                             setState(() {
-                              trendData[activeIndex!].heartRate =
+                              trendData[activeIndex!].hr =
                                   caseData.events[i].rawData["Trend"]["Hr"]
                                       ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibp =
+                              trendData[activeIndex!].nibpDia =
                                   caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Map"]["TrendData"]["Val"]["#text"];
+                                      ["Dia"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibpSys =
+                                  caseData.events[i].rawData["Trend"]["Nibp"]
+                                      ["Sys"]["TrendData"]["Val"]["#text"];
                               trendData[activeIndex!].spo2 =
                                   caseData.events[i].rawData["Trend"]["Spo2"]
                                       ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].br =
+                              trendData[activeIndex!].resp =
                                   caseData.events[i].rawData["Trend"]["Resp"]
                                       ["TrendData"]["Val"]["#text"];
                             });
@@ -185,16 +243,19 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                           print(i);
                           if (activeIndex != null) {
                             setState(() {
-                              trendData[activeIndex!].heartRate =
+                              trendData[activeIndex!].hr =
                                   caseData.events[i].rawData["Trend"]["Hr"]
                                       ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibp =
+                              trendData[activeIndex!].nibpDia =
                                   caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Map"]["TrendData"]["Val"]["#text"];
+                                      ["Dia"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibpSys =
+                                  caseData.events[i].rawData["Trend"]["Nibp"]
+                                      ["Sys"]["TrendData"]["Val"]["#text"];
                               trendData[activeIndex!].spo2 =
                                   caseData.events[i].rawData["Trend"]["Spo2"]
                                       ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].br =
+                              trendData[activeIndex!].resp =
                                   caseData.events[i].rawData["Trend"]["Resp"]
                                       ["TrendData"]["Val"]["#text"];
                             });
@@ -248,14 +309,14 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                   children: [
                     Expanded(
                         child: Container(
-                      child: Text("HR: " +
-                          (trendData[index].heartRate?.toString() ?? '')),
+                      child: Text(
+                          "HR: " + (trendData[index].hr?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                     Expanded(
                         child: Container(
                       child: Text(
-                          "BR: " + (trendData[index].br?.toString() ?? '')),
+                          "BR: " + (trendData[index].resp?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                   ],
@@ -270,8 +331,14 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                     )),
                     Expanded(
                         child: Container(
-                      child: Text(
-                          "血圧: " + (trendData[index].nibp?.toString() ?? '')),
+                      child: Text("血圧最大: " +
+                          (trendData[index].nibpSys?.toString() ?? '')),
+                      padding: EdgeInsets.all(8),
+                    )),
+                    Expanded(
+                        child: Container(
+                      child: Text("血圧最低: " +
+                          (trendData[index].nibpDia?.toString() ?? '')),
                       padding: EdgeInsets.all(8),
                     )),
                   ],

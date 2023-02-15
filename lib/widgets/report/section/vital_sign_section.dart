@@ -14,49 +14,123 @@ import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 
-class VitalSignSection extends StatelessWidget with ReportSectionMixin {
+class VitalSignSection extends StatefulWidget {
   final Report report;
   final int index;
+  final TextEditingController respirationController = TextEditingController();
+  final TextEditingController pulseController = TextEditingController();
+  final TextEditingController bloodPressureHighController =
+      TextEditingController();
+  final TextEditingController bloodPressureLowController =
+      TextEditingController();
+  final TextEditingController spO2PercentController = TextEditingController();
 
   VitalSignSection({super.key, required this.report, required this.index});
 
   @override
+  State<VitalSignSection> createState() => _VitalSignSectionState();
+}
+
+class _VitalSignSectionState extends State<VitalSignSection>
+    with ReportSectionMixin {
+  @override
+  void initState() {
+    super.initState();
+    widget.report.jcsTypes = _ensureLength(widget.report.jcsTypes);
+    widget.report.observationTime =
+        _ensureLengthObservable(widget.report.observationTime);
+    widget.report.gcsETypes = _ensureLength(widget.report.gcsETypes);
+    widget.report.gcsVTypes = _ensureLength(widget.report.gcsVTypes);
+    widget.report.gcsMTypes = _ensureLength(widget.report.gcsMTypes);
+    widget.report.respiration =
+        _ensureLengthObservable(widget.report.respiration);
+    widget.report.pulse = _ensureLengthObservable(widget.report.pulse);
+    widget.report.bloodPressureHigh =
+        _ensureLengthObservable(widget.report.bloodPressureHigh);
+    widget.report.bloodPressureLow =
+        _ensureLengthObservable(widget.report.bloodPressureLow);
+    widget.report.spO2Liter = _ensureLengthObservable(widget.report.spO2Liter);
+    widget.report.spO2Percent =
+        _ensureLengthObservable(widget.report.spO2Percent);
+    widget.report.pupilLeft = _ensureLengthObservable(widget.report.pupilLeft);
+    widget.report.pupilRight =
+        _ensureLengthObservable(widget.report.pupilRight);
+    widget.report.lightReflexLeft =
+        _ensureLengthObservable(widget.report.lightReflexLeft);
+    widget.report.lightReflexRight =
+        _ensureLengthObservable(widget.report.lightReflexRight);
+    widget.report.bodyTemperature =
+        _ensureLengthObservable(widget.report.bodyTemperature);
+    widget.report.hemorrhage =
+        _ensureLengthObservable(widget.report.hemorrhage);
+    widget.report.vomiting = _ensureLengthObservable(widget.report.vomiting);
+    widget.report.extremities =
+        _ensureLengthObservable(widget.report.extremities);
+    widget.report.observationTimeDescriptionTypes =
+        _ensureLength(widget.report.observationTimeDescriptionTypes);
+    widget.report.incontinenceTypes =
+        _ensureLength(widget.report.incontinenceTypes);
+    widget.report.facialFeatureTypes =
+        _ensureLength(widget.report.facialFeatureTypes);
+
+    widget.respirationController.addListener(() {
+      print("changed");
+      print(widget.respirationController.text);
+
+      widget.report.respiration?[widget.index] =
+          int.tryParse(widget.respirationController.text);
+    });
+
+    autorun((_) {
+      final newRespiration =
+          widget.report.respiration?[widget.index]?.toString() ?? '';
+      if (newRespiration != widget.respirationController.text) {
+        widget.respirationController.text = newRespiration;
+      }
+
+      final newBloodPressureHigh =
+          widget.report.bloodPressureHigh?[widget.index]?.toString() ?? '';
+      if (newBloodPressureHigh != widget.bloodPressureHighController.text) {
+        widget.bloodPressureHighController.text = newBloodPressureHigh;
+      }
+
+      final newBloodPressureLow =
+          widget.report.bloodPressureLow?[widget.index]?.toString() ?? '';
+      if (newBloodPressureLow != widget.bloodPressureLowController.text) {
+        widget.bloodPressureLowController.text = newBloodPressureLow;
+      }
+
+      final newSpO2Percent =
+          widget.report.spO2Percent?[widget.index]?.toString() ?? '';
+      if (newSpO2Percent != widget.spO2PercentController.text) {
+        widget.spO2PercentController.text = newSpO2Percent;
+      }
+
+      final newPulse = widget.report.pulse?[widget.index]?.toString() ?? '';
+      if (newPulse != widget.pulseController.text) {
+        widget.pulseController.text = newPulse;
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    report.jcsTypes = _ensureLength(report.jcsTypes);
-    report.observationTime = _ensureLengthObservable(report.observationTime);
-    report.gcsETypes = _ensureLength(report.gcsETypes);
-    report.gcsVTypes = _ensureLength(report.gcsVTypes);
-    report.gcsMTypes = _ensureLength(report.gcsMTypes);
-    report.respiration = _ensureLengthObservable(report.respiration);
-    report.pulse = _ensureLengthObservable(report.pulse);
-    report.bloodPressureHigh =
-        _ensureLengthObservable(report.bloodPressureHigh);
-    report.bloodPressureLow = _ensureLengthObservable(report.bloodPressureLow);
-    report.spO2Liter = _ensureLengthObservable(report.spO2Liter);
-    report.spO2Percent = _ensureLengthObservable(report.spO2Percent);
-    report.pupilLeft = _ensureLengthObservable(report.pupilLeft);
-    report.pupilRight = _ensureLengthObservable(report.pupilRight);
-    report.lightReflexLeft = _ensureLengthObservable(report.lightReflexLeft);
-    report.lightReflexRight = _ensureLengthObservable(report.lightReflexRight);
-    report.bodyTemperature = _ensureLengthObservable(report.bodyTemperature);
-    report.hemorrhage = _ensureLengthObservable(report.hemorrhage);
-    report.vomiting = _ensureLengthObservable(report.vomiting);
-    report.extremities = _ensureLengthObservable(report.extremities);
-    report.observationTimeDescriptionTypes =
-        _ensureLength(report.observationTimeDescriptionTypes);
-    report.incontinenceTypes = _ensureLength(report.incontinenceTypes);
-    report.facialFeatureTypes = _ensureLength(report.facialFeatureTypes);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report, context),
-        _buildLine2(report, context),
-        _buildLine3(report, context),
-        _buildLine4(report, context),
-        _buildLine5(report, context),
-        _buildLine6(report, context),
-        _buildLine7(report, context),
-        _buildLine8(report, context),
+        _buildLine1(widget.report, context),
+        _buildLine2(widget.report, context),
+        _buildLine3(widget.report, context),
+        _buildLine4(widget.report, context),
+        _buildLine5(widget.report, context),
+        _buildLine6(widget.report, context),
+        _buildLine7(widget.report, context),
+        _buildLine8(widget.report, context),
       ],
     );
   }
@@ -67,8 +141,8 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
       return lineLayout(children: [
         AppTimePicker(
           label: 'observation_time'.i18n(),
-          onChanged: (value) => report.observationTime?[index] = value,
-          selectedTime: report.observationTime?[index],
+          onChanged: (value) => report.observationTime?[widget.index] = value,
+          selectedTime: report.observationTime?[widget.index],
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -78,9 +152,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           label: 'jcs'.i18n(),
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.jcsTypes = report.jcsTypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.jcsTypes[index],
+          selectedItem: report.jcsTypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -102,9 +176,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           label: 'gcs_e'.i18n(),
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.gcsETypes = report.gcsETypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.gcsETypes[index],
+          selectedItem: report.gcsETypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -118,9 +192,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           label: 'gcs_v'.i18n(),
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.gcsVTypes = report.gcsVTypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.gcsVTypes[index],
+          selectedItem: report.gcsVTypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -134,9 +208,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           label: 'gcs_m'.i18n(),
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.gcsMTypes = report.gcsMTypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.gcsMTypes[index],
+          selectedItem: report.gcsMTypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -150,17 +224,17 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
     return lineLayout(children: [
       AppTextField(
         label: 'respiration'.i18n(),
+        controller: widget.respirationController,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        onChanged: (value) => report.respiration?[index] = int.parse(value),
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
       ),
       AppTextField(
         label: 'pulse'.i18n(),
+        controller: widget.pulseController,
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        onChanged: (value) => report.pulse?[index] = int.parse(value),
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
       ),
@@ -176,10 +250,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               Expanded(
                   child: AppTextField(
                 label: 'blood_pressure_high'.i18n(),
+                controller: widget.bloodPressureHighController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) =>
-                    report.bloodPressureHigh?[index] = int.parse(value),
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -187,10 +260,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               Expanded(
                   child: AppTextField(
                 label: 'blood_pressure_low'.i18n(),
+                controller: widget.bloodPressureLowController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) =>
-                    report.bloodPressureLow?[index] = int.parse(value),
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -201,10 +273,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
               Expanded(
                   child: AppTextField(
                 label: 'sp_o2_percent'.i18n(),
+                controller: widget.spO2PercentController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) =>
-                    report.spO2Percent?[index] = int.parse(value),
                 counterText: '%'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -215,7 +286,7 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.spO2Liter?[index] = int.parse(value),
+                    report.spO2Liter?[widget.index] = int.parse(value),
                 counterText: 'L'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -233,7 +304,7 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.pupilRight?[index] = int.parse(value),
+                    report.pupilRight?[widget.index] = int.parse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -244,7 +315,7 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.pupilLeft?[index] = int.parse(value),
+                    report.pupilLeft?[widget.index] = int.parse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
               )),
@@ -257,8 +328,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                   items: const [true, false],
                   label: 'light_reflex_right'.i18n(),
                   itemAsString: ((item) => formatBool(item) ?? ''),
-                  onChanged: (value) => report.lightReflexRight?[index] = value,
-                  selectedItem: report.lightReflexRight?[index],
+                  onChanged: (value) =>
+                      report.lightReflexRight?[widget.index] = value,
+                  selectedItem: report.lightReflexRight?[widget.index],
                 ),
               ),
               const SizedBox(width: 16),
@@ -267,8 +339,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
                   items: const [true, false],
                   label: 'light_reflex_left'.i18n(),
                   itemAsString: ((item) => formatBool(item) ?? ''),
-                  onChanged: (value) => report.lightReflexLeft?[index] = value,
-                  selectedItem: report.lightReflexLeft?[index],
+                  onChanged: (value) =>
+                      report.lightReflexLeft?[widget.index] = value,
+                  selectedItem: report.lightReflexLeft?[widget.index],
                 ),
               ),
             ],
@@ -289,7 +362,7 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
             FilteringTextInputFormatter.allow(RegExp('[0-9.]'))
           ],
           onChanged: (value) =>
-              report.bodyTemperature?[index] = double.parse(value),
+              report.bodyTemperature?[widget.index] = double.parse(value),
           counterText: 'celsius'.i18n(),
           counterColor: Theme.of(context).primaryColor,
         ),
@@ -302,9 +375,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.facialFeatureTypes = report
               .facialFeatureTypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.facialFeatureTypes[index],
+          selectedItem: report.facialFeatureTypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -322,7 +395,7 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           label: 'hemorrhage'.i18n(),
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (value) => report.hemorrhage?[index] = value,
+          onChanged: (value) => report.hemorrhage?[widget.index] = value,
           maxLength: 10,
         ),
         AppDropdown<Classification>(
@@ -334,9 +407,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           itemAsString: ((item) => item.value ?? ''),
           onChanged: (value) => report.incontinenceTypes = report
               .incontinenceTypes
-              .mapIndexed((i, e) => i == index ? value : e)
+              .mapIndexed((i, e) => i == widget.index ? value : e)
               .toList(),
-          selectedItem: report.incontinenceTypes[index],
+          selectedItem: report.incontinenceTypes[widget.index],
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
@@ -353,14 +426,14 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
           items: const [true, false],
           label: 'vomitting'.i18n(),
           itemAsString: ((item) => formatBool(item) ?? ''),
-          onChanged: (value) => report.vomiting?[index] = value,
-          selectedItem: report.vomiting?[index],
+          onChanged: (value) => report.vomiting?[widget.index] = value,
+          selectedItem: report.vomiting?[widget.index],
         ),
         AppTextField(
           label: 'extremities'.i18n(),
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (value) => report.extremities?[index] = value,
+          onChanged: (value) => report.extremities?[widget.index] = value,
           maxLength: 10,
         ),
       ]);
@@ -382,9 +455,9 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
             itemAsString: ((item) => item.value ?? ''),
             onChanged: (value) => report.observationTimeDescriptionTypes =
                 report.observationTimeDescriptionTypes
-                    .mapIndexed((i, e) => i == index ? value : e)
+                    .mapIndexed((i, e) => i == widget.index ? value : e)
                     .toList(),
-            selectedItem: report.observationTimeDescriptionTypes[index],
+            selectedItem: report.observationTimeDescriptionTypes[widget.index],
             filterFn: (c, filter) =>
                 (c.value != null && c.value!.contains(filter)) ||
                 (c.classificationSubCd != null &&
@@ -398,19 +471,19 @@ class VitalSignSection extends StatelessWidget with ReportSectionMixin {
   }
 
   ObservableList<T?> _ensureLengthObservable<T>(ObservableList<T?>? list) {
-    if (list != null && list.length > index) return list;
-    list ??= List<T?>.filled(index + 1, null).asObservable();
-    if (list.length <= index) {
-      list.addAll(List.filled(index + 1 - list.length, null));
+    if (list != null && list.length > widget.index) return list;
+    list ??= List<T?>.filled(widget.index + 1, null).asObservable();
+    if (list.length <= widget.index) {
+      list.addAll(List.filled(widget.index + 1 - list.length, null));
     }
     return list;
   }
 
   List<T?> _ensureLength<T>(List<T?>? list) {
-    if (list != null && list.length > index) return list;
-    list ??= List<T?>.filled(index + 1, null);
-    if (list.length <= index) {
-      list.addAll(List.filled(index + 1 - list.length, null));
+    if (list != null && list.length > widget.index) return list;
+    list ??= List<T?>.filled(widget.index + 1, null);
+    if (list.length <= widget.index) {
+      list.addAll(List.filled(widget.index + 1 - list.length, null));
     }
     return list;
   }

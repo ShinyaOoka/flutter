@@ -1,10 +1,13 @@
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
@@ -13,8 +16,9 @@ import 'package:localization/localization.dart';
 
 class ListCaseScreenArguments {
   final XSeriesDevice device;
+  final Report report;
 
-  ListCaseScreenArguments({required this.device});
+  ListCaseScreenArguments({required this.device, required this.report});
 }
 
 class ListCaseScreen extends StatefulWidget {
@@ -27,6 +31,8 @@ class ListCaseScreen extends StatefulWidget {
 class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
+  late Report _report;
+
   late XSeriesDevice device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -53,11 +59,18 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     final args =
         ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
     device = args.device;
+    _report = args.report;
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
     print('device serial number');
     print(device.serialNumber);
+    _zollSdkStore.caseListItems[device.serialNumber] = ObservableList.of([
+      CaseListItem(
+          caseId: 'caseId',
+          startTime: "2023-01-01 22:23:24",
+          endTime: "2023-01-02 11:12:13")
+    ]);
     _hostApi.deviceGetCaseList(device, null);
   }
 
@@ -127,11 +140,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 itemBuilder: (context, index) => ListTile(
                     title: Text(
                         '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
-                    dense: true,
                     onTap: () {
                       Navigator.of(context).pushNamed(Routes.listEvent,
                           arguments: ListEventScreenArguments(
-                              device: device, caseId: cases[index].caseId));
+                              device: device,
+                              caseId: cases[index].caseId,
+                              report: _report));
                     }),
                 separatorBuilder: (context, index) => const Divider(),
               );
@@ -144,7 +158,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   _formatTime(String? time) {
     if (time == null) return '';
-    return DateFormat.yMd().add_Hm().format(DateTime.parse(time));
+    return DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(time));
   }
 
   _showErrorMessage(String message) {

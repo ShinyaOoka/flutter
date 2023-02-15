@@ -17,6 +17,12 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
+class ListDeviceScreenArguments {
+  final Report report;
+
+  ListDeviceScreenArguments({required this.report});
+}
+
 class ListDeviceScreen extends StatefulWidget {
   const ListDeviceScreen({super.key});
 
@@ -27,6 +33,7 @@ class ListDeviceScreen extends StatefulWidget {
 class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
+  late Report _report;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
@@ -49,9 +56,15 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
 
   @override
   void didPush() {
-    _hostApi = Provider.of<ZollSdkHostApi>(context);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ListDeviceScreenArguments;
+    _report = args.report;
+
+    _hostApi = context.read();
     _zollSdkStore = context.read();
     _zollSdkStore.devices = ObservableList();
+    _zollSdkStore.devices
+        .add(XSeriesDevice(address: 'address', serialNumber: 'serialNumber'));
     _hostApi.browserStart();
   }
 
@@ -122,7 +135,8 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
                   onTap: () {
                     Navigator.of(context).pushNamed(Routes.listCase,
                         arguments: ListCaseScreenArguments(
-                            device: _zollSdkStore.devices[index]));
+                            device: _zollSdkStore.devices[index],
+                            report: _report));
                   }),
               separatorBuilder: (context, index) => const Divider(),
             ),
