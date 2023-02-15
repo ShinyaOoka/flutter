@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,11 +42,13 @@ class EditingVitalSign {
   int? spo2;
   int? nibpSys;
   int? nibpDia;
+  DateTime? time;
 
   EditingVitalSign({this.hr, this.resp, this.spo2, this.nibpSys, this.nibpDia});
 }
 
-class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
+class _ListEventScreenState extends State<ListEventScreen>
+    with RouteAware, ReportSectionMixin {
   late Report _report;
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
@@ -231,6 +235,9 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                               trendData[activeIndex!].resp =
                                   caseData.events[i].rawData["Trend"]["Resp"]
                                       ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].time = DateTime.parse(
+                                  caseData.events[i].rawData["StdHdr"]
+                                      ["DevDateTime"]);
                             });
                           }
                           return;
@@ -258,6 +265,9 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
                               trendData[activeIndex!].resp =
                                   caseData.events[i].rawData["Trend"]["Resp"]
                                       ["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].time = DateTime.parse(
+                                  caseData.events[i].rawData["StdHdr"]
+                                      ["DevDateTime"]);
                             });
                           }
                           return;
@@ -297,54 +307,72 @@ class _ListEventScreenState extends State<ListEventScreen> with RouteAware {
             activeIndex == index ? Theme.of(context).primaryColorLight : null,
         child: Column(children: [
           Container(
-            child: Text("1回目取得結果"),
+            child: Row(children: [
+              Expanded(child: Text("${index + 1}回目取得結果")),
+              trendData[index].time != null
+                  ? Expanded(
+                      child: Text(AppConstants.dateTimeFormat
+                          .format(trendData[index].time!)))
+                  : Container(),
+              trendData[index].time != null
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          trendData[index] = EditingVitalSign();
+                        });
+                      },
+                      icon: Icon(Icons.close, size: 20),
+                      padding: EdgeInsets.zero,
+                      constraints:
+                          BoxConstraints.tightFor(width: 20, height: 20),
+                    )
+                  : Container()
+            ]),
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(4),
           ),
           Container(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: Container(
-                      child: Text(
-                          "HR: " + (trendData[index].hr?.toString() ?? '')),
-                      padding: EdgeInsets.all(8),
-                    )),
-                    Expanded(
-                        child: Container(
-                      child: Text(
-                          "BR: " + (trendData[index].resp?.toString() ?? '')),
-                      padding: EdgeInsets.all(8),
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: Container(
-                      child: Text(
-                          "SPO2: " + (trendData[index].spo2?.toString() ?? '')),
-                      padding: EdgeInsets.all(8),
-                    )),
-                    Expanded(
-                        child: Container(
-                      child: Text("血圧最大: " +
-                          (trendData[index].nibpSys?.toString() ?? '')),
-                      padding: EdgeInsets.all(8),
-                    )),
-                    Expanded(
-                        child: Container(
-                      child: Text("血圧最低: " +
-                          (trendData[index].nibpDia?.toString() ?? '')),
-                      padding: EdgeInsets.all(8),
-                    )),
-                  ],
-                )
-              ],
-            ),
+            padding: EdgeInsets.all(4),
+            child: lineLayout(children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: Container(
+                    child:
+                        Text("HR: " + (trendData[index].hr?.toString() ?? '')),
+                    padding: EdgeInsets.all(4),
+                  )),
+                  Expanded(
+                      child: Container(
+                    child: Text(
+                        "BR: " + (trendData[index].resp?.toString() ?? '')),
+                    padding: EdgeInsets.all(4),
+                  )),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Container(
+                    child: Text(
+                        "SPO2: " + (trendData[index].spo2?.toString() ?? '')),
+                    padding: EdgeInsets.all(4),
+                  )),
+                  Expanded(
+                      child: Container(
+                    child: Text("血圧最大: " +
+                        (trendData[index].nibpSys?.toString() ?? '')),
+                    padding: EdgeInsets.all(4),
+                  )),
+                  Expanded(
+                      child: Container(
+                    child: Text("血圧最低: " +
+                        (trendData[index].nibpDia?.toString() ?? '')),
+                    padding: EdgeInsets.all(4),
+                  )),
+                ],
+              )
+            ]),
           )
         ]),
       ),

@@ -158,7 +158,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   _formatTime(String? time) {
     if (time == null) return '';
-    return DateFormat('yyyy/MM/dd HH:mm').format(DateTime.parse(time));
+    return AppConstants.dateTimeFormat.format(DateTime.parse(time));
   }
 
   _showErrorMessage(String message) {
