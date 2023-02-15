@@ -205,75 +205,58 @@ class _ListEventScreenState extends State<ListEventScreen>
           child: Observer(
             builder: (context) {
               final caseData = _zollSdkStore.cases[caseId]!;
-              print(caseData.events.length);
               return ListView.separated(
-                itemCount: caseData.events.length,
-                itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                        '${caseData.events[index]?.date} ${caseData.events[index]?.type}'),
-                    onTap: () {
-                      print('tap');
-                      print(index);
-                      for (var i = index; i > 0; i--) {
-                        if (caseData.events[i].type == 'TrendRpt') {
-                          print('get');
-                          print(i);
-                          if (activeIndex != null) {
-                            setState(() {
-                              trendData[activeIndex!].hr =
-                                  caseData.events[i].rawData["Trend"]["Hr"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpDia =
-                                  caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Dia"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpSys =
-                                  caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Sys"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].spo2 =
-                                  caseData.events[i].rawData["Trend"]["Spo2"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].resp =
-                                  caseData.events[i].rawData["Trend"]["Resp"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].time = DateTime.parse(
-                                  caseData.events[i].rawData["StdHdr"]
-                                      ["DevDateTime"]);
-                            });
+                itemCount: caseData.displayableEvents.length,
+                itemBuilder: (context, itemIndex) {
+                  final dataIndex = caseData.displayableEvents[itemIndex].item1;
+                  return ListTile(
+                      title: Text(
+                          '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
+                      onTap: () {
+                        if (activeIndex == null) return;
+                        int? foundEventIndex;
+                        for (var i = dataIndex; i > 0; i--) {
+                          if (caseData.events[i].type == 'TrendRpt') {
+                            foundEventIndex = i;
+                            break;
                           }
-                          return;
                         }
-                      }
 
-                      for (var i = index; i < caseData.events.length; i++) {
-                        if (caseData.events[i].type == 'TrendRpt') {
-                          print('get');
-                          print(i);
-                          if (activeIndex != null) {
-                            setState(() {
-                              trendData[activeIndex!].hr =
-                                  caseData.events[i].rawData["Trend"]["Hr"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpDia =
-                                  caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Dia"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpSys =
-                                  caseData.events[i].rawData["Trend"]["Nibp"]
-                                      ["Sys"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].spo2 =
-                                  caseData.events[i].rawData["Trend"]["Spo2"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].resp =
-                                  caseData.events[i].rawData["Trend"]["Resp"]
-                                      ["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].time = DateTime.parse(
-                                  caseData.events[i].rawData["StdHdr"]
-                                      ["DevDateTime"]);
-                            });
+                        if (foundEventIndex == null) {
+                          for (var i = dataIndex;
+                              i < caseData.events.length;
+                              i++) {
+                            if (caseData.events[i].type == 'TrendRpt') {
+                              foundEventIndex = i;
+                              break;
+                            }
                           }
-                          return;
                         }
-                      }
-                    }),
+
+                        if (foundEventIndex != null) {
+                          setState(() {
+                            trendData[activeIndex!].hr = caseData
+                                    .events[foundEventIndex!].rawData["Trend"]
+                                ["Hr"]["TrendData"]["Val"]["#text"];
+                            trendData[activeIndex!].nibpDia = caseData
+                                    .events[foundEventIndex].rawData["Trend"]
+                                ["Nibp"]["Dia"]["TrendData"]["Val"]["#text"];
+                            trendData[activeIndex!].nibpSys = caseData
+                                    .events[foundEventIndex].rawData["Trend"]
+                                ["Nibp"]["Sys"]["TrendData"]["Val"]["#text"];
+                            trendData[activeIndex!].spo2 = caseData
+                                    .events[foundEventIndex].rawData["Trend"]
+                                ["Spo2"]["TrendData"]["Val"]["#text"];
+                            trendData[activeIndex!].resp = caseData
+                                    .events[foundEventIndex].rawData["Trend"]
+                                ["Resp"]["TrendData"]["Val"]["#text"];
+                            trendData[activeIndex!].time = DateTime.parse(
+                                caseData.events[foundEventIndex!]
+                                    .rawData["StdHdr"]["DevDateTime"]);
+                          });
+                        }
+                      });
+                },
                 separatorBuilder: (context, index) => const Divider(),
               );
             },
@@ -311,7 +294,7 @@ class _ListEventScreenState extends State<ListEventScreen>
               Expanded(child: Text("${index + 1}回目取得結果")),
               trendData[index].time != null
                   ? Expanded(
-                      child: Text(AppConstants.dateTimeFormat
+                      child: Text(AppConstants.timeFormat
                           .format(trendData[index].time!)))
                   : Container(),
               trendData[index].time != null
@@ -360,14 +343,11 @@ class _ListEventScreenState extends State<ListEventScreen>
                   )),
                   Expanded(
                       child: Container(
-                    child: Text("血圧最大: " +
-                        (trendData[index].nibpSys?.toString() ?? '')),
-                    padding: EdgeInsets.all(4),
-                  )),
-                  Expanded(
-                      child: Container(
-                    child: Text("血圧最低: " +
-                        (trendData[index].nibpDia?.toString() ?? '')),
+                    child: Text("血圧: " +
+                        (trendData[index].nibpDia != null ||
+                                trendData[index].nibpSys != null
+                            ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}"
+                            : "")),
                     padding: EdgeInsets.all(4),
                   )),
                 ],

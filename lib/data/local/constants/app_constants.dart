@@ -21,6 +21,7 @@ class AppConstants {
   static const descriptionOfObservationTimeCode = '015';
   static final dateFormat = DateFormat.yMd();
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm');
+  static final timeFormat = DateFormat.Hms();
 
   static const reportTemplatePath = 'assets/template/report.html';
 }
