@@ -54,6 +54,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+  late ScrollController scrollController;
   int? activeIndex;
   List<EditingVitalSign> trendData = [
     EditingVitalSign(),
@@ -67,6 +68,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
   }
 
   @override
@@ -216,59 +218,65 @@ class _ListEventScreenState extends State<ListEventScreen>
           child: Observer(
             builder: (context) {
               final caseData = _zollSdkStore.cases[caseId]!;
-              return ListView.separated(
-                itemCount: caseData.displayableEvents.length,
-                itemBuilder: (context, itemIndex) {
-                  final dataIndex = caseData.displayableEvents[itemIndex].item1;
-                  return ListTile(
-                      title: Text(
-                          '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
-                      onTap: () {
-                        if (activeIndex == null) return;
-                        int? foundEventIndex;
-                        for (var i = dataIndex; i > 0; i--) {
-                          if (caseData.events[i].type == 'TrendRpt') {
-                            foundEventIndex = i;
-                            break;
-                          }
-                        }
-
-                        if (foundEventIndex == null) {
-                          for (var i = dataIndex;
-                              i < caseData.events.length;
-                              i++) {
+              return Scrollbar(
+                controller: scrollController,
+                thumbVisibility: true,
+                child: ListView.separated(
+                  controller: scrollController,
+                  itemCount: caseData.displayableEvents.length,
+                  itemBuilder: (context, itemIndex) {
+                    final dataIndex =
+                        caseData.displayableEvents[itemIndex].item1;
+                    return ListTile(
+                        title: Text(
+                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
+                        onTap: () {
+                          if (activeIndex == null) return;
+                          int? foundEventIndex;
+                          for (var i = dataIndex; i > 0; i--) {
                             if (caseData.events[i].type == 'TrendRpt') {
                               foundEventIndex = i;
                               break;
                             }
                           }
-                        }
 
-                        if (foundEventIndex != null) {
-                          setState(() {
-                            trendData[activeIndex!].hr = caseData
-                                    .events[foundEventIndex!].rawData["Trend"]
-                                ["Hr"]["TrendData"]["Val"]["#text"];
-                            trendData[activeIndex!].nibpDia = caseData
-                                    .events[foundEventIndex].rawData["Trend"]
-                                ["Nibp"]["Dia"]["TrendData"]["Val"]["#text"];
-                            trendData[activeIndex!].nibpSys = caseData
-                                    .events[foundEventIndex].rawData["Trend"]
-                                ["Nibp"]["Sys"]["TrendData"]["Val"]["#text"];
-                            trendData[activeIndex!].spo2 = caseData
-                                    .events[foundEventIndex].rawData["Trend"]
-                                ["Spo2"]["TrendData"]["Val"]["#text"];
-                            trendData[activeIndex!].resp = caseData
-                                    .events[foundEventIndex].rawData["Trend"]
-                                ["Resp"]["TrendData"]["Val"]["#text"];
-                            trendData[activeIndex!].time = DateTime.parse(
-                                caseData.events[foundEventIndex!]
-                                    .rawData["StdHdr"]["DevDateTime"]);
-                          });
-                        }
-                      });
-                },
-                separatorBuilder: (context, index) => const Divider(),
+                          if (foundEventIndex == null) {
+                            for (var i = dataIndex;
+                                i < caseData.events.length;
+                                i++) {
+                              if (caseData.events[i].type == 'TrendRpt') {
+                                foundEventIndex = i;
+                                break;
+                              }
+                            }
+                          }
+
+                          if (foundEventIndex != null) {
+                            setState(() {
+                              trendData[activeIndex!].hr = caseData
+                                      .events[foundEventIndex!].rawData["Trend"]
+                                  ["Hr"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibpDia = caseData
+                                      .events[foundEventIndex].rawData["Trend"]
+                                  ["Nibp"]["Dia"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].nibpSys = caseData
+                                      .events[foundEventIndex].rawData["Trend"]
+                                  ["Nibp"]["Sys"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].spo2 = caseData
+                                      .events[foundEventIndex].rawData["Trend"]
+                                  ["Spo2"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].resp = caseData
+                                      .events[foundEventIndex].rawData["Trend"]
+                                  ["Resp"]["TrendData"]["Val"]["#text"];
+                              trendData[activeIndex!].time = DateTime.parse(
+                                  caseData.events[foundEventIndex!]
+                                      .rawData["StdHdr"]["DevDateTime"]);
+                            });
+                          }
+                        });
+                  },
+                  separatorBuilder: (context, index) => const Divider(),
+                ),
               );
             },
           ),

@@ -32,6 +32,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
   late Report _report;
+  late ScrollController scrollController;
 
   late XSeriesDevice device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -40,6 +41,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
   }
 
   @override
@@ -135,19 +137,24 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
           child: Observer(
             builder: (context) {
               final cases = _zollSdkStore.caseListItems[device.serialNumber]!;
-              return ListView.separated(
-                itemCount: cases.length,
-                itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                        '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(Routes.listEvent,
-                          arguments: ListEventScreenArguments(
-                              device: device,
-                              caseId: cases[index].caseId,
-                              report: _report));
-                    }),
-                separatorBuilder: (context, index) => const Divider(),
+              return Scrollbar(
+                controller: scrollController,
+                thumbVisibility: true,
+                child: ListView.separated(
+                  controller: scrollController,
+                  itemCount: cases.length,
+                  itemBuilder: (context, index) => ListTile(
+                      title: Text(
+                          '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.listEvent,
+                            arguments: ListEventScreenArguments(
+                                device: device,
+                                caseId: cases[index].caseId,
+                                report: _report));
+                      }),
+                  separatorBuilder: (context, index) => const Divider(),
+                ),
               );
             },
           ),

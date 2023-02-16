@@ -33,6 +33,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
 
+  late ScrollController scrollController;
+
   final Report _report = Report();
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -41,6 +43,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
   }
 
   @override
@@ -153,25 +156,30 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   }
 
   Widget _buildForm() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () async {
-                await Navigator.of(context).pushNamed(Routes.listDevice,
-                    arguments: ListDeviceScreenArguments(report: _report));
-              },
-              style: ButtonStyle(
-                  minimumSize:
-                      MaterialStateProperty.all(const Size.fromHeight(50))),
-              child:
-                  const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
+    return Scrollbar(
+      controller: scrollController,
+      thumbVisibility: true,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.of(context).pushNamed(Routes.listDevice,
+                      arguments: ListDeviceScreenArguments(report: _report));
+                },
+                style: ButtonStyle(
+                    minimumSize:
+                        MaterialStateProperty.all(const Size.fromHeight(50))),
+                child:
+                    const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
+              ),
             ),
-          ),
-          ReportForm(report: _report),
-        ],
+            ReportForm(report: _report),
+          ],
+        ),
       ),
     );
   }

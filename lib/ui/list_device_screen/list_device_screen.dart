@@ -34,12 +34,14 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
   late Report _report;
+  late ScrollController scrollController;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
   }
 
   @override
@@ -128,17 +130,22 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
         ),
         Expanded(
           child: Observer(
-            builder: (context) => ListView.separated(
-              itemCount: _zollSdkStore.devices.length,
-              itemBuilder: (context, index) => ListTile(
-                  title: Text(_zollSdkStore.devices[index].serialNumber),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.listCase,
-                        arguments: ListCaseScreenArguments(
-                            device: _zollSdkStore.devices[index],
-                            report: _report));
-                  }),
-              separatorBuilder: (context, index) => const Divider(),
+            builder: (context) => Scrollbar(
+              controller: scrollController,
+              thumbVisibility: true,
+              child: ListView.separated(
+                controller: scrollController,
+                itemCount: _zollSdkStore.devices.length,
+                itemBuilder: (context, index) => ListTile(
+                    title: Text(_zollSdkStore.devices[index].serialNumber),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(Routes.listCase,
+                          arguments: ListCaseScreenArguments(
+                              device: _zollSdkStore.devices[index],
+                              report: _report));
+                    }),
+                separatorBuilder: (context, index) => const Divider(),
+              ),
             ),
           ),
         ),

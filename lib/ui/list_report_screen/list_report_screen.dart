@@ -24,12 +24,14 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   late ReportStore _reportStore;
   late TeamStore _teamStore;
   late ClassificationStore _classificationStore;
+  late ScrollController scrollController;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
   }
 
   @override
@@ -112,14 +114,19 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   Widget _buildListView() {
     return _reportStore.reports != null
-        ? ListView.separated(
-            itemCount: _reportStore.reports!.length,
-            separatorBuilder: (context, position) {
-              return const Divider();
-            },
-            itemBuilder: (context, position) {
-              return _buildListItem(position);
-            },
+        ? Scrollbar(
+            controller: scrollController,
+            thumbVisibility: true,
+            child: ListView.separated(
+              controller: scrollController,
+              itemCount: _reportStore.reports!.length,
+              separatorBuilder: (context, position) {
+                return const Divider();
+              },
+              itemBuilder: (context, position) {
+                return _buildListItem(position);
+              },
+            ),
           )
         : Center(child: Text('no_report_found'.i18n()));
   }
