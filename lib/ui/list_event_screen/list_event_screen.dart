@@ -126,8 +126,16 @@ class _ListEventScreenState extends State<ListEventScreen>
     final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
     _zollSdkStore.cases['caseId'] = parsedCase;
-    parsedCase.startTime = DateTime.tryParse(caseListItem?.startTime ?? '');
-    parsedCase.endTime = DateTime.tryParse(caseListItem?.endTime ?? '');
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateFormat('yyyy-MM-dd hh:mm:ss')
+            .parseUtc(caseListItem!.startTime!)
+            .toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateFormat('yyyy-MM-dd hh:mm:ss')
+            .parseUtc(caseListItem!.endTime!)
+            .toLocal()
+        : null;
     _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
   }
 

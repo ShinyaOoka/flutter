@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 class CaseParser {
@@ -23,7 +24,8 @@ class CaseParser {
       final stdHdr = ((eventData as Map<String, dynamic>)["StdHdr"]
           as Map<String, dynamic>);
       final dateString = stdHdr["DevDateTime"] as String;
-      final date = DateTime.parse(dateString);
+      final date =
+          DateFormat("yyyy-MM-ddThh:mm:ss").parseUtc(dateString).toLocal();
       if (eventType == "AnnotationEvt") {
         eventType += " " + eventData["@EvtName"];
       }
