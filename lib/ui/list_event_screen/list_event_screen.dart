@@ -123,7 +123,6 @@ class _ListEventScreenState extends State<ListEventScreen>
         .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
     final caseListItem = _zollSdkStore.caseListItems[device.serialNumber]
         ?.firstWhere((element) => element.caseId == caseId);
-    print(caseListItem);
     final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
     _zollSdkStore.cases['caseId'] = parsedCase;
@@ -166,6 +165,8 @@ class _ListEventScreenState extends State<ListEventScreen>
             ObservableList.of(trendData.map((e) => e.nibpSys));
         _report.respiration = ObservableList.of(trendData.map((e) => e.resp));
         _report.spO2Percent = ObservableList.of(trendData.map((e) => e.spo2));
+        _report.observationTime = ObservableList.of(trendData.map(
+            (e) => e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
         Navigator.of(context)
             .popUntil(ModalRoute.withName(Routes.createReport));
       },
