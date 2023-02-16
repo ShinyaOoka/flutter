@@ -145,15 +145,20 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Text(
-            '${'list_report_team_name'.i18n()} : ${team?.name ?? 'なし'}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: '${'list_report_team_name'.i18n()} : ',
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            TextSpan(
+                text: '${team?.name ?? 'なし'}',
+                style: Theme.of(context).textTheme.bodyMedium)
+          ]))
         ],
       ),
       subtitle: Column(
@@ -161,22 +166,26 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
-          Text(
-            '${'type_of_accident'.i18n()} : ${typeOfAccident?.value ?? 'なし'}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Text(
-            '${'accident_summary'.i18n()} : ${item.accidentSummary ?? 'なし'}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: '${'type_of_accident'.i18n()} : ',
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            TextSpan(
+                text: '${typeOfAccident?.value ?? 'なし'}',
+                style: Theme.of(context).textTheme.bodyMedium)
+          ])),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: '${'accident_summary'.i18n()} : ',
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            TextSpan(
+                text: '${item.accidentSummary ?? 'なし'}',
+                style: Theme.of(context).textTheme.bodyMedium)
+          ]))
         ],
       ),
     );
