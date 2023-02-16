@@ -46,10 +46,14 @@ abstract class _ZollSdkStore with Store {
   }
 
   @action
-  Future<void> onDownloadCaseSuccess(
-      int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase) async {
+  Future<void> onDownloadCaseSuccess(int requestCode, String serialNumber,
+      String caseId, String path, NativeCase nativeCase) async {
     final String content = await File(path).readAsString();
     cases[caseId] = CaseParser.parse(content);
     cases[caseId]!.nativeCase = nativeCase;
+    final caseListItem = caseListItems[serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    cases[caseId]!.startTime = DateTime.tryParse(caseListItem?.startTime ?? '');
+    cases[caseId]!.endTime = DateTime.tryParse(caseListItem?.endTime ?? '');
   }
 }

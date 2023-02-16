@@ -121,8 +121,14 @@ class _ListEventScreenState extends State<ListEventScreen>
     final tempDir = await getTemporaryDirectory();
     await File(tempDir.path + '/demo.json')
         .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['caseId'] = CaseParser.parse(
+    final caseListItem = _zollSdkStore.caseListItems[device.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    print(caseListItem);
+    final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
+    _zollSdkStore.cases['caseId'] = parsedCase;
+    parsedCase.startTime = DateTime.tryParse(caseListItem?.startTime ?? '');
+    parsedCase.endTime = DateTime.tryParse(caseListItem?.endTime ?? '');
     _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
   }
 

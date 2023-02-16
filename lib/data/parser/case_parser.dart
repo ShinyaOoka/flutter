@@ -36,13 +36,7 @@ class CaseParser {
       caseEvent.date = date;
       caseEvent.type = eventType;
       return caseEvent;
-    })
-        // .where((element) =>
-        //     !element.type.startsWith("AnnotationEvt") &&
-        //     element.type != "SysLogEntry" &&
-        //     element.type != "PrtTrace" &&
-        //     element.type != "DefibTrace")
-        .toList();
+    }).toList();
     events.sort((a, b) {
       final dateCompare = a.date.compareTo(b.date);
       if (dateCompare == 0) {

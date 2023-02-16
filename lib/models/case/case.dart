@@ -14,12 +14,28 @@ abstract class _Case with Store {
   @observable
   NativeCase? nativeCase;
 
+  @observable
+  DateTime? startTime;
+
+  @observable
+  DateTime? endTime;
+
   @computed
   ObservableList<Tuple2<int, CaseEvent>> get displayableEvents {
     return events
         .asMap()
         .entries
         .map((e) => Tuple2(e.key, e.value))
+        .where((event) {
+          var keep = true;
+          if (startTime != null) {
+            keep &= event.item2.date.compareTo(startTime!) >= 0;
+          }
+          if (endTime != null) {
+            keep &= event.item2.date.compareTo(endTime!) <= 0;
+          }
+          return keep;
+        })
         .where((e) {
           return e.item2.type == "Aed" ||
               e.item2.type == "AlarmLimits" ||
