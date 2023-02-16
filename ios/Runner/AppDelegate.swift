@@ -14,8 +14,7 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
     
     func browserStart() {
-        browser.start(delegate: self)
-        self.onDeviceFound(device: XSeriesSDK.XSeriesDevice(serialNumber: "serial", ipAdress: "address"));
+        browser.start(delegate: self);
     }
     
     func browserStop() {
@@ -49,6 +48,7 @@ func convertToDictionary(text: String) -> [String:Any]? {
 extension ZollSdkHostApiImpl: XCaseCatalogItemDelegate {
     func onRequestFailed(requestCode: Int, deviceId: String, error: XSeriesSDK.ZOXError) {
         print("request failed");
+        print(error.errorMessage);
     }
     
     func onAuthenticationFailed(requestCode: Int, deviceId: String) {
@@ -82,6 +82,7 @@ extension ZollSdkHostApiImpl: DownloadCaseDelegate {
     }
 
     func onDownloadFailed(requestCode: Int, deviceId: String, caseId: String, error: XSeriesSDK.ZOXError) {
+        print(error.errorMessage);
         print("request failed");
     }
 }

@@ -20,7 +20,7 @@ class AppConstants {
   static const gcsMCode = '014';
   static const descriptionOfObservationTimeCode = '015';
   static final dateFormat = DateFormat('yyyy/MM/dd');
-  static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm');
+  static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();
 
   static const reportTemplatePath = 'assets/template/report.html';
