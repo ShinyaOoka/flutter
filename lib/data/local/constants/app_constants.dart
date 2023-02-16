@@ -19,7 +19,7 @@ class AppConstants {
   static const gcsVCode = '013';
   static const gcsMCode = '014';
   static const descriptionOfObservationTimeCode = '015';
-  static final dateFormat = DateFormat.yMd();
+  static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm');
   static final timeFormat = DateFormat.Hms();
 
