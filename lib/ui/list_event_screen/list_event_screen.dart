@@ -213,7 +213,6 @@ class _ListEventScreenState extends State<ListEventScreen>
             builder: (context) {
               final caseData = _zollSdkStore.cases[caseId]!;
               return ListView.separated(
-                reverse: true,
                 itemCount: caseData.displayableEvents.length,
                 itemBuilder: (context, itemIndex) {
                   final dataIndex = caseData.displayableEvents[itemIndex].item1;

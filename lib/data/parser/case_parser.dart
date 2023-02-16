@@ -40,9 +40,9 @@ class CaseParser {
     events.sort((a, b) {
       final dateCompare = a.date.compareTo(b.date);
       if (dateCompare == 0) {
-        return a.msecTime.compareTo(b.msecTime);
+        return a.msecTime.compareTo(b.msecTime) * -1;
       }
-      return dateCompare;
+      return dateCompare * -1;
     });
     result.events = ObservableList.of(events);
     return result;
