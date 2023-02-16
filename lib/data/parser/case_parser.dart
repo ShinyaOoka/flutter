@@ -25,7 +25,7 @@ class CaseParser {
           as Map<String, dynamic>);
       final dateString = stdHdr["DevDateTime"] as String;
       final date =
-          DateFormat("yyyy-MM-ddThh:mm:ss").parseUtc(dateString).toLocal();
+          DateFormat("yyyy-MM-ddTHH:mm:ss").parseUtc(dateString).toLocal();
       if (eventType == "AnnotationEvt") {
         eventType += " " + eventData["@EvtName"];
       }
@@ -42,9 +42,9 @@ class CaseParser {
     events.sort((a, b) {
       final dateCompare = a.date.compareTo(b.date);
       if (dateCompare == 0) {
-        return a.msecTime.compareTo(b.msecTime) * -1;
+        return a.msecTime.compareTo(b.msecTime);
       }
-      return dateCompare * -1;
+      return dateCompare;
     });
     result.events = ObservableList.of(events);
     return result;

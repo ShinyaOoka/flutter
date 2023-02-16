@@ -44,7 +44,8 @@ class EditingVitalSign {
   int? nibpDia;
   DateTime? time;
 
-  EditingVitalSign({this.hr, this.resp, this.spo2, this.nibpSys, this.nibpDia});
+  EditingVitalSign(
+      {this.hr, this.resp, this.spo2, this.nibpSys, this.nibpDia, this.time});
 }
 
 class _ListEventScreenState extends State<ListEventScreen>
@@ -93,7 +94,7 @@ class _ListEventScreenState extends State<ListEventScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
-
+    final now = DateTime.now();
     setState(() {
       trendData = [
         EditingVitalSign(
@@ -102,6 +103,14 @@ class _ListEventScreenState extends State<ListEventScreen>
           nibpSys: _report.bloodPressureHigh?[0],
           resp: _report.respiration?[0],
           spo2: _report.spO2Percent?[0],
+          time: _report.observationTime?[0] != null
+              ? DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                  _report.observationTime![0]!.hour,
+                  _report.observationTime![0]!.minute)
+              : null,
         ),
         EditingVitalSign(
           hr: _report.pulse?[1],
@@ -109,6 +118,14 @@ class _ListEventScreenState extends State<ListEventScreen>
           nibpSys: _report.bloodPressureHigh?[1],
           resp: _report.respiration?[1],
           spo2: _report.spO2Percent?[1],
+          time: _report.observationTime?[1] != null
+              ? DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                  _report.observationTime![1]!.hour,
+                  _report.observationTime![1]!.minute)
+              : null,
         ),
         EditingVitalSign(
           hr: _report.pulse?[2],
@@ -116,6 +133,14 @@ class _ListEventScreenState extends State<ListEventScreen>
           nibpSys: _report.bloodPressureHigh?[2],
           resp: _report.respiration?[2],
           spo2: _report.spO2Percent?[2],
+          time: _report.observationTime?[2] != null
+              ? DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                  _report.observationTime![2]!.hour,
+                  _report.observationTime![2]!.minute)
+              : null,
         ),
       ];
     });
@@ -132,7 +157,7 @@ class _ListEventScreenState extends State<ListEventScreen>
         ? DateTime.parse(caseListItem!.startTime!).toLocal()
         : null;
     parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!)
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
     _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
   }
@@ -171,6 +196,7 @@ class _ListEventScreenState extends State<ListEventScreen>
             ObservableList.of(trendData.map((e) => e.nibpSys));
         _report.respiration = ObservableList.of(trendData.map((e) => e.resp));
         _report.spO2Percent = ObservableList.of(trendData.map((e) => e.spo2));
+
         _report.observationTime = ObservableList.of(trendData.map(
             (e) => e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
         Navigator.of(context)
@@ -268,9 +294,9 @@ class _ListEventScreenState extends State<ListEventScreen>
                               trendData[activeIndex!].resp = caseData
                                       .events[foundEventIndex].rawData["Trend"]
                                   ["Resp"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].time = DateTime.parse(
-                                  caseData.events[foundEventIndex!]
-                                      .rawData["StdHdr"]["DevDateTime"]);
+                              trendData[activeIndex!].time = caseData
+                                  .events[foundEventIndex!].date
+                                  .toLocal();
                             });
                           }
                         });

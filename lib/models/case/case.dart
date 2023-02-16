@@ -29,10 +29,12 @@ abstract class _Case with Store {
         .where((event) {
           var keep = true;
           if (startTime != null) {
-            keep &= event.item2.date.compareTo(startTime!) >= 0;
+            keep &=
+                event.item2.date.toLocal().compareTo(startTime!.toLocal()) >= 0;
           }
           if (endTime != null) {
-            keep &= event.item2.date.compareTo(endTime!) <= 0;
+            keep &=
+                event.item2.date.toLocal().compareTo(endTime!.toLocal()) <= 0;
           }
           return keep;
         })
@@ -49,7 +51,7 @@ abstract class _Case with Store {
               e.item2.type == "SnapshotRpt" ||
               e.item2.type == "SysLogEntry" ||
               e.item2.type == "TreatmentSnapshotEvt" ||
-              e.item2.type == "AnnotationEvt";
+              e.item2.type.startsWith("AnnotationEvt");
         })
         .toList()
         .asObservable();

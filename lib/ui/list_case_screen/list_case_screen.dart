@@ -70,7 +70,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     _zollSdkStore.caseListItems[device.serialNumber] = ObservableList.of([
       CaseListItem(
           caseId: 'caseId',
-          startTime: "2021-01-01T22:23:24Z",
+          startTime: "2023-02-02T12:19:43Z",
           endTime: "2024-01-02T11:12:13Z")
     ]);
     _hostApi.deviceGetCaseList(device, null);
