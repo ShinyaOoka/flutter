@@ -23,22 +23,12 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
 
     func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
-        let formatter = ISO8601DateFormatter();
-        print(formatter.string(from: Date()));
-        print("start get case list");
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
-        self.flutterApi.onGetCaseListSuccess(requestCode: 123, deviceId: "serial", cases: [
-            CaseListItem(caseId: "case")
-        ]) {};
         completion(Int32(requestCode))
     }
 
     func deviceDownloadCase(device: XSeriesDevice, caseId: String, path: String, password: String?, completion: @escaping (Int32) -> Void) {
-        print(path);
-        print(FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask));
-        print(URL(fileURLWithPath: path))
-        print(URL(fileURLWithPath: path) == FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first);
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: URL(fileURLWithPath: path), password: password, delegate: self)
         completion(Int32(requestCode))
