@@ -255,7 +255,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                         caseData.displayableEvents[itemIndex].item1;
                     return ListTile(
                         title: Text(
-                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
+                            // '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
+                            '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
                         onTap: () {
                           if (activeIndex == null) return;
                           int? foundEventIndex;
