@@ -347,73 +347,88 @@ class _ListEventScreenState extends State<ListEventScreen>
           activeIndex = index;
         });
       },
-      child: Card(
-        color:
-            activeIndex == index ? Theme.of(context).primaryColorLight : null,
-        child: Column(children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(4),
-            child: Row(children: [
-              Expanded(child: Text("${index + 1}回目取得結果")),
-              trendData[index].time != null
-                  ? Expanded(
-                      child: Text(AppConstants.timeFormat
-                          .format(trendData[index].time!)))
-                  : Container(),
-              trendData[index].time != null
-                  ? IconButton(
-                      onPressed: () {
-                        setState(() {
-                          trendData[index] = EditingVitalSign();
-                        });
-                      },
-                      icon: const Icon(Icons.close, size: 20),
-                      padding: EdgeInsets.zero,
-                      constraints:
-                          const BoxConstraints.tightFor(width: 20, height: 20),
-                    )
-                  : Container()
-            ]),
-          ),
-          Container(
-            padding: const EdgeInsets.all(4),
-            child: lineLayout(children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.all(4),
-                    child: Text("HR: ${trendData[index].hr?.toString() ?? ''}"),
-                  )),
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.all(4),
-                    child:
-                        Text("BR: ${trendData[index].resp?.toString() ?? ''}"),
-                  )),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.all(4),
+      child: LayoutBuilder(builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 640;
+        final textStyle =
+            isMobile ? Theme.of(context).textTheme.bodySmall : null;
+        return Card(
+          color:
+              activeIndex == index ? Theme.of(context).primaryColorLight : null,
+          child: Column(children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(4),
+              child: Row(children: [
+                Expanded(
                     child: Text(
-                        "SPO2: ${trendData[index].spo2?.toString() ?? ''}"),
-                  )),
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                        "血圧: ${trendData[index].nibpDia != null || trendData[index].nibpSys != null ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}" : ""}"),
-                  )),
-                ],
-              )
-            ]),
-          )
-        ]),
-      ),
+                  "${index + 1}回目取得結果",
+                  style: textStyle,
+                )),
+                trendData[index].time != null
+                    ? Expanded(
+                        child: Text(AppConstants.timeFormat
+                            .format(trendData[index].time!)))
+                    : Container(),
+                trendData[index].time != null
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            trendData[index] = EditingVitalSign();
+                          });
+                        },
+                        icon: const Icon(Icons.close, size: 20),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints.tightFor(
+                            width: 20, height: 20),
+                      )
+                    : Container()
+              ]),
+            ),
+            Container(
+              padding: const EdgeInsets.all(4),
+              child: lineLayout(children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        "HR: ${trendData[index].hr?.toString() ?? ''}",
+                        style: textStyle,
+                      ),
+                    )),
+                    Expanded(
+                        child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        "BR: ${trendData[index].resp?.toString() ?? ''}",
+                        style: textStyle,
+                      ),
+                    )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        "SPO2: ${trendData[index].spo2?.toString() ?? ''}",
+                      ),
+                    )),
+                    Expanded(
+                        child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                          "血圧: ${trendData[index].nibpDia != null || trendData[index].nibpSys != null ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}" : ""}"),
+                    )),
+                  ],
+                )
+              ]),
+            )
+          ]),
+        );
+      }),
     );
   }
 
