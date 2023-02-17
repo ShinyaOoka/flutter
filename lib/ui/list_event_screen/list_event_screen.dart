@@ -249,79 +249,93 @@ class _ListEventScreenState extends State<ListEventScreen>
               return Scrollbar(
                 controller: scrollController,
                 thumbVisibility: true,
-                child: ListView.separated(
-                  controller: scrollController,
-                  itemCount: caseData.displayableEvents.length,
-                  itemBuilder: (context, itemIndex) {
-                    final dataIndex =
-                        caseData.displayableEvents[itemIndex].item1;
-                    return ListTile(
-                        title: Text(
-                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type.i18n()}${caseData.events[dataIndex].type == "TreatmentSnapshotEvt" ? caseData.events[dataIndex].rawData["TreatmentLbl"] : ""}'),
-                        // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
-                        onTap: () {
-                          if (activeIndex == null) return;
-                          int? foundEventIndex;
-                          for (var i = dataIndex; i > 0; i--) {
-                            if (caseData.events[i].type == 'TrendRpt') {
-                              foundEventIndex = i;
-                              break;
-                            }
-                          }
-
-                          if (foundEventIndex == null) {
-                            for (var i = dataIndex;
-                                i < caseData.events.length;
-                                i++) {
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return ListView.separated(
+                    controller: scrollController,
+                    itemCount: caseData.displayableEvents.length,
+                    itemBuilder: (context, itemIndex) {
+                      final dataIndex =
+                          caseData.displayableEvents[itemIndex].item1;
+                      return ListTile(
+                          dense: constraints.maxWidth < 640,
+                          visualDensity: constraints.maxWidth < 640
+                              ? VisualDensity.compact
+                              : VisualDensity.standard,
+                          title: Text(
+                              '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type.i18n()}${caseData.events[dataIndex].type == "TreatmentSnapshotEvt" ? caseData.events[dataIndex].rawData["TreatmentLbl"] : ""}'),
+                          // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
+                          onTap: () {
+                            if (activeIndex == null) return;
+                            int? foundEventIndex;
+                            for (var i = dataIndex; i > 0; i--) {
                               if (caseData.events[i].type == 'TrendRpt') {
                                 foundEventIndex = i;
                                 break;
                               }
                             }
-                          }
 
-                          if (foundEventIndex != null) {
-                            setState(() {
-                              trendData[activeIndex!].hr = caseData
-                                      .events[foundEventIndex!].rawData["Trend"]
-                                  ["Hr"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpDia = caseData
-                                      .events[foundEventIndex].rawData["Trend"]
-                                  ["Nibp"]["Dia"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].nibpSys = caseData
-                                      .events[foundEventIndex].rawData["Trend"]
-                                  ["Nibp"]["Sys"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].spo2 = caseData
-                                      .events[foundEventIndex].rawData["Trend"]
-                                  ["Spo2"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].resp = caseData
-                                      .events[foundEventIndex].rawData["Trend"]
-                                  ["Resp"]["TrendData"]["Val"]["#text"];
-                              trendData[activeIndex!].time = caseData
-                                  .events[foundEventIndex].date
-                                  .toLocal();
-                            });
-                          }
-                        });
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
-                ),
+                            if (foundEventIndex == null) {
+                              for (var i = dataIndex;
+                                  i < caseData.events.length;
+                                  i++) {
+                                if (caseData.events[i].type == 'TrendRpt') {
+                                  foundEventIndex = i;
+                                  break;
+                                }
+                              }
+                            }
+
+                            if (foundEventIndex != null) {
+                              setState(() {
+                                trendData[activeIndex!].hr = caseData
+                                        .events[foundEventIndex!]
+                                        .rawData["Trend"]["Hr"]["TrendData"]
+                                    ["Val"]["#text"];
+                                trendData[activeIndex!].nibpDia = caseData
+                                        .events[foundEventIndex]
+                                        .rawData["Trend"]["Nibp"]["Dia"]
+                                    ["TrendData"]["Val"]["#text"];
+                                trendData[activeIndex!].nibpSys = caseData
+                                        .events[foundEventIndex]
+                                        .rawData["Trend"]["Nibp"]["Sys"]
+                                    ["TrendData"]["Val"]["#text"];
+                                trendData[activeIndex!].spo2 = caseData
+                                        .events[foundEventIndex]
+                                        .rawData["Trend"]["Spo2"]["TrendData"]
+                                    ["Val"]["#text"];
+                                trendData[activeIndex!].resp = caseData
+                                        .events[foundEventIndex]
+                                        .rawData["Trend"]["Resp"]["TrendData"]
+                                    ["Val"]["#text"];
+                                trendData[activeIndex!].time = caseData
+                                    .events[foundEventIndex].date
+                                    .toLocal();
+                              });
+                            }
+                          });
+                    },
+                    separatorBuilder: (context, index) => const Divider(),
+                  );
+                }),
               );
             },
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              _buildCard(0),
-              const SizedBox(height: 16),
-              _buildCard(1),
-              const SizedBox(height: 16),
-              _buildCard(2),
-            ],
-          ),
-        )
+        LayoutBuilder(builder: (context, constraints) {
+          final isMobile = constraints.maxWidth < 640;
+          return Container(
+            padding: EdgeInsets.all(isMobile ? 8 : 16),
+            child: Column(
+              children: [
+                _buildCard(0),
+                SizedBox(height: isMobile ? 4 : 16),
+                _buildCard(1),
+                SizedBox(height: isMobile ? 4 : 16),
+                _buildCard(2),
+              ],
+            ),
+          );
+        })
       ],
     );
   }
