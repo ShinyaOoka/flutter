@@ -53,7 +53,9 @@ abstract class _ZollSdkStore with Store {
     cases[caseId]!.nativeCase = nativeCase;
     final caseListItem = caseListItems[serialNumber]
         ?.firstWhere((element) => element.caseId == caseId);
-    cases[caseId]!.startTime = DateTime.tryParse(caseListItem?.startTime ?? '');
-    cases[caseId]!.endTime = DateTime.tryParse(caseListItem?.endTime ?? '');
+    cases[caseId]!.startTime =
+        DateTime.tryParse(caseListItem?.startTime ?? '')?.toLocal();
+    cases[caseId]!.endTime =
+        DateTime.tryParse(caseListItem?.endTime ?? '')?.toLocal();
   }
 }

@@ -25,7 +25,7 @@ class CaseParser {
           as Map<String, dynamic>);
       final dateString = stdHdr["DevDateTime"] as String;
       final date =
-          DateFormat("yyyy-MM-ddTHH:mm:ss").parseUtc(dateString).toLocal();
+          DateFormat("yyyy-MM-ddTHH:mm:ss").parse(dateString).toLocal();
       if (eventType == "AnnotationEvt") {
         eventType += " " + eventData["@EvtName"];
       }
