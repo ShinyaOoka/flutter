@@ -42,38 +42,34 @@ class MyApp extends StatelessWidget {
         Provider<ZollSdkHostApi>(create: (_) => _hostApi),
         Provider<ZollSdkStore>(create: (_) => _zollSdkStore),
       ],
-      child: Observer(
-        builder: (context) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: AppConstants.appName,
-            theme: FlexThemeData.light(
-              scheme: FlexScheme.bahamaBlue,
-              surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-              blendLevel: 9,
-              visualDensity: FlexColorScheme.comfortablePlatformDensity,
-            ),
-            darkTheme: FlexThemeData.dark(
-              scheme: FlexScheme.bahamaBlue,
-              surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-              blendLevel: 15,
-              visualDensity: FlexColorScheme.comfortablePlatformDensity,
-            ),
-            routes: Routes.routes,
-            locale: const Locale('ja', 'JP'),
-            supportedLocales: const [Locale('ja', 'JP')],
-            localizationsDelegates: [
-              // delegate from flutter_localization
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              // delegate from localization package.
-              LocalJsonLocalization.delegate,
-            ],
-            initialRoute: Routes.listReport,
-            navigatorObservers: [_routeObserver],
-          );
-        },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppConstants.appName,
+        theme: FlexThemeData.light(
+          scheme: FlexScheme.bahamaBlue,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 9,
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        ),
+        darkTheme: FlexThemeData.dark(
+          scheme: FlexScheme.bahamaBlue,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 15,
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        ),
+        routes: Routes.routes,
+        locale: const Locale('ja', 'JP'),
+        supportedLocales: const [Locale('ja', 'JP')],
+        localizationsDelegates: [
+          // delegate from flutter_localization
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          // delegate from localization package.
+          LocalJsonLocalization.delegate,
+        ],
+        initialRoute: Routes.listReport,
+        navigatorObservers: [_routeObserver],
       ),
     );
   }

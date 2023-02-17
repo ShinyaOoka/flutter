@@ -125,7 +125,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
       onPressed: () async {
         await _reportStore.createReport(_report);
         if (!mounted) return;
-        Navigator.of(context).popUntil(ModalRoute.withName(Routes.listReport));
+        Navigator.of(context).pop();
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
           FlushbarHelper.createInformation(
                   message: '登録処理を完了しました。', duration: const Duration(seconds: 3))

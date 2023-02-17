@@ -198,8 +198,11 @@ class _ListEventScreenState extends State<ListEventScreen>
 
         _report.observationTime = ObservableList.of(trendData.map(
             (e) => e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
-        Navigator.of(context)
-            .popUntil(ModalRoute.withName(Routes.createReport));
+        Navigator.of(context).popUntil(
+          (route) =>
+              ModalRoute.withName(Routes.createReport)(route) ||
+              ModalRoute.withName(Routes.editReport)(route),
+        );
       },
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
@@ -254,7 +257,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         caseData.displayableEvents[itemIndex].item1;
                     return ListTile(
                         title: Text(
-                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type}'),
+                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type.i18n()}${caseData.events[dataIndex].type == "TreatmentSnapshotEvt" ? caseData.events[dataIndex].rawData["TreatmentLbl"] : ""}'),
                         // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
                         onTap: () {
                           if (activeIndex == null) return;
@@ -367,14 +370,13 @@ class _ListEventScreenState extends State<ListEventScreen>
                   Expanded(
                       child: Container(
                     padding: const EdgeInsets.all(4),
-                    child:
-                        Text("HR: ${trendData[index].hr?.toString() ?? ''}"),
+                    child: Text("HR: ${trendData[index].hr?.toString() ?? ''}"),
                   )),
                   Expanded(
                       child: Container(
                     padding: const EdgeInsets.all(4),
-                    child: Text(
-                        "BR: ${trendData[index].resp?.toString() ?? ''}"),
+                    child:
+                        Text("BR: ${trendData[index].resp?.toString() ?? ''}"),
                   )),
                 ],
               ),
@@ -389,10 +391,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                   Expanded(
                       child: Container(
                     padding: const EdgeInsets.all(4),
-                    child: Text("血圧: ${trendData[index].nibpDia != null ||
-                                trendData[index].nibpSys != null
-                            ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}"
-                            : ""}"),
+                    child: Text(
+                        "血圧: ${trendData[index].nibpDia != null || trendData[index].nibpSys != null ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}" : ""}"),
                   )),
                 ],
               )

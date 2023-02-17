@@ -11,6 +11,7 @@
 
   "list_report": "レポート一覧",
   "create_report": "レポート新規入力",
+  "edit_report": "レポート編集",
   "confirm_report": "レポート確認",
   "send_report": "レポートPDF送信・印刷",
   "preview_report": "レポートPDFプレビュー",
@@ -146,5 +147,19 @@
   "list_report_team_name": "隊名",
 
   "please_choose_device": "取得対象の機器を選択してください",
-  "please_choose_case": "取得対象のデータを選択してください"
+  "please_choose_case": "取得対象のデータを選択してください",
+
+  "AnnotationEvt New Patient": "患者モード：新規",
+  "AnnotationEvt System On": "電源オン",
+  "AnnotationEvt Patient Mode Adult": "患者モード：成人",
+  "AnnotationEvt Last Power Off Events": "除細動の状態：最終電源オフイベント",
+  "AnnotationEvt External Power Connected": "電源ステータス：AC 接続済、バッテリ 未装着",
+  "AnnotationEvt Battery Connected": "電源ステータス：AC 接続済、バッテリ インチ",
+  "AnnotationEvt Defib Cable ID Change": "除細動ケーブルID：多機能パッド、抵抗なし",
+  "AnnotationEvt Ecg Cable ID Change": "ECGケーブルID：12誘導（ZOLL）",
+  "AnnotationEvt Printer No Paper": "除細動の状態：紙切れです",
+  "AnnotationEvt Defib Out of Lead Fault": "多誘導心電図の不良なし",
+  "AnnotationEvt Alarms Suspended": "アラームボタンの状態：一時停止",
+  "SnapshotRpt": "処置のスナップショット",
+  "TreatmentSnapshotEvt": "C:"
 }

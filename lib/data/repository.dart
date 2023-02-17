@@ -37,6 +37,10 @@ class Repository {
     return _reportDataSource.createReport(report);
   }
 
+  Future<void> editReport(Report report) {
+    return _reportDataSource.editReport(report);
+  }
+
   Future<List<Hospital>> getHospitals() {
     return _hospitalDataSource.getHospitals();
   }

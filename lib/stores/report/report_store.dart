@@ -49,4 +49,14 @@ abstract class _ReportStore with Store {
       errorStore.errorMessage = error.toString();
     });
   }
+
+  @action
+  Future editReport(Report report) async {
+    final future = _repository.editReport(report);
+    createReportFuture = ObservableFuture(future);
+
+    await future.catchError((error) {
+      errorStore.errorMessage = error.toString();
+    });
+  }
 }

@@ -17,4 +17,9 @@ class ReportDataSource {
   Future createReport(Report report) async {
     await _db.insert(DBConstants.reportTable, report.toJson());
   }
+
+  Future editReport(Report report) async {
+    await _db.update(DBConstants.reportTable, report.toJson(),
+        where: "ID = ?", whereArgs: [report.id]);
+  }
 }

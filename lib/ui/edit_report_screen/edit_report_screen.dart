@@ -5,6 +5,7 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
@@ -40,7 +41,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
 
   late ScrollController scrollController;
 
-  late Report _report;
+  late Report _editingReport;
+  late Report _originalReport;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -67,7 +69,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   void didPush() {
     final args =
         ModalRoute.of(context)!.settings.arguments as EditReportScreenArguments;
-    _report = args.report;
+    _editingReport = Report.fromJson(args.report.toJson());
+    _originalReport = args.report;
 
     _reportStore = context.read();
     _teamStore = context.read();
@@ -81,10 +84,10 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
-    _report.teamStore = _teamStore;
-    _report.teamMemberStore = _teamMemberStore;
-    _report.fireStationStore = _fireStationStore;
-    _report.classificationStore = _classificationStore;
+    _editingReport.teamStore = _teamStore;
+    _editingReport.teamMemberStore = _teamMemberStore;
+    _editingReport.fireStationStore = _fireStationStore;
+    _editingReport.classificationStore = _classificationStore;
 
     if (!_hospitalStore.loading) {
       _hospitalStore.getHospitals();
@@ -110,28 +113,25 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   }
 
   List<Widget> _buildActions() {
-    return [
-      PopupMenuButton(
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(value: 0, child: Text('edit'.i18n())),
-            PopupMenuItem(value: 1, child: Text('print_pdf'.i18n()))
-          ];
-        },
-        onSelected: (value) {
-          switch (value) {
-            case 0:
-              Navigator.of(context).pushNamed(Routes.sendReport,
-                  arguments: EditReportScreenArguments(report: _report));
-              break;
-            case 1:
-              Navigator.of(context).pushNamed(Routes.sendReport,
-                  arguments: SendReportScreenArguments(report: _report));
-              break;
-          }
-        },
-      )
-    ];
+    return [_buildEditReportButton()];
+  }
+
+  Widget _buildEditReportButton() {
+    return TextButton(
+      style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      onPressed: () async {
+        await _reportStore.editReport(_editingReport);
+        if (!mounted) return;
+        Navigator.of(context).pop(_editingReport);
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          FlushbarHelper.createInformation(
+                  message: '編集処理を完了しました。', duration: const Duration(seconds: 3))
+              .show(context);
+        });
+      },
+      child: Text('edit'.i18n()),
+    );
   }
 
   Widget _buildBackButton() {
@@ -141,7 +141,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
       label: Text('back'.i18n()),
       onPressed: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(_originalReport);
       },
     );
   }
@@ -178,7 +178,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
               child: ElevatedButton(
                 onPressed: () async {
                   await Navigator.of(context).pushNamed(Routes.listDevice,
-                      arguments: ListDeviceScreenArguments(report: _report));
+                      arguments:
+                          ListDeviceScreenArguments(report: _editingReport));
                 },
                 style: ButtonStyle(
                     minimumSize:
@@ -187,7 +188,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
                     const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
               ),
             ),
-            ReportForm(report: _report),
+            ReportForm(report: _editingReport),
           ],
         ),
       ),

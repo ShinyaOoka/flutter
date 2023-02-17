@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart' as MobX;
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
@@ -41,15 +42,20 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   late ScrollController scrollController;
 
-  late Report _report;
+  late MobX.Observable<Report> _report;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
+
+  late MobX.Action setReportAction;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
+    setReportAction = MobX.Action((Report report) {
+      _report.value = report;
+    });
   }
 
   @override
@@ -68,7 +74,8 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
   void didPush() {
     final args = ModalRoute.of(context)!.settings.arguments
         as ConfirmReportScreenArguments;
-    _report = args.report;
+    print('Pushed');
+    _report = MobX.Observable(args.report);
 
     _reportStore = context.read();
     _teamStore = context.read();
@@ -82,10 +89,10 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
-    _report.teamStore = _teamStore;
-    _report.teamMemberStore = _teamMemberStore;
-    _report.fireStationStore = _fireStationStore;
-    _report.classificationStore = _classificationStore;
+    _report.value.teamStore = _teamStore;
+    _report.value.teamMemberStore = _teamMemberStore;
+    _report.value.fireStationStore = _fireStationStore;
+    _report.value.classificationStore = _classificationStore;
 
     if (!_hospitalStore.loading) {
       _hospitalStore.getHospitals();
@@ -119,15 +126,19 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
             PopupMenuItem(value: 1, child: Text('print_pdf'.i18n()))
           ];
         },
-        onSelected: (value) {
+        onSelected: (value) async {
           switch (value) {
             case 0:
-              Navigator.of(context).pushNamed(Routes.editReport,
-                  arguments: EditReportScreenArguments(report: _report));
+              var result = await Navigator.of(context).pushNamed(
+                  Routes.editReport,
+                  arguments: EditReportScreenArguments(report: _report.value));
+              if (result != null) {
+                setReportAction([result]);
+              }
               break;
             case 1:
               Navigator.of(context).pushNamed(Routes.sendReport,
-                  arguments: SendReportScreenArguments(report: _report));
+                  arguments: SendReportScreenArguments(report: _report.value));
               break;
           }
         },
@@ -172,11 +183,13 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       thumbVisibility: true,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: ReportForm(
-          report: _report,
-          readOnly: false,
-          radio: false,
-          expanded: true,
+        child: Observer(
+          builder: (context) => ReportForm(
+            report: _report.value,
+            readOnly: false,
+            radio: false,
+            expanded: true,
+          ),
         ),
       ),
     );
