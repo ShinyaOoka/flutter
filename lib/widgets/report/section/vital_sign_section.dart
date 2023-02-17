@@ -229,6 +229,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
+        maxLength: 3,
       ),
       AppTextField(
         label: 'pulse'.i18n(),
@@ -237,6 +238,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
+        maxLength: 3,
       ),
     ]);
   }
@@ -255,6 +257,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                maxLength: 3,
               )),
               const SizedBox(width: 16),
               Expanded(
@@ -265,6 +268,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                maxLength: 3,
               )),
             ],
           ),
@@ -278,6 +282,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: '%'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                maxLength: 3,
               )),
               const SizedBox(width: 16),
               Expanded(
@@ -289,6 +294,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                     report.spO2Liter?[widget.index] = int.parse(value),
                 counterText: 'L'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                maxLength: 3,
               )),
             ],
           )
@@ -318,6 +324,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                     report.pupilLeft?[widget.index] = int.parse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                maxLength: 3,
               )),
             ],
           ),
@@ -365,6 +372,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               report.bodyTemperature?[widget.index] = double.parse(value),
           counterText: 'celsius'.i18n(),
           counterColor: Theme.of(context).primaryColor,
+          maxLength: 3,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
