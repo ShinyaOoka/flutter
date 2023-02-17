@@ -385,13 +385,13 @@ class _ListEventScreenState extends State<ListEventScreen>
               ]),
             ),
             Container(
-              padding: const EdgeInsets.all(4),
+              padding: EdgeInsets.all(isMobile ? 2 : 4),
               child: lineLayout(children: [
                 Row(
                   children: [
                     Expanded(
                         child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
                         "HR: ${trendData[index].hr?.toString() ?? ''}",
                         style: textStyle,
@@ -399,7 +399,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                     )),
                     Expanded(
                         child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
                         "BR: ${trendData[index].resp?.toString() ?? ''}",
                         style: textStyle,
@@ -411,14 +411,14 @@ class _ListEventScreenState extends State<ListEventScreen>
                   children: [
                     Expanded(
                         child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
                         "SPO2: ${trendData[index].spo2?.toString() ?? ''}",
                       ),
                     )),
                     Expanded(
                         child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
                           "血圧: ${trendData[index].nibpDia != null || trendData[index].nibpSys != null ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}" : ""}"),
                     )),
