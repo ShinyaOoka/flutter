@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -11,7 +10,6 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -228,7 +226,7 @@ class _ListEventScreenState extends State<ListEventScreen>
         Observer(
             builder: (context) => _zollSdkStore.cases[caseId] != null
                 ? _buildMainContent()
-                : CustomProgressIndicatorWidget()),
+                : const CustomProgressIndicatorWidget()),
       ],
     );
   }
@@ -237,9 +235,9 @@ class _ListEventScreenState extends State<ListEventScreen>
     return Column(
       children: [
         Container(
+          padding: const EdgeInsets.all(16),
           child: Text("please_choose_case".i18n(),
               style: Theme.of(context).textTheme.titleLarge),
-          padding: EdgeInsets.all(16),
         ),
         Expanded(
           child: Observer(
@@ -256,7 +254,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         caseData.displayableEvents[itemIndex].item1;
                     return ListTile(
                         title: Text(
-                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex]?.type}'),
+                            '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type}'),
                         // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
                         onTap: () {
                           if (activeIndex == null) return;
@@ -297,7 +295,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                                       .events[foundEventIndex].rawData["Trend"]
                                   ["Resp"]["TrendData"]["Val"]["#text"];
                               trendData[activeIndex!].time = caseData
-                                  .events[foundEventIndex!].date
+                                  .events[foundEventIndex].date
                                   .toLocal();
                             });
                           }
@@ -310,13 +308,13 @@ class _ListEventScreenState extends State<ListEventScreen>
           ),
         ),
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               _buildCard(0),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildCard(1),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildCard(2),
             ],
           ),
@@ -337,6 +335,8 @@ class _ListEventScreenState extends State<ListEventScreen>
             activeIndex == index ? Theme.of(context).primaryColorLight : null,
         child: Column(children: [
           Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(4),
             child: Row(children: [
               Expanded(child: Text("${index + 1}回目取得結果")),
               trendData[index].time != null
@@ -351,32 +351,30 @@ class _ListEventScreenState extends State<ListEventScreen>
                           trendData[index] = EditingVitalSign();
                         });
                       },
-                      icon: Icon(Icons.close, size: 20),
+                      icon: const Icon(Icons.close, size: 20),
                       padding: EdgeInsets.zero,
                       constraints:
-                          BoxConstraints.tightFor(width: 20, height: 20),
+                          const BoxConstraints.tightFor(width: 20, height: 20),
                     )
                   : Container()
             ]),
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(4),
           ),
           Container(
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             child: lineLayout(children: [
               Row(
                 children: [
                   Expanded(
                       child: Container(
+                    padding: const EdgeInsets.all(4),
                     child:
-                        Text("HR: " + (trendData[index].hr?.toString() ?? '')),
-                    padding: EdgeInsets.all(4),
+                        Text("HR: ${trendData[index].hr?.toString() ?? ''}"),
                   )),
                   Expanded(
                       child: Container(
+                    padding: const EdgeInsets.all(4),
                     child: Text(
-                        "BR: " + (trendData[index].resp?.toString() ?? '')),
-                    padding: EdgeInsets.all(4),
+                        "BR: ${trendData[index].resp?.toString() ?? ''}"),
                   )),
                 ],
               ),
@@ -384,18 +382,17 @@ class _ListEventScreenState extends State<ListEventScreen>
                 children: [
                   Expanded(
                       child: Container(
+                    padding: const EdgeInsets.all(4),
                     child: Text(
-                        "SPO2: " + (trendData[index].spo2?.toString() ?? '')),
-                    padding: EdgeInsets.all(4),
+                        "SPO2: ${trendData[index].spo2?.toString() ?? ''}"),
                   )),
                   Expanded(
                       child: Container(
-                    child: Text("血圧: " +
-                        (trendData[index].nibpDia != null ||
+                    padding: const EdgeInsets.all(4),
+                    child: Text("血圧: ${trendData[index].nibpDia != null ||
                                 trendData[index].nibpSys != null
                             ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}"
-                            : "")),
-                    padding: EdgeInsets.all(4),
+                            : ""}"),
                   )),
                 ],
               )

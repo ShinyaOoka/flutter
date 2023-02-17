@@ -59,4 +59,11 @@ class ReportSectionMixin {
   String? formatBool(value) {
     return value != null ? (value! ? 'yes'.i18n() : 'no'.i18n()) : null;
   }
+
+  void syncControllerValue(TextEditingController controller, dynamic value) {
+    final newValue = value != null ? value.toString() : '';
+    if (newValue != controller.text) {
+      controller.text = newValue;
+    }
+  }
 }

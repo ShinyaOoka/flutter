@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
@@ -12,21 +13,49 @@ import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
-class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
+class TeamInfoSection extends StatefulWidget {
   final Report report;
+  final bool readOnly;
 
-  TeamInfoSection({super.key, required this.report});
+  const TeamInfoSection({super.key, required this.report, this.readOnly = false});
+
+  @override
+  State<TeamInfoSection> createState() => _TeamInfoSectionState();
+}
+
+class _TeamInfoSectionState extends State<TeamInfoSection>
+    with ReportSectionMixin {
+  final totalController = TextEditingController();
+  final teamController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(totalController, widget.report.totalCount);
+      syncControllerValue(teamController, widget.report.teamCount);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    totalController.dispose();
+    teamController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report, context),
-        _buildLine2(report, context),
-        _buildLine3(report, context),
-        _buildLine4(report, context),
-        _buildLine5(report, context)
+        _buildLine1(widget.report, context),
+        _buildLine2(widget.report, context),
+        _buildLine3(widget.report, context),
+        _buildLine4(widget.report, context),
+        _buildLine5(widget.report, context)
       ],
     );
   }
@@ -51,6 +80,7 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
           filterFn: (team, filter) =>
               (team.name != null && team.name!.contains(filter)) ||
               (team.teamCd != null && team.teamCd!.contains(filter)),
+          enabled: widget.readOnly,
         ),
         AppTextField(
           label: 'team_tel'.i18n(),
@@ -85,6 +115,7 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
               (teamMember.name != null && teamMember.name!.contains(filter)) ||
               (teamMember.teamMemberCd != null &&
                   teamMember.teamMemberCd!.contains(filter)),
+          enabled: widget.readOnly,
         ),
       ]);
     });
@@ -140,6 +171,7 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
                     teamMember.name!.contains(filter)) ||
                 (teamMember.teamMemberCd != null &&
                     teamMember.teamMemberCd!.contains(filter)),
+            enabled: widget.readOnly,
           ),
           context: context,
         ),
@@ -160,6 +192,7 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
                     teamMember.name!.contains(filter)) ||
                 (teamMember.teamMemberCd != null &&
                     teamMember.teamMemberCd!.contains(filter)),
+            enabled: widget.readOnly,
           ),
           context: context,
         ),
@@ -171,21 +204,25 @@ class TeamInfoSection extends StatelessWidget with ReportSectionMixin {
     return lineLayout(children: [
       optional(
         child: AppTextField(
+          controller: totalController,
           label: 'total'.i18n(),
           keyboardType: TextInputType.number,
           onChanged: (item) => report.totalCount = int.parse(item),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           maxLength: 6,
+          readOnly: widget.readOnly,
         ),
         context: context,
       ),
       optional(
         child: AppTextField(
+          controller: teamController,
           label: 'team'.i18n(),
           keyboardType: TextInputType.number,
           onChanged: (item) => report.teamCount = int.parse(item),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           maxLength: 6,
+          readOnly: widget.readOnly,
         ),
         context: context,
       ),

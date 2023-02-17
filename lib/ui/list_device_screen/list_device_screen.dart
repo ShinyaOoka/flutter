@@ -8,13 +8,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
-import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
-import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
 class ListDeviceScreenArguments {
@@ -124,9 +118,9 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
     return Column(
       children: [
         Container(
+          padding: const EdgeInsets.all(16),
           child: Text("please_choose_device".i18n(),
               style: Theme.of(context).textTheme.titleLarge),
-          padding: EdgeInsets.all(16),
         ),
         Expanded(
           child: Observer(

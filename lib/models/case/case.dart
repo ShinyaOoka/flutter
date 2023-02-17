@@ -22,7 +22,7 @@ abstract class _Case with Store {
 
   @computed
   ObservableList<Tuple2<int, CaseEvent>> get displayableEvents {
-    final hiddenEvents = Set<String>();
+    final hiddenEvents = <String>{};
     hiddenEvents.addAll(events.map((e) => e.type));
 
     final shownEvents = events
@@ -60,9 +60,9 @@ abstract class _Case with Store {
         .asObservable();
     hiddenEvents.removeAll(shownEvents.map((e) => e.item2.type));
     print("Hidden events or out of start time, end time range");
-    hiddenEvents.forEach((element) {
+    for (var element in hiddenEvents) {
       print(element);
-    });
+    }
     return shownEvents;
   }
 }

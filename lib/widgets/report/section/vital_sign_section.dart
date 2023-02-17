@@ -17,15 +17,13 @@ import 'package:collection/collection.dart';
 class VitalSignSection extends StatefulWidget {
   final Report report;
   final int index;
-  final TextEditingController respirationController = TextEditingController();
-  final TextEditingController pulseController = TextEditingController();
-  final TextEditingController bloodPressureHighController =
-      TextEditingController();
-  final TextEditingController bloodPressureLowController =
-      TextEditingController();
-  final TextEditingController spO2PercentController = TextEditingController();
+  final readOnly;
 
-  VitalSignSection({super.key, required this.report, required this.index});
+  const VitalSignSection(
+      {super.key,
+      required this.report,
+      required this.index,
+      this.readOnly = false});
 
   @override
   State<VitalSignSection> createState() => _VitalSignSectionState();
@@ -33,6 +31,13 @@ class VitalSignSection extends StatefulWidget {
 
 class _VitalSignSectionState extends State<VitalSignSection>
     with ReportSectionMixin {
+  final respirationController = TextEditingController();
+  final pulseController = TextEditingController();
+  final bloodPressureHighController = TextEditingController();
+  final bloodPressureLowController = TextEditingController();
+  final spO2PercentController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
   @override
   void initState() {
     super.initState();
@@ -73,44 +78,28 @@ class _VitalSignSectionState extends State<VitalSignSection>
     widget.report.facialFeatureTypes =
         _ensureLength(widget.report.facialFeatureTypes);
 
-    widget.respirationController.addListener(() {
-      print("changed");
-      print(widget.respirationController.text);
-
-      widget.report.respiration?[widget.index] =
-          int.tryParse(widget.respirationController.text);
+    reactionDisposer = autorun((_) {
+      syncControllerValue(
+          respirationController, widget.report.respiration?[widget.index]);
+      syncControllerValue(bloodPressureHighController,
+          widget.report.bloodPressureHigh?[widget.index]);
+      syncControllerValue(bloodPressureLowController,
+          widget.report.bloodPressureLow?[widget.index]);
+      syncControllerValue(
+          spO2PercentController, widget.report.spO2Percent?[widget.index]);
+      syncControllerValue(pulseController, widget.report.pulse?[widget.index]);
     });
+  }
 
-    autorun((_) {
-      final newRespiration =
-          widget.report.respiration?[widget.index]?.toString() ?? '';
-      if (newRespiration != widget.respirationController.text) {
-        widget.respirationController.text = newRespiration;
-      }
-
-      final newBloodPressureHigh =
-          widget.report.bloodPressureHigh?[widget.index]?.toString() ?? '';
-      if (newBloodPressureHigh != widget.bloodPressureHighController.text) {
-        widget.bloodPressureHighController.text = newBloodPressureHigh;
-      }
-
-      final newBloodPressureLow =
-          widget.report.bloodPressureLow?[widget.index]?.toString() ?? '';
-      if (newBloodPressureLow != widget.bloodPressureLowController.text) {
-        widget.bloodPressureLowController.text = newBloodPressureLow;
-      }
-
-      final newSpO2Percent =
-          widget.report.spO2Percent?[widget.index]?.toString() ?? '';
-      if (newSpO2Percent != widget.spO2PercentController.text) {
-        widget.spO2PercentController.text = newSpO2Percent;
-      }
-
-      final newPulse = widget.report.pulse?[widget.index]?.toString() ?? '';
-      if (newPulse != widget.pulseController.text) {
-        widget.pulseController.text = newPulse;
-      }
-    });
+  @override
+  void dispose() {
+    reactionDisposer();
+    respirationController.dispose();
+    pulseController.dispose();
+    bloodPressureHighController.dispose();
+    bloodPressureLowController.dispose();
+    spO2PercentController.dispose();
+    super.dispose();
   }
 
   @override
@@ -224,7 +213,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
     return lineLayout(children: [
       AppTextField(
         label: 'respiration'.i18n(),
-        controller: widget.respirationController,
+        controller: respirationController,
+        onChanged: (x) =>
+            widget.report.respiration?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
@@ -233,7 +224,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
       ),
       AppTextField(
         label: 'pulse'.i18n(),
-        controller: widget.pulseController,
+        controller: pulseController,
+        onChanged: (x) => widget.report.pulse?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
@@ -252,7 +244,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
               Expanded(
                   child: AppTextField(
                 label: 'blood_pressure_high'.i18n(),
-                controller: widget.bloodPressureHighController,
+                controller: bloodPressureHighController,
+                onChanged: (x) => widget
+                    .report.bloodPressureHigh?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
@@ -263,7 +257,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
               Expanded(
                   child: AppTextField(
                 label: 'blood_pressure_low'.i18n(),
-                controller: widget.bloodPressureLowController,
+                controller: bloodPressureLowController,
+                onChanged: (x) => widget
+                    .report.bloodPressureLow?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
@@ -277,7 +273,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
               Expanded(
                   child: AppTextField(
                 label: 'sp_o2_percent'.i18n(),
-                controller: widget.spO2PercentController,
+                controller: spO2PercentController,
+                onChanged: (x) =>
+                    widget.report.spO2Percent?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: '%'.i18n(),

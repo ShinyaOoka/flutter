@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
@@ -12,26 +13,69 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
-class TreatmentSection extends StatelessWidget with ReportSectionMixin {
+class TreatmentSection extends StatefulWidget {
   final Report report;
+  final bool readOnly;
 
-  TreatmentSection({super.key, required this.report});
+  TreatmentSection({super.key, required this.report, this.readOnly = false});
+
+  @override
+  State<TreatmentSection> createState() => _TreatmentSectionState();
+}
+
+class _TreatmentSectionState extends State<TreatmentSection>
+    with ReportSectionMixin {
+  final o2AdministrationController = TextEditingController();
+  final bsMeasurement1Controller = TextEditingController();
+  final punctureSite1Controller = TextEditingController();
+  final bsMeasurement2Controller = TextEditingController();
+  final punctureSite2Controller = TextEditingController();
+  final otherController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(
+          o2AdministrationController, widget.report.o2Administration);
+      syncControllerValue(
+          bsMeasurement1Controller, widget.report.bsMeasurement1);
+      syncControllerValue(punctureSite1Controller, widget.report.punctureSite1);
+      syncControllerValue(
+          bsMeasurement2Controller, widget.report.bsMeasurement2);
+      syncControllerValue(punctureSite2Controller, widget.report.punctureSite2);
+      syncControllerValue(otherController, widget.report.other);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    o2AdministrationController.dispose();
+    bsMeasurement1Controller.dispose();
+    punctureSite1Controller.dispose();
+    bsMeasurement2Controller.dispose();
+    punctureSite2Controller.dispose();
+    otherController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report),
-        _buildLine2(report),
-        _buildLine3(report),
-        _buildLine4(report),
-        _buildLine5(report),
-        _buildLine6(report),
-        _buildLine7(report),
-        _buildLine8(report),
-        _buildLine9(report),
-        _buildLine10(report),
+        _buildLine1(widget.report),
+        _buildLine2(widget.report),
+        _buildLine3(widget.report),
+        _buildLine4(widget.report),
+        _buildLine5(widget.report),
+        _buildLine6(widget.report),
+        _buildLine7(widget.report),
+        _buildLine8(widget.report),
+        _buildLine9(widget.report),
+        _buildLine10(widget.report),
       ],
     );
   }

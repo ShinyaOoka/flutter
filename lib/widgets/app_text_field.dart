@@ -15,6 +15,8 @@ class AppTextField extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final Color? counterColor;
+  final bool readOnly;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,6 +41,7 @@ class AppTextField extends StatelessWidget {
           onChanged: onChanged,
           onEditingComplete: onEditingComplete,
           inputFormatters: inputFormatters,
+          readOnly: readOnly,
         ),
         const SizedBox(height: 6)
       ],
@@ -72,5 +75,6 @@ class AppTextField extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.counterColor,
+    this.readOnly = false,
   });
 }

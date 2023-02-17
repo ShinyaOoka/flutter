@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
@@ -11,18 +12,50 @@ import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
-class ReportingStatusSection extends StatelessWidget with ReportSectionMixin {
+class ReportingStatusSection extends StatefulWidget {
   final Report report;
+  final bool readOnly;
 
-  ReportingStatusSection({super.key, required this.report});
+  ReportingStatusSection(
+      {super.key, required this.report, this.readOnly = false});
+
+  @override
+  State<ReportingStatusSection> createState() => _ReportingStatusSectionState();
+}
+
+class _ReportingStatusSectionState extends State<ReportingStatusSection>
+    with ReportSectionMixin {
+  final perceiverNameController = TextEditingController();
+  final callerNameController = TextEditingController();
+  final callerTelController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(perceiverNameController, widget.report.perceiverName);
+      syncControllerValue(callerNameController, widget.report.callerName);
+      syncControllerValue(callerTelController, widget.report.callerTel);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    perceiverNameController.dispose();
+    callerNameController.dispose();
+    callerTelController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report),
-        _buildLine2(report),
+        _buildLine1(widget.report),
+        _buildLine2(widget.report),
       ],
     );
   }

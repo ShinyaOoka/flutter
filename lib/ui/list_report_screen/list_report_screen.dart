@@ -163,7 +163,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 text: '${'list_report_team_name'.i18n()} : ',
                 style: TextStyle(color: Theme.of(context).primaryColor)),
             TextSpan(
-                text: '${team?.name ?? 'なし'}',
+                text: team?.name ?? 'なし',
                 style: Theme.of(context).textTheme.bodyMedium)
           ]))
         ],
@@ -181,7 +181,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 text: '${'type_of_accident'.i18n()} : ',
                 style: TextStyle(color: Theme.of(context).primaryColor)),
             TextSpan(
-                text: '${typeOfAccident?.value ?? 'なし'}',
+                text: typeOfAccident?.value ?? 'なし',
                 style: Theme.of(context).textTheme.bodyMedium)
           ])),
           RichText(
@@ -190,7 +190,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 text: '${'accident_summary'.i18n()} : ',
                 style: TextStyle(color: Theme.of(context).primaryColor)),
             TextSpan(
-                text: '${item.accidentSummary ?? 'なし'}',
+                text: item.accidentSummary ?? 'なし',
                 style: Theme.of(context).textTheme.bodyMedium)
           ]))
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
@@ -12,22 +13,58 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
-class OccurrenceStatusSection extends StatelessWidget with ReportSectionMixin {
+class OccurrenceStatusSection extends StatefulWidget {
   final Report report;
+  final bool readOnly;
 
-  OccurrenceStatusSection({super.key, required this.report});
+  const OccurrenceStatusSection(
+      {super.key, required this.report, this.readOnly = false});
+
+  @override
+  State<OccurrenceStatusSection> createState() =>
+      _OccurrenceStatusSectionState();
+}
+
+class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
+    with ReportSectionMixin {
+  final placeOfIncidentController = TextEditingController();
+  final accidentSummaryController = TextEditingController();
+  final verbalGuidanceController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(
+          placeOfIncidentController, widget.report.placeOfIncident);
+      syncControllerValue(
+          accidentSummaryController, widget.report.accidentSummary);
+      syncControllerValue(
+          verbalGuidanceController, widget.report.verbalGuidance);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    placeOfIncidentController.dispose();
+    accidentSummaryController.dispose();
+    verbalGuidanceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report),
-        _buildLine2(report),
-        _buildLine3(report),
-        _buildLine4(report),
-        _buildLine5(report),
-        _buildLine6(report),
+        _buildLine1(widget.report),
+        _buildLine2(widget.report),
+        _buildLine3(widget.report),
+        _buildLine4(widget.report),
+        _buildLine5(widget.report),
+        _buildLine6(widget.report),
       ],
     );
   }

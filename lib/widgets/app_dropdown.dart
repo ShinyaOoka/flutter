@@ -11,6 +11,7 @@ class AppDropdown<T> extends StatelessWidget {
   final T? selectedItem;
   final bool Function(T, String)? filterFn;
   final bool showSearchBox;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,7 @@ class AppDropdown<T> extends StatelessWidget {
           onChanged: onChanged ?? (_) {},
           compareFn: compareFn,
           selectedItem: selectedItem,
+          enabled: enabled,
         ),
         const SizedBox(height: 6)
       ],
@@ -65,5 +67,6 @@ class AppDropdown<T> extends StatelessWidget {
     this.compareFn,
     this.filterFn,
     this.showSearchBox = false,
+    this.enabled = true,
   });
 }

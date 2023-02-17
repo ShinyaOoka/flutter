@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
@@ -67,16 +66,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     _zollSdkStore = context.read();
     print('device serial number');
     print(device.serialNumber);
-    // _zollSdkStore.caseListItems[device.serialNumber] = ObservableList.of([
-    //   CaseListItem(
-    //       caseId: 'caseId',
-    //       startTime: "2023-02-02T12:19:43Z",
-    //       endTime: "2024-01-02T11:12:13Z"),
-    //   CaseListItem(
-    //       caseId: 'caseId2',
-    //       startTime: "2023-02-02T12:19:43Z",
-    //       endTime: "2024-01-02T11:12:13Z")
-    // ]);
+    _zollSdkStore.caseListItems[device.serialNumber] = ObservableList.of([
+      CaseListItem(
+          caseId: 'caseId',
+          startTime: "2023-02-02T05:19:43Z",
+          endTime: "2023-02-02T06:29:04Z")
+    ]);
     _hostApi.deviceGetCaseList(device, null);
   }
 
@@ -124,7 +119,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
             builder: (context) =>
                 _zollSdkStore.caseListItems[device.serialNumber] != null
                     ? _buildMainContent()
-                    : CustomProgressIndicatorWidget()),
+                    : const CustomProgressIndicatorWidget()),
       ],
     );
   }
@@ -133,9 +128,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Column(
       children: [
         Container(
+          padding: const EdgeInsets.all(16),
           child: Text("please_choose_case".i18n(),
               style: Theme.of(context).textTheme.titleLarge),
-          padding: EdgeInsets.all(16),
         ),
         Expanded(
           child: Observer(

@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/ui/edit_report_screen/edit_report_screen.dart';
 import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class Routes {
   //static variables
   static const String listReport = '/list_report';
   static const String createReport = '/create_report';
+  static const String editReport = '/edit_report';
   static const String confirmReport = '/confirm_report';
   static const String sendReport = '/send_report';
   static const String previewReport = '/preview_report';
@@ -24,6 +26,7 @@ class Routes {
   static final routes = <String, WidgetBuilder>{
     listReport: (BuildContext context) => const ListReportScreen(),
     createReport: (BuildContext context) => const CreateReportScreen(),
+    editReport: (BuildContext context) => const EditReportScreen(),
     confirmReport: (BuildContext context) => const ConfirmReportScreen(),
     sendReport: (BuildContext context) => const SendReportScreen(),
     previewReport: (BuildContext context) => const PreviewReportScreen(),

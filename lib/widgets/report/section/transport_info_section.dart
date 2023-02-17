@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/hospital/hospital.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
@@ -11,21 +12,52 @@ import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 
-class TransportInfoSection extends StatelessWidget with ReportSectionMixin {
+class TransportInfoSection extends StatefulWidget {
   final Report report;
+  final bool readOnly;
 
-  TransportInfoSection({super.key, required this.report});
+  TransportInfoSection(
+      {super.key, required this.report, this.readOnly = false});
+
+  @override
+  State<TransportInfoSection> createState() => _TransportInfoSectionState();
+}
+
+class _TransportInfoSectionState extends State<TransportInfoSection>
+    with ReportSectionMixin {
+  final reasonForTransferController = TextEditingController();
+  final reasonForNotTransferringController = TextEditingController();
+  late ReactionDisposer reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(
+          reasonForTransferController, widget.report.reasonForTransfer);
+      syncControllerValue(reasonForNotTransferringController,
+          widget.report.reasonForNotTransferring);
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer();
+    reasonForTransferController.dispose();
+    reasonForNotTransferringController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report),
-        _buildLine2(report),
-        _buildLine3(report),
-        _buildLine4(report),
-        _buildLine5(report),
+        _buildLine1(widget.report),
+        _buildLine2(widget.report),
+        _buildLine3(widget.report),
+        _buildLine4(widget.report),
+        _buildLine5(widget.report),
       ],
     );
   }

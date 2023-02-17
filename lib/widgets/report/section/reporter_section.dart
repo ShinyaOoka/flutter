@@ -11,8 +11,9 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 
 class ReporterSection extends StatelessWidget with ReportSectionMixin {
   final Report report;
+  final bool readOnly;
 
-  ReporterSection({super.key, required this.report});
+  ReporterSection({super.key, required this.report, this.readOnly = false});
 
   @override
   Widget build(BuildContext context) {

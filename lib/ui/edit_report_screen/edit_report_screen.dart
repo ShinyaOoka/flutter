@@ -1,6 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/ui/edit_report_screen/edit_report_screen.dart';
+import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -17,21 +17,20 @@ import 'package:ak_azm_flutter/ui/send_report_screen/send_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
 
-class ConfirmReportScreenArguments {
+class EditReportScreenArguments {
   final Report report;
 
-  ConfirmReportScreenArguments({required this.report});
+  EditReportScreenArguments({required this.report});
 }
 
-class ConfirmReportScreen extends StatefulWidget {
-  const ConfirmReportScreen({super.key});
+class EditReportScreen extends StatefulWidget {
+  const EditReportScreen({super.key});
 
   @override
-  _ConfirmReportScreenState createState() => _ConfirmReportScreenState();
+  _EditReportScreenState createState() => _EditReportScreenState();
 }
 
-class _ConfirmReportScreenState extends State<ConfirmReportScreen>
-    with RouteAware {
+class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   late ReportStore _reportStore;
   late TeamStore _teamStore;
   late TeamMemberStore _teamMemberStore;
@@ -66,8 +65,8 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   @override
   void didPush() {
-    final args = ModalRoute.of(context)!.settings.arguments
-        as ConfirmReportScreenArguments;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as EditReportScreenArguments;
     _report = args.report;
 
     _reportStore = context.read();
@@ -102,7 +101,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text('confirm_report'.i18n()),
+      title: Text('edit_report'.i18n()),
       actions: _buildActions(),
       centerTitle: true,
       leading: _buildBackButton(),
@@ -122,7 +121,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
         onSelected: (value) {
           switch (value) {
             case 0:
-              Navigator.of(context).pushNamed(Routes.editReport,
+              Navigator.of(context).pushNamed(Routes.sendReport,
                   arguments: EditReportScreenArguments(report: _report));
               break;
             case 1:
@@ -172,11 +171,24 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       thumbVisibility: true,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: ReportForm(
-          report: _report,
-          readOnly: false,
-          radio: false,
-          expanded: true,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Navigator.of(context).pushNamed(Routes.listDevice,
+                      arguments: ListDeviceScreenArguments(report: _report));
+                },
+                style: ButtonStyle(
+                    minimumSize:
+                        MaterialStateProperty.all(const Size.fromHeight(50))),
+                child:
+                    const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
+              ),
+            ),
+            ReportForm(report: _report),
+          ],
         ),
       ),
     );
