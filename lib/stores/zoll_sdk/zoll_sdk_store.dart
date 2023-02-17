@@ -41,7 +41,7 @@ abstract class _ZollSdkStore with Store {
   @action
   void onGetCaseListSuccess(
       int requestCode, String deviceId, List<CaseListItem?> cases) {
-    this.caseListItems[deviceId] =
+    caseListItems[deviceId] =
         cases.where((e) => e != null).map((e) => e!).toList();
   }
 
