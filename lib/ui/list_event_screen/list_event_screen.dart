@@ -350,7 +350,7 @@ class _ListEventScreenState extends State<ListEventScreen>
       child: LayoutBuilder(builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 640;
         final textStyle =
-            isMobile ? Theme.of(context).textTheme.bodySmall : null;
+            isMobile ? Theme.of(context).textTheme.labelSmall : null;
         return Card(
           color:
               activeIndex == index ? Theme.of(context).primaryColorLight : null,
