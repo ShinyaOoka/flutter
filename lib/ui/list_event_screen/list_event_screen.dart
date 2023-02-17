@@ -235,30 +235,33 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   Widget _buildMainContent() {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          child: Text("please_choose_case".i18n(),
-              style: Theme.of(context).textTheme.titleLarge),
-        ),
-        Expanded(
-          child: Observer(
-            builder: (context) {
-              final caseData = _zollSdkStore.cases[caseId]!;
-              return Scrollbar(
-                controller: scrollController,
-                thumbVisibility: true,
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return ListView.separated(
+    return LayoutBuilder(builder: (context, constraints) {
+      final isMobile = constraints.maxWidth < 640;
+      return Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Text("please_choose_case".i18n(),
+                style: isMobile
+                    ? Theme.of(context).textTheme.titleLarge
+                    : Theme.of(context).textTheme.titleMedium),
+          ),
+          Expanded(
+            child: Observer(
+              builder: (context) {
+                final caseData = _zollSdkStore.cases[caseId]!;
+                return Scrollbar(
+                  controller: scrollController,
+                  thumbVisibility: true,
+                  child: ListView.separated(
                     controller: scrollController,
                     itemCount: caseData.displayableEvents.length,
                     itemBuilder: (context, itemIndex) {
                       final dataIndex =
                           caseData.displayableEvents[itemIndex].item1;
                       return ListTile(
-                          dense: constraints.maxWidth < 640,
-                          visualDensity: constraints.maxWidth < 640
+                          dense: isMobile,
+                          visualDensity: isMobile
                               ? VisualDensity.compact
                               : VisualDensity.standard,
                           title: Text(
@@ -315,15 +318,12 @@ class _ListEventScreenState extends State<ListEventScreen>
                           });
                     },
                     separatorBuilder: (context, index) => const Divider(),
-                  );
-                }),
-              );
-            },
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-        LayoutBuilder(builder: (context, constraints) {
-          final isMobile = constraints.maxWidth < 640;
-          return Container(
+          Container(
             padding: EdgeInsets.all(isMobile ? 8 : 16),
             child: Column(
               children: [
@@ -334,10 +334,10 @@ class _ListEventScreenState extends State<ListEventScreen>
                 _buildCard(2),
               ],
             ),
-          );
-        })
-      ],
-    );
+          ),
+        ],
+      );
+    });
   }
 
   _buildCard(int index) {
