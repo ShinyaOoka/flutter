@@ -22,12 +22,20 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
 
     func deviceGetCaseList(device: XSeriesDevice, password: String?, completion: @escaping (Int32) -> Void) {
+        print("deviceGetCaseList")
+        print(device.serialNumber)
+        print(device.address)
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.getXCaseCatalogItem(device: nativeDevice, password: password, delegate: self)
         completion(Int32(requestCode))
     }
 
     func deviceDownloadCase(device: XSeriesDevice, caseId: String, path: String, password: String?, completion: @escaping (Int32) -> Void) {
+        print("deviceDownloadCase")
+        print(device.serialNumber)
+        print(device.address)
+        print(caseId)
+        print(path)
         let nativeDevice = XSeriesSDK.XSeriesDevice(serialNumber: device.serialNumber,ipAdress: device.address)
         let requestCode = deviceApi.downloadCase(device: nativeDevice, caseId: caseId, folder: URL(fileURLWithPath: path), password: password, delegate: self)
         completion(Int32(requestCode))
