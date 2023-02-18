@@ -64,6 +64,22 @@ mixin _$ReportStore on _ReportStore, Store {
     });
   }
 
+  late final _$selectingReportAtom =
+      Atom(name: '_ReportStore.selectingReport', context: context);
+
+  @override
+  Report? get selectingReport {
+    _$selectingReportAtom.reportRead();
+    return super.selectingReport;
+  }
+
+  @override
+  set selectingReport(Report? value) {
+    _$selectingReportAtom.reportWrite(value, super.selectingReport, () {
+      super.selectingReport = value;
+    });
+  }
+
   late final _$successAtom =
       Atom(name: '_ReportStore.success', context: context);
 
@@ -96,12 +112,35 @@ mixin _$ReportStore on _ReportStore, Store {
     return _$createReportAsyncAction.run(() => super.createReport(report));
   }
 
+  late final _$editReportAsyncAction =
+      AsyncAction('_ReportStore.editReport', context: context);
+
+  @override
+  Future<dynamic> editReport(Report report) {
+    return _$editReportAsyncAction.run(() => super.editReport(report));
+  }
+
+  late final _$_ReportStoreActionController =
+      ActionController(name: '_ReportStore', context: context);
+
+  @override
+  void setSelectingReport(Report report) {
+    final _$actionInfo = _$_ReportStoreActionController.startAction(
+        name: '_ReportStore.setSelectingReport');
+    try {
+      return super.setSelectingReport(report);
+    } finally {
+      _$_ReportStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 getReportsFuture: ${getReportsFuture},
 createReportFuture: ${createReportFuture},
 reports: ${reports},
+selectingReport: ${selectingReport},
 success: ${success},
 loading: ${loading}
     ''';

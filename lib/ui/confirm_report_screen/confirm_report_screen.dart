@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart' as MobX;
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
@@ -17,12 +16,6 @@ import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/ui/send_report_screen/send_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
-
-class ConfirmReportScreenArguments {
-  final Report report;
-
-  ConfirmReportScreenArguments({required this.report});
-}
 
 class ConfirmReportScreen extends StatefulWidget {
   const ConfirmReportScreen({super.key});
@@ -42,20 +35,13 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   late ScrollController scrollController;
 
-  late MobX.Observable<Report> _report;
-
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
-
-  late MobX.Action setReportAction;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
-    setReportAction = MobX.Action((Report report) {
-      _report.value = report;
-    });
   }
 
   @override
@@ -72,11 +58,6 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   @override
   void didPush() {
-    final args = ModalRoute.of(context)!.settings.arguments
-        as ConfirmReportScreenArguments;
-    print('Pushed');
-    _report = MobX.Observable(args.report);
-
     _reportStore = context.read();
     _teamStore = context.read();
     _fireStationStore = context.read();
@@ -89,10 +70,10 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
-    _report.value.teamStore = _teamStore;
-    _report.value.teamMemberStore = _teamMemberStore;
-    _report.value.fireStationStore = _fireStationStore;
-    _report.value.classificationStore = _classificationStore;
+    _reportStore.selectingReport?.teamStore = _teamStore;
+    _reportStore.selectingReport?.teamMemberStore = _teamMemberStore;
+    _reportStore.selectingReport?.fireStationStore = _fireStationStore;
+    _reportStore.selectingReport?.classificationStore = _classificationStore;
 
     if (!_hospitalStore.loading) {
       _hospitalStore.getHospitals();
@@ -129,16 +110,14 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
         onSelected: (value) async {
           switch (value) {
             case 0:
-              var result = await Navigator.of(context).pushNamed(
-                  Routes.editReport,
-                  arguments: EditReportScreenArguments(report: _report.value));
+              var result =
+                  await Navigator.of(context).pushNamed(Routes.editReport);
               if (result != null) {
-                setReportAction([result]);
+                _reportStore.setSelectingReport(result as Report);
               }
               break;
             case 1:
-              Navigator.of(context).pushNamed(Routes.sendReport,
-                  arguments: SendReportScreenArguments(report: _report.value));
+              Navigator.of(context).pushNamed(Routes.sendReport);
               break;
           }
         },
@@ -170,7 +149,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
   Widget _buildMainContent() {
     return Observer(
       builder: (context) {
-        return _reportStore.loading
+        return _reportStore.loading || _reportStore.selectingReport == null
             ? const CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
@@ -183,13 +162,10 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       thumbVisibility: true,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: Observer(
-          builder: (context) => ReportForm(
-            report: _report.value,
-            readOnly: false,
-            radio: false,
-            expanded: true,
-          ),
+        child: ReportForm(
+          readOnly: false,
+          radio: false,
+          expanded: true,
         ),
       ),
     );

@@ -25,6 +25,9 @@ abstract class _ReportStore with Store {
   ObservableList<Report>? reports;
 
   @observable
+  Report? selectingReport;
+
+  @observable
   bool success = false;
 
   @computed
@@ -58,5 +61,10 @@ abstract class _ReportStore with Store {
     await future.catchError((error) {
       errorStore.errorMessage = error.toString();
     });
+  }
+
+  @action
+  void setSelectingReport(Report report) {
+    selectingReport = report;
   }
 }

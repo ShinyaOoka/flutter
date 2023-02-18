@@ -48,9 +48,9 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   @override
   void didPush() {
-    _reportStore = Provider.of<ReportStore>(context);
-    _teamStore = Provider.of<TeamStore>(context);
-    _classificationStore = Provider.of<ClassificationStore>(context);
+    _reportStore = context.read();
+    _teamStore = context.read();
+    _classificationStore = context.read();
 
     _reportStore.getReports();
     _teamStore.getTeams();
@@ -140,8 +140,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         : null;
     return ListTile(
       onTap: () {
-        Navigator.of(context).pushNamed(Routes.confirmReport,
-            arguments: ConfirmReportScreenArguments(report: item));
+        _reportStore.setSelectingReport(item);
+        Navigator.of(context).pushNamed(Routes.confirmReport);
       },
       dense: true,
       title: Row(

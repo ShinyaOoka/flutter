@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -14,11 +15,9 @@ import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
 class OccurrenceStatusSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  const OccurrenceStatusSection(
-      {super.key, required this.report, this.readOnly = false});
+  const OccurrenceStatusSection({super.key, this.readOnly = false});
 
   @override
   State<OccurrenceStatusSection> createState() =>
@@ -31,17 +30,19 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   final accidentSummaryController = TextEditingController();
   final verbalGuidanceController = TextEditingController();
   late ReactionDisposer reactionDisposer;
+  late ReportStore reportStore;
 
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(
-          placeOfIncidentController, widget.report.placeOfIncident);
-      syncControllerValue(
-          accidentSummaryController, widget.report.accidentSummary);
-      syncControllerValue(
-          verbalGuidanceController, widget.report.verbalGuidance);
+      syncControllerValue(placeOfIncidentController,
+          reportStore.selectingReport!.placeOfIncident);
+      syncControllerValue(accidentSummaryController,
+          reportStore.selectingReport!.accidentSummary);
+      syncControllerValue(verbalGuidanceController,
+          reportStore.selectingReport!.verbalGuidance);
     });
   }
 
@@ -59,12 +60,12 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(widget.report),
-        _buildLine2(widget.report),
-        _buildLine3(widget.report),
-        _buildLine4(widget.report),
-        _buildLine5(widget.report),
-        _buildLine6(widget.report),
+        _buildLine1(reportStore.selectingReport!),
+        _buildLine2(reportStore.selectingReport!),
+        _buildLine3(reportStore.selectingReport!),
+        _buildLine4(reportStore.selectingReport!),
+        _buildLine5(reportStore.selectingReport!),
+        _buildLine6(reportStore.selectingReport!),
       ],
     );
   }

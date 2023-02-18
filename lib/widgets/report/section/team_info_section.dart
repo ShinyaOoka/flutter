@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,10 +15,9 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
 class TeamInfoSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  const TeamInfoSection({super.key, required this.report, this.readOnly = false});
+  const TeamInfoSection({super.key, this.readOnly = false});
 
   @override
   State<TeamInfoSection> createState() => _TeamInfoSectionState();
@@ -27,14 +27,19 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     with ReportSectionMixin {
   final totalController = TextEditingController();
   final teamController = TextEditingController();
+
+  late ReportStore reportStore;
   late ReactionDisposer reactionDisposer;
 
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(totalController, widget.report.totalCount);
-      syncControllerValue(teamController, widget.report.teamCount);
+      syncControllerValue(
+          totalController, reportStore.selectingReport!.totalCount);
+      syncControllerValue(
+          teamController, reportStore.selectingReport!.teamCount);
     });
   }
 
@@ -51,11 +56,11 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(widget.report, context),
-        _buildLine2(widget.report, context),
-        _buildLine3(widget.report, context),
-        _buildLine4(widget.report, context),
-        _buildLine5(widget.report, context)
+        _buildLine1(reportStore.selectingReport!, context),
+        _buildLine2(reportStore.selectingReport!, context),
+        _buildLine3(reportStore.selectingReport!, context),
+        _buildLine4(reportStore.selectingReport!, context),
+        _buildLine5(reportStore.selectingReport!, context)
       ],
     );
   }

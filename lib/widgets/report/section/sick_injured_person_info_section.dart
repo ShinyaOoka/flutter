@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,11 +16,9 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
 class SickInjuredPersonInfoSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  const SickInjuredPersonInfoSection(
-      {super.key, required this.report, this.readOnly = false});
+  const SickInjuredPersonInfoSection({super.key, this.readOnly = false});
 
   @override
   State<SickInjuredPersonInfoSection> createState() =>
@@ -42,32 +41,35 @@ class _SickInjuredPersonInfoSectionState
       TextEditingController();
   final sickInjuredPersonDegreeController = TextEditingController();
 
+  late ReportStore reportStore;
+
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     autorun((_) {
-      syncControllerValue(
-          sickInjuredPersonNameController, widget.report.sickInjuredPersonName);
+      syncControllerValue(sickInjuredPersonNameController,
+          reportStore.selectingReport!.sickInjuredPersonName);
       syncControllerValue(sickInjuredPersonAddressController,
-          widget.report.sickInjuredPersonAddress);
-      syncControllerValue(
-          sickInjuredPersonTelController, widget.report.sickInjuredPersonTel);
+          reportStore.selectingReport!.sickInjuredPersonAddress);
+      syncControllerValue(sickInjuredPersonTelController,
+          reportStore.selectingReport!.sickInjuredPersonTel);
       syncControllerValue(sickInjuredPersonFamilyTelController,
-          widget.report.sickInjuredPersonFamilyTel);
+          reportStore.selectingReport!.sickInjuredPersonFamilyTel);
       syncControllerValue(sickInjuredPersonMedicalHistoryController,
-          widget.report.sickInjuredPersonMedicalHistory);
+          reportStore.selectingReport!.sickInjuredPersonMedicalHistory);
       syncControllerValue(sickInjuredPersonHistoryHospitalController,
-          widget.report.sickInjuredPersonHistoryHospital);
+          reportStore.selectingReport!.sickInjuredPersonHistoryHospital);
       syncControllerValue(sickInjuredPersonKakaritsukeController,
-          widget.report.sickInjuredPersonKakaritsuke);
+          reportStore.selectingReport!.sickInjuredPersonKakaritsuke);
       syncControllerValue(sickInjuredPersonAllergyController,
-          widget.report.sickInjuredPersonAllergy);
+          reportStore.selectingReport!.sickInjuredPersonAllergy);
       syncControllerValue(sickInjuredPersonMedicationDetailController,
-          widget.report.sickInjuredPersonMedicationDetail);
+          reportStore.selectingReport!.sickInjuredPersonMedicationDetail);
       syncControllerValue(sickInjuredPersonNameOfInjuryOrSicknessController,
-          widget.report.sickInjuredPersonNameOfInjuryOrSickness);
+          reportStore.selectingReport!.sickInjuredPersonNameOfInjuryOrSickness);
       syncControllerValue(sickInjuredPersonDegreeController,
-          widget.report.sickInjuredPersonDegree);
+          reportStore.selectingReport!.sickInjuredPersonDegree);
     });
   }
 
@@ -94,16 +96,16 @@ class _SickInjuredPersonInfoSectionState
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildLine1(widget.report, context),
-          _buildLine2(widget.report, context),
-          _buildLine3(widget.report, context),
-          _buildLine4(widget.report, context),
-          _buildLine5(widget.report, context),
-          _buildLine6(widget.report, context),
-          _buildLine7(widget.report, context),
-          _buildLine8(widget.report, context),
-          _buildLine9(widget.report, context),
-          _buildLine10(widget.report, context),
+          _buildLine1(reportStore.selectingReport!, context),
+          _buildLine2(reportStore.selectingReport!, context),
+          _buildLine3(reportStore.selectingReport!, context),
+          _buildLine4(reportStore.selectingReport!, context),
+          _buildLine5(reportStore.selectingReport!, context),
+          _buildLine6(reportStore.selectingReport!, context),
+          _buildLine7(reportStore.selectingReport!, context),
+          _buildLine8(reportStore.selectingReport!, context),
+          _buildLine9(reportStore.selectingReport!, context),
+          _buildLine10(reportStore.selectingReport!, context),
         ],
       )
     ]);

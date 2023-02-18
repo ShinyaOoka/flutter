@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -13,11 +14,9 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 import 'package:collection/collection.dart';
 
 class TransportInfoSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  TransportInfoSection(
-      {super.key, required this.report, this.readOnly = false});
+  TransportInfoSection({super.key, this.readOnly = false});
 
   @override
   State<TransportInfoSection> createState() => _TransportInfoSectionState();
@@ -28,15 +27,17 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
   final reasonForTransferController = TextEditingController();
   final reasonForNotTransferringController = TextEditingController();
   late ReactionDisposer reactionDisposer;
+  late ReportStore reportStore;
 
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(
-          reasonForTransferController, widget.report.reasonForTransfer);
+      syncControllerValue(reasonForTransferController,
+          reportStore.selectingReport!.reasonForTransfer);
       syncControllerValue(reasonForNotTransferringController,
-          widget.report.reasonForNotTransferring);
+          reportStore.selectingReport!.reasonForNotTransferring);
     });
   }
 
@@ -53,11 +54,11 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(widget.report),
-        _buildLine2(widget.report),
-        _buildLine3(widget.report),
-        _buildLine4(widget.report),
-        _buildLine5(widget.report),
+        _buildLine1(reportStore.selectingReport!),
+        _buildLine2(reportStore.selectingReport!),
+        _buildLine3(reportStore.selectingReport!),
+        _buildLine4(reportStore.selectingReport!),
+        _buildLine5(reportStore.selectingReport!),
       ],
     );
   }

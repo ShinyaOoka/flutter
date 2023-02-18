@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -9,19 +10,32 @@ import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
-class ReporterSection extends StatelessWidget with ReportSectionMixin {
-  final Report report;
+class ReporterSection extends StatefulWidget {
   final bool readOnly;
 
-  ReporterSection({super.key, required this.report, this.readOnly = false});
+  ReporterSection({super.key, this.readOnly = false});
+
+  @override
+  State<ReporterSection> createState() => _ReporterSectionState();
+}
+
+class _ReporterSectionState extends State<ReporterSection>
+    with ReportSectionMixin {
+  late ReportStore reportStore;
+
+  @override
+  void initState() {
+    super.initState();
+    reportStore = context.read();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report),
-        _buildLine2(report),
+        _buildLine1(reportStore.selectingReport!),
+        _buildLine2(reportStore.selectingReport!),
       ],
     );
   }

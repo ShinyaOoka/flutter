@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,15 +16,11 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 import 'package:collection/collection.dart';
 
 class VitalSignSection extends StatefulWidget {
-  final Report report;
   final int index;
   final readOnly;
 
   const VitalSignSection(
-      {super.key,
-      required this.report,
-      required this.index,
-      this.readOnly = false});
+      {super.key, required this.index, this.readOnly = false});
 
   @override
   State<VitalSignSection> createState() => _VitalSignSectionState();
@@ -37,57 +34,69 @@ class _VitalSignSectionState extends State<VitalSignSection>
   final bloodPressureLowController = TextEditingController();
   final spO2PercentController = TextEditingController();
   late ReactionDisposer reactionDisposer;
+  late ReportStore reportStore;
 
   @override
   void initState() {
     super.initState();
-    widget.report.jcsTypes = _ensureLength(widget.report.jcsTypes);
-    widget.report.observationTime =
-        _ensureLengthObservable(widget.report.observationTime);
-    widget.report.gcsETypes = _ensureLength(widget.report.gcsETypes);
-    widget.report.gcsVTypes = _ensureLength(widget.report.gcsVTypes);
-    widget.report.gcsMTypes = _ensureLength(widget.report.gcsMTypes);
-    widget.report.respiration =
-        _ensureLengthObservable(widget.report.respiration);
-    widget.report.pulse = _ensureLengthObservable(widget.report.pulse);
-    widget.report.bloodPressureHigh =
-        _ensureLengthObservable(widget.report.bloodPressureHigh);
-    widget.report.bloodPressureLow =
-        _ensureLengthObservable(widget.report.bloodPressureLow);
-    widget.report.spO2Liter = _ensureLengthObservable(widget.report.spO2Liter);
-    widget.report.spO2Percent =
-        _ensureLengthObservable(widget.report.spO2Percent);
-    widget.report.pupilLeft = _ensureLengthObservable(widget.report.pupilLeft);
-    widget.report.pupilRight =
-        _ensureLengthObservable(widget.report.pupilRight);
-    widget.report.lightReflexLeft =
-        _ensureLengthObservable(widget.report.lightReflexLeft);
-    widget.report.lightReflexRight =
-        _ensureLengthObservable(widget.report.lightReflexRight);
-    widget.report.bodyTemperature =
-        _ensureLengthObservable(widget.report.bodyTemperature);
-    widget.report.hemorrhage =
-        _ensureLengthObservable(widget.report.hemorrhage);
-    widget.report.vomiting = _ensureLengthObservable(widget.report.vomiting);
-    widget.report.extremities =
-        _ensureLengthObservable(widget.report.extremities);
-    widget.report.observationTimeDescriptionTypes =
-        _ensureLength(widget.report.observationTimeDescriptionTypes);
-    widget.report.incontinenceTypes =
-        _ensureLength(widget.report.incontinenceTypes);
-    widget.report.facialFeatureTypes =
-        _ensureLength(widget.report.facialFeatureTypes);
+    reportStore = context.read();
+    reportStore.selectingReport!.jcsTypes =
+        _ensureLength(reportStore.selectingReport!.jcsTypes);
+    reportStore.selectingReport!.observationTime =
+        _ensureLengthObservable(reportStore.selectingReport!.observationTime);
+    reportStore.selectingReport!.gcsETypes =
+        _ensureLength(reportStore.selectingReport!.gcsETypes);
+    reportStore.selectingReport!.gcsVTypes =
+        _ensureLength(reportStore.selectingReport!.gcsVTypes);
+    reportStore.selectingReport!.gcsMTypes =
+        _ensureLength(reportStore.selectingReport!.gcsMTypes);
+    reportStore.selectingReport!.respiration =
+        _ensureLengthObservable(reportStore.selectingReport!.respiration);
+    reportStore.selectingReport!.pulse =
+        _ensureLengthObservable(reportStore.selectingReport!.pulse);
+    reportStore.selectingReport!.bloodPressureHigh =
+        _ensureLengthObservable(reportStore.selectingReport!.bloodPressureHigh);
+    reportStore.selectingReport!.bloodPressureLow =
+        _ensureLengthObservable(reportStore.selectingReport!.bloodPressureLow);
+    reportStore.selectingReport!.spO2Liter =
+        _ensureLengthObservable(reportStore.selectingReport!.spO2Liter);
+    reportStore.selectingReport!.spO2Percent =
+        _ensureLengthObservable(reportStore.selectingReport!.spO2Percent);
+    reportStore.selectingReport!.pupilLeft =
+        _ensureLengthObservable(reportStore.selectingReport!.pupilLeft);
+    reportStore.selectingReport!.pupilRight =
+        _ensureLengthObservable(reportStore.selectingReport!.pupilRight);
+    reportStore.selectingReport!.lightReflexLeft =
+        _ensureLengthObservable(reportStore.selectingReport!.lightReflexLeft);
+    reportStore.selectingReport!.lightReflexRight =
+        _ensureLengthObservable(reportStore.selectingReport!.lightReflexRight);
+    reportStore.selectingReport!.bodyTemperature =
+        _ensureLengthObservable(reportStore.selectingReport!.bodyTemperature);
+    reportStore.selectingReport!.hemorrhage =
+        _ensureLengthObservable(reportStore.selectingReport!.hemorrhage);
+    reportStore.selectingReport!.vomiting =
+        _ensureLengthObservable(reportStore.selectingReport!.vomiting);
+    reportStore.selectingReport!.extremities =
+        _ensureLengthObservable(reportStore.selectingReport!.extremities);
+    reportStore.selectingReport!.observationTimeDescriptionTypes =
+        _ensureLength(
+            reportStore.selectingReport!.observationTimeDescriptionTypes);
+    reportStore.selectingReport!.incontinenceTypes =
+        _ensureLength(reportStore.selectingReport!.incontinenceTypes);
+    reportStore.selectingReport!.facialFeatureTypes =
+        _ensureLength(reportStore.selectingReport!.facialFeatureTypes);
 
     reactionDisposer = autorun((_) {
-      syncControllerValue(
-          respirationController, widget.report.respiration?[widget.index]);
+      syncControllerValue(respirationController,
+          reportStore.selectingReport!.respiration?[widget.index]);
       syncControllerValue(bloodPressureHighController,
-          widget.report.bloodPressureHigh?[widget.index]);
+          reportStore.selectingReport!.bloodPressureHigh?[widget.index]);
       syncControllerValue(bloodPressureLowController,
-          widget.report.bloodPressureLow?[widget.index]);
+          reportStore.selectingReport!.bloodPressureLow?[widget.index]);
+      syncControllerValue(spO2PercentController,
+          reportStore.selectingReport!.spO2Percent?[widget.index]);
       syncControllerValue(
-          spO2PercentController, widget.report.spO2Percent?[widget.index]);
-      syncControllerValue(pulseController, widget.report.pulse?[widget.index]);
+          pulseController, reportStore.selectingReport!.pulse?[widget.index]);
     });
   }
 
@@ -112,14 +121,14 @@ class _VitalSignSectionState extends State<VitalSignSection>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(widget.report, context),
-        _buildLine2(widget.report, context),
-        _buildLine3(widget.report, context),
-        _buildLine4(widget.report, context),
-        _buildLine5(widget.report, context),
-        _buildLine6(widget.report, context),
-        _buildLine7(widget.report, context),
-        _buildLine8(widget.report, context),
+        _buildLine1(reportStore.selectingReport!, context),
+        _buildLine2(reportStore.selectingReport!, context),
+        _buildLine3(reportStore.selectingReport!, context),
+        _buildLine4(reportStore.selectingReport!, context),
+        _buildLine5(reportStore.selectingReport!, context),
+        _buildLine6(reportStore.selectingReport!, context),
+        _buildLine7(reportStore.selectingReport!, context),
+        _buildLine8(reportStore.selectingReport!, context),
       ],
     );
   }
@@ -214,8 +223,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'respiration'.i18n(),
         controller: respirationController,
-        onChanged: (x) =>
-            widget.report.respiration?[widget.index] = int.tryParse(x),
+        onChanged: (x) => reportStore
+            .selectingReport!.respiration?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
@@ -225,7 +234,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'pulse'.i18n(),
         controller: pulseController,
-        onChanged: (x) => widget.report.pulse?[widget.index] = int.tryParse(x),
+        onChanged: (x) =>
+            reportStore.selectingReport!.pulse?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
@@ -245,8 +255,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
                   child: AppTextField(
                 label: 'blood_pressure_high'.i18n(),
                 controller: bloodPressureHighController,
-                onChanged: (x) => widget
-                    .report.bloodPressureHigh?[widget.index] = int.tryParse(x),
+                onChanged: (x) => reportStore.selectingReport!
+                    .bloodPressureHigh?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
@@ -258,8 +268,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
                   child: AppTextField(
                 label: 'blood_pressure_low'.i18n(),
                 controller: bloodPressureLowController,
-                onChanged: (x) => widget
-                    .report.bloodPressureLow?[widget.index] = int.tryParse(x),
+                onChanged: (x) => reportStore.selectingReport!
+                    .bloodPressureLow?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
@@ -274,8 +284,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
                   child: AppTextField(
                 label: 'sp_o2_percent'.i18n(),
                 controller: spO2PercentController,
-                onChanged: (x) =>
-                    widget.report.spO2Percent?[widget.index] = int.tryParse(x),
+                onChanged: (x) => reportStore.selectingReport!
+                    .spO2Percent?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: '%'.i18n(),

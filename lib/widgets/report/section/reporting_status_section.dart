@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,11 +14,9 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
 class ReportingStatusSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  ReportingStatusSection(
-      {super.key, required this.report, this.readOnly = false});
+  ReportingStatusSection({super.key, this.readOnly = false});
 
   @override
   State<ReportingStatusSection> createState() => _ReportingStatusSectionState();
@@ -29,14 +28,19 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
   final callerNameController = TextEditingController();
   final callerTelController = TextEditingController();
   late ReactionDisposer reactionDisposer;
+  late ReportStore reportStore;
 
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(perceiverNameController, widget.report.perceiverName);
-      syncControllerValue(callerNameController, widget.report.callerName);
-      syncControllerValue(callerTelController, widget.report.callerTel);
+      syncControllerValue(
+          perceiverNameController, reportStore.selectingReport!.perceiverName);
+      syncControllerValue(
+          callerNameController, reportStore.selectingReport!.callerName);
+      syncControllerValue(
+          callerTelController, reportStore.selectingReport!.callerTel);
     });
   }
 
@@ -54,8 +58,8 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(widget.report),
-        _buildLine2(widget.report),
+        _buildLine1(reportStore.selectingReport!),
+        _buildLine2(reportStore.selectingReport!),
       ],
     );
   }

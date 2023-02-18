@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
@@ -23,12 +24,6 @@ import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:tuple/tuple.dart';
 
-class PreviewReportScreenArguments {
-  final Report report;
-
-  PreviewReportScreenArguments({required this.report});
-}
-
 class PreviewReportScreen extends StatefulWidget {
   const PreviewReportScreen({super.key});
 
@@ -37,12 +32,7 @@ class PreviewReportScreen extends StatefulWidget {
 }
 
 class _PreviewReportScreenState extends State<PreviewReportScreen> {
-  late TeamStore _teamStore;
-  late TeamMemberStore _teamMemberStore;
-  late FireStationStore _fireStationStore;
-  late ClassificationStore _classificationStore;
-  late HospitalStore _hospitalStore;
-  late Report report;
+  late ReportStore _reportStore;
 
   File? _file;
 
@@ -55,33 +45,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final args = ModalRoute.of(context)!.settings.arguments
-        as PreviewReportScreenArguments;
-    report = args.report;
+    _reportStore = context.read();
 
-    _teamStore = Provider.of<TeamStore>(context);
-    _fireStationStore = Provider.of<FireStationStore>(context);
-    _teamMemberStore = Provider.of<TeamMemberStore>(context);
-    _classificationStore = Provider.of<ClassificationStore>(context);
-    _hospitalStore = Provider.of<HospitalStore>(context);
-
-    final List<Future> futures = [];
-
-    futures.add(_teamStore.getTeams());
-    futures.add(_fireStationStore.getAllFireStations());
-    futures.add(_teamMemberStore.getAllTeamMembers());
-    futures.add(_classificationStore.getAllClassifications());
-
-    report.teamStore = _teamStore;
-    report.fireStationStore = _fireStationStore;
-    report.teamMemberStore = _teamMemberStore;
-    report.classificationStore = _classificationStore;
-
-    if (!_hospitalStore.loading) {
-      futures.add(_hospitalStore.getHospitals());
-    }
-
-    await Future.wait(futures);
     final file = await generatePdf();
     setState(() {
       _file = file;
@@ -146,11 +111,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillData(String htmlInput) {
-    final team = _teamStore.teams[report.teamCd];
-    final teamCaptain = _teamMemberStore.teamMembers[report.teamCaptainCd];
-    final teamMember = _teamMemberStore.teamMembers[report.teamMemberCd];
-    final institutionalMember =
-        _teamMemberStore.teamMembers[report.institutionalMemberCd];
+    final Report report = _reportStore.selectingReport!;
+    final team = report.team;
+    final teamCaptain = report.teamCaptain;
+    final teamMember = report.teamMember;
+    final institutionalMember = report.institutionalMember;
     bool? withLifesaver;
     if (teamCaptain?.lifesaverQualification != null) {
       withLifesaver = (withLifesaver != null && withLifesaver) ||
@@ -643,6 +608,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String handleDatLayout578(String htmlInput) {
+    final Report report = _reportStore.selectingReport!;
     var totalYesDotNoPos = 0;
     var totalYesUrineFecesNoPos = 0;
     var totalYesSpaceNoPos = 0;
@@ -655,26 +621,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       htmlInput = htmlInput.replaceFirst('JCS${i + 1}', report.jcs?[i] ?? '');
       //45
       htmlInput = htmlInput.replaceFirst(
-          'GCS_E${i + 1}',
-          _classificationStore
-                  .classifications[
-                      Tuple2(AppConstants.gcsECode, report.gcsE?[i] ?? '')]
-                  ?.value ??
-              '');
+          'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
       htmlInput = htmlInput.replaceFirst(
-          'GCS_V${i + 1}',
-          _classificationStore
-                  .classifications[
-                      Tuple2(AppConstants.gcsECode, report.gcsV?[i] ?? '')]
-                  ?.value ??
-              '');
+          'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
       htmlInput = htmlInput.replaceFirst(
-          'GCS_M${i + 1}',
-          _classificationStore
-                  .classifications[
-                      Tuple2(AppConstants.gcsECode, report.gcsM?[i] ?? '')]
-                  ?.value ??
-              '');
+          'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
       //46
       htmlInput = htmlInput.replaceFirst(
           'Respiration${i + 1}',

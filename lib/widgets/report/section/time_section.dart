@@ -1,25 +1,39 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:provider/provider.dart';
 
-class TimeSection extends StatelessWidget with ReportSectionMixin {
-  final Report report;
+class TimeSection extends StatefulWidget {
   final bool readOnly;
 
-  TimeSection({super.key, required this.report, this.readOnly = false});
+  TimeSection({super.key, this.readOnly = false});
+
+  @override
+  State<TimeSection> createState() => _TimeSectionState();
+}
+
+class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
+  late ReportStore reportStore;
+
+  @override
+  void initState() {
+    super.initState();
+    reportStore = context.read();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLine1(report, context),
-        _buildLine2(report, context),
-        _buildLine3(report, context),
-        _buildLine4(report, context),
+        _buildLine1(reportStore.selectingReport!, context),
+        _buildLine2(reportStore.selectingReport!, context),
+        _buildLine3(reportStore.selectingReport!, context),
+        _buildLine4(reportStore.selectingReport!, context),
       ],
     );
   }

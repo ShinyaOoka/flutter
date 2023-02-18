@@ -35,8 +35,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
 
   late ScrollController scrollController;
 
-  final Report _report = Report();
-
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
@@ -72,10 +70,14 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
-    _report.teamStore = _teamStore;
-    _report.teamMemberStore = _teamMemberStore;
-    _report.fireStationStore = _fireStationStore;
-    _report.classificationStore = _classificationStore;
+    final report = Report();
+
+    report.teamStore = _teamStore;
+    report.teamMemberStore = _teamMemberStore;
+    report.fireStationStore = _fireStationStore;
+    report.classificationStore = _classificationStore;
+
+    _reportStore.setSelectingReport(report);
 
     if (!_hospitalStore.loading) {
       _hospitalStore.getHospitals();
@@ -123,7 +125,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
       onPressed: () async {
-        await _reportStore.createReport(_report);
+        await _reportStore.createReport(_reportStore.selectingReport!);
         if (!mounted) return;
         Navigator.of(context).pop();
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -168,7 +170,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
               child: ElevatedButton(
                 onPressed: () async {
                   await Navigator.of(context).pushNamed(Routes.listDevice,
-                      arguments: ListDeviceScreenArguments(report: _report));
+                      arguments: ListDeviceScreenArguments(
+                          report: _reportStore.selectingReport!));
                 },
                 style: ButtonStyle(
                     minimumSize:
@@ -177,7 +180,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
                     const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
               ),
             ),
-            ReportForm(report: _report),
+            ReportForm(),
           ],
         ),
       ),

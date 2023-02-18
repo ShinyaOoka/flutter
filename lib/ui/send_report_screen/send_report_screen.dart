@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
-import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
-import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
-import 'package:ak_azm_flutter/ui/preview_report_screen/preview_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
-
-class SendReportScreenArguments {
-  final Report report;
-
-  SendReportScreenArguments({required this.report});
-}
 
 class SendReportScreen extends StatefulWidget {
   const SendReportScreen({super.key});
@@ -24,12 +11,6 @@ class SendReportScreen extends StatefulWidget {
 }
 
 class _SendReportScreenState extends State<SendReportScreen> {
-  late TeamStore _teamStore;
-  late TeamMemberStore _teamMemberStore;
-  late FireStationStore _fireStationStore;
-  late ClassificationStore _classificationStore;
-  late HospitalStore _hospitalStore;
-
   @override
   void initState() {
     super.initState();
@@ -38,12 +19,6 @@ class _SendReportScreenState extends State<SendReportScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _teamStore = Provider.of<TeamStore>(context);
-    _fireStationStore = Provider.of<FireStationStore>(context);
-    _teamMemberStore = Provider.of<TeamMemberStore>(context);
-    _classificationStore = Provider.of<ClassificationStore>(context);
-    _hospitalStore = Provider.of<HospitalStore>(context);
 
     // if (!_teamStore.loading) {
     //   _teamStore.getTeams();
@@ -101,10 +76,7 @@ class _SendReportScreenState extends State<SendReportScreen> {
       child: Column(children: [
         ElevatedButton(
           onPressed: () {
-            final args = ModalRoute.of(context)!.settings.arguments
-                as SendReportScreenArguments;
-            Navigator.of(context).pushNamed(Routes.previewReport,
-                arguments: PreviewReportScreenArguments(report: args.report));
+            Navigator.of(context).pushNamed(Routes.previewReport);
           },
           style: ButtonStyle(
               minimumSize:
@@ -114,10 +86,7 @@ class _SendReportScreenState extends State<SendReportScreen> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            final args = ModalRoute.of(context)!.settings.arguments
-                as SendReportScreenArguments;
-            Navigator.of(context).pushNamed(Routes.previewReport,
-                arguments: PreviewReportScreenArguments(report: args.report));
+            Navigator.of(context).pushNamed(Routes.previewReport);
           },
           style: ButtonStyle(
               minimumSize:
