@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -265,7 +266,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                               ? VisualDensity.compact
                               : VisualDensity.standard,
                           title: Text(
-                              '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}   ${caseData.events[dataIndex].type.i18n()}${caseData.events[dataIndex].type == "TreatmentSnapshotEvt" ? caseData.events[dataIndex].rawData["TreatmentLbl"] : ""}'),
+                              '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}  ${caseData.events[dataIndex].type}${getJapaneseEventName(caseData.events[dataIndex])}'),
                           // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
                           onTap: () {
                             if (activeIndex == null) return;
@@ -460,6 +461,13 @@ class _ListEventScreenState extends State<ListEventScreen>
         );
       }),
     );
+  }
+
+  getJapaneseEventName(CaseEvent event) {
+    if (event.type.i18n().compareTo(event.type) == 0) {
+      return '';
+    }
+    return '／${event.type.i18n()}${event.type == "TreatmentSnapshotEvt" ? event.rawData["TreatmentLbl"] : ""}';
   }
 
   _showErrorMessage(String message) {
