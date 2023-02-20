@@ -290,26 +290,53 @@ class _ListEventScreenState extends State<ListEventScreen>
 
                             if (foundEventIndex != null) {
                               setState(() {
-                                trendData[activeIndex!].hr = caseData
-                                        .events[foundEventIndex!]
-                                        .rawData["Trend"]["Hr"]["TrendData"]
-                                    ["Val"]["#text"];
-                                trendData[activeIndex!].nibpDia = caseData
+                                final hrTrendData = caseData
+                                    .events[foundEventIndex!]
+                                    .rawData["Trend"]["Hr"]["TrendData"];
+                                if (hrTrendData["DataStatus"] == 0) {
+                                  trendData[activeIndex!].hr =
+                                      hrTrendData["Val"]["#text"];
+                                } else {
+                                  trendData[activeIndex!].hr = null;
+                                }
+                                final nibpDiaTrendData = caseData
                                         .events[foundEventIndex]
                                         .rawData["Trend"]["Nibp"]["Dia"]
-                                    ["TrendData"]["Val"]["#text"];
-                                trendData[activeIndex!].nibpSys = caseData
+                                    ["TrendData"];
+                                if (nibpDiaTrendData["DataStatus"] == 0) {
+                                  trendData[activeIndex!].nibpDia =
+                                      nibpDiaTrendData["Val"]["#text"];
+                                } else {
+                                  trendData[activeIndex!].nibpDia = null;
+                                }
+                                final nibpSysTrendData = caseData
                                         .events[foundEventIndex]
                                         .rawData["Trend"]["Nibp"]["Sys"]
-                                    ["TrendData"]["Val"]["#text"];
-                                trendData[activeIndex!].spo2 = caseData
-                                        .events[foundEventIndex]
-                                        .rawData["Trend"]["Spo2"]["TrendData"]
-                                    ["Val"]["#text"];
-                                trendData[activeIndex!].resp = caseData
-                                        .events[foundEventIndex]
-                                        .rawData["Trend"]["Resp"]["TrendData"]
-                                    ["Val"]["#text"];
+                                    ["TrendData"];
+                                if (nibpSysTrendData["DataStatus"] == 0) {
+                                  trendData[activeIndex!].nibpSys =
+                                      nibpSysTrendData["Val"]["#text"];
+                                } else {
+                                  trendData[activeIndex!].nibpSys = null;
+                                }
+                                final spo2TrendData = caseData
+                                    .events[foundEventIndex]
+                                    .rawData["Trend"]["Spo2"]["TrendData"];
+                                if (spo2TrendData["DataStatus"] == 0) {
+                                  trendData[activeIndex!].spo2 =
+                                      spo2TrendData["Val"]["#text"];
+                                } else {
+                                  trendData[activeIndex!].spo2 = null;
+                                }
+                                final respTrendData = caseData
+                                    .events[foundEventIndex]
+                                    .rawData["Trend"]["Resp"]["TrendData"];
+                                if (respTrendData["DataStatus"] == 0) {
+                                  trendData[activeIndex!].resp =
+                                      respTrendData["Val"]["#text"];
+                                } else {
+                                  trendData[activeIndex!].resp = null;
+                                }
                                 trendData[activeIndex!].time = caseData
                                     .events[foundEventIndex].date
                                     .toLocal();
