@@ -55,13 +55,15 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildLine1(reportStore.selectingReport!),
-        _buildLine2(reportStore.selectingReport!),
-      ],
-    );
+    return Observer(builder: (context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildLine1(reportStore.selectingReport!),
+          _buildLine2(reportStore.selectingReport!),
+        ],
+      );
+    });
   }
 
   Widget _buildLine1(Report report) {

@@ -27,15 +27,17 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildLine1(reportStore.selectingReport!, context),
-        _buildLine2(reportStore.selectingReport!, context),
-        _buildLine3(reportStore.selectingReport!, context),
-        _buildLine4(reportStore.selectingReport!, context),
-      ],
-    );
+    return Observer(builder: (context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildLine1(reportStore.selectingReport!, context),
+          _buildLine2(reportStore.selectingReport!, context),
+          _buildLine3(reportStore.selectingReport!, context),
+          _buildLine4(reportStore.selectingReport!, context),
+        ],
+      );
+    });
   }
 
   Widget _buildLine1(Report report, BuildContext context) {

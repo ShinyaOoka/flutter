@@ -48,6 +48,8 @@ class _SickInjuredPersonInfoSectionState
     super.initState();
     reportStore = context.read();
     autorun((_) {
+      syncControllerValue(
+          kanaController, reportStore.selectingReport!.sickInjuredPersonKana);
       syncControllerValue(sickInjuredPersonNameController,
           reportStore.selectingReport!.sickInjuredPersonName);
       syncControllerValue(sickInjuredPersonAddressController,
@@ -92,8 +94,8 @@ class _SickInjuredPersonInfoSectionState
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Column(
+    return Observer(builder: (context) {
+      return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildLine1(reportStore.selectingReport!, context),
@@ -107,8 +109,8 @@ class _SickInjuredPersonInfoSectionState
           _buildLine9(reportStore.selectingReport!, context),
           _buildLine10(reportStore.selectingReport!, context),
         ],
-      )
-    ]);
+      );
+    });
   }
 
   Widget _buildLine1(Report report, BuildContext context) {

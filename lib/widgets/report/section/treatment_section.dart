@@ -63,21 +63,23 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildLine1(widget.report),
-        _buildLine2(widget.report),
-        _buildLine3(widget.report),
-        _buildLine4(widget.report),
-        _buildLine5(widget.report),
-        _buildLine6(widget.report),
-        _buildLine7(widget.report),
-        _buildLine8(widget.report),
-        _buildLine9(widget.report),
-        _buildLine10(widget.report),
-      ],
-    );
+    return Observer(builder: (context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildLine1(widget.report),
+          _buildLine2(widget.report),
+          _buildLine3(widget.report),
+          _buildLine4(widget.report),
+          _buildLine5(widget.report),
+          _buildLine6(widget.report),
+          _buildLine7(widget.report),
+          _buildLine8(widget.report),
+          _buildLine9(widget.report),
+          _buildLine10(widget.report),
+        ],
+      );
+    });
   }
 
   Widget _buildLine1(Report report) {

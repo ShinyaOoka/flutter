@@ -125,6 +125,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
       onPressed: () async {
+        FocusScope.of(context).unfocus();
         await _reportStore.createReport(_reportStore.selectingReport!);
         if (!mounted) return;
         Navigator.of(context).pop();

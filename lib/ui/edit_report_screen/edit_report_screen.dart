@@ -114,6 +114,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
       onPressed: () async {
+        FocusScope.of(context).unfocus();
         await _reportStore.editReport(_reportStore.selectingReport!);
         if (!mounted) return;
         Navigator.of(context).pop(_reportStore.selectingReport);

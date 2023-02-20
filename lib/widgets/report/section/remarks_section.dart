@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
@@ -45,13 +46,15 @@ class _RemarksSectionState extends State<RemarksSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildLine1(reportStore.selectingReport!),
-        _buildLine2(reportStore.selectingReport!),
-      ],
-    );
+    return Observer(builder: (context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildLine1(reportStore.selectingReport!),
+          _buildLine2(reportStore.selectingReport!),
+        ],
+      );
+    });
   }
 
   Widget _buildLine1(Report report) {
