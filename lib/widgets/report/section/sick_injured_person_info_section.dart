@@ -131,7 +131,8 @@ class _SickInjuredPersonInfoSectionState
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
-          report.sickInjuredPersonKana = RegExp(r'^([ァ-ン]|ー)+')
+          print(kanaController.text);
+          report.sickInjuredPersonKana = RegExp(r'([ァ-ン]|ー)+')
               .allMatches(kanaController.text)
               .map((x) => x.group(0))
               .join();
