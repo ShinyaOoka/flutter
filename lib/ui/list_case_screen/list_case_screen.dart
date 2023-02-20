@@ -64,14 +64,14 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     _zollSdkStore = context.read();
-    // print('device serial number');
-    // print(device.serialNumber);
-    // _zollSdkStore.caseListItems[device.serialNumber] = ObservableList.of([
-    //   CaseListItem(
-    //       caseId: 'caseId',
-    //       startTime: "2023-02-02T05:19:43Z",
-    //       endTime: "2023-02-02T06:29:04Z")
-    // ]);
+    print('device serial number');
+    print(device.serialNumber);
+    _zollSdkStore.caseListItems['serialNumber'] = ObservableList.of([
+      CaseListItem(
+          caseId: 'caseId',
+          startTime: "2023-02-02T05:19:43Z",
+          endTime: "2023-02-02T06:29:04Z")
+    ]);
     _hostApi.deviceGetCaseList(device, null);
   }
 

@@ -16,7 +16,7 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 class ReportingStatusSection extends StatefulWidget {
   final bool readOnly;
 
-  ReportingStatusSection({super.key, this.readOnly = false});
+  const ReportingStatusSection({super.key, this.readOnly = false});
 
   @override
   State<ReportingStatusSection> createState() => _ReportingStatusSectionState();

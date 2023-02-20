@@ -16,7 +16,7 @@ import 'package:collection/collection.dart';
 class TransportInfoSection extends StatefulWidget {
   final bool readOnly;
 
-  TransportInfoSection({super.key, this.readOnly = false});
+  const TransportInfoSection({super.key, this.readOnly = false});
 
   @override
   State<TransportInfoSection> createState() => _TransportInfoSectionState();

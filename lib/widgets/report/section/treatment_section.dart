@@ -17,7 +17,7 @@ class TreatmentSection extends StatefulWidget {
   final Report report;
   final bool readOnly;
 
-  TreatmentSection({super.key, required this.report, this.readOnly = false});
+  const TreatmentSection({super.key, required this.report, this.readOnly = false});
 
   @override
   State<TreatmentSection> createState() => _TreatmentSectionState();

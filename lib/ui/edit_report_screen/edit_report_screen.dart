@@ -14,7 +14,6 @@ import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
-import 'package:ak_azm_flutter/ui/send_report_screen/send_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
 
@@ -182,7 +181,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
                     const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
               ),
             ),
-            ReportForm(),
+            const ReportForm(),
           ],
         ),
       ),

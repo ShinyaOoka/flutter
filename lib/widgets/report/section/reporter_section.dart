@@ -13,7 +13,7 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 class ReporterSection extends StatefulWidget {
   final bool readOnly;
 
-  ReporterSection({super.key, this.readOnly = false});
+  const ReporterSection({super.key, this.readOnly = false});
 
   @override
   State<ReporterSection> createState() => _ReporterSectionState();

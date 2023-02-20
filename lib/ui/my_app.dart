@@ -1,7 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
@@ -27,6 +26,8 @@ class MyApp extends StatelessWidget {
   final ZollSdkStore _zollSdkStore = getIt<ZollSdkStore>();
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

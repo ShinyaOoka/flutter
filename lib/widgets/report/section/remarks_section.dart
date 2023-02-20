@@ -11,7 +11,7 @@ import 'package:mobx/mobx.dart';
 class RemarksSection extends StatefulWidget {
   final bool readOnly;
 
-  RemarksSection({super.key, this.readOnly = false});
+  const RemarksSection({super.key, this.readOnly = false});
 
   @override
   State<RemarksSection> createState() => _RemarksSectionState();

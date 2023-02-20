@@ -1,6 +1,5 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/ui/edit_report_screen/edit_report_screen.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -13,7 +12,6 @@ import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
-import 'package:ak_azm_flutter/ui/send_report_screen/send_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
 
@@ -162,7 +160,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       thumbVisibility: true,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: ReportForm(
+        child: const ReportForm(
           readOnly: true,
           radio: false,
           expanded: true,

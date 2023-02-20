@@ -26,13 +26,13 @@ class AppDropdown<T> extends StatelessWidget {
                   label: label != null ? Text(label!) : null,
                   border: const OutlineInputBorder(),
                   counterText: ' ',
-                  counterStyle: TextStyle(height: 0.2, fontSize: 10),
+                  counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),
                 readOnly: readOnly,
                 enabled: enabled,
                 controller: TextEditingController(
                     text: itemAsString != null && selectedItem != null
-                        ? itemAsString!(selectedItem!)
+                        ? itemAsString!(selectedItem as T)
                         : selectedItem != null
                             ? selectedItem.toString()
                             : ''),

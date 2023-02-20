@@ -7,7 +7,6 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/ui/confirm_report_screen/confirm_report_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';

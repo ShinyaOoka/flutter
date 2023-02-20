@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class TimeSection extends StatefulWidget {
   final bool readOnly;
 
-  TimeSection({super.key, this.readOnly = false});
+  const TimeSection({super.key, this.readOnly = false});
 
   @override
   State<TimeSection> createState() => _TimeSectionState();

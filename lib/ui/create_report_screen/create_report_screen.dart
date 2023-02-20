@@ -181,7 +181,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
                     const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
               ),
             ),
-            ReportForm(),
+            const ReportForm(),
           ],
         ),
       ),

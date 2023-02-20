@@ -14,15 +14,9 @@ import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
-import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
-import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
-import 'package:tuple/tuple.dart';
 
 class PreviewReportScreen extends StatefulWidget {
   const PreviewReportScreen({super.key});
