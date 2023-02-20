@@ -9,6 +9,7 @@ class AppDatePicker extends StatelessWidget {
   final String? hintText;
   final DateTime? selectedDate;
   final DateTime? maxTime;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class AppDatePicker extends StatelessWidget {
                       : null),
           readOnly: true,
           onTap: () async {
+            if (readOnly) return;
             DatePicker.showDatePicker(
               context,
               showTitleActions: true,
@@ -53,5 +55,6 @@ class AppDatePicker extends StatelessWidget {
     this.controller,
     this.selectedDate,
     this.maxTime,
+    this.readOnly = false,
   });
 }

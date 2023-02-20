@@ -118,12 +118,14 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonNameController,
         onChanged: (value) => report.sickInjuredPersonName = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
       Focus(
         child: AppTextField(
           label: 'sick_injured_person_kana'.i18n(),
           controller: kanaController,
           maxLength: 20,
+          readOnly: widget.readOnly,
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
@@ -146,6 +148,7 @@ class _SickInjuredPersonInfoSectionState
         onChanged: (value) => report.sickInjuredPersonAddress = value,
         maxLength: 60,
         maxLines: 1,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -167,6 +170,7 @@ class _SickInjuredPersonInfoSectionState
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDatePicker(
           label: 'sick_injured_person_birth_date'.i18n(),
@@ -175,6 +179,7 @@ class _SickInjuredPersonInfoSectionState
             report.sickInjuredPersonBirthDate = date;
           },
           maxTime: DateTime.now(),
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -189,6 +194,7 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonTelController,
         onChanged: (value) => report.sickInjuredPersonTel = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'sick_injured_person_family_tel'.i18n(),
@@ -197,6 +203,7 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonFamilyTelController,
         onChanged: (value) => report.sickInjuredPersonFamilyTel = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -208,12 +215,14 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonMedicalHistoryController,
         onChanged: (value) => report.sickInjuredPersonMedicalHistory = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'sick_injured_person_history_hospital'.i18n(),
         controller: sickInjuredPersonHistoryHospitalController,
         onChanged: (value) => report.sickInjuredPersonHistoryHospital = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -225,12 +234,14 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonKakaritsukeController,
         onChanged: (value) => report.sickInjuredPersonKakaritsuke = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'sick_injured_person_allergy'.i18n(),
         controller: sickInjuredPersonAllergyController,
         onChanged: (value) => report.sickInjuredPersonAllergy = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -252,6 +263,7 @@ class _SickInjuredPersonInfoSectionState
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppTextField(
           label: 'sick_injured_person_medication_detail'.i18n(),
@@ -259,6 +271,7 @@ class _SickInjuredPersonInfoSectionState
           onChanged: (value) =>
               report.sickInjuredPersonMedicationDetail = value,
           maxLength: 20,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -274,6 +287,7 @@ class _SickInjuredPersonInfoSectionState
                 report.sickInjuredPersonNameOfInjuryOrSickness = value,
             maxLength: 60,
             maxLines: 1,
+            readOnly: widget.readOnly,
           ),
           context: context),
     ]);
@@ -288,6 +302,7 @@ class _SickInjuredPersonInfoSectionState
             onChanged: (value) => report.sickInjuredPersonDegree = value,
             maxLength: 60,
             maxLines: 1,
+            readOnly: widget.readOnly,
           ),
           context: context),
     ]);
@@ -308,6 +323,7 @@ class _SickInjuredPersonInfoSectionState
               label: 'sick_injured_person_age'.i18n(),
               controller: TextEditingController(text: age?.toString()),
               enabled: false,
+              readOnly: widget.readOnly,
             ),
             context: context),
       ]);

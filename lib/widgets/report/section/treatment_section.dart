@@ -97,6 +97,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<bool>(
           items: const [true, false],
@@ -106,6 +107,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
             report.foreignBodyRemoval = value;
           },
           selectedItem: report.foreignBodyRemoval,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -121,6 +123,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           report.suction = value;
         },
         selectedItem: report.suction,
+        readOnly: widget.readOnly,
       ),
       AppDropdown<bool>(
         items: const [true, false],
@@ -130,6 +133,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           report.artificialRespiration = value;
         },
         selectedItem: report.artificialRespiration,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -144,6 +148,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           report.chestCompressions = value;
         },
         selectedItem: report.chestCompressions,
+        readOnly: widget.readOnly,
       ),
       AppDropdown<bool>(
         items: const [true, false],
@@ -153,6 +158,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           report.ecgMonitor = value;
         },
         selectedItem: report.ecgMonitor,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -164,14 +170,14 @@ class _TreatmentSectionState extends State<TreatmentSection>
           label: 'o2_administration'.i18n(),
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (value) {
-            report.o2Administration = int.parse(value);
-          },
+          onChanged: (value) => report.o2Administration = int.parse(value),
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'o2_administration_time'.i18n(),
           onChanged: (value) => report.o2AdministrationTime = value,
           selectedTime: report.o2AdministrationTime,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -195,6 +201,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<bool>(
           items: const [true, false],
@@ -204,6 +211,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
             report.hemostaticTreatment = value;
           },
           selectedItem: report.hemostaticTreatment,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -215,19 +223,17 @@ class _TreatmentSectionState extends State<TreatmentSection>
         items: const [true, false],
         label: 'adductor_fixation'.i18n(),
         itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.adductorFixation = value;
-        },
+        onChanged: (value) => report.adductorFixation = value,
         selectedItem: report.adductorFixation,
+        readOnly: widget.readOnly,
       ),
       AppDropdown<bool>(
         items: const [true, false],
         label: 'coating'.i18n(),
         itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.coating = value;
-        },
+        onChanged: (value) => report.coating = value,
         selectedItem: report.coating,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -238,10 +244,9 @@ class _TreatmentSectionState extends State<TreatmentSection>
         items: const [true, false],
         label: 'burn_treatment'.i18n(),
         itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.burnTreatment = value;
-        },
+        onChanged: (value) => report.burnTreatment = value,
         selectedItem: report.burnTreatment,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -259,6 +264,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
               ),
             ),
             const SizedBox(width: 16),
@@ -267,6 +273,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 label: 'bs_measurement_time_1'.i18n(),
                 onChanged: (value) => report.bsMeasurementTime1 = value,
                 selectedTime: report.bsMeasurementTime1,
+                readOnly: widget.readOnly,
               ),
             ),
           ],
@@ -275,6 +282,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           label: 'puncture_site_1'.i18n(),
           onChanged: (value) => report.punctureSite1 = value,
           maxLength: 10,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -293,6 +301,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
               ),
             ),
             const SizedBox(width: 16),
@@ -301,6 +310,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 label: 'bs_measurement_time_2'.i18n(),
                 onChanged: (value) => report.bsMeasurementTime2 = value,
                 selectedTime: report.bsMeasurementTime2,
+                readOnly: widget.readOnly,
               ),
             ),
           ],
@@ -309,6 +319,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           label: 'puncture_site_2'.i18n(),
           onChanged: (value) => report.punctureSite2 = value,
           maxLength: 10,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -321,6 +332,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
         onChanged: (value) => report.other = value,
         maxLength: 60,
         maxLines: 1,
+        readOnly: widget.readOnly,
       ),
     ]);
   }

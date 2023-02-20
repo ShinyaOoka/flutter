@@ -7,6 +7,8 @@ class AppTimePicker extends StatelessWidget {
   final void Function(TimeOfDay?)? onChanged;
   final String? hintText;
   final TimeOfDay? selectedTime;
+  final bool readOnly;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,6 +29,7 @@ class AppTimePicker extends StatelessWidget {
                       : null),
           readOnly: true,
           onTap: () async {
+            if (readOnly) return;
             final now = DateTime.now();
             DatePicker.showTimePicker(
               context,
@@ -54,5 +57,6 @@ class AppTimePicker extends StatelessWidget {
     this.hintText,
     this.controller,
     this.selectedTime,
+    this.readOnly = false,
   });
 }

@@ -57,6 +57,7 @@ class _ReporterSectionState extends State<ReporterSection>
               (teamMember.name != null && teamMember.name!.contains(filter)) ||
               (teamMember.teamMemberCd != null &&
                   teamMember.teamMemberCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppTextField(
           label: 'affiliation_of_reporter'.i18n(),

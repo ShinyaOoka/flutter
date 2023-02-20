@@ -72,6 +72,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
           label: 'perceiver_name'.i18n(),
           onChanged: (value) => report.perceiverName = value,
           maxLength: 20,
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           showSearchBox: true,
@@ -89,6 +90,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -100,6 +102,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         label: 'caller_name'.i18n(),
         onChanged: (value) => report.callerName = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
@@ -107,6 +110,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.callerTel = value,
         maxLength: 20,
+        readOnly: widget.readOnly,
       ),
     ]);
   }

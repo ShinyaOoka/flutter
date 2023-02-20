@@ -163,7 +163,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       child: SingleChildScrollView(
         controller: scrollController,
         child: ReportForm(
-          readOnly: false,
+          readOnly: true,
           radio: false,
           expanded: true,
         ),

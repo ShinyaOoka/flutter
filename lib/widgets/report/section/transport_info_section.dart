@@ -90,6 +90,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
               (hospital.name != null && hospital.name!.contains(filter)) ||
               (hospital.hospitalCd != null &&
                   hospital.hospitalCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Hospital>(
           showSearchBox: true,
@@ -104,6 +105,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
               (hospital.name != null && hospital.name!.contains(filter)) ||
               (hospital.hospitalCd != null &&
                   hospital.hospitalCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -116,6 +118,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           label: 'transfer_source_receiving_time'.i18n(),
           onChanged: (value) => report.transferSourceReceivingTime = value,
           selectedTime: report.transferSourceReceivingTime,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -128,6 +131,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         onChanged: (value) => report.reasonForTransfer = value,
         maxLength: 60,
         maxLines: 1,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -139,6 +143,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         onChanged: (value) => report.reasonForNotTransferring = value,
         maxLength: 100,
         minLines: 3,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -153,6 +158,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           report.recordOfRefusalOfTransfer = value;
         },
         selectedItem: report.recordOfRefusalOfTransfer,
+        readOnly: widget.readOnly,
       ),
     ]);
   }

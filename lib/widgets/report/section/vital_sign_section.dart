@@ -141,6 +141,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           label: 'observation_time'.i18n(),
           onChanged: (value) => report.observationTime?[widget.index] = value,
           selectedTime: report.observationTime?[widget.index],
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -157,6 +158,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         )
       ]);
     });
@@ -181,6 +183,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -197,6 +200,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -213,6 +217,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -230,6 +235,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
         maxLength: 3,
+        readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'pulse'.i18n(),
@@ -241,6 +247,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
         maxLength: 3,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -262,6 +269,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
+                readOnly: widget.readOnly,
               )),
               const SizedBox(width: 16),
               Expanded(
@@ -275,6 +283,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
+                readOnly: widget.readOnly,
               )),
             ],
           ),
@@ -291,6 +300,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: '%'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
+                readOnly: widget.readOnly,
               )),
               const SizedBox(width: 16),
               Expanded(
@@ -303,6 +313,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'L'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
+                readOnly: widget.readOnly,
               )),
             ],
           )
@@ -321,6 +332,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                     report.pupilRight?[widget.index] = int.parse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
               )),
               const SizedBox(width: 16),
               Expanded(
@@ -333,6 +345,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
+                readOnly: widget.readOnly,
               )),
             ],
           ),
@@ -346,6 +359,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                   onChanged: (value) =>
                       report.lightReflexRight?[widget.index] = value,
                   selectedItem: report.lightReflexRight?[widget.index],
+                  readOnly: widget.readOnly,
                 ),
               ),
               const SizedBox(width: 16),
@@ -357,6 +371,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                   onChanged: (value) =>
                       report.lightReflexLeft?[widget.index] = value,
                   selectedItem: report.lightReflexLeft?[widget.index],
+                  readOnly: widget.readOnly,
                 ),
               ),
             ],
@@ -381,6 +396,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           counterText: 'celsius'.i18n(),
           counterColor: Theme.of(context).primaryColor,
           maxLength: 3,
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -398,6 +414,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         )
       ]);
     });
@@ -413,6 +430,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: (value) => report.hemorrhage?[widget.index] = value,
           maxLength: 10,
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -430,6 +448,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -444,6 +463,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.vomiting?[widget.index] = value,
           selectedItem: report.vomiting?[widget.index],
+          readOnly: widget.readOnly,
         ),
         AppTextField(
           label: 'extremities'.i18n(),
@@ -451,6 +471,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: (value) => report.extremities?[widget.index] = value,
           maxLength: 10,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -478,6 +499,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 (c.value != null && c.value!.contains(filter)) ||
                 (c.classificationSubCd != null &&
                     c.classificationSubCd!.contains(filter)),
+            readOnly: widget.readOnly,
           ),
           context: context,
         ),

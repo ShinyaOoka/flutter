@@ -88,14 +88,17 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         Row(
           children: [
             Expanded(
               child: AppDatePicker(
-                  label: 'date_of_occurence'.i18n(),
-                  selectedDate: report.dateOfOccurrence,
-                  onChanged: (date) => report.dateOfOccurrence = date),
+                label: 'date_of_occurence'.i18n(),
+                selectedDate: report.dateOfOccurrence,
+                onChanged: (date) => report.dateOfOccurrence = date,
+                readOnly: widget.readOnly,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -103,6 +106,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
                 label: 'time_of_occurence'.i18n(),
                 onChanged: (value) => report.timeOfOccurrence = value,
                 selectedTime: report.timeOfOccurrence,
+                readOnly: widget.readOnly,
               ),
             ),
           ],
@@ -119,6 +123,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         maxLength: 100,
         label: 'place_of_incident'.i18n(),
         onChanged: (value) => report.placeOfIncident = value,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -131,6 +136,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         maxLength: 100,
         label: 'accident_summary'.i18n(),
         onChanged: (value) => report.accidentSummary = value,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -152,6 +158,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -168,6 +175,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
         ),
       ]);
     });

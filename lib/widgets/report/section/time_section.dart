@@ -45,16 +45,19 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           label: 'sense_time'.i18n(),
           onChanged: (value) => report.senseTime = value,
           selectedTime: report.senseTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'command_time'.i18n(),
           onChanged: (value) => report.commandTime = value,
           selectedTime: report.commandTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'attendence_time'.i18n(),
           onChanged: (value) => report.attendanceTime = value,
           selectedTime: report.attendanceTime,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -67,16 +70,19 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           label: 'on_site_arrival_time'.i18n(),
           onChanged: (value) => report.onSiteArrivalTime = value,
           selectedTime: report.onSiteArrivalTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'contact_time'.i18n(),
           onChanged: (value) => report.contactTime = value,
           selectedTime: report.contactTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'in_vehicle_time'.i18n(),
           onChanged: (value) => report.inVehicleTime = value,
           selectedTime: report.inVehicleTime,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -89,16 +95,19 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           label: 'start_of_transport_time'.i18n(),
           onChanged: (value) => report.startOfTransportTime = value,
           selectedTime: report.startOfTransportTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'hospital_arrival_time'.i18n(),
           onChanged: (value) => report.hospitalArrivalTime = value,
           selectedTime: report.hospitalArrivalTime,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'family_contact_time'.i18n(),
           onChanged: (value) => report.familyContactTime = value,
           selectedTime: report.familyContactTime,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -111,12 +120,14 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           label: 'police_contact_time'.i18n(),
           onChanged: (value) => report.policeContactTime = value,
           selectedTime: report.policeContactTime,
+          readOnly: widget.readOnly,
         ),
         optional(
           child: AppTimePicker(
             label: 'time_of_arrival'.i18n(),
             onChanged: (value) => report.timeOfArrival = value,
             selectedTime: report.timeOfArrival,
+            readOnly: widget.readOnly,
           ),
           context: context,
         ),
@@ -125,6 +136,7 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
             label: 'return_time'.i18n(),
             onChanged: (value) => report.returnTime = value,
             selectedTime: report.returnTime,
+            readOnly: widget.readOnly,
           ),
           context: context,
         ),

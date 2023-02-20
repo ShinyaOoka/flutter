@@ -61,6 +61,7 @@ class _RemarksSectionState extends State<RemarksSection>
         onChanged: (value) => report.summaryOfOccurrence = value,
         maxLength: 500,
         minLines: 3,
+        readOnly: widget.readOnly,
       ),
     ]);
   }
@@ -72,6 +73,7 @@ class _RemarksSectionState extends State<RemarksSection>
         onChanged: (value) => report.remarks = value,
         maxLength: 180,
         minLines: 3,
+        readOnly: widget.readOnly,
       ),
     ]);
   }

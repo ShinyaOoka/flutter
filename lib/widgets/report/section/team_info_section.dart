@@ -85,7 +85,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           filterFn: (team, filter) =>
               (team.name != null && team.name!.contains(filter)) ||
               (team.teamCd != null && team.teamCd!.contains(filter)),
-          enabled: widget.readOnly,
+          readOnly: widget.readOnly,
         ),
         AppTextField(
           label: 'team_tel'.i18n(),
@@ -120,7 +120,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
               (teamMember.name != null && teamMember.name!.contains(filter)) ||
               (teamMember.teamMemberCd != null &&
                   teamMember.teamMemberCd!.contains(filter)),
-          enabled: widget.readOnly,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -176,7 +176,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
                     teamMember.name!.contains(filter)) ||
                 (teamMember.teamMemberCd != null &&
                     teamMember.teamMemberCd!.contains(filter)),
-            enabled: widget.readOnly,
+            readOnly: widget.readOnly,
           ),
           context: context,
         ),
@@ -197,7 +197,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
                     teamMember.name!.contains(filter)) ||
                 (teamMember.teamMemberCd != null &&
                     teamMember.teamMemberCd!.contains(filter)),
-            enabled: widget.readOnly,
+            readOnly: widget.readOnly,
           ),
           context: context,
         ),
