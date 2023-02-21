@@ -72,6 +72,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
       return lineLayout(children: [
         AppTextField(
           label: 'perceiver_name'.i18n(),
+          controller: perceiverNameController,
           onChanged: (value) => report.perceiverName = value,
           maxLength: 20,
           readOnly: widget.readOnly,
@@ -102,12 +103,14 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
     return lineLayout(children: [
       AppTextField(
         label: 'caller_name'.i18n(),
+        controller: callerNameController,
         onChanged: (value) => report.callerName = value,
         maxLength: 20,
         readOnly: widget.readOnly,
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
+        controller: callerTelController,
         keyboardType: TextInputType.phone,
         inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.callerTel = value,

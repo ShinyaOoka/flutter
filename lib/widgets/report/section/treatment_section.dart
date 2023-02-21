@@ -17,7 +17,8 @@ class TreatmentSection extends StatefulWidget {
   final Report report;
   final bool readOnly;
 
-  const TreatmentSection({super.key, required this.report, this.readOnly = false});
+  const TreatmentSection(
+      {super.key, required this.report, this.readOnly = false});
 
   @override
   State<TreatmentSection> createState() => _TreatmentSectionState();
@@ -170,6 +171,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
       return lineLayout(children: [
         AppTextField(
           label: 'o2_administration'.i18n(),
+          controller: o2AdministrationController,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: (value) => report.o2Administration = int.parse(value),
@@ -261,6 +263,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
             Expanded(
               child: AppTextField(
                 label: 'bs_measurement_1'.i18n(),
+                controller: bsMeasurement1Controller,
                 keyboardType: TextInputType.number,
                 onChanged: (item) => report.bsMeasurement1 = int.parse(item),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -282,6 +285,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
         ),
         AppTextField(
           label: 'puncture_site_1'.i18n(),
+          controller: punctureSite1Controller,
           onChanged: (value) => report.punctureSite1 = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -298,6 +302,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
             Expanded(
               child: AppTextField(
                 label: 'bs_measurement_2'.i18n(),
+                controller: bsMeasurement2Controller,
                 keyboardType: TextInputType.number,
                 onChanged: (item) => report.bsMeasurement2 = int.parse(item),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -319,6 +324,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
         ),
         AppTextField(
           label: 'puncture_site_2'.i18n(),
+          controller: punctureSite2Controller,
           onChanged: (value) => report.punctureSite2 = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -331,6 +337,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
     return lineLayout(children: [
       AppTextField(
         label: 'other'.i18n(),
+        controller: otherController,
         onChanged: (value) => report.other = value,
         maxLength: 60,
         maxLines: 1,

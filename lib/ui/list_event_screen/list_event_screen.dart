@@ -424,7 +424,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
-                        "HR: ${trendData[index].hr?.toString() ?? ''}",
+                        "HR: ${trendData[index].hr?.toString() ?? '-'}",
                         style: textStyle,
                       ),
                     )),
@@ -432,7 +432,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
-                        "BR: ${trendData[index].resp?.toString() ?? ''}",
+                        "BR: ${trendData[index].resp?.toString() ?? '-'}",
                         style: textStyle,
                       ),
                     )),
@@ -444,7 +444,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
-                        "SPO2: ${trendData[index].spo2?.toString() ?? ''}",
+                        "SPO2: ${trendData[index].spo2?.toString() ?? '-'}",
                         style: textStyle,
                       ),
                     )),
@@ -452,7 +452,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
                       child: Text(
-                        "血圧: ${trendData[index].nibpDia != null || trendData[index].nibpSys != null ? "${trendData[index].nibpDia?.toString() ?? ''}/${(trendData[index].nibpSys?.toString() ?? '')}" : ""}",
+                        "血圧: ${trendData[index].nibpDia?.toString() ?? '-'}/${(trendData[index].nibpSys?.toString() ?? '-')}",
                         style: textStyle,
                       ),
                     )),

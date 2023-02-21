@@ -130,6 +130,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     return lineLayout(children: [
       AppTextField(
         label: 'reason_for_transfer'.i18n(),
+        controller: reasonForTransferController,
         onChanged: (value) => report.reasonForTransfer = value,
         maxLength: 60,
         maxLines: 1,
@@ -142,6 +143,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     return lineLayout(children: [
       AppTextField(
         label: 'reason_for_not_transferring'.i18n(),
+        controller: reasonForNotTransferringController,
         onChanged: (value) => report.reasonForNotTransferring = value,
         maxLength: 100,
         minLines: 3,

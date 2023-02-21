@@ -121,6 +121,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return lineLayout(children: [
       AppTextField(
         keyboardType: TextInputType.multiline,
+        controller: placeOfIncidentController,
         minLines: 3,
         maxLength: 100,
         label: 'place_of_incident'.i18n(),
@@ -134,6 +135,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return lineLayout(children: [
       AppTextField(
         keyboardType: TextInputType.multiline,
+        controller: accidentSummaryController,
         minLines: 3,
         maxLength: 100,
         label: 'accident_summary'.i18n(),
@@ -206,6 +208,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return lineLayout(children: [
       AppTextField(
         label: 'verbal_guidance'.i18n(),
+        controller: verbalGuidanceController,
         onChanged: (value) => report.verbalGuidance = value,
         maxLength: 60,
         maxLines: 1,
