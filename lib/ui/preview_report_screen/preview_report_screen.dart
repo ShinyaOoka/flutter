@@ -866,9 +866,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('送信'),
+                    SizedBox(
+                      width: 64,
                     ),
                     const Expanded(
                         child: Text('傷病者輸送証', textAlign: TextAlign.center)),

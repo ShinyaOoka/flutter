@@ -89,6 +89,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      floatingActionButton: _buildGetDataFromXSeriesButton(),
     );
   }
 
@@ -139,6 +140,18 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     );
   }
 
+  Widget _buildGetDataFromXSeriesButton() {
+    return FloatingActionButton(
+      onPressed: () async {
+        await Navigator.of(context).pushNamed(Routes.listDevice,
+            arguments: ListDeviceScreenArguments(
+                report: _reportStore.selectingReport!));
+      },
+      child: Icon(Icons.data_thresholding_outlined),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
@@ -164,26 +177,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
       thumbVisibility: true,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
-                onPressed: () async {
-                  await Navigator.of(context).pushNamed(Routes.listDevice,
-                      arguments: ListDeviceScreenArguments(
-                          report: _reportStore.selectingReport!));
-                },
-                style: ButtonStyle(
-                    minimumSize:
-                        MaterialStateProperty.all(const Size.fromHeight(50))),
-                child:
-                    const Text('X Seriesデータ取得', style: TextStyle(fontSize: 20)),
-              ),
-            ),
-            const ReportForm(),
-          ],
-        ),
+        child: const ReportForm(),
       ),
     );
   }
