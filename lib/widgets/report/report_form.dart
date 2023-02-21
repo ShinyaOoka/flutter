@@ -105,9 +105,7 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
         title: 'treatment'.i18n(),
         widget: Container(
             padding: const EdgeInsets.all(16),
-            child: TreatmentSection(
-                report: _reportStore.selectingReport!,
-                readOnly: widget.readOnly)),
+            child: TreatmentSection(readOnly: widget.readOnly)),
         optional: false,
         isExpanded: widget.expanded,
       ),

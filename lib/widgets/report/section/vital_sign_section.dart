@@ -33,6 +33,12 @@ class _VitalSignSectionState extends State<VitalSignSection>
   final bloodPressureHighController = TextEditingController();
   final bloodPressureLowController = TextEditingController();
   final spO2PercentController = TextEditingController();
+  final spO2LiterController = TextEditingController();
+  final pupilRightController = TextEditingController();
+  final pupilLeftController = TextEditingController();
+  final bodyTemperatureController = TextEditingController();
+  final hemorrhageController = TextEditingController();
+  final extremitiesController = TextEditingController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -97,6 +103,18 @@ class _VitalSignSectionState extends State<VitalSignSection>
           reportStore.selectingReport!.spO2Percent?[widget.index]);
       syncControllerValue(
           pulseController, reportStore.selectingReport!.pulse?[widget.index]);
+      syncControllerValue(spO2LiterController,
+          reportStore.selectingReport!.spO2Liter?[widget.index]);
+      syncControllerValue(pupilRightController,
+          reportStore.selectingReport!.pupilRight?[widget.index]);
+      syncControllerValue(pupilLeftController,
+          reportStore.selectingReport!.pupilLeft?[widget.index]);
+      syncControllerValue(bodyTemperatureController,
+          reportStore.selectingReport!.bodyTemperature?[widget.index]);
+      syncControllerValue(hemorrhageController,
+          reportStore.selectingReport!.hemorrhage?[widget.index]);
+      syncControllerValue(extremitiesController,
+          reportStore.selectingReport!.extremities?[widget.index]);
     });
   }
 
@@ -108,6 +126,12 @@ class _VitalSignSectionState extends State<VitalSignSection>
     bloodPressureHighController.dispose();
     bloodPressureLowController.dispose();
     spO2PercentController.dispose();
+    spO2LiterController.dispose();
+    pupilRightController.dispose();
+    pupilLeftController.dispose();
+    bodyTemperatureController.dispose();
+    hemorrhageController.dispose();
+    extremitiesController.dispose();
     super.dispose();
   }
 
@@ -308,6 +332,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               Expanded(
                   child: AppTextField(
                 label: 'sp_o2_liter'.i18n(),
+                controller: spO2LiterController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
@@ -328,6 +353,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               Expanded(
                   child: AppTextField(
                 label: 'pupil_right'.i18n(),
+                controller: pupilRightController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
@@ -335,11 +361,13 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                maxLength: 3,
               )),
               const SizedBox(width: 16),
               Expanded(
                   child: AppTextField(
                 label: 'pupil_left'.i18n(),
+                controller: pupilLeftController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
@@ -387,18 +415,24 @@ class _VitalSignSectionState extends State<VitalSignSection>
     return Observer(builder: (context) {
       final classificationStore = Provider.of<ClassificationStore>(context);
       return lineLayout(children: [
-        AppTextField(
-          label: 'body_temperature'.i18n(),
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp('[0-9.]'))
-          ],
-          onChanged: (value) =>
-              report.bodyTemperature?[widget.index] = double.parse(value),
-          counterText: 'celsius'.i18n(),
-          counterColor: Theme.of(context).primaryColor,
-          maxLength: 3,
-          readOnly: widget.readOnly,
+        Focus(
+          child: AppTextField(
+            label: 'body_temperature'.i18n(),
+            controller: bodyTemperatureController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+            ],
+            counterText: 'celsius'.i18n(),
+            counterColor: Theme.of(context).primaryColor,
+            readOnly: widget.readOnly,
+          ),
+          onFocusChange: (hasFocus) {
+            if (hasFocus) return;
+            report.bodyTemperature?[widget.index] =
+                double.tryParse(bodyTemperatureController.text);
+          },
         ),
         AppDropdown<Classification>(
           items: classificationStore.classifications.values
@@ -428,8 +462,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
       return lineLayout(children: [
         AppTextField(
           label: 'hemorrhage'.i18n(),
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          controller: hemorrhageController,
           onChanged: (value) => report.hemorrhage?[widget.index] = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -469,8 +502,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         ),
         AppTextField(
           label: 'extremities'.i18n(),
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          controller: extremitiesController,
           onChanged: (value) => report.extremities?[widget.index] = value,
           maxLength: 10,
           readOnly: widget.readOnly,

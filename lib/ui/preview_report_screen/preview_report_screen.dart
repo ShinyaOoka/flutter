@@ -560,9 +560,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //77
-    if (report.burnTreatment != null && report.burnTreatment!) {
+    if (report.coating != null && report.coating!) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　被覆処置', '$checkIcon　被覆処置');
+    }
+
+    //77
+    if (report.burnTreatment != null && report.burnTreatment!) {
+      htmlInput =
+          htmlInput.replaceFirst('$uncheckIcon　熱傷処置', '$checkIcon　熱傷処置');
     }
 
     //78
@@ -741,7 +747,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       }
       //56
       htmlInput = htmlInput.replaceFirst('BodyTemperature${i + 1}',
-          report.bodyTemperature?[i].toString() ?? '');
+          report.bodyTemperature?[i]?.toString() ?? '');
       //57
       if (report.facialFeatures
               ?.firstWhereIndexedOrNull((index, element) => index == i) ==
@@ -779,7 +785,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'Hemorrhage${i + 1}',
           report.hemorrhage
                   ?.firstWhereIndexedOrNull((index, element) => index == i)
-                  .toString() ??
+                  ?.toString() ??
               '');
       //59
       int index001 = report.incontinence?.indexOf("001") ?? -1;

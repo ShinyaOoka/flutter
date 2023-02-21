@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,11 +15,9 @@ import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 
 class TreatmentSection extends StatefulWidget {
-  final Report report;
   final bool readOnly;
 
-  const TreatmentSection(
-      {super.key, required this.report, this.readOnly = false});
+  const TreatmentSection({super.key, this.readOnly = false});
 
   @override
   State<TreatmentSection> createState() => _TreatmentSectionState();
@@ -33,20 +32,24 @@ class _TreatmentSectionState extends State<TreatmentSection>
   final punctureSite2Controller = TextEditingController();
   final otherController = TextEditingController();
   late ReactionDisposer reactionDisposer;
+  late ReportStore reportStore;
 
   @override
   void initState() {
     super.initState();
+    reportStore = context.read();
     reactionDisposer = autorun((_) {
+      syncControllerValue(o2AdministrationController,
+          reportStore.selectingReport!.o2Administration);
+      syncControllerValue(bsMeasurement1Controller,
+          reportStore.selectingReport!.bsMeasurement1);
       syncControllerValue(
-          o2AdministrationController, widget.report.o2Administration);
+          punctureSite1Controller, reportStore.selectingReport!.punctureSite1);
+      syncControllerValue(bsMeasurement2Controller,
+          reportStore.selectingReport!.bsMeasurement2);
       syncControllerValue(
-          bsMeasurement1Controller, widget.report.bsMeasurement1);
-      syncControllerValue(punctureSite1Controller, widget.report.punctureSite1);
-      syncControllerValue(
-          bsMeasurement2Controller, widget.report.bsMeasurement2);
-      syncControllerValue(punctureSite2Controller, widget.report.punctureSite2);
-      syncControllerValue(otherController, widget.report.other);
+          punctureSite2Controller, reportStore.selectingReport!.punctureSite2);
+      syncControllerValue(otherController, reportStore.selectingReport!.other);
     });
   }
 
@@ -68,16 +71,16 @@ class _TreatmentSectionState extends State<TreatmentSection>
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildLine1(widget.report),
-          _buildLine2(widget.report),
-          _buildLine3(widget.report),
-          _buildLine4(widget.report),
-          _buildLine5(widget.report),
-          _buildLine6(widget.report),
-          _buildLine7(widget.report),
-          _buildLine8(widget.report),
-          _buildLine9(widget.report),
-          _buildLine10(widget.report),
+          _buildLine1(reportStore.selectingReport!),
+          _buildLine2(reportStore.selectingReport!),
+          _buildLine3(reportStore.selectingReport!),
+          _buildLine4(reportStore.selectingReport!),
+          _buildLine5(reportStore.selectingReport!),
+          _buildLine6(reportStore.selectingReport!),
+          _buildLine7(reportStore.selectingReport!),
+          _buildLine8(reportStore.selectingReport!),
+          _buildLine9(reportStore.selectingReport!),
+          _buildLine10(reportStore.selectingReport!),
         ],
       );
     });
@@ -176,6 +179,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: (value) => report.o2Administration = int.parse(value),
           readOnly: widget.readOnly,
+          maxLength: 3,
         ),
         AppTimePicker(
           label: 'o2_administration_time'.i18n(),
@@ -270,6 +274,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                maxLength: 3,
               ),
             ),
             const SizedBox(width: 16),
@@ -309,6 +314,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                maxLength: 3,
               ),
             ),
             const SizedBox(width: 16),
