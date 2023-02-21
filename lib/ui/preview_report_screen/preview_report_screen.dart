@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,11 @@ import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 
+class PreviewReportScreenArguments {
+  ReportType reportType;
+  PreviewReportScreenArguments({required this.reportType});
+}
+
 class PreviewReportScreen extends StatefulWidget {
   const PreviewReportScreen({super.key});
 
@@ -27,6 +33,7 @@ class PreviewReportScreen extends StatefulWidget {
 
 class _PreviewReportScreenState extends State<PreviewReportScreen> {
   late ReportStore _reportStore;
+  late ReportType reportType;
 
   File? _file;
 
@@ -38,6 +45,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+
+    final args = ModalRoute.of(context)!.settings.arguments
+        as PreviewReportScreenArguments;
+    reportType = args.reportType;
 
     _reportStore = context.read();
 
@@ -836,11 +847,36 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text('preview_report'.i18n()),
+      title:
+          Text(reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書'),
+      actions: _buildActions(),
       centerTitle: true,
       leading: _buildBackButton(),
       leadingWidth: 100,
     );
+  }
+
+  List<Widget> _buildActions() {
+    return [
+      PopupMenuButton(
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(value: 0, child: Text('送信・印刷'.i18n())),
+          ];
+        },
+        onSelected: (value) async {
+          switch (value) {
+            case 0:
+              if (_file != null) {
+                final bytes = await _file!.readAsBytes();
+                await Printing.layoutPdf(
+                    onLayout: (_) => bytes, format: PdfPageFormat.a4);
+              }
+              break;
+          }
+        },
+      )
+    ];
   }
 
   Widget _buildBackButton() {
@@ -858,44 +894,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   Widget _buildBody() {
     return Observer(
       builder: (context) {
-        return Column(
-          children: [
-            Expanded(
-              flex: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 64,
-                    ),
-                    const Expanded(
-                        child: Text('傷病者輸送証', textAlign: TextAlign.center)),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_file != null) {
-                          final bytes = await _file!.readAsBytes();
-                          await Printing.layoutPdf(
-                              onLayout: (_) => bytes, format: PdfPageFormat.a4);
-                        }
-                      },
-                      child: const Text('印刷'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-                child: _file != null
-                    ? PdfPreview(
-                        useActions: false,
-                        build: (format) {
-                          return _file!.readAsBytes();
-                        },
-                      )
-                    : const CustomProgressIndicatorWidget())
-          ],
-        );
+        return _file != null
+            ? PdfPreview(
+                useActions: false,
+                build: (format) {
+                  return _file!.readAsBytes();
+                },
+              )
+            : const CustomProgressIndicatorWidget();
       },
     );
   }

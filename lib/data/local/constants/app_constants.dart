@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
 class AppConstants {
-  AppConstants._();
   static const appName = 'Report';
 
   static const genderCode = '001';

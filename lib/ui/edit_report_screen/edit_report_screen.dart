@@ -124,7 +124,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
               .show(context);
         });
       },
-      child: Text('edit'.i18n()),
+      child: Text('update'.i18n()),
     );
   }
 

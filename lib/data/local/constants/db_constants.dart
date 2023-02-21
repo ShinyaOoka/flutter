@@ -1,5 +1,4 @@
 class DBConstants {
-  DBConstants._();
   static const dbName = 'sqlite.db';
 
   static const reportTable = 'DTReport';
