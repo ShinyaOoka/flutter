@@ -163,45 +163,39 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     return Observer(builder: (context) {
       final teamMemberStore = Provider.of<TeamMemberStore>(context);
       return lineLayout(children: [
-        optional(
-          child: AppDropdown<TeamMember>(
-            showSearchBox: true,
-            items: teamMemberStore.teamMembers.values
-                .where((element) => element.teamCd == report.teamCd)
-                .toList(),
-            label: 'team_member_name'.i18n(),
-            itemAsString: ((item) => item.name ?? ''),
-            onChanged: (value) => report.teamMember = value,
-            selectedItem: report.teamMember,
-            filterFn: (teamMember, filter) =>
-                (teamMember.name != null &&
-                    teamMember.name!.contains(filter)) ||
-                (teamMember.teamMemberCd != null &&
-                    teamMember.teamMemberCd!.contains(filter)),
-            readOnly: widget.readOnly,
-          ),
-          context: context,
+        AppDropdown<TeamMember>(
+          showSearchBox: true,
+          items: teamMemberStore.teamMembers.values
+              .where((element) => element.teamCd == report.teamCd)
+              .toList(),
+          label: 'team_member_name'.i18n(),
+          itemAsString: ((item) => item.name ?? ''),
+          onChanged: (value) => report.teamMember = value,
+          selectedItem: report.teamMember,
+          filterFn: (teamMember, filter) =>
+              (teamMember.name != null && teamMember.name!.contains(filter)) ||
+              (teamMember.teamMemberCd != null &&
+                  teamMember.teamMemberCd!.contains(filter)),
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
-        optional(
-          child: AppDropdown<TeamMember>(
-            showSearchBox: true,
-            items: teamMemberStore.teamMembers.values
-                .where((element) => element.teamCd == report.teamCd)
-                .toList(),
-            label: 'institutional_member_name'.i18n(),
-            itemAsString: ((item) => item.name ?? ''),
-            onChanged: (value) {
-              report.institutionalMember = value;
-            },
-            selectedItem: report.institutionalMember,
-            filterFn: (teamMember, filter) =>
-                (teamMember.name != null &&
-                    teamMember.name!.contains(filter)) ||
-                (teamMember.teamMemberCd != null &&
-                    teamMember.teamMemberCd!.contains(filter)),
-            readOnly: widget.readOnly,
-          ),
-          context: context,
+        AppDropdown<TeamMember>(
+          showSearchBox: true,
+          items: teamMemberStore.teamMembers.values
+              .where((element) => element.teamCd == report.teamCd)
+              .toList(),
+          label: 'institutional_member_name'.i18n(),
+          itemAsString: ((item) => item.name ?? ''),
+          onChanged: (value) {
+            report.institutionalMember = value;
+          },
+          selectedItem: report.institutionalMember,
+          filterFn: (teamMember, filter) =>
+              (teamMember.name != null && teamMember.name!.contains(filter)) ||
+              (teamMember.teamMemberCd != null &&
+                  teamMember.teamMemberCd!.contains(filter)),
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
       ]);
     });
@@ -209,29 +203,25 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
 
   Widget _buildLine5(Report report, BuildContext context) {
     return lineLayout(children: [
-      optional(
-        child: AppTextField(
-          controller: totalController,
-          label: 'total'.i18n(),
-          keyboardType: TextInputType.number,
-          onChanged: (item) => report.totalCount = int.parse(item),
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          maxLength: 6,
-          readOnly: widget.readOnly,
-        ),
-        context: context,
+      AppTextField(
+        controller: totalController,
+        label: 'total'.i18n(),
+        keyboardType: TextInputType.number,
+        onChanged: (item) => report.totalCount = int.parse(item),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        maxLength: 6,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
       ),
-      optional(
-        child: AppTextField(
-          controller: teamController,
-          label: 'team'.i18n(),
-          keyboardType: TextInputType.number,
-          onChanged: (item) => report.teamCount = int.parse(item),
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          maxLength: 6,
-          readOnly: widget.readOnly,
-        ),
-        context: context,
+      AppTextField(
+        controller: teamController,
+        label: 'team'.i18n(),
+        keyboardType: TextInputType.number,
+        onChanged: (item) => report.teamCount = int.parse(item),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        maxLength: 6,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
       ),
     ]);
   }

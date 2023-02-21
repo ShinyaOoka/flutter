@@ -124,23 +124,19 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           selectedTime: report.policeContactTime,
           readOnly: widget.readOnly,
         ),
-        optional(
-          child: AppTimePicker(
-            label: 'time_of_arrival'.i18n(),
-            onChanged: (value) => report.timeOfArrival = value,
-            selectedTime: report.timeOfArrival,
-            readOnly: widget.readOnly,
-          ),
-          context: context,
+        AppTimePicker(
+          label: 'time_of_arrival'.i18n(),
+          onChanged: (value) => report.timeOfArrival = value,
+          selectedTime: report.timeOfArrival,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
-        optional(
-          child: AppTimePicker(
-            label: 'return_time'.i18n(),
-            onChanged: (value) => report.returnTime = value,
-            selectedTime: report.returnTime,
-            readOnly: widget.readOnly,
-          ),
-          context: context,
+        AppTimePicker(
+          label: 'return_time'.i18n(),
+          onChanged: (value) => report.returnTime = value,
+          selectedTime: report.returnTime,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
       ]);
     });

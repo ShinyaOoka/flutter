@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_azm_flutter/widgets/report/section/occurrence_status_section.dart';
 import 'package:ak_azm_flutter/widgets/report/section/remarks_section.dart';
@@ -45,7 +46,7 @@ class ReportForm extends StatefulWidget {
   State<ReportForm> createState() => _ReportFormState();
 }
 
-class _ReportFormState extends State<ReportForm> {
+class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
   late List<_Section> sections;
   late ReportStore _reportStore;
 
@@ -212,9 +213,8 @@ class _ReportFormState extends State<ReportForm> {
                 ExpansionPanelRadio(
                     value: index,
                     canTapOnHeader: true,
-                    backgroundColor: section.optional
-                        ? Theme.of(context).secondaryHeaderColor
-                        : null,
+                    backgroundColor:
+                        section.optional ? optionalColor(context) : null,
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
                           leading: section.icon,

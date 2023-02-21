@@ -483,27 +483,25 @@ class _VitalSignSectionState extends State<VitalSignSection>
     return Observer(builder: (context) {
       final classificationStore = Provider.of<ClassificationStore>(context);
       return lineLayout(children: [
-        optional(
-          child: AppDropdown<Classification>(
-            items: classificationStore.classifications.values
-                .where((element) =>
-                    element.classificationCd ==
-                    AppConstants.descriptionOfObservationTimeCode)
-                .toList(),
-            label: 'description_of_observation_time'.i18n(),
-            itemAsString: ((item) => item.value ?? ''),
-            onChanged: (value) => report.observationTimeDescriptionTypes =
-                report.observationTimeDescriptionTypes
-                    .mapIndexed((i, e) => i == widget.index ? value : e)
-                    .toList(),
-            selectedItem: report.observationTimeDescriptionTypes[widget.index],
-            filterFn: (c, filter) =>
-                (c.value != null && c.value!.contains(filter)) ||
-                (c.classificationSubCd != null &&
-                    c.classificationSubCd!.contains(filter)),
-            readOnly: widget.readOnly,
-          ),
-          context: context,
+        AppDropdown<Classification>(
+          items: classificationStore.classifications.values
+              .where((element) =>
+                  element.classificationCd ==
+                  AppConstants.descriptionOfObservationTimeCode)
+              .toList(),
+          label: 'description_of_observation_time'.i18n(),
+          itemAsString: ((item) => item.value ?? ''),
+          onChanged: (value) => report.observationTimeDescriptionTypes = report
+              .observationTimeDescriptionTypes
+              .mapIndexed((i, e) => i == widget.index ? value : e)
+              .toList(),
+          selectedItem: report.observationTimeDescriptionTypes[widget.index],
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
         Container(),
       ]);

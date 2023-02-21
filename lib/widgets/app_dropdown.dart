@@ -13,6 +13,7 @@ class AppDropdown<T> extends StatelessWidget {
   final bool showSearchBox;
   final bool enabled;
   final bool readOnly;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,7 @@ class AppDropdown<T> extends StatelessWidget {
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         labelText: label,
                         border: const OutlineInputBorder(),
+                        fillColor: fillColor,
                         counterText: ' ',
                         counterStyle:
                             const TextStyle(height: 0.2, fontSize: 10))),
@@ -90,5 +92,6 @@ class AppDropdown<T> extends StatelessWidget {
     this.showSearchBox = false,
     this.enabled = true,
     this.readOnly = false,
+    this.fillColor,
   });
 }

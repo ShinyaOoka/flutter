@@ -8,6 +8,7 @@ class AppTimePicker extends StatelessWidget {
   final String? hintText;
   final TimeOfDay? selectedTime;
   final bool readOnly;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +17,14 @@ class AppTimePicker extends StatelessWidget {
         TextFormField(
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              label: label != null ? Text(label!) : null,
-              border: const OutlineInputBorder(),
-              hintText: hintText,
-              counterText: " ",
-              counterStyle: const TextStyle(height: 0.2, fontSize: 10)),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            label: label != null ? Text(label!) : null,
+            border: const OutlineInputBorder(),
+            hintText: hintText,
+            counterText: " ",
+            counterStyle: const TextStyle(height: 0.2, fontSize: 10),
+            fillColor: fillColor,
+          ),
           controller: controller ??
               TextEditingController(
                   text: selectedTime != null
@@ -58,5 +61,6 @@ class AppTimePicker extends StatelessWidget {
     this.controller,
     this.selectedTime,
     this.readOnly = false,
+    this.fillColor,
   });
 }

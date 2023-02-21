@@ -281,32 +281,30 @@ class _SickInjuredPersonInfoSectionState
 
   Widget _buildLine8(Report report, BuildContext context) {
     return lineLayout(children: [
-      optional(
-          child: AppTextField(
-            label: 'sick_injured_person_name_of_injury_or_sickness'.i18n(),
-            controller: sickInjuredPersonNameOfInjuryOrSicknessController,
-            onChanged: (value) =>
-                report.sickInjuredPersonNameOfInjuryOrSickness = value,
-            maxLength: 60,
-            maxLines: 1,
-            readOnly: widget.readOnly,
-          ),
-          context: context),
+      AppTextField(
+        label: 'sick_injured_person_name_of_injury_or_sickness'.i18n(),
+        controller: sickInjuredPersonNameOfInjuryOrSicknessController,
+        onChanged: (value) =>
+            report.sickInjuredPersonNameOfInjuryOrSickness = value,
+        maxLength: 60,
+        maxLines: 1,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
     ]);
   }
 
   Widget _buildLine9(Report report, BuildContext context) {
     return lineLayout(children: [
-      optional(
-          child: AppTextField(
-            label: 'sick_injured_person_degree'.i18n(),
-            controller: sickInjuredPersonDegreeController,
-            onChanged: (value) => report.sickInjuredPersonDegree = value,
-            maxLength: 60,
-            maxLines: 1,
-            readOnly: widget.readOnly,
-          ),
-          context: context),
+      AppTextField(
+        label: 'sick_injured_person_degree'.i18n(),
+        controller: sickInjuredPersonDegreeController,
+        onChanged: (value) => report.sickInjuredPersonDegree = value,
+        maxLength: 60,
+        maxLines: 1,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
     ]);
   }
 
@@ -320,14 +318,13 @@ class _SickInjuredPersonInfoSectionState
             .toInt();
       }
       return lineLayout(children: [
-        optional(
-            child: AppTextField(
-              label: 'sick_injured_person_age'.i18n(),
-              controller: TextEditingController(text: age?.toString()),
-              enabled: false,
-              readOnly: widget.readOnly,
-            ),
-            context: context),
+        AppTextField(
+          label: 'sick_injured_person_age'.i18n(),
+          controller: TextEditingController(text: age?.toString()),
+          enabled: false,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
       ]);
     });
   }

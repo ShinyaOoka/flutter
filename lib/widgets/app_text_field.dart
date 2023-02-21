@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
   final int? minLines;
   final Color? counterColor;
   final bool readOnly;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class AppTextField extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.always,
               label: label != null ? Text(label!) : null,
               border: const OutlineInputBorder(),
-              filled: enabled != null ? !enabled! : null,
+              fillColor: fillColor,
               hintText: hintText,
               counterText: _counterText,
               counterStyle:
@@ -75,6 +76,7 @@ class AppTextField extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.counterColor,
+    this.fillColor,
     this.readOnly = false,
   });
 }
