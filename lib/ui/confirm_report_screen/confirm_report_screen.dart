@@ -1,5 +1,7 @@
+import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/ui/preview_report_screen/preview_report_screen.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -101,8 +103,27 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       PopupMenuButton(
         itemBuilder: (context) {
           return [
-            PopupMenuItem(value: 0, child: Text('edit'.i18n())),
-            PopupMenuItem(value: 1, child: Text('print_pdf'.i18n()))
+            PopupMenuItem(
+                value: 0,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: Icon(Icons.edit),
+                    title: Text('edit'.i18n()))),
+            PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: Icon(Icons.picture_as_pdf),
+                    title: Text('傷病者輸送証出力'.i18n()))),
+            PopupMenuItem(
+                value: 2,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: Icon(Icons.picture_as_pdf),
+                    title: Text('救急業務実施報告書出力'.i18n()))),
           ];
         },
         onSelected: (value) async {
@@ -115,7 +136,14 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
               }
               break;
             case 1:
-              Navigator.of(context).pushNamed(Routes.sendReport);
+              Navigator.of(context).pushNamed(Routes.previewReport,
+                  arguments: PreviewReportScreenArguments(
+                      reportType: ReportType.certificate));
+              break;
+            case 2:
+              Navigator.of(context).pushNamed(Routes.previewReport,
+                  arguments: PreviewReportScreenArguments(
+                      reportType: ReportType.ambulance));
               break;
           }
         },

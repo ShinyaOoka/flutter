@@ -110,21 +110,27 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   }
 
   Widget _buildEditReportButton() {
-    return TextButton(
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
-      onPressed: () async {
-        FocusScope.of(context).unfocus();
-        await _reportStore.editReport(_reportStore.selectingReport!);
-        if (!mounted) return;
-        Navigator.of(context).pop(_reportStore.selectingReport);
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          FlushbarHelper.createInformation(
-                  message: '編集処理を完了しました。', duration: const Duration(seconds: 3))
-              .show(context);
-        });
-      },
-      child: Text('update'.i18n()),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        icon: Icon(Icons.save),
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+          await _reportStore.editReport(_reportStore.selectingReport!);
+          if (!mounted) return;
+          Navigator.of(context).pop(_reportStore.selectingReport);
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            FlushbarHelper.createInformation(
+                    message: '編集処理を完了しました。',
+                    duration: const Duration(seconds: 3))
+                .show(context);
+          });
+        },
+        label: Text('update'.i18n()),
+      ),
     );
   }
 

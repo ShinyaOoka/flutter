@@ -122,21 +122,27 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   }
 
   Widget _buildCreateReportButton() {
-    return TextButton(
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
-      onPressed: () async {
-        FocusScope.of(context).unfocus();
-        await _reportStore.createReport(_reportStore.selectingReport!);
-        if (!mounted) return;
-        Navigator.of(context).pop();
-        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          FlushbarHelper.createInformation(
-                  message: '登録処理を完了しました。', duration: const Duration(seconds: 3))
-              .show(context);
-        });
-      },
-      child: Text('create'.i18n()),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        icon: const Icon(Icons.save),
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+          await _reportStore.createReport(_reportStore.selectingReport!);
+          if (!mounted) return;
+          Navigator.of(context).pop();
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            FlushbarHelper.createInformation(
+                    message: '登録処理を完了しました。',
+                    duration: const Duration(seconds: 3))
+                .show(context);
+          });
+        },
+        label: Text('create'.i18n()),
+      ),
     );
   }
 
