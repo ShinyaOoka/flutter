@@ -312,7 +312,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
                     report.spO2Liter?[widget.index] = int.parse(value),
-                counterText: 'L'.i18n(),
+                counterText: 'L',
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
                 readOnly: widget.readOnly,
