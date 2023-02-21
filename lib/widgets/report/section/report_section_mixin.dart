@@ -40,11 +40,13 @@ class ReportSectionMixin {
           right: -16,
           top: -5,
           bottom: 0,
-          child: Container(
-            color: Theme.of(context).secondaryHeaderColor,
-          )),
+          child: Container(color: optionalColor(context))),
       child,
     ]);
+  }
+
+  Color optionalColor(BuildContext context) {
+    return Theme.of(context).secondaryHeaderColor;
   }
 
   Widget linePadding() {
