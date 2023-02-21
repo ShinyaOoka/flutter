@@ -388,10 +388,13 @@ class _ListEventScreenState extends State<ListEventScreen>
               padding: const EdgeInsets.all(4),
               child: Row(children: [
                 Expanded(
-                    child: Text(
-                  "${index + 1}回目取得結果",
-                  style: textStyle,
-                )),
+                  flex: 0,
+                  child: Text(
+                    "${index + 1}回目取得結果",
+                    style: textStyle,
+                  ),
+                ),
+                SizedBox(width: 16),
                 trendData[index].time != null
                     ? Expanded(
                         child: Text(AppConstants.timeFormat
