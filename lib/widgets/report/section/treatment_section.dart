@@ -179,6 +179,8 @@ class _TreatmentSectionState extends State<TreatmentSection>
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: (value) => report.o2Administration = int.parse(value),
           readOnly: widget.readOnly,
+          counterText: 'L',
+          counterColor: Theme.of(context).primaryColor,
           maxLength: 3,
         ),
         AppTimePicker(

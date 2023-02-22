@@ -113,9 +113,9 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
-        icon: Icon(Icons.save),
+        icon: const Icon(Icons.save),
         style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
@@ -141,8 +141,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
             arguments: ListDeviceScreenArguments(
                 report: _reportStore.selectingReport!));
       },
-      child: Icon(Icons.data_thresholding_outlined),
       backgroundColor: Theme.of(context).primaryColor,
+      child: const Icon(Icons.data_thresholding_outlined),
     );
   }
 

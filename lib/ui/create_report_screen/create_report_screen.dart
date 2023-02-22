@@ -127,7 +127,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
       child: TextButton.icon(
         icon: const Icon(Icons.save),
         style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
@@ -153,8 +153,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
             arguments: ListDeviceScreenArguments(
                 report: _reportStore.selectingReport!));
       },
-      child: Icon(Icons.data_thresholding_outlined),
       backgroundColor: Theme.of(context).primaryColor,
+      child: const Icon(Icons.data_thresholding_outlined),
     );
   }
 

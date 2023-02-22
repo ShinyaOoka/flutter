@@ -108,21 +108,21 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
                 child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 10,
-                    leading: Icon(Icons.edit),
+                    leading: const Icon(Icons.edit),
                     title: Text('edit'.i18n()))),
             PopupMenuItem(
                 value: 1,
                 child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 10,
-                    leading: Icon(Icons.picture_as_pdf),
+                    leading: const Icon(Icons.picture_as_pdf),
                     title: Text('傷病者輸送証出力'.i18n()))),
             PopupMenuItem(
                 value: 2,
                 child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 10,
-                    leading: Icon(Icons.picture_as_pdf),
+                    leading: const Icon(Icons.picture_as_pdf),
                     title: Text('救急業務実施報告書出力'.i18n()))),
           ];
         },

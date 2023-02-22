@@ -394,7 +394,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                     style: textStyle,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 trendData[index].time != null
                     ? Expanded(
                         child: Text(AppConstants.timeFormat
