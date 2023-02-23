@@ -59,18 +59,61 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   Future<File?> generatePdf() async {
-    final reportTemplate =
-        await rootBundle.loadString(AppConstants.reportTemplatePath);
-
-    var filledReport = fillData(reportTemplate);
-    final image = await rootBundle.load('assets/img/human_body.png');
-    final imageData = base64.encode(image.buffer.asUint8List());
-    filledReport = filledReport.replaceAll('IMAGE_PLACEHOLDER', imageData);
-
     Directory tempDir = await getTemporaryDirectory();
+    if (reportType == ReportType.certificate) {
+      String reportTemplate = await rootBundle
+          .loadString(AppConstants.reportCertificateTemplatePath);
+      String filledReport = fillCertificateData(reportTemplate);
+      final image = await rootBundle.load('assets/img/human_body.png');
+      final imageData = base64.encode(image.buffer.asUint8List());
+      filledReport = filledReport.replaceAll('IMAGE_PLACEHOLDER', imageData);
+      return await FlutterHtmlToPdf.convertFromHtmlContent(
+          filledReport, tempDir.path, 'report.pdf');
+    } else if (reportType == ReportType.ambulance) {
+      String reportTemplate =
+          await rootBundle.loadString(AppConstants.reportAmbulanceTemplatePath);
+      String filledReport = fillAmbulanceData(reportTemplate);
+      return await FlutterHtmlToPdf.convertFromHtmlContent(
+          filledReport, tempDir.path, 'report.pdf');
+    } else {
+      assert(false);
+    }
+  }
 
-    return await FlutterHtmlToPdf.convertFromHtmlContent(
-        filledReport, tempDir.path, 'report.pdf');
+  String fillAmbulanceData(String template) {
+    String result = template;
+    Report report = _reportStore.selectingReport!;
+    Map<String, dynamic> reportMap = _reportStore.selectingReport!.toMap();
+    result = result.replaceAll('.5pt', '0.5pt');
+    result =
+        result.replaceAll('NumberOfDispatches_VALUE', reportMap['Total'] ?? '');
+    result = result.replaceAll(
+        'NumberOfDispatchesPerTeam_VALUE', reportMap['Team'] ?? '');
+    result = result.replaceAll('TeamName_VALUE', report.team?.name ?? '');
+    result = result.replaceAll(
+        'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+    result = result.replaceAll(
+        'PlaceOfIncident_VALUE', report.placeOfIncident ?? '');
+    result = result.replaceAll(
+        'TeamCaptainName_VALUE', report.teamCaptain?.name ?? '');
+    result = result.replaceAll(
+        'TeamMemberName_VALUE', report.teamMember?.name ?? '');
+    result = result.replaceAll('InstitutionalMemberName_VALUE',
+        report.institutionalMember?.name ?? '');
+    result =
+        result.replaceAll('PerceiverName_VALUE', report.perceiverName ?? '');
+    result = result.replaceAll(
+        'TypeOfDetection_VALUE', report.detectionType?.value ?? '');
+    result = result.replaceAll('CallerName_VALUE', report.callerName ?? '');
+    result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
+    result = result.replaceAll('SickInjuredPersonAddress_VALUE',
+        report.sickInjuredPersonAddress ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
+
+    return result;
   }
 
   String customReplace(
@@ -115,7 +158,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return tempTELs.map((e) => e.split('').reversed.join('')).toList();
   }
 
-  String fillData(String htmlInput) {
+  String fillCertificateData(String htmlInput) {
     final Report report = _reportStore.selectingReport!;
     final team = report.team;
     final teamCaptain = report.teamCaptain;

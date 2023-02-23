@@ -22,5 +22,7 @@ class AppConstants {
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();
 
-  static const reportTemplatePath = 'assets/template/report.html';
+  static const reportCertificateTemplatePath =
+      'assets/template/certificate.html';
+  static const reportAmbulanceTemplatePath = 'assets/template/ambulance.html';
 }
