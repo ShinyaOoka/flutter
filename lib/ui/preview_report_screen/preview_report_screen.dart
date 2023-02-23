@@ -112,6 +112,31 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
+    result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
+        report.sickInjuredPersonNameOfInjuryOrSickness ?? '');
+    result = result.replaceAll('SickInjuredPersonAge_VALUE',
+        report.sickInjuredPersonAge?.toString() ?? '');
+    result = result.replaceAll('MedicalTransportFacility_VALUE',
+        report.medicalTransportFacility ?? '');
+    result = result.replaceAll('TransferringMedicalInstitution_VALUE',
+        report.transferringMedicalInstitution ?? '');
+    result = result.replaceAll(
+        'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
+    result = result.replaceAll('ReasonForNotTransferring_VALUE',
+        report.reasonForNotTransferring ?? '');
+    result = result.replaceAll(
+        'AffiliationOfReporter_VALUE',
+        report.reporter?.teamCd != null
+            ? report.teamStore?.teams[report.reporter?.teamCd]?.name ?? ''
+            : '');
+    result = result.replaceAll(
+        'PositionOfReporter_VALUE', report.reporter?.position ?? '');
+    result =
+        result.replaceAll('NameOfReporter_VALUE', report.reporter?.name ?? '');
+    result = result.replaceAll(
+        'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonDegree_VALUE', report.sickInjuredPersonDegree ?? '');
 
     return result;
   }
