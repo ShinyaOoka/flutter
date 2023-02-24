@@ -85,6 +85,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     Report report = _reportStore.selectingReport!;
     Map<String, dynamic> reportMap = _reportStore.selectingReport!.toMap();
     result = result.replaceAll('.5pt', '0.5pt');
+    // Remove default margin from page
+    result = result.replaceAll('margin:.75in .7in .75in .7in', 'margin:0');
     result =
         result.replaceAll('NumberOfDispatches_VALUE', reportMap['Total'] ?? '');
     result = result.replaceAll(
@@ -116,6 +118,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonNameOfInjuryOrSickness ?? '');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
+    result = result.replaceAll('SickInjuredPersonTEL_VALUE',
+        report.sickInjuredPersonTel?.toString() ?? '');
     result = result.replaceAll('MedicalTransportFacility_VALUE',
         report.medicalTransportFacility ?? '');
     result = result.replaceAll('TransferringMedicalInstitution_VALUE',
@@ -138,7 +142,123 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.sickInjuredPersonDegree ?? '');
 
+    result = fillTime(result, 'SenseTime', report.senseTime);
+    result = fillTime(result, 'AttendanceTime', report.attendanceTime);
+    result = fillTime(result, 'On-siteArrivalTime', report.onSiteArrivalTime);
+    result = fillTime(result, 'TimeOfArrival', report.timeOfArrival);
+    result =
+        fillTime(result, 'HospitalArrivalTime', report.hospitalArrivalTime);
+    result = fillTime(result, 'ReturnTime', report.returnTime);
+    result = fillTime(result, 'TransferSourceReceivingTime',
+        report.transferSourceReceivingTime);
+    result = fillDate(result, 'SickInjuredPersonBirthDate',
+        report.sickInjuredPersonBirthDate);
+    result = fillDate(result, 'DateOfOccurrence', report.dateOfOccurrence);
+
+    result = fillToday(result);
+
+    for (int i = 0; i < 3; i++) {
+      result = result.replaceAll('DescriptionOfObservationTime_${i}_VALUE',
+          report.observationTimeDescriptionTypes[i]?.value ?? '');
+      result =
+          fillTime(result, 'ObservationTime_$i', report.observationTime?[i]);
+      result =
+          result.replaceAll('JCS_${i}_VALUE', report.jcsTypes[i]?.value ?? '');
+      result = result.replaceAll(
+          'Respiration_${i}_VALUE', report.respiration?[i]?.toString() ?? '');
+      result = result.replaceAll(
+          'Pulse_${i}_VALUE', report.pulse?[i]?.toString() ?? '');
+      result = result.replaceAll('BloodPressure_High_${i}_VALUE',
+          report.bloodPressureHigh?[i]?.toString() ?? '');
+      result = result.replaceAll('BloodPressure_Low_${i}_VALUE',
+          report.bloodPressureLow?[i]?.toString() ?? '');
+      result = result.replaceAll(
+          'SpO2Percent_${i}_VALUE', report.spO2Percent?[i]?.toString() ?? '');
+      result = result.replaceAll('BodyTemperature_${i}_VALUE',
+          report.bodyTemperature?[i]?.toStringAsFixed(1) ?? '');
+    }
+    result = result.replaceAll('Remark', report.remarks ?? '');
     return result;
+  }
+
+  String fillTime(String template, String key, TimeOfDay? time) {
+    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '');
+    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '');
+    return template;
+  }
+
+  String fillDate(String template, String key, DateTime? date) {
+    if (date != null) {
+      template = template.replaceAll(
+          '${key}_GGYY', yearToWareki(date.year, date.month, date.day));
+    } else {
+      template = template.replaceAll('${key}_GGYY', "");
+    }
+    template = template.replaceAll('${key}_MM', date?.month.toString() ?? '');
+    template = template.replaceAll('${key}_DD', date?.day.toString() ?? '');
+    template =
+        template.replaceAll('${key}_DW', weekdayToJapanese(date?.weekday));
+    return template;
+  }
+
+  String weekdayToJapanese(int? weekday) {
+    if (weekday == null) return '';
+    switch (weekday) {
+      case 1:
+        return '月';
+      case 2:
+        return '火';
+      case 3:
+        return '水';
+      case 4:
+        return '木';
+      case 5:
+        return '金';
+      case 6:
+        return '土';
+      case 7:
+        return '日';
+    }
+    return '';
+  }
+
+  String fillToday(String template) {
+    DateTime date = DateTime.now();
+    template = template.replaceAll(
+        'GGYY', yearToWareki(date.year, date.month, date.day));
+    template = template.replaceAll('MM', date.month.toString());
+    template = template.replaceAll('DD', date.day.toString());
+    return template;
+  }
+
+  String yearToWareki(num year, num month, num day) {
+    var wareki = "エラー";
+
+    if ((year == 2019) && (month < 5)) {
+      wareki = "平成 31";
+    } else if ((year == 1989) && (month < 2) && (day < 8)) {
+      wareki = "昭和 64";
+    } else if ((year == 1926) && (month < 13) && (day < 26)) {
+      wareki = "大正 15";
+    } else if ((year == 1926) && (month < 12)) {
+      wareki = "大正 15";
+    } else if ((year == 1868) && (month < 8) && (day < 31)) {
+      wareki = "明治 45";
+    } else if ((year == 1868) && (month < 7)) {
+      wareki = "明治 45";
+    } else if (year > 2018) {
+      wareki = "令和 " + (year - 2018).toString();
+    } else if (year > 1988) {
+      wareki = "平成 " + (year - 1988).toString();
+    } else if (year > 1925) {
+      wareki = "昭和 " + (year - 1925).toString();
+    } else if (year > 1911) {
+      wareki = "大正 " + (year - 1911).toString();
+    } else {
+      wareki = "明治 " + (year - 1867).toString();
+    }
+
+    return wareki;
   }
 
   String customReplace(

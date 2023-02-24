@@ -1,3 +1,4 @@
+import 'package:jiffy/jiffy.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +93,17 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "SickInjuredPersonDegree")
   String? sickInjuredPersonDegree;
-  @observable
+  @computed
   @JsonKey(name: "SickInjuredPersonAge")
-  int? sickInjuredPersonAge;
+  int? get sickInjuredPersonAge {
+    if (dateOfOccurrence != null && sickInjuredPersonBirthDate != null) {
+      return Jiffy(dateOfOccurrence)
+          .diff(sickInjuredPersonBirthDate, Units.YEAR)
+          .toInt();
+    }
+    return null;
+  }
+
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "SenseTime")

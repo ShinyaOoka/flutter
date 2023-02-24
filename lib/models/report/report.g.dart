@@ -36,7 +36,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..sickInjuredPersonNameOfInjuryOrSickness =
       json['SickInjuredPersonNameOfInjuryOrSickness'] as String?
   ..sickInjuredPersonDegree = json['SickInjuredPersonDegree'] as String?
-  ..sickInjuredPersonAge = json['SickInjuredPersonAge'] as int?
   ..senseTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['SenseTime'], const TimeOfDayConverter().fromJson)
   ..commandTime = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -213,7 +212,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'SickInjuredPersonNameOfInjuryOrSickness':
           instance.sickInjuredPersonNameOfInjuryOrSickness,
       'SickInjuredPersonDegree': instance.sickInjuredPersonDegree,
-      'SickInjuredPersonAge': instance.sickInjuredPersonAge,
       'SenseTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.senseTime, const TimeOfDayConverter().toJson),
       'CommandTime': _$JsonConverterToJson<String, TimeOfDay>(
@@ -375,6 +373,13 @@ Json? _$JsonConverterToJson<Json, Value>(
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$Report on _Report, Store {
+  Computed<int?>? _$sickInjuredPersonAgeComputed;
+
+  @override
+  int? get sickInjuredPersonAge => (_$sickInjuredPersonAgeComputed ??=
+          Computed<int?>(() => super.sickInjuredPersonAge,
+              name: '_Report.sickInjuredPersonAge'))
+      .value;
   Computed<TeamMember?>? _$teamCaptainComputed;
 
   @override
@@ -882,23 +887,6 @@ mixin _$Report on _Report, Store {
     _$sickInjuredPersonDegreeAtom
         .reportWrite(value, super.sickInjuredPersonDegree, () {
       super.sickInjuredPersonDegree = value;
-    });
-  }
-
-  late final _$sickInjuredPersonAgeAtom =
-      Atom(name: '_Report.sickInjuredPersonAge', context: context);
-
-  @override
-  int? get sickInjuredPersonAge {
-    _$sickInjuredPersonAgeAtom.reportRead();
-    return super.sickInjuredPersonAge;
-  }
-
-  @override
-  set sickInjuredPersonAge(int? value) {
-    _$sickInjuredPersonAgeAtom.reportWrite(value, super.sickInjuredPersonAge,
-        () {
-      super.sickInjuredPersonAge = value;
     });
   }
 
@@ -2559,7 +2547,6 @@ sickInjuredPersonMedicationDetail: ${sickInjuredPersonMedicationDetail},
 sickInjuredPersonAllergy: ${sickInjuredPersonAllergy},
 sickInjuredPersonNameOfInjuryOrSickness: ${sickInjuredPersonNameOfInjuryOrSickness},
 sickInjuredPersonDegree: ${sickInjuredPersonDegree},
-sickInjuredPersonAge: ${sickInjuredPersonAge},
 senseTime: ${senseTime},
 commandTime: ${commandTime},
 attendanceTime: ${attendanceTime},
@@ -2648,6 +2635,7 @@ teamStore: ${teamStore},
 teamMemberStore: ${teamMemberStore},
 fireStationStore: ${fireStationStore},
 classificationStore: ${classificationStore},
+sickInjuredPersonAge: ${sickInjuredPersonAge},
 teamCaptain: ${teamCaptain},
 teamMember: ${teamMember},
 institutionalMember: ${institutionalMember},

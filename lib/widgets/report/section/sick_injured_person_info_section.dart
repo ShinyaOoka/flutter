@@ -310,17 +310,11 @@ class _SickInjuredPersonInfoSectionState
 
   Widget _buildLine10(Report report, BuildContext context) {
     return Observer(builder: (context) {
-      int? age;
-      if (report.dateOfOccurrence != null &&
-          report.sickInjuredPersonBirthDate != null) {
-        age = Jiffy(report.dateOfOccurrence)
-            .diff(report.sickInjuredPersonBirthDate, Units.YEAR)
-            .toInt();
-      }
       return lineLayout(children: [
         AppTextField(
           label: 'sick_injured_person_age'.i18n(),
-          controller: TextEditingController(text: age?.toString()),
+          controller: TextEditingController(
+              text: report.sickInjuredPersonAge?.toString()),
           enabled: false,
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
