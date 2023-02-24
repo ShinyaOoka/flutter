@@ -1,5 +1,13 @@
 import 'package:intl/intl.dart';
 
+class Era {
+  final String name;
+  final DateTime? start;
+  final DateTime? end;
+
+  const Era({required this.name, this.start, this.end});
+}
+
 class AppConstants {
   static const appName = 'Report';
 
@@ -25,4 +33,12 @@ class AppConstants {
   static const reportCertificateTemplatePath =
       'assets/template/certificate.html';
   static const reportAmbulanceTemplatePath = 'assets/template/ambulance.html';
+
+  static final eras = [
+    Era(name: '明治', start: DateTime(1868, 9, 4), end: DateTime(1912, 7, 30)),
+    Era(name: '大正', start: DateTime(1912, 7, 31), end: DateTime(1926, 12, 26)),
+    Era(name: '昭和', start: DateTime(1926, 12, 27), end: DateTime(1989, 1, 7)),
+    Era(name: '平成', start: DateTime(1989, 1, 8), end: DateTime(2019, 4, 30)),
+    Era(name: '令和', start: DateTime(2019, 5, 1)),
+  ];
 }

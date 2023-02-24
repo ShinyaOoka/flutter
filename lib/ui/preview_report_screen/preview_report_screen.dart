@@ -231,34 +231,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return template;
   }
 
-  String yearToWareki(num year, num month, num day) {
-    var wareki = "エラー";
+  String yearToWareki(int year, int month, int day) {
+    DateTime date = DateTime(year, month, day);
 
-    if ((year == 2019) && (month < 5)) {
-      wareki = "平成 31";
-    } else if ((year == 1989) && (month < 2) && (day < 8)) {
-      wareki = "昭和 64";
-    } else if ((year == 1926) && (month < 13) && (day < 26)) {
-      wareki = "大正 15";
-    } else if ((year == 1926) && (month < 12)) {
-      wareki = "大正 15";
-    } else if ((year == 1868) && (month < 8) && (day < 31)) {
-      wareki = "明治 45";
-    } else if ((year == 1868) && (month < 7)) {
-      wareki = "明治 45";
-    } else if (year > 2018) {
-      wareki = "令和 " + (year - 2018).toString();
-    } else if (year > 1988) {
-      wareki = "平成 " + (year - 1988).toString();
-    } else if (year > 1925) {
-      wareki = "昭和 " + (year - 1925).toString();
-    } else if (year > 1911) {
-      wareki = "大正 " + (year - 1911).toString();
-    } else {
-      wareki = "明治 " + (year - 1867).toString();
+    for (final era in AppConstants.eras) {
+      if (era.start != null && era.start!.isAfter(date)) continue;
+      if (era.end != null && era.end!.isBefore(date)) continue;
+      return '${era.name} ${date.year - era.start!.year + 1}';
     }
 
-    return wareki;
+    return "エラー";
   }
 
   String customReplace(
