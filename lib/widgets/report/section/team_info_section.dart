@@ -27,6 +27,9 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     with ReportSectionMixin {
   final totalController = TextEditingController();
   final teamController = TextEditingController();
+  final teamCaptainNameController = TextEditingController();
+  final teamMemberNameController = TextEditingController();
+  final institutionalMemberNameController = TextEditingController();
 
   late ReportStore reportStore;
   late ReactionDisposer reactionDisposer;
@@ -40,6 +43,12 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           totalController, reportStore.selectingReport!.totalCount);
       syncControllerValue(
           teamController, reportStore.selectingReport!.teamCount);
+      syncControllerValue(teamCaptainNameController,
+          reportStore.selectingReport!.teamCaptainName);
+      syncControllerValue(teamMemberNameController,
+          reportStore.selectingReport!.teamMemberName);
+      syncControllerValue(institutionalMemberNameController,
+          reportStore.selectingReport!.institutionalMemberName);
     });
   }
 
@@ -79,9 +88,6 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           onChanged: (value) {
             if (value?.teamCd == report.teamCd) return;
             report.team = value;
-            report.teamCaptain = null;
-            report.teamMember = null;
-            report.institutionalMember = null;
           },
           selectedItem: report.team,
           filterFn: (team, filter) =>
@@ -109,19 +115,11 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           controller: TextEditingController(text: report.fireStation?.name),
           enabled: false,
         ),
-        AppDropdown<TeamMember>(
-          showSearchBox: true,
-          items: teamMemberStore.teamMembers.values
-              .where((element) => element.teamCd == report.teamCd)
-              .toList(),
+        AppTextField(
+          controller: teamCaptainNameController,
           label: 'team_captain_name'.i18n(),
-          itemAsString: ((item) => item.name ?? ''),
-          onChanged: (value) => report.teamCaptain = value,
-          selectedItem: report.teamCaptain,
-          filterFn: (teamMember, filter) =>
-              (teamMember.name != null && teamMember.name!.contains(filter)) ||
-              (teamMember.teamMemberCd != null &&
-                  teamMember.teamMemberCd!.contains(filter)),
+          onChanged: (value) => report.teamCaptainName = value,
+          maxLength: 20,
           readOnly: widget.readOnly,
         ),
       ]);
@@ -130,75 +128,44 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
 
   Widget _buildLine3(Report report, BuildContext context) {
     return Observer(builder: (context) {
-      bool? withLifesaver;
-      if (report.teamCaptain?.lifesaverQualification != null) {
-        withLifesaver = (withLifesaver != null && withLifesaver) ||
-            report.teamCaptain!.lifesaverQualification!;
-      }
-      if (report.teamMember?.lifesaverQualification != null) {
-        withLifesaver = (withLifesaver != null && withLifesaver) ||
-            report.teamMember!.lifesaverQualification!;
-      }
-      if (report.institutionalMember?.lifesaverQualification != null) {
-        withLifesaver = (withLifesaver != null && withLifesaver) ||
-            report.institutionalMember!.lifesaverQualification!;
-      }
       return lineLayout(children: [
-        AppTextField(
+        AppDropdown<bool>(
+          items: const [true, false],
           label: 'lifesaver_qualification'.i18n(),
-          controller: TextEditingController(
-              text: formatBool(report.teamCaptain?.lifesaverQualification)),
-          enabled: false,
+          itemAsString: ((item) => formatBool(item) ?? ''),
+          onChanged: (value) => report.lifesaverQualification = value,
+          selectedItem: report.lifesaverQualification,
+          readOnly: widget.readOnly,
         ),
-        AppTextField(
+        AppDropdown<bool>(
+          items: const [true, false],
           label: 'with_lifesavers'.i18n(),
-          controller: TextEditingController(text: formatBool(withLifesaver)),
-          enabled: false,
+          itemAsString: ((item) => formatBool(item) ?? ''),
+          onChanged: (value) => report.withLifesavers = value,
+          selectedItem: report.withLifesavers,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
   }
 
   Widget _buildLine4(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final teamMemberStore = Provider.of<TeamMemberStore>(context);
-      return lineLayout(children: [
-        AppDropdown<TeamMember>(
-          showSearchBox: true,
-          items: teamMemberStore.teamMembers.values
-              .where((element) => element.teamCd == report.teamCd)
-              .toList(),
-          label: 'team_member_name'.i18n(),
-          itemAsString: ((item) => item.name ?? ''),
-          onChanged: (value) => report.teamMember = value,
-          selectedItem: report.teamMember,
-          filterFn: (teamMember, filter) =>
-              (teamMember.name != null && teamMember.name!.contains(filter)) ||
-              (teamMember.teamMemberCd != null &&
-                  teamMember.teamMemberCd!.contains(filter)),
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        AppDropdown<TeamMember>(
-          showSearchBox: true,
-          items: teamMemberStore.teamMembers.values
-              .where((element) => element.teamCd == report.teamCd)
-              .toList(),
-          label: 'institutional_member_name'.i18n(),
-          itemAsString: ((item) => item.name ?? ''),
-          onChanged: (value) {
-            report.institutionalMember = value;
-          },
-          selectedItem: report.institutionalMember,
-          filterFn: (teamMember, filter) =>
-              (teamMember.name != null && teamMember.name!.contains(filter)) ||
-              (teamMember.teamMemberCd != null &&
-                  teamMember.teamMemberCd!.contains(filter)),
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        controller: teamMemberNameController,
+        label: 'team_member_name'.i18n(),
+        onChanged: (value) => report.teamMemberName = value,
+        maxLength: 20,
+        readOnly: widget.readOnly,
+      ),
+      AppTextField(
+        controller: institutionalMemberNameController,
+        label: 'institutional_member_name'.i18n(),
+        onChanged: (value) => report.institutionalMemberName = value,
+        maxLength: 20,
+        readOnly: widget.readOnly,
+      ),
+    ]);
   }
 
   Widget _buildLine5(Report report, BuildContext context) {

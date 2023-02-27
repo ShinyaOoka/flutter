@@ -42,13 +42,31 @@ abstract class _Case with Store {
           return keep;
         })
         .where((e) {
-          return e.item2.type != "AedContinAnalysis" &&
+          return e.item2.type != "Aed" &&
+              e.item2.type != "AedContinAnalysis" &&
+              e.item2.type != "AlarmLimits" &&
               e.item2.type != "ContinWaveRec" &&
+              e.item2.type != "DataChannels" &&
               e.item2.type != "DefibTrace" &&
+              e.item2.type != "DeviceConfiguration" &&
               e.item2.type != "DisplayInfo" &&
               e.item2.type != "InstrumentPacket" &&
+              e.item2.type != "NewCase" &&
+              e.item2.type != "PatientInfo" &&
               e.item2.type != "PrtTrace" &&
               e.item2.type != "TraceConfigs" &&
+              e.item2.type != "AnnotationEvt Defib Out of Lead Fault " &&
+              e.item2.type != "AnnotationEvt Resp Lead Change" &&
+              e.item2.type != "AnnotationEvt CO2 Cal Required" &&
+              e.item2.type != "AnnotationEvt NIBP Device Status" &&
+              e.item2.type != "AnnotationEvt Self Test Passed" &&
+              e.item2.type != "AnnotationEvt Comm Processor Ready" &&
+              e.item2.type != "AnnotationEvt SPO2 Probe Connected" &&
+              e.item2.type != "AnnotationEvt Wi-Fi Profile Selected" &&
+              e.item2.type != "AnnotationEvt Wi-Fi Connection Up" &&
+              e.item2.type != "AnnotationEvt SPO2 Probe Disconnect" &&
+              e.item2.type != "AnnotationEvt SPO2 Calibrating" &&
+              e.item2.type != "AnnotationEvt CO2 On" &&
               e.item2.type != "TrendRpt";
         })
         .toList()

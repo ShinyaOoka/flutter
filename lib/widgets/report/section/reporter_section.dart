@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
@@ -22,11 +23,24 @@ class ReporterSection extends StatefulWidget {
 class _ReporterSectionState extends State<ReporterSection>
     with ReportSectionMixin {
   late ReportStore reportStore;
+  final nameOfReporterController = TextEditingController();
+  final affiliationOfReporterController = TextEditingController();
+  final positionOfReporterController = TextEditingController();
+
+  late ReactionDisposer reactionDisposer;
 
   @override
   void initState() {
     super.initState();
     reportStore = context.read();
+    reactionDisposer = autorun((_) {
+      syncControllerValue(nameOfReporterController,
+          reportStore.selectingReport!.nameOfReporter);
+      syncControllerValue(affiliationOfReporterController,
+          reportStore.selectingReport!.affiliationOfReporter);
+      syncControllerValue(positionOfReporterController,
+          reportStore.selectingReport!.positionOfReporter);
+    });
   }
 
   @override
@@ -44,27 +58,20 @@ class _ReporterSectionState extends State<ReporterSection>
 
   Widget _buildLine1(Report report) {
     return Observer(builder: (context) {
-      final teamMemberStore = Provider.of<TeamMemberStore>(context);
-      final teamStore = Provider.of<TeamStore>(context);
-      final selectedReporterTeam = teamStore.teams[report.reporter?.teamCd];
       return lineLayout(children: [
-        AppDropdown(
-          showSearchBox: true,
-          items: teamMemberStore.teamMembers.values.toList(),
+        AppTextField(
+          controller: nameOfReporterController,
           label: 'name_of_reporter'.i18n(),
-          itemAsString: (item) => item.name ?? '',
-          onChanged: (value) => report.reporter = value,
-          selectedItem: report.reporter,
-          filterFn: (teamMember, filter) =>
-              (teamMember.name != null && teamMember.name!.contains(filter)) ||
-              (teamMember.teamMemberCd != null &&
-                  teamMember.teamMemberCd!.contains(filter)),
+          onChanged: (value) => report.nameOfReporter = value,
+          maxLength: 20,
           readOnly: widget.readOnly,
         ),
         AppTextField(
+          controller: affiliationOfReporterController,
           label: 'affiliation_of_reporter'.i18n(),
-          controller: TextEditingController(text: selectedReporterTeam?.name),
-          enabled: false,
+          onChanged: (value) => report.affiliationOfReporter = value,
+          maxLength: 20,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -74,11 +81,11 @@ class _ReporterSectionState extends State<ReporterSection>
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppTextField(
+          controller: positionOfReporterController,
           label: 'position_of_reporter'.i18n(),
-          controller: TextEditingController(
-            text: report.reporter?.position,
-          ),
-          enabled: false,
+          onChanged: (value) => report.positionOfReporter = value,
+          maxLength: 20,
+          readOnly: widget.readOnly,
         ),
         Container(),
       ]);

@@ -97,11 +97,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'PlaceOfIncident_VALUE', report.placeOfIncident ?? '');
     result = result.replaceAll(
-        'TeamCaptainName_VALUE', report.teamCaptain?.name ?? '');
+        'TeamCaptainName_VALUE', report.teamCaptainName ?? '');
+    result =
+        result.replaceAll('TeamMemberName_VALUE', report.teamMemberName ?? '');
     result = result.replaceAll(
-        'TeamMemberName_VALUE', report.teamMember?.name ?? '');
-    result = result.replaceAll('InstitutionalMemberName_VALUE',
-        report.institutionalMember?.name ?? '');
+        'InstitutionalMemberName_VALUE', report.institutionalMemberName ?? '');
     result =
         result.replaceAll('PerceiverName_VALUE', report.perceiverName ?? '');
     result = result.replaceAll(
@@ -129,14 +129,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
         report.reasonForNotTransferring ?? '');
     result = result.replaceAll(
-        'AffiliationOfReporter_VALUE',
-        report.reporter?.teamCd != null
-            ? report.teamStore?.teams[report.reporter?.teamCd]?.name ?? ''
-            : '');
+        'AffiliationOfReporter_VALUE', report.affiliationOfReporter ?? '');
     result = result.replaceAll(
-        'PositionOfReporter_VALUE', report.reporter?.position ?? '');
+        'PositionOfReporter_VALUE', report.positionOfReporter ?? '');
     result =
-        result.replaceAll('NameOfReporter_VALUE', report.reporter?.name ?? '');
+        result.replaceAll('NameOfReporter_VALUE', report.nameOfReporter ?? '');
     result = result.replaceAll(
         'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
     result = result.replaceAll(
@@ -288,22 +285,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillCertificateData(String htmlInput) {
     final Report report = _reportStore.selectingReport!;
     final team = report.team;
-    final teamCaptain = report.teamCaptain;
-    final teamMember = report.teamMember;
-    final institutionalMember = report.institutionalMember;
-    bool? withLifesaver;
-    if (teamCaptain?.lifesaverQualification != null) {
-      withLifesaver = (withLifesaver != null && withLifesaver) ||
-          teamCaptain!.lifesaverQualification!;
-    }
-    if (teamMember?.lifesaverQualification != null) {
-      withLifesaver = (withLifesaver != null && withLifesaver) ||
-          teamMember!.lifesaverQualification!;
-    }
-    if (institutionalMember?.lifesaverQualification != null) {
-      withLifesaver = (withLifesaver != null && withLifesaver) ||
-          institutionalMember!.lifesaverQualification!;
-    }
+    bool? withLifesaver = report.withLifesavers;
     const uncheckIcon = '<span class="square"></span>';
     const checkIcon = '<span class="square-black"></span>';
     const String styleCSSMore =
@@ -347,10 +329,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('TeamName', team?.name ?? '');
     //3
     htmlInput =
-        htmlInput.replaceFirst('TeamCaptainName', teamCaptain?.name ?? '');
+        htmlInput.replaceFirst('TeamCaptainName', report.teamCaptainName ?? '');
     //4
-    if (teamCaptain?.lifesaverQualification != null) {
-      if (teamCaptain!.lifesaverQualification!) {
+    if (report.lifesaverQualification != null) {
+      if (report.lifesaverQualification!) {
         htmlInput =
             customReplace(htmlInput, uncheckYes, 1 - totalYesPos, checkedYes);
         totalYesPos += 1;

@@ -37,6 +37,7 @@
   "sick_injured_person_gender": "性別",
   "sick_injured_person_birth_date": "生年月日",
   "sick_injured_person_tel": "TEL",
+  "sick_injured_person_family": "家族（続柄）",
   "sick_injured_person_family_tel": "家族TEL",
   "sick_injured_person_medical_history": "既往歴",
   "sick_injured_person_history_hospital": "既往歴＿医療機関",
@@ -161,6 +162,10 @@
   "AnnotationEvt Printer No Paper": "除細動の状態：紙切れです",
   "AnnotationEvt Defib Out of Lead Fault": "多誘導心電図の不良なし",
   "AnnotationEvt Alarms Suspended": "アラームボタンの状態：一時停止",
+  "AnnotationEvt Ecg Out of Lead Fault": "多誘導心電図の不良なし",
+  "AnnotationEvt NIBP Reading Pending": "NIBP:読取りを保留しています",
+  "AnnotationEvt NIBP Reading Started": "NIBP:読取りを開始しました",
+  "AnnotationEvt NIBP Reading": "NIBP:読取りしています",
   "SnapshotRpt": "処置のスナップショット",
   "TreatmentSnapshotEvt": "C:"
 }

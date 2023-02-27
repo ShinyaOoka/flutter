@@ -819,6 +819,30 @@ class SeedData {
       "Value": "搬送",
       "Description": "観察時間説明"
     },
+    {
+      "ClassificationCD": "016",
+      "ClassificationSubCD": "000",
+      "Value": "軽症",
+      "Description": "程度"
+    },
+    {
+      "ClassificationCD": "016",
+      "ClassificationSubCD": "001",
+      "Value": "中等症",
+      "Description": "程度"
+    },
+    {
+      "ClassificationCD": "016",
+      "ClassificationSubCD": "002",
+      "Value": "重症",
+      "Description": "程度"
+    },
+    {
+      "ClassificationCD": "016",
+      "ClassificationSubCD": "003",
+      "Value": "死亡",
+      "Description": "程度"
+    },
   ];
 
   static const messages = [

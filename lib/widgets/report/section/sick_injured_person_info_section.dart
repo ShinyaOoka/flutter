@@ -31,6 +31,7 @@ class _SickInjuredPersonInfoSectionState
   final sickInjuredPersonNameController = TextEditingController();
   final sickInjuredPersonAddressController = TextEditingController();
   final sickInjuredPersonTelController = TextEditingController();
+  final sickInjuredPersonFamilyController = TextEditingController();
   final sickInjuredPersonFamilyTelController = TextEditingController();
   final sickInjuredPersonMedicalHistoryController = TextEditingController();
   final sickInjuredPersonHistoryHospitalController = TextEditingController();
@@ -58,6 +59,8 @@ class _SickInjuredPersonInfoSectionState
           reportStore.selectingReport!.sickInjuredPersonTel);
       syncControllerValue(sickInjuredPersonFamilyTelController,
           reportStore.selectingReport!.sickInjuredPersonFamilyTel);
+      syncControllerValue(sickInjuredPersonFamilyController,
+          reportStore.selectingReport!.sickInjuredPersonFamily);
       syncControllerValue(sickInjuredPersonMedicalHistoryController,
           reportStore.selectingReport!.sickInjuredPersonMedicalHistory);
       syncControllerValue(sickInjuredPersonHistoryHospitalController,
@@ -82,6 +85,7 @@ class _SickInjuredPersonInfoSectionState
     sickInjuredPersonAddressController.dispose();
     sickInjuredPersonTelController.dispose();
     sickInjuredPersonFamilyTelController.dispose();
+    sickInjuredPersonFamilyController.dispose();
     sickInjuredPersonMedicalHistoryController.dispose();
     sickInjuredPersonHistoryHospitalController.dispose();
     sickInjuredPersonKakaritsukeController.dispose();
@@ -159,28 +163,48 @@ class _SickInjuredPersonInfoSectionState
     return Observer(builder: (context) {
       final classificationStore = Provider.of<ClassificationStore>(context);
       return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.genderCode)
-              .toList(),
-          label: 'sick_injured_person_gender'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.gender = value,
-          selectedItem: report.gender,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
+        Row(
+          children: [
+            Expanded(
+              child: AppDropdown<Classification>(
+                items: classificationStore.classifications.values
+                    .where((element) =>
+                        element.classificationCd == AppConstants.genderCode)
+                    .toList(),
+                label: 'sick_injured_person_gender'.i18n(),
+                itemAsString: ((item) => item.value ?? ''),
+                onChanged: (value) => report.gender = value,
+                selectedItem: report.gender,
+                filterFn: (c, filter) =>
+                    (c.value != null && c.value!.contains(filter)) ||
+                    (c.classificationSubCd != null &&
+                        c.classificationSubCd!.contains(filter)),
+                readOnly: widget.readOnly,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: AppDatePicker(
+                label: 'sick_injured_person_birth_date'.i18n(),
+                selectedDate: report.sickInjuredPersonBirthDate,
+                onChanged: (date) {
+                  report.sickInjuredPersonBirthDate = date;
+                },
+                maxTime: DateTime.now(),
+                readOnly: widget.readOnly,
+              ),
+            ),
+          ],
         ),
-        AppDatePicker(
-          label: 'sick_injured_person_birth_date'.i18n(),
-          selectedDate: report.sickInjuredPersonBirthDate,
-          onChanged: (date) {
-            report.sickInjuredPersonBirthDate = date;
-          },
-          maxTime: DateTime.now(),
+        AppTextField(
+          label: 'sick_injured_person_tel'.i18n(),
+          keyboardType: TextInputType.phone,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))
+          ],
+          controller: sickInjuredPersonTelController,
+          onChanged: (value) => report.sickInjuredPersonTel = value,
+          maxLength: 20,
           readOnly: widget.readOnly,
         ),
       ]);
@@ -190,12 +214,10 @@ class _SickInjuredPersonInfoSectionState
   Widget _buildLine4(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
-        label: 'sick_injured_person_tel'.i18n(),
-        keyboardType: TextInputType.phone,
-        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
-        controller: sickInjuredPersonTelController,
-        onChanged: (value) => report.sickInjuredPersonTel = value,
-        maxLength: 20,
+        label: 'sick_injured_person_family'.i18n(),
+        controller: sickInjuredPersonFamilyController,
+        onChanged: (value) => report.sickInjuredPersonFamily = value,
+        maxLength: 10,
         readOnly: widget.readOnly,
       ),
       AppTextField(
@@ -295,17 +317,26 @@ class _SickInjuredPersonInfoSectionState
   }
 
   Widget _buildLine9(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'sick_injured_person_degree'.i18n(),
-        controller: sickInjuredPersonDegreeController,
-        onChanged: (value) => report.sickInjuredPersonDegree = value,
-        maxLength: 60,
-        maxLines: 1,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-    ]);
+    return Observer(builder: (context) {
+      final classificationStore = Provider.of<ClassificationStore>(context);
+      return lineLayout(children: [
+        AppDropdown<Classification>(
+          items: classificationStore.classifications.values
+              .where((element) =>
+                  element.classificationCd == AppConstants.degreeCode)
+              .toList(),
+          label: 'sick_injured_person_degree'.i18n(),
+          itemAsString: ((item) => item.value ?? ''),
+          onChanged: (value) => report.degree = value,
+          selectedItem: report.degree,
+          filterFn: (c, filter) =>
+              (c.value != null && c.value!.contains(filter)) ||
+              (c.classificationSubCd != null &&
+                  c.classificationSubCd!.contains(filter)),
+          readOnly: widget.readOnly,
+        ),
+      ]);
+    });
   }
 
   Widget _buildLine10(Report report, BuildContext context) {

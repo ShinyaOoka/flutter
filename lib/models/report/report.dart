@@ -34,14 +34,22 @@ abstract class _Report with Store {
   @JsonKey(name: 'TeamCD')
   String? teamCd;
   @observable
-  @JsonKey(name: 'TeamCaptainCD')
-  String? teamCaptainCd;
+  @JsonKey(name: 'TeamCaptainName')
+  String? teamCaptainName;
   @observable
-  @JsonKey(name: 'TeamMemberCD')
-  String? teamMemberCd;
+  @JsonKey(name: 'TeamMemberName')
+  String? teamMemberName;
   @observable
-  @JsonKey(name: 'InstitutionalMemberCD')
-  String? institutionalMemberCd;
+  @JsonKey(name: 'InstitutionalMemberName')
+  String? institutionalMemberName;
+  @observable
+  @JsonKey(name: "LifesaverQualification")
+  @IntToBoolConverter()
+  bool? lifesaverQualification;
+  @observable
+  @JsonKey(name: "WithLifeSavers")
+  @IntToBoolConverter()
+  bool? withLifesavers;
   @observable
   @JsonKey(name: 'Total')
   int? totalCount;
@@ -66,6 +74,9 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "SickInjuredPersonTEL")
   String? sickInjuredPersonTel;
+  @observable
+  @JsonKey(name: "SickInjuredPersonFamily")
+  String? sickInjuredPersonFamily;
   @observable
   @JsonKey(name: "SickInjuredPersonFamilyTEL")
   String? sickInjuredPersonFamilyTel;
@@ -384,6 +395,12 @@ abstract class _Report with Store {
   @JsonKey(name: "NameOfReporter")
   String? nameOfReporter;
   @observable
+  @JsonKey(name: "AffiliationOfReporter")
+  String? affiliationOfReporter;
+  @observable
+  @JsonKey(name: "PositionOfReporter")
+  String? positionOfReporter;
+  @observable
   @JsonKey(name: "SummaryOfOccurrence")
   String? summaryOfOccurrence;
   @observable
@@ -415,20 +432,15 @@ abstract class _Report with Store {
   @JsonKey(includeFromJson: false, includeToJson: false)
   ClassificationStore? classificationStore;
 
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamMember? get teamCaptain {
-    assert(teamMemberStore != null);
-    return teamMemberStore!.teamMembers[teamCaptainCd];
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'ID': id,
       'TeamCD': teamCd,
-      'TeamCaptainCD': teamCaptainCd,
-      'TeamMemberCD': teamMemberCd,
-      'InstitutionalMemberCD': institutionalMemberCd,
+      'TeamCaptainName': teamCaptainName,
+      'TeamMemberName': teamMemberName,
+      'InstitutionalMemberName': institutionalMemberName,
+      'LifesaverQualification': lifesaverQualification,
+      'WithLifeSavers': withLifesavers,
       'Total': totalCount,
       'Team': teamCount,
       "SickInjuredPersonName": sickInjuredPersonName,
@@ -448,6 +460,7 @@ abstract class _Report with Store {
           sickInjuredPersonNameOfInjuryOrSickness,
       "SickInjuredPersonDegree": sickInjuredPersonDegree,
       "SickInjuredPersonAge": sickInjuredPersonAge,
+      "SickInjuredPersonFamily": sickInjuredPersonFamily,
       "SenseTime": senseTime,
       "CommandTime": commandTime,
       "AttendanceTime": attendanceTime,
@@ -524,66 +537,11 @@ abstract class _Report with Store {
       "ReasonForNotTransferring": reasonForNotTransferring,
       "RecordOfRefusalOfTransfer": recordOfRefusalOfTransfer,
       "NameOfReporter": nameOfReporter,
+      "AffiliationOfReporter": affiliationOfReporter,
+      "PositionOfReporter": positionOfReporter,
       "SummaryOfOccurrence": summaryOfOccurrence,
       "Remarks": remarks
     };
-  }
-
-  @action
-  void setTeamCaptain(TeamMember? teamCaptain) {
-    teamCaptainCd = teamCaptain?.teamMemberCd;
-  }
-
-  set teamCaptain(TeamMember? value) {
-    setTeamCaptain(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamMember? get teamMember {
-    assert(teamMemberStore != null);
-    return teamMemberStore!.teamMembers[teamMemberCd];
-  }
-
-  @action
-  void setTeamMember(TeamMember? value) {
-    teamMemberCd = value?.teamMemberCd;
-  }
-
-  set teamMember(TeamMember? value) {
-    setTeamMember(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamMember? get institutionalMember {
-    assert(teamMemberStore != null);
-    return teamMemberStore!.teamMembers[institutionalMemberCd];
-  }
-
-  @action
-  setInstitutionalMember(TeamMember? value) {
-    institutionalMemberCd = value?.teamMemberCd;
-  }
-
-  set institutionalMember(TeamMember? value) {
-    setInstitutionalMember(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamMember? get reporter {
-    assert(teamMemberStore != null);
-    return teamMemberStore!.teamMembers[nameOfReporter];
-  }
-
-  @action
-  setReporter(TeamMember? value) {
-    nameOfReporter = value?.teamMemberCd;
-  }
-
-  set reporter(TeamMember? value) {
-    setReporter(value);
   }
 
   @computed
@@ -645,6 +603,26 @@ abstract class _Report with Store {
 
   set medication(Classification? value) {
     setMedication(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Classification? get degree {
+    assert(classificationStore != null);
+    return sickInjuredPersonDegree != null
+        ? classificationStore!.classifications[
+            Tuple2(AppConstants.degreeCode, sickInjuredPersonDegree!)]
+        : null;
+  }
+
+  @action
+  setDegree(Classification? value) {
+    assert(value?.classificationCd == AppConstants.medicationCode);
+    sickInjuredPersonDegree = value?.classificationSubCd;
+  }
+
+  set degree(Classification? value) {
+    setDegree(value);
   }
 
   @computed
