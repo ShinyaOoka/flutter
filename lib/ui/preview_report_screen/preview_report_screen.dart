@@ -1037,7 +1037,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       PopupMenuButton(
         itemBuilder: (context) {
           return [
-            PopupMenuItem(value: 0, child: Text('送信・印刷'.i18n())),
+            PopupMenuItem(
+                value: 0,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: const Icon(Icons.print),
+                    title: Text('送信・印刷'.i18n()))),
           ];
         },
         onSelected: (value) async {
