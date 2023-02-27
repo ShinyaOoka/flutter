@@ -194,6 +194,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.witnesses = value,
           selectedItem: report.witnesses,
+          readOnly: widget.readOnly,
         ),
         AppTimePicker(
           label: 'bystander_cpr'.i18n(),
