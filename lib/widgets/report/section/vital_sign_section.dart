@@ -39,6 +39,15 @@ class _VitalSignSectionState extends State<VitalSignSection>
   final bodyTemperatureController = TextEditingController();
   final hemorrhageController = TextEditingController();
   final extremitiesController = TextEditingController();
+  final otherProcess1Controller = TextEditingController();
+  final otherProcess2Controller = TextEditingController();
+  final otherProcess3Controller = TextEditingController();
+  final otherProcess4Controller = TextEditingController();
+  final otherProcess5Controller = TextEditingController();
+  final otherProcess6Controller = TextEditingController();
+  final otherProcess7Controller = TextEditingController();
+  final otherProcess8Controller = TextEditingController();
+  final otherProcess9Controller = TextEditingController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -84,6 +93,20 @@ class _VitalSignSectionState extends State<VitalSignSection>
         _ensureLengthObservable(reportStore.selectingReport!.vomiting);
     reportStore.selectingReport!.extremities =
         _ensureLengthObservable(reportStore.selectingReport!.extremities);
+    reportStore.selectingReport!.otherProcess1 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess1);
+    reportStore.selectingReport!.otherProcess2 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess2);
+    reportStore.selectingReport!.otherProcess3 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess3);
+    reportStore.selectingReport!.otherProcess4 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess4);
+    reportStore.selectingReport!.otherProcess5 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess5);
+    reportStore.selectingReport!.otherProcess6 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess6);
+    reportStore.selectingReport!.otherProcess7 =
+        _ensureLengthObservable(reportStore.selectingReport!.otherProcess7);
     reportStore.selectingReport!.observationTimeDescriptionTypes =
         _ensureLength(
             reportStore.selectingReport!.observationTimeDescriptionTypes);
@@ -115,6 +138,20 @@ class _VitalSignSectionState extends State<VitalSignSection>
           reportStore.selectingReport!.hemorrhage?[widget.index]);
       syncControllerValue(extremitiesController,
           reportStore.selectingReport!.extremities?[widget.index]);
+      syncControllerValue(otherProcess1Controller,
+          reportStore.selectingReport!.otherProcess1?[widget.index]);
+      syncControllerValue(otherProcess2Controller,
+          reportStore.selectingReport!.otherProcess2?[widget.index]);
+      syncControllerValue(otherProcess3Controller,
+          reportStore.selectingReport!.otherProcess3?[widget.index]);
+      syncControllerValue(otherProcess4Controller,
+          reportStore.selectingReport!.otherProcess4?[widget.index]);
+      syncControllerValue(otherProcess5Controller,
+          reportStore.selectingReport!.otherProcess5?[widget.index]);
+      syncControllerValue(otherProcess6Controller,
+          reportStore.selectingReport!.otherProcess6?[widget.index]);
+      syncControllerValue(otherProcess7Controller,
+          reportStore.selectingReport!.otherProcess7?[widget.index]);
     });
   }
 
@@ -132,6 +169,15 @@ class _VitalSignSectionState extends State<VitalSignSection>
     bodyTemperatureController.dispose();
     hemorrhageController.dispose();
     extremitiesController.dispose();
+    otherProcess1Controller.dispose();
+    otherProcess2Controller.dispose();
+    otherProcess3Controller.dispose();
+    otherProcess4Controller.dispose();
+    otherProcess5Controller.dispose();
+    otherProcess6Controller.dispose();
+    otherProcess7Controller.dispose();
+    otherProcess8Controller.dispose();
+    otherProcess9Controller.dispose();
     super.dispose();
   }
 
@@ -154,6 +200,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
           _buildLine6(reportStore.selectingReport!, context),
           _buildLine7(reportStore.selectingReport!, context),
           _buildLine8(reportStore.selectingReport!, context),
+          _buildLine9(reportStore.selectingReport!, context),
+          _buildLine10(reportStore.selectingReport!, context),
+          _buildLine11(reportStore.selectingReport!, context),
         ],
       );
     });
@@ -535,6 +584,85 @@ class _VitalSignSectionState extends State<VitalSignSection>
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
         ),
+        Container(),
+      ]);
+    });
+  }
+
+  Widget _buildLine9(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppTextField(
+          label: 'other_process_1'.i18n(),
+          controller: otherProcess1Controller,
+          onChanged: (value) => report.otherProcess1?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppTextField(
+          label: 'other_process_2'.i18n(),
+          controller: otherProcess2Controller,
+          onChanged: (value) => report.otherProcess2?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppTextField(
+          label: 'other_process_3'.i18n(),
+          controller: otherProcess3Controller,
+          onChanged: (value) => report.otherProcess3?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+      ]);
+    });
+  }
+
+  Widget _buildLine10(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppTextField(
+          label: 'other_process_4'.i18n(),
+          controller: otherProcess4Controller,
+          onChanged: (value) => report.otherProcess4?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppTextField(
+          label: 'other_process_5'.i18n(),
+          controller: otherProcess5Controller,
+          onChanged: (value) => report.otherProcess5?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppTextField(
+          label: 'other_process_6'.i18n(),
+          controller: otherProcess6Controller,
+          onChanged: (value) => report.otherProcess6?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+      ]);
+    });
+  }
+
+  Widget _buildLine11(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppTextField(
+          label: 'other_process_7'.i18n(),
+          controller: otherProcess7Controller,
+          onChanged: (value) => report.otherProcess7?[widget.index] = value,
+          maxLength: 15,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        Container(),
         Container(),
       ]);
     });

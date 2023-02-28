@@ -26,6 +26,8 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     with ReportSectionMixin {
   final reasonForTransferController = TextEditingController();
   final reasonForNotTransferringController = TextEditingController();
+  final otherMedicalTransportFacilityController = TextEditingController();
+  final otherTransferringMedicalInstitutionController = TextEditingController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -38,6 +40,10 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           reportStore.selectingReport!.reasonForTransfer);
       syncControllerValue(reasonForNotTransferringController,
           reportStore.selectingReport!.reasonForNotTransferring);
+      syncControllerValue(otherMedicalTransportFacilityController,
+          reportStore.selectingReport!.otherMedicalTransportFacility);
+      syncControllerValue(otherTransferringMedicalInstitutionController,
+          reportStore.selectingReport!.otherTransferringMedicalInstitution);
     });
   }
 
@@ -60,6 +66,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           _buildLine3(reportStore.selectingReport!),
           _buildLine4(reportStore.selectingReport!),
           _buildLine5(reportStore.selectingReport!),
+          _buildLine6(reportStore.selectingReport!),
         ],
       );
     });
@@ -72,11 +79,6 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           hospitalStore.hospitals?.toList().firstWhereOrNull(
                 (element) =>
                     element.hospitalCd == report.medicalTransportFacility,
-              );
-      final selectedTransferringMedicalInstitution =
-          hospitalStore.hospitals?.toList().firstWhereOrNull(
-                (element) =>
-                    element.hospitalCd == report.transferringMedicalInstitution,
               );
       return lineLayout(children: [
         AppDropdown<Hospital>(
@@ -94,6 +96,27 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
                   hospital.hospitalCd!.contains(filter)),
           readOnly: widget.readOnly,
         ),
+        AppTextField(
+          label: 'other_medical_transport_facility'.i18n(),
+          controller: otherMedicalTransportFacilityController,
+          onChanged: (value) => report.otherMedicalTransportFacility = value,
+          maxLength: 20,
+          maxLines: 1,
+          readOnly: widget.readOnly,
+        ),
+      ]);
+    });
+  }
+
+  Widget _buildLine2(Report report) {
+    return Observer(builder: (context) {
+      final hospitalStore = Provider.of<HospitalStore>(context);
+      final selectedTransferringMedicalInstitution =
+          hospitalStore.hospitals?.toList().firstWhereOrNull(
+                (element) =>
+                    element.hospitalCd == report.transferringMedicalInstitution,
+              );
+      return lineLayout(children: [
         AppDropdown<Hospital>(
           showSearchBox: true,
           items: hospitalStore.hospitals?.toList(),
@@ -109,11 +132,20 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
                   hospital.hospitalCd!.contains(filter)),
           readOnly: widget.readOnly,
         ),
+        AppTextField(
+          label: 'other_transferring_medical_institution'.i18n(),
+          controller: otherTransferringMedicalInstitutionController,
+          onChanged: (value) =>
+              report.otherTransferringMedicalInstitution = value,
+          maxLength: 20,
+          maxLines: 1,
+          readOnly: widget.readOnly,
+        ),
       ]);
     });
   }
 
-  Widget _buildLine2(Report report) {
+  Widget _buildLine3(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppTimePicker(
@@ -122,11 +154,12 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           selectedTime: report.transferSourceReceivingTime,
           readOnly: widget.readOnly,
         ),
+        Container(),
       ]);
     });
   }
 
-  Widget _buildLine3(Report report) {
+  Widget _buildLine4(Report report) {
     return lineLayout(children: [
       AppTextField(
         label: 'reason_for_transfer'.i18n(),
@@ -139,7 +172,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     ]);
   }
 
-  Widget _buildLine4(Report report) {
+  Widget _buildLine5(Report report) {
     return lineLayout(children: [
       AppTextField(
         label: 'reason_for_not_transferring'.i18n(),
@@ -152,7 +185,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     ]);
   }
 
-  Widget _buildLine5(Report report) {
+  Widget _buildLine6(Report report) {
     return lineLayout(children: [
       AppDropdown<bool>(
         items: const [true, false],

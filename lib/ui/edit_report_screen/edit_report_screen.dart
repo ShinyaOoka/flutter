@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -96,12 +97,11 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('edit_report'.i18n()),
-      actions: _buildActions(),
-      centerTitle: true,
+    return CustomAppBar(
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 80,
+      title: 'edit_report'.i18n(),
+      actions: _buildActions(),
     );
   }
 
@@ -116,7 +116,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
         icon: const Icon(Icons.save),
         style: TextButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+            foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
           await _reportStore.editReport(_reportStore.selectingReport!);
@@ -149,8 +149,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop(_originalReport);

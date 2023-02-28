@@ -128,6 +128,20 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       _$JsonConverterFromJson<String, ObservableList<String?>>(
           json['DescriptionOfObservationTime'],
           const ListStringConverter().fromJson)
+  ..otherProcess1 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess1'], const ListStringConverter().fromJson)
+  ..otherProcess2 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess2'], const ListStringConverter().fromJson)
+  ..otherProcess3 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess3'], const ListStringConverter().fromJson)
+  ..otherProcess4 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess4'], const ListStringConverter().fromJson)
+  ..otherProcess5 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess5'], const ListStringConverter().fromJson)
+  ..otherProcess6 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess6'], const ListStringConverter().fromJson)
+  ..otherProcess7 = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['OtherProcess7'], const ListStringConverter().fromJson)
   ..otherOfObservationTime = json['OtherOfObservationTime'] as String?
   ..securingAirway = json['SecuringAirway'] as String?
   ..foreignBodyRemoval = _$JsonConverterFromJson<int, bool>(
@@ -167,8 +181,12 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..callerName = json['CallerName'] as String?
   ..callerTel = json['CallerTEL'] as String?
   ..medicalTransportFacility = json['MedicalTransportFacility'] as String?
+  ..otherMedicalTransportFacility =
+      json['OtherMedicalTransportFacility'] as String?
   ..transferringMedicalInstitution =
       json['TransferringMedicalInstitution'] as String?
+  ..otherTransferringMedicalInstitution =
+      json['OtherTransferringMedicalInstitution'] as String?
   ..transferSourceReceivingTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['TransferSourceReceivingTime'], const TimeOfDayConverter().fromJson)
   ..reasonForTransfer = json['ReasonForTransfer'] as String?
@@ -308,6 +326,20 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           _$JsonConverterToJson<String, ObservableList<String?>>(
               instance.descriptionOfObservationTime,
               const ListStringConverter().toJson),
+      'OtherProcess1': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess1, const ListStringConverter().toJson),
+      'OtherProcess2': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess2, const ListStringConverter().toJson),
+      'OtherProcess3': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess3, const ListStringConverter().toJson),
+      'OtherProcess4': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess4, const ListStringConverter().toJson),
+      'OtherProcess5': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess5, const ListStringConverter().toJson),
+      'OtherProcess6': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess6, const ListStringConverter().toJson),
+      'OtherProcess7': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.otherProcess7, const ListStringConverter().toJson),
       'OtherOfObservationTime': instance.otherOfObservationTime,
       'SecuringAirway': instance.securingAirway,
       'ForeignBodyRemoval': _$JsonConverterToJson<int, bool>(
@@ -346,7 +378,10 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'CallerName': instance.callerName,
       'CallerTEL': instance.callerTel,
       'MedicalTransportFacility': instance.medicalTransportFacility,
+      'OtherMedicalTransportFacility': instance.otherMedicalTransportFacility,
       'TransferringMedicalInstitution': instance.transferringMedicalInstitution,
+      'OtherTransferringMedicalInstitution':
+          instance.otherTransferringMedicalInstitution,
       'TransferSourceReceivingTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.transferSourceReceivingTime,
           const TimeOfDayConverter().toJson),
@@ -1633,6 +1668,118 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$otherProcess1Atom =
+      Atom(name: '_Report.otherProcess1', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess1 {
+    _$otherProcess1Atom.reportRead();
+    return super.otherProcess1;
+  }
+
+  @override
+  set otherProcess1(ObservableList<String?>? value) {
+    _$otherProcess1Atom.reportWrite(value, super.otherProcess1, () {
+      super.otherProcess1 = value;
+    });
+  }
+
+  late final _$otherProcess2Atom =
+      Atom(name: '_Report.otherProcess2', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess2 {
+    _$otherProcess2Atom.reportRead();
+    return super.otherProcess2;
+  }
+
+  @override
+  set otherProcess2(ObservableList<String?>? value) {
+    _$otherProcess2Atom.reportWrite(value, super.otherProcess2, () {
+      super.otherProcess2 = value;
+    });
+  }
+
+  late final _$otherProcess3Atom =
+      Atom(name: '_Report.otherProcess3', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess3 {
+    _$otherProcess3Atom.reportRead();
+    return super.otherProcess3;
+  }
+
+  @override
+  set otherProcess3(ObservableList<String?>? value) {
+    _$otherProcess3Atom.reportWrite(value, super.otherProcess3, () {
+      super.otherProcess3 = value;
+    });
+  }
+
+  late final _$otherProcess4Atom =
+      Atom(name: '_Report.otherProcess4', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess4 {
+    _$otherProcess4Atom.reportRead();
+    return super.otherProcess4;
+  }
+
+  @override
+  set otherProcess4(ObservableList<String?>? value) {
+    _$otherProcess4Atom.reportWrite(value, super.otherProcess4, () {
+      super.otherProcess4 = value;
+    });
+  }
+
+  late final _$otherProcess5Atom =
+      Atom(name: '_Report.otherProcess5', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess5 {
+    _$otherProcess5Atom.reportRead();
+    return super.otherProcess5;
+  }
+
+  @override
+  set otherProcess5(ObservableList<String?>? value) {
+    _$otherProcess5Atom.reportWrite(value, super.otherProcess5, () {
+      super.otherProcess5 = value;
+    });
+  }
+
+  late final _$otherProcess6Atom =
+      Atom(name: '_Report.otherProcess6', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess6 {
+    _$otherProcess6Atom.reportRead();
+    return super.otherProcess6;
+  }
+
+  @override
+  set otherProcess6(ObservableList<String?>? value) {
+    _$otherProcess6Atom.reportWrite(value, super.otherProcess6, () {
+      super.otherProcess6 = value;
+    });
+  }
+
+  late final _$otherProcess7Atom =
+      Atom(name: '_Report.otherProcess7', context: context);
+
+  @override
+  ObservableList<String?>? get otherProcess7 {
+    _$otherProcess7Atom.reportRead();
+    return super.otherProcess7;
+  }
+
+  @override
+  set otherProcess7(ObservableList<String?>? value) {
+    _$otherProcess7Atom.reportWrite(value, super.otherProcess7, () {
+      super.otherProcess7 = value;
+    });
+  }
+
   late final _$otherOfObservationTimeAtom =
       Atom(name: '_Report.otherOfObservationTime', context: context);
 
@@ -2051,6 +2198,23 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$otherMedicalTransportFacilityAtom =
+      Atom(name: '_Report.otherMedicalTransportFacility', context: context);
+
+  @override
+  String? get otherMedicalTransportFacility {
+    _$otherMedicalTransportFacilityAtom.reportRead();
+    return super.otherMedicalTransportFacility;
+  }
+
+  @override
+  set otherMedicalTransportFacility(String? value) {
+    _$otherMedicalTransportFacilityAtom
+        .reportWrite(value, super.otherMedicalTransportFacility, () {
+      super.otherMedicalTransportFacility = value;
+    });
+  }
+
   late final _$transferringMedicalInstitutionAtom =
       Atom(name: '_Report.transferringMedicalInstitution', context: context);
 
@@ -2065,6 +2229,23 @@ mixin _$Report on _Report, Store {
     _$transferringMedicalInstitutionAtom
         .reportWrite(value, super.transferringMedicalInstitution, () {
       super.transferringMedicalInstitution = value;
+    });
+  }
+
+  late final _$otherTransferringMedicalInstitutionAtom = Atom(
+      name: '_Report.otherTransferringMedicalInstitution', context: context);
+
+  @override
+  String? get otherTransferringMedicalInstitution {
+    _$otherTransferringMedicalInstitutionAtom.reportRead();
+    return super.otherTransferringMedicalInstitution;
+  }
+
+  @override
+  set otherTransferringMedicalInstitution(String? value) {
+    _$otherTransferringMedicalInstitutionAtom
+        .reportWrite(value, super.otherTransferringMedicalInstitution, () {
+      super.otherTransferringMedicalInstitution = value;
     });
   }
 
@@ -2637,6 +2818,13 @@ incontinence: ${incontinence},
 vomiting: ${vomiting},
 extremities: ${extremities},
 descriptionOfObservationTime: ${descriptionOfObservationTime},
+otherProcess1: ${otherProcess1},
+otherProcess2: ${otherProcess2},
+otherProcess3: ${otherProcess3},
+otherProcess4: ${otherProcess4},
+otherProcess5: ${otherProcess5},
+otherProcess6: ${otherProcess6},
+otherProcess7: ${otherProcess7},
 otherOfObservationTime: ${otherOfObservationTime},
 securingAirway: ${securingAirway},
 foreignBodyRemoval: ${foreignBodyRemoval},
@@ -2663,7 +2851,9 @@ typeOfDetection: ${typeOfDetection},
 callerName: ${callerName},
 callerTel: ${callerTel},
 medicalTransportFacility: ${medicalTransportFacility},
+otherMedicalTransportFacility: ${otherMedicalTransportFacility},
 transferringMedicalInstitution: ${transferringMedicalInstitution},
+otherTransferringMedicalInstitution: ${otherTransferringMedicalInstitution},
 transferSourceReceivingTime: ${transferSourceReceivingTime},
 reasonForTransfer: ${reasonForTransfer},
 reasonForNotTransferring: ${reasonForNotTransferring},

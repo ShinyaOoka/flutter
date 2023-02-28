@@ -47,15 +47,18 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
         theme: FlexThemeData.light(
-          scheme: FlexScheme.bahamaBlue,
+          appBarBackground: Colors.white,
+          scaffoldBackground: Colors.white,
+          background: Colors.white,
+          colors: FlexSchemeColor(
+            primary: Color(0xff0082C8),
+            secondary: Color(0xff0082C8),
+          ),
+          textTheme: TextTheme(
+            titleLarge: TextStyle(
+                color: Color(0xff0082C8), fontWeight: FontWeight.bold),
+          ),
           surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-          blendLevel: 9,
-          visualDensity: FlexColorScheme.comfortablePlatformDensity,
-        ),
-        darkTheme: FlexThemeData.dark(
-          scheme: FlexScheme.bahamaBlue,
-          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-          blendLevel: 15,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
         ),
         routes: Routes.routes,

@@ -285,6 +285,34 @@ abstract class _Report with Store {
   @JsonKey(name: "DescriptionOfObservationTime")
   ObservableList<String?>? descriptionOfObservationTime;
   @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess1")
+  ObservableList<String?>? otherProcess1;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess2")
+  ObservableList<String?>? otherProcess2;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess3")
+  ObservableList<String?>? otherProcess3;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess4")
+  ObservableList<String?>? otherProcess4;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess5")
+  ObservableList<String?>? otherProcess5;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess6")
+  ObservableList<String?>? otherProcess6;
+  @observable
+  @ListStringConverter()
+  @JsonKey(name: "OtherProcess7")
+  ObservableList<String?>? otherProcess7;
+  @observable
   @JsonKey(name: "OtherOfObservationTime")
   String? otherOfObservationTime;
   @observable
@@ -375,8 +403,14 @@ abstract class _Report with Store {
   @JsonKey(name: "MedicalTransportFacility")
   String? medicalTransportFacility;
   @observable
+  @JsonKey(name: "OtherMedicalTransportFacility")
+  String? otherMedicalTransportFacility;
+  @observable
   @JsonKey(name: "TransferringMedicalInstitution")
   String? transferringMedicalInstitution;
+  @observable
+  @JsonKey(name: "OtherTransferringMedicalInstitution")
+  String? otherTransferringMedicalInstitution;
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "TransferSourceReceivingTime")
@@ -431,118 +465,6 @@ abstract class _Report with Store {
   @observable
   @JsonKey(includeFromJson: false, includeToJson: false)
   ClassificationStore? classificationStore;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'ID': id,
-      'TeamCD': teamCd,
-      'TeamCaptainName': teamCaptainName,
-      'TeamMemberName': teamMemberName,
-      'InstitutionalMemberName': institutionalMemberName,
-      'LifesaverQualification': lifesaverQualification,
-      'WithLifeSavers': withLifesavers,
-      'Total': totalCount,
-      'Team': teamCount,
-      "SickInjuredPersonName": sickInjuredPersonName,
-      "SickInjuredPersonKANA": sickInjuredPersonKana,
-      "SickInjuredPersonAddress": sickInjuredPersonAddress,
-      "SickInjuredPersonGender": sickInjuredPersonGender,
-      "SickInjuredPersonBirthDate": sickInjuredPersonBirthDate,
-      "SickInjuredPersonTEL": sickInjuredPersonTel,
-      "SickInjuredPersonFamilyTEL": sickInjuredPersonFamilyTel,
-      "SickInjuredPersonMedicalHistroy": sickInjuredPersonMedicalHistory,
-      "SickInjuredPersonHistoryHospital": sickInjuredPersonHistoryHospital,
-      "SickInjuredPersonKakaritsuke": sickInjuredPersonKakaritsuke,
-      "SickInjuredPersonMedication": sickInjuredPersonMedication,
-      "SickInjuredPersonMedicationDetail": sickInjuredPersonMedicationDetail,
-      "SickInjuredPersonAllergy": sickInjuredPersonAllergy,
-      "SickInjuredPersonNameOfInjuryOrSickness":
-          sickInjuredPersonNameOfInjuryOrSickness,
-      "SickInjuredPersonDegree": sickInjuredPersonDegree,
-      "SickInjuredPersonAge": sickInjuredPersonAge,
-      "SickInjuredPersonFamily": sickInjuredPersonFamily,
-      "SenseTime": senseTime,
-      "CommandTime": commandTime,
-      "AttendanceTime": attendanceTime,
-      "OnSiteArrivalTime": onSiteArrivalTime,
-      "ContactTime": contactTime,
-      "InVehicleTime": inVehicleTime,
-      "StartOfTransportTime": startOfTransportTime,
-      "HospitalArrivalTime": hospitalArrivalTime,
-      "FamilyContactTime": familyContactTime,
-      "PoliceContactTime": policeContactTime,
-      "TimeOfArrival": timeOfArrival,
-      "ReturnTime": returnTime,
-      "TypeOfAccident": typeOfAccident,
-      "DateOfOccurrence": dateOfOccurrence,
-      "TimeOfOccurrence": timeOfOccurrence,
-      "PlaceOfIncident": placeOfIncident,
-      "AccidentSummary": accidentSummary,
-      "ADL": adl,
-      "TrafficAccidentClassification": trafficAccidentClassification,
-      "Witnesses": witnesses,
-      "BystanderCPR": bystanderCpr,
-      "VerbalGuidance": verbalGuidance,
-      "ObservationTime": observationTime,
-      "JCS": jcs,
-      "GCS_E": gcsE,
-      "GCS_V": gcsV,
-      "GCS_M": gcsM,
-      "Respiration": respiration,
-      "Pulse": pulse,
-      "BloodPressure_High": bloodPressureHigh,
-      "BloodPressure_Low": bloodPressureLow,
-      "SpO2Percent": spO2Percent,
-      "SpO2Liter": spO2Liter,
-      "PupilRight": pupilRight,
-      "PupilLeft": pupilLeft,
-      "LightReflexRight": lightReflexRight,
-      "LightReflexLeft": lightReflexLeft,
-      "BodyTemperature": bodyTemperature,
-      "FacialFeatures": facialFeatures,
-      "Hemorrhage": hemorrhage,
-      "Incontinence": incontinence,
-      "Vomiting": vomiting,
-      "Extremities": extremities,
-      "DescriptionOfObservationTime": descriptionOfObservationTime,
-      "OtherOfObservationTime": otherOfObservationTime,
-      "SecuringAirway": securingAirway,
-      "ForeignBodyRemoval": foreignBodyRemoval,
-      "Suction": suction,
-      "ArtificialRespiration": artificialRespiration,
-      "ChestCompressions": chestCompressions,
-      "ECGMonitor": ecgMonitor,
-      "O2Administration": o2Administration,
-      "O2AdministrationTime": o2AdministrationTime,
-      "SpinalCordMovementLimitation": spinalCordMovementLimitation,
-      "HemostaticTreatment": hemostaticTreatment,
-      "AdductorFixation": adductorFixation,
-      "Coating": coating,
-      "BurnTreatment": burnTreatment,
-      "BSMeasurement1": bsMeasurement1,
-      "BSMeasurementTime1": bsMeasurementTime1,
-      "PunctureSite1": punctureSite1,
-      "BSMeasurement2": bsMeasurement2,
-      "BSMeasurementTime2": bsMeasurementTime2,
-      "PunctureSite2": punctureSite2,
-      "Other": other,
-      "PerceiverName": perceiverName,
-      "TypeOfDetection": typeOfDetection,
-      "CallerName": callerName,
-      "CallerTEL": callerTel,
-      "MedicalTransportFacility": medicalTransportFacility,
-      "TransferringMedicalInstitution": transferringMedicalInstitution,
-      "TransferSourceReceivingTime": transferSourceReceivingTime,
-      "ReasonForTransfer": reasonForTransfer,
-      "ReasonForNotTransferring": reasonForNotTransferring,
-      "RecordOfRefusalOfTransfer": recordOfRefusalOfTransfer,
-      "NameOfReporter": nameOfReporter,
-      "AffiliationOfReporter": affiliationOfReporter,
-      "PositionOfReporter": positionOfReporter,
-      "SummaryOfOccurrence": summaryOfOccurrence,
-      "Remarks": remarks
-    };
-  }
 
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)

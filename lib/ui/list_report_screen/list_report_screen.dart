@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -66,29 +67,36 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      floatingActionButton: _buildCreateReportButton(),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('list_report'.i18n()),
-      centerTitle: true,
-      actions: _buildActions(context),
-    );
+    return CustomAppBar(
+        title: 'list_report'.i18n(), actions: _buildActions(context));
   }
 
   List<Widget> _buildActions(BuildContext context) {
     return <Widget>[
-      _buildCreateReportButton(),
+      _buildSelectButton(),
     ];
   }
 
-  Widget _buildCreateReportButton() {
+  Widget _buildSelectButton() {
     return IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.check_circle_outline),
+      color: Theme.of(context).primaryColor,
+    );
+  }
+
+  Widget _buildCreateReportButton() {
+    return FloatingActionButton(
       onPressed: () {
         Navigator.of(context).pushNamed(Routes.createReport);
       },
-      icon: const Icon(Icons.add),
+      backgroundColor: Theme.of(context).primaryColor,
+      child: const Icon(Icons.add),
     );
   }
 
@@ -143,19 +151,20 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         Navigator.of(context).pushNamed(Routes.confirmReport);
       },
       dense: true,
+      tileColor: Colors.grey.shade200,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '発生日：なし'} ${item.timeOfOccurrence?.format(context) ?? '発生時間：なし'}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: '発生日時：',
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            TextSpan(
+                style: Theme.of(context).textTheme.bodyMedium,
+                text:
+                    '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
+          ])),
           RichText(
               text: TextSpan(children: [
             TextSpan(

@@ -83,14 +83,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillAmbulanceData(String template) {
     String result = template;
     Report report = _reportStore.selectingReport!;
-    Map<String, dynamic> reportMap = _reportStore.selectingReport!.toMap();
     result = result.replaceAll('.5pt', '0.5pt');
     // Remove default margin from page
     result = result.replaceAll('margin:.75in .7in .75in .7in', 'margin:0');
-    result =
-        result.replaceAll('NumberOfDispatches_VALUE', reportMap['Total'] ?? '');
     result = result.replaceAll(
-        'NumberOfDispatchesPerTeam_VALUE', reportMap['Team'] ?? '');
+        'NumberOfDispatches_VALUE', report.totalCount?.toString() ?? '');
+    result = result.replaceAll(
+        'NumberOfDispatchesPerTeam_VALUE', report.teamCount?.toString() ?? '');
     result = result.replaceAll('TeamName_VALUE', report.team?.name ?? '');
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
@@ -120,10 +119,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',
         report.sickInjuredPersonTel?.toString() ?? '');
-    result = result.replaceAll('MedicalTransportFacility_VALUE',
-        report.medicalTransportFacility ?? '');
-    result = result.replaceAll('TransferringMedicalInstitution_VALUE',
-        report.transferringMedicalInstitution ?? '');
+    result = result.replaceAll(
+        'MedicalTransportFacility_VALUE',
+        report.otherMedicalTransportFacility != null
+            ? report.otherMedicalTransportFacility!
+            : report.medicalTransportFacility ?? '');
+    result = result.replaceAll(
+        'TransferringMedicalInstitution_VALUE',
+        report.otherTransferringMedicalInstitution != null
+            ? report.otherTransferringMedicalInstitution!
+            : report.transferringMedicalInstitution ?? '');
     result = result.replaceAll(
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
@@ -173,6 +178,22 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'SpO2Percent_${i}_VALUE', report.spO2Percent?[i]?.toString() ?? '');
       result = result.replaceAll('BodyTemperature_${i}_VALUE',
           report.bodyTemperature?[i]?.toStringAsFixed(1) ?? '');
+      for (int j = 0; j < 7; j++) {
+        result = result.replaceAll(
+            'OtherProcess1_${i}_VALUE', report.otherProcess1?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess2_${i}_VALUE', report.otherProcess2?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess3_${i}_VALUE', report.otherProcess3?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess4_${i}_VALUE', report.otherProcess4?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess5_${i}_VALUE', report.otherProcess5?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess6_${i}_VALUE', report.otherProcess6?[i] ?? '');
+        result = result.replaceAll(
+            'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
+      }
     }
     result = result.replaceAll('Remark', report.remarks ?? '');
     return result;
@@ -416,6 +437,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonTELLast', SickInjuredPersonTELs[2]?.toString() ?? '');
 
     //14
+    if (report.sickInjuredPersonFamily != null) {
+      htmlInput.replaceAll('家族等：', '家族等：${report.sickInjuredPersonFamily}');
+    }
     List<String?> SickInjuredPersonFamilyTELs = split4CharPhone(
         report.sickInjuredPersonFamilyTel?.toString().trim() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELFirst',
