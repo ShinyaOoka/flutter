@@ -10,7 +10,6 @@ import 'package:ak_azm_flutter/data/serializers/time_of_day_converter.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/fire_station/fire_station.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
-import 'package:ak_azm_flutter/models/team_member/team_member.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';

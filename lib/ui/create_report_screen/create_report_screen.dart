@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -94,10 +95,9 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('create_report'.i18n()),
+    return CustomAppBar(
+      title: 'create_report'.i18n(),
       actions: _buildActions(),
-      centerTitle: true,
       leading: _buildBackButton(),
       leadingWidth: 100,
     );
@@ -112,8 +112,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();
@@ -128,7 +128,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
         icon: const Icon(Icons.save),
         style: TextButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+            foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
           await _reportStore.createReport(_reportStore.selectingReport!);

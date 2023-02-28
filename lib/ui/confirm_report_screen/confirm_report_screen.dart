@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/ui/preview_report_screen/preview_report_screen.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -89,10 +90,9 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('confirm_report'.i18n()),
+    return CustomAppBar(
+      title: 'confirm_report'.i18n(),
       actions: _buildActions(),
-      centerTitle: true,
       leading: _buildBackButton(),
       leadingWidth: 100,
     );
@@ -101,6 +101,10 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
   List<Widget> _buildActions() {
     return [
       PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).primaryColor,
+        ),
         itemBuilder: (context) {
           return [
             PopupMenuItem(
@@ -154,8 +158,8 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();

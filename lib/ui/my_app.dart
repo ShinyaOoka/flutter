@@ -50,11 +50,11 @@ class MyApp extends StatelessWidget {
           appBarBackground: Colors.white,
           scaffoldBackground: Colors.white,
           background: Colors.white,
-          colors: FlexSchemeColor(
+          colors: const FlexSchemeColor(
             primary: Color(0xff0082C8),
             secondary: Color(0xff0082C8),
           ),
-          textTheme: TextTheme(
+          textTheme: const TextTheme(
             titleLarge: TextStyle(
                 color: Color(0xff0082C8), fontWeight: FontWeight.bold),
           ),

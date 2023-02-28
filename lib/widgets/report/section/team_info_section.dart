@@ -6,7 +6,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
-import 'package:ak_azm_flutter/models/team_member/team_member.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';

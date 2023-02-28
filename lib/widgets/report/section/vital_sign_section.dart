@@ -590,82 +590,76 @@ class _VitalSignSectionState extends State<VitalSignSection>
   }
 
   Widget _buildLine9(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          label: 'other_process_1'.i18n(),
-          controller: otherProcess1Controller,
-          onChanged: (value) => report.otherProcess1?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        AppTextField(
-          label: 'other_process_2'.i18n(),
-          controller: otherProcess2Controller,
-          onChanged: (value) => report.otherProcess2?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        AppTextField(
-          label: 'other_process_3'.i18n(),
-          controller: otherProcess3Controller,
-          onChanged: (value) => report.otherProcess3?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        label: 'other_process_1'.i18n(),
+        controller: otherProcess1Controller,
+        onChanged: (value) => report.otherProcess1?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      AppTextField(
+        label: 'other_process_2'.i18n(),
+        controller: otherProcess2Controller,
+        onChanged: (value) => report.otherProcess2?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      AppTextField(
+        label: 'other_process_3'.i18n(),
+        controller: otherProcess3Controller,
+        onChanged: (value) => report.otherProcess3?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+    ]);
   }
 
   Widget _buildLine10(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          label: 'other_process_4'.i18n(),
-          controller: otherProcess4Controller,
-          onChanged: (value) => report.otherProcess4?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        AppTextField(
-          label: 'other_process_5'.i18n(),
-          controller: otherProcess5Controller,
-          onChanged: (value) => report.otherProcess5?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        AppTextField(
-          label: 'other_process_6'.i18n(),
-          controller: otherProcess6Controller,
-          onChanged: (value) => report.otherProcess6?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        label: 'other_process_4'.i18n(),
+        controller: otherProcess4Controller,
+        onChanged: (value) => report.otherProcess4?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      AppTextField(
+        label: 'other_process_5'.i18n(),
+        controller: otherProcess5Controller,
+        onChanged: (value) => report.otherProcess5?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      AppTextField(
+        label: 'other_process_6'.i18n(),
+        controller: otherProcess6Controller,
+        onChanged: (value) => report.otherProcess6?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+    ]);
   }
 
   Widget _buildLine11(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          label: 'other_process_7'.i18n(),
-          controller: otherProcess7Controller,
-          onChanged: (value) => report.otherProcess7?[widget.index] = value,
-          maxLength: 15,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        Container(),
-        Container(),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        label: 'other_process_7'.i18n(),
+        controller: otherProcess7Controller,
+        onChanged: (value) => report.otherProcess7?[widget.index] = value,
+        maxLength: 15,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      Container(),
+      Container(),
+    ]);
   }
 
   ObservableList<T?> _ensureLengthObservable<T>(ObservableList<T?>? list) {

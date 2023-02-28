@@ -78,6 +78,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     } else {
       assert(false);
     }
+    return null;
   }
 
   String fillAmbulanceData(String template) {

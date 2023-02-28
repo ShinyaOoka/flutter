@@ -16,12 +16,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           appBar,
           PreferredSize(
+              preferredSize: const Size.fromHeight(40),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child:
                     Text(title!, style: Theme.of(context).textTheme.titleLarge),
-              ),
-              preferredSize: Size.fromHeight(40))
+              ))
         ],
       );
     }
@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       {super.key, this.leading, this.title, this.actions, this.leadingWidth})
       : appBar = AppBar(
           toolbarHeight: 60,
-          title: Image(
+          title: const Image(
             image: AssetImage('assets/logo.png'),
             fit: BoxFit.fitHeight,
             height: 60,
