@@ -128,7 +128,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               controller: scrollController,
               itemCount: _reportStore.reports!.length,
               separatorBuilder: (context, position) {
-                return const Divider();
+                return const Divider(height: 1, color: Colors.black45);
               },
               itemBuilder: (context, position) {
                 return _buildListItem(position);
@@ -151,20 +151,24 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         Navigator.of(context).pushNamed(Routes.confirmReport);
       },
       dense: true,
-      tileColor: Colors.grey.shade200,
+      tileColor: Colors.black12,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: '発生日時：',
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            TextSpan(
-                style: Theme.of(context).textTheme.bodyMedium,
-                text:
-                    '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
-          ])),
+              text: TextSpan(
+                  style: Theme.of(context).textTheme.titleMedium,
+                  children: [
+                TextSpan(
+                    text: '発生日時：',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold)),
+                TextSpan(
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    text:
+                        '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
+              ])),
           RichText(
               text: TextSpan(children: [
             TextSpan(
