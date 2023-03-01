@@ -538,7 +538,7 @@ abstract class _Report with Store {
 
   @action
   setDegree(Classification? value) {
-    assert(value?.classificationCd == AppConstants.medicationCode);
+    assert(value?.classificationCd == AppConstants.degreeCode);
     sickInjuredPersonDegree = value?.classificationSubCd;
   }
 
