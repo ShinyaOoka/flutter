@@ -172,16 +172,25 @@ class _TreatmentSectionState extends State<TreatmentSection>
   Widget _buildLine4(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppTextField(
-          label: 'o2_administration'.i18n(),
-          controller: o2AdministrationController,
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (value) => report.o2Administration = int.parse(value),
-          readOnly: widget.readOnly,
-          counterText: 'L',
-          counterColor: Theme.of(context).primaryColor,
-          maxLength: 3,
+        Focus(
+          child: AppTextField(
+            label: 'o2_administration'.i18n(),
+            controller: o2AdministrationController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+            ],
+            readOnly: widget.readOnly,
+            counterText: 'L',
+            counterColor: Theme.of(context).primaryColor,
+            maxLength: 3,
+          ),
+          onFocusChange: (hasFocus) {
+            if (hasFocus) return;
+            report.o2Administration =
+                double.tryParse(o2AdministrationController.text);
+          },
         ),
         AppTimePicker(
           label: 'o2_administration_time'.i18n(),

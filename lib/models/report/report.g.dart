@@ -154,7 +154,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['ChestCompressions'], const IntToBoolConverter().fromJson)
   ..ecgMonitor = _$JsonConverterFromJson<int, bool>(
       json['ECGMonitor'], const IntToBoolConverter().fromJson)
-  ..o2Administration = json['O2Administration'] as int?
+  ..o2Administration = (json['O2Administration'] as num?)?.toDouble()
   ..o2AdministrationTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['O2AdministrationTime'], const TimeOfDayConverter().fromJson)
   ..spinalCordMovementLimitation =
@@ -1897,13 +1897,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.o2Administration', context: context);
 
   @override
-  int? get o2Administration {
+  double? get o2Administration {
     _$o2AdministrationAtom.reportRead();
     return super.o2Administration;
   }
 
   @override
-  set o2Administration(int? value) {
+  set o2Administration(double? value) {
     _$o2AdministrationAtom.reportWrite(value, super.o2Administration, () {
       super.o2Administration = value;
     });

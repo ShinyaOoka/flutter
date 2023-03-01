@@ -339,7 +339,7 @@ abstract class _Report with Store {
   bool? ecgMonitor;
   @observable
   @JsonKey(name: "O2Administration")
-  int? o2Administration;
+  double? o2Administration;
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "O2AdministrationTime")

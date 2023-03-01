@@ -89,7 +89,7 @@ const _createReportTable = '''CREATE TABLE ${DBConstants.reportTable} (
   ArtificialRespiration INTEGER,
   ChestCompressions INTEGER,
   ECGMonitor INTEGER,
-  O2Administration INTEGER,
+  O2Administration DECIMAL(4,1),
   O2AdministrationTime STRING,
   SpinalCordMovementLimitation VARCHAR(3),
   HemostaticTreatment INTEGER,
