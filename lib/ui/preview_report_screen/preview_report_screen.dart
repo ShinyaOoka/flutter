@@ -84,6 +84,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillAmbulanceData(String template) {
     String result = template;
     Report report = _reportStore.selectingReport!;
+    result = result.replaceAll('height:30.0pt', 'height:26pt');
     result = result.replaceAll('.5pt', '0.5pt');
     // Remove default margin from page
     result = result.replaceAll('margin:.75in .7in .75in .7in', 'margin:0');
