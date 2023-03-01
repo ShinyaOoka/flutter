@@ -179,22 +179,38 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'SpO2Percent_${i}_VALUE', report.spO2Percent?[i]?.toString() ?? '');
       result = result.replaceAll('BodyTemperature_${i}_VALUE',
           report.bodyTemperature?[i]?.toStringAsFixed(1) ?? '');
-      for (int j = 0; j < 7; j++) {
-        result = result.replaceAll(
-            'OtherProcess1_${i}_VALUE', report.otherProcess1?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess2_${i}_VALUE', report.otherProcess2?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess3_${i}_VALUE', report.otherProcess3?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess4_${i}_VALUE', report.otherProcess4?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess5_${i}_VALUE', report.otherProcess5?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess6_${i}_VALUE', report.otherProcess6?[i] ?? '');
-        result = result.replaceAll(
-            'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
-      }
+      result =
+          result.replaceAll('EachECG_${i}_VALUE', report.eachEcg?[i] ?? '');
+      result = result.replaceAll('EachOxygenInhalation_${i}_VALUE',
+          report.eachOxygenInhalation?[i]?.toStringAsFixed(1) ?? '');
+      result = result.replaceAll(
+          'EachHemostasis_${i}_VALUE',
+          report.eachHemostasis?[i] != null
+              ? report.eachHemostasis![i]!
+                  ? '有'
+                  : '無'
+              : '');
+      result = result.replaceAll(
+          'EachSuction_${i}_VALUE',
+          report.eachSuction?[i] != null
+              ? report.eachSuction![i]!
+                  ? '有'
+                  : '無'
+              : '');
+      result = result.replaceAll(
+          'OtherProcess1_${i}_VALUE', report.otherProcess1?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess2_${i}_VALUE', report.otherProcess2?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess3_${i}_VALUE', report.otherProcess3?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess4_${i}_VALUE', report.otherProcess4?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess5_${i}_VALUE', report.otherProcess5?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess6_${i}_VALUE', report.otherProcess6?[i] ?? '');
+      result = result.replaceAll(
+          'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark', report.remarks ?? '');
     return result;
@@ -326,6 +342,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //replace □ => uncheckIcon style
     htmlInput = htmlInput.replaceAll('□', uncheckIcon);
 
+    htmlInput = htmlInput.replaceAll('height:20.5pt', 'height:19pt');
+
     //increment border-width style: .5pt - 0.5pt
     htmlInput = htmlInput.replaceAll('.5pt', '0.5pt');
 
@@ -428,6 +446,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonName', report.sickInjuredPersonName ?? '');
 
     //13
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonTEL', report.sickInjuredPersonTel ?? '');
     List<String?> SickInjuredPersonTELs =
         split4CharPhone(report.sickInjuredPersonTel?.toString().trim() ?? '');
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonTELFirst',
@@ -438,19 +458,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonTELLast', SickInjuredPersonTELs[2]?.toString() ?? '');
 
     //14
-    print(report.sickInjuredPersonFamily);
-    if (report.sickInjuredPersonFamily != null) {
-      htmlInput =
-          htmlInput.replaceAll('家族等：', '家族等：${report.sickInjuredPersonFamily}');
-    }
-    List<String?> SickInjuredPersonFamilyTELs = split4CharPhone(
-        report.sickInjuredPersonFamilyTel?.toString().trim() ?? '');
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELFirst',
-        SickInjuredPersonFamilyTELs[0]?.toString() ?? '');
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELMiddle',
-        SickInjuredPersonFamilyTELs[1]?.toString() ?? '');
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonFamilyTELLast',
-        SickInjuredPersonFamilyTELs[2]?.toString() ?? '');
+    htmlInput = htmlInput.replaceAll(
+        'SickInjuredPersonFamilyTEL', report.sickInjuredPersonFamilyTel ?? '');
+    htmlInput = htmlInput.replaceAll(
+        'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
 
     //15
     if (report.sickInjuredPersonMedicalHistory == null) {
