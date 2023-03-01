@@ -1091,6 +1091,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 build: (format) {
                   return _file!.readAsBytes();
                 },
+                initialPageFormat: PdfPageFormat.a4,
               )
             : const CustomProgressIndicatorWidget();
       },
