@@ -184,7 +184,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
             readOnly: widget.readOnly,
             counterText: 'L',
             counterColor: Theme.of(context).primaryColor,
-            maxLength: 3,
           ),
           onFocusChange: (hasFocus) {
             if (hasFocus) return;

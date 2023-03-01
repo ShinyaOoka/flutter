@@ -128,6 +128,15 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       _$JsonConverterFromJson<String, ObservableList<String?>>(
           json['DescriptionOfObservationTime'],
           const ListStringConverter().fromJson)
+  ..eachEcg = _$JsonConverterFromJson<String, ObservableList<String?>>(
+      json['EachECG'], const ListStringConverter().fromJson)
+  ..eachOxygenInhalation =
+      _$JsonConverterFromJson<String, ObservableList<double?>>(
+          json['EachOxygenInhalation'], const ListDoubleConverter().fromJson)
+  ..eachHemostasis = _$JsonConverterFromJson<String, ObservableList<bool?>>(
+      json['EachHemostasis'], const ListBoolConverter().fromJson)
+  ..eachSuction = _$JsonConverterFromJson<String, ObservableList<bool?>>(
+      json['EachSuction'], const ListBoolConverter().fromJson)
   ..otherProcess1 = _$JsonConverterFromJson<String, ObservableList<String?>>(
       json['OtherProcess1'], const ListStringConverter().fromJson)
   ..otherProcess2 = _$JsonConverterFromJson<String, ObservableList<String?>>(
@@ -326,6 +335,16 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           _$JsonConverterToJson<String, ObservableList<String?>>(
               instance.descriptionOfObservationTime,
               const ListStringConverter().toJson),
+      'EachECG': _$JsonConverterToJson<String, ObservableList<String?>>(
+          instance.eachEcg, const ListStringConverter().toJson),
+      'EachOxygenInhalation':
+          _$JsonConverterToJson<String, ObservableList<double?>>(
+              instance.eachOxygenInhalation,
+              const ListDoubleConverter().toJson),
+      'EachHemostasis': _$JsonConverterToJson<String, ObservableList<bool?>>(
+          instance.eachHemostasis, const ListBoolConverter().toJson),
+      'EachSuction': _$JsonConverterToJson<String, ObservableList<bool?>>(
+          instance.eachSuction, const ListBoolConverter().toJson),
       'OtherProcess1': _$JsonConverterToJson<String, ObservableList<String?>>(
           instance.otherProcess1, const ListStringConverter().toJson),
       'OtherProcess2': _$JsonConverterToJson<String, ObservableList<String?>>(
@@ -1668,6 +1687,70 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$eachEcgAtom = Atom(name: '_Report.eachEcg', context: context);
+
+  @override
+  ObservableList<String?>? get eachEcg {
+    _$eachEcgAtom.reportRead();
+    return super.eachEcg;
+  }
+
+  @override
+  set eachEcg(ObservableList<String?>? value) {
+    _$eachEcgAtom.reportWrite(value, super.eachEcg, () {
+      super.eachEcg = value;
+    });
+  }
+
+  late final _$eachOxygenInhalationAtom =
+      Atom(name: '_Report.eachOxygenInhalation', context: context);
+
+  @override
+  ObservableList<double?>? get eachOxygenInhalation {
+    _$eachOxygenInhalationAtom.reportRead();
+    return super.eachOxygenInhalation;
+  }
+
+  @override
+  set eachOxygenInhalation(ObservableList<double?>? value) {
+    _$eachOxygenInhalationAtom.reportWrite(value, super.eachOxygenInhalation,
+        () {
+      super.eachOxygenInhalation = value;
+    });
+  }
+
+  late final _$eachHemostasisAtom =
+      Atom(name: '_Report.eachHemostasis', context: context);
+
+  @override
+  ObservableList<bool?>? get eachHemostasis {
+    _$eachHemostasisAtom.reportRead();
+    return super.eachHemostasis;
+  }
+
+  @override
+  set eachHemostasis(ObservableList<bool?>? value) {
+    _$eachHemostasisAtom.reportWrite(value, super.eachHemostasis, () {
+      super.eachHemostasis = value;
+    });
+  }
+
+  late final _$eachSuctionAtom =
+      Atom(name: '_Report.eachSuction', context: context);
+
+  @override
+  ObservableList<bool?>? get eachSuction {
+    _$eachSuctionAtom.reportRead();
+    return super.eachSuction;
+  }
+
+  @override
+  set eachSuction(ObservableList<bool?>? value) {
+    _$eachSuctionAtom.reportWrite(value, super.eachSuction, () {
+      super.eachSuction = value;
+    });
+  }
+
   late final _$otherProcess1Atom =
       Atom(name: '_Report.otherProcess1', context: context);
 
@@ -2818,6 +2901,10 @@ incontinence: ${incontinence},
 vomiting: ${vomiting},
 extremities: ${extremities},
 descriptionOfObservationTime: ${descriptionOfObservationTime},
+eachEcg: ${eachEcg},
+eachOxygenInhalation: ${eachOxygenInhalation},
+eachHemostasis: ${eachHemostasis},
+eachSuction: ${eachSuction},
 otherProcess1: ${otherProcess1},
 otherProcess2: ${otherProcess2},
 otherProcess3: ${otherProcess3},

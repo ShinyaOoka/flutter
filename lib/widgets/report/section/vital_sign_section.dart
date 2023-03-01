@@ -39,6 +39,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
   final bodyTemperatureController = TextEditingController();
   final hemorrhageController = TextEditingController();
   final extremitiesController = TextEditingController();
+  final eachEcgController = TextEditingController();
+  final eachOxygenInhalationController = TextEditingController();
   final otherProcess1Controller = TextEditingController();
   final otherProcess2Controller = TextEditingController();
   final otherProcess3Controller = TextEditingController();
@@ -93,6 +95,14 @@ class _VitalSignSectionState extends State<VitalSignSection>
         _ensureLengthObservable(reportStore.selectingReport!.vomiting);
     reportStore.selectingReport!.extremities =
         _ensureLengthObservable(reportStore.selectingReport!.extremities);
+    reportStore.selectingReport!.eachEcg =
+        _ensureLengthObservable(reportStore.selectingReport!.eachEcg);
+    reportStore.selectingReport!.eachHemostasis =
+        _ensureLengthObservable(reportStore.selectingReport!.eachHemostasis);
+    reportStore.selectingReport!.eachOxygenInhalation = _ensureLengthObservable(
+        reportStore.selectingReport!.eachOxygenInhalation);
+    reportStore.selectingReport!.eachSuction =
+        _ensureLengthObservable(reportStore.selectingReport!.eachSuction);
     reportStore.selectingReport!.otherProcess1 =
         _ensureLengthObservable(reportStore.selectingReport!.otherProcess1);
     reportStore.selectingReport!.otherProcess2 =
@@ -138,6 +148,10 @@ class _VitalSignSectionState extends State<VitalSignSection>
           reportStore.selectingReport!.hemorrhage?[widget.index]);
       syncControllerValue(extremitiesController,
           reportStore.selectingReport!.extremities?[widget.index]);
+      syncControllerValue(eachOxygenInhalationController,
+          reportStore.selectingReport!.eachOxygenInhalation?[widget.index]);
+      syncControllerValue(eachEcgController,
+          reportStore.selectingReport!.eachEcg?[widget.index]);
       syncControllerValue(otherProcess1Controller,
           reportStore.selectingReport!.otherProcess1?[widget.index]);
       syncControllerValue(otherProcess2Controller,
@@ -169,6 +183,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
     bodyTemperatureController.dispose();
     hemorrhageController.dispose();
     extremitiesController.dispose();
+    eachEcgController.dispose();
+    eachOxygenInhalationController.dispose();
     otherProcess1Controller.dispose();
     otherProcess2Controller.dispose();
     otherProcess3Controller.dispose();
@@ -203,6 +219,8 @@ class _VitalSignSectionState extends State<VitalSignSection>
           _buildLine9(reportStore.selectingReport!, context),
           _buildLine10(reportStore.selectingReport!, context),
           _buildLine11(reportStore.selectingReport!, context),
+          _buildLine12(reportStore.selectingReport!, context),
+          _buildLine13(reportStore.selectingReport!, context),
         ],
       );
     });
@@ -592,6 +610,61 @@ class _VitalSignSectionState extends State<VitalSignSection>
   Widget _buildLine9(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
+        label: 'each_ecg'.i18n(),
+        controller: eachEcgController,
+        onChanged: (value) => report.eachEcg?[widget.index] = value,
+        maxLength: 10,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+      Focus(
+        child: AppTextField(
+          label: 'each_oxygen_inhalation'.i18n(),
+          controller: eachOxygenInhalationController,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+          ],
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        onFocusChange: (hasFocus) {
+          if (hasFocus) return;
+          report.eachOxygenInhalation?[widget.index] =
+              double.tryParse(eachOxygenInhalationController.text);
+        },
+      ),
+    ]);
+  }
+
+  Widget _buildLine10(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppDropdown<bool>(
+          items: const [true, false],
+          label: 'each_hemostasis'.i18n(),
+          itemAsString: ((item) => formatBool(item) ?? ''),
+          onChanged: (value) => report.eachHemostasis?[widget.index] = value,
+          selectedItem: report.eachHemostasis?[widget.index],
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppDropdown<bool>(
+          items: const [true, false],
+          label: 'each_suction'.i18n(),
+          itemAsString: ((item) => formatBool(item) ?? ''),
+          onChanged: (value) => report.eachSuction?[widget.index] = value,
+          selectedItem: report.eachSuction?[widget.index],
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+      ]);
+    });
+  }
+
+  Widget _buildLine11(Report report, BuildContext context) {
+    return lineLayout(children: [
+      AppTextField(
         label: 'other_process_1'.i18n(),
         controller: otherProcess1Controller,
         onChanged: (value) => report.otherProcess1?[widget.index] = value,
@@ -618,7 +691,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
     ]);
   }
 
-  Widget _buildLine10(Report report, BuildContext context) {
+  Widget _buildLine12(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
         label: 'other_process_4'.i18n(),
@@ -647,7 +720,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
     ]);
   }
 
-  Widget _buildLine11(Report report, BuildContext context) {
+  Widget _buildLine13(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
         label: 'other_process_7'.i18n(),

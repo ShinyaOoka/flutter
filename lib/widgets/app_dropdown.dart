@@ -26,6 +26,7 @@ class AppDropdown<T> extends StatelessWidget {
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   label: label != null ? Text(label!) : null,
                   border: const OutlineInputBorder(),
+                  fillColor: fillColor,
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),

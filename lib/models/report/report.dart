@@ -285,6 +285,22 @@ abstract class _Report with Store {
   ObservableList<String?>? descriptionOfObservationTime;
   @observable
   @ListStringConverter()
+  @JsonKey(name: "EachECG")
+  ObservableList<String?>? eachEcg;
+  @observable
+  @ListDoubleConverter()
+  @JsonKey(name: "EachOxygenInhalation")
+  ObservableList<double?>? eachOxygenInhalation;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "EachHemostasis")
+  ObservableList<bool?>? eachHemostasis;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "EachSuction")
+  ObservableList<bool?>? eachSuction;
+  @observable
+  @ListStringConverter()
   @JsonKey(name: "OtherProcess1")
   ObservableList<String?>? otherProcess1;
   @observable
