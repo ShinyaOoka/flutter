@@ -86,6 +86,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     Report report = _reportStore.selectingReport!;
     result = result.replaceAll('height:30.0pt', 'height:26pt');
     result = result.replaceAll('.5pt', '0.5pt');
+    result = result.replaceAll('padding:0px;', 'padding:0 3pt;');
     // Remove default margin from page
     result = result.replaceAll('margin:.75in .7in .75in .7in', 'margin:0');
     result = result.replaceAll(
@@ -347,6 +348,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //increment border-width style: .5pt - 0.5pt
     htmlInput = htmlInput.replaceAll('.5pt', '0.5pt');
+    htmlInput = htmlInput.replaceAll('padding:0px;', 'padding:0 3pt;');
 
     //add style
     htmlInput = htmlInput.replaceAll('</style>', '$styleCSSMore</style>');
