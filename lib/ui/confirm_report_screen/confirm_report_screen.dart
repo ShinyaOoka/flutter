@@ -14,7 +14,6 @@ import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:localization/localization.dart';
 
@@ -29,7 +28,6 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     with RouteAware {
   late ReportStore _reportStore;
   late TeamStore _teamStore;
-  late TeamMemberStore _teamMemberStore;
   late FireStationStore _fireStationStore;
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
@@ -62,17 +60,14 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     _reportStore = context.read();
     _teamStore = context.read();
     _fireStationStore = context.read();
-    _teamMemberStore = context.read();
     _classificationStore = context.read();
     _hospitalStore = context.read();
 
     _teamStore.getTeams();
-    _teamMemberStore.getAllTeamMembers();
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
     _reportStore.selectingReport?.teamStore = _teamStore;
-    _reportStore.selectingReport?.teamMemberStore = _teamMemberStore;
     _reportStore.selectingReport?.fireStationStore = _fireStationStore;
     _reportStore.selectingReport?.classificationStore = _classificationStore;
 
@@ -208,9 +203,6 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
           return _showErrorMessage(_reportStore.errorStore.errorMessage);
         }
         if (_fireStationStore.errorStore.errorMessage.isNotEmpty) {
-          return _showErrorMessage(_reportStore.errorStore.errorMessage);
-        }
-        if (_teamMemberStore.errorStore.errorMessage.isNotEmpty) {
           return _showErrorMessage(_reportStore.errorStore.errorMessage);
         }
         if (_teamStore.errorStore.errorMessage.isNotEmpty) {

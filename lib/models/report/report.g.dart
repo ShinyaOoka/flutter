@@ -2591,22 +2591,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$teamMemberStoreAtom =
-      Atom(name: '_Report.teamMemberStore', context: context);
-
-  @override
-  TeamMemberStore? get teamMemberStore {
-    _$teamMemberStoreAtom.reportRead();
-    return super.teamMemberStore;
-  }
-
-  @override
-  set teamMemberStore(TeamMemberStore? value) {
-    _$teamMemberStoreAtom.reportWrite(value, super.teamMemberStore, () {
-      super.teamMemberStore = value;
-    });
-  }
-
   late final _$fireStationStoreAtom =
       Atom(name: '_Report.fireStationStore', context: context);
 
@@ -2957,7 +2941,6 @@ updateName: ${updateName},
 updateMachine: ${updateMachine},
 updateDate: ${updateDate},
 teamStore: ${teamStore},
-teamMemberStore: ${teamMemberStore},
 fireStationStore: ${fireStationStore},
 classificationStore: ${classificationStore},
 sickInjuredPersonAge: ${sickInjuredPersonAge},

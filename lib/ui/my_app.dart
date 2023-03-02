@@ -11,14 +11,12 @@ import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 
 class MyApp extends StatelessWidget {
   final ReportStore _reportStore = getIt<ReportStore>();
   final TeamStore _teamStore = getIt<TeamStore>();
-  final TeamMemberStore _teamMemberStore = getIt<TeamMemberStore>();
   final HospitalStore _hospitalStore = getIt<HospitalStore>();
   final FireStationStore _fireStationStore = getIt<FireStationStore>();
   final ClassificationStore _classificationStore = getIt<ClassificationStore>();
@@ -36,7 +34,6 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<ReportStore>(create: (_) => _reportStore),
         Provider<TeamStore>(create: (_) => _teamStore),
-        Provider<TeamMemberStore>(create: (_) => _teamMemberStore),
         Provider<HospitalStore>(create: (_) => _hospitalStore),
         Provider<FireStationStore>(create: (_) => _fireStationStore),
         Provider<ClassificationStore>(create: (_) => _classificationStore),

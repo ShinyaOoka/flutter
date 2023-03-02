@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
@@ -106,7 +105,6 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
   }
 
   Widget _buildLine2(Report report, BuildContext context) {
-    final teamMemberStore = Provider.of<TeamMemberStore>(context);
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppTextField(

@@ -2,21 +2,18 @@ import 'package:ak_azm_flutter/data/local/data_sources/fire_station/fire_station
 import 'package:ak_azm_flutter/data/local/data_sources/hospital/hospital_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/report/report_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/team/team_data_source.dart';
-import 'package:ak_azm_flutter/data/local/data_sources/team_member/team_member_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/classification/classification_data_source.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/fire_station/fire_station.dart';
 import 'package:ak_azm_flutter/models/hospital/hospital.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
-import 'package:ak_azm_flutter/models/team_member/team_member.dart';
 import 'package:tuple/tuple.dart';
 
 class Repository {
   final ReportDataSource _reportDataSource;
   final HospitalDataSource _hospitalDataSource;
   final TeamDataSource _teamDataSource;
-  final TeamMemberDataSource _teamMemberDataSource;
   final FireStationDataSource _fireStationDataSource;
   final ClassificationDataSource _classificationDataSource;
 
@@ -24,7 +21,6 @@ class Repository {
     this._hospitalDataSource,
     this._reportDataSource,
     this._teamDataSource,
-    this._teamMemberDataSource,
     this._fireStationDataSource,
     this._classificationDataSource,
   );
@@ -51,14 +47,6 @@ class Repository {
 
   Future<List<Team>> getTeamsByIds(List<String> ids) {
     return _teamDataSource.getTeamsByIds(ids);
-  }
-
-  Future<List<TeamMember>> getAllTeamMembers() {
-    return _teamMemberDataSource.getAllTeamMembers();
-  }
-
-  Future<List<TeamMember>> getTeamMembersByIds(List<String> ids) {
-    return _teamMemberDataSource.getTeamMembersByIds(ids);
   }
 
   Future<List<FireStation>> getAllFireStations() {

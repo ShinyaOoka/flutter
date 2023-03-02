@@ -4,131 +4,28 @@ import 'package:sqflite/sqflite.dart';
 class SeedData {
   SeedData._();
 
-  static const teamMembers = [
-    {
-      "TeamMemberCD": "000",
-      "Name": "袖ヶ浦　ガウラ",
-      "Position": "マスコットキャラクター",
-      "TEL": "09012345678",
-      "TeamCD": "000",
-      "LifesaverQualification": 1,
-    },
-    {
-      "TeamMemberCD": "001",
-      "Name": "保科　久穂",
-      "TEL": "09012341234",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "002",
-      "Name": "大岡　慎弥",
-      "TEL": "09022343234",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "003",
-      "Name": "中村　健",
-      "Position": "グループ長",
-      "TEL": "09032344234",
-      "TeamCD": "002",
-      "LifesaverQualification": 1,
-    },
-    {
-      "TeamMemberCD": "004",
-      "Name": "鷹巣　良右",
-      "Position": "部長",
-      "TEL": "09032344235",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "005",
-      "Name": "柳下　清隆",
-      "Position": "グループ長",
-      "TEL": "09032344236",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "006",
-      "Name": "青木　栄介",
-      "TEL": "09032344239",
-      "TeamCD": "003",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "007",
-      "Name": "松岡　和人",
-      "TEL": "09032344238",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "008",
-      "Name": "福島　隼人",
-      "TEL": "09032344231",
-      "TeamCD": "001",
-      "LifesaverQualification": 0,
-    },
-    {
-      "TeamMemberCD": "009",
-      "Name": "袖ヶ浦　ソデリー",
-      "Position": "マスコットキャラクター",
-      "TEL": "09012345678",
-      "TeamCD": "000",
-      "LifesaverQualification": 1,
-    },
-    {
-      "TeamMemberCD": "TMCD5678901234567890",
-      "Name": "フル桁検証用氏名９０１２３４５６７８９０",
-      "Position": "フル桁検証用役職９０１２３４５６７８９０",
-      "TEL": "12345678901234567890",
-      "TeamCD": "1--------01--------0",
-      "LifesaverQualification": 1,
-    }
-  ];
-
   static const teams = [
     {
       "TeamCD": "000",
-      "Name": "チームガウラ",
-      "TEL": "09000000000",
+      "Name": "袖ヶ浦市中央消防署救急隊",
+      "TEL": "XXX-XXXX-XXXX",
       "FireStationCD": "001"
     },
     {
       "TeamCD": "001",
-      "Name": "チーム鷹巣",
-      "TEL": "09011111111",
-      "FireStationCD": "001"
+      "Name": "袖ヶ浦市長浦消防署救急隊",
+      "TEL": "XXX-XXXX-XXXX",
+      "FireStationCD": "002"
     },
     {
       "TeamCD": "002",
-      "Name": "チーム中村",
-      "TEL": "09022222222",
-      "FireStationCD": "001"
-    },
-    {
-      "TeamCD": "003",
-      "Name": "チーム青木",
-      "TEL": "09033333333",
-      "FireStationCD": "001"
-    },
-    {
-      "TeamCD": "1--------01--------0",
-      "Name": "フル桁検証用チーム名１２３４５６７８９０",
-      "TEL": "12345678901234567890",
-      "FireStationCD": "001"
+      "Name": "袖ヶ浦市平川消防署救急隊",
+      "TEL": "XXX-XXXX-XXXX",
+      "FireStationCD": "003"
     }
   ];
+
   static const fireStations = [
-    {
-      "FireStationCD": "000",
-      "Name": "袖ヶ浦市消防本部",
-      "Address": "千葉県袖ケ浦市福王台4丁目10番地7",
-      "TEL": "0438-64-XXX9"
-    },
     {
       "FireStationCD": "001",
       "Name": "袖ヶ浦市中央消防署",
@@ -146,202 +43,182 @@ class SeedData {
       "Name": "袖ヶ浦市平川消防署",
       "Address": "千葉県袖ケ浦市横田213番地",
       "TEL": "0438-75-XXX6"
-    },
-    {
-      "FireStationCD": "004",
-      "Name": "AZM消防署",
-      "Address": "東京都港区西新橋2丁目1番1号",
-      "TEL": "03-6205-XXX0"
-    },
-    {
-      "FireStationCD": "005",
-      "Name": "AK消防署",
-      "Address": "東京都港区芝浦三丁目1番1号",
-      "TEL": "03-6699-XXX0"
-    },
-    {
-      "FireStationCD": "1--------01--------0",
-      "Name": "フル桁消防署名８９０１２３４５６７８９０",
-      "Address": "フル桁住所６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０",
-      "TEL": "XXXXX-XXXXX-XXXXXXXXXX"
     }
   ];
 
   static const hospitals = [
     {
-      "HospitalCD": "000",
-      "Name": "さくま耳鼻咽喉科医院",
-      "Address": "千葉県袖ケ浦市神納617-1",
-      "TEL": "0438-60-XXX7"
-    },
-    {
-      "HospitalCD": "001",
-      "Name": "かんのう整形外科",
-      "Address": "千葉県袖ケ浦市神納689-1",
-      "TEL": "0438-60-XXX7"
-    },
-    {
-      "HospitalCD": "002",
-      "Name": "わたなべ皮フ科形成外科クリニック",
-      "Address": "千葉県袖ケ浦市神納707-1",
-      "TEL": "0438-60-XXX1"
-    },
-    {
-      "HospitalCD": "003",
-      "Name": "田中医院",
-      "Address": "千葉県袖ケ浦市神納2-10-7",
-      "TEL": "0438-62-XXX0"
-    },
-    {
-      "HospitalCD": "004",
-      "Name": "福王台外科内科",
-      "Address": "千葉県袖ケ浦市福王台1-10-9",
-      "TEL": "0438-62-XXX1"
-    },
-    {
-      "HospitalCD": "005",
-      "Name": "福王台皮膚科歯科",
-      "Address": "千葉県袖ケ浦市福王台2-1-5",
-      "TEL": "0438-60-XXX8"
-    },
-    {
-      "HospitalCD": "006",
-      "Name": "菱沼医院",
-      "Address": "千葉県袖ケ浦市福王台3-1-1",
-      "TEL": "0438-62-XXX2"
-    },
-    {
-      "HospitalCD": "007",
-      "Name": "ヤマダ眼科クリニック",
-      "Address": "千葉県袖ケ浦市奈良輪1-4-2",
-      "TEL": "0438-62-XXX7"
-    },
-    {
-      "HospitalCD": "008",
-      "Name": "袖ケ浦医院",
-      "Address": "千葉県袖ケ浦市奈良輪1-8-8",
-      "TEL": "0438-62-XXX1"
-    },
-    {
-      "HospitalCD": "009",
-      "Name": "佐野医院",
-      "Address": "千葉県袖ケ浦市奈良輪1-9-8",
-      "TEL": "0438-62-XXX8"
-    },
-    {
-      "HospitalCD": "010",
-      "Name": "袖ケ浦クリニック",
-      "Address": "千葉県袖ケ浦市奈良輪2-2-4",
-      "TEL": "0438-60-XXX1"
-    },
-    {
-      "HospitalCD": "011",
-      "Name": "山口医院",
-      "Address": "千葉県袖ケ浦市奈良輪535-1",
-      "TEL": "0438-62-XXX6"
-    },
-    {
-      "HospitalCD": "012",
-      "Name": "袖ケ浦どんぐりクリニック",
-      "Address": "千葉県袖ケ浦市袖ケ浦1-39-2",
-      "TEL": "0438-63-XXX7"
-    },
-    {
-      "HospitalCD": "013",
-      "Name": "犬丸内科皮膚科クリニック",
-      "Address": "千葉県袖ケ浦市蔵波2-28-5",
-      "TEL": "0438-64-XXX1"
-    },
-    {
-      "HospitalCD": "014",
-      "Name": "石井内科小児科医院",
-      "Address": "千葉県袖ケ浦市蔵波4-13-8",
-      "TEL": "0438-62-XXX0"
-    },
-    {
-      "HospitalCD": "015",
-      "Name": "袖ケ浦メディカルクリニック",
-      "Address": "千葉県袖ケ浦市蔵波4-20-9",
-      "TEL": "0438-38-XXX5"
-    },
-    {
-      "HospitalCD": "016",
-      "Name": "蔵波台ハートクリニック",
-      "Address": "千葉県袖ケ浦市蔵波5-17-2",
-      "TEL": "0438-63-XXX0"
-    },
-    {
-      "HospitalCD": "017",
-      "Name": "田部整形外科",
-      "Address": "千葉県袖ケ浦市蔵波5-19-7",
-      "TEL": "0438-62-XXX5"
-    },
-    {
-      "HospitalCD": "018",
-      "Name": "よしだ胃腸内科クリニック",
-      "Address": "千葉県袖ケ浦市蔵波6-1-5",
-      "TEL": "0438-60-XXX1"
-    },
-    {
-      "HospitalCD": "019",
-      "Name": "Kenクリニック",
-      "Address": "千葉県袖ケ浦市蔵波6-19-1",
-      "TEL": "0438-64-XXX1"
-    },
-    {
-      "HospitalCD": "020",
-      "Name": "さつき台クリニック",
-      "Address": "千葉県袖ケ浦市長浦駅1-7",
-      "TEL": "0438-60-XXX7"
-    },
-    {
-      "HospitalCD": "021",
-      "Name": "長浦眼科クリニック",
-      "Address": "千葉県袖ケ浦市長浦2-1-1",
-      "TEL": "0438-63-XXX9"
-    },
-    {
-      "HospitalCD": "022",
+      "HospitalCD": "0000001",
       "Name": "袖ケ浦さつき台病院",
       "Address": "千葉県袖ケ浦市長浦駅5-21",
       "TEL": "0438-62-XXX3"
     },
     {
-      "HospitalCD": "023",
-      "Name": "けやき台眼科",
-      "Address": "千葉県袖ケ浦市代宿91",
-      "TEL": "0438-64-XXX9"
+      "HospitalCD": "0000002",
+      "Name": "Ｋｅｎクリニック",
+      "Address": "千葉県袖ケ浦市蔵波6-19-1",
+      "TEL": "0438-64-XXX1"
     },
     {
-      "HospitalCD": "024",
-      "Name": "長浦泌尿器科クリニック",
-      "Address": "千葉県袖ケ浦市久保田2863-1",
-      "TEL": "0438-63-XXX2"
+      "HospitalCD": "0000003",
+      "Name": "袖ケ浦医院",
+      "Address": "千葉県袖ケ浦市奈良輪1-8-8",
+      "TEL": "0438-62-XXX1"
     },
     {
-      "HospitalCD": "025",
-      "Name": "平岡医院",
-      "Address": "千葉県袖ケ浦市野里1773-1",
-      "TEL": "0438-60-XXX7"
+      "HospitalCD": "0000004",
+      "Name": "福王台外科内科",
+      "Address": "千葉県袖ケ浦市福王台1-10-9",
+      "TEL": "0438-62-XXX1"
     },
     {
-      "HospitalCD": "026",
-      "Name": "高橋医院",
-      "Address": "千葉県袖ケ浦市横田2624",
-      "TEL": "0438-75-XXX7"
+      "HospitalCD": "0000005",
+      "Name": "山口医院",
+      "Address": "千葉県袖ケ浦市奈良輪535-1",
+      "TEL": "0438-62-XXX6"
     },
     {
-      "HospitalCD": "027",
+      "HospitalCD": "0000006",
+      "Name": "佐野医院",
+      "Address": "千葉県袖ケ浦市奈良輪1-9-8",
+      "TEL": "0438-62-XXX8"
+    },
+    {
+      "HospitalCD": "0000007",
+      "Name": "田中医院",
+      "Address": "千葉県袖ケ浦市神納2-10-7",
+      "TEL": "0438-62-XXX0"
+    },
+    {
+      "HospitalCD": "0000008",
+      "Name": "石井内科小児科医院",
+      "Address": "千葉県袖ケ浦市蔵波4-13-8",
+      "TEL": "0438-62-XXX0"
+    },
+    {
+      "HospitalCD": "0000009",
+      "Name": "田部整形外科",
+      "Address": "千葉県袖ケ浦市蔵波5-19-7",
+      "TEL": "0438-62-XXX5"
+    },
+    {
+      "HospitalCD": "0000010",
+      "Name": "犬丸内科皮膚科クリニック",
+      "Address": "千葉県袖ケ浦市蔵波2-28-5",
+      "TEL": "0438-64-XXX1"
+    },
+    {
+      "HospitalCD": "0000011",
+      "Name": "菱沼医院",
+      "Address": "千葉県袖ケ浦市福王台3-1-1",
+      "TEL": "0438-62-XXX2"
+    },
+    {
+      "HospitalCD": "0000013",
       "Name": "井出医院",
       "Address": "千葉県袖ケ浦市横田3669",
       "TEL": "0438-75-XXX0"
     },
     {
-      "HospitalCD": "1--------01--------0",
-      "Name": "フル桁病院名７８９０１２３４５６７８９０",
-      "Address": "フル桁住所６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０",
-      "TEL": "XXXXX-XXXXX-XXXXXXXXXX"
-    }
+      "HospitalCD": "0000015",
+      "Name": "高橋医院",
+      "Address": "千葉県袖ケ浦市横田2624",
+      "TEL": "0438-75-XXX7"
+    },
+    {
+      "HospitalCD": "0000019",
+      "Name": "わたなべ皮ﾌ科形成外科ｸﾘﾆｯｸ",
+      "Address": "千葉県袖ケ浦市神納707-1",
+      "TEL": "0438-60-XXX1"
+    },
+    {
+      "HospitalCD": "0000022",
+      "Name": "平岡医院",
+      "Address": "千葉県袖ケ浦市野里1773-1",
+      "TEL": "0438-60-XXX7"
+    },
+    {
+      "HospitalCD": "0000025",
+      "Name": "袖ケ浦クリニック",
+      "Address": "千葉県袖ケ浦市奈良輪2-2-4",
+      "TEL": "0438-60-XXX1"
+    },
+    {
+      "HospitalCD": "0000026",
+      "Name": "さくま耳鼻咽喉科医院",
+      "Address": "千葉県袖ケ浦市神納617-1",
+      "TEL": "0438-60-XXX7"
+    },
+    {
+      "HospitalCD": "0000027",
+      "Name": "蔵波台ハートクリニック",
+      "Address": "千葉県袖ケ浦市蔵波5-17-2",
+      "TEL": "0438-63-XXX0"
+    },
+    {
+      "HospitalCD": "0000029",
+      "Name": "かんのう整形外科",
+      "Address": "千葉県袖ケ浦市神納689-1",
+      "TEL": "0438-60-XXX7"
+    },
+    {
+      "HospitalCD": "0000033",
+      "Name": "長浦泌尿器科クリニック",
+      "Address": "千葉県袖ケ浦市久保田2863-1",
+      "TEL": "0438-63-XXX2"
+    },
+    {
+      "HospitalCD": "0000034",
+      "Name": "袖ヶ浦どんぐりクリニック",
+      "Address": "千葉県袖ケ浦市袖ケ浦1-39-2",
+      "TEL": "0438-63-XXX7"
+    },
+    {
+      "HospitalCD": "0000037",
+      "Name": "よしだ胃腸内科クリニック",
+      "Address": "千葉県袖ケ浦市蔵波6-1-5",
+      "TEL": "0438-60-XXX1"
+    },
+    {
+      "HospitalCD": "0000038",
+      "Name": "袖ケ浦メディカルクリニック",
+      "Address": "千葉県袖ケ浦市蔵波4-20-9",
+      "TEL": "0438-38-XXX5"
+    },
+    {"HospitalCD": "0010001", "Name": "君津中央病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010002", "Name": "木更津東邦病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010003", "Name": "はぎわら病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010004", "Name": "薬丸病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010005", "Name": "重城病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010006", "Name": "上総記念病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010009", "Name": "石井病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010010", "Name": "木更津病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010024", "Name": "君津郡市夜間急病診療所", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010052", "Name": "森田医院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010071", "Name": "房総メディカルクリニック", "Address": "", "TEL": ""},
+    {"HospitalCD": "0010080", "Name": "内房整形外科クリニック", "Address": "", "TEL": ""},
+    {"HospitalCD": "0020001", "Name": "玄々堂君津病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0020002", "Name": "鈴木病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0030001", "Name": "君津中央病院大佐和分院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0030003", "Name": "東病院", "Address": "", "TEL": ""},
+    {
+      "HospitalCD": "0040001",
+      "Name": "帝京大学ちば総合医療センター",
+      "Address": "",
+      "TEL": ""
+    },
+    {"HospitalCD": "0040002", "Name": "千葉県循環器病センター", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040003", "Name": "鎗田病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040004", "Name": "五井病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040007", "Name": "辰巳病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040011", "Name": "千葉ろうさい病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040012", "Name": "長谷川病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0040043", "Name": "白金整形外科クリニック", "Address": "", "TEL": ""},
+    {"HospitalCD": "0050004", "Name": "千葉大学医学部附属病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0050005", "Name": "千葉県がんセンター", "Address": "", "TEL": ""},
+    {"HospitalCD": "0050006", "Name": "千葉県救急医療センター", "Address": "", "TEL": ""},
+    {"HospitalCD": "0060014", "Name": "亀田総合病院", "Address": "", "TEL": ""},
+    {"HospitalCD": "0070061", "Name": "ＡＯＩ国際病院", "Address": "", "TEL": ""}
   ];
 
   static const classifications = [
@@ -889,13 +766,6 @@ class SeedData {
       "Purpose": "未入力エラー"
     }
   ];
-
-  static void seedTeamMembers(Batch batch) {
-    for (final data in SeedData.teamMembers) {
-      batch.insert(DBConstants.teamMemberTable, data,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-    }
-  }
 
   static void seedTeams(Batch batch) {
     for (final data in SeedData.teams) {

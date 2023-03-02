@@ -13,7 +13,6 @@ import 'package:ak_azm_flutter/models/team/team.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:tuple/tuple.dart';
 
 part 'report.g.dart';
@@ -472,9 +471,6 @@ abstract class _Report with Store {
   @observable
   @JsonKey(includeFromJson: false, includeToJson: false)
   TeamStore? teamStore;
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamMemberStore? teamMemberStore;
   @observable
   @JsonKey(includeFromJson: false, includeToJson: false)
   FireStationStore? fireStationStore;

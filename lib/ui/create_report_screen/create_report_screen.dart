@@ -12,7 +12,6 @@ import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
@@ -29,7 +28,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     with RouteAware {
   late ReportStore _reportStore;
   late TeamStore _teamStore;
-  late TeamMemberStore _teamMemberStore;
   late FireStationStore _fireStationStore;
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
@@ -62,19 +60,16 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     _reportStore = Provider.of<ReportStore>(context);
     _teamStore = Provider.of<TeamStore>(context);
     _fireStationStore = Provider.of<FireStationStore>(context);
-    _teamMemberStore = Provider.of<TeamMemberStore>(context);
     _classificationStore = Provider.of<ClassificationStore>(context);
     _hospitalStore = Provider.of<HospitalStore>(context);
 
     _teamStore.getTeams();
-    _teamMemberStore.getAllTeamMembers();
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
 
     final report = Report();
 
     report.teamStore = _teamStore;
-    report.teamMemberStore = _teamMemberStore;
     report.fireStationStore = _fireStationStore;
     report.classificationStore = _classificationStore;
 
@@ -195,9 +190,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           return _showErrorMessage(_reportStore.errorStore.errorMessage);
         }
         if (_fireStationStore.errorStore.errorMessage.isNotEmpty) {
-          return _showErrorMessage(_reportStore.errorStore.errorMessage);
-        }
-        if (_teamMemberStore.errorStore.errorMessage.isNotEmpty) {
           return _showErrorMessage(_reportStore.errorStore.errorMessage);
         }
         if (_teamStore.errorStore.errorMessage.isNotEmpty) {

@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/hospital/hospital_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/report/report_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/team/team_data_source.dart';
-import 'package:ak_azm_flutter/data/local/data_sources/team_member/team_member_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/fire_station/fire_station_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/classification/classification_data_source.dart';
 import 'package:ak_azm_flutter/data/repository.dart';
@@ -15,7 +14,6 @@ import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/stores/team_member/team_member_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/utils/zoll_sdk_flutter_api_impl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -33,22 +31,18 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(
       FireStationDataSource(await getIt.getAsync<Database>()));
   getIt.registerSingleton(
-      TeamMemberDataSource(await getIt.getAsync<Database>()));
-  getIt.registerSingleton(
       ClassificationDataSource(await getIt.getAsync<Database>()));
 
   getIt.registerSingleton(Repository(
     getIt<HospitalDataSource>(),
     getIt<ReportDataSource>(),
     getIt<TeamDataSource>(),
-    getIt<TeamMemberDataSource>(),
     getIt<FireStationDataSource>(),
     getIt<ClassificationDataSource>(),
   ));
 
   getIt.registerFactory(() => ReportStore(getIt<Repository>()));
   getIt.registerFactory(() => TeamStore(getIt<Repository>()));
-  getIt.registerFactory(() => TeamMemberStore(getIt<Repository>()));
   getIt.registerFactory(() => HospitalStore(getIt<Repository>()));
   getIt.registerFactory(() => FireStationStore(getIt<Repository>()));
   getIt.registerFactory(() => ClassificationStore(getIt<Repository>()));

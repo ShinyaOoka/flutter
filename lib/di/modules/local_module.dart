@@ -24,7 +24,6 @@ abstract class LocalModule {
     SeedData.seedClassifications(batch);
     SeedData.seedFireStations(batch);
     SeedData.seedHospitals(batch);
-    SeedData.seedTeamMembers(batch);
     SeedData.seedTeams(batch);
     await batch.commit();
   }

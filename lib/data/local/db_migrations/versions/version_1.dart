@@ -133,16 +133,6 @@ const _createReportTable = '''CREATE TABLE ${DBConstants.reportTable} (
 )
 ''';
 
-const _createTeamMemberTable = '''CREATE TABLE ${DBConstants.teamMemberTable} (
-  TeamMemberCD VARCHAR(20) PRIMARY KEY,
-  Name VARCHAR(20),
-  Position VARCHAR(20),
-  TEL VARCHAR(20),
-  TeamCD VARCHAR(20),
-  LifesaverQualification INTEGER	
-)
-''';
-
 const _createTeamTable = '''CREATE TABLE ${DBConstants.teamTable} (
   TeamCD VARCHAR(20) PRIMARY KEY,
   Name VARCHAR(20),
@@ -176,7 +166,6 @@ const _createClassificationTable =
 
 void upgradeVersion1(Batch batch) {
   batch.execute(_createReportTable);
-  batch.execute(_createTeamMemberTable);
   batch.execute(_createTeamTable);
   batch.execute(_createFireStationTable);
   batch.execute(_createHospitalTable);
@@ -184,8 +173,6 @@ void upgradeVersion1(Batch batch) {
 }
 
 const _dropReportTable = '''DROP TABLE IF EXISTS ${DBConstants.reportTable}''';
-const _dropTeamMemberTable =
-    '''DROP TABLE IF EXISTS ${DBConstants.teamMemberTable}''';
 const _dropTeamTable = '''DROP TABLE IF EXISTS ${DBConstants.teamTable}''';
 const _dropFireStationTable =
     '''DROP TABLE IF EXISTS ${DBConstants.fireStationTable}''';
@@ -196,7 +183,6 @@ const _dropClassificationTable =
 
 void downgradeVersion1(Batch batch) {
   batch.execute(_dropReportTable);
-  batch.execute(_dropTeamMemberTable);
   batch.execute(_dropTeamTable);
   batch.execute(_dropFireStationTable);
   batch.execute(_dropHospitalTable);
