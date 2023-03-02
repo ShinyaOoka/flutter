@@ -152,7 +152,7 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonAddressController,
         onChanged: (value) => report.sickInjuredPersonAddress = value,
         maxLength: 60,
-        maxLines: 1,
+        maxLines: 3,
         readOnly: widget.readOnly,
       ),
     ]);
@@ -333,6 +333,7 @@ class _SickInjuredPersonInfoSectionState
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
         ),
       ]);
     });

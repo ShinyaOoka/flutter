@@ -403,8 +403,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('TeamTEL', team?.tel ?? '');
 
     //7
-    htmlInput = htmlInput.replaceFirst(
-        'SickInjuredPersonAddress', report.sickInjuredPersonAddress ?? '');
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
+        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</pre>');
     //8
     if (report.sickInjuredPersonGender == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon　男', '$checkIcon　男');
@@ -770,7 +770,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //79
-    htmlInput = htmlInput.replaceFirst('Other', report.other?.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('Other',
+        '<div style="white-space: pre-wrap; font-size: 8pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
 
     //80
     if (report.bsMeasurement1 != null) {
@@ -816,7 +817,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     var totalYesDotNoPos = 0;
     var totalYesUrineFecesNoPos = 0;
     var totalYesSpaceNoPos = 0;
-    String defaultIncontinenceStr = '有（　尿　　便　）　無';
+    String defaultIncontinenceStr = '>有（　尿　　便　）　無<';
     for (var i = 0; i < 3; i++) {
       //43
       htmlInput = htmlInput.replaceFirst('ObservationTime${i + 1}',
@@ -981,13 +982,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                   ?.toString() ??
               '');
       //59
-      int index001 = report.incontinence?.indexOf("001") ?? -1;
-      int index002 = report.incontinence?.indexOf("002") ?? -1;
-      int index003 = report.incontinence?.indexOf("003") ?? -1;
-      if (index001 >= 0 && index003 >= 0) report.incontinence?[index001] = '';
-      if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
-      String incontinenceStr = defaultIncontinenceStr;
+      // int index001 = report.incontinence?.indexOf("001") ?? -1;
+      // int index002 = report.incontinence?.indexOf("002") ?? -1;
+      // int index003 = report.incontinence?.indexOf("003") ?? -1;
+      // if (index001 >= 0 && index003 >= 0) report.incontinence?[index001] = '';
+      // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
       for (String? incon in report.incontinence?.toList() ?? []) {
+        String incontinenceStr = defaultIncontinenceStr;
+        print(incontinenceStr);
+        print('-----------');
         if (incon == '000') {
           incontinenceStr = incontinenceStr.replaceFirst(
               '無', '<span class="text-circle">無</span>');
@@ -1003,25 +1006,30 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           incontinenceStr = incontinenceStr.replaceFirst(
               '便', '<span class="text-circle">便</span>');
         }
-      }
-      if (incontinenceStr != defaultIncontinenceStr) {
-        htmlInput = customReplace(htmlInput, defaultIncontinenceStr,
-            i + 1 - totalYesUrineFecesNoPos, incontinenceStr);
-        totalYesUrineFecesNoPos += 1;
+        print(incontinenceStr);
+        print('+++++++++++++');
+
+        if (incontinenceStr != defaultIncontinenceStr) {
+          htmlInput =
+              htmlInput.replaceFirst(defaultIncontinenceStr, incontinenceStr);
+        } else {
+          htmlInput =
+              htmlInput.replaceFirst(defaultIncontinenceStr, '> 有（　尿　　便　）　無 <');
+        }
       }
 
       //60
       if (report.vomiting
                   ?.firstWhereIndexedOrNull((index, element) => index == i) !=
               null &&
-          !report.vomiting![i]!) {
+          report.vomiting![i]!) {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '<span class="text-circle">有</span>　　無');
         totalYesSpaceNoPos += 1;
       } else if (report.vomiting
                   ?.firstWhereIndexedOrNull((index, element) => index == i) !=
               null &&
-          report.vomiting![i]!) {
+          !report.vomiting![i]!) {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '有　　<span class="text-circle">無</span>');
         totalYesSpaceNoPos += 1;

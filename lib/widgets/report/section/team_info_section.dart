@@ -156,6 +156,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         onChanged: (value) => report.teamMemberName = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
       ),
       AppTextField(
         controller: institutionalMemberNameController,
@@ -163,6 +164,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         onChanged: (value) => report.institutionalMemberName = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
       ),
     ]);
   }
@@ -177,6 +179,8 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         maxLength: 6,
         readOnly: widget.readOnly,
+        counterText: '件',
+        counterColor: Theme.of(context).primaryColor,
         fillColor: optionalColor(context),
       ),
       AppTextField(
@@ -187,6 +191,8 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         maxLength: 6,
         readOnly: widget.readOnly,
+        counterText: '件',
+        counterColor: Theme.of(context).primaryColor,
         fillColor: optionalColor(context),
       ),
     ]);

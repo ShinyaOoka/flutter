@@ -355,7 +355,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
         label: 'other'.i18n(),
         controller: otherController,
         onChanged: (value) => report.other = value,
-        maxLength: 60,
+        maxLength: 20,
         maxLines: 1,
         readOnly: widget.readOnly,
       ),

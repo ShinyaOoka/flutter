@@ -108,6 +108,7 @@ abstract class _Report with Store {
   int? get sickInjuredPersonAge {
     if (dateOfOccurrence != null && sickInjuredPersonBirthDate != null) {
       return Jiffy(dateOfOccurrence)
+          .add(days: 1)
           .diff(sickInjuredPersonBirthDate, Units.YEAR)
           .toInt();
     }
