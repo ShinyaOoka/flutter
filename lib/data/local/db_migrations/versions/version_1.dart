@@ -153,7 +153,7 @@ const _createHospitalTable = '''CREATE TABLE ${DBConstants.hospitalTable} (
   HospitalCD VARCHAR(20) PRIMARY KEY,
   Name VARCHAR(20),
   Address VARCHAR(60),
-  TEL VARCHAR(20)
+  TEL VARCHAR(20),
   EmergencyMedicineLevel INTEGER
 )''';
 
