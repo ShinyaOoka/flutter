@@ -516,7 +516,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //21
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonMedicationDetail',
-        report.sickInjuredPersonMedicationDetail ?? '');
+        report.sickInjuredPersonMedicationDetail?.substring(0, 15) ?? '');
 
     //22
     if (report.sickInjuredPersonAllergy == null) {
@@ -580,8 +580,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             : '');
 
     //26
-    htmlInput =
-        htmlInput.replaceFirst('PlaceOfIncident', report.placeOfIncident ?? '');
+    htmlInput = htmlInput.replaceFirst(
+        'PlaceOfIncident', report.placeOfIncident?.substring(0, 40) ?? '');
 
     //27
     htmlInput =
