@@ -118,7 +118,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
     result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        report.sickInjuredPersonNameOfInjuryOrSickness ?? '');
+        report.sickInjuredPersonNameOfInjuryOrSickness?.substring(0, 38) ?? '');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',
@@ -137,12 +137,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
         report.reasonForNotTransferring ?? '');
+    result = result.replaceAll('AffiliationOfReporter_VALUE',
+        report.affiliationOfReporter?.substring(0, 13) ?? '');
+    result = result.replaceAll('PositionOfReporter_VALUE',
+        report.positionOfReporter?.substring(0, 8) ?? '');
     result = result.replaceAll(
-        'AffiliationOfReporter_VALUE', report.affiliationOfReporter ?? '');
-    result = result.replaceAll(
-        'PositionOfReporter_VALUE', report.positionOfReporter ?? '');
-    result =
-        result.replaceAll('NameOfReporter_VALUE', report.nameOfReporter ?? '');
+        'NameOfReporter_VALUE', report.nameOfReporter?.substring(0, 15) ?? '');
     result = result.replaceAll(
         'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
     result = result.replaceAll(
@@ -370,10 +370,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('MM', m)
         .replaceFirst('DD', d);
     //2
-    htmlInput = htmlInput.replaceFirst('TeamName', team?.name ?? '');
-    //3
     htmlInput =
-        htmlInput.replaceFirst('TeamCaptainName', report.teamCaptainName ?? '');
+        htmlInput.replaceFirst('TeamName', team?.name?.substring(0, 11) ?? '');
+    //3
+    htmlInput = htmlInput.replaceFirst(
+        'TeamCaptainName', report.teamCaptainName?.substring(0, 11) ?? '');
     //4
     if (report.lifesaverQualification != null) {
       if (report.lifesaverQualification!) {
@@ -581,7 +582,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //26
     htmlInput = htmlInput.replaceFirst(
-        'PlaceOfIncident', report.placeOfIncident?.substring(0, 40) ?? '');
+        'PlaceOfIncident', report.placeOfIncident?.substring(0, 35) ?? '');
 
     //27
     htmlInput =
