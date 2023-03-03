@@ -145,7 +145,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
     result = result.replaceAll(
-        'SickInjuredPersonDegree_VALUE', report.sickInjuredPersonDegree ?? '');
+        'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
     result = fillTime(result, 'SenseTime', report.senseTime);
     result = fillTime(result, 'AttendanceTime', report.attendanceTime);
@@ -990,8 +990,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
       for (String? incon in report.incontinence?.toList() ?? []) {
         String incontinenceStr = defaultIncontinenceStr;
-        print(incontinenceStr);
-        print('-----------');
         if (incon == '000') {
           incontinenceStr = incontinenceStr.replaceFirst(
               '無', '<span class="text-circle">無</span>');
@@ -1007,9 +1005,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           incontinenceStr = incontinenceStr.replaceFirst(
               '便', '<span class="text-circle">便</span>');
         }
-        print(incontinenceStr);
-        print('+++++++++++++');
-
         if (incontinenceStr != defaultIncontinenceStr) {
           htmlInput =
               htmlInput.replaceFirst(defaultIncontinenceStr, incontinenceStr);
