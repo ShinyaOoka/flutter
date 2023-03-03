@@ -138,7 +138,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
         report.reasonForNotTransferring ?? '');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
-        report.affiliationOfReporter?.substring(0, 13) ?? '');
+        report.affiliationOfReporter?.substring(0, 12) ?? '');
     result = result.replaceAll('PositionOfReporter_VALUE',
         report.positionOfReporter?.substring(0, 8) ?? '');
     result = result.replaceAll(
