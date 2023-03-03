@@ -9,12 +9,14 @@ part of 'team.dart';
 Team _$TeamFromJson(Map<String, dynamic> json) => Team()
   ..teamCd = json['TeamCD'] as String?
   ..name = json['Name'] as String?
+  ..abbreviation = json['Abbreviation'] as String?
   ..tel = json['TEL'] as String?
   ..fireStationCd = json['FireStationCD'] as String?;
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'TeamCD': instance.teamCd,
       'Name': instance.name,
+      'Abbreviation': instance.abbreviation,
       'TEL': instance.tel,
       'FireStationCD': instance.fireStationCd,
     };
@@ -56,6 +58,22 @@ mixin _$Team on _Team, Store {
     });
   }
 
+  late final _$abbreviationAtom =
+      Atom(name: '_Team.abbreviation', context: context);
+
+  @override
+  String? get abbreviation {
+    _$abbreviationAtom.reportRead();
+    return super.abbreviation;
+  }
+
+  @override
+  set abbreviation(String? value) {
+    _$abbreviationAtom.reportWrite(value, super.abbreviation, () {
+      super.abbreviation = value;
+    });
+  }
+
   late final _$telAtom = Atom(name: '_Team.tel', context: context);
 
   @override
@@ -92,6 +110,7 @@ mixin _$Team on _Team, Store {
     return '''
 teamCd: ${teamCd},
 name: ${name},
+abbreviation: ${abbreviation},
 tel: ${tel},
 fireStationCd: ${fireStationCd}
     ''';

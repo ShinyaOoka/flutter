@@ -7,21 +7,52 @@ class SeedData {
   static const teams = [
     {
       "TeamCD": "000",
-      "Name": "袖ヶ浦市中央消防署救急隊",
-      "TEL": "XXX-XXXX-XXXX",
-      "FireStationCD": "001"
+      "Name": "袖ケ浦市中央消防署第1救急隊",
+      "Abbreviation": "中央救急隊",
+      "TEL": "0438-64-0165",
+      "FireStationCD": "001",
+    },
+    {
+      "TeamCD": "000",
+      "Name": "袖ケ浦市中央消防署第2救急隊",
+      "Abbreviation": "中央救急隊",
+      "TEL": "0438-64-0165",
+      "FireStationCD": "001",
     },
     {
       "TeamCD": "001",
-      "Name": "袖ヶ浦市長浦消防署救急隊",
-      "TEL": "XXX-XXXX-XXXX",
-      "FireStationCD": "002"
+      "Name": "袖ケ浦市長浦消防署第1救急隊",
+      "Abbreviation": "長浦救急隊",
+      "TEL": "0438-62-9728",
+      "FireStationCD": "002",
+    },
+    {
+      "TeamCD": "001",
+      "Name": "袖ケ浦市長浦消防署第2救急隊",
+      "Abbreviation": "長浦救急隊",
+      "TEL": "0438-62-9728",
+      "FireStationCD": "002",
     },
     {
       "TeamCD": "002",
-      "Name": "袖ヶ浦市平川消防署救急隊",
-      "TEL": "XXX-XXXX-XXXX",
-      "FireStationCD": "003"
+      "Name": "袖ケ浦市平川消防署第1救急隊",
+      "Abbreviation": "平川救急隊",
+      "TEL": "0438-75-3116",
+      "FireStationCD": "003",
+    },
+    {
+      "TeamCD": "002",
+      "Name": "袖ケ浦市平川消防署第2救急隊",
+      "Abbreviation": "平川救急隊",
+      "TEL": "0438-75-3116",
+      "FireStationCD": "003",
+    },
+    {
+      "TeamCD": "1--------01--------0",
+      "Name": "フル桁検証用チーム名１２３４５６７８９０",
+      "Abbreviation": "フル桁隊略名１２３４",
+      "TEL": "12345678901234567890",
+      "FireStationCD": "1--------01--------0",
     }
   ];
 
@@ -43,6 +74,12 @@ class SeedData {
       "Name": "袖ヶ浦市平川消防署",
       "Address": "千葉県袖ケ浦市横田213番地",
       "TEL": "0438-75-XXX6"
+    },
+    {
+      "FireStationCD": "1--------01--------0",
+      "Name": "フル桁消防署名８９０１２３４５６７８９０",
+      "Address": "フル桁住所６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０",
+      "TEL": "XXXXX-XXXXX-XXXXXXXXXX"
     }
   ];
 
@@ -51,174 +88,373 @@ class SeedData {
       "HospitalCD": "0000001",
       "Name": "袖ケ浦さつき台病院",
       "Address": "千葉県袖ケ浦市長浦駅5-21",
-      "TEL": "0438-62-XXX3"
+      "TEL": "0438-62-XXX3",
+      "EmergencyMedicineLevel": 2,
     },
     {
       "HospitalCD": "0000002",
       "Name": "Ｋｅｎクリニック",
       "Address": "千葉県袖ケ浦市蔵波6-19-1",
-      "TEL": "0438-64-XXX1"
+      "TEL": "0438-64-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000003",
       "Name": "袖ケ浦医院",
       "Address": "千葉県袖ケ浦市奈良輪1-8-8",
-      "TEL": "0438-62-XXX1"
+      "TEL": "0438-62-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000004",
       "Name": "福王台外科内科",
       "Address": "千葉県袖ケ浦市福王台1-10-9",
-      "TEL": "0438-62-XXX1"
+      "TEL": "0438-62-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000005",
       "Name": "山口医院",
       "Address": "千葉県袖ケ浦市奈良輪535-1",
-      "TEL": "0438-62-XXX6"
+      "TEL": "0438-62-XXX6",
+      "EmergencyMedicineLevel": 2,
     },
     {
       "HospitalCD": "0000006",
       "Name": "佐野医院",
       "Address": "千葉県袖ケ浦市奈良輪1-9-8",
-      "TEL": "0438-62-XXX8"
+      "TEL": "0438-62-XXX8",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000007",
       "Name": "田中医院",
       "Address": "千葉県袖ケ浦市神納2-10-7",
-      "TEL": "0438-62-XXX0"
+      "TEL": "0438-62-XXX0",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000008",
       "Name": "石井内科小児科医院",
       "Address": "千葉県袖ケ浦市蔵波4-13-8",
-      "TEL": "0438-62-XXX0"
+      "TEL": "0438-62-XXX0",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000009",
       "Name": "田部整形外科",
       "Address": "千葉県袖ケ浦市蔵波5-19-7",
-      "TEL": "0438-62-XXX5"
+      "TEL": "0438-62-XXX5",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000010",
       "Name": "犬丸内科皮膚科クリニック",
       "Address": "千葉県袖ケ浦市蔵波2-28-5",
-      "TEL": "0438-64-XXX1"
+      "TEL": "0438-64-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000011",
       "Name": "菱沼医院",
       "Address": "千葉県袖ケ浦市福王台3-1-1",
-      "TEL": "0438-62-XXX2"
+      "TEL": "0438-62-XXX2",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000013",
       "Name": "井出医院",
       "Address": "千葉県袖ケ浦市横田3669",
-      "TEL": "0438-75-XXX0"
+      "TEL": "0438-75-XXX0",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000015",
       "Name": "高橋医院",
       "Address": "千葉県袖ケ浦市横田2624",
-      "TEL": "0438-75-XXX7"
+      "TEL": "0438-75-XXX7",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000019",
       "Name": "わたなべ皮ﾌ科形成外科ｸﾘﾆｯｸ",
       "Address": "千葉県袖ケ浦市神納707-1",
-      "TEL": "0438-60-XXX1"
+      "TEL": "0438-60-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000022",
       "Name": "平岡医院",
       "Address": "千葉県袖ケ浦市野里1773-1",
-      "TEL": "0438-60-XXX7"
+      "TEL": "0438-60-XXX7",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000025",
       "Name": "袖ケ浦クリニック",
       "Address": "千葉県袖ケ浦市奈良輪2-2-4",
-      "TEL": "0438-60-XXX1"
+      "TEL": "0438-60-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000026",
       "Name": "さくま耳鼻咽喉科医院",
       "Address": "千葉県袖ケ浦市神納617-1",
-      "TEL": "0438-60-XXX7"
+      "TEL": "0438-60-XXX7",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000027",
       "Name": "蔵波台ハートクリニック",
       "Address": "千葉県袖ケ浦市蔵波5-17-2",
-      "TEL": "0438-63-XXX0"
+      "TEL": "0438-63-XXX0",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000029",
       "Name": "かんのう整形外科",
       "Address": "千葉県袖ケ浦市神納689-1",
-      "TEL": "0438-60-XXX7"
+      "TEL": "0438-60-XXX7",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000033",
       "Name": "長浦泌尿器科クリニック",
       "Address": "千葉県袖ケ浦市久保田2863-1",
-      "TEL": "0438-63-XXX2"
+      "TEL": "0438-63-XXX2",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000034",
       "Name": "袖ヶ浦どんぐりクリニック",
       "Address": "千葉県袖ケ浦市袖ケ浦1-39-2",
-      "TEL": "0438-63-XXX7"
+      "TEL": "0438-63-XXX7",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000037",
       "Name": "よしだ胃腸内科クリニック",
       "Address": "千葉県袖ケ浦市蔵波6-1-5",
-      "TEL": "0438-60-XXX1"
+      "TEL": "0438-60-XXX1",
+      "EmergencyMedicineLevel": 1,
     },
     {
       "HospitalCD": "0000038",
       "Name": "袖ケ浦メディカルクリニック",
       "Address": "千葉県袖ケ浦市蔵波4-20-9",
-      "TEL": "0438-38-XXX5"
+      "TEL": "0438-38-XXX5",
+      "EmergencyMedicineLevel": 1,
     },
-    {"HospitalCD": "0010001", "Name": "君津中央病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010002", "Name": "木更津東邦病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010003", "Name": "はぎわら病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010004", "Name": "薬丸病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010005", "Name": "重城病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010006", "Name": "上総記念病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010009", "Name": "石井病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010010", "Name": "木更津病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010024", "Name": "君津郡市夜間急病診療所", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010052", "Name": "森田医院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010071", "Name": "房総メディカルクリニック", "Address": "", "TEL": ""},
-    {"HospitalCD": "0010080", "Name": "内房整形外科クリニック", "Address": "", "TEL": ""},
-    {"HospitalCD": "0020001", "Name": "玄々堂君津病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0020002", "Name": "鈴木病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0030001", "Name": "君津中央病院大佐和分院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0030003", "Name": "東病院", "Address": "", "TEL": ""},
+    {
+      "HospitalCD": "0010001",
+      "Name": "君津中央病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 3,
+    },
+    {
+      "HospitalCD": "0010002",
+      "Name": "木更津東邦病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010003",
+      "Name": "はぎわら病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010004",
+      "Name": "薬丸病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010005",
+      "Name": "重城病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010006",
+      "Name": "上総記念病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010009",
+      "Name": "石井病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010010",
+      "Name": "木更津病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 1,
+    },
+    {
+      "HospitalCD": "0010024",
+      "Name": "君津郡市夜間急病診療所",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 1,
+    },
+    {
+      "HospitalCD": "0010052",
+      "Name": "森田医院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0010071",
+      "Name": "房総メディカルクリニック",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 1,
+    },
+    {
+      "HospitalCD": "0010080",
+      "Name": "内房整形外科クリニック",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 1,
+    },
+    {
+      "HospitalCD": "0020001",
+      "Name": "玄々堂君津病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0020002",
+      "Name": "鈴木病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0030001",
+      "Name": "君津中央病院大佐和分院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0030003",
+      "Name": "東病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
     {
       "HospitalCD": "0040001",
       "Name": "帝京大学ちば総合医療センター",
       "Address": "",
-      "TEL": ""
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
     },
-    {"HospitalCD": "0040002", "Name": "千葉県循環器病センター", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040003", "Name": "鎗田病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040004", "Name": "五井病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040007", "Name": "辰巳病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040011", "Name": "千葉ろうさい病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040012", "Name": "長谷川病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0040043", "Name": "白金整形外科クリニック", "Address": "", "TEL": ""},
-    {"HospitalCD": "0050004", "Name": "千葉大学医学部附属病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0050005", "Name": "千葉県がんセンター", "Address": "", "TEL": ""},
-    {"HospitalCD": "0050006", "Name": "千葉県救急医療センター", "Address": "", "TEL": ""},
-    {"HospitalCD": "0060014", "Name": "亀田総合病院", "Address": "", "TEL": ""},
-    {"HospitalCD": "0070061", "Name": "ＡＯＩ国際病院", "Address": "", "TEL": ""}
+    {
+      "HospitalCD": "0040002",
+      "Name": "千葉県循環器病センター",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040003",
+      "Name": "鎗田病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040004",
+      "Name": "五井病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040007",
+      "Name": "辰巳病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040011",
+      "Name": "千葉ろうさい病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040012",
+      "Name": "長谷川病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0040043",
+      "Name": "白金整形外科クリニック",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0050004",
+      "Name": "千葉大学医学部附属病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 3,
+    },
+    {
+      "HospitalCD": "0050005",
+      "Name": "千葉県がんセンター",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 2,
+    },
+    {
+      "HospitalCD": "0050006",
+      "Name": "千葉県救急医療センター",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 3,
+    },
+    {
+      "HospitalCD": "0060014",
+      "Name": "亀田総合病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 3,
+    },
+    {
+      "HospitalCD": "0070061",
+      "Name": "ＡＯＩ国際病院",
+      "Address": "",
+      "TEL": "",
+      "EmergencyMedicineLevel": 3,
+    },
+    {
+      "HospitalCD": "1--------01--------0",
+      "Name": "フル桁病院名７８９０１２３４５６７８９０",
+      "Address": "フル桁住所６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０",
+      "TEL": "XXXXX-XXXXX-XXXXXXXXXX",
+      "EmergencyMedicineLevel": 3,
+    }
   ];
 
   static const classifications = [

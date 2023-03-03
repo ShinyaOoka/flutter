@@ -131,9 +131,9 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           Navigator.of(context).pop();
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             FlushbarHelper.createInformation(
-                    message: '登録処理を完了しました。',
-                    duration: const Duration(seconds: 3))
-                .show(context);
+              message: '登録処理を完了しました。',
+              duration: const Duration(seconds: 3),
+            ).show(context);
           });
         },
         label: Text('create'.i18n()),

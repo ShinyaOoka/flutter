@@ -48,6 +48,22 @@ mixin _$ReportStore on _ReportStore, Store {
     });
   }
 
+  late final _$deleteReportFutureAtom =
+      Atom(name: '_ReportStore.deleteReportFuture', context: context);
+
+  @override
+  ObservableFuture<void> get deleteReportFuture {
+    _$deleteReportFutureAtom.reportRead();
+    return super.deleteReportFuture;
+  }
+
+  @override
+  set deleteReportFuture(ObservableFuture<void> value) {
+    _$deleteReportFutureAtom.reportWrite(value, super.deleteReportFuture, () {
+      super.deleteReportFuture = value;
+    });
+  }
+
   late final _$reportsAtom =
       Atom(name: '_ReportStore.reports', context: context);
 
@@ -120,6 +136,14 @@ mixin _$ReportStore on _ReportStore, Store {
     return _$editReportAsyncAction.run(() => super.editReport(report));
   }
 
+  late final _$deleteReportsAsyncAction =
+      AsyncAction('_ReportStore.deleteReports', context: context);
+
+  @override
+  Future<dynamic> deleteReports(List<int> reportIds) {
+    return _$deleteReportsAsyncAction.run(() => super.deleteReports(reportIds));
+  }
+
   late final _$_ReportStoreActionController =
       ActionController(name: '_ReportStore', context: context);
 
@@ -139,6 +163,7 @@ mixin _$ReportStore on _ReportStore, Store {
     return '''
 getReportsFuture: ${getReportsFuture},
 createReportFuture: ${createReportFuture},
+deleteReportFuture: ${deleteReportFuture},
 reports: ${reports},
 selectingReport: ${selectingReport},
 success: ${success},

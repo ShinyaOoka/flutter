@@ -18,6 +18,9 @@ abstract class _Team with Store {
   @JsonKey(name: 'Name')
   String? name;
   @observable
+  @JsonKey(name: 'Abbreviation')
+  String? abbreviation;
+  @observable
   @JsonKey(name: 'TEL')
   String? tel;
   @observable

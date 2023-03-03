@@ -49,6 +49,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   @override
   void didPush() {
+    print('didpush');
     _reportStore = context.read();
     _teamStore = context.read();
     _classificationStore = context.read();

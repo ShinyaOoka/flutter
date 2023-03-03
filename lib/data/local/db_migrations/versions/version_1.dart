@@ -136,6 +136,7 @@ const _createReportTable = '''CREATE TABLE ${DBConstants.reportTable} (
 const _createTeamTable = '''CREATE TABLE ${DBConstants.teamTable} (
   TeamCD VARCHAR(20) PRIMARY KEY,
   Name VARCHAR(20),
+  Abbreviation VARCHAR(20),
   TEL VARCHAR(20),
   FireStationCD VARCHAR(20)
 )''';
@@ -153,6 +154,7 @@ const _createHospitalTable = '''CREATE TABLE ${DBConstants.hospitalTable} (
   Name VARCHAR(20),
   Address VARCHAR(60),
   TEL VARCHAR(20)
+  EmergencyMedicineLevel INTEGER
 )''';
 
 const _createClassificationTable =
