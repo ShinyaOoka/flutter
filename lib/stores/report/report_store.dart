@@ -22,6 +22,9 @@ abstract class _ReportStore with Store {
   ObservableFuture<void> createReportFuture = ObservableFuture.value(null);
 
   @observable
+  ObservableFuture<void> deleteReportFuture = ObservableFuture.value(null);
+
+  @observable
   ObservableList<Report>? reports;
 
   @observable
@@ -31,7 +34,10 @@ abstract class _ReportStore with Store {
   bool success = false;
 
   @computed
-  bool get loading => getReportsFuture.status == FutureStatus.pending;
+  bool get loading =>
+      getReportsFuture.status == FutureStatus.pending ||
+      createReportFuture.status == FutureStatus.pending ||
+      deleteReportFuture.status == FutureStatus.pending;
 
   @action
   Future getReports() async {
@@ -57,6 +63,20 @@ abstract class _ReportStore with Store {
   Future editReport(Report report) async {
     final future = _repository.editReport(report);
     createReportFuture = ObservableFuture(future);
+
+    await future.catchError((error) {
+      errorStore.errorMessage = error.toString();
+    });
+  }
+
+  @action
+  Future deleteReports(List<int> reportIds) async {
+    final future = _repository.deleteReport(reportIds);
+    deleteReportFuture = ObservableFuture(future);
+    reports = reports
+        ?.where((e) => !reportIds.contains(e.id))
+        .toList()
+        .asObservable();
 
     await future.catchError((error) {
       errorStore.errorMessage = error.toString();

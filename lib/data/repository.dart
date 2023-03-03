@@ -33,6 +33,10 @@ class Repository {
     return _reportDataSource.createReport(report);
   }
 
+  Future<void> deleteReport(List<int> reportIds) {
+    return _reportDataSource.deleteReport(reportIds);
+  }
+
   Future<void> editReport(Report report) {
     return _reportDataSource.editReport(report);
   }

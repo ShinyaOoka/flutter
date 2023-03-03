@@ -22,4 +22,10 @@ class ReportDataSource {
     await _db.update(DBConstants.reportTable, report.toJson(),
         where: "ID = ?", whereArgs: [report.id]);
   }
+
+  Future deleteReport(List<int> reportIds) async {
+    await _db.delete(DBConstants.reportTable,
+        where: "ID IN (${List.filled(reportIds.length, '?').join(',')})",
+        whereArgs: reportIds);
+  }
 }

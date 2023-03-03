@@ -27,6 +27,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   late ScrollController scrollController;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
+  List<bool?>? selectingReports;
 
   @override
   void initState() {
@@ -78,14 +79,38 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   List<Widget> _buildActions(BuildContext context) {
     return <Widget>[
-      _buildSelectButton(),
+      selectingReports != null ? _buildDeleteButton() : _buildSelectButton(),
     ];
   }
 
   Widget _buildSelectButton() {
     return IconButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          selectingReports = List.filled(_reportStore.reports!.length, false);
+        });
+      },
       icon: const Icon(Icons.check_circle_outline),
+      color: Theme.of(context).primaryColor,
+    );
+  }
+
+  Widget _buildDeleteButton() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          final reportIds = selectingReports!
+              .asMap()
+              .entries
+              .where((e) => e.value != null && e.value!)
+              .map((e) => _reportStore.reports![e.key].id!)
+              .toList();
+          print(reportIds);
+          _reportStore.deleteReports(reportIds);
+          selectingReports = null;
+        });
+      },
+      icon: const Icon(Icons.delete),
       color: Theme.of(context).primaryColor,
     );
   }
@@ -138,76 +163,99 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         : Center(child: Text('no_report_found'.i18n()));
   }
 
-  Widget _buildListItem(int position) {
+  Widget _buildListTileTitle(int position) {
     final item = _reportStore.reports![position];
     final team = _teamStore.teams[item.teamCd];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        RichText(
+            text: TextSpan(
+                style: Theme.of(context).textTheme.titleMedium,
+                children: [
+              TextSpan(
+                  text: '発生日時：',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold)),
+              TextSpan(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  text:
+                      '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
+            ])),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: '${'list_report_team_name'.i18n()} : ',
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          TextSpan(
+              text: team?.name ?? 'なし',
+              style: Theme.of(context).textTheme.bodyMedium)
+        ]))
+      ],
+    );
+  }
+
+  Widget _buildListTileSubtitle(int position) {
+    final item = _reportStore.reports![position];
     final typeOfAccident = item.typeOfAccident != null
         ? _classificationStore.classifications[
             Tuple2(AppConstants.typeOfAccidentCode, item.typeOfAccident!)]
         : null;
-    return ListTile(
-      onTap: () {
-        _reportStore.setSelectingReport(item);
-        Navigator.of(context).pushNamed(Routes.confirmReport);
-      },
-      dense: true,
-      tileColor: Colors.black12,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          RichText(
-              text: TextSpan(
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: [
-                TextSpan(
-                    text: '発生日時：',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold)),
-                TextSpan(
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    text:
-                        '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
-              ])),
-          RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: '${'list_report_team_name'.i18n()} : ',
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            TextSpan(
-                text: team?.name ?? 'なし',
-                style: Theme.of(context).textTheme.bodyMedium)
-          ]))
-        ],
-      ),
-      subtitle: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: '${'type_of_accident'.i18n()} : ',
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            TextSpan(
-                text: typeOfAccident?.value ?? 'なし',
-                style: Theme.of(context).textTheme.bodyMedium)
-          ])),
-          RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: '${'accident_summary'.i18n()} : ',
-                style: TextStyle(color: Theme.of(context).primaryColor)),
-            TextSpan(
-                text: item.accidentSummary ?? 'なし',
-                style: Theme.of(context).textTheme.bodyMedium)
-          ]))
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: '${'type_of_accident'.i18n()} : ',
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          TextSpan(
+              text: typeOfAccident?.value ?? 'なし',
+              style: Theme.of(context).textTheme.bodyMedium)
+        ])),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: '${'accident_summary'.i18n()} : ',
+              style: TextStyle(color: Theme.of(context).primaryColor)),
+          TextSpan(
+              text: item.accidentSummary ?? 'なし',
+              style: Theme.of(context).textTheme.bodyMedium)
+        ]))
+      ],
     );
+  }
+
+  Widget _buildListItem(int position) {
+    final item = _reportStore.reports![position];
+    return selectingReports != null
+        ? CheckboxListTile(
+            value: selectingReports?[position],
+            onChanged: (value) {
+              setState(() {
+                selectingReports?[position] = value;
+              });
+            },
+            dense: true,
+            tileColor: Colors.black12,
+            title: _buildListTileTitle(position),
+            subtitle: _buildListTileSubtitle(position),
+          )
+        : ListTile(
+            onTap: () {
+              _reportStore.setSelectingReport(item);
+              Navigator.of(context).pushNamed(Routes.confirmReport);
+            },
+            dense: true,
+            tileColor: Colors.black12,
+            title: _buildListTileTitle(position),
+            subtitle: _buildListTileSubtitle(position),
+          );
   }
 
   Widget _handleErrorMessage() {
