@@ -98,17 +98,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll(
         'PlaceOfIncident_VALUE', report.placeOfIncident ?? '');
+    result = result.replaceAll('TeamCaptainName_VALUE',
+        report.teamCaptainName?.substring(0, 15) ?? '');
     result = result.replaceAll(
-        'TeamCaptainName_VALUE', report.teamCaptainName ?? '');
-    result =
-        result.replaceAll('TeamMemberName_VALUE', report.teamMemberName ?? '');
+        'TeamMemberName_VALUE', report.teamMemberName?.substring(0, 15) ?? '');
+    result = result.replaceAll('InstitutionalMemberName_VALUE',
+        report.institutionalMemberName?.substring(0, 15) ?? '');
     result = result.replaceAll(
-        'InstitutionalMemberName_VALUE', report.institutionalMemberName ?? '');
-    result =
-        result.replaceAll('PerceiverName_VALUE', report.perceiverName ?? '');
+        'PerceiverName_VALUE', report.perceiverName?.substring(0, 15) ?? '');
     result = result.replaceAll(
         'TypeOfDetection_VALUE', report.detectionType?.value ?? '');
-    result = result.replaceAll('CallerName_VALUE', report.callerName ?? '');
+    result = result.replaceAll(
+        'CallerName_VALUE', report.callerName?.substring(0, 15) ?? '');
     result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
         report.sickInjuredPersonAddress ?? '');
