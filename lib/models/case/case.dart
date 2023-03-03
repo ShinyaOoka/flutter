@@ -46,7 +46,10 @@ abstract class _Case with Store {
               e.item2.type != "AedContinAnalysis" &&
               e.item2.type != "AlarmLimits" &&
               e.item2.type != "ContinWaveRec" &&
+              e.item2.type != "CprAccelWaveRec" &&
+              e.item2.type != "CprCompression" &&
               e.item2.type != "DataChannels" &&
+              e.item2.type != "DefibFireEvt" &&
               e.item2.type != "DefibTrace" &&
               e.item2.type != "DeviceConfiguration" &&
               e.item2.type != "DisplayInfo" &&
@@ -55,7 +58,13 @@ abstract class _Case with Store {
               e.item2.type != "PatientInfo" &&
               e.item2.type != "PrtTrace" &&
               e.item2.type != "TraceConfigs" &&
-              e.item2.type != "AnnotationEvt Defib Out of Lead Fault " &&
+              e.item2.type != "AnnotationEvt Defib Out of Lead Fault" &&
+              e.item2.type != "AnnotationEvt CO2 Sfm In Process" &&
+              e.item2.type != "AnnotationEvt Fan Turned On" &&
+              e.item2.type != "AnnotationEvt Internal Disarm" &&
+              e.item2.type != "AnnotationEvt Deflib Precharging" &&
+              e.item2.type != "AnnotationEvt Deflib Precharged" &&
+              e.item2.type != "AnnotationEvt Defib Lead Fault" &&
               e.item2.type != "AnnotationEvt Resp Lead Change" &&
               e.item2.type != "AnnotationEvt CO2 Cal Required" &&
               e.item2.type != "AnnotationEvt NIBP Device Status" &&
