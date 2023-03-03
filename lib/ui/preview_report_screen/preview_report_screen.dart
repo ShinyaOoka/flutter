@@ -499,7 +499,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //19
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke ?? '');
+        report.sickInjuredPersonKakaritsuke?.substring(0, 19) ?? '');
 
     //20
     if (report.sickInjuredPersonMedication == '000') {
@@ -530,8 +530,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //23
-    htmlInput = htmlInput.replaceFirst(
-        'SickInjuredPersonAllergy', report.sickInjuredPersonAllergy ?? '');
+    htmlInput = htmlInput.replaceFirst('SickInjuredPersonAllergy',
+        report.sickInjuredPersonAllergy?.substring(0, 19) ?? '');
 
     //24
     if (report.typeOfAccident == '000') {
@@ -658,8 +658,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //42
-    htmlInput =
-        htmlInput.replaceFirst('VerbalGuidance', report.verbalGuidance ?? '');
+    htmlInput = htmlInput.replaceFirst(
+        'VerbalGuidance', report.verbalGuidance?.substring(0, 22) ?? '');
 
     //43-61
     htmlInput = handleDatLayout578(htmlInput);
@@ -772,7 +772,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //79
     htmlInput = htmlInput.replaceFirst('Other',
-        '<div style="white-space: pre-wrap; font-size: 8pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
+        '<div style="white-space: pre-wrap; font-size: 7pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
 
     //80
     if (report.bsMeasurement1 != null) {
@@ -789,8 +789,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //83
-    htmlInput = htmlInput.replaceFirst(
-        'PunctureSite1', report.punctureSite1?.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PunctureSite1',
+        report.punctureSite1?.substring(0, 9).toString() ?? '');
 
     //84
     if (report.bsMeasurement2 != null) {
@@ -807,8 +807,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //87
-    htmlInput = htmlInput.replaceFirst(
-        'PunctureSite2', report.punctureSite2?.toString() ?? '');
+    htmlInput = htmlInput.replaceFirst('PunctureSite2',
+        report.punctureSite2?.substring(0, 9).toString() ?? '');
 
     return htmlInput;
   }
