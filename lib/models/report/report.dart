@@ -511,7 +511,6 @@ abstract class _Report with Store {
 
   @action
   setGender(Classification? value) {
-    assert(value?.classificationCd == AppConstants.genderCode);
     sickInjuredPersonGender = value?.classificationSubCd;
   }
 
@@ -531,7 +530,6 @@ abstract class _Report with Store {
 
   @action
   setMedication(Classification? value) {
-    assert(value?.classificationCd == AppConstants.medicationCode);
     sickInjuredPersonMedication = value?.classificationSubCd;
   }
 
@@ -551,7 +549,6 @@ abstract class _Report with Store {
 
   @action
   setDegree(Classification? value) {
-    assert(value?.classificationCd == AppConstants.degreeCode);
     sickInjuredPersonDegree = value?.classificationSubCd;
   }
 
@@ -571,7 +568,6 @@ abstract class _Report with Store {
 
   @action
   setDetectionType(Classification? value) {
-    assert(value?.classificationCd == AppConstants.typeOfDetectionCode);
     typeOfDetection = value?.classificationSubCd;
   }
 
@@ -591,7 +587,6 @@ abstract class _Report with Store {
 
   @action
   setAccidentType(Classification? value) {
-    assert(value?.classificationCd == AppConstants.typeOfAccidentCode);
     typeOfAccident = value?.classificationSubCd;
   }
 
@@ -611,7 +606,6 @@ abstract class _Report with Store {
 
   @action
   setTrafficAccidentType(Classification? value) {
-    assert(value?.classificationCd == AppConstants.trafficAccidentCode);
     trafficAccidentClassification = value?.classificationSubCd;
   }
 
@@ -631,7 +625,6 @@ abstract class _Report with Store {
 
   @action
   setAdlType(Classification? value) {
-    assert(value?.classificationCd == AppConstants.adlCode);
     adl = value?.classificationSubCd;
   }
 
@@ -651,7 +644,6 @@ abstract class _Report with Store {
 
   @action
   setSecuringAirwayType(Classification? value) {
-    assert(value?.classificationCd == AppConstants.securingAirwayCode);
     securingAirway = value?.classificationSubCd;
   }
 
@@ -672,8 +664,6 @@ abstract class _Report with Store {
 
   @action
   setSpinalCordMovementLimitationType(Classification? value) {
-    assert(value?.classificationCd ==
-        AppConstants.spinalCordMovementLimitationCode);
     spinalCordMovementLimitation = value?.classificationSubCd;
   }
 
@@ -696,10 +686,6 @@ abstract class _Report with Store {
 
   @action
   setJcsTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(
-          element == null || element.classificationCd == AppConstants.jcsCode);
-    }
     jcs = values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
 
@@ -722,10 +708,6 @@ abstract class _Report with Store {
 
   @action
   setGcsETypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(
-          element == null || element.classificationCd == AppConstants.gcsECode);
-    }
     gcsE = values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
 
@@ -736,7 +718,6 @@ abstract class _Report with Store {
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Classification?> get gcsVTypes {
-    assert(classificationStore != null);
     return gcsV
             ?.map((element) => element != null
                 ? classificationStore!
@@ -748,10 +729,6 @@ abstract class _Report with Store {
 
   @action
   setGcsVTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(
-          element == null || element.classificationCd == AppConstants.gcsVCode);
-    }
     gcsV = values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
 
@@ -774,10 +751,6 @@ abstract class _Report with Store {
 
   @action
   setGcsMTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(
-          element == null || element.classificationCd == AppConstants.gcsMCode);
-    }
     gcsM = values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
 
@@ -800,10 +773,6 @@ abstract class _Report with Store {
 
   @action
   setFacialFeatureTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(element == null ||
-          element.classificationCd == AppConstants.facialFeaturesCode);
-    }
     facialFeatures =
         values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
@@ -827,10 +796,6 @@ abstract class _Report with Store {
 
   @action
   setIncontinenceTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(element == null ||
-          element.classificationCd == AppConstants.incontinenceCode);
-    }
     incontinence =
         values.map((e) => e?.classificationSubCd).toList().asObservable();
   }
@@ -854,11 +819,6 @@ abstract class _Report with Store {
 
   @action
   setObservationTimeDescriptionTypes(List<Classification?> values) {
-    for (var element in values) {
-      assert(element == null ||
-          element.classificationCd ==
-              AppConstants.descriptionOfObservationTimeCode);
-    }
     descriptionOfObservationTime =
         values.map((e) => e?.classificationSubCd).toList().asObservable();
   }

@@ -627,18 +627,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //39
-    if (report.typeOfAccident == '000') {
+    if (report.trafficAccidentClassification == '000') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIconシートベルト', '$checkIconシートベルト');
-    } else if (report.typeOfAccident == '001') {
+    } else if (report.trafficAccidentClassification == '001') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIconエアバック', '$checkIconエアバック');
-    } else if (report.typeOfAccident == '002') {
+    } else if (report.trafficAccidentClassification == '002') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon不明', '$checkIcon不明');
-    } else if (report.typeOfAccident == '003') {
+    } else if (report.trafficAccidentClassification == '003') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIconチャイルドシート', '$checkIconチャイルドシート');
-    } else if (report.typeOfAccident == '004') {
+    } else if (report.trafficAccidentClassification == '004') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIconヘルメット', '$checkIconヘルメット');
     }
@@ -823,7 +823,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       htmlInput = htmlInput.replaceFirst('ObservationTime${i + 1}',
           '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '--'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '--'}');
       //44
-      htmlInput = htmlInput.replaceFirst('JCS${i + 1}', report.jcs?[i] ?? '');
+      htmlInput = htmlInput.replaceFirst(
+          'JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
       //45
       htmlInput = htmlInput.replaceFirst(
           'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
