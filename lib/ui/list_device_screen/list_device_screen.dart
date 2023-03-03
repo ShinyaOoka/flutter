@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -78,12 +79,11 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('get_xseries_data'.i18n()),
-      actions: _buildActions(),
-      centerTitle: true,
+    return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 100,
+      actions: _buildActions(),
+      title: 'get_xseries_data'.i18n(),
     );
   }
 
@@ -96,8 +96,8 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();
@@ -115,12 +115,16 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   }
 
   Widget _buildMainContent() {
+    print(Theme.of(context).textTheme.bodyLarge?.fontFamily);
     return Column(
       children: [
         Container(
           padding: const EdgeInsets.all(16),
           child: Text("please_choose_device".i18n(),
-              style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(color: Colors.black, fontSize: 18)),
         ),
         Expanded(
           child: Observer(

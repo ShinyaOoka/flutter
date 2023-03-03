@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -171,12 +172,11 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('get_xseries_data'.i18n()),
-      actions: _buildActions(),
-      centerTitle: true,
+    return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 100,
+      actions: _buildActions(),
+      title: 'get_xseries_data'.i18n(),
     );
   }
 

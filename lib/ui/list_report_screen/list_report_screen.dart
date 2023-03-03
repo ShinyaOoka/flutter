@@ -180,9 +180,10 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold)),
               TextSpan(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  text:
-                      '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}'),
+                style: TextStyle(fontWeight: FontWeight.bold),
+                text:
+                    '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}',
+              ),
             ])),
         RichText(
             text: TextSpan(children: [
@@ -243,7 +244,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               });
             },
             dense: true,
-            tileColor: Colors.black12,
+            tileColor: Color(0xFFF5F5F5),
             title: _buildListTileTitle(position),
             subtitle: _buildListTileSubtitle(position),
           )
@@ -253,7 +254,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               Navigator.of(context).pushNamed(Routes.confirmReport);
             },
             dense: true,
-            tileColor: Colors.black12,
+            tileColor: Color(0xFFF5F5F5),
             title: _buildListTileTitle(position),
             subtitle: _buildListTileSubtitle(position),
           );
