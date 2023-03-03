@@ -99,17 +99,17 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'PlaceOfIncident_VALUE', report.placeOfIncident ?? '');
     result = result.replaceAll('TeamCaptainName_VALUE',
-        report.teamCaptainName?.substring(0, 15) ?? '');
-    result = result.replaceAll(
-        'TeamMemberName_VALUE', report.teamMemberName?.substring(0, 15) ?? '');
+        report.teamCaptainName?.characters.take(15).toString() ?? '');
+    result = result.replaceAll('TeamMemberName_VALUE',
+        report.teamMemberName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('InstitutionalMemberName_VALUE',
-        report.institutionalMemberName?.substring(0, 15) ?? '');
-    result = result.replaceAll(
-        'PerceiverName_VALUE', report.perceiverName?.substring(0, 15) ?? '');
+        report.institutionalMemberName?.characters.take(15).toString() ?? '');
+    result = result.replaceAll('PerceiverName_VALUE',
+        report.perceiverName?.characters.take(15).toString() ?? '');
     result = result.replaceAll(
         'TypeOfDetection_VALUE', report.detectionType?.value ?? '');
-    result = result.replaceAll(
-        'CallerName_VALUE', report.callerName?.substring(0, 15) ?? '');
+    result = result.replaceAll('CallerName_VALUE',
+        report.callerName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
         report.sickInjuredPersonAddress ?? '');
@@ -117,8 +117,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
-    result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        report.sickInjuredPersonNameOfInjuryOrSickness?.substring(0, 38) ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
+        report.sickInjuredPersonNameOfInjuryOrSickness?.characters
+                .take(38)
+                .toString() ??
+            '');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',
@@ -138,11 +142,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
         report.reasonForNotTransferring ?? '');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
-        report.affiliationOfReporter?.substring(0, 12) ?? '');
+        report.affiliationOfReporter?.characters.take(12).toString() ?? '');
     result = result.replaceAll('PositionOfReporter_VALUE',
-        report.positionOfReporter?.substring(0, 8) ?? '');
-    result = result.replaceAll(
-        'NameOfReporter_VALUE', report.nameOfReporter?.substring(0, 15) ?? '');
+        report.positionOfReporter?.characters.take(8).toString() ?? '');
+    result = result.replaceAll('NameOfReporter_VALUE',
+        report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll(
         'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
     result = result.replaceAll(
@@ -372,10 +376,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //2
     print(team);
     htmlInput = htmlInput.replaceFirst(
-        'TeamName', team?.abbreviation?.substring(0, 11) ?? '');
+        'TeamName', team?.abbreviation?.characters.take(11).toString() ?? '');
     //3
-    htmlInput = htmlInput.replaceFirst(
-        'TeamCaptainName', report.teamCaptainName?.substring(0, 11) ?? '');
+    htmlInput = htmlInput.replaceFirst('TeamCaptainName',
+        report.teamCaptainName?.characters.take(11).toString() ?? '');
     //4
     if (report.lifesaverQualification != null) {
       if (report.lifesaverQualification!) {
@@ -500,8 +504,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //19
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.substring(0, 19) ?? '');
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonKakaritsuke',
+        report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
+            '');
 
     //20
     if (report.sickInjuredPersonMedication == '000') {
@@ -517,8 +523,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //21
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonMedicationDetail',
-        report.sickInjuredPersonMedicationDetail?.substring(0, 15) ?? '');
+    htmlInput = htmlInput.replaceFirst(
+        'SickInjuredPersonMedicationDetail',
+        report.sickInjuredPersonMedicationDetail?.characters
+                .take(15)
+                .toString() ??
+            '');
 
     //22
     if (report.sickInjuredPersonAllergy == null) {
@@ -533,7 +543,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //23
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.substring(0, 19) ?? '');
+        report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
     //24
     if (report.typeOfAccident == '000') {
@@ -582,8 +592,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             : '');
 
     //26
-    htmlInput = htmlInput.replaceFirst(
-        'PlaceOfIncident', report.placeOfIncident?.substring(0, 35) ?? '');
+    htmlInput = htmlInput.replaceFirst('PlaceOfIncident',
+        report.placeOfIncident?.characters.take(35).toString() ?? '');
 
     //27
     htmlInput =
@@ -660,8 +670,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //42
-    htmlInput = htmlInput.replaceFirst(
-        'VerbalGuidance', report.verbalGuidance?.substring(0, 22) ?? '');
+    htmlInput = htmlInput.replaceFirst('VerbalGuidance',
+        report.verbalGuidance?.characters.take(22).toString() ?? '');
 
     //43-61
     htmlInput = handleDatLayout578(htmlInput);
@@ -792,7 +802,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //83
     htmlInput = htmlInput.replaceFirst('PunctureSite1',
-        report.punctureSite1?.substring(0, 9).toString() ?? '');
+        report.punctureSite1?.characters.take(9).toString().toString() ?? '');
 
     //84
     if (report.bsMeasurement2 != null) {
@@ -810,7 +820,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //87
     htmlInput = htmlInput.replaceFirst('PunctureSite2',
-        report.punctureSite2?.substring(0, 9).toString() ?? '');
+        report.punctureSite2?.characters.take(9).toString().toString() ?? '');
 
     return htmlInput;
   }

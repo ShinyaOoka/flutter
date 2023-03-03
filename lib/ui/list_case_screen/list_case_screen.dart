@@ -3,6 +3,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -84,12 +85,11 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('get_xseries_data'.i18n()),
-      actions: _buildActions(),
-      centerTitle: true,
+    return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 100,
+      actions: _buildActions(),
+      title: 'get_xseries_data'.i18n(),
     );
   }
 
@@ -102,8 +102,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();
@@ -130,7 +130,10 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         Container(
           padding: const EdgeInsets.all(16),
           child: Text("please_choose_case".i18n(),
-              style: Theme.of(context).textTheme.titleLarge),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(color: Colors.black, fontSize: 18)),
         ),
         Expanded(
           child: Observer(
