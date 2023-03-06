@@ -13,35 +13,35 @@ class SeedData {
       "FireStationCD": "001",
     },
     {
-      "TeamCD": "000",
+      "TeamCD": "001",
       "Name": "袖ケ浦市中央消防署第2救急隊",
       "Abbreviation": "中央救急隊",
       "TEL": "0438-64-0165",
       "FireStationCD": "001",
     },
     {
-      "TeamCD": "001",
+      "TeamCD": "002",
       "Name": "袖ケ浦市長浦消防署第1救急隊",
       "Abbreviation": "長浦救急隊",
       "TEL": "0438-62-9728",
       "FireStationCD": "002",
     },
     {
-      "TeamCD": "001",
+      "TeamCD": "003",
       "Name": "袖ケ浦市長浦消防署第2救急隊",
       "Abbreviation": "長浦救急隊",
       "TEL": "0438-62-9728",
       "FireStationCD": "002",
     },
     {
-      "TeamCD": "002",
+      "TeamCD": "004",
       "Name": "袖ケ浦市平川消防署第1救急隊",
       "Abbreviation": "平川救急隊",
       "TEL": "0438-75-3116",
       "FireStationCD": "003",
     },
     {
-      "TeamCD": "002",
+      "TeamCD": "005",
       "Name": "袖ケ浦市平川消防署第2救急隊",
       "Abbreviation": "平川救急隊",
       "TEL": "0438-75-3116",
@@ -59,19 +59,19 @@ class SeedData {
   static const fireStations = [
     {
       "FireStationCD": "001",
-      "Name": "袖ヶ浦市中央消防署",
+      "Name": "袖ケ浦市中央消防署",
       "Address": "千葉県袖ケ浦市福王台4丁目10番地7",
       "TEL": "0438-64-XXX5"
     },
     {
       "FireStationCD": "002",
-      "Name": "袖ヶ浦市長浦消防署",
+      "Name": "袖ケ浦市長浦消防署",
       "Address": "千葉県袖ケ浦市長浦580番地146",
       "TEL": "0438-62-XXX5"
     },
     {
       "FireStationCD": "003",
-      "Name": "袖ヶ浦市平川消防署",
+      "Name": "袖ケ浦市平川消防署",
       "Address": "千葉県袖ケ浦市横田213番地",
       "TEL": "0438-75-XXX6"
     },
@@ -177,7 +177,7 @@ class SeedData {
     },
     {
       "HospitalCD": "0000019",
-      "Name": "わたなべ皮ﾌ科形成外科ｸﾘﾆｯｸ",
+      "Name": "わたなべ皮フ科形成外科クリニック",
       "Address": "千葉県袖ケ浦市神納707-1",
       "TEL": "0438-60-XXX1",
       "EmergencyMedicineLevel": 1,
