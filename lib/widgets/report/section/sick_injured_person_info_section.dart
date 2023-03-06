@@ -151,6 +151,7 @@ class _SickInjuredPersonInfoSectionState
         hintText: '〇〇県△△市□□NN-NN-NN',
         controller: sickInjuredPersonAddressController,
         onChanged: (value) => report.sickInjuredPersonAddress = value,
+        keyboardType: TextInputType.multiline,
         maxLength: 60,
         maxLines: 3,
         readOnly: widget.readOnly,
