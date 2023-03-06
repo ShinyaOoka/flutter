@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 
 class ReportSectionMixin {
@@ -67,5 +68,16 @@ class ReportSectionMixin {
     if (newValue != controller.text) {
       controller.text = newValue;
     }
+  }
+
+  TextInputFormatter maxLineFormatter(int line) {
+    return TextInputFormatter.withFunction((oldValue, newValue) {
+      int newLines = newValue.text.split('\n').length;
+      if (newLines > line) {
+        return oldValue;
+      } else {
+        return newValue;
+      }
+    });
   }
 }

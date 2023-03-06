@@ -177,6 +177,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
       AppTextField(
         label: 'reason_for_not_transferring'.i18n(),
         controller: reasonForNotTransferringController,
+        inputFormatters: [maxLineFormatter(7)],
         onChanged: (value) => report.reasonForNotTransferring = value,
         maxLength: 100,
         minLines: 3,

@@ -122,6 +122,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
       AppTextField(
         keyboardType: TextInputType.multiline,
         controller: placeOfIncidentController,
+        inputFormatters: [maxLineFormatter(3)],
         minLines: 3,
         maxLength: 100,
         label: 'place_of_incident'.i18n(),
