@@ -10,13 +10,15 @@ Hospital _$HospitalFromJson(Map<String, dynamic> json) => Hospital()
   ..hospitalCd = json['HospitalCD'] as String?
   ..name = json['Name'] as String?
   ..address = json['Address'] as String?
-  ..tel = json['TEL'] as String?;
+  ..tel = json['TEL'] as String?
+  ..emergencyMedicineLevel = json['EmergencyMedicineLevel'] as String?;
 
 Map<String, dynamic> _$HospitalToJson(Hospital instance) => <String, dynamic>{
       'HospitalCD': instance.hospitalCd,
       'Name': instance.name,
       'Address': instance.address,
       'TEL': instance.tel,
+      'EmergencyMedicineLevel': instance.emergencyMedicineLevel,
     };
 
 // **************************************************************************
@@ -87,13 +89,31 @@ mixin _$Hospital on _Hospital, Store {
     });
   }
 
+  late final _$emergencyMedicineLevelAtom =
+      Atom(name: '_Hospital.emergencyMedicineLevel', context: context);
+
+  @override
+  String? get emergencyMedicineLevel {
+    _$emergencyMedicineLevelAtom.reportRead();
+    return super.emergencyMedicineLevel;
+  }
+
+  @override
+  set emergencyMedicineLevel(String? value) {
+    _$emergencyMedicineLevelAtom
+        .reportWrite(value, super.emergencyMedicineLevel, () {
+      super.emergencyMedicineLevel = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 hospitalCd: ${hospitalCd},
 name: ${name},
 address: ${address},
-tel: ${tel}
+tel: ${tel},
+emergencyMedicineLevel: ${emergencyMedicineLevel}
     ''';
   }
 }

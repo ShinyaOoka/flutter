@@ -114,6 +114,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
             foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
+          // Wait for focus to change otherwise text field with custom focus logic will not work
+          await Future.sync(() {});
           await _reportStore.editReport(_reportStore.selectingReport!);
           if (!mounted) return;
           Navigator.of(context).pop(_reportStore.selectingReport);
