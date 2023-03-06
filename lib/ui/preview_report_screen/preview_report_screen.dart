@@ -96,8 +96,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('TeamName_VALUE', report.team?.name ?? '');
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
-    result = result.replaceAll(
-        'PlaceOfIncident_VALUE', report.placeOfIncident ?? '');
+    result = result.replaceAll('PlaceOfIncident_VALUE',
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident ?? ''}</div>');
     result = result.replaceAll('TeamCaptainName_VALUE',
         report.teamCaptainName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('TeamMemberName_VALUE',
@@ -112,7 +112,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.callerName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
-        report.sickInjuredPersonAddress ?? '');
+        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
     result = result.replaceAll(
@@ -140,15 +140,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
-        report.reasonForNotTransferring ?? '');
+        '<div style="white-space: pre-wrap;">${report.reasonForNotTransferring ?? ''}</div>');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
         report.affiliationOfReporter?.characters.take(12).toString() ?? '');
     result = result.replaceAll('PositionOfReporter_VALUE',
         report.positionOfReporter?.characters.take(8).toString() ?? '');
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
-    result = result.replaceAll(
-        'SummaryOfOccurrence_VALUE', report.summaryOfOccurrence ?? '');
+    result = result.replaceAll('SummaryOfOccurrence_VALUE',
+        '<div style="white-space: pre-wrap;">${report.summaryOfOccurrence ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -219,7 +219,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       result = result.replaceAll(
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
-    result = result.replaceAll('Remark', report.remarks ?? '');
+    result = result.replaceAll('Remark',
+        '<div style="white-space: pre-wrap;">${report.remarks ?? ''}</div>');
     return result;
   }
 
@@ -411,7 +412,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //7
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
-        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</pre>');
+        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</div>');
     //8
     if (report.sickInjuredPersonGender == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon　男', '$checkIcon　男');
@@ -593,7 +594,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //26
     htmlInput = htmlInput.replaceFirst('PlaceOfIncident',
-        report.placeOfIncident?.characters.take(35).toString() ?? '');
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.characters.take(35).toString() ?? ''}</div>');
 
     //27
     htmlInput =
