@@ -38,6 +38,7 @@ class AppDatePicker extends StatelessWidget {
               locale: LocaleType.jp,
               onConfirm: (date) => onChanged?.call(date),
               currentTime: selectedDate ?? DateTime.now(),
+              minTime: DateTime(1900, 1, 1),
               maxTime: maxTime,
             );
           },
