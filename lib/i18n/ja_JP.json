@@ -147,7 +147,7 @@
   "other_medical_transport_facility": "その他搬送医療機関",
   "transferring_medical_institution": "転送元医療機関",
   "other_transferring_medical_institution": "その他転送元医療機関",
-  "transfer_source_receiving_time": "転送元收容時間",
+  "transfer_source_receiving_time": "転送元収容時間",
   "reason_for_transfer": "転送理由",
   "reason_for_not_transferring": "不搬送理由",
   "record_of_refusal_of_transfer": "搬送拒否処理記録",
