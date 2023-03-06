@@ -73,10 +73,6 @@ abstract class _ReportStore with Store {
   Future deleteReports(List<int> reportIds) async {
     final future = _repository.deleteReport(reportIds);
     deleteReportFuture = ObservableFuture(future);
-    reports = reports
-        ?.where((e) => !reportIds.contains(e.id))
-        .toList()
-        .asObservable();
 
     await future.catchError((error) {
       errorStore.errorMessage = error.toString();

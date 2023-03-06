@@ -49,7 +49,6 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   @override
   void didPush() {
-    print('didpush');
     _reportStore = context.read();
     _teamStore = context.read();
     _classificationStore = context.read();
@@ -75,7 +74,25 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
-        title: 'list_report'.i18n(), actions: _buildActions(context));
+      title: 'list_report'.i18n(),
+      actions: _buildActions(context),
+      leading: selectingReports != null ? _buildBackButton() : null,
+      leadingWidth: 100,
+    );
+  }
+
+  Widget _buildBackButton() {
+    return TextButton.icon(
+      icon: const Icon(Icons.arrow_back),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+      label: Text('back'.i18n()),
+      onPressed: () {
+        setState(() {
+          selectingReports = null;
+        });
+      },
+    );
   }
 
   List<Widget> _buildActions(BuildContext context) {
@@ -98,18 +115,46 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   Widget _buildDeleteButton() {
     return IconButton(
-      onPressed: () {
-        setState(() {
+      onPressed: () async {
+        final result = await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('選択削除確認'),
+                content: Text('選択したデータを削除します。よろしいですか？'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('キャンセル'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Delete'),
+                    child: Text(
+                      'はい',
+                      style: TextStyle(color: Theme.of(context).errorColor),
+                    ),
+                  ),
+                ],
+              );
+            });
+        if (result == 'Delete') {
           final reportIds = selectingReports!
               .asMap()
               .entries
               .where((e) => e.value != null && e.value!)
               .map((e) => _reportStore.reports![e.key].id!)
               .toList();
-          print(reportIds);
-          _reportStore.deleteReports(reportIds);
-          selectingReports = null;
-        });
+          await _reportStore.deleteReports(reportIds);
+          await _reportStore.getReports();
+          if (!mounted) return;
+          FlushbarHelper.createInformation(
+            message: '削除処理を完了しました。',
+            duration: const Duration(seconds: 3),
+          ).show(context);
+          setState(() {
+            selectingReports = null;
+          });
+        }
       },
       icon: const Icon(Icons.delete),
       color: Theme.of(context).primaryColor,
@@ -146,22 +191,25 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   }
 
   Widget _buildListView() {
-    return _reportStore.reports != null
-        ? Scrollbar(
-            controller: scrollController,
-            thumbVisibility: true,
-            child: ListView.separated(
+    return Observer(builder: (context) {
+      print(_reportStore.reports?.length);
+      return _reportStore.reports != null
+          ? Scrollbar(
               controller: scrollController,
-              itemCount: _reportStore.reports!.length,
-              separatorBuilder: (context, position) {
-                return const Divider(height: 1, color: Colors.black45);
-              },
-              itemBuilder: (context, position) {
-                return _buildListItem(position);
-              },
-            ),
-          )
-        : Center(child: Text('no_report_found'.i18n()));
+              thumbVisibility: true,
+              child: ListView.separated(
+                controller: scrollController,
+                itemCount: _reportStore.reports!.length,
+                separatorBuilder: (context, position) {
+                  return const Divider(height: 1, color: Colors.black45);
+                },
+                itemBuilder: (context, position) {
+                  return _buildListItem(position);
+                },
+              ),
+            )
+          : Center(child: Text('no_report_found'.i18n()));
+    });
   }
 
   Widget _buildListTileTitle(int position) {

@@ -129,6 +129,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           // Wait for focus to change otherwise text field with custom focus logic will not work
           await Future.sync(() {});
           await _reportStore.createReport(_reportStore.selectingReport!);
+          await _reportStore.getReports();
           if (!mounted) return;
           Navigator.of(context).pop();
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
