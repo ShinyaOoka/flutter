@@ -62,6 +62,7 @@ class _RemarksSectionState extends State<RemarksSection>
       AppTextField(
         label: 'summary_of_occurrence'.i18n(),
         controller: summaryOfOccurrenceController,
+        inputFormatters: [maxLineFormatter(9)],
         onChanged: (value) => report.summaryOfOccurrence = value,
         maxLength: 500,
         minLines: 3,
@@ -75,6 +76,7 @@ class _RemarksSectionState extends State<RemarksSection>
       AppTextField(
         label: 'remarks'.i18n(),
         controller: remarksController,
+        inputFormatters: [maxLineFormatter(3)],
         onChanged: (value) => report.remarks = value,
         maxLength: 180,
         minLines: 3,
