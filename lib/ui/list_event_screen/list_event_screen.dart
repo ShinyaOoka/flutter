@@ -205,8 +205,8 @@ class _ListEventScreenState extends State<ListEventScreen>
               ModalRoute.withName(Routes.editReport)(route),
         );
       },
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       child: const Text('取得'),
     );
   }
@@ -214,8 +214,8 @@ class _ListEventScreenState extends State<ListEventScreen>
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.arrow_back),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();
