@@ -239,13 +239,32 @@ class _ListEventScreenState extends State<ListEventScreen>
     return LayoutBuilder(builder: (context, constraints) {
       final isMobile = constraints.maxWidth < 640;
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(isMobile ? 8 : 16),
             child: Text("please_choose_case".i18n(),
-                style: isMobile
-                    ? Theme.of(context).textTheme.titleLarge
-                    : Theme.of(context).textTheme.titleMedium),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: Colors.black, fontSize: 18)),
+          ),
+          Container(
+            padding: EdgeInsets.all(isMobile ? 8 : 16),
+            child: Column(
+              children: [
+                _buildCard(0),
+                SizedBox(height: isMobile ? 4 : 16),
+                _buildCard(1),
+                SizedBox(height: isMobile ? 4 : 16),
+                _buildCard(2),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(isMobile ? 8 : 16),
+            child: Text('X SERIES イベント一覧',
+                style: Theme.of(context).textTheme.titleLarge),
           ),
           Expanded(
             child: Observer(
@@ -265,8 +284,20 @@ class _ListEventScreenState extends State<ListEventScreen>
                           visualDensity: isMobile
                               ? VisualDensity.compact
                               : VisualDensity.standard,
-                          title: Text(
-                              '${AppConstants.dateTimeFormat.format(caseData.events[dataIndex].date)}  ${caseData.events[dataIndex].type}${getJapaneseEventName(caseData.events[dataIndex])}'),
+                          title: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: AppConstants.dateTimeFormat
+                                    .format(caseData.events[dataIndex].date),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context).primaryColor)),
+                            TextSpan(
+                                text:
+                                    '  ${caseData.events[dataIndex].type}${getJapaneseEventName(caseData.events[dataIndex])}')
+                          ], style: Theme.of(context).textTheme.bodyMedium)),
                           // '${caseData.events[dataIndex].date} ${caseData.events[dataIndex].date.isUtc}  ${caseData.events[dataIndex]?.type}'),
                           onTap: () {
                             if (activeIndex == null) return;
@@ -351,18 +382,6 @@ class _ListEventScreenState extends State<ListEventScreen>
               },
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(isMobile ? 8 : 16),
-            child: Column(
-              children: [
-                _buildCard(0),
-                SizedBox(height: isMobile ? 4 : 16),
-                _buildCard(1),
-                SizedBox(height: isMobile ? 4 : 16),
-                _buildCard(2),
-              ],
-            ),
-          ),
         ],
       );
     });
@@ -377,11 +396,20 @@ class _ListEventScreenState extends State<ListEventScreen>
       },
       child: LayoutBuilder(builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 640;
-        final textStyle =
-            isMobile ? Theme.of(context).textTheme.labelSmall : null;
+        final textStyle = isMobile
+            ? Theme.of(context).textTheme.labelSmall
+            : Theme.of(context).textTheme.bodyMedium;
+        final titleStyle = textStyle?.copyWith(
+            color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold);
+        final labelStyle =
+            textStyle?.copyWith(color: Theme.of(context).primaryColor);
+
         return Card(
-          color:
-              activeIndex == index ? Theme.of(context).primaryColorLight : null,
+          elevation: 0,
+          color: activeIndex == index ? Color(0xFFF5F5F5) : null,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              side: BorderSide(color: Color(0xFFCCCCCC), width: 2)),
           child: Column(children: [
             Container(
               alignment: Alignment.centerLeft,
@@ -391,7 +419,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                   flex: 0,
                   child: Text(
                     "${index + 1}回目取得結果",
-                    style: textStyle,
+                    style: titleStyle,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -423,17 +451,31 @@ class _ListEventScreenState extends State<ListEventScreen>
                     Expanded(
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
-                      child: Text(
-                        "HR: ${trendData[index].hr?.toString() ?? '-'}",
-                        style: textStyle,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: 'HR: ', style: labelStyle),
+                            TextSpan(
+                                text:
+                                    "${trendData[index].hr?.toString() ?? '--'}")
+                          ],
+                          style: textStyle,
+                        ),
                       ),
                     )),
                     Expanded(
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
-                      child: Text(
-                        "BR: ${trendData[index].resp?.toString() ?? '-'}",
-                        style: textStyle,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: 'BR: ', style: labelStyle),
+                            TextSpan(
+                                text:
+                                    "${trendData[index].resp?.toString() ?? '--'}")
+                          ],
+                          style: textStyle,
+                        ),
                       ),
                     )),
                   ],
@@ -443,17 +485,31 @@ class _ListEventScreenState extends State<ListEventScreen>
                     Expanded(
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
-                      child: Text(
-                        "SPO2: ${trendData[index].spo2?.toString() ?? '-'}",
-                        style: textStyle,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: 'SPO2: ', style: labelStyle),
+                            TextSpan(
+                                text:
+                                    "${trendData[index].spo2?.toString() ?? '--'}")
+                          ],
+                          style: textStyle,
+                        ),
                       ),
                     )),
                     Expanded(
                         child: Container(
                       padding: EdgeInsets.all(isMobile ? 2 : 4),
-                      child: Text(
-                        "血圧: ${trendData[index].nibpDia?.toString() ?? '-'}/${(trendData[index].nibpSys?.toString() ?? '-')}",
-                        style: textStyle,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: '血圧: ', style: labelStyle),
+                            TextSpan(
+                                text:
+                                    "${trendData[index].nibpDia?.toString() ?? '-'}/${(trendData[index].nibpSys?.toString() ?? '--')}")
+                          ],
+                          style: textStyle,
+                        ),
                       ),
                     )),
                   ],
