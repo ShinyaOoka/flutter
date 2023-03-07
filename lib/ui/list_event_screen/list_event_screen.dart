@@ -176,7 +176,6 @@ class _ListEventScreenState extends State<ListEventScreen>
       leading: _buildBackButton(),
       leadingWidth: 100,
       actions: _buildActions(),
-      title: 'get_xseries_data'.i18n(),
     );
   }
 
@@ -238,25 +237,17 @@ class _ListEventScreenState extends State<ListEventScreen>
   Widget _buildMainContent() {
     return LayoutBuilder(builder: (context, constraints) {
       final isMobile = constraints.maxWidth < 640;
+      final padding = isMobile ? 8.0 : 16.0;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.all(isMobile ? 8 : 16),
-            child: Text("please_choose_case".i18n(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: Colors.black, fontSize: 18)),
-          ),
-          Container(
-            padding: EdgeInsets.all(isMobile ? 8 : 16),
+            padding:
+                EdgeInsets.only(top: padding, left: padding, right: padding),
             child: Column(
               children: [
                 _buildCard(0),
-                SizedBox(height: isMobile ? 4 : 16),
                 _buildCard(1),
-                SizedBox(height: isMobile ? 4 : 16),
                 _buildCard(2),
               ],
             ),
@@ -409,7 +400,11 @@ class _ListEventScreenState extends State<ListEventScreen>
           color: activeIndex == index ? Color(0xFFF5F5F5) : null,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
-              side: BorderSide(color: Color(0xFFCCCCCC), width: 2)),
+              side: BorderSide(
+                  color: activeIndex == index
+                      ? Theme.of(context).primaryColor
+                      : Color(0xFFCCCCCC),
+                  width: 2)),
           child: Column(children: [
             Container(
               alignment: Alignment.centerLeft,
