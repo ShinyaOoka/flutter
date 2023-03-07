@@ -12,15 +12,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Widget result = appBar;
     if (title != null) {
       result = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           appBar,
           PreferredSize(
-              preferredSize: const Size.fromHeight(40),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child:
-                    Text(title!, style: Theme.of(context).textTheme.titleLarge),
+              preferredSize: const Size.fromHeight(44),
+              child: Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 40, top: 6),
+                  child: Text(title!,
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
               ))
         ],
       );
@@ -46,6 +48,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize {
     return Size(appBar.preferredSize.width,
-        appBar.preferredSize.height + (title != null ? 40 : 0));
+        appBar.preferredSize.height + (title != null ? 44 : 0));
   }
 }
