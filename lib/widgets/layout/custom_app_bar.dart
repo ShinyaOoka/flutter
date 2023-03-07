@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               preferredSize: const Size.fromHeight(44),
               child: Expanded(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 40, top: 6),
+                  padding: const EdgeInsets.only(left: 40, top: 5),
                   child: Text(title!,
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
