@@ -68,7 +68,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
-      floatingActionButton: _buildCreateReportButton(),
+      floatingActionButton:
+          selectingReports == null ? _buildCreateReportButton() : null,
     );
   }
 
@@ -77,16 +78,16 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       title: 'list_report'.i18n(),
       actions: _buildActions(context),
       leading: selectingReports != null ? _buildBackButton() : null,
-      leadingWidth: 100,
+      leadingWidth: 140,
     );
   }
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.arrow_back),
+      icon: const Icon(Icons.cancel),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
+      label: Text('キャンセル'.i18n()),
       onPressed: () {
         setState(() {
           selectingReports = null;
@@ -108,13 +109,13 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
           selectingReports = List.filled(_reportStore.reports!.length, false);
         });
       },
-      icon: const Icon(Icons.check_circle_outline),
+      icon: const Icon(Icons.task_alt),
       color: Theme.of(context).primaryColor,
     );
   }
 
   Widget _buildDeleteButton() {
-    return IconButton(
+    return TextButton(
       onPressed: () async {
         if (selectingReports?.contains(true) == false) {
           await showDialog(
@@ -183,8 +184,12 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
           });
         }
       },
-      icon: const Icon(Icons.delete),
-      color: Theme.of(context).primaryColor,
+      child: Text(
+        '削除',
+        style: TextStyle(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
     );
   }
 
