@@ -141,11 +141,11 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 content: Text('選択したデータを削除します。よろしいですか？'),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context, "Cancel"),
+                    onPressed: () => Navigator.pop(context, false),
                     child: const Text('キャンセル'),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.pop(context, 'Delete'),
+                    onPressed: () => Navigator.pop(context, true),
                     child: Text(
                       'はい',
                       style: TextStyle(color: Theme.of(context).errorColor),
@@ -154,35 +154,28 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 ],
               );
             });
-        if (result == 'Cancel') {
+        if (result != true) {
           setState(() {
             selectingReports = null;
           });
           return;
         }
-        if (result == 'Delete') {
-          final reportIds = selectingReports!
-              .asMap()
-              .entries
-              .where((e) => e.value != null && e.value!)
-              .map((e) => _reportStore.reports![e.key].id!)
-              .toList();
-          if (reportIds.length == 0) {
-            setState(() {
-              selectingReports = null;
-            });
-          }
-          await _reportStore.deleteReports(reportIds);
-          await _reportStore.getReports();
-          if (!mounted) return;
-          FlushbarHelper.createInformation(
-            message: '削除処理を完了しました。',
-            duration: const Duration(seconds: 3),
-          ).show(context);
-          setState(() {
-            selectingReports = null;
-          });
-        }
+        final reportIds = selectingReports!
+            .asMap()
+            .entries
+            .where((e) => e.value != null && e.value!)
+            .map((e) => _reportStore.reports![e.key].id!)
+            .toList();
+        await _reportStore.deleteReports(reportIds);
+        await _reportStore.getReports();
+        if (!mounted) return;
+        FlushbarHelper.createInformation(
+          message: '削除処理を完了しました。',
+          duration: const Duration(seconds: 3),
+        ).show(context);
+        setState(() {
+          selectingReports = null;
+        });
       },
       child: Text(
         '削除',

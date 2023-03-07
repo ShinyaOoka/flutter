@@ -179,7 +179,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
             ],
             readOnly: widget.readOnly,
             counterText: 'L',

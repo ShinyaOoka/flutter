@@ -112,14 +112,29 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
             foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
           FocusScope.of(context).unfocus();
-          // Wait for focus to change otherwise text field with custom focus logic will not work
-          await Future.sync(() {});
+          final result = await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: Text("更新前確認"),
+                    content: Text("入力内容で更新しますか？"),
+                    actions: [
+                      TextButton(
+                        child: Text("はい"),
+                        onPressed: () => Navigator.pop(context, true),
+                      ),
+                      TextButton(
+                        child: Text("キャンセル"),
+                        onPressed: () => Navigator.pop(context, false),
+                      ),
+                    ],
+                  ));
+          if (result != true) return;
           await _reportStore.editReport(_reportStore.selectingReport!);
           if (!mounted) return;
           Navigator.of(context).pop(_reportStore.selectingReport);
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
             FlushbarHelper.createInformation(
-                    message: '編集処理を完了しました。',
+                    message: '更新処理を完了しました。',
                     duration: const Duration(seconds: 3))
                 .show(context);
           });
@@ -147,7 +162,24 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
-      onPressed: () {
+      onPressed: () async {
+        final result = await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text("未更新終了確認"),
+                  content: Text("入力内容を保存せずに戻ります。よろしいですか？"),
+                  actions: [
+                    TextButton(
+                      child: Text("はい"),
+                      onPressed: () => Navigator.pop(context, true),
+                    ),
+                    TextButton(
+                      child: Text("キャンセル"),
+                      onPressed: () => Navigator.pop(context, false),
+                    ),
+                  ],
+                ));
+        if (result != true) return;
         Navigator.of(context).pop(_originalReport);
       },
     );

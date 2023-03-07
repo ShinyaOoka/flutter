@@ -489,7 +489,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
             ],
             counterText: 'celsius'.i18n(),
             counterColor: Theme.of(context).primaryColor,
@@ -623,7 +623,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           controller: eachOxygenInhalationController,
           keyboardType: TextInputType.number,
           inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,3}(\.[0-9]?)?'))
+            FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
           ],
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
