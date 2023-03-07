@@ -129,14 +129,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonTel?.toString() ?? '');
     result = result.replaceAll(
         'MedicalTransportFacility_VALUE',
-        report.otherMedicalTransportFacility != null
+        report.otherMedicalTransportFacility != null &&
+                report.otherMedicalTransportFacility != ''
             ? report.otherMedicalTransportFacility!
-            : report.medicalTransportFacility ?? '');
+            : report.medicalTransportFacilityType?.name ?? '');
     result = result.replaceAll(
         'TransferringMedicalInstitution_VALUE',
-        report.otherTransferringMedicalInstitution != null
+        report.otherTransferringMedicalInstitution != null &&
+                report.otherTransferringMedicalInstitution != ''
             ? report.otherTransferringMedicalInstitution!
-            : report.transferringMedicalInstitution ?? '');
+            : report.transferringMedicalInstitutionType?.name ?? '');
     result = result.replaceAll(
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
