@@ -198,5 +198,6 @@
   "AnnotationEvt NIBP Reading Started": "NIBP:読取りを開始しました",
   "AnnotationEvt NIBP Reading": "NIBP:読取りしています",
   "SnapshotRpt": "処置のスナップショット",
-  "TreatmentSnapshotEvt": "C:"
+  "TreatmentSnapshotEvt": "C:",
+  "AlarmEvt": "アラーム"
 }

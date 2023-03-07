@@ -521,7 +521,15 @@ class _ListEventScreenState extends State<ListEventScreen>
     if (event.type.i18n().compareTo(event.type) == 0) {
       return '';
     }
-    return '／${event.type.i18n()}${event.type == "TreatmentSnapshotEvt" ? event.rawData["TreatmentLbl"] : ""}';
+    String eventExtra = "";
+    eventExtra = eventExtra += event.type == "TreatmentSnapshotEvt"
+        ? event.rawData["TreatmentLbl"]
+        : "";
+    eventExtra = eventExtra +=
+        event.type == "AlarmEvt" && event.rawData["Value"] == 1
+            ? ": VF/VT"
+            : "";
+    return '／${event.type.i18n()}$eventExtra';
   }
 
   _showErrorMessage(String message) {
