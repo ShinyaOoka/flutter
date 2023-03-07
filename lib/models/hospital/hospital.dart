@@ -26,5 +26,5 @@ abstract class _Hospital with Store {
   String? tel;
   @observable
   @JsonKey(name: 'EmergencyMedicineLevel')
-  String? emergencyMedicineLevel;
+  int? emergencyMedicineLevel;
 }

@@ -14,31 +14,23 @@ abstract class _HospitalStore with Store {
 
   final ErrorStore errorStore = ErrorStore();
 
-  static ObservableFuture<List<Hospital>?> emptyHospitalResponse =
-      ObservableFuture.value(null);
-
   @observable
-  ObservableFuture<List<Hospital>?> fetchHospitalsFuture =
-      ObservableFuture<List<Hospital>?>(emptyHospitalResponse);
-
-  @observable
-  ObservableList<Hospital>? hospitals;
+  ObservableMap<String, Hospital> hospitals = ObservableMap();
 
   @observable
   bool success = false;
 
-  @computed
-  bool get loading => fetchHospitalsFuture.status == FutureStatus.pending;
-
   @action
   Future getHospitals() async {
-    final future = _repository.getHospitals();
-    fetchHospitalsFuture = ObservableFuture(future);
-
-    future.then((hospitalList) {
-      hospitals = ObservableList.of(hospitalList);
-    }).catchError((error) {
-      errorStore.errorMessage = error.toString();
-    });
+    try {
+      final result = await _repository.getHospitals();
+      for (var element in result) {
+        hospitals[element.hospitalCd!] = element;
+      }
+      return result;
+    } catch (e) {
+      errorStore.errorMessage = e.toString();
+      rethrow;
+    }
   }
 }

@@ -11,7 +11,7 @@ Hospital _$HospitalFromJson(Map<String, dynamic> json) => Hospital()
   ..name = json['Name'] as String?
   ..address = json['Address'] as String?
   ..tel = json['TEL'] as String?
-  ..emergencyMedicineLevel = json['EmergencyMedicineLevel'] as String?;
+  ..emergencyMedicineLevel = json['EmergencyMedicineLevel'] as int?;
 
 Map<String, dynamic> _$HospitalToJson(Hospital instance) => <String, dynamic>{
       'HospitalCD': instance.hospitalCd,
@@ -93,13 +93,13 @@ mixin _$Hospital on _Hospital, Store {
       Atom(name: '_Hospital.emergencyMedicineLevel', context: context);
 
   @override
-  String? get emergencyMedicineLevel {
+  int? get emergencyMedicineLevel {
     _$emergencyMedicineLevelAtom.reportRead();
     return super.emergencyMedicineLevel;
   }
 
   @override
-  set emergencyMedicineLevel(String? value) {
+  set emergencyMedicineLevel(int? value) {
     _$emergencyMedicineLevelAtom
         .reportWrite(value, super.emergencyMedicineLevel, () {
       super.emergencyMedicineLevel = value;

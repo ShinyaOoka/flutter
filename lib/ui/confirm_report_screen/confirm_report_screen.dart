@@ -66,14 +66,12 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     _teamStore.getTeams();
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
+    _hospitalStore.getHospitals();
 
     _reportStore.selectingReport?.teamStore = _teamStore;
     _reportStore.selectingReport?.fireStationStore = _fireStationStore;
     _reportStore.selectingReport?.classificationStore = _classificationStore;
-
-    if (!_hospitalStore.loading) {
-      _hospitalStore.getHospitals();
-    }
+    _reportStore.selectingReport?.hospitalStore = _hospitalStore;
   }
 
   @override

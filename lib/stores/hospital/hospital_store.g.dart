@@ -9,41 +9,17 @@ part of 'hospital_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HospitalStore on _HospitalStore, Store {
-  Computed<bool>? _$loadingComputed;
-
-  @override
-  bool get loading => (_$loadingComputed ??=
-          Computed<bool>(() => super.loading, name: '_HospitalStore.loading'))
-      .value;
-
-  late final _$fetchHospitalsFutureAtom =
-      Atom(name: '_HospitalStore.fetchHospitalsFuture', context: context);
-
-  @override
-  ObservableFuture<List<Hospital>?> get fetchHospitalsFuture {
-    _$fetchHospitalsFutureAtom.reportRead();
-    return super.fetchHospitalsFuture;
-  }
-
-  @override
-  set fetchHospitalsFuture(ObservableFuture<List<Hospital>?> value) {
-    _$fetchHospitalsFutureAtom.reportWrite(value, super.fetchHospitalsFuture,
-        () {
-      super.fetchHospitalsFuture = value;
-    });
-  }
-
   late final _$hospitalsAtom =
       Atom(name: '_HospitalStore.hospitals', context: context);
 
   @override
-  ObservableList<Hospital>? get hospitals {
+  ObservableMap<String, Hospital> get hospitals {
     _$hospitalsAtom.reportRead();
     return super.hospitals;
   }
 
   @override
-  set hospitals(ObservableList<Hospital>? value) {
+  set hospitals(ObservableMap<String, Hospital> value) {
     _$hospitalsAtom.reportWrite(value, super.hospitals, () {
       super.hospitals = value;
     });
@@ -76,10 +52,8 @@ mixin _$HospitalStore on _HospitalStore, Store {
   @override
   String toString() {
     return '''
-fetchHospitalsFuture: ${fetchHospitalsFuture},
 hospitals: ${hospitals},
-success: ${success},
-loading: ${loading}
+success: ${success}
     ''';
   }
 }

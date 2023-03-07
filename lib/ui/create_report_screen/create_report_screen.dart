@@ -66,18 +66,16 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     _teamStore.getTeams();
     _fireStationStore.getAllFireStations();
     _classificationStore.getAllClassifications();
+    _hospitalStore.getHospitals();
 
     final report = Report();
 
     report.teamStore = _teamStore;
     report.fireStationStore = _fireStationStore;
     report.classificationStore = _classificationStore;
+    report.hospitalStore = _hospitalStore;
 
     _reportStore.setSelectingReport(report);
-
-    if (!_hospitalStore.loading) {
-      _hospitalStore.getHospitals();
-    }
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/models/hospital/hospital.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
@@ -11,6 +12,7 @@ import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/fire_station/fire_station.dart';
 import 'package:ak_azm_flutter/models/team/team.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
+import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:tuple/tuple.dart';
@@ -477,6 +479,9 @@ abstract class _Report with Store {
   @observable
   @JsonKey(includeFromJson: false, includeToJson: false)
   ClassificationStore? classificationStore;
+  @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  HospitalStore? hospitalStore;
 
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -592,6 +597,38 @@ abstract class _Report with Store {
 
   set accidentType(Classification? value) {
     setAccidentType(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Hospital? get medicalTransportFacilityType {
+    assert(hospitalStore != null);
+    return hospitalStore!.hospitals[medicalTransportFacility];
+  }
+
+  @action
+  setMedicalTransportFacilityType(Hospital? hospital) {
+    medicalTransportFacility = hospital?.hospitalCd;
+  }
+
+  set medicalTransportFacilityType(Hospital? value) {
+    setMedicalTransportFacilityType(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Hospital? get transferringMedicalInstitutionType {
+    assert(hospitalStore != null);
+    return hospitalStore!.hospitals[transferringMedicalInstitution];
+  }
+
+  @action
+  setTransferringMedicalInstitutionType(Hospital? hospital) {
+    transferringMedicalInstitution = hospital?.hospitalCd;
+  }
+
+  set transferringMedicalInstitutionType(Hospital? value) {
+    setTransferringMedicalInstitutionType(value);
   }
 
   @computed

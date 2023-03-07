@@ -74,22 +74,16 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine1(Report report) {
     return Observer(builder: (context) {
-      final hospitalStore = Provider.of<HospitalStore>(context);
-      final selectedMedicalTransportFacility =
-          hospitalStore.hospitals?.toList().firstWhereOrNull(
-                (element) =>
-                    element.hospitalCd == report.medicalTransportFacility,
-              );
       return lineLayout(children: [
         AppDropdown<Hospital>(
           showSearchBox: true,
-          items: hospitalStore.hospitals?.toList(),
+          items: report.hospitalStore?.hospitals.values.toList(),
           label: 'medical_transport_facility'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) {
             report.medicalTransportFacility = value?.hospitalCd;
           },
-          selectedItem: selectedMedicalTransportFacility,
+          selectedItem: report.medicalTransportFacilityType,
           filterFn: (hospital, filter) =>
               (hospital.name != null && hospital.name!.contains(filter)) ||
               (hospital.hospitalCd != null &&
@@ -110,22 +104,16 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine2(Report report) {
     return Observer(builder: (context) {
-      final hospitalStore = Provider.of<HospitalStore>(context);
-      final selectedTransferringMedicalInstitution =
-          hospitalStore.hospitals?.toList().firstWhereOrNull(
-                (element) =>
-                    element.hospitalCd == report.transferringMedicalInstitution,
-              );
       return lineLayout(children: [
         AppDropdown<Hospital>(
           showSearchBox: true,
-          items: hospitalStore.hospitals?.toList(),
+          items: report.hospitalStore?.hospitals.values.toList(),
           label: 'transferring_medical_institution'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) {
             report.transferringMedicalInstitution = value?.hospitalCd;
           },
-          selectedItem: selectedTransferringMedicalInstitution,
+          selectedItem: report.transferringMedicalInstitutionType,
           filterFn: (hospital, filter) =>
               (hospital.name != null && hospital.name!.contains(filter)) ||
               (hospital.hospitalCd != null &&

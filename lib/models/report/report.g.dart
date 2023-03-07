@@ -487,6 +487,22 @@ mixin _$Report on _Report, Store {
           Computed<Classification?>(() => super.accidentType,
               name: '_Report.accidentType'))
       .value;
+  Computed<Hospital?>? _$medicalTransportFacilityTypeComputed;
+
+  @override
+  Hospital? get medicalTransportFacilityType =>
+      (_$medicalTransportFacilityTypeComputed ??= Computed<Hospital?>(
+              () => super.medicalTransportFacilityType,
+              name: '_Report.medicalTransportFacilityType'))
+          .value;
+  Computed<Hospital?>? _$transferringMedicalInstitutionTypeComputed;
+
+  @override
+  Hospital? get transferringMedicalInstitutionType =>
+      (_$transferringMedicalInstitutionTypeComputed ??= Computed<Hospital?>(
+              () => super.transferringMedicalInstitutionType,
+              name: '_Report.transferringMedicalInstitutionType'))
+          .value;
   Computed<Classification?>? _$trafficAccidentTypeComputed;
 
   @override
@@ -2623,6 +2639,22 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$hospitalStoreAtom =
+      Atom(name: '_Report.hospitalStore', context: context);
+
+  @override
+  HospitalStore? get hospitalStore {
+    _$hospitalStoreAtom.reportRead();
+    return super.hospitalStore;
+  }
+
+  @override
+  set hospitalStore(HospitalStore? value) {
+    _$hospitalStoreAtom.reportWrite(value, super.hospitalStore, () {
+      super.hospitalStore = value;
+    });
+  }
+
   late final _$_ReportActionController =
       ActionController(name: '_Report', context: context);
 
@@ -2687,6 +2719,28 @@ mixin _$Report on _Report, Store {
         _$_ReportActionController.startAction(name: '_Report.setAccidentType');
     try {
       return super.setAccidentType(value);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setMedicalTransportFacilityType(Hospital? hospital) {
+    final _$actionInfo = _$_ReportActionController.startAction(
+        name: '_Report.setMedicalTransportFacilityType');
+    try {
+      return super.setMedicalTransportFacilityType(hospital);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setTransferringMedicalInstitutionType(Hospital? hospital) {
+    final _$actionInfo = _$_ReportActionController.startAction(
+        name: '_Report.setTransferringMedicalInstitutionType');
+    try {
+      return super.setTransferringMedicalInstitutionType(hospital);
     } finally {
       _$_ReportActionController.endAction(_$actionInfo);
     }
@@ -2943,6 +2997,7 @@ updateDate: ${updateDate},
 teamStore: ${teamStore},
 fireStationStore: ${fireStationStore},
 classificationStore: ${classificationStore},
+hospitalStore: ${hospitalStore},
 sickInjuredPersonAge: ${sickInjuredPersonAge},
 team: ${team},
 gender: ${gender},
@@ -2950,6 +3005,8 @@ medication: ${medication},
 degree: ${degree},
 detectionType: ${detectionType},
 accidentType: ${accidentType},
+medicalTransportFacilityType: ${medicalTransportFacilityType},
+transferringMedicalInstitutionType: ${transferringMedicalInstitutionType},
 trafficAccidentType: ${trafficAccidentType},
 adlType: ${adlType},
 securingAirwayType: ${securingAirwayType},
