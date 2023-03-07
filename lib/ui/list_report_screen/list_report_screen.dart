@@ -116,15 +116,31 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   Widget _buildDeleteButton() {
     return IconButton(
       onPressed: () async {
+        if (selectingReports?.contains(true) == false) {
+          await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('削除対象無エラー'),
+              content: Text('削除対象が選択されていません。'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
         final result = await showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
                 title: Text('選択削除確認'),
                 content: Text('選択したデータを削除します。よろしいですか？'),
-                actions: <Widget>[
+                actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context, "Cancel"),
                     child: const Text('キャンセル'),
                   ),
                   TextButton(
@@ -137,6 +153,12 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                 ],
               );
             });
+        if (result == 'Cancel') {
+          setState(() {
+            selectingReports = null;
+          });
+          return;
+        }
         if (result == 'Delete') {
           final reportIds = selectingReports!
               .asMap()
@@ -144,6 +166,11 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               .where((e) => e.value != null && e.value!)
               .map((e) => _reportStore.reports![e.key].id!)
               .toList();
+          if (reportIds.length == 0) {
+            setState(() {
+              selectingReports = null;
+            });
+          }
           await _reportStore.deleteReports(reportIds);
           await _reportStore.getReports();
           if (!mounted) return;
@@ -292,6 +319,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               });
             },
             dense: true,
+            controlAffinity: ListTileControlAffinity.leading,
             tileColor: Color(0xFFF5F5F5),
             title: _buildListTileTitle(position),
             subtitle: _buildListTileSubtitle(position),
