@@ -84,6 +84,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillAmbulanceData(String template) {
     String result = template;
     Report report = _reportStore.selectingReport!;
+    String extraCss =
+        '.text-circle {border-radius: 100%;padding: 2px;border: 1px solid #000;text-align: center}';
+    result = result.replaceAll('</style>', '$extraCss</style>');
+
     result = result.replaceAll('height:30.0pt', 'height:26pt');
     result = result.replaceAll('.5pt', '0.5pt');
     result = result.replaceAll('padding:0px;', 'padding:0 3pt;');
@@ -223,7 +227,25 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     result = result.replaceAll('Remark',
         '<div style="white-space: pre-wrap;">${report.remarks ?? ''}</div>');
+    result = fillBoolCircle(
+        result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     return result;
+  }
+
+  String fillBoolCircle(String template, String key, bool? value) {
+    if (value == true) {
+      template = template.replaceAll(
+          '${key}_CIRCLE_TRUE', '<span class="text-circle">有</span>');
+      template = template.replaceAll('${key}_CIRCLE_FALSE', '無');
+    } else if (value == false) {
+      template = template.replaceAll('${key}_CIRCLE_TRUE', '有');
+      template = template.replaceAll(
+          '${key}_CIRCLE_FALSE', '<span class="text-circle">無</span>');
+    } else {
+      template = template.replaceAll('${key}_CIRCLE_TRUE', '有');
+      template = template.replaceAll('${key}_CIRCLE_FALSE', '無');
+    }
+    return template;
   }
 
   String fillTime(String template, String key, TimeOfDay? time) {
