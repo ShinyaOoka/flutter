@@ -1066,8 +1066,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title:
-          Text(reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書'),
+      title: Text(reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書',
+          style: TextStyle(color: Theme.of(context).primaryColor)),
       actions: _buildActions(),
       centerTitle: true,
       leading: _buildBackButton(),
@@ -1078,6 +1078,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   List<Widget> _buildActions() {
     return [
       PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).primaryColor,
+        ),
         itemBuilder: (context) {
           return [
             PopupMenuItem(
@@ -1107,8 +1111,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const Icon(Icons.chevron_left),
-      style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
         Navigator.of(context).pop();

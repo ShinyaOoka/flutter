@@ -186,27 +186,32 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   Widget _buildConfirmButton() {
-    return TextButton(
-      onPressed: () {
-        _report.pulse = ObservableList.of(trendData.map((e) => e.hr));
-        _report.bloodPressureLow =
-            ObservableList.of(trendData.map((e) => e.nibpDia));
-        _report.bloodPressureHigh =
-            ObservableList.of(trendData.map((e) => e.nibpSys));
-        _report.respiration = ObservableList.of(trendData.map((e) => e.resp));
-        _report.spO2Percent = ObservableList.of(trendData.map((e) => e.spo2));
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+          onPressed: () {
+            _report.pulse = ObservableList.of(trendData.map((e) => e.hr));
+            _report.bloodPressureLow =
+                ObservableList.of(trendData.map((e) => e.nibpDia));
+            _report.bloodPressureHigh =
+                ObservableList.of(trendData.map((e) => e.nibpSys));
+            _report.respiration =
+                ObservableList.of(trendData.map((e) => e.resp));
+            _report.spO2Percent =
+                ObservableList.of(trendData.map((e) => e.spo2));
 
-        _report.observationTime = ObservableList.of(trendData.map(
-            (e) => e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
-        Navigator.of(context).popUntil(
-          (route) =>
-              ModalRoute.withName(Routes.createReport)(route) ||
-              ModalRoute.withName(Routes.editReport)(route),
-        );
-      },
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      child: const Text('取得'),
+            _report.observationTime = ObservableList.of(trendData.map((e) =>
+                e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
+            Navigator.of(context).popUntil(
+              (route) =>
+                  ModalRoute.withName(Routes.createReport)(route) ||
+                  ModalRoute.withName(Routes.editReport)(route),
+            );
+          },
+          style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).primaryColor),
+          label: const Text('取得'),
+          icon: Icon(Icons.post_add)),
     );
   }
 
@@ -254,7 +259,7 @@ class _ListEventScreenState extends State<ListEventScreen>
           ),
           Container(
             padding: EdgeInsets.all(isMobile ? 8 : 16),
-            child: Text('X SERIES イベント一覧',
+            child: Text('X Series イベント一覧',
                 style: Theme.of(context).textTheme.titleLarge),
           ),
           Expanded(
