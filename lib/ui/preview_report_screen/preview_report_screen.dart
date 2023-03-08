@@ -101,7 +101,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
-        '<div style="white-space: pre-wrap;">${report.placeOfIncident ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 4, 28) ?? ''}</div>');
     result = result.replaceAll('TeamCaptainName_VALUE',
         report.teamCaptainName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('TeamMemberName_VALUE',
@@ -116,16 +116,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.callerName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
-        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 4, 23) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
     result = result.replaceAll(
         'SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        report.sickInjuredPersonNameOfInjuryOrSickness?.characters
-                .take(38)
-                .toString() ??
+        limitNumberOfChars(
+                report.sickInjuredPersonNameOfInjuryOrSickness, 2, 20) ??
             '');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
@@ -146,7 +145,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
-        '<div style="white-space: pre-wrap;">${report.reasonForNotTransferring ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferring, 6, 24) ?? ''}</div>');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
         report.affiliationOfReporter?.characters.take(12).toString() ?? '');
     result = result.replaceAll('PositionOfReporter_VALUE',
@@ -154,7 +153,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
-        '<div style="white-space: pre-wrap;">${report.summaryOfOccurrence ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 49) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -226,7 +225,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark',
-        '<div style="white-space: pre-wrap;">${report.remarks ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.remarks, 3, 47) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     return result;
@@ -266,6 +265,36 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     template =
         template.replaceAll('${key}_DW', weekdayToJapanese(date?.weekday));
     return template;
+  }
+
+  String? limitNumberOfChars(String? input, int row, int col) {
+    if (input == null) return null;
+    int currentRow = 1;
+    int currentCol = 1;
+    List<String> chars = [];
+    for (final x in input.split('')) {
+      if (currentRow > row) {
+        break;
+      } else if (x == '\n') {
+        currentCol = 1;
+        currentRow += 1;
+        chars.add(x);
+        if (currentRow > row) {
+          break;
+        }
+        continue;
+      } else if (currentCol > col) {
+        currentCol = 1;
+        currentRow += 1;
+        chars.add('\n');
+        if (currentRow > row) {
+          break;
+        }
+      }
+      chars.add(x);
+      currentCol += 1;
+    }
+    return chars.join('');
   }
 
   String weekdayToJapanese(int? weekday) {
@@ -436,7 +465,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //7
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
-        '<div style="white-space: pre-wrap;">${report.sickInjuredPersonAddress ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 28) ?? ''}</div>');
     //8
     if (report.sickInjuredPersonGender == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon　男', '$checkIcon　男');
@@ -622,7 +651,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //27
     htmlInput = htmlInput.replaceFirst('AccidentSummary',
-        '<div style="white-space: pre-wrap;">${report.accidentSummary ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 26) ?? ''}</div>');
 
     //28
     if (report.adl == '000') {
