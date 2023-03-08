@@ -78,7 +78,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       title: 'list_report'.i18n(),
       actions: _buildActions(context),
       leading: selectingReports != null ? _buildBackButton() : null,
-      leadingWidth: 140,
+      leadingWidth: 90,
     );
   }
 
@@ -87,7 +87,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       icon: const Icon(Icons.cancel),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('キャンセル'.i18n()),
+      label: Text('ｷｬﾝｾﾙ'.i18n()),
       onPressed: () {
         setState(() {
           selectingReports = null;
@@ -115,72 +115,73 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   }
 
   Widget _buildDeleteButton() {
-    return TextButton(
-      onPressed: () async {
-        if (selectingReports?.contains(true) == false) {
-          await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('削除対象無エラー'),
-              content: Text('削除対象が選択されていません。'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
-          return;
-        }
-        final result = await showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('選択削除確認'),
-                content: Text('選択したデータを削除します。よろしいですか？'),
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        onPressed: () async {
+          if (selectingReports?.contains(true) == false) {
+            await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text('削除対象無エラー'),
+                content: Text('削除対象が選択されていません。'),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context, false),
-                    child: const Text('キャンセル'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    child: Text(
-                      'はい',
-                      style: TextStyle(color: Theme.of(context).errorColor),
-                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('OK'),
                   ),
                 ],
-              );
-            });
-        if (result != true) {
+              ),
+            );
+            return;
+          }
+          final result = await showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('選択削除確認'),
+                  content: Text('選択したデータを削除します。よろしいですか？'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('キャンセル'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text(
+                        'はい',
+                        style: TextStyle(color: Theme.of(context).errorColor),
+                      ),
+                    ),
+                  ],
+                );
+              });
+          if (result != true) {
+            return;
+          }
+          final reportIds = selectingReports!
+              .asMap()
+              .entries
+              .where((e) => e.value != null && e.value!)
+              .map((e) => _reportStore.reports![e.key].id!)
+              .toList();
+          await _reportStore.deleteReports(reportIds);
+          await _reportStore.getReports();
+          if (!mounted) return;
+          FlushbarHelper.createInformation(
+            message: '削除処理を完了しました。',
+            duration: const Duration(seconds: 3),
+          ).show(context);
           setState(() {
             selectingReports = null;
           });
-          return;
-        }
-        final reportIds = selectingReports!
-            .asMap()
-            .entries
-            .where((e) => e.value != null && e.value!)
-            .map((e) => _reportStore.reports![e.key].id!)
-            .toList();
-        await _reportStore.deleteReports(reportIds);
-        await _reportStore.getReports();
-        if (!mounted) return;
-        FlushbarHelper.createInformation(
-          message: '削除処理を完了しました。',
-          duration: const Duration(seconds: 3),
-        ).show(context);
-        setState(() {
-          selectingReports = null;
-        });
-      },
-      child: Text(
-        '削除',
-        style: TextStyle(
-          color: Theme.of(context).primaryColor,
+        },
+        icon: Icon(Icons.delete),
+        label: Text(
+          '削除',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
@@ -217,7 +218,6 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   Widget _buildListView() {
     return Observer(builder: (context) {
-      print(_reportStore.reports?.length);
       return _reportStore.reports != null
           ? Scrollbar(
               controller: scrollController,
