@@ -176,7 +176,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           child: AppTextField(
             label: 'o2_administration'.i18n(),
             controller: o2AdministrationController,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(
                   RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
