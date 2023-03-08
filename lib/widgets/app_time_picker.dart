@@ -9,6 +9,7 @@ class AppTimePicker extends StatelessWidget {
   final TimeOfDay? selectedTime;
   final bool readOnly;
   final Color? fillColor;
+  final TimeOfDay? defaultTime;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class AppTimePicker extends StatelessWidget {
               currentTime: selectedTime != null
                   ? DateTime(now.year, now.month, now.day, selectedTime!.hour,
                       selectedTime!.minute)
-                  : DateTime.now(),
+                  : defaultTime != null
+                      ? DateTime(now.year, now.month, now.day,
+                          defaultTime!.hour, defaultTime!.minute)
+                      : DateTime.now(),
               showSecondsColumn: false,
             );
           },
@@ -62,5 +66,6 @@ class AppTimePicker extends StatelessWidget {
     this.selectedTime,
     this.readOnly = false,
     this.fillColor,
+    this.defaultTime,
   });
 }

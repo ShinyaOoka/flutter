@@ -599,8 +599,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '<div style="white-space: pre-wrap;">${report.placeOfIncident?.characters.take(35).toString() ?? ''}</div>');
 
     //27
-    htmlInput =
-        htmlInput.replaceFirst('AccidentSummary', report.accidentSummary ?? '');
+    htmlInput = htmlInput.replaceFirst('AccidentSummary',
+        '<div style="white-space: pre-wrap;">${report.accidentSummary ?? ''}</div>');
 
     //28
     if (report.adl == '000') {

@@ -196,6 +196,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
           onChanged: (value) => report.o2AdministrationTime = value,
           selectedTime: report.o2AdministrationTime,
           readOnly: widget.readOnly,
+          defaultTime: report.contactTime,
         ),
       ]);
     });
@@ -294,6 +295,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 onChanged: (value) => report.bsMeasurementTime1 = value,
                 selectedTime: report.bsMeasurementTime1,
                 readOnly: widget.readOnly,
+                defaultTime: report.contactTime,
               ),
             ),
           ],
@@ -334,6 +336,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 onChanged: (value) => report.bsMeasurementTime2 = value,
                 selectedTime: report.bsMeasurementTime2,
                 readOnly: widget.readOnly,
+                defaultTime: report.contactTime,
               ),
             ),
           ],
