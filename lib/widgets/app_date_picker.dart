@@ -10,6 +10,7 @@ class AppDatePicker extends StatelessWidget {
   final DateTime? selectedDate;
   final DateTime? maxTime;
   final bool readOnly;
+  final DateTime? defaultDate;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AppDatePicker extends StatelessWidget {
               showTitleActions: true,
               locale: LocaleType.jp,
               onConfirm: (date) => onChanged?.call(date),
-              currentTime: selectedDate ?? DateTime.now(),
+              currentTime: selectedDate ?? defaultDate ?? DateTime.now(),
               minTime: DateTime(1900, 1, 1),
               maxTime: maxTime,
             );
@@ -57,5 +58,6 @@ class AppDatePicker extends StatelessWidget {
     this.selectedDate,
     this.maxTime,
     this.readOnly = false,
+    this.defaultDate,
   });
 }

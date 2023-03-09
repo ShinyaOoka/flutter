@@ -100,6 +100,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
                 selectedDate: report.dateOfOccurrence,
                 onChanged: (date) => report.dateOfOccurrence = date,
                 readOnly: widget.readOnly,
+                maxTime: DateTime.now(),
               ),
             ),
             const SizedBox(width: 16),

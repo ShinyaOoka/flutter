@@ -193,6 +193,7 @@ class _SickInjuredPersonInfoSectionState
                 },
                 maxTime: DateTime.now(),
                 readOnly: widget.readOnly,
+                defaultDate: DateTime(1970, 1, 1),
               ),
             ),
           ],
