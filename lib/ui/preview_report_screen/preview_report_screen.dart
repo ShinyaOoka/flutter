@@ -437,27 +437,53 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //4
     if (report.lifesaverQualification != null) {
       if (report.lifesaverQualification!) {
-        htmlInput =
-            customReplace(htmlInput, uncheckYes, 1 - totalYesPos, checkedYes);
+        htmlInput = customReplace(
+            htmlInput, uncheckYes, 1 - totalYesPos, '$checkIcon 有');
+        htmlInput = customReplace(
+            htmlInput, uncheckNo, 1 - totalNoPos, '$uncheckIcon 無');
         totalYesPos += 1;
+        totalNoPos += 1;
       } else {
+        htmlInput = customReplace(
+            htmlInput, uncheckYes, 1 - totalYesPos, '$uncheckIcon 有');
         htmlInput =
-            customReplace(htmlInput, uncheckNo, 1 - totalNoPos, checkedNo);
+            customReplace(htmlInput, uncheckNo, 1 - totalNoPos, '$checkIcon 無');
+        totalYesPos += 1;
         totalNoPos += 1;
       }
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 1 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 1 - totalNoPos, '$uncheckIcon 無');
+      totalYesPos += 1;
+      totalNoPos += 1;
     }
 
     //5
     if (withLifesaver != null) {
       if (!withLifesaver) {
+        htmlInput = customReplace(
+            htmlInput, uncheckYes, 2 - totalYesPos, '$uncheckIcon 有');
         htmlInput =
-            customReplace(htmlInput, uncheckNo, 2 - totalNoPos, checkedNo);
+            customReplace(htmlInput, uncheckNo, 2 - totalNoPos, '$checkIcon 無');
         totalNoPos += 1;
-      } else {
-        htmlInput =
-            customReplace(htmlInput, uncheckYes, 2 - totalYesPos, checkedYes);
         totalYesPos += 1;
+      } else {
+        htmlInput = customReplace(
+            htmlInput, uncheckYes, 2 - totalYesPos, '$checkIcon 有');
+        htmlInput = customReplace(
+            htmlInput, uncheckNo, 2 - totalNoPos, '$uncheckIcon 無');
+        totalYesPos += 1;
+        totalNoPos += 1;
       }
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 2 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 2 - totalNoPos, '$uncheckIcon 無');
+      totalYesPos += 1;
+      totalNoPos += 1;
     }
 
     //6
@@ -529,12 +555,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //15
     if (report.sickInjuredPersonMedicalHistory == null) {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 3 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 3 - totalNoPos, checkedNo);
+          customReplace(htmlInput, uncheckNo, 3 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
+      totalYesPos += 1;
     } else {
       htmlInput =
-          customReplace(htmlInput, uncheckYes, 3 - totalYesPos, checkedYes);
+          customReplace(htmlInput, uncheckYes, 3 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 3 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
       totalYesPos += 1;
     }
 
@@ -548,12 +580,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //18
     if (report.sickInjuredPersonKakaritsuke == null) {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 4 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 4 - totalNoPos, checkedNo);
+          customReplace(htmlInput, uncheckNo, 4 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
+      totalYesPos += 1;
     } else {
       htmlInput =
-          customReplace(htmlInput, uncheckYes, 4 - totalYesPos, checkedYes);
+          customReplace(htmlInput, uncheckYes, 4 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 4 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
       totalYesPos += 1;
     }
 
@@ -564,16 +602,29 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             '');
 
     //20
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon手帳', '$uncheckIcon 手帳');
     if (report.sickInjuredPersonMedication == '000') {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 5 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, checkedNo);
+          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
+      totalYesPos += 1;
     } else if (report.sickInjuredPersonMedication == '001') {
       htmlInput =
-          customReplace(htmlInput, uncheckYes, 5 - totalYesPos, checkedYes);
+          customReplace(htmlInput, uncheckYes, 5 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
       totalYesPos += 1;
     } else if (report.sickInjuredPersonMedication == '002') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon手帳', '$checkIcon手帳');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 手帳', '$checkIcon 手帳');
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 5 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
     }
 
     //21
@@ -586,12 +637,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //22
     if (report.sickInjuredPersonAllergy == null) {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 6 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 6 - totalNoPos, checkedNo);
+          customReplace(htmlInput, uncheckNo, 6 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
+      totalYesPos += 1;
     } else {
       htmlInput =
-          customReplace(htmlInput, uncheckYes, 6 - totalYesPos, checkedYes);
+          customReplace(htmlInput, uncheckYes, 6 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 6 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
       totalYesPos += 1;
     }
 
@@ -600,22 +657,31 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
     //24
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon急病', '$uncheckIcon 急病');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon交通', '$uncheckIcon 交通');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon一般', '$uncheckIcon 一般');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon労災', '$uncheckIcon 労災');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon自損', '$uncheckIcon 自損');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon運動', '$uncheckIcon 運動');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon転院', '$uncheckIcon 転院');
+    htmlInput = htmlInput.replaceFirst('$uncheckIconその他', '$uncheckIcon その他');
+
     if (report.typeOfAccident == '000') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon急病', '$checkIcon急病');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 急病', '$checkIcon 急病');
     } else if (report.typeOfAccident == '001') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon交通', '$checkIcon交通');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 交通', '$checkIcon 交通');
     } else if (report.typeOfAccident == '002') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon一般', '$checkIcon一般');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 一般', '$checkIcon 一般');
     } else if (report.typeOfAccident == '003') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon労災', '$checkIcon労災');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 労災', '$checkIcon 労災');
     } else if (report.typeOfAccident == '004') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon自損', '$checkIcon自損');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 自損', '$checkIcon 自損');
     } else if (report.typeOfAccident == '005') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon運動', '$checkIcon運動');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 運動', '$checkIcon 運動');
     } else if (report.typeOfAccident == '006') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon転院', '$checkIcon転院');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 転院', '$checkIcon 転院');
     } else if (report.typeOfAccident == '007') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIconその他', '$checkIconその他');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon その他', '$checkIcon その他');
     }
 
     //25
@@ -654,6 +720,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 26) ?? ''}</div>');
 
     //28
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon自立', '$uncheckIcon自立');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon全介助', '$uncheckIcon全介助');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon部分介助', '$uncheckIcon部分介助');
     if (report.adl == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon自立', '$checkIcon自立');
     } else if (report.adl == '001') {
@@ -694,29 +763,47 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //39
+    htmlInput =
+        htmlInput.replaceFirst('$uncheckIconシートベルト', '$uncheckIcon シートベルト');
+    htmlInput =
+        htmlInput.replaceFirst('$uncheckIconエアバック', '$uncheckIcon エアバック');
+    htmlInput =
+        htmlInput.replaceFirst('$uncheckIconチャイルドシート', '$uncheckIcon チャイルドシート');
+    htmlInput = htmlInput.replaceFirst('$uncheckIcon不明', '$uncheckIcon 不明');
+    htmlInput =
+        htmlInput.replaceFirst('$uncheckIconヘルメット', '$uncheckIcon ヘルメット');
+
     if (report.trafficAccidentClassification == '000') {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIconシートベルト', '$checkIconシートベルト');
+          htmlInput.replaceFirst('$uncheckIcon シートベルト', '$checkIconシートベルト');
     } else if (report.trafficAccidentClassification == '001') {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIconエアバック', '$checkIconエアバック');
+          htmlInput.replaceFirst('$uncheckIcon エアバック', '$checkIconエアバック');
     } else if (report.trafficAccidentClassification == '002') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon不明', '$checkIcon不明');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 不明', '$checkIcon不明');
     } else if (report.trafficAccidentClassification == '003') {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIconチャイルドシート', '$checkIconチャイルドシート');
+          htmlInput.replaceFirst('$uncheckIcon チャイルドシート', '$checkIconチャイルドシート');
     } else if (report.trafficAccidentClassification == '004') {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIconヘルメット', '$checkIconヘルメット');
+          htmlInput.replaceFirst('$uncheckIcon ヘルメット', '$checkIconヘルメット');
     }
 
     //40
     if (report.witnesses != null && !report.witnesses!) {
       htmlInput = customReplace(
-          htmlInput, '$uncheckIcon無', 7 - totalNoPos, '$checkIcon無');
+          htmlInput, uncheckYes, 7 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
     } else if (report.witnesses != null && report.witnesses!) {
-      htmlInput = customReplace(
-          htmlInput, '$uncheckIcon有', 7 - totalYesPos, '$checkIcon有');
+      htmlInput =
+          customReplace(htmlInput, uncheckYes, 7 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
     }
 
     //41
