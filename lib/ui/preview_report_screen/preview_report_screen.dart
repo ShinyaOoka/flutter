@@ -776,6 +776,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '');
     }
     //38
     if (report.policeContactTime != null) {
@@ -794,6 +795,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '');
     }
 
     //39
@@ -860,7 +862,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //42
-    if (report.verbalGuidance != null) {
+    if (report.verbalGuidance != null && report.verbalGuidance != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 11 - totalYesPos, '$checkIcon 有');
       htmlInput = customReplace(
@@ -876,6 +878,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 11 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('VerbalGuidance', '');
     }
 
     //42
@@ -1052,6 +1055,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
       htmlInput = htmlInput.replaceFirst(
           'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
+      final e = int.parse(report.gcsETypes[i]?.value ?? '0');
+      final v = int.parse(report.gcsVTypes[i]?.value ?? '0');
+      final m = int.parse(report.gcsMTypes[i]?.value ?? '0');
+      final sum = e + v + m;
+      htmlInput = htmlInput.replaceFirst(
+          'SumEVM${i + 1}', sum != 0 ? sum.toString() : '');
       //46
       htmlInput = htmlInput.replaceFirst(
           'Respiration${i + 1}',
