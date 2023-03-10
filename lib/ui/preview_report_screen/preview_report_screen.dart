@@ -1179,12 +1179,21 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             htmlInput, '苦悶', i + 1, '<span class="text-circle">苦悶</span>');
       }
       //58
+      final hemorrhage = report.hemorrhage
+          ?.firstWhereIndexedOrNull((index, element) => index == i)
+          ?.toString();
+      final hasHemorrhage = hemorrhage != null && hemorrhage != '';
+      if (hasHemorrhage) {
+        htmlInput =
+            htmlInput.replaceFirst('有(', '<span class="text-circle">有</span>(');
+        htmlInput = htmlInput.replaceFirst(')　無', ') 無');
+      } else {
+        htmlInput = htmlInput.replaceFirst('有(', '有 (');
+        htmlInput = htmlInput.replaceFirst(
+            ')　無', ') <span class="text-circle">無</span>');
+      }
       htmlInput = htmlInput.replaceFirst(
-          'Hemorrhage${i + 1}',
-          report.hemorrhage
-                  ?.firstWhereIndexedOrNull((index, element) => index == i)
-                  ?.toString() ??
-              '');
+          'Hemorrhage${i + 1}', hasHemorrhage ? hemorrhage : '');
       //59
       // int index001 = report.incontinence?.indexOf("001") ?? -1;
       // int index002 = report.incontinence?.indexOf("002") ?? -1;
