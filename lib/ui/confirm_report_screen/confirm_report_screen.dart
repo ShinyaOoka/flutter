@@ -87,7 +87,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
       title: 'confirm_report'.i18n(),
       actions: _buildActions(),
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 88,
     );
   }
 
@@ -150,7 +150,10 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),

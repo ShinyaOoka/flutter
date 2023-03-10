@@ -101,7 +101,10 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),

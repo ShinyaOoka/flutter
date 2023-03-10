@@ -174,7 +174,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 88,
       actions: _buildActions(),
     );
   }
@@ -211,13 +211,19 @@ class _ListEventScreenState extends State<ListEventScreen>
           style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).primaryColor),
           label: const Text('取得'),
-          icon: Icon(Icons.post_add)),
+          icon: Container(
+            child: Icon(Icons.post_add),
+            padding: EdgeInsets.only(right: 12),
+          )),
     );
   }
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),

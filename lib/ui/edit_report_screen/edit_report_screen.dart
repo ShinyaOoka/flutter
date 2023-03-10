@@ -92,7 +92,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leading: _buildBackButton(),
-      leadingWidth: 80,
+      leadingWidth: 88,
       title: 'edit_report'.i18n(),
       actions: _buildActions(),
     );
@@ -158,7 +158,10 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),

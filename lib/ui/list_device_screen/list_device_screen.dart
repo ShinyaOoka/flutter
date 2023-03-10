@@ -81,7 +81,7 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 88,
       actions: _buildActions(),
       title: 'get_xseries_data'.i18n(),
     );
@@ -95,7 +95,10 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),

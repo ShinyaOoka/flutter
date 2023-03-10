@@ -78,7 +78,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       title: 'list_report'.i18n(),
       actions: _buildActions(context),
       leading: selectingReports != null ? _buildBackButton() : null,
-      leadingWidth: 90,
+      leadingWidth: 102,
     );
   }
 

@@ -55,13 +55,16 @@ class _SendReportScreenState extends State<SendReportScreen> {
       title: Text('send_report'.i18n()),
       centerTitle: true,
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 88,
     );
   }
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: const Icon(Icons.chevron_left),
+      icon: Container(
+        width: 12,
+        child: const Icon(Icons.arrow_back_ios),
+      ),
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),
       label: Text('back'.i18n()),
