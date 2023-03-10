@@ -492,7 +492,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //7
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 28) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 23) ?? ''}</div>');
     //8
     if (report.sickInjuredPersonGender == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon　男', '$checkIcon　男');
@@ -860,8 +860,25 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //42
-    htmlInput = htmlInput.replaceFirst('VerbalGuidance',
-        report.verbalGuidance?.characters.take(20).toString() ?? '');
+    if (report.verbalGuidance != null) {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 11 - totalYesPos, '$checkIcon 有');
+      htmlInput = customReplace(
+          htmlInput, uncheckNo, 11 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('VerbalGuidance',
+          report.verbalGuidance?.characters.take(20).toString() ?? '');
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 11 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 11 - totalNoPos, '$checkIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+    }
+
+    //42
 
     //43-61
     htmlInput = handleDatLayout578(htmlInput);
