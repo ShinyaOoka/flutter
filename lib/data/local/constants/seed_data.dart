@@ -1,5 +1,5 @@
-import 'package:ak_azm_flutter/data/local/constants/db_constants.dart';
-import 'package:sqflite/sqflite.dart';
+import "package:ak_azm_flutter/data/local/constants/db_constants.dart";
+import "package:sqflite/sqflite.dart";
 
 class SeedData {
   SeedData._();
@@ -473,48 +473,72 @@ class SeedData {
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "000",
-      "Value": "急病",
+      "Value": "火災",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "001",
-      "Value": "交通",
+      "Value": "自然災害",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "002",
-      "Value": "一般",
+      "Value": "水難事故",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "003",
-      "Value": "労災",
+      "Value": "交通事故",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "004",
-      "Value": "自損",
+      "Value": "労働災害",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "005",
-      "Value": "運動",
+      "Value": "運動競技",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "006",
-      "Value": "転院",
+      "Value": "一般負傷",
       "Description": "事故種別"
     },
     {
       "ClassificationCD": "002",
       "ClassificationSubCD": "007",
+      "Value": "加害",
+      "Description": "事故種別"
+    },
+    {
+      "ClassificationCD": "002",
+      "ClassificationSubCD": "008",
+      "Value": "自損行為",
+      "Description": "事故種別"
+    },
+    {
+      "ClassificationCD": "002",
+      "ClassificationSubCD": "009",
+      "Value": "急病",
+      "Description": "事故種別"
+    },
+    {
+      "ClassificationCD": "002",
+      "ClassificationSubCD": "010",
+      "Value": "転院搬送",
+      "Description": "事故種別"
+    },
+    {
+      "ClassificationCD": "002",
+      "ClassificationSubCD": "099",
       "Value": "その他",
       "Description": "事故種別"
     },
@@ -551,7 +575,7 @@ class SeedData {
     {
       "ClassificationCD": "004",
       "ClassificationSubCD": "002",
-      "Value": "シートベルト＋エアバック",
+      "Value": "010",
       "Description": "交通事故"
     },
     {
@@ -659,91 +683,91 @@ class SeedData {
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "1",
-      "Value": "1:119固定",
+      "Value": "119固定",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "2",
-      "Value": "2:119携帯",
+      "Value": "119携帯",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "3",
-      "Value": "3:119IP",
+      "Value": "119IP",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "4",
-      "Value": "4:加入固定",
+      "Value": "加入固定",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "5",
-      "Value": "5:加入携帯",
+      "Value": "加入携帯",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "6",
-      "Value": "6:加入IP",
+      "Value": "加入IP ",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "7",
-      "Value": "7:警察電話",
+      "Value": "警察電話",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "8",
-      "Value": "8:駆け付け電話",
+      "Value": "駆け付け電話",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "9",
-      "Value": "9:事後聞知",
+      "Value": "事後聞知",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "A",
-      "Value": "A:事故覚知",
+      "Value": "事故覚知",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "B",
-      "Value": "B:火災報知",
-      "Description": "覚知種別"
-    },
-    {
-      "ClassificationCD": "009",
-      "ClassificationSubCD": "C",
-      "Value": "C:専用",
+      "Value": "火災報知",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "D",
-      "Value": "D:発信地",
+      "Value": "専用",
+      "Description": "覚知種別"
+    },
+    {
+      "ClassificationCD": "009",
+      "ClassificationSubCD": "C",
+      "Value": "発信地",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "E",
-      "Value": "E:消防無線",
+      "Value": "消防無線",
       "Description": "覚知種別"
     },
     {
       "ClassificationCD": "009",
       "ClassificationSubCD": "Z",
-      "Value": "Z:その他",
+      "Value": "その他",
       "Description": "覚知種別"
     },
     {
@@ -773,163 +797,175 @@ class SeedData {
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "001",
-      "Value": "Ⅰ-1",
+      "Value": "1",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "002",
-      "Value": "Ⅰ-2",
+      "Value": "2",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "003",
-      "Value": "Ⅰ-3",
+      "Value": "3",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "004",
-      "Value": "Ⅱ-10",
+      "Value": "10",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "005",
-      "Value": "Ⅱ-20",
+      "Value": "20",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "006",
-      "Value": "Ⅱ-30",
+      "Value": "30",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "007",
-      "Value": "Ⅲ-100",
+      "Value": "100",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "008",
-      "Value": "Ⅲ-200",
+      "Value": "200",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "011",
       "ClassificationSubCD": "009",
-      "Value": "Ⅲ-300",
+      "Value": "300",
       "Description": "JCS"
     },
     {
       "ClassificationCD": "012",
       "ClassificationSubCD": "000",
-      "Value": "E1",
+      "Value": "1",
       "Description": "GCS-E"
     },
     {
       "ClassificationCD": "012",
       "ClassificationSubCD": "001",
-      "Value": "E2",
+      "Value": "2",
       "Description": "GCS-E"
     },
     {
       "ClassificationCD": "012",
       "ClassificationSubCD": "002",
-      "Value": "E3",
+      "Value": "3",
       "Description": "GCS-E"
     },
     {
       "ClassificationCD": "012",
       "ClassificationSubCD": "003",
-      "Value": "E4",
+      "Value": "4",
       "Description": "GCS-E"
     },
     {
       "ClassificationCD": "013",
       "ClassificationSubCD": "000",
-      "Value": "V1",
+      "Value": "1",
       "Description": "GCS-V"
     },
     {
       "ClassificationCD": "013",
       "ClassificationSubCD": "001",
-      "Value": "V2",
+      "Value": "2",
       "Description": "GCS-V"
     },
     {
       "ClassificationCD": "013",
       "ClassificationSubCD": "002",
-      "Value": "V3",
+      "Value": "3",
       "Description": "GCS-V"
     },
     {
       "ClassificationCD": "013",
       "ClassificationSubCD": "003",
-      "Value": "V4",
+      "Value": "4",
       "Description": "GCS-V"
     },
     {
       "ClassificationCD": "013",
       "ClassificationSubCD": "004",
-      "Value": "V5",
+      "Value": "5",
       "Description": "GCS-V"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "000",
-      "Value": "M1",
+      "Value": "1",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "001",
-      "Value": "M2",
+      "Value": "2",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "002",
-      "Value": "M3",
+      "Value": "3",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "003",
-      "Value": "M4",
+      "Value": "4",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "004",
-      "Value": "M5",
+      "Value": "5",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "014",
       "ClassificationSubCD": "005",
-      "Value": "M6",
+      "Value": "6",
       "Description": "GCS-M"
     },
     {
       "ClassificationCD": "015",
       "ClassificationSubCD": "000",
-      "Value": "現着",
+      "Value": "現場到着時",
       "Description": "観察時間説明"
     },
     {
       "ClassificationCD": "015",
       "ClassificationSubCD": "001",
-      "Value": "車内収容",
+      "Value": "接触時",
       "Description": "観察時間説明"
     },
     {
       "ClassificationCD": "015",
       "ClassificationSubCD": "002",
-      "Value": "搬送",
+      "Value": "車内収容時",
+      "Description": "観察時間説明"
+    },
+    {
+      "ClassificationCD": "015",
+      "ClassificationSubCD": "003",
+      "Value": "搬送途上時",
+      "Description": "観察時間説明"
+    },
+    {
+      "ClassificationCD": "015",
+      "ClassificationSubCD": "004",
+      "Value": "容態変化時",
       "Description": "観察時間説明"
     },
     {
