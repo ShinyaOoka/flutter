@@ -431,7 +431,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //2
     print(team);
     htmlInput = htmlInput.replaceFirst(
-        'TeamName', team?.abbreviation?.characters.take(11).toString() ?? '');
+        'TeamName', team?.abbreviation?.characters.take(7).toString() ?? '');
     //3
     htmlInput = htmlInput.replaceFirst('TeamCaptainName',
         report.teamCaptainName?.characters.take(11).toString() ?? '');
@@ -861,7 +861,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //42
     htmlInput = htmlInput.replaceFirst('VerbalGuidance',
-        report.verbalGuidance?.characters.take(22).toString() ?? '');
+        report.verbalGuidance?.characters.take(20).toString() ?? '');
 
     //43-61
     htmlInput = handleDatLayout578(htmlInput);
