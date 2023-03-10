@@ -776,7 +776,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '');
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '  --:--  ');
     }
     //38
     if (report.policeContactTime != null) {
@@ -795,7 +795,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '');
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '  --:--  ');
     }
 
     //39
@@ -1218,8 +1218,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput = htmlInput.replaceFirst(
             ')　無', ') <span class="text-circle">無</span>');
       }
-      htmlInput = htmlInput.replaceFirst(
-          'Hemorrhage${i + 1}', hasHemorrhage ? hemorrhage : '');
+      htmlInput = htmlInput.replaceFirst('Hemorrhage${i + 1}',
+          hasHemorrhage ? hemorrhage.characters.take(8).toString() : '');
       //59
       // int index001 = report.incontinence?.indexOf("001") ?? -1;
       // int index002 = report.incontinence?.indexOf("002") ?? -1;
