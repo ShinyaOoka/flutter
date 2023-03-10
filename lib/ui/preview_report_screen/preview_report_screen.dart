@@ -776,7 +776,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '');
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime', ' --:-- ');
     }
     //38
     if (report.policeContactTime != null) {
@@ -795,7 +795,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '');
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime', ' --:-- ');
     }
 
     //39
