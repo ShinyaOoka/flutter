@@ -46,7 +46,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..commandTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['CommandTime'], const TimeOfDayConverter().fromJson)
   ..dispatchTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['AttendanceTime'], const TimeOfDayConverter().fromJson)
+      json['DispatchTime'], const TimeOfDayConverter().fromJson)
   ..onSiteArrivalTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['OnSiteArrivalTime'], const TimeOfDayConverter().fromJson)
   ..contactTime = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -72,6 +72,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..timeOfOccurrence = _$JsonConverterFromJson<String, TimeOfDay>(
       json['TimeOfOccurrence'], const TimeOfDayConverter().fromJson)
   ..placeOfIncident = json['PlaceOfIncident'] as String?
+  ..placeOfDispatch = json['PlaceOfDispatch'] as String?
   ..accidentSummary = json['AccidentSummary'] as String?
   ..adl = json['ADL'] as String?
   ..trafficAccidentClassification =
@@ -166,7 +167,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..o2Administration = (json['O2Administration'] as num?)?.toDouble()
   ..o2AdministrationTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['O2AdministrationTime'], const TimeOfDayConverter().fromJson)
-  ..limitationOfSpinalMotion = json['SpinalCordMovementLimitation'] as String?
+  ..limitationOfSpinalMotion = json['LimitationOfSpinalMotion'] as String?
   ..hemostaticTreatment = _$JsonConverterFromJson<int, bool>(
       json['HemostaticTreatment'], const IntToBoolConverter().fromJson)
   ..adductorFixation = _$JsonConverterFromJson<int, bool>(
@@ -254,7 +255,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.senseTime, const TimeOfDayConverter().toJson),
       'CommandTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.commandTime, const TimeOfDayConverter().toJson),
-      'AttendanceTime': _$JsonConverterToJson<String, TimeOfDay>(
+      'DispatchTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.dispatchTime, const TimeOfDayConverter().toJson),
       'OnSiteArrivalTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.onSiteArrivalTime, const TimeOfDayConverter().toJson),
@@ -279,6 +280,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'TimeOfOccurrence': _$JsonConverterToJson<String, TimeOfDay>(
           instance.timeOfOccurrence, const TimeOfDayConverter().toJson),
       'PlaceOfIncident': instance.placeOfIncident,
+      'PlaceOfDispatch': instance.placeOfDispatch,
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
       'TrafficAccidentClassification': instance.trafficAccidentClassification,
@@ -373,7 +375,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'O2Administration': instance.o2Administration,
       'O2AdministrationTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.o2AdministrationTime, const TimeOfDayConverter().toJson),
-      'SpinalCordMovementLimitation': instance.limitationOfSpinalMotion,
+      'LimitationOfSpinalMotion': instance.limitationOfSpinalMotion,
       'HemostaticTreatment': _$JsonConverterToJson<int, bool>(
           instance.hemostaticTreatment, const IntToBoolConverter().toJson),
       'AdductorFixation': _$JsonConverterToJson<int, bool>(
@@ -523,13 +525,13 @@ mixin _$Report on _Report, Store {
           Computed<Classification?>(() => super.securingAirwayType,
               name: '_Report.securingAirwayType'))
       .value;
-  Computed<Classification?>? _$spinalCordMovementLimitationTypeComputed;
+  Computed<Classification?>? _$limitationOfSpinalMotionTypeComputed;
 
   @override
   Classification? get limitationOfSpinalMotionType =>
-      (_$spinalCordMovementLimitationTypeComputed ??= Computed<Classification?>(
+      (_$limitationOfSpinalMotionTypeComputed ??= Computed<Classification?>(
               () => super.limitationOfSpinalMotionType,
-              name: '_Report.spinalCordMovementLimitationType'))
+              name: '_Report.limitationOfSpinalMotionType'))
           .value;
   Computed<List<Classification?>>? _$jcsTypesComputed;
 
@@ -1034,18 +1036,18 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$attendanceTimeAtom =
-      Atom(name: '_Report.attendanceTime', context: context);
+  late final _$dispatchTimeAtom =
+      Atom(name: '_Report.dispatchTime', context: context);
 
   @override
   TimeOfDay? get dispatchTime {
-    _$attendanceTimeAtom.reportRead();
+    _$dispatchTimeAtom.reportRead();
     return super.dispatchTime;
   }
 
   @override
   set dispatchTime(TimeOfDay? value) {
-    _$attendanceTimeAtom.reportWrite(value, super.dispatchTime, () {
+    _$dispatchTimeAtom.reportWrite(value, super.dispatchTime, () {
       super.dispatchTime = value;
     });
   }
@@ -1256,6 +1258,22 @@ mixin _$Report on _Report, Store {
   set placeOfIncident(String? value) {
     _$placeOfIncidentAtom.reportWrite(value, super.placeOfIncident, () {
       super.placeOfIncident = value;
+    });
+  }
+
+  late final _$placeOfDispatchAtom =
+      Atom(name: '_Report.placeOfDispatch', context: context);
+
+  @override
+  String? get placeOfDispatch {
+    _$placeOfDispatchAtom.reportRead();
+    return super.placeOfDispatch;
+  }
+
+  @override
+  set placeOfDispatch(String? value) {
+    _$placeOfDispatchAtom.reportWrite(value, super.placeOfDispatch, () {
+      super.placeOfDispatch = value;
     });
   }
 
@@ -2024,18 +2042,18 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$spinalCordMovementLimitationAtom =
-      Atom(name: '_Report.spinalCordMovementLimitation', context: context);
+  late final _$limitationOfSpinalMotionAtom =
+      Atom(name: '_Report.limitationOfSpinalMotion', context: context);
 
   @override
   String? get limitationOfSpinalMotion {
-    _$spinalCordMovementLimitationAtom.reportRead();
+    _$limitationOfSpinalMotionAtom.reportRead();
     return super.limitationOfSpinalMotion;
   }
 
   @override
   set limitationOfSpinalMotion(String? value) {
-    _$spinalCordMovementLimitationAtom
+    _$limitationOfSpinalMotionAtom
         .reportWrite(value, super.limitationOfSpinalMotion, () {
       super.limitationOfSpinalMotion = value;
     });
@@ -2896,7 +2914,7 @@ sickInjuredPersonNameOfInjuryOrSickness: ${sickInjuredPersonNameOfInjuryOrSickne
 sickInjuredPersonDegree: ${sickInjuredPersonDegree},
 senseTime: ${senseTime},
 commandTime: ${commandTime},
-attendanceTime: ${dispatchTime},
+dispatchTime: ${dispatchTime},
 onSiteArrivalTime: ${onSiteArrivalTime},
 contactTime: ${contactTime},
 inVehicleTime: ${inVehicleTime},
@@ -2910,6 +2928,7 @@ typeOfAccident: ${typeOfAccident},
 dateOfOccurrence: ${dateOfOccurrence},
 timeOfOccurrence: ${timeOfOccurrence},
 placeOfIncident: ${placeOfIncident},
+placeOfDispatch: ${placeOfDispatch},
 accidentSummary: ${accidentSummary},
 adl: ${adl},
 trafficAccidentClassification: ${trafficAccidentClassification},
@@ -2958,7 +2977,7 @@ chestCompressions: ${chestCompressions},
 ecgMonitor: ${ecgMonitor},
 o2Administration: ${o2Administration},
 o2AdministrationTime: ${o2AdministrationTime},
-spinalCordMovementLimitation: ${limitationOfSpinalMotion},
+limitationOfSpinalMotion: ${limitationOfSpinalMotion},
 hemostaticTreatment: ${hemostaticTreatment},
 adductorFixation: ${adductorFixation},
 coating: ${coating},
@@ -3009,7 +3028,7 @@ transferringMedicalInstitutionType: ${transferringMedicalInstitutionType},
 trafficAccidentType: ${trafficAccidentType},
 adlType: ${adlType},
 securingAirwayType: ${securingAirwayType},
-spinalCordMovementLimitationType: ${limitationOfSpinalMotionType},
+limitationOfSpinalMotionType: ${limitationOfSpinalMotionType},
 jcsTypes: ${jcsTypes},
 gcsETypes: ${gcsETypes},
 gcsVTypes: ${gcsVTypes},
