@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
@@ -79,5 +80,17 @@ class ReportSectionMixin {
         return newValue;
       }
     });
+  }
+
+  String yearToWareki(int year, int month, int day) {
+    DateTime date = DateTime(year, month, day);
+
+    for (final era in AppConstants.eras) {
+      if (era.start != null && era.start!.isAfter(date)) continue;
+      if (era.end != null && era.end!.isBefore(date)) continue;
+      return '${era.name} ${date.year - era.start!.year + 1}';
+    }
+
+    return "エラー";
   }
 }

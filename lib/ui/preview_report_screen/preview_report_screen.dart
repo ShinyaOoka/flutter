@@ -158,7 +158,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
     result = fillTime(result, 'SenseTime', report.senseTime);
-    result = fillTime(result, 'AttendanceTime', report.attendanceTime);
+    result = fillTime(result, 'AttendanceTime', report.dispatchTime);
     result = fillTime(result, 'On-siteArrivalTime', report.onSiteArrivalTime);
     result = fillTime(result, 'TimeOfArrival', report.timeOfArrival);
     result =
@@ -419,12 +419,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('>Other', '$overflowStyle>Other');
 
     //fill yyyy mm dd now
-    var y = DateFormat.y().format(DateTime.now()).replaceFirst('年', '');
-    var m = DateFormat.M().format(DateTime.now()).replaceFirst('月', '');
-    var d = DateFormat.d().format(DateTime.now()).replaceFirst('日', '');
+    final now = DateTime.now();
+    var y = DateFormat.y().format(now).replaceFirst('年', '');
+    var m = DateFormat.M().format(now).replaceFirst('月', '');
+    var d = DateFormat.d().format(now).replaceFirst('日', '');
     //1
     htmlInput = htmlInput
-        .replaceFirst('YYYY', y)
+        .replaceFirst('YYYY', yearToWareki(now.year, now.month, now.day))
         .replaceFirst('MM', m)
         .replaceFirst('DD', d);
     //2
@@ -503,7 +504,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst(
         'SickInjuredPersonBirthDateYear',
         report.sickInjuredPersonBirthDate?.year != null
-            ? report.sickInjuredPersonBirthDate!.year.toString()
+            ? yearToWareki(
+                report.sickInjuredPersonBirthDate!.year,
+                report.sickInjuredPersonBirthDate!.month,
+                report.sickInjuredPersonBirthDate!.day)
             : '');
     htmlInput = htmlInput.replaceFirst(
         'SickInjuredPersonBirthDateMonth',
@@ -739,7 +743,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     //31
     htmlInput = htmlInput.replaceFirst('AttendanceTime',
-        '${report.attendanceTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.attendanceTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     //32
     htmlInput = htmlInput.replaceFirst('On-siteArrivalTime',
         '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
@@ -756,11 +760,41 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('HospitalArrivalTime',
         '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     //37
-    htmlInput = htmlInput.replaceFirst('FamilyContactTime',
-        '${report.familyContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.familyContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    if (report.familyContactTime != null) {
+      htmlInput =
+          customReplace(htmlInput, uncheckYes, 7 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime',
+          '${report.familyContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.familyContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 7 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+    }
     //38
-    htmlInput = htmlInput.replaceFirst('PoliceContactTime',
-        '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    if (report.policeContactTime != null) {
+      htmlInput = customReplace(htmlInput, uncheckYes, 8 - totalYesPos,
+          'bbbbbbbbbbbbbbbbbbbbbbb$checkIcon 有');
+      htmlInput = customReplace(htmlInput, uncheckNo, 8 - totalNoPos,
+          'bbbbbbbbbbbbbbbbbbbbbbb$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime',
+          '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
+      htmlInput = customReplace(htmlInput, uncheckYes, 8 - totalYesPos,
+          'bbbbbbbbbbbbbbbbbbbbbbb$uncheckIcon 有');
+      htmlInput = customReplace(htmlInput, uncheckNo, 8 - totalNoPos,
+          'bbbbbbbbbbbbbbbbbbbbbbb$checkIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+    }
 
     //39
     htmlInput =
@@ -792,23 +826,38 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //40
     if (report.witnesses != null && !report.witnesses!) {
       htmlInput = customReplace(
-          htmlInput, uncheckYes, 7 - totalYesPos, '$uncheckIcon 有');
+          htmlInput, uncheckYes, 9 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
+          customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
     } else if (report.witnesses != null && report.witnesses!) {
       htmlInput =
-          customReplace(htmlInput, uncheckYes, 7 - totalYesPos, '$checkIcon 有');
+          customReplace(htmlInput, uncheckYes, 9 - totalYesPos, '$checkIcon 有');
       htmlInput =
-          customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$uncheckIcon 無');
+          customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
     }
 
     //41
-    htmlInput = htmlInput.replaceFirst('BystanderCPR',
-        '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
+    if (report.bystanderCpr != null) {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 10 - totalYesPos, '$checkIcon 有');
+      htmlInput = customReplace(
+          htmlInput, uncheckNo, 10 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+      htmlInput = htmlInput.replaceFirst('BystanderCPR',
+          '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 10 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 10 - totalNoPos, '$checkIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+    }
 
     //42
     htmlInput = htmlInput.replaceFirst('VerbalGuidance',
@@ -875,15 +924,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? ''}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //72
-    if (report.spinalCordMovementLimitation != null) {
+    if (report.limitationOfSpinalMotion != null) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　脊髄運動制限', '$checkIcon　脊髄運動制限');
     }
 
     //73
-    if (report.spinalCordMovementLimitation == '000') {
+    if (report.limitationOfSpinalMotion == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon頸椎のみ', '$checkIcon頸椎のみ');
-    } else if (report.spinalCordMovementLimitation == '001') {
+    } else if (report.limitationOfSpinalMotion == '001') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIconバックボード', '$checkIconバックボード');
     }

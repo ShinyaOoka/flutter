@@ -45,7 +45,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['SenseTime'], const TimeOfDayConverter().fromJson)
   ..commandTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['CommandTime'], const TimeOfDayConverter().fromJson)
-  ..attendanceTime = _$JsonConverterFromJson<String, TimeOfDay>(
+  ..dispatchTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['AttendanceTime'], const TimeOfDayConverter().fromJson)
   ..onSiteArrivalTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['OnSiteArrivalTime'], const TimeOfDayConverter().fromJson)
@@ -166,8 +166,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..o2Administration = (json['O2Administration'] as num?)?.toDouble()
   ..o2AdministrationTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['O2AdministrationTime'], const TimeOfDayConverter().fromJson)
-  ..spinalCordMovementLimitation =
-      json['SpinalCordMovementLimitation'] as String?
+  ..limitationOfSpinalMotion = json['SpinalCordMovementLimitation'] as String?
   ..hemostaticTreatment = _$JsonConverterFromJson<int, bool>(
       json['HemostaticTreatment'], const IntToBoolConverter().fromJson)
   ..adductorFixation = _$JsonConverterFromJson<int, bool>(
@@ -256,7 +255,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'CommandTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.commandTime, const TimeOfDayConverter().toJson),
       'AttendanceTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.attendanceTime, const TimeOfDayConverter().toJson),
+          instance.dispatchTime, const TimeOfDayConverter().toJson),
       'OnSiteArrivalTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.onSiteArrivalTime, const TimeOfDayConverter().toJson),
       'ContactTime': _$JsonConverterToJson<String, TimeOfDay>(
@@ -374,7 +373,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'O2Administration': instance.o2Administration,
       'O2AdministrationTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.o2AdministrationTime, const TimeOfDayConverter().toJson),
-      'SpinalCordMovementLimitation': instance.spinalCordMovementLimitation,
+      'SpinalCordMovementLimitation': instance.limitationOfSpinalMotion,
       'HemostaticTreatment': _$JsonConverterToJson<int, bool>(
           instance.hemostaticTreatment, const IntToBoolConverter().toJson),
       'AdductorFixation': _$JsonConverterToJson<int, bool>(
@@ -527,9 +526,9 @@ mixin _$Report on _Report, Store {
   Computed<Classification?>? _$spinalCordMovementLimitationTypeComputed;
 
   @override
-  Classification? get spinalCordMovementLimitationType =>
+  Classification? get limitationOfSpinalMotionType =>
       (_$spinalCordMovementLimitationTypeComputed ??= Computed<Classification?>(
-              () => super.spinalCordMovementLimitationType,
+              () => super.limitationOfSpinalMotionType,
               name: '_Report.spinalCordMovementLimitationType'))
           .value;
   Computed<List<Classification?>>? _$jcsTypesComputed;
@@ -1039,15 +1038,15 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.attendanceTime', context: context);
 
   @override
-  TimeOfDay? get attendanceTime {
+  TimeOfDay? get dispatchTime {
     _$attendanceTimeAtom.reportRead();
-    return super.attendanceTime;
+    return super.dispatchTime;
   }
 
   @override
-  set attendanceTime(TimeOfDay? value) {
-    _$attendanceTimeAtom.reportWrite(value, super.attendanceTime, () {
-      super.attendanceTime = value;
+  set dispatchTime(TimeOfDay? value) {
+    _$attendanceTimeAtom.reportWrite(value, super.dispatchTime, () {
+      super.dispatchTime = value;
     });
   }
 
@@ -2029,16 +2028,16 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.spinalCordMovementLimitation', context: context);
 
   @override
-  String? get spinalCordMovementLimitation {
+  String? get limitationOfSpinalMotion {
     _$spinalCordMovementLimitationAtom.reportRead();
-    return super.spinalCordMovementLimitation;
+    return super.limitationOfSpinalMotion;
   }
 
   @override
-  set spinalCordMovementLimitation(String? value) {
+  set limitationOfSpinalMotion(String? value) {
     _$spinalCordMovementLimitationAtom
-        .reportWrite(value, super.spinalCordMovementLimitation, () {
-      super.spinalCordMovementLimitation = value;
+        .reportWrite(value, super.limitationOfSpinalMotion, () {
+      super.limitationOfSpinalMotion = value;
     });
   }
 
@@ -2897,7 +2896,7 @@ sickInjuredPersonNameOfInjuryOrSickness: ${sickInjuredPersonNameOfInjuryOrSickne
 sickInjuredPersonDegree: ${sickInjuredPersonDegree},
 senseTime: ${senseTime},
 commandTime: ${commandTime},
-attendanceTime: ${attendanceTime},
+attendanceTime: ${dispatchTime},
 onSiteArrivalTime: ${onSiteArrivalTime},
 contactTime: ${contactTime},
 inVehicleTime: ${inVehicleTime},
@@ -2959,7 +2958,7 @@ chestCompressions: ${chestCompressions},
 ecgMonitor: ${ecgMonitor},
 o2Administration: ${o2Administration},
 o2AdministrationTime: ${o2AdministrationTime},
-spinalCordMovementLimitation: ${spinalCordMovementLimitation},
+spinalCordMovementLimitation: ${limitationOfSpinalMotion},
 hemostaticTreatment: ${hemostaticTreatment},
 adductorFixation: ${adductorFixation},
 coating: ${coating},
@@ -3010,7 +3009,7 @@ transferringMedicalInstitutionType: ${transferringMedicalInstitutionType},
 trafficAccidentType: ${trafficAccidentType},
 adlType: ${adlType},
 securingAirwayType: ${securingAirwayType},
-spinalCordMovementLimitationType: ${spinalCordMovementLimitationType},
+spinalCordMovementLimitationType: ${limitationOfSpinalMotionType},
 jcsTypes: ${jcsTypes},
 gcsETypes: ${gcsETypes},
 gcsVTypes: ${gcsVTypes},

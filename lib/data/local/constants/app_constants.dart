@@ -18,7 +18,7 @@ class AppConstants {
   static const facialFeaturesCode = '005';
   static const incontinenceCode = '006';
   static const securingAirwayCode = '007';
-  static const spinalCordMovementLimitationCode = '008';
+  static const limitationOfSpinalMotionCode = '008';
   static const typeOfDetectionCode = '009';
   static const medicationCode = '010';
   static const jcsCode = '011';

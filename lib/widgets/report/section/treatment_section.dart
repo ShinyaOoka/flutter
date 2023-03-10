@@ -210,12 +210,12 @@ class _TreatmentSectionState extends State<TreatmentSection>
           items: classificationStore.classifications.values
               .where((element) =>
                   element.classificationCd ==
-                  AppConstants.spinalCordMovementLimitationCode)
+                  AppConstants.limitationOfSpinalMotionCode)
               .toList(),
-          label: 'spinal_cord_movement_limitation'.i18n(),
+          label: 'limitation_of_spinal_motion'.i18n(),
           itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.spinalCordMovementLimitationType = value,
-          selectedItem: report.spinalCordMovementLimitationType,
+          onChanged: (value) => report.limitationOfSpinalMotionType = value,
+          selectedItem: report.limitationOfSpinalMotionType,
           filterFn: (c, filter) =>
               (c.value != null && c.value!.contains(filter)) ||
               (c.classificationSubCd != null &&

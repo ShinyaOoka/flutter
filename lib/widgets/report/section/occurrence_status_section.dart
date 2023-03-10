@@ -27,6 +27,7 @@ class OccurrenceStatusSection extends StatefulWidget {
 class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     with ReportSectionMixin {
   final placeOfIncidentController = TextEditingController();
+  final placeOfDispatchController = TextEditingController();
   final accidentSummaryController = TextEditingController();
   final verbalGuidanceController = TextEditingController();
   late ReactionDisposer reactionDisposer;
@@ -39,6 +40,8 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     reactionDisposer = autorun((_) {
       syncControllerValue(placeOfIncidentController,
           reportStore.selectingReport!.placeOfIncident);
+      syncControllerValue(placeOfDispatchController,
+          reportStore.selectingReport!.placeOfDispatch);
       syncControllerValue(accidentSummaryController,
           reportStore.selectingReport!.accidentSummary);
       syncControllerValue(verbalGuidanceController,
@@ -50,6 +53,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   void dispose() {
     reactionDisposer();
     placeOfIncidentController.dispose();
+    placeOfDispatchController.dispose();
     accidentSummaryController.dispose();
     verbalGuidanceController.dispose();
     super.dispose();
@@ -67,6 +71,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           _buildLine4(reportStore.selectingReport!),
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
+          _buildLine7(reportStore.selectingReport!),
         ],
       );
     });
@@ -137,6 +142,19 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return lineLayout(children: [
       AppTextField(
         keyboardType: TextInputType.multiline,
+        controller: placeOfDispatchController,
+        maxLength: 25,
+        label: 'place_of_dispatch'.i18n(),
+        onChanged: (value) => report.placeOfDispatch = value,
+        readOnly: widget.readOnly,
+      ),
+    ]);
+  }
+
+  Widget _buildLine4(Report report) {
+    return lineLayout(children: [
+      AppTextField(
+        keyboardType: TextInputType.multiline,
         controller: accidentSummaryController,
         minLines: 3,
         maxLength: 100,
@@ -147,7 +165,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     ]);
   }
 
-  Widget _buildLine4(Report report) {
+  Widget _buildLine5(Report report) {
     return Observer(builder: (context) {
       final classificationStore = Provider.of<ClassificationStore>(context);
       return lineLayout(children: [
@@ -187,7 +205,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     });
   }
 
-  Widget _buildLine5(Report report) {
+  Widget _buildLine6(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppDropdown<bool>(
@@ -207,7 +225,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     });
   }
 
-  Widget _buildLine6(Report report) {
+  Widget _buildLine7(Report report) {
     return lineLayout(children: [
       AppTextField(
         label: 'verbal_guidance'.i18n(),

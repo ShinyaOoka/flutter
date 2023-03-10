@@ -57,9 +57,9 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           defaultTime: report.senseTime,
         ),
         AppTimePicker(
-          label: 'attendence_time'.i18n(),
-          onChanged: (value) => report.attendanceTime = value,
-          selectedTime: report.attendanceTime,
+          label: 'dispatch_time'.i18n(),
+          onChanged: (value) => report.dispatchTime = value,
+          selectedTime: report.dispatchTime,
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),

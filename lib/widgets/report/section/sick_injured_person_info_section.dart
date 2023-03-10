@@ -198,16 +198,38 @@ class _SickInjuredPersonInfoSectionState
             ),
           ],
         ),
-        AppTextField(
-          label: 'sick_injured_person_tel'.i18n(),
-          keyboardType: TextInputType.phone,
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))
+        Row(
+          children: [
+            Expanded(
+              child: AppTextField(
+                label: 'sick_injured_person_japanese_birth_year'.i18n(),
+                controller: TextEditingController(
+                    text: report.sickInjuredPersonBirthDate != null
+                        ? yearToWareki(
+                            report.sickInjuredPersonBirthDate!.year,
+                            report.sickInjuredPersonBirthDate!.month,
+                            report.sickInjuredPersonBirthDate!.day)
+                        : ''),
+                enabled: false,
+                readOnly: widget.readOnly,
+                fillColor: optionalColor(context),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: AppTextField(
+                label: 'sick_injured_person_tel'.i18n(),
+                keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))
+                ],
+                controller: sickInjuredPersonTelController,
+                onChanged: (value) => report.sickInjuredPersonTel = value,
+                maxLength: 20,
+                readOnly: widget.readOnly,
+              ),
+            ),
           ],
-          controller: sickInjuredPersonTelController,
-          onChanged: (value) => report.sickInjuredPersonTel = value,
-          maxLength: 20,
-          readOnly: widget.readOnly,
         ),
       ]);
     });

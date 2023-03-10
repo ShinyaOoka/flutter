@@ -126,8 +126,8 @@ abstract class _Report with Store {
   TimeOfDay? commandTime;
   @observable
   @TimeOfDayConverter()
-  @JsonKey(name: "AttendanceTime")
-  TimeOfDay? attendanceTime;
+  @JsonKey(name: "DispatchTime")
+  TimeOfDay? dispatchTime;
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "OnSiteArrivalTime")
@@ -177,6 +177,9 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "PlaceOfIncident")
   String? placeOfIncident;
+  @observable
+  @JsonKey(name: "PlaceOfDispatch")
+  String? placeOfDispatch;
   @observable
   @JsonKey(name: "AccidentSummary")
   String? accidentSummary;
@@ -363,8 +366,8 @@ abstract class _Report with Store {
   @JsonKey(name: "O2AdministrationTime")
   TimeOfDay? o2AdministrationTime;
   @observable
-  @JsonKey(name: "SpinalCordMovementLimitation")
-  String? spinalCordMovementLimitation;
+  @JsonKey(name: "LimitationOfSpinalMotion")
+  String? limitationOfSpinalMotion;
   @observable
   @IntToBoolConverter()
   @JsonKey(name: "HemostaticTreatment")
@@ -690,21 +693,21 @@ abstract class _Report with Store {
 
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)
-  Classification? get spinalCordMovementLimitationType {
+  Classification? get limitationOfSpinalMotionType {
     assert(classificationStore != null);
-    return spinalCordMovementLimitation != null
+    return limitationOfSpinalMotion != null
         ? classificationStore!.classifications[Tuple2(
-            AppConstants.spinalCordMovementLimitationCode,
-            spinalCordMovementLimitation!)]
+            AppConstants.limitationOfSpinalMotionCode,
+            limitationOfSpinalMotion!)]
         : null;
   }
 
   @action
   setSpinalCordMovementLimitationType(Classification? value) {
-    spinalCordMovementLimitation = value?.classificationSubCd;
+    limitationOfSpinalMotion = value?.classificationSubCd;
   }
 
-  set spinalCordMovementLimitationType(Classification? value) {
+  set limitationOfSpinalMotionType(Classification? value) {
     setSpinalCordMovementLimitationType(value);
   }
 
