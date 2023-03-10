@@ -779,19 +779,19 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     //38
     if (report.policeContactTime != null) {
-      htmlInput = customReplace(htmlInput, uncheckYes, 8 - totalYesPos,
-          'bbbbbbbbbbbbbbbbbbbbbbb$checkIcon 有');
-      htmlInput = customReplace(htmlInput, uncheckNo, 8 - totalNoPos,
-          'bbbbbbbbbbbbbbbbbbbbbbb$uncheckIcon 無');
+      htmlInput =
+          customReplace(htmlInput, uncheckYes, 8 - totalYesPos, '$checkIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
       htmlInput = htmlInput.replaceFirst('PoliceContactTime',
           '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     } else {
-      htmlInput = customReplace(htmlInput, uncheckYes, 8 - totalYesPos,
-          'bbbbbbbbbbbbbbbbbbbbbbb$uncheckIcon 有');
-      htmlInput = customReplace(htmlInput, uncheckNo, 8 - totalNoPos,
-          'bbbbbbbbbbbbbbbbbbbbbbb$checkIcon 無');
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 8 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
     }
