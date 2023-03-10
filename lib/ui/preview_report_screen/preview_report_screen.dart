@@ -492,7 +492,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //7
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 23) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
     //8
     if (report.sickInjuredPersonGender == '000') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon　男', '$checkIcon　男');
