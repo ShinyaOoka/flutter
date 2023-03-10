@@ -721,7 +721,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //27
     htmlInput = htmlInput.replaceFirst('AccidentSummary',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 26) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
 
     //28
     htmlInput = htmlInput.replaceFirst('$uncheckIcon自立', '$uncheckIcon自立');
@@ -868,7 +868,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       totalNoPos += 1;
       totalYesPos += 1;
       htmlInput = htmlInput.replaceFirst('VerbalGuidance',
-          report.verbalGuidance?.characters.take(20).toString() ?? '');
+          report.verbalGuidance?.characters.take(18).toString() ?? '');
     } else {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 11 - totalYesPos, '$uncheckIcon 有');
