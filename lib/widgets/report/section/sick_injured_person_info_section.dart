@@ -134,7 +134,7 @@ class _SickInjuredPersonInfoSectionState
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
-          report.sickInjuredPersonKana = RegExp(r'([ァ-ン]|ー)+')
+          report.sickInjuredPersonKana = RegExp(r'([ァ-ン]|ー| |　)+')
               .allMatches(kanaController.text)
               .map((x) => x.group(0))
               .join();
@@ -205,10 +205,7 @@ class _SickInjuredPersonInfoSectionState
                 label: 'sick_injured_person_japanese_birth_year'.i18n(),
                 controller: TextEditingController(
                     text: report.sickInjuredPersonBirthDate != null
-                        ? yearToWareki(
-                            report.sickInjuredPersonBirthDate!.year,
-                            report.sickInjuredPersonBirthDate!.month,
-                            report.sickInjuredPersonBirthDate!.day)
+                        ? '${yearToWareki(report.sickInjuredPersonBirthDate!.year, report.sickInjuredPersonBirthDate!.month, report.sickInjuredPersonBirthDate!.day)}年'
                         : ''),
                 enabled: false,
                 readOnly: widget.readOnly,
