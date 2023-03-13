@@ -691,6 +691,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     } else if (report.typeOfAccident == '005') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 運動', '$checkIcon 運動');
     } else if (report.typeOfAccident == '010') {
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon その他', '$checkIcon その他');
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 転院', '$checkIcon 転院');
     } else if (report.typeOfAccident == '099') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon その他', '$checkIcon その他');
