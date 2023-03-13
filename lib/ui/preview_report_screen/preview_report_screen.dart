@@ -697,7 +697,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst(
         'DateOfOccurrenceYear',
         report.dateOfOccurrence?.year != null
-            ? report.dateOfOccurrence!.year.toString()
+            ? yearToWareki(report.dateOfOccurrence!.year,
+                report.dateOfOccurrence!.month, report.dateOfOccurrence!.day)
             : '');
     htmlInput = htmlInput.replaceFirst(
         'DateOfOccurrenceMonth',
@@ -848,39 +849,30 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //41
+    print(report.bystanderCpr);
     if (report.bystanderCpr != null) {
+      htmlInput = htmlInput.replaceAll('$uncheckIcon有（', '$checkIcon有（');
+      htmlInput = htmlInput.replaceFirst('BystanderCPR',
+          '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
+      htmlInput = htmlInput.replaceAll('）　$uncheckIcon無', '）　$checkIcon無');
+    }
+
+    //42
+    if (report.verbalGuidance != null && report.verbalGuidance != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 10 - totalYesPos, '$checkIcon 有');
       htmlInput = customReplace(
           htmlInput, uncheckNo, 10 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('BystanderCPR',
-          '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
+      htmlInput = htmlInput.replaceFirst('VerbalGuidance',
+          report.verbalGuidance?.characters.take(18).toString() ?? '');
     } else {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 10 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 10 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    }
-
-    //42
-    if (report.verbalGuidance != null && report.verbalGuidance != '') {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 11 - totalYesPos, '$checkIcon 有');
-      htmlInput = customReplace(
-          htmlInput, uncheckNo, 11 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('VerbalGuidance',
-          report.verbalGuidance?.characters.take(18).toString() ?? '');
-    } else {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 11 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 11 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
       htmlInput = htmlInput.replaceFirst('VerbalGuidance', '');
