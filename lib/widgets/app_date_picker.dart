@@ -24,7 +24,13 @@ class AppDatePicker extends StatelessWidget {
               border: const OutlineInputBorder(),
               hintText: hintText,
               counterText: " ",
-              counterStyle: const TextStyle(height: 0.2, fontSize: 10)),
+              counterStyle: const TextStyle(height: 0.2, fontSize: 10),
+              suffixIcon: !readOnly && selectedDate != null
+                  ? IconButton(
+                      onPressed: () => onChanged?.call(null),
+                      icon: Icon(Icons.clear),
+                    )
+                  : null),
           controller: controller ??
               TextEditingController(
                   text: selectedDate != null

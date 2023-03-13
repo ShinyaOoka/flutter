@@ -220,6 +220,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           label: 'bystander_cpr'.i18n(),
           onChanged: (value) => report.bystanderCpr = value,
           selectedTime: report.bystanderCpr,
+          readOnly: widget.readOnly,
         ),
       ]);
     });
@@ -233,6 +234,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         onChanged: (value) => report.verbalGuidance = value,
         maxLength: 60,
         maxLines: 1,
+        readOnly: widget.readOnly,
       ),
     ]);
   }

@@ -25,6 +25,12 @@ class AppTimePicker extends StatelessWidget {
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),
             fillColor: fillColor,
+            suffixIcon: !readOnly && selectedTime != null
+                ? IconButton(
+                    onPressed: () => onChanged?.call(null),
+                    icon: Icon(Icons.clear),
+                  )
+                : null,
           ),
           controller: controller ??
               TextEditingController(
