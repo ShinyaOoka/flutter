@@ -172,6 +172,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     result = fillToday(result);
 
+    result = result.replaceAll(
+        'PlaceOfDispatch_TITLE',
+        report.placeOfDispatch != null && report.placeOfDispatch! != ''
+            ? '出場場所'
+            : '');
+    result = result.replaceAll(
+        'PlaceOfDispatch_VALUE', report.placeOfDispatch ?? '');
+
     for (int i = 0; i < 3; i++) {
       result = result.replaceAll('DescriptionOfObservationTime_${i}_VALUE',
           report.observationTimeDescriptionTypes[i]?.value ?? '');
