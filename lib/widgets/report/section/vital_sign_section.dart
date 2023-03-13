@@ -403,7 +403,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.spO2Liter?[widget.index] = int.parse(value),
+                    report.spO2Liter?[widget.index] = int.tryParse(value),
                 counterText: 'L',
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
@@ -424,7 +424,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.pupilRight?[widget.index] = int.parse(value),
+                    report.pupilRight?[widget.index] = int.tryParse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
@@ -438,7 +438,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
-                    report.pupilLeft?[widget.index] = int.parse(value),
+                    report.pupilLeft?[widget.index] = int.tryParse(value),
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
