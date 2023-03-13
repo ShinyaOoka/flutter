@@ -717,7 +717,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //26
     htmlInput = htmlInput.replaceFirst('PlaceOfIncident',
-        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.characters.take(35).toString() ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(35).toString() ?? ''}</div>');
 
     //27
     htmlInput = htmlInput.replaceFirst('AccidentSummary',
@@ -826,18 +826,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //40
-    if (report.witnesses != null && !report.witnesses!) {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 9 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else if (report.witnesses != null && report.witnesses!) {
+    if (report.witnesses != null && report.witnesses!) {
       htmlInput =
           customReplace(htmlInput, uncheckYes, 9 - totalYesPos, '$checkIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$uncheckIcon 無');
+      totalNoPos += 1;
+      totalYesPos += 1;
+    } else {
+      htmlInput = customReplace(
+          htmlInput, uncheckYes, 9 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
     }
@@ -941,12 +941,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //71
     htmlInput = htmlInput.replaceFirst('O2AdministrationTime',
-        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? ''}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //72
     if (report.limitationOfSpinalMotion != null) {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIcon　脊髄運動制限', '$checkIcon　脊髄運動制限');
+          htmlInput.replaceFirst('$uncheckIcon　脊椎運動制限', '$checkIcon　脊椎運動制限');
     }
 
     //73
@@ -997,7 +997,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '<div style="white-space: pre-wrap; font-size: 7pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
 
     //80
-    if (report.bsMeasurement1 != null) {
+    if (report.bsMeasurement1 != null || report.bsMeasurement2 != null) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　BS測定', '$checkIcon　BS測定');
     }
@@ -1228,7 +1228,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
       for (String? incon in report.incontinence?.toList() ?? []) {
         String incontinenceStr = defaultIncontinenceStr;
-        if (incon == '000') {
+        if (incon == '000' || incon == null) {
           incontinenceStr = incontinenceStr.replaceFirst(
               '無', '<span class="text-circle">無</span>');
         } else if (incon == '001') {
@@ -1260,10 +1260,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '<span class="text-circle">有</span>　　無');
         totalYesSpaceNoPos += 1;
-      } else if (report.vomiting
-                  ?.firstWhereIndexedOrNull((index, element) => index == i) !=
-              null &&
-          !report.vomiting![i]!) {
+      } else {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '有　　<span class="text-circle">無</span>');
         totalYesSpaceNoPos += 1;

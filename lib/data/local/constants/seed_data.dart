@@ -672,13 +672,13 @@ class SeedData {
       "ClassificationCD": "008",
       "ClassificationSubCD": "000",
       "Value": "頸椎のみ",
-      "Description": "脊髄運動制限"
+      "Description": "脊椎運動制限"
     },
     {
       "ClassificationCD": "008",
       "ClassificationSubCD": "001",
       "Value": "バックボード",
-      "Description": "脊髄運動制限"
+      "Description": "脊椎運動制限"
     },
     {
       "ClassificationCD": "009",

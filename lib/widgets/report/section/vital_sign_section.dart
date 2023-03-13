@@ -561,7 +561,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
       return lineLayout(children: [
         AppDropdown<bool>(
           items: const [true, false],
-          label: 'vomitting'.i18n(),
+          label: 'vomiting'.i18n(),
           itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.vomiting?[widget.index] = value,
           selectedItem: report.vomiting?[widget.index],
