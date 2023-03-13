@@ -575,7 +575,7 @@ class SeedData {
     {
       "ClassificationCD": "004",
       "ClassificationSubCD": "002",
-      "Value": "010",
+      "Value": "シートベルト＋エアバック",
       "Description": "交通事故"
     },
     {
