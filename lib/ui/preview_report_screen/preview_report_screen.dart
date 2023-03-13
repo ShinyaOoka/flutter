@@ -670,23 +670,28 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('$uncheckIcon転院', '$uncheckIcon 転院');
     htmlInput = htmlInput.replaceFirst('$uncheckIconその他', '$uncheckIcon その他');
 
-    if (report.typeOfAccident == '000') {
+    if (report.typeOfAccident == '009') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 急病', '$checkIcon 急病');
-    } else if (report.typeOfAccident == '001') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon 交通', '$checkIcon 交通');
-    } else if (report.typeOfAccident == '002') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon 一般', '$checkIcon 一般');
     } else if (report.typeOfAccident == '003') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon 労災', '$checkIcon 労災');
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 交通', '$checkIcon 交通');
+    } else if (report.typeOfAccident == '006') {
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 一般', '$checkIcon 一般');
     } else if (report.typeOfAccident == '004') {
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon 労災', '$checkIcon 労災');
+    } else if (report.typeOfAccident == '008') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 自損', '$checkIcon 自損');
     } else if (report.typeOfAccident == '005') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 運動', '$checkIcon 運動');
-    } else if (report.typeOfAccident == '006') {
+    } else if (report.typeOfAccident == '010') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 転院', '$checkIcon 転院');
-    } else if (report.typeOfAccident == '007') {
+    } else if (report.typeOfAccident == '099') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon その他', '$checkIcon その他');
+    } else if (report.typeOfAccident != null) {
+      htmlInput = htmlInput.replaceFirst('$uncheckIcon その他', '$checkIcon その他');
+      htmlInput = htmlInput.replaceFirst(
+          'TypeOfAccident_VALUE', report.accidentType!.value!);
     }
+    htmlInput = htmlInput.replaceFirst('TypeOfAccident_VALUE', '');
 
     //25
     htmlInput = htmlInput.replaceFirst(
