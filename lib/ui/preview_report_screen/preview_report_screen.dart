@@ -121,6 +121,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
     result = result.replaceAll(
+        'SickInjuredPersonKANA_VALUE', report.sickInjuredPersonKana ?? '');
+    result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
     result = result.replaceAll(
         'SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
@@ -154,7 +156,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 49) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 51) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -257,8 +259,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillTime(String template, String key, TimeOfDay? time) {
-    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '');
-    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '');
+    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '-');
+    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '-');
     return template;
   }
 
