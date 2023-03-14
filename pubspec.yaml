@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  syncfusion_flutter_pdfviewer: ^20.4.53
   cupertino_icons: ^1.0.2
   get_it: ^7.2.0
   mobx: ^2.1.3

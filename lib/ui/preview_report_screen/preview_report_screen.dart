@@ -18,6 +18,7 @@ import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PreviewReportScreenArguments {
   ReportType reportType;
@@ -1352,13 +1353,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return Observer(
       builder: (context) {
         return _file != null
-            ? PdfPreview(
-                useActions: false,
-                build: (format) {
-                  return _file!.readAsBytes();
-                },
-                initialPageFormat: PdfPageFormat.a4,
-              )
+            ? SfPdfViewer.file(_file!)
             : const CustomProgressIndicatorWidget();
       },
     );
