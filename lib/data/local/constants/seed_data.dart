@@ -7,52 +7,52 @@ class SeedData {
   static const teams = [
     {
       "TeamCD": "000",
-      "Name": "袖ケ浦市中央消防署第1救急隊",
+      "Name": "中央消防署第1救急隊",
       "Abbreviation": "中央救急隊",
       "TEL": "0438-64-0165",
-      "FireStationCD": "001",
+      "FireStationCD": "001"
     },
     {
       "TeamCD": "001",
-      "Name": "袖ケ浦市中央消防署第2救急隊",
+      "Name": "中央消防署第2救急隊",
       "Abbreviation": "中央救急隊",
       "TEL": "0438-64-0165",
-      "FireStationCD": "001",
+      "FireStationCD": "001"
     },
     {
       "TeamCD": "002",
-      "Name": "袖ケ浦市長浦消防署第1救急隊",
+      "Name": "長浦消防署第1救急隊",
       "Abbreviation": "長浦救急隊",
       "TEL": "0438-62-9728",
-      "FireStationCD": "002",
+      "FireStationCD": "002"
     },
     {
       "TeamCD": "003",
-      "Name": "袖ケ浦市長浦消防署第2救急隊",
+      "Name": "長浦消防署第2救急隊",
       "Abbreviation": "長浦救急隊",
       "TEL": "0438-62-9728",
-      "FireStationCD": "002",
+      "FireStationCD": "002"
     },
     {
       "TeamCD": "004",
-      "Name": "袖ケ浦市平川消防署第1救急隊",
+      "Name": "平川消防署第1救急隊",
       "Abbreviation": "平川救急隊",
       "TEL": "0438-75-3116",
-      "FireStationCD": "003",
+      "FireStationCD": "003"
     },
     {
       "TeamCD": "005",
-      "Name": "袖ケ浦市平川消防署第2救急隊",
+      "Name": "平川消防署第2救急隊",
       "Abbreviation": "平川救急隊",
       "TEL": "0438-75-3116",
-      "FireStationCD": "003",
+      "FireStationCD": "003"
     },
     {
       "TeamCD": "1--------01--------0",
       "Name": "フル桁検証用チーム名１２３４５６７８９０",
       "Abbreviation": "フル桁隊略名１２３４",
       "TEL": "12345678901234567890",
-      "FireStationCD": "1--------01--------0",
+      "FireStationCD": "1--------01--------0"
     }
   ];
 
