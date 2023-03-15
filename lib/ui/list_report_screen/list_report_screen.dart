@@ -65,11 +65,14 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-      floatingActionButton:
-          selectingReports == null ? _buildCreateReportButton() : null,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+        floatingActionButton:
+            selectingReports == null ? _buildCreateReportButton() : null,
+      ),
     );
   }
 

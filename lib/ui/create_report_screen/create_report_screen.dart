@@ -80,10 +80,13 @@ class _CreateReportScreenState extends State<CreateReportScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-      floatingActionButton: _buildGetDataFromXSeriesButton(),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+        floatingActionButton: _buildGetDataFromXSeriesButton(),
+      ),
     );
   }
 

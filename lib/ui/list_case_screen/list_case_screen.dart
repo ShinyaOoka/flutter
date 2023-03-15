@@ -71,7 +71,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
       CaseListItem(
           caseId: 'caseId',
           startTime: "2023-02-02T05:19:43Z",
-          endTime: "2023-02-02T06:29:04Z")
+          endTime: "2024-02-02T06:29:04Z")
     ]);
     _hostApi.deviceGetCaseList(device, null);
   }
@@ -87,7 +87,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leading: _buildBackButton(),
-      leadingWidth: 100,
+      leadingWidth: 88,
       actions: _buildActions(),
       title: 'get_xseries_data'.i18n(),
     );

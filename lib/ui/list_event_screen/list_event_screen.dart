@@ -165,9 +165,12 @@ class _ListEventScreenState extends State<ListEventScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      ),
     );
   }
 
