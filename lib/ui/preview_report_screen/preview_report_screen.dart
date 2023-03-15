@@ -259,8 +259,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillTime(String template, String key, TimeOfDay? time) {
-    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '-');
-    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '-');
+    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '--');
+    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '--');
     return template;
   }
 
