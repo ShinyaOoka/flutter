@@ -169,6 +169,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         onChanged: (value) => report.reasonForNotTransferring = value,
         maxLength: 100,
         minLines: 3,
+        maxLines: 3,
         readOnly: widget.readOnly,
       ),
     ]);
