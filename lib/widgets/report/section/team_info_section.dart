@@ -114,6 +114,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         ),
         AppTextField(
           controller: teamCaptainNameController,
+          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           label: 'team_captain_name'.i18n(),
           onChanged: (value) => report.teamCaptainName = value,
           maxLength: 20,
@@ -150,6 +151,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     return lineLayout(children: [
       AppTextField(
         controller: teamMemberNameController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         label: 'team_member_name'.i18n(),
         onChanged: (value) => report.teamMemberName = value,
         maxLength: 20,
@@ -158,6 +160,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
       ),
       AppTextField(
         controller: institutionalMemberNameController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         label: 'institutional_member_name'.i18n(),
         onChanged: (value) => report.institutionalMemberName = value,
         maxLength: 20,
@@ -174,7 +177,10 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         label: 'total'.i18n(),
         keyboardType: TextInputType.number,
         onChanged: (item) => report.totalCount = int.tryParse(item),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.singleLineFormatter
+        ],
         maxLength: 6,
         readOnly: widget.readOnly,
         counterText: '件',
@@ -186,7 +192,10 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         label: 'team'.i18n(),
         keyboardType: TextInputType.number,
         onChanged: (item) => report.teamCount = int.tryParse(item),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.singleLineFormatter
+        ],
         maxLength: 6,
         readOnly: widget.readOnly,
         counterText: '件',
