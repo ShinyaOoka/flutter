@@ -245,10 +245,7 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_family_tel'.i18n(),
         keyboardType: TextInputType.phone,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp('[0-9-+]')),
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         controller: sickInjuredPersonFamilyTelController,
         onChanged: (value) => report.sickInjuredPersonFamilyTel = value,
         maxLength: 20,
@@ -262,7 +259,6 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_medical_history'.i18n(),
         controller: sickInjuredPersonMedicalHistoryController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonMedicalHistory = value,
         maxLength: 20,
         readOnly: widget.readOnly,
@@ -270,7 +266,6 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_history_hospital'.i18n(),
         controller: sickInjuredPersonHistoryHospitalController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonHistoryHospital = value,
         maxLength: 20,
         readOnly: widget.readOnly,
@@ -283,7 +278,6 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_kakaritsuke'.i18n(),
         controller: sickInjuredPersonKakaritsukeController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonKakaritsuke = value,
         maxLength: 20,
         readOnly: widget.readOnly,
@@ -291,7 +285,6 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_allergy'.i18n(),
         controller: sickInjuredPersonAllergyController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonAllergy = value,
         maxLength: 20,
         readOnly: widget.readOnly,
@@ -321,7 +314,6 @@ class _SickInjuredPersonInfoSectionState
         AppTextField(
           label: 'sick_injured_person_medication_detail'.i18n(),
           controller: sickInjuredPersonMedicationDetailController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) =>
               report.sickInjuredPersonMedicationDetail = value,
           maxLength: 20,
@@ -336,7 +328,6 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_name_of_injury_or_sickness'.i18n(),
         controller: sickInjuredPersonNameOfInjuryOrSicknessController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) =>
             report.sickInjuredPersonNameOfInjuryOrSickness = value,
         maxLength: 60,

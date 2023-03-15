@@ -73,7 +73,6 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         AppTextField(
           label: 'perceiver_name'.i18n(),
           controller: perceiverNameController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.perceiverName = value,
           maxLength: 20,
           readOnly: widget.readOnly,
@@ -105,7 +104,6 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
       AppTextField(
         label: 'caller_name'.i18n(),
         controller: callerNameController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.callerName = value,
         maxLength: 20,
         readOnly: widget.readOnly,
@@ -114,10 +112,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         label: 'caller_tel'.i18n(),
         controller: callerTelController,
         keyboardType: TextInputType.phone,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp('[0-9-+]')),
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9-+]'))],
         onChanged: (value) => report.callerTel = value,
         maxLength: 20,
         readOnly: widget.readOnly,

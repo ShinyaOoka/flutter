@@ -324,10 +324,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (x) => reportStore
             .selectingReport!.respiration?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
         maxLength: 3,
@@ -339,10 +336,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (x) =>
             reportStore.selectingReport!.pulse?[widget.index] = int.tryParse(x),
         keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         counterText: 'times_per_minute'.i18n(),
         counterColor: Theme.of(context).primaryColor,
         maxLength: 3,
@@ -364,10 +358,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 onChanged: (x) => reportStore.selectingReport!
                     .bloodPressureHigh?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
@@ -381,10 +372,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 onChanged: (x) => reportStore.selectingReport!
                     .bloodPressureLow?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
@@ -401,10 +389,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 onChanged: (x) => reportStore.selectingReport!
                     .spO2Percent?[widget.index] = int.tryParse(x),
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: '%'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 maxLength: 3,
@@ -416,10 +401,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 label: 'sp_o2_liter'.i18n(),
                 controller: spO2LiterController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
                     report.spO2Liter?[widget.index] = int.tryParse(value),
                 counterText: 'L',
@@ -440,10 +422,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 label: 'pupil_right'.i18n(),
                 controller: pupilRightController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
                     report.pupilRight?[widget.index] = int.tryParse(value),
                 counterText: 'mm'.i18n(),
@@ -457,10 +436,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 label: 'pupil_left'.i18n(),
                 controller: pupilLeftController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) =>
                     report.pupilLeft?[widget.index] = int.tryParse(value),
                 counterText: 'mm'.i18n(),
@@ -513,8 +489,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-              FilteringTextInputFormatter.singleLineFormatter,
+                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
             ],
             counterText: 'celsius'.i18n(),
             counterColor: Theme.of(context).primaryColor,
@@ -555,7 +530,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
         AppTextField(
           label: 'hemorrhage'.i18n(),
           controller: hemorrhageController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.hemorrhage?[widget.index] = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -596,7 +570,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
         AppTextField(
           label: 'extremities'.i18n(),
           controller: extremitiesController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.extremities?[widget.index] = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -639,7 +612,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'each_ecg'.i18n(),
         controller: eachEcgController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.eachEcg?[widget.index] = value,
         maxLength: 10,
         readOnly: widget.readOnly,
@@ -651,9 +623,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           controller: eachOxygenInhalationController,
           keyboardType: TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-            FilteringTextInputFormatter.singleLineFormatter,
+            FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
           ],
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
@@ -697,7 +667,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_1'.i18n(),
         controller: otherProcess1Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess1?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -706,7 +675,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_2'.i18n(),
         controller: otherProcess2Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess2?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -715,7 +683,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_3'.i18n(),
         controller: otherProcess3Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess3?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -729,7 +696,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_4'.i18n(),
         controller: otherProcess4Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess4?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -738,7 +704,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_5'.i18n(),
         controller: otherProcess5Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess5?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -747,7 +712,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_6'.i18n(),
         controller: otherProcess6Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess6?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
@@ -761,7 +725,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
       AppTextField(
         label: 'other_process_7'.i18n(),
         controller: otherProcess7Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.otherProcess7?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,

@@ -1,6 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +144,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
       AppTextField(
         keyboardType: TextInputType.multiline,
         controller: placeOfDispatchController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         maxLength: 25,
         label: 'place_of_dispatch'.i18n(),
         onChanged: (value) => report.placeOfDispatch = value,
@@ -159,7 +157,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
       AppTextField(
         keyboardType: TextInputType.multiline,
         controller: accidentSummaryController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         minLines: 3,
         maxLines: 3,
         maxLength: 100,
@@ -236,7 +233,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
       AppTextField(
         label: 'verbal_guidance'.i18n(),
         controller: verbalGuidanceController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.verbalGuidance = value,
         maxLength: 60,
         maxLines: 1,

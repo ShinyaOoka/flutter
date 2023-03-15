@@ -176,11 +176,10 @@ class _TreatmentSectionState extends State<TreatmentSection>
           child: AppTextField(
             label: 'o2_administration'.i18n(),
             controller: o2AdministrationController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-              FilteringTextInputFormatter.singleLineFormatter,
+                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?'))
             ],
             readOnly: widget.readOnly,
             counterText: 'L',
@@ -282,10 +281,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 controller: bsMeasurement1Controller,
                 keyboardType: TextInputType.number,
                 onChanged: (item) => report.bsMeasurement1 = int.tryParse(item),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
@@ -307,7 +303,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
         AppTextField(
           label: 'puncture_site_1'.i18n(),
           controller: punctureSite1Controller,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.punctureSite1 = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -327,10 +322,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                 controller: bsMeasurement2Controller,
                 keyboardType: TextInputType.number,
                 onChanged: (item) => report.bsMeasurement2 = int.tryParse(item),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 counterText: 'mmHg'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
@@ -352,7 +344,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
         AppTextField(
           label: 'puncture_site_2'.i18n(),
           controller: punctureSite2Controller,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.punctureSite2 = value,
           maxLength: 10,
           readOnly: widget.readOnly,
@@ -366,7 +357,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
       AppTextField(
         label: 'other'.i18n(),
         controller: otherController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.other = value,
         maxLength: 20,
         maxLines: 1,

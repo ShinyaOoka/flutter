@@ -1,6 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +57,6 @@ class _ReporterSectionState extends State<ReporterSection>
     return lineLayout(children: [
       AppTextField(
         controller: nameOfReporterController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         label: 'name_of_reporter'.i18n(),
         onChanged: (value) => report.nameOfReporter = value,
         maxLength: 20,
@@ -78,7 +76,6 @@ class _ReporterSectionState extends State<ReporterSection>
     return lineLayout(children: [
       AppTextField(
         controller: positionOfReporterController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         label: 'position_of_reporter'.i18n(),
         onChanged: (value) => report.positionOfReporter = value,
         maxLength: 20,
