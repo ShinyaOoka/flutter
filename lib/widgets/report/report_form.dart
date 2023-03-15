@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_azm_flutter/widgets/report/section/occurrence_status_section.dart';
 import 'package:ak_azm_flutter/widgets/report/section/remarks_section.dart';
@@ -20,6 +21,7 @@ class _Section {
   final Widget icon;
   final bool optional;
   bool isExpanded;
+  final GlobalKey globalKey = GlobalKey();
 
   _Section({
     required this.widget,
@@ -49,6 +51,7 @@ class ReportForm extends StatefulWidget {
 class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
   late List<_Section> sections;
   late ReportStore _reportStore;
+  ScrollController scrollController = ScrollController();
 
   @override
   void didChangeDependencies() {
@@ -168,58 +171,64 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (!widget.radio) {
-      return ExpansionPanelList(
-          expansionCallback: (panelIndex, isExpanded) {
-            setState(() {
-              sections[panelIndex].isExpanded = !isExpanded;
-            });
-          },
-          expandedHeaderPadding: EdgeInsets.zero,
-          children: sections
-              .asMap()
-              .map((index, section) => MapEntry(
-                  index,
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      backgroundColor: section.optional
-                          ? Theme.of(context).secondaryHeaderColor
-                          : null,
-                      headerBuilder: (context, isExpanded) {
-                        return ListTile(
-                            leading: section.icon,
-                            title: Text('${index + 1}. ${section.title}'));
-                      },
-                      body: section.widget,
-                      isExpanded: section.isExpanded)))
-              .values
-              .toList());
-    }
-    return ExpansionPanelList.radio(
-        expandedHeaderPadding: EdgeInsets.zero,
-        expansionCallback: (panelIndex, isExpanded) {
+  Widget buildContent(BuildContext context) {
+    return ExpansionPanelList(
+        expansionCallback: (panelIndex, isExpanded) async {
           setState(() {
-            sections[panelIndex].isExpanded = !isExpanded;
+            sections.forEachIndexed((index, element) {
+              if (index == panelIndex) {
+                sections[index].isExpanded = !isExpanded;
+              } else if (widget.radio) {
+                sections[index].isExpanded = false;
+              }
+            });
           });
+          if (widget.radio) {
+            await Future.delayed(const Duration(milliseconds: 300), () async {
+              await Scrollable.ensureVisible(
+                  sections[panelIndex].globalKey.currentContext!,
+                  duration: const Duration(milliseconds: 200));
+              // Make sure that if the previous call didn't scroll the widget to
+              // top, maybe because of an animation jitter, scroll it immediately
+              // to the top
+              await Scrollable.ensureVisible(
+                  sections[panelIndex].globalKey.currentContext!,
+                  duration: const Duration(milliseconds: 0));
+            });
+          }
         },
+        animationDuration: const Duration(milliseconds: 200),
+        expandedHeaderPadding: EdgeInsets.zero,
         children: sections
             .asMap()
             .map((index, section) => MapEntry(
                 index,
-                ExpansionPanelRadio(
-                    value: index,
+                ExpansionPanel(
                     canTapOnHeader: true,
-                    backgroundColor:
-                        section.optional ? optionalColor(context) : null,
+                    backgroundColor: section.optional
+                        ? Theme.of(context).secondaryHeaderColor
+                        : null,
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
+                          key: section.globalKey,
                           leading: section.icon,
                           title: Text('${index + 1}. ${section.title}'));
                     },
-                    body: section.isExpanded ? section.widget : Container())))
+                    body: section.isExpanded ? section.widget : Container(),
+                    isExpanded: section.isExpanded)))
             .values
             .toList());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      controller: scrollController,
+      thumbVisibility: true,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: buildContent(context),
+      ),
+    );
   }
 }

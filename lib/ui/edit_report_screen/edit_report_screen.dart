@@ -31,8 +31,6 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
 
-  late ScrollController scrollController;
-
   late Report _originalReport;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -41,7 +39,6 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
   }
 
   @override
@@ -211,14 +208,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   }
 
   Widget _buildForm() {
-    return Scrollbar(
-      controller: scrollController,
-      thumbVisibility: true,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        child: const ReportForm(),
-      ),
-    );
+    return const ReportForm();
   }
 
   Widget _handleErrorMessage() {

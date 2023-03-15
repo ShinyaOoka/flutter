@@ -32,15 +32,12 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
 
-  late ScrollController scrollController;
-
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
   }
 
   @override
@@ -213,14 +210,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   }
 
   Widget _buildForm() {
-    return Scrollbar(
-      controller: scrollController,
-      thumbVisibility: true,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        child: const ReportForm(),
-      ),
-    );
+    return const ReportForm();
   }
 
   Widget _handleErrorMessage() {
