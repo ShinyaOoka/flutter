@@ -7,17 +7,18 @@ class ReportSectionMixin {
   Widget lineLayout({required List<Widget> children}) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        final cloned = [...children];
         final isMobile = constraints.maxWidth < 640;
         if (isMobile) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: children,
+            children: cloned,
           );
         } else {
           final List<Widget> widgets = [];
-          final last = children.removeLast();
-          for (final child in children) {
+          final last = cloned.removeLast();
+          for (final child in cloned) {
             widgets.add(Expanded(child: child));
             widgets.add(Expanded(
               flex: 0,
