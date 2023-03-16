@@ -123,7 +123,6 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonNameController,
         onChanged: (value) => report.sickInjuredPersonName = value,
         maxLength: 20,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         readOnly: widget.readOnly,
       ),
       Focus(
