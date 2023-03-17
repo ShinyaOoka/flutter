@@ -34,9 +34,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late Report _report;
   late ScrollController scrollController;
 
-  late XSeriesDevice device;
+  XSeriesDevice? device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
+  List<CaseListItem>? cases;
+  bool hasNewData = false;
+  ReactionDisposer? reactionDisposer;
 
   @override
   void initState() {
@@ -53,6 +56,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   @override
   void dispose() {
     super.dispose();
+    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -62,18 +66,61 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
     device = args.device;
     _report = args.report;
+    _zollSdkStore = context.read();
+    reactionDisposer?.call();
+    reactionDisposer = autorun((_) {
+      final storeCases = _zollSdkStore.caseListItems[device?.serialNumber];
+      if (storeCases != null && cases == null) {
+        setState(() {
+          cases = storeCases;
+        });
+      } else if (cases != null && storeCases == null) {
+        setState(() {
+          hasNewData = false;
+        });
+      } else if (cases != null && storeCases != null) {
+        setState(() {
+          if (cases!.length != storeCases.length) {
+            hasNewData = true;
+          } else {
+            for (int i = 0; i < cases!.length; i++) {
+              final oldItem = cases![i];
+              final newItem = storeCases[i];
+              if (oldItem.caseId != newItem.caseId ||
+                  oldItem.endTime != newItem.endTime ||
+                  oldItem.startTime != newItem.startTime) {
+                hasNewData = true;
+                break;
+              }
+            }
+          }
+        });
+      }
+    });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    _zollSdkStore = context.read();
-    print('device serial number');
-    print(device.serialNumber);
-    _zollSdkStore.caseListItems['serialNumber'] = ObservableList.of([
-      CaseListItem(
-          caseId: 'caseId',
-          startTime: "2023-02-02T05:19:43Z",
-          endTime: "2024-02-02T06:29:04Z")
-    ]);
-    _hostApi.deviceGetCaseList(device, null);
+    // Future.delayed(Duration(seconds: 2), () {
+    //   if (_zollSdkStore.caseListItems['serialNumber'] != null) {
+    //     _zollSdkStore.caseListItems['serialNumber'] = [
+    //       CaseListItem(
+    //           caseId: 'caseId',
+    //           startTime: "2023-02-02T05:19:44Z",
+    //           endTime: "2024-02-02T06:29:04Z"),
+    //       CaseListItem(
+    //           caseId: 'caseId',
+    //           startTime: "2023-02-02T05:19:44Z",
+    //           endTime: "2024-02-02T06:29:04Z")
+    //     ];
+    //   } else {
+    //     _zollSdkStore.caseListItems['serialNumber'] = [
+    //       CaseListItem(
+    //           caseId: 'caseId',
+    //           startTime: "2023-02-02T05:19:43Z",
+    //           endTime: "2024-02-02T06:29:04Z")
+    //     ];
+    //   }
+    // });
+    _hostApi.deviceGetCaseList(device!, null);
   }
 
   @override
@@ -96,6 +143,18 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   List<Widget> _buildActions() {
     return <Widget>[
       // _buildCreateReportButton(),
+      hasNewData
+          ? TextButton(
+              onPressed: () {
+                setState(() {
+                  cases = [
+                    ..._zollSdkStore.caseListItems[device!.serialNumber]!
+                  ];
+                  hasNewData = false;
+                });
+              },
+              child: Text("更新"))
+          : Container()
     ];
   }
 
@@ -118,11 +177,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        Observer(
-            builder: (context) =>
-                _zollSdkStore.caseListItems[device.serialNumber] != null
-                    ? _buildMainContent()
-                    : const CustomProgressIndicatorWidget()),
+        cases != null
+            ? _buildMainContent()
+            : const CustomProgressIndicatorWidget()
       ],
     );
   }
@@ -139,31 +196,25 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                   ?.copyWith(color: Colors.black, fontSize: 18)),
         ),
         Expanded(
-          child: Observer(
-            builder: (context) {
-              final cases = _zollSdkStore.caseListItems[device.serialNumber]!;
-              return Scrollbar(
-                controller: scrollController,
-                thumbVisibility: true,
-                child: ListView.separated(
-                  controller: scrollController,
-                  itemCount: cases.length,
-                  itemBuilder: (context, index) => ListTile(
-                      title: Text(
-                          '${_formatTime(cases[index].startTime)}〜${_formatTime(cases[index].endTime)}'),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(Routes.listEvent,
-                            arguments: ListEventScreenArguments(
-                                device: device,
-                                caseId: cases[index].caseId,
-                                report: _report));
-                      }),
-                  separatorBuilder: (context, index) => const Divider(),
-                ),
-              );
-            },
+            child: Scrollbar(
+          controller: scrollController,
+          thumbVisibility: true,
+          child: ListView.separated(
+            controller: scrollController,
+            itemCount: cases!.length,
+            itemBuilder: (context, index) => ListTile(
+                title: Text(
+                    '${_formatTime(cases![index].startTime)}〜${_formatTime(cases![index].endTime)}'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.listEvent,
+                      arguments: ListEventScreenArguments(
+                          device: device!,
+                          caseId: cases![index].caseId,
+                          report: _report));
+                }),
+            separatorBuilder: (context, index) => const Divider(),
           ),
-        ),
+        )),
       ],
     );
   }
