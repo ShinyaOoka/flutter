@@ -1382,18 +1382,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   Widget _buildBody() {
-    return Observer(
-      builder: (context) {
-        return _file != null
-            ? PdfPreview(
-                useActions: false,
-                build: (format) {
-                  return _file!.readAsBytes();
-                },
-                initialPageFormat: PdfPageFormat.a4,
-              )
-            : const CustomProgressIndicatorWidget();
-      },
-    );
+    return _file != null
+        ? PdfPreview(
+            useActions: false,
+            build: (format) {
+              return _file!.readAsBytes();
+            },
+            initialPageFormat: PdfPageFormat.a4,
+          )
+        : const CustomProgressIndicatorWidget();
   }
 }

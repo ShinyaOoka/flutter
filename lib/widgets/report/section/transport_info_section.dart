@@ -84,11 +84,11 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
             (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
             (a, b) {
               final emergencyMedicineLevelCompare =
-                  b.item1!.compareTo(a.item1!);
+                  b.item1?.compareTo(a.item1!);
               if (emergencyMedicineLevelCompare == 0) {
                 return a.item1!.compareTo(b.item1!);
               }
-              return emergencyMedicineLevelCompare;
+              return emergencyMedicineLevelCompare ?? -1;
             },
           ),
           label: 'medical_transport_facility'.i18n(),
@@ -126,11 +126,11 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
             (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
             (a, b) {
               final emergencyMedicineLevelCompare =
-                  b.item1!.compareTo(a.item1!);
+                  b.item1?.compareTo(a.item1!);
               if (emergencyMedicineLevelCompare == 0) {
                 return a.item1!.compareTo(b.item1!);
               }
-              return emergencyMedicineLevelCompare;
+              return emergencyMedicineLevelCompare ?? -1;
             },
           ),
           label: 'transferring_medical_institution'.i18n(),
