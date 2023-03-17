@@ -1351,7 +1351,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
               break;
             case 1:
               if (_file != null) {
-                await Share.shareXFiles([XFile(_file!.absolute.path)]);
+                await Share.shareXFiles([
+                  XFile(_file!.absolute.path,
+                      name: getReportName(), mimeType: 'application/pdf')
+                ],
+                    subject: getReportName(),
+                    sharePositionOrigin: Rect.fromCenter(
+                        center: Offset(700, 20), width: 20, height: 20));
               }
               break;
           }
