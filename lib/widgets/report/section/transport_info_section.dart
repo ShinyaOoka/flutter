@@ -12,6 +12,7 @@ import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/app_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
+import 'package:tuple/tuple.dart';
 
 class TransportInfoSection extends StatefulWidget {
   final bool readOnly;
@@ -77,7 +78,18 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
       return lineLayout(children: [
         AppDropdown<Hospital>(
           showSearchBox: true,
-          items: report.hospitalStore?.hospitals.values.toList(),
+          items:
+              report.hospitalStore?.hospitals.values.toList().sortedByCompare(
+            (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
+            (a, b) {
+              final emergencyMedicineLevelCompare =
+                  b.item1!.compareTo(a.item1!);
+              if (emergencyMedicineLevelCompare == 0) {
+                return a.item1!.compareTo(b.item1!);
+              }
+              return emergencyMedicineLevelCompare;
+            },
+          ),
           label: 'medical_transport_facility'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) {
@@ -107,7 +119,18 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
       return lineLayout(children: [
         AppDropdown<Hospital>(
           showSearchBox: true,
-          items: report.hospitalStore?.hospitals.values.toList(),
+          items:
+              report.hospitalStore?.hospitals.values.toList().sortedByCompare(
+            (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
+            (a, b) {
+              final emergencyMedicineLevelCompare =
+                  b.item1!.compareTo(a.item1!);
+              if (emergencyMedicineLevelCompare == 0) {
+                return a.item1!.compareTo(b.item1!);
+              }
+              return emergencyMedicineLevelCompare;
+            },
+          ),
           label: 'transferring_medical_institution'.i18n(),
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) {
