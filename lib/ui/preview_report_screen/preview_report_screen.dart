@@ -1225,7 +1225,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput =
             htmlInput.replaceFirst('有(', '<span class="text-circle">有</span>(');
         htmlInput = htmlInput.replaceFirst(')　無', ') 無');
-      } else {
+      } else if (report.observationTime?[i] != null) {
         htmlInput = htmlInput.replaceFirst('有(', '有 (');
         htmlInput = htmlInput.replaceFirst(
             ')　無', ') <span class="text-circle">無</span>');
@@ -1240,7 +1240,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
       for (String? incon in report.incontinence?.toList() ?? []) {
         String incontinenceStr = defaultIncontinenceStr;
-        if (incon == '000' || incon == null) {
+        if ((incon == '000' || incon == null) &&
+            report.observationTime?[i] != null) {
           incontinenceStr = incontinenceStr.replaceFirst(
               '無', '<span class="text-circle">無</span>');
         } else if (incon == '001') {
@@ -1272,7 +1273,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '<span class="text-circle">有</span>　　無');
         totalYesSpaceNoPos += 1;
-      } else {
+      } else if (report.observationTime?[i] != null) {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '有　　<span class="text-circle">無</span>');
         totalYesSpaceNoPos += 1;
