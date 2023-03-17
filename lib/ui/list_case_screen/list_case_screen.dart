@@ -67,6 +67,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     device = args.device;
     _report = args.report;
     _zollSdkStore = context.read();
+    setState(() {
+      cases = _zollSdkStore.caseListItems[device?.serialNumber];
+    });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {
       final storeCases = _zollSdkStore.caseListItems[device?.serialNumber];

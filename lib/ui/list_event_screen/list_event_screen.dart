@@ -100,6 +100,9 @@ class _ListEventScreenState extends State<ListEventScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    setState(() {
+      myCase = _zollSdkStore.cases[caseId];
+    });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {
       final storeCase = _zollSdkStore.cases[caseId];
