@@ -18,6 +18,7 @@ import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PreviewReportScreenArguments {
   ReportType reportType;
@@ -68,13 +69,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       final imageData = base64.encode(image.buffer.asUint8List());
       filledReport = filledReport.replaceAll('IMAGE_PLACEHOLDER', imageData);
       return await FlutterHtmlToPdf.convertFromHtmlContent(
-          filledReport, tempDir.path, 'report.pdf');
+          filledReport, tempDir.path, getReportName());
     } else if (reportType == ReportType.ambulance) {
       String reportTemplate =
           await rootBundle.loadString(AppConstants.reportAmbulanceTemplatePath);
       String filledReport = fillAmbulanceData(reportTemplate);
       return await FlutterHtmlToPdf.convertFromHtmlContent(
-          filledReport, tempDir.path, 'report.pdf');
+          filledReport, tempDir.path, getReportName());
     } else {
       assert(false);
     }
@@ -1299,9 +1300,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     );
   }
 
+  String getReportName() {
+    return reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書';
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書',
+      title: Text(getReportName(),
           style: TextStyle(color: Theme.of(context).primaryColor)),
       actions: _buildActions(),
       centerTitle: true,
@@ -1325,7 +1330,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 10,
                     leading: const Icon(Icons.print),
-                    title: Text('送信・印刷'.i18n()))),
+                    title: Text('印刷'.i18n()))),
+            PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: const Icon(Icons.ios_share),
+                    title: Text('送信'.i18n()))),
           ];
         },
         onSelected: (value) async {
@@ -1335,6 +1347,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 final bytes = await _file!.readAsBytes();
                 await Printing.layoutPdf(
                     onLayout: (_) => bytes, format: PdfPageFormat.a4);
+              }
+              break;
+            case 1:
+              if (_file != null) {
+                await Share.shareXFiles([XFile(_file!.absolute.path)]);
               }
               break;
           }
