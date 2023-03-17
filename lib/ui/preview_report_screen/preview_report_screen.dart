@@ -568,7 +568,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
 
     //15
-    if (report.sickInjuredPersonMedicalHistory == null) {
+    if (report.sickInjuredPersonMedicalHistory == null &&
+        report.sickInjuredPersonMedicalHistory != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 3 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -593,7 +594,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonHistoryHospital ?? '');
 
     //18
-    if (report.sickInjuredPersonKakaritsuke == null) {
+    if (report.sickInjuredPersonKakaritsuke == null &&
+        report.sickInjuredPersonKakaritsuke != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 4 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -650,7 +652,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             '');
 
     //22
-    if (report.sickInjuredPersonAllergy == null) {
+    if (report.sickInjuredPersonAllergy == null &&
+        report.sickInjuredPersonAllergy != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 6 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -895,7 +898,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = handleDatLayout578(htmlInput);
 
     //62
-    if (report.securingAirway != null) {
+    if (report.securingAirway != null && report.securingAirway != '') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　気道確保', '$checkIcon　気道確保');
     }
@@ -952,7 +955,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //72
-    if (report.limitationOfSpinalMotion != null) {
+    if (report.limitationOfSpinalMotion != null &&
+        report.limitationOfSpinalMotion != '') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　脊椎運動制限', '$checkIcon　脊椎運動制限');
     }
@@ -968,7 +972,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //74
     if (report.hemostaticTreatment != null && report.hemostaticTreatment!) {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIcon　止血措置', '$checkIcon　止血措置');
+          htmlInput.replaceFirst('$uncheckIcon　止血処置', '$checkIcon　止血処置');
     }
 
     //75
