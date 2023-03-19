@@ -18,6 +18,7 @@ import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PreviewReportScreenArguments {
   ReportType reportType;
@@ -68,13 +69,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       final imageData = base64.encode(image.buffer.asUint8List());
       filledReport = filledReport.replaceAll('IMAGE_PLACEHOLDER', imageData);
       return await FlutterHtmlToPdf.convertFromHtmlContent(
-          filledReport, tempDir.path, 'report.pdf');
+          filledReport, tempDir.path, getReportName());
     } else if (reportType == ReportType.ambulance) {
       String reportTemplate =
           await rootBundle.loadString(AppConstants.reportAmbulanceTemplatePath);
       String filledReport = fillAmbulanceData(reportTemplate);
       return await FlutterHtmlToPdf.convertFromHtmlContent(
-          filledReport, tempDir.path, 'report.pdf');
+          filledReport, tempDir.path, getReportName());
     } else {
       assert(false);
     }
@@ -568,7 +569,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
 
     //15
-    if (report.sickInjuredPersonMedicalHistory == null) {
+    if (report.sickInjuredPersonMedicalHistory == null &&
+        report.sickInjuredPersonMedicalHistory != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 3 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -593,7 +595,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonHistoryHospital ?? '');
 
     //18
-    if (report.sickInjuredPersonKakaritsuke == null) {
+    if (report.sickInjuredPersonKakaritsuke == null &&
+        report.sickInjuredPersonKakaritsuke != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 4 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -650,7 +653,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             '');
 
     //22
-    if (report.sickInjuredPersonAllergy == null) {
+    if (report.sickInjuredPersonAllergy == null &&
+        report.sickInjuredPersonAllergy != '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 6 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -895,7 +899,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = handleDatLayout578(htmlInput);
 
     //62
-    if (report.securingAirway != null) {
+    if (report.securingAirway != null && report.securingAirway != '') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　気道確保', '$checkIcon　気道確保');
     }
@@ -952,7 +956,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
 
     //72
-    if (report.limitationOfSpinalMotion != null) {
+    if (report.limitationOfSpinalMotion != null &&
+        report.limitationOfSpinalMotion != '') {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon　脊椎運動制限', '$checkIcon　脊椎運動制限');
     }
@@ -968,7 +973,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //74
     if (report.hemostaticTreatment != null && report.hemostaticTreatment!) {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIcon　止血措置', '$checkIcon　止血措置');
+          htmlInput.replaceFirst('$uncheckIcon　止血処置', '$checkIcon　止血処置');
     }
 
     //75
@@ -1221,7 +1226,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput =
             htmlInput.replaceFirst('有(', '<span class="text-circle">有</span>(');
         htmlInput = htmlInput.replaceFirst(')　無', ') 無');
-      } else {
+      } else if (report.observationTime?[i] != null) {
         htmlInput = htmlInput.replaceFirst('有(', '有 (');
         htmlInput = htmlInput.replaceFirst(
             ')　無', ') <span class="text-circle">無</span>');
@@ -1236,7 +1241,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
       for (String? incon in report.incontinence?.toList() ?? []) {
         String incontinenceStr = defaultIncontinenceStr;
-        if (incon == '000' || incon == null) {
+        if ((incon == '000' || incon == null) &&
+            report.observationTime?[i] != null) {
           incontinenceStr = incontinenceStr.replaceFirst(
               '無', '<span class="text-circle">無</span>');
         } else if (incon == '001') {
@@ -1268,7 +1274,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '<span class="text-circle">有</span>　　無');
         totalYesSpaceNoPos += 1;
-      } else {
+      } else if (report.observationTime?[i] != null) {
         htmlInput = customReplace(htmlInput, '有　　無', i + 1 - totalYesSpaceNoPos,
             '有　　<span class="text-circle">無</span>');
         totalYesSpaceNoPos += 1;
@@ -1294,9 +1300,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     );
   }
 
+  String getReportName() {
+    return reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書';
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書',
+      title: Text(getReportName(),
           style: TextStyle(color: Theme.of(context).primaryColor)),
       actions: _buildActions(),
       centerTitle: true,
@@ -1320,7 +1330,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                     contentPadding: EdgeInsets.zero,
                     minLeadingWidth: 10,
                     leading: const Icon(Icons.print),
-                    title: Text('送信・印刷'.i18n()))),
+                    title: Text('印刷'.i18n()))),
+            PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: const Icon(Icons.ios_share),
+                    title: Text('送信'.i18n()))),
           ];
         },
         onSelected: (value) async {
@@ -1330,6 +1347,17 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 final bytes = await _file!.readAsBytes();
                 await Printing.layoutPdf(
                     onLayout: (_) => bytes, format: PdfPageFormat.a4);
+              }
+              break;
+            case 1:
+              if (_file != null) {
+                await Share.shareXFiles([
+                  XFile(_file!.absolute.path,
+                      name: getReportName(), mimeType: 'application/pdf')
+                ],
+                    subject: getReportName(),
+                    sharePositionOrigin: Rect.fromCenter(
+                        center: Offset(700, 20), width: 20, height: 20));
               }
               break;
           }
@@ -1354,18 +1382,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   Widget _buildBody() {
-    return Observer(
-      builder: (context) {
-        return _file != null
-            ? PdfPreview(
-                useActions: false,
-                build: (format) {
-                  return _file!.readAsBytes();
-                },
-                initialPageFormat: PdfPageFormat.a4,
-              )
-            : const CustomProgressIndicatorWidget();
-      },
-    );
+    return _file != null
+        ? PdfPreview(
+            useActions: false,
+            build: (format) {
+              return _file!.readAsBytes();
+            },
+            initialPageFormat: PdfPageFormat.a4,
+          )
+        : const CustomProgressIndicatorWidget();
   }
 }

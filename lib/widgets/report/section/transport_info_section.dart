@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -83,11 +84,11 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
             (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
             (a, b) {
               final emergencyMedicineLevelCompare =
-                  b.item1!.compareTo(a.item1!);
+                  b.item1?.compareTo(a.item1!);
               if (emergencyMedicineLevelCompare == 0) {
                 return a.item1!.compareTo(b.item1!);
               }
-              return emergencyMedicineLevelCompare;
+              return emergencyMedicineLevelCompare ?? -1;
             },
           ),
           label: 'medical_transport_facility'.i18n(),
@@ -105,6 +106,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         AppTextField(
           label: 'other_medical_transport_facility'.i18n(),
           controller: otherMedicalTransportFacilityController,
+          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.otherMedicalTransportFacility = value,
           maxLength: 20,
           maxLines: 1,
@@ -124,11 +126,11 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
             (e) => Tuple2(e.emergencyMedicineLevel, e.hospitalCd),
             (a, b) {
               final emergencyMedicineLevelCompare =
-                  b.item1!.compareTo(a.item1!);
+                  b.item1?.compareTo(a.item1!);
               if (emergencyMedicineLevelCompare == 0) {
                 return a.item1!.compareTo(b.item1!);
               }
-              return emergencyMedicineLevelCompare;
+              return emergencyMedicineLevelCompare ?? -1;
             },
           ),
           label: 'transferring_medical_institution'.i18n(),
@@ -146,6 +148,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         AppTextField(
           label: 'other_transferring_medical_institution'.i18n(),
           controller: otherTransferringMedicalInstitutionController,
+          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) =>
               report.otherTransferringMedicalInstitution = value,
           maxLength: 20,
@@ -175,6 +178,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
       AppTextField(
         label: 'reason_for_transfer'.i18n(),
         controller: reasonForTransferController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.reasonForTransfer = value,
         maxLength: 60,
         maxLines: 1,
