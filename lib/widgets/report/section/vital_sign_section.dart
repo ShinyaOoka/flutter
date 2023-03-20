@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -473,25 +474,21 @@ class _VitalSignSectionState extends State<VitalSignSection>
           Row(
             children: [
               Expanded(
-                child: AppDropdown<bool>(
-                  items: const [true, false],
+                child: AppCheckbox(
                   label: 'light_reflex_right'.i18n(),
-                  itemAsString: ((item) => formatBool(item) ?? ''),
+                  value: report.lightReflexRight?[widget.index],
                   onChanged: (value) =>
                       report.lightReflexRight?[widget.index] = value,
-                  selectedItem: report.lightReflexRight?[widget.index],
                   readOnly: widget.readOnly,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: AppDropdown<bool>(
-                  items: const [true, false],
+                child: AppCheckbox(
                   label: 'light_reflex_left'.i18n(),
-                  itemAsString: ((item) => formatBool(item) ?? ''),
+                  value: report.lightReflexLeft?[widget.index],
                   onChanged: (value) =>
                       report.lightReflexLeft?[widget.index] = value,
-                  selectedItem: report.lightReflexLeft?[widget.index],
                   readOnly: widget.readOnly,
                 ),
               ),
@@ -585,12 +582,10 @@ class _VitalSignSectionState extends State<VitalSignSection>
   Widget _buildLine7(Report report, BuildContext context) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'vomiting'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.vomiting?[widget.index],
           onChanged: (value) => report.vomiting?[widget.index] = value,
-          selectedItem: report.vomiting?[widget.index],
           readOnly: widget.readOnly,
         ),
         AppTextField(
@@ -670,23 +665,17 @@ class _VitalSignSectionState extends State<VitalSignSection>
   Widget _buildLine10(Report report, BuildContext context) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'each_hemostasis'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.eachHemostasis?[widget.index],
           onChanged: (value) => report.eachHemostasis?[widget.index] = value,
-          selectedItem: report.eachHemostasis?[widget.index],
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
         ),
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'each_suction'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.eachSuction?[widget.index],
           onChanged: (value) => report.eachSuction?[widget.index] = value,
-          selectedItem: report.eachSuction?[widget.index],
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
         ),
       ]);
     });

@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -213,12 +214,10 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   Widget _buildLine6(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'witnesses'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.witnesses,
           onChanged: (value) => report.witnesses = value,
-          selectedItem: report.witnesses,
           readOnly: widget.readOnly,
         ),
         AppTimePicker(

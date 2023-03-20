@@ -102,27 +102,27 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    // Future.delayed(Duration(seconds: 2), () {
-    //   if (_zollSdkStore.caseListItems['serialNumber'] != null) {
-    //     _zollSdkStore.caseListItems['serialNumber'] = [
-    //       CaseListItem(
-    //           caseId: 'caseId',
-    //           startTime: "2023-02-02T05:19:44Z",
-    //           endTime: "2024-02-02T06:29:04Z"),
-    //       CaseListItem(
-    //           caseId: 'caseId',
-    //           startTime: "2023-02-02T05:19:44Z",
-    //           endTime: "2024-02-02T06:29:04Z")
-    //     ];
-    //   } else {
-    //     _zollSdkStore.caseListItems['serialNumber'] = [
-    //       CaseListItem(
-    //           caseId: 'caseId',
-    //           startTime: "2023-02-02T05:19:43Z",
-    //           endTime: "2024-02-02T06:29:04Z")
-    //     ];
-    //   }
-    // });
+    Future.delayed(Duration(seconds: 2), () {
+      if (_zollSdkStore.caseListItems['serialNumber'] != null) {
+        _zollSdkStore.caseListItems['serialNumber'] = [
+          CaseListItem(
+              caseId: 'caseId',
+              startTime: "2023-02-02T05:19:44Z",
+              endTime: "2024-02-02T06:29:04Z"),
+          CaseListItem(
+              caseId: 'caseId',
+              startTime: "2023-02-02T05:19:44Z",
+              endTime: "2024-02-02T06:29:04Z")
+        ];
+      } else {
+        _zollSdkStore.caseListItems['serialNumber'] = [
+          CaseListItem(
+              caseId: 'caseId',
+              startTime: "2023-02-02T05:19:43Z",
+              endTime: "2024-02-02T06:29:04Z")
+        ];
+      }
+    });
     _hostApi.deviceGetCaseList(device!, null);
   }
 
@@ -147,16 +147,21 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return <Widget>[
       // _buildCreateReportButton(),
       hasNewData
-          ? TextButton(
-              onPressed: () {
-                setState(() {
-                  cases = [
-                    ..._zollSdkStore.caseListItems[device!.serialNumber]!
-                  ];
-                  hasNewData = false;
-                });
-              },
-              child: Text("更新"))
+          ? Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    cases = [
+                      ..._zollSdkStore.caseListItems[device!.serialNumber]!
+                    ];
+                    hasNewData = false;
+                  });
+                },
+                label: Text("更新"),
+                icon: Icon(Icons.refresh),
+              ),
+            )
           : Container()
     ];
   }

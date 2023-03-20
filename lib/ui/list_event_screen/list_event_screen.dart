@@ -303,14 +303,15 @@ class _ListEventScreenState extends State<ListEventScreen>
                 Text('X Series イベント一覧',
                     style: Theme.of(context).textTheme.titleLarge),
                 hasNewData
-                    ? TextButton(
+                    ? TextButton.icon(
                         onPressed: () {
                           setState(() {
                             myCase = _zollSdkStore.cases[caseId];
                             hasNewData = false;
                           });
                         },
-                        child: Text("更新"))
+                        label: Text("更新"),
+                        icon: Icon(Icons.refresh))
                     : Container()
               ],
             ),

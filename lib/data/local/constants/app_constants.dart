@@ -35,6 +35,9 @@ class AppConstants {
       'assets/template/certificate.html';
   static const reportAmbulanceTemplatePath = 'assets/template/ambulance.html';
 
+  static const lastEditedValueKey = 'lastEditedValue';
+  static const lastEditedAtKey = 'lastEditedAt';
+
   static final eras = [
     Era(name: '明治', start: DateTime(1868, 9, 4), end: DateTime(1912, 7, 30)),
     Era(name: '大正', start: DateTime(1912, 7, 31), end: DateTime(1926, 12, 26)),

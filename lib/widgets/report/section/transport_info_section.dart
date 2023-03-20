@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,7 +7,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/models/hospital/hospital.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
@@ -204,14 +204,10 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine6(Report report) {
     return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'record_of_refusal_of_transfer'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.recordOfRefusalOfTransfer = value;
-        },
-        selectedItem: report.recordOfRefusalOfTransfer,
+        onChanged: (value) => report.recordOfRefusalOfTransfer = value,
+        value: report.recordOfRefusalOfTransfer,
         readOnly: widget.readOnly,
       ),
     ]);

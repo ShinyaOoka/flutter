@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -105,14 +106,10 @@ class _TreatmentSectionState extends State<TreatmentSection>
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
         ),
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'foreign_body_removal'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
-          onChanged: (value) {
-            report.foreignBodyRemoval = value;
-          },
-          selectedItem: report.foreignBodyRemoval,
+          value: report.foreignBodyRemoval,
+          onChanged: (value) => report.foreignBodyRemoval = value,
           readOnly: widget.readOnly,
         ),
       ]);
@@ -121,24 +118,16 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   Widget _buildLine2(Report report) {
     return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'suction'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.suction = value;
-        },
-        selectedItem: report.suction,
+        value: report.suction,
+        onChanged: (value) => report.suction = value,
         readOnly: widget.readOnly,
       ),
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'artificial_respiration'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.artificialRespiration = value;
-        },
-        selectedItem: report.artificialRespiration,
+        value: report.artificialRespiration,
+        onChanged: (value) => report.artificialRespiration = value,
         readOnly: widget.readOnly,
       ),
     ]);
@@ -146,24 +135,16 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   Widget _buildLine3(Report report) {
     return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'chest_compressions'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.chestCompressions = value;
-        },
-        selectedItem: report.chestCompressions,
+        value: report.chestCompressions,
+        onChanged: (value) => report.chestCompressions = value,
         readOnly: widget.readOnly,
       ),
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'ecg_monitor'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) {
-          report.ecgMonitor = value;
-        },
-        selectedItem: report.ecgMonitor,
+        value: report.ecgMonitor,
+        onChanged: (value) => report.ecgMonitor = value,
         readOnly: widget.readOnly,
       ),
     ]);
@@ -223,14 +204,10 @@ class _TreatmentSectionState extends State<TreatmentSection>
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
         ),
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'hemostatic_treatment'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
-          onChanged: (value) {
-            report.hemostaticTreatment = value;
-          },
-          selectedItem: report.hemostaticTreatment,
+          value: report.hemostaticTreatment,
+          onChanged: (value) => report.hemostaticTreatment = value,
           readOnly: widget.readOnly,
         ),
       ]);
@@ -239,20 +216,16 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   Widget _buildLine6(Report report) {
     return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'adductor_fixation'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
+        value: report.adductorFixation,
         onChanged: (value) => report.adductorFixation = value,
-        selectedItem: report.adductorFixation,
         readOnly: widget.readOnly,
       ),
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'coating'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
+        value: report.coating,
         onChanged: (value) => report.coating = value,
-        selectedItem: report.coating,
         readOnly: widget.readOnly,
       ),
     ]);
@@ -260,12 +233,10 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   Widget _buildLine7(Report report) {
     return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
+      AppCheckbox(
         label: 'burn_treatment'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
+        value: report.burnTreatment,
         onChanged: (value) => report.burnTreatment = value,
-        selectedItem: report.burnTreatment,
         readOnly: widget.readOnly,
       ),
     ]);

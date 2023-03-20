@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -127,20 +128,16 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
   Widget _buildLine3(Report report, BuildContext context) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'lifesaver_qualification'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.lifesaverQualification,
           onChanged: (value) => report.lifesaverQualification = value,
-          selectedItem: report.lifesaverQualification,
           readOnly: widget.readOnly,
         ),
-        AppDropdown<bool>(
-          items: const [true, false],
+        AppCheckbox(
           label: 'with_lifesavers'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
+          value: report.withLifesavers,
           onChanged: (value) => report.withLifesavers = value,
-          selectedItem: report.withLifesavers,
           readOnly: widget.readOnly,
         ),
       ]);

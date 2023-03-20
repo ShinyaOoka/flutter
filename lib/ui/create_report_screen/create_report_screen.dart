@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -16,6 +19,7 @@ import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateReportScreen extends StatefulWidget {
   const CreateReportScreen({super.key});
@@ -53,7 +57,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   }
 
   @override
-  void didPush() {
+  void didPush() async {
     _reportStore = Provider.of<ReportStore>(context);
     _teamStore = Provider.of<TeamStore>(context);
     _fireStationStore = Provider.of<FireStationStore>(context);
@@ -65,8 +69,27 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     _classificationStore.getAllClassifications();
     _hospitalStore.getHospitals();
 
+    final prefs = await SharedPreferences.getInstance();
     final report = Report();
-
+    final lastEditedValue = prefs.getString(AppConstants.lastEditedValueKey);
+    final lastEditedEpoch = prefs.getInt(AppConstants.lastEditedAtKey);
+    if (lastEditedEpoch != null && lastEditedValue != null) {
+      final lastEditedTime =
+          DateTime.fromMillisecondsSinceEpoch(lastEditedEpoch);
+      final now = DateTime.now();
+      if (lastEditedTime.day == now.day &&
+          lastEditedTime.month == now.month &&
+          lastEditedTime.year == now.year) {
+        final lastEditedReport = Report.fromJson(jsonDecode(lastEditedValue));
+        report.teamCd = lastEditedReport.teamCd;
+        report.teamCaptainName = lastEditedReport.teamCaptainName;
+        report.lifesaverQualification = lastEditedReport.lifesaverQualification;
+        report.withLifesavers = lastEditedReport.withLifesavers;
+        report.teamMemberName = lastEditedReport.teamMemberName;
+        report.institutionalMemberName =
+            lastEditedReport.institutionalMemberName;
+      }
+    }
     report.teamStore = _teamStore;
     report.fireStationStore = _fireStationStore;
     report.classificationStore = _classificationStore;
@@ -162,6 +185,11 @@ class _CreateReportScreenState extends State<CreateReportScreen>
                     ],
                   ));
           if (result != true) return;
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString(AppConstants.lastEditedValueKey,
+              jsonEncode(_reportStore.selectingReport!));
+          prefs.setInt(AppConstants.lastEditedAtKey,
+              DateTime.now().millisecondsSinceEpoch);
           await _reportStore.createReport(_reportStore.selectingReport!);
           await _reportStore.getReports();
           if (!mounted) return;
