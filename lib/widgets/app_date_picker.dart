@@ -28,7 +28,7 @@ class AppDatePicker extends StatelessWidget {
               suffixIcon: !readOnly && selectedDate != null
                   ? IconButton(
                       onPressed: () => onChanged?.call(null),
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                     )
                   : null),
           controller: controller ??

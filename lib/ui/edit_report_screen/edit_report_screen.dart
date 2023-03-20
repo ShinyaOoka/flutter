@@ -115,15 +115,15 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
           final result = await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                    title: Text("更新前確認"),
-                    content: Text("入力内容で更新しますか？"),
+                    title: const Text("更新前確認"),
+                    content: const Text("入力内容で更新しますか？"),
                     actions: [
                       TextButton(
-                        child: Text("はい"),
+                        child: const Text("はい"),
                         onPressed: () => Navigator.pop(context, true),
                       ),
                       TextButton(
-                        child: Text("キャンセル"),
+                        child: const Text("キャンセル"),
                         onPressed: () => Navigator.pop(context, false),
                       ),
                     ],
@@ -158,9 +158,9 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
@@ -169,15 +169,15 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
         final result = await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  title: Text("未更新終了確認"),
-                  content: Text("入力内容を保存せずに戻ります。よろしいですか？"),
+                  title: const Text("未更新終了確認"),
+                  content: const Text("入力内容を保存せずに戻ります。よろしいですか？"),
                   actions: [
                     TextButton(
-                      child: Text("はい"),
+                      child: const Text("はい"),
                       onPressed: () => Navigator.pop(context, true),
                     ),
                     TextButton(
-                      child: Text("キャンセル"),
+                      child: const Text("キャンセル"),
                       onPressed: () => Navigator.pop(context, false),
                     ),
                   ],

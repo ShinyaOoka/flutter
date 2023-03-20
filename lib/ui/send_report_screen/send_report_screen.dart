@@ -64,9 +64,9 @@ class _SendReportScreenState extends State<SendReportScreen> {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).appBarTheme.foregroundColor),

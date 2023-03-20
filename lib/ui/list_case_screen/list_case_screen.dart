@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/utils/routes.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
@@ -102,7 +101,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (_zollSdkStore.caseListItems['serialNumber'] != null) {
         _zollSdkStore.caseListItems['serialNumber'] = [
           CaseListItem(
@@ -158,8 +157,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     hasNewData = false;
                   });
                 },
-                label: Text("更新"),
-                icon: Icon(Icons.refresh),
+                label: const Text("更新"),
+                icon: const Icon(Icons.refresh),
               ),
             )
           : Container()
@@ -168,9 +167,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),

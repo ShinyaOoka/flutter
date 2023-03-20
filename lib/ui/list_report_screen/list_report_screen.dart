@@ -126,8 +126,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('削除対象無エラー'),
-                content: Text('削除対象が選択されていません。'),
+                title: const Text('削除対象無エラー'),
+                content: const Text('削除対象が選択されていません。'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -142,8 +142,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('選択削除確認'),
-                  content: Text('選択したデータを削除します。よろしいですか？'),
+                  title: const Text('選択削除確認'),
+                  content: const Text('選択したデータを削除します。よろしいですか？'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context, false),
@@ -179,7 +179,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             selectingReports = null;
           });
         },
-        icon: Icon(Icons.delete),
+        icon: const Icon(Icons.delete),
         label: Text(
           '削除',
           style: TextStyle(
@@ -256,7 +256,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold)),
               TextSpan(
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
                 text:
                     '${item.dateOfOccurrence != null ? AppConstants.dateFormat.format(item.dateOfOccurrence!) : '----/--/--'} ${item.timeOfOccurrence?.format(context) ?? '--:--'}',
               ),
@@ -321,7 +321,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             },
             dense: true,
             controlAffinity: ListTileControlAffinity.leading,
-            tileColor: Color(0xFFF5F5F5),
+            tileColor: const Color(0xFFF5F5F5),
             title: _buildListTileTitle(position),
             subtitle: _buildListTileSubtitle(position),
           )
@@ -331,7 +331,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               Navigator.of(context).pushNamed(Routes.confirmReport);
             },
             dense: true,
-            tileColor: Color(0xFFF5F5F5),
+            tileColor: const Color(0xFFF5F5F5),
             title: _buildListTileTitle(position),
             subtitle: _buildListTileSubtitle(position),
           );

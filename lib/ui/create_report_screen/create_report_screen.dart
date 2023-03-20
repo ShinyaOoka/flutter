@@ -127,9 +127,9 @@ class _CreateReportScreenState extends State<CreateReportScreen>
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
@@ -138,15 +138,15 @@ class _CreateReportScreenState extends State<CreateReportScreen>
         final result = await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  title: Text("未登録終了確認"),
-                  content: Text("入力内容を保存せずに戻ります。よろしいですか？"),
+                  title: const Text("未登録終了確認"),
+                  content: const Text("入力内容を保存せずに戻ります。よろしいですか？"),
                   actions: [
                     TextButton(
-                      child: Text("はい"),
+                      child: const Text("はい"),
                       onPressed: () => Navigator.pop(context, true),
                     ),
                     TextButton(
-                      child: Text("キャンセル"),
+                      child: const Text("キャンセル"),
                       onPressed: () => Navigator.pop(context, false),
                     ),
                   ],
@@ -171,15 +171,15 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           final result = await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                    title: Text("登録前確認"),
-                    content: Text("入力内容を登録しますか？"),
+                    title: const Text("登録前確認"),
+                    content: const Text("入力内容を登録しますか？"),
                     actions: [
                       TextButton(
-                        child: Text("はい"),
+                        child: const Text("はい"),
                         onPressed: () => Navigator.pop(context, true),
                       ),
                       TextButton(
-                        child: Text("キャンセル"),
+                        child: const Text("キャンセル"),
                         onPressed: () => Navigator.pop(context, false),
                       ),
                     ],

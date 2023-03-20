@@ -507,7 +507,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
           child: AppTextField(
             label: 'body_temperature'.i18n(),
             controller: bodyTemperatureController,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(
                   RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
@@ -644,7 +644,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         child: AppTextField(
           label: 'each_oxygen_inhalation'.i18n(),
           controller: eachOxygenInhalationController,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [
             FilteringTextInputFormatter.allow(
                 RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),

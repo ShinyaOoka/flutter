@@ -6,7 +6,6 @@ import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:path_provider/path_provider.dart';
@@ -1357,7 +1356,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 ],
                     subject: getReportName(),
                     sharePositionOrigin: Rect.fromCenter(
-                        center: Offset(700, 20), width: 20, height: 20));
+                        center: const Offset(700, 20), width: 20, height: 20));
               }
               break;
           }
@@ -1368,9 +1367,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),

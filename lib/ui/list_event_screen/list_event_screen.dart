@@ -13,7 +13,6 @@ import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart'
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -244,17 +243,17 @@ class _ListEventScreenState extends State<ListEventScreen>
               foregroundColor: Theme.of(context).primaryColor),
           label: const Text('取得'),
           icon: Container(
-            child: Icon(Icons.post_add),
-            padding: EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 12),
+            child: const Icon(Icons.post_add),
           )),
     );
   }
 
   Widget _buildBackButton() {
     return TextButton.icon(
-      icon: Container(
+      icon: const SizedBox(
         width: 12,
-        child: const Icon(Icons.arrow_back_ios),
+        child: Icon(Icons.arrow_back_ios),
       ),
       style:
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
@@ -310,8 +309,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                             hasNewData = false;
                           });
                         },
-                        label: Text("更新"),
-                        icon: Icon(Icons.refresh))
+                        label: const Text("更新"),
+                        icon: const Icon(Icons.refresh))
                     : Container()
               ],
             ),
@@ -446,13 +445,13 @@ class _ListEventScreenState extends State<ListEventScreen>
 
         return Card(
           elevation: 0,
-          color: activeIndex == index ? Color(0xFFF5F5F5) : null,
+          color: activeIndex == index ? const Color(0xFFF5F5F5) : null,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
               side: BorderSide(
                   color: activeIndex == index
                       ? Theme.of(context).primaryColor
-                      : Color(0xFFCCCCCC),
+                      : const Color(0xFFCCCCCC),
                   width: 2)),
           child: Column(children: [
             Container(
@@ -501,7 +500,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                             TextSpan(text: 'HR: ', style: labelStyle),
                             TextSpan(
                                 text:
-                                    "${trendData[index].hr?.toString() ?? '--'}")
+                                    trendData[index].hr?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),
@@ -516,7 +515,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                             TextSpan(text: 'BR: ', style: labelStyle),
                             TextSpan(
                                 text:
-                                    "${trendData[index].resp?.toString() ?? '--'}")
+                                    trendData[index].resp?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),
@@ -535,7 +534,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                             TextSpan(text: 'SPO2: ', style: labelStyle),
                             TextSpan(
                                 text:
-                                    "${trendData[index].spo2?.toString() ?? '--'}")
+                                    trendData[index].spo2?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),

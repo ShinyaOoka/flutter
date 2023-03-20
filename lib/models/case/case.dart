@@ -76,6 +76,10 @@ abstract class _Case with Store {
               e.item2.type != "AnnotationEvt SPO2 Probe Disconnect" &&
               e.item2.type != "AnnotationEvt SPO2 Calibrating" &&
               e.item2.type != "AnnotationEvt CO2 On" &&
+              e.item2.type != "AnnotationEvt Defib Lead Fault" &&
+              e.item2.type != "AnnotationEvt Defib Precharging" &&
+              e.item2.type != "AnnotationEvt Defib Precharged" &&
+              e.item2.type != "AedSingleAnalysis" &&
               e.item2.type != "TrendRpt";
         })
         .toList()
