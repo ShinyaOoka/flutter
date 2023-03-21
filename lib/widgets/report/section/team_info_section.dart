@@ -87,6 +87,14 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           onChanged: (value) {
             if (value?.teamCd == report.teamCd) return;
             report.team = value;
+            if (report.affiliationOfReporter == null ||
+                report.affiliationOfReporter != '') {
+              report.affiliationOfReporter = value?.name;
+            }
+            if (report.positionOfReporter == null ||
+                report.positionOfReporter != '') {
+              report.affiliationOfReporter = value?.name;
+            }
           },
           selectedItem: report.team,
           filterFn: (team, filter) =>
