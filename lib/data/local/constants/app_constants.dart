@@ -37,8 +37,10 @@ class AppConstants {
 
   static const lastEditedValueKey = 'lastEditedValue';
   static const lastEditedAtKey = 'lastEditedAt';
+  static const doNotShowDeleteDialogAgainDate =
+      'doNotShowDeleteDialogAgainDate';
 
-  static const autoDeleteReportAfterDays = 1;
+  static const autoDeleteReportAfterDays = 0;
 
   static final eras = [
     Era(name: '明治', start: DateTime(1868, 9, 4), end: DateTime(1912, 7, 30)),
