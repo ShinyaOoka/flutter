@@ -190,6 +190,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
               jsonEncode(_reportStore.selectingReport!));
           prefs.setInt(AppConstants.lastEditedAtKey,
               DateTime.now().millisecondsSinceEpoch);
+          _reportStore.selectingReport!.entryDate = DateTime.now();
           await _reportStore.createReport(_reportStore.selectingReport!);
           await _reportStore.getReports();
           if (!mounted) return;

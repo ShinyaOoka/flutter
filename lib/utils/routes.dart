@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/ui/delete_previous_report_screen/delete_previous_report_screen.dart';
 import 'package:ak_azm_flutter/ui/edit_report_screen/edit_report_screen.dart';
 import 'package:ak_azm_flutter/ui/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const String listDevice = '/list_device';
   static const String listCase = '/list_case';
   static const String listEvent = '/list_event';
+  static const String deletePreviousReport = '/delete_previous_report';
 
   static final routes = <String, WidgetBuilder>{
     listReport: (BuildContext context) => const ListReportScreen(),
@@ -33,5 +35,7 @@ class Routes {
     listDevice: (BuildContext context) => const ListDeviceScreen(),
     listCase: (BuildContext context) => const ListCaseScreen(),
     listEvent: (BuildContext context) => const ListEventScreen(),
+    deletePreviousReport: (BuildContext context) =>
+        const DeletePreviousReportScreen(),
   };
 }

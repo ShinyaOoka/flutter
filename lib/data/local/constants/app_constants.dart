@@ -38,6 +38,8 @@ class AppConstants {
   static const lastEditedValueKey = 'lastEditedValue';
   static const lastEditedAtKey = 'lastEditedAt';
 
+  static const autoDeleteReportAfterDays = 1;
+
   static final eras = [
     Era(name: '明治', start: DateTime(1868, 9, 4), end: DateTime(1912, 7, 30)),
     Era(name: '大正', start: DateTime(1912, 7, 31), end: DateTime(1926, 12, 26)),

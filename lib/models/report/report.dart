@@ -465,12 +465,14 @@ abstract class _Report with Store {
   @observable
   String? entryMachine;
   @observable
+  @JsonKey(name: "EntryDate")
   DateTime? entryDate;
   @observable
   String? updateName;
   @observable
   String? updateMachine;
   @observable
+  @JsonKey(name: "UpdateDate")
   DateTime? updateDate;
 
   @observable

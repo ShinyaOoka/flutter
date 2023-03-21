@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           // delegate from localization package.
           LocalJsonLocalization.delegate,
         ],
-        initialRoute: Routes.listReport,
+        initialRoute: Routes.deletePreviousReport,
         navigatorObservers: [_routeObserver],
       ),
     );

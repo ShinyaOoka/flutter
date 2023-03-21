@@ -209,14 +209,14 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..remarks = json['Remarks'] as String?
   ..entryName = json['entryName'] as String?
   ..entryMachine = json['entryMachine'] as String?
-  ..entryDate = json['entryDate'] == null
+  ..entryDate = json['EntryDate'] == null
       ? null
-      : DateTime.parse(json['entryDate'] as String)
+      : DateTime.parse(json['EntryDate'] as String)
   ..updateName = json['updateName'] as String?
   ..updateMachine = json['updateMachine'] as String?
-  ..updateDate = json['updateDate'] == null
+  ..updateDate = json['UpdateDate'] == null
       ? null
-      : DateTime.parse(json['updateDate'] as String);
+      : DateTime.parse(json['UpdateDate'] as String);
 
 Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'ID': instance.id,
@@ -417,10 +417,10 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'Remarks': instance.remarks,
       'entryName': instance.entryName,
       'entryMachine': instance.entryMachine,
-      'entryDate': instance.entryDate?.toIso8601String(),
+      'EntryDate': instance.entryDate?.toIso8601String(),
       'updateName': instance.updateName,
       'updateMachine': instance.updateMachine,
-      'updateDate': instance.updateDate?.toIso8601String(),
+      'UpdateDate': instance.updateDate?.toIso8601String(),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
