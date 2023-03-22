@@ -74,11 +74,15 @@ abstract class _Case with Store {
               e.item2.type != "AnnotationEvt Wi-Fi Profile Selected" &&
               e.item2.type != "AnnotationEvt Wi-Fi Connection Up" &&
               e.item2.type != "AnnotationEvt SPO2 Probe Disconnect" &&
-              e.item2.type != "AnnotationEvt SPO2 Calibrating" &&
+              e.item2.type != "AnnotationEvt SpO2 Calibrating" &&
               e.item2.type != "AnnotationEvt CO2 On" &&
               e.item2.type != "AnnotationEvt Defib Lead Fault" &&
               e.item2.type != "AnnotationEvt Defib Precharging" &&
               e.item2.type != "AnnotationEvt Defib Precharged" &&
+              e.item2.type != "AnnotationEvt SPO2 Check Probe" &&
+              e.item2.type != "AnnotationEvt SpO2 Low Perfusion" &&
+              e.item2.type != "AnnotationEvt CO2 Off" &&
+              e.item2.type != "AnnotationEvt SPO2 Probe Not Connected" &&
               e.item2.type != "AedSingleAnalysis" &&
               e.item2.type != "TrendRpt";
         })

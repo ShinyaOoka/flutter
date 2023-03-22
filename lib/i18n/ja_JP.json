@@ -178,7 +178,7 @@
   "AnnotationEvt Stop CPR": "CPRを中断してください",
   "AnnotationEvt Shock Delivered": "電気ショック",
   "AnnotationEvt NIBP Reading Stopped": "NIBP:読取りを停止しました",
-  "AnnotationEvt ECG Lead Fault": "多誘導心電図の不良",
+  "AnnotationEvt Ecg Lead Fault": "多誘導心電図の不良",
   "Ecg12LeadDisc": "12誘導解析：終了",
   "Ecg12LeadRec": "12誘導解析：開始",
   "AnnotationEvt Analyzing": "解析：開始",
@@ -199,6 +199,7 @@
   "AnnotationEvt NIBP Reading Pending": "NIBP:読取りを保留しています",
   "AnnotationEvt NIBP Reading Started": "NIBP:読取りを開始しました",
   "AnnotationEvt NIBP Reading": "NIBP:読取りしています",
+  "AnnotationEvt External Power Disconnected": "電源ステータス：AC 未接続、バッテリ インチ",
   "SnapshotRpt": "処置のスナップショット",
   "TreatmentSnapshotEvt": "C:",
   "AlarmEvt": "アラーム"
