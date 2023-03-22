@@ -37,10 +37,12 @@ class _DeletePreviousReportScreenState
 
   _showPopup(_) async {
     final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
     final now = Jiffy(DateTime.now());
     final lastDoNotShowAgainDate =
         prefs.getInt(AppConstants.doNotShowDeleteDialogAgainDate);
-    if (lastDoNotShowAgainDate == now.startOf(Units.DAY).unix()) {
+    if (lastDoNotShowAgainDate == now.startOf(Units.DAY).unix() ||
+        AppConstants.autoDeleteReportAfterDays == 0) {
       Navigator.pushReplacementNamed(context, Routes.listReport);
       return;
     }
@@ -50,9 +52,7 @@ class _DeletePreviousReportScreenState
     final reportIds = _reportStore.reports!
         .where((e) =>
             e.entryDate == null ||
-            Jiffy(now)
-                    .startOf(Units.DAY)
-                    .diff(Jiffy(e.entryDate).startOf(Units.DAY), Units.DAY) >=
+            Jiffy(now).diff(Jiffy(e.entryDate), Units.DAY) >=
                 AppConstants.autoDeleteReportAfterDays)
         .map((e) => e.id!)
         .toList();
