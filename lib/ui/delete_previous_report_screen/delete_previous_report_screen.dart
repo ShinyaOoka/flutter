@@ -40,7 +40,7 @@ class _DeletePreviousReportScreenState
     final now = Jiffy(DateTime.now());
     final lastDoNotShowAgainDate =
         prefs.getInt(AppConstants.doNotShowDeleteDialogAgainDate);
-    if (lastDoNotShowAgainDate == now.startOf(Units.DAY).unix() ||
+    if (lastDoNotShowAgainDate == now.clone().startOf(Units.DAY).unix() ||
         AppConstants.autoDeleteReportAfterDays == 0) {
       Navigator.pushReplacementNamed(context, Routes.listReport);
       return;
