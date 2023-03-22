@@ -41,6 +41,8 @@ class _SickInjuredPersonInfoSectionState
       TextEditingController();
   final sickInjuredPersonDegreeController = TextEditingController();
 
+  final sickInjuredPersonAddressScrollController = ScrollController();
+
   late ReportStore reportStore;
 
   @override
@@ -148,16 +150,21 @@ class _SickInjuredPersonInfoSectionState
 
   Widget _buildLine2(Report report, BuildContext context) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'sick_injured_person_address'.i18n(),
-        hintText: '〇〇県△△市□□NN-NN-NN',
-        controller: sickInjuredPersonAddressController,
-        onChanged: (value) => report.sickInjuredPersonAddress = value,
-        inputFormatters: [maxLineFormatter(4)],
-        keyboardType: TextInputType.multiline,
-        maxLength: 60,
-        maxLines: 3,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        controller: sickInjuredPersonAddressScrollController,
+        thumbVisibility: true,
+        child: AppTextField(
+          label: 'sick_injured_person_address'.i18n(),
+          hintText: '〇〇県△△市□□NN-NN-NN',
+          controller: sickInjuredPersonAddressController,
+          scrollController: sickInjuredPersonAddressScrollController,
+          onChanged: (value) => report.sickInjuredPersonAddress = value,
+          inputFormatters: [maxLineFormatter(4)],
+          keyboardType: TextInputType.multiline,
+          maxLength: 60,
+          maxLines: 3,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }

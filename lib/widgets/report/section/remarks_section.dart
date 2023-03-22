@@ -20,6 +20,7 @@ class RemarksSection extends StatefulWidget {
 class _RemarksSectionState extends State<RemarksSection>
     with ReportSectionMixin {
   final summaryOfOccurrenceController = TextEditingController();
+  final summaryOfOccurrenceScrollController = ScrollController();
   final remarksController = TextEditingController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
@@ -59,15 +60,20 @@ class _RemarksSectionState extends State<RemarksSection>
 
   Widget _buildLine1(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'summary_of_occurrence'.i18n(),
-        controller: summaryOfOccurrenceController,
-        inputFormatters: [maxLineFormatter(9)],
-        onChanged: (value) => report.summaryOfOccurrence = value,
-        maxLength: 500,
-        minLines: 3,
-        maxLines: 3,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        controller: summaryOfOccurrenceScrollController,
+        thumbVisibility: true,
+        child: AppTextField(
+          label: 'summary_of_occurrence'.i18n(),
+          controller: summaryOfOccurrenceController,
+          scrollController: summaryOfOccurrenceScrollController,
+          inputFormatters: [maxLineFormatter(9)],
+          onChanged: (value) => report.summaryOfOccurrence = value,
+          maxLength: 500,
+          minLines: 3,
+          maxLines: 3,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }

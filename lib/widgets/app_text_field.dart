@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 class AppTextField extends StatelessWidget {
   final String? label;
   final TextEditingController? controller;
+  final ScrollController? scrollController;
   final bool? enabled;
   final TextInputType? keyboardType;
   final void Function(String)? onChanged;
@@ -43,6 +44,7 @@ class AppTextField extends StatelessWidget {
           onEditingComplete: onEditingComplete,
           inputFormatters: inputFormatters,
           readOnly: readOnly,
+          scrollController: scrollController,
         ),
         const SizedBox(height: 6)
       ],
@@ -78,5 +80,6 @@ class AppTextField extends StatelessWidget {
     this.counterColor,
     this.fillColor,
     this.readOnly = false,
+    this.scrollController,
   });
 }

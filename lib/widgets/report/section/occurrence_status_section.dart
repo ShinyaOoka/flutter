@@ -32,6 +32,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   final placeOfDispatchController = TextEditingController();
   final accidentSummaryController = TextEditingController();
   final verbalGuidanceController = TextEditingController();
+  final accidentSummaryScrollController = ScrollController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -157,16 +158,20 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
 
   Widget _buildLine4(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        keyboardType: TextInputType.multiline,
-        controller: accidentSummaryController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        minLines: 3,
-        maxLines: 3,
-        maxLength: 100,
-        label: 'accident_summary'.i18n(),
-        onChanged: (value) => report.accidentSummary = value,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        thumbVisibility: true,
+        controller: accidentSummaryScrollController,
+        child: AppTextField(
+          keyboardType: TextInputType.multiline,
+          controller: accidentSummaryController,
+          scrollController: accidentSummaryScrollController,
+          minLines: 3,
+          maxLines: 3,
+          maxLength: 100,
+          label: 'accident_summary'.i18n(),
+          onChanged: (value) => report.accidentSummary = value,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }

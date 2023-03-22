@@ -30,6 +30,9 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
   final reasonForNotTransferringController = TextEditingController();
   final otherMedicalTransportFacilityController = TextEditingController();
   final otherTransferringMedicalInstitutionController = TextEditingController();
+
+  final reasonForNotTransferringScrollController = ScrollController();
+
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -189,15 +192,20 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine5(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'reason_for_not_transferring'.i18n(),
-        controller: reasonForNotTransferringController,
-        inputFormatters: [maxLineFormatter(7)],
-        onChanged: (value) => report.reasonForNotTransferring = value,
-        maxLength: 100,
-        minLines: 3,
-        maxLines: 3,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        thumbVisibility: true,
+        controller: reasonForNotTransferringScrollController,
+        child: AppTextField(
+          label: 'reason_for_not_transferring'.i18n(),
+          controller: reasonForNotTransferringController,
+          scrollController: reasonForNotTransferringScrollController,
+          inputFormatters: [maxLineFormatter(7)],
+          onChanged: (value) => report.reasonForNotTransferring = value,
+          maxLength: 100,
+          minLines: 3,
+          maxLines: 3,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }
