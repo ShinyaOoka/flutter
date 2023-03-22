@@ -205,21 +205,20 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result.replaceAll('EachECG_${i}_VALUE', report.eachEcg?[i] ?? '');
       result = result.replaceAll('EachOxygenInhalation_${i}_VALUE',
           report.eachOxygenInhalation?[i]?.toStringAsFixed(1) ?? '');
-      final a = report.eachHemostasis?[i];
       result = result.replaceAll(
           'EachHemostasis_${i}_VALUE',
-          report.observationTime?[i] != null
-              ? (report.eachHemostasis?[i]) == true
-                  ? '有'
-                  : '無'
-              : '');
+          (report.eachHemostasis?[i]) == true
+              ? '有'
+              : report.observationTime?[i] == null
+                  ? ''
+                  : '無');
       result = result.replaceAll(
           'EachSuction_${i}_VALUE',
-          report.observationTime?[i] != null
-              ? (report.eachSuction?[i]) == true
-                  ? '有'
-                  : '無'
-              : '');
+          (report.eachSuction?[i]) == true
+              ? '有'
+              : report.observationTime?[i] == null
+                  ? ''
+                  : '無');
       result = result.replaceAll(
           'OtherProcess1_${i}_VALUE', report.otherProcess1?[i] ?? '');
       result = result.replaceAll(
@@ -1138,42 +1137,44 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                   null
               ? report.pupilLeft![i].toString()
               : '');
-      if (report.observationTime?[i] != null) {
-        //54
-        if ((report.lightReflexRight?[i] == null ||
-            !report.lightReflexRight![i]!)) {
+      //54
+      if ((report.lightReflexRight?[i] == null ||
+          !report.lightReflexRight![i]!)) {
+        if (report.observationTime?[i] != null) {
           htmlInput = customReplace(
               htmlInput,
               '有・無',
               1 + 2 * i - totalYesDotNoPos,
               '有・<span class="text-circle">無</span>');
           totalYesDotNoPos += 1;
-        } else {
-          htmlInput = customReplace(
-              htmlInput,
-              '有・無',
-              1 + 2 * i - totalYesDotNoPos,
-              '<span class="text-circle">有</span>・無');
-          totalYesDotNoPos += 1;
         }
+      } else {
+        htmlInput = customReplace(
+            htmlInput,
+            '有・無',
+            1 + 2 * i - totalYesDotNoPos,
+            '<span class="text-circle">有</span>・無');
+        totalYesDotNoPos += 1;
+      }
 
-        //55
-        if ((report.lightReflexLeft?[i] == null ||
-            !report.lightReflexLeft![i]!)) {
+      //55
+      if ((report.lightReflexLeft?[i] == null ||
+          !report.lightReflexLeft![i]!)) {
+        if (report.observationTime?[i] != null) {
           htmlInput = customReplace(
               htmlInput,
               '有・無',
               2 + 2 * i - totalYesDotNoPos,
               '有・<span class="text-circle">無</span>');
           totalYesDotNoPos += 1;
-        } else {
-          htmlInput = customReplace(
-              htmlInput,
-              '有・無',
-              2 + 2 * i - totalYesDotNoPos,
-              '<span class="text-circle">有</span>・無');
-          totalYesDotNoPos += 1;
         }
+      } else {
+        htmlInput = customReplace(
+            htmlInput,
+            '有・無',
+            2 + 2 * i - totalYesDotNoPos,
+            '<span class="text-circle">有</span>・無');
+        totalYesDotNoPos += 1;
       }
 
       //56
