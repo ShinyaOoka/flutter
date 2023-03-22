@@ -49,6 +49,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
   flutter_flavorizr: ^2.1.5
+  flutter_launcher_icons: ^0.11.0
   mobx_codegen: ^2.1.1
   build_runner: ^2.3.3
   pigeon: ^7.1.4
@@ -88,3 +89,8 @@ flutter_native_splash:
   android_12:
     image: assets/splash.png
     branding: assets/branding.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/app_icon.png
