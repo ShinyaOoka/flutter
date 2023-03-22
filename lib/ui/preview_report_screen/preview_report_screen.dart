@@ -205,17 +205,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result.replaceAll('EachECG_${i}_VALUE', report.eachEcg?[i] ?? '');
       result = result.replaceAll('EachOxygenInhalation_${i}_VALUE',
           report.eachOxygenInhalation?[i]?.toStringAsFixed(1) ?? '');
+      final a = report.eachHemostasis?[i];
       result = result.replaceAll(
           'EachHemostasis_${i}_VALUE',
-          report.eachHemostasis?[i] != null
-              ? report.eachHemostasis![i]!
+          report.observationTime?[i] != null
+              ? (report.eachHemostasis?[i]) == true
                   ? '有'
                   : '無'
               : '');
       result = result.replaceAll(
           'EachSuction_${i}_VALUE',
-          report.eachSuction?[i] != null
-              ? report.eachSuction![i]!
+          report.observationTime?[i] != null
+              ? (report.eachSuction?[i]) == true
                   ? '有'
                   : '無'
               : '');
@@ -236,8 +237,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     result = result.replaceAll('Remark',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.remarks, 3, 47) ?? ''}</div>');
-    result = fillBoolCircle(
-        result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
+    result = fillBoolCircle(result, 'RecordOfRefusalOfTransfer',
+        report.recordOfRefusalOfTransfer == true);
     return result;
   }
 
@@ -1137,50 +1138,44 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                   null
               ? report.pupilLeft![i].toString()
               : '');
-      //54
-      if (report.lightReflexRight
-                  ?.firstWhereIndexedOrNull((index, element) => index == i) !=
-              null &&
-          !report.lightReflexRight![i]!) {
-        htmlInput = customReplace(
-            htmlInput,
-            '有・無',
-            1 + 2 * i - totalYesDotNoPos,
-            '有・<span class="text-circle">無</span>');
-        totalYesDotNoPos += 1;
-      } else if (report.lightReflexRight
-                  ?.firstWhereIndexedOrNull((index, element) => index == i) !=
-              null &&
-          report.lightReflexRight![i]!) {
-        htmlInput = customReplace(
-            htmlInput,
-            '有・無',
-            1 + 2 * i - totalYesDotNoPos,
-            '<span class="text-circle">有</span>・無');
-        totalYesDotNoPos += 1;
+      if (report.observationTime?[i] != null) {
+        //54
+        if ((report.lightReflexRight?[i] == null ||
+            !report.lightReflexRight![i]!)) {
+          htmlInput = customReplace(
+              htmlInput,
+              '有・無',
+              1 + 2 * i - totalYesDotNoPos,
+              '有・<span class="text-circle">無</span>');
+          totalYesDotNoPos += 1;
+        } else {
+          htmlInput = customReplace(
+              htmlInput,
+              '有・無',
+              1 + 2 * i - totalYesDotNoPos,
+              '<span class="text-circle">有</span>・無');
+          totalYesDotNoPos += 1;
+        }
+
+        //55
+        if ((report.lightReflexLeft?[i] == null ||
+            !report.lightReflexLeft![i]!)) {
+          htmlInput = customReplace(
+              htmlInput,
+              '有・無',
+              2 + 2 * i - totalYesDotNoPos,
+              '有・<span class="text-circle">無</span>');
+          totalYesDotNoPos += 1;
+        } else {
+          htmlInput = customReplace(
+              htmlInput,
+              '有・無',
+              2 + 2 * i - totalYesDotNoPos,
+              '<span class="text-circle">有</span>・無');
+          totalYesDotNoPos += 1;
+        }
       }
-      //55
-      if (report.lightReflexLeft
-                  ?.firstWhereIndexedOrNull((index, element) => index == i) !=
-              null &&
-          !report.lightReflexLeft![i]!) {
-        htmlInput = customReplace(
-            htmlInput,
-            '有・無',
-            2 + 2 * i - totalYesDotNoPos,
-            '有・<span class="text-circle">無</span>');
-        totalYesDotNoPos += 1;
-      } else if (report.lightReflexLeft
-                  ?.firstWhereIndexedOrNull((index, element) => index == i) !=
-              null &&
-          report.lightReflexLeft![i]!) {
-        htmlInput = customReplace(
-            htmlInput,
-            '有・無',
-            2 + 2 * i - totalYesDotNoPos,
-            '<span class="text-circle">有</span>・無');
-        totalYesDotNoPos += 1;
-      }
+
       //56
       htmlInput = htmlInput.replaceFirst('BodyTemperature${i + 1}',
           report.bodyTemperature?[i]?.toString() ?? '');
