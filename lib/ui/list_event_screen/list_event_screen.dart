@@ -302,15 +302,19 @@ class _ListEventScreenState extends State<ListEventScreen>
                 Text('X Series イベント一覧',
                     style: Theme.of(context).textTheme.titleLarge),
                 hasNewData
-                    ? TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            myCase = _zollSdkStore.cases[caseId];
-                            hasNewData = false;
-                          });
-                        },
-                        label: const Text("更新"),
-                        icon: const Icon(Icons.refresh))
+                    ? Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              myCase = _zollSdkStore.cases[caseId];
+                              hasNewData = false;
+                            });
+                          },
+                          label: const Text("更新"),
+                          icon: const Icon(Icons.refresh),
+                        ),
+                      )
                     : Container()
               ],
             ),
@@ -499,8 +503,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                           children: [
                             TextSpan(text: 'HR: ', style: labelStyle),
                             TextSpan(
-                                text:
-                                    trendData[index].hr?.toString() ?? '--')
+                                text: trendData[index].hr?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),
@@ -514,8 +517,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                           children: [
                             TextSpan(text: 'BR: ', style: labelStyle),
                             TextSpan(
-                                text:
-                                    trendData[index].resp?.toString() ?? '--')
+                                text: trendData[index].resp?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),
@@ -533,8 +535,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                           children: [
                             TextSpan(text: 'SPO2: ', style: labelStyle),
                             TextSpan(
-                                text:
-                                    trendData[index].spo2?.toString() ?? '--')
+                                text: trendData[index].spo2?.toString() ?? '--')
                           ],
                           style: textStyle,
                         ),

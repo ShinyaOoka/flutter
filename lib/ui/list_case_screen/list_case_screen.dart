@@ -146,8 +146,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return <Widget>[
       // _buildCreateReportButton(),
       hasNewData
-          ? Container(
-              padding: EdgeInsets.only(right: 4),
+          ? Directionality(
+              textDirection: TextDirection.rtl,
               child: TextButton.icon(
                 onPressed: () {
                   setState(() {
