@@ -1238,31 +1238,30 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       // int index003 = report.incontinence?.indexOf("003") ?? -1;
       // if (index001 >= 0 && index003 >= 0) report.incontinence?[index001] = '';
       // if (index002 >= 0 && index003 >= 0) report.incontinence?[index002] = '';
-      for (String? incon in report.incontinence?.toList() ?? []) {
-        String incontinenceStr = defaultIncontinenceStr;
-        if ((incon == '000' || incon == null) &&
-            report.observationTime?[i] != null) {
-          incontinenceStr = incontinenceStr.replaceFirst(
-              '無', '<span class="text-circle">無</span>');
-        } else if (incon == '001') {
-          incontinenceStr = incontinenceStr.replaceFirst(
-              '尿', '<span class="text-circle">尿</span>');
-        } else if (incon == '002') {
-          incontinenceStr = incontinenceStr.replaceFirst(
-              '便', '<span class="text-circle">便</span>');
-        } else if (incon == '003') {
-          incontinenceStr = incontinenceStr.replaceFirst(
-              '尿', '<span class="text-circle">尿</span>');
-          incontinenceStr = incontinenceStr.replaceFirst(
-              '便', '<span class="text-circle">便</span>');
-        }
-        if (incontinenceStr != defaultIncontinenceStr) {
-          htmlInput =
-              htmlInput.replaceFirst(defaultIncontinenceStr, incontinenceStr);
-        } else {
-          htmlInput =
-              htmlInput.replaceFirst(defaultIncontinenceStr, '> 有（　尿　　便　）　無 <');
-        }
+      final incon = report.incontinence?[i];
+      String incontinenceStr = defaultIncontinenceStr;
+      if ((incon == '000' || incon == null) &&
+          report.observationTime?[i] != null) {
+        incontinenceStr = incontinenceStr.replaceFirst(
+            '無', '<span class="text-circle">無</span>');
+      } else if (incon == '001') {
+        incontinenceStr = incontinenceStr.replaceFirst(
+            '尿', '<span class="text-circle">尿</span>');
+      } else if (incon == '002') {
+        incontinenceStr = incontinenceStr.replaceFirst(
+            '便', '<span class="text-circle">便</span>');
+      } else if (incon == '003') {
+        incontinenceStr = incontinenceStr.replaceFirst(
+            '尿', '<span class="text-circle">尿</span>');
+        incontinenceStr = incontinenceStr.replaceFirst(
+            '便', '<span class="text-circle">便</span>');
+      }
+      if (incontinenceStr != defaultIncontinenceStr) {
+        htmlInput =
+            htmlInput.replaceFirst(defaultIncontinenceStr, incontinenceStr);
+      } else {
+        htmlInput =
+            htmlInput.replaceFirst(defaultIncontinenceStr, '> 有（　尿　　便　）　無 <');
       }
 
       //60
