@@ -568,8 +568,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
 
     //15
-    if (report.sickInjuredPersonMedicalHistory == null &&
-        report.sickInjuredPersonMedicalHistory != '') {
+    if (report.sickInjuredPersonMedicalHistory == null ||
+        report.sickInjuredPersonMedicalHistory == '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 3 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -594,8 +594,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonHistoryHospital ?? '');
 
     //18
-    if (report.sickInjuredPersonKakaritsuke == null &&
-        report.sickInjuredPersonKakaritsuke != '') {
+    if (report.sickInjuredPersonKakaritsuke == null ||
+        report.sickInjuredPersonKakaritsuke == '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 4 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -652,8 +652,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             '');
 
     //22
-    if (report.sickInjuredPersonAllergy == null &&
-        report.sickInjuredPersonAllergy != '') {
+    if (report.sickInjuredPersonAllergy == null ||
+        report.sickInjuredPersonAllergy == '') {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 6 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
