@@ -1225,6 +1225,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         htmlInput = htmlInput.replaceFirst('有(', '有 (');
         htmlInput = htmlInput.replaceFirst(
             ')　無', ') <span class="text-circle">無</span>');
+      } else {
+        htmlInput = htmlInput.replaceFirst(')　無', ') 無');
       }
       htmlInput = htmlInput.replaceFirst('Hemorrhage${i + 1}',
           hasHemorrhage ? hemorrhage.characters.take(8).toString() : '');

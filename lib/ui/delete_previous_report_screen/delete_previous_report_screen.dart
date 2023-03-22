@@ -37,7 +37,6 @@ class _DeletePreviousReportScreenState
 
   _showPopup(_) async {
     final prefs = await SharedPreferences.getInstance();
-    if (!mounted) return;
     final now = Jiffy(DateTime.now());
     final lastDoNotShowAgainDate =
         prefs.getInt(AppConstants.doNotShowDeleteDialogAgainDate);
@@ -46,7 +45,6 @@ class _DeletePreviousReportScreenState
       Navigator.pushReplacementNamed(context, Routes.listReport);
       return;
     }
-    if (!mounted) return;
     _reportStore = context.read();
     await _reportStore.getReports();
     final reportIds = _reportStore.reports!
