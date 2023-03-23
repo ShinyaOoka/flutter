@@ -205,20 +205,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result.replaceAll('EachECG_${i}_VALUE', report.eachEcg?[i] ?? '');
       result = result.replaceAll('EachOxygenInhalation_${i}_VALUE',
           report.eachOxygenInhalation?[i]?.toStringAsFixed(1) ?? '');
-      result = result.replaceAll(
-          'EachHemostasis_${i}_VALUE',
-          (report.eachHemostasis?[i]) == true
-              ? '有'
-              : report.observationTime?[i] == null
-                  ? ''
-                  : '無');
-      result = result.replaceAll(
-          'EachSuction_${i}_VALUE',
-          (report.eachSuction?[i]) == true
-              ? '有'
-              : report.observationTime?[i] == null
-                  ? ''
-                  : '無');
+      result = result.replaceAll('EachHemostasis_${i}_VALUE',
+          (report.eachHemostasis?[i]) == true ? '有' : '');
+      result = result.replaceAll('EachSuction_${i}_VALUE',
+          (report.eachSuction?[i]) == true ? '有' : '');
       result = result.replaceAll(
           'OtherProcess1_${i}_VALUE', report.otherProcess1?[i] ?? '');
       result = result.replaceAll(
