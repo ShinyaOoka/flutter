@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -32,18 +33,7 @@ class AppDropdown<T> extends StatelessWidget {
                               children: [
                                 Text(label!),
                                 const SizedBox(width: 8),
-                                Container(
-                                  color: Colors.green,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 2),
-                                  child: const Text(
-                                    '報告',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                )
+                                OptionalBadge(),
                               ],
                             )
                           : Text(label!)
@@ -96,18 +86,7 @@ class AppDropdown<T> extends StatelessWidget {
                                     children: [
                                       Text(label!),
                                       const SizedBox(width: 8),
-                                      Container(
-                                        color: Colors.green,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 2),
-                                        child: const Text(
-                                          '報告',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      )
+                                      OptionalBadge(),
                                     ],
                                   )
                                 : Text(label!)

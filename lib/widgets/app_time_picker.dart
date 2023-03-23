@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -27,18 +28,7 @@ class AppTimePicker extends StatelessWidget {
                         children: [
                           Text(label!),
                           const SizedBox(width: 8),
-                          Container(
-                            color: Colors.green,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            child: const Text(
-                              '報告',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          )
+                          OptionalBadge(),
                         ],
                       )
                     : Text(label!)

@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -216,23 +217,7 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                                 children: [
                                   Text('${index + 1}. ${section.title}'),
                                   const SizedBox(width: 8),
-                                  Container(
-                                    color: Colors.green,
-                                    padding: const EdgeInsets.only(
-                                      left: 6 * 0.75,
-                                      right: 6 * 0.75,
-                                      top: 2 * 1,
-                                      bottom: 2 * 0.5,
-                                    ),
-                                    child: const Text(
-                                      '報告',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12 * 0.75,
-                                        height: 1,
-                                      ),
-                                    ),
-                                  )
+                                  OptionalBadge(scaling: 0.8)
                                 ],
                               )
                             : Text('${index + 1}. ${section.title}'),
