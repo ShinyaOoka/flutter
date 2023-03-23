@@ -55,7 +55,8 @@ class AppTextField extends StatelessWidget {
                         )
                       : Text(label!)
                   : null,
-              border: const OutlineInputBorder(),
+              border: OutlineInputBorder(
+                  borderSide: readOnly ? BorderSide.none : BorderSide()),
               fillColor: fillColor ?? Colors.white,
               hintText: hintText,
               counterText: _counterText,

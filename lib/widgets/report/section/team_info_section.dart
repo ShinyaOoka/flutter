@@ -108,6 +108,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
             text: report.team?.tel,
           ),
           enabled: false,
+          readOnly: widget.readOnly,
         )
       ]);
     });
@@ -120,6 +121,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           label: 'fire_station_name'.i18n(),
           controller: TextEditingController(text: report.fireStation?.name),
           enabled: false,
+          readOnly: widget.readOnly,
         ),
         AppTextField(
           controller: teamCaptainNameController,

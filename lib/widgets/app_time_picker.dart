@@ -43,7 +43,8 @@ class AppTimePicker extends StatelessWidget {
                       )
                     : Text(label!)
                 : null,
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(
+                borderSide: readOnly ? BorderSide.none : BorderSide()),
             hintText: hintText,
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),

@@ -48,7 +48,7 @@ class AppDropdown<T> extends StatelessWidget {
                             )
                           : Text(label!)
                       : null,
-                  border: const OutlineInputBorder(),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
                   fillColor: fillColor ?? Colors.white,
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),

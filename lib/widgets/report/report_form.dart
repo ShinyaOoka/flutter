@@ -218,13 +218,18 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                                   const SizedBox(width: 8),
                                   Container(
                                     color: Colors.green,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
+                                    padding: const EdgeInsets.only(
+                                      left: 6 * 0.75,
+                                      right: 6 * 0.75,
+                                      top: 2 * 1,
+                                      bottom: 2 * 0.5,
+                                    ),
                                     child: const Text(
                                       '報告',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 9,
+                                        fontSize: 12 * 0.75,
+                                        height: 1,
                                       ),
                                     ),
                                   )
