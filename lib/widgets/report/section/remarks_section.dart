@@ -22,6 +22,7 @@ class _RemarksSectionState extends State<RemarksSection>
   final summaryOfOccurrenceController = TextEditingController();
   final summaryOfOccurrenceScrollController = ScrollController();
   final remarksController = TextEditingController();
+  final remarksScrollController = ScrollController();
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -80,15 +81,19 @@ class _RemarksSectionState extends State<RemarksSection>
 
   Widget _buildLine2(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'remarks'.i18n(),
-        controller: remarksController,
-        inputFormatters: [maxLineFormatter(3)],
-        onChanged: (value) => report.remarks = value,
-        maxLength: 180,
-        minLines: 3,
-        maxLines: 3,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        controller: remarksScrollController,
+        child: AppTextField(
+          label: 'remarks'.i18n(),
+          controller: remarksController,
+          scrollController: remarksScrollController,
+          inputFormatters: [maxLineFormatter(3)],
+          onChanged: (value) => report.remarks = value,
+          maxLength: 180,
+          minLines: 3,
+          maxLines: 3,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }

@@ -32,7 +32,10 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   final placeOfDispatchController = TextEditingController();
   final accidentSummaryController = TextEditingController();
   final verbalGuidanceController = TextEditingController();
+
   final accidentSummaryScrollController = ScrollController();
+  final placeOfIncidentScrollController = ScrollController();
+
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
 
@@ -128,16 +131,20 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
 
   Widget _buildLine2(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        keyboardType: TextInputType.multiline,
-        controller: placeOfIncidentController,
-        inputFormatters: [maxLineFormatter(3)],
-        minLines: 3,
-        maxLines: 3,
-        maxLength: 100,
-        label: 'place_of_incident'.i18n(),
-        onChanged: (value) => report.placeOfIncident = value,
-        readOnly: widget.readOnly,
+      Scrollbar(
+        controller: placeOfIncidentScrollController,
+        child: AppTextField(
+          keyboardType: TextInputType.multiline,
+          controller: placeOfIncidentController,
+          scrollController: placeOfIncidentScrollController,
+          inputFormatters: [maxLineFormatter(3)],
+          minLines: 3,
+          maxLines: 3,
+          maxLength: 100,
+          label: 'place_of_incident'.i18n(),
+          onChanged: (value) => report.placeOfIncident = value,
+          readOnly: widget.readOnly,
+        ),
       ),
     ]);
   }
@@ -219,10 +226,12 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   Widget _buildLine6(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppCheckbox(
+        AppDropdown<bool>(
+          items: const [true, false],
           label: 'witnesses'.i18n(),
-          value: report.witnesses,
+          itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.witnesses = value,
+          selectedItem: report.witnesses,
           readOnly: widget.readOnly,
         ),
         AppTimePicker(

@@ -474,21 +474,25 @@ class _VitalSignSectionState extends State<VitalSignSection>
           Row(
             children: [
               Expanded(
-                child: AppCheckbox(
+                child: AppDropdown<bool>(
+                  items: const [true, false],
                   label: 'light_reflex_right'.i18n(),
-                  value: report.lightReflexRight?[widget.index],
+                  itemAsString: ((item) => formatBool(item) ?? ''),
                   onChanged: (value) =>
                       report.lightReflexRight?[widget.index] = value,
+                  selectedItem: report.lightReflexRight?[widget.index],
                   readOnly: widget.readOnly,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: AppCheckbox(
+                child: AppDropdown<bool>(
+                  items: const [true, false],
                   label: 'light_reflex_left'.i18n(),
-                  value: report.lightReflexLeft?[widget.index],
+                  itemAsString: ((item) => formatBool(item) ?? ''),
                   onChanged: (value) =>
                       report.lightReflexLeft?[widget.index] = value,
+                  selectedItem: report.lightReflexLeft?[widget.index],
                   readOnly: widget.readOnly,
                 ),
               ),

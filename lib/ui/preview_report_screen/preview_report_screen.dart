@@ -236,8 +236,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     result = result.replaceAll('Remark',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.remarks, 3, 47) ?? ''}</div>');
-    result = fillBoolCircle(result, 'RecordOfRefusalOfTransfer',
-        report.recordOfRefusalOfTransfer == true);
+    result = fillBoolCircle(
+        result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     return result;
   }
 
@@ -846,14 +846,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //40
-    if (report.witnesses != null && report.witnesses!) {
+    if (report.witnesses == true) {
       htmlInput =
           customReplace(htmlInput, uncheckYes, 9 - totalYesPos, '$checkIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 9 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-    } else {
+    } else if (report.witnesses == false) {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 9 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -1138,17 +1138,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
               ? report.pupilLeft![i].toString()
               : '');
       //54
-      if ((report.lightReflexRight?[i] == null ||
-          !report.lightReflexRight![i]!)) {
-        if (report.observationTime?[i] != null) {
-          htmlInput = customReplace(
-              htmlInput,
-              '有・無',
-              1 + 2 * i - totalYesDotNoPos,
-              '有・<span class="text-circle">無</span>');
-          totalYesDotNoPos += 1;
-        }
-      } else {
+      if (report.lightReflexRight?[i] == false) {
+        htmlInput = customReplace(
+            htmlInput,
+            '有・無',
+            1 + 2 * i - totalYesDotNoPos,
+            '有・<span class="text-circle">無</span>');
+        totalYesDotNoPos += 1;
+      } else if (report.lightReflexRight?[i] == true) {
         htmlInput = customReplace(
             htmlInput,
             '有・無',
@@ -1158,17 +1155,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       }
 
       //55
-      if ((report.lightReflexLeft?[i] == null ||
-          !report.lightReflexLeft![i]!)) {
-        if (report.observationTime?[i] != null) {
-          htmlInput = customReplace(
-              htmlInput,
-              '有・無',
-              2 + 2 * i - totalYesDotNoPos,
-              '有・<span class="text-circle">無</span>');
-          totalYesDotNoPos += 1;
-        }
-      } else {
+      if (report.lightReflexLeft?[i] == false) {
+        htmlInput = customReplace(
+            htmlInput,
+            '有・無',
+            2 + 2 * i - totalYesDotNoPos,
+            '有・<span class="text-circle">無</span>');
+        totalYesDotNoPos += 1;
+      } else if (report.lightReflexLeft?[i] == true) {
         htmlInput = customReplace(
             htmlInput,
             '有・無',

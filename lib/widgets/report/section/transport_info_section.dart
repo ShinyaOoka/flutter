@@ -212,10 +212,14 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine6(Report report) {
     return lineLayout(children: [
-      AppCheckbox(
+      AppDropdown<bool>(
+        items: const [true, false],
         label: 'record_of_refusal_of_transfer'.i18n(),
-        onChanged: (value) => report.recordOfRefusalOfTransfer = value,
-        value: report.recordOfRefusalOfTransfer,
+        itemAsString: ((item) => formatBool(item) ?? ''),
+        onChanged: (value) {
+          report.recordOfRefusalOfTransfer = value;
+        },
+        selectedItem: report.recordOfRefusalOfTransfer,
         readOnly: widget.readOnly,
       ),
     ]);
