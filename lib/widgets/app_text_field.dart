@@ -18,6 +18,7 @@ class AppTextField extends StatelessWidget {
   final Color? counterColor;
   final bool readOnly;
   final Color? fillColor;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,31 @@ class AppTextField extends StatelessWidget {
           minLines: minLines,
           decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              label: label != null ? Text(label!) : null,
+              label: label != null
+                  ? optional
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(label!),
+                            const SizedBox(width: 8),
+                            Container(
+                              color: Colors.green,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, vertical: 2),
+                              child: const Text(
+                                '報告',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Text(label!)
+                  : null,
               border: const OutlineInputBorder(),
-              fillColor: fillColor,
+              fillColor: fillColor ?? Colors.white,
               hintText: hintText,
               counterText: _counterText,
               counterStyle:
@@ -81,5 +104,6 @@ class AppTextField extends StatelessWidget {
     this.fillColor,
     this.readOnly = false,
     this.scrollController,
+    this.optional = false,
   });
 }

@@ -218,7 +218,6 @@ class _SickInjuredPersonInfoSectionState
                         : ''),
                 enabled: false,
                 readOnly: widget.readOnly,
-                fillColor: optionalColor(context),
               ),
             ),
             const SizedBox(width: 16),
@@ -350,7 +349,7 @@ class _SickInjuredPersonInfoSectionState
         maxLength: 60,
         maxLines: 1,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }
@@ -373,7 +372,7 @@ class _SickInjuredPersonInfoSectionState
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
       ]);
     });
@@ -388,7 +387,7 @@ class _SickInjuredPersonInfoSectionState
               text: report.sickInjuredPersonAge?.toString()),
           enabled: false,
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
       ]);
     });

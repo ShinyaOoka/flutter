@@ -14,6 +14,7 @@ class AppDropdown<T> extends StatelessWidget {
   final bool enabled;
   final bool readOnly;
   final Color? fillColor;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,31 @@ class AppDropdown<T> extends StatelessWidget {
                 style: TextStyle(color: Theme.of(context).primaryColor),
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: label != null ? Text(label!) : null,
+                  label: label != null
+                      ? optional
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(label!),
+                                const SizedBox(width: 8),
+                                Container(
+                                  color: Colors.green,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6, vertical: 2),
+                                  child: const Text(
+                                    '報告',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Text(label!)
+                      : null,
                   border: const OutlineInputBorder(),
-                  fillColor: fillColor,
+                  fillColor: fillColor ?? Colors.white,
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),
@@ -45,6 +68,7 @@ class AppDropdown<T> extends StatelessWidget {
                   showSearchBox: showSearchBox,
                   searchFieldProps: const TextFieldProps(
                       decoration: InputDecoration(
+                          fillColor: Colors.white,
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder())),
                   // showSelectedItems: true,
@@ -65,9 +89,31 @@ class AppDropdown<T> extends StatelessWidget {
                         overflow: TextOverflow.ellipsis),
                     dropdownSearchDecoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        labelText: label,
+                        label: label != null
+                            ? optional
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(label!),
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        color: Colors.green,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 6, vertical: 2),
+                                        child: const Text(
+                                          '報告',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : Text(label!)
+                            : null,
                         border: const OutlineInputBorder(),
-                        fillColor: fillColor,
+                        fillColor: fillColor ?? Colors.white,
                         counterText: ' ',
                         counterStyle:
                             const TextStyle(height: 0.2, fontSize: 10))),
@@ -94,5 +140,6 @@ class AppDropdown<T> extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.fillColor,
+    this.optional = false,
   });
 }

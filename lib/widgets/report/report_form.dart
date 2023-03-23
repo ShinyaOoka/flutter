@@ -205,14 +205,33 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                 index,
                 ExpansionPanel(
                     canTapOnHeader: true,
-                    backgroundColor: section.optional
-                        ? Theme.of(context).secondaryHeaderColor
-                        : null,
+                    backgroundColor: Color(0xFFF5F5F5),
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
-                          key: section.globalKey,
-                          leading: section.icon,
-                          title: Text('${index + 1}. ${section.title}'));
+                        key: section.globalKey,
+                        leading: section.icon,
+                        title: section.optional
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('${index + 1}. ${section.title}'),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    color: Colors.green,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: const Text(
+                                      '報告',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Text('${index + 1}. ${section.title}'),
+                      );
                     },
                     body: section.isExpanded ? section.widget : Container(),
                     isExpanded: section.isExpanded)))

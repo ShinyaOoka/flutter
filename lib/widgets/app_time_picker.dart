@@ -10,6 +10,7 @@ class AppTimePicker extends StatelessWidget {
   final bool readOnly;
   final Color? fillColor;
   final TimeOfDay? defaultTime;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,34 @@ class AppTimePicker extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            label: label != null ? Text(label!) : null,
+            label: label != null
+                ? optional
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(label!),
+                          const SizedBox(width: 8),
+                          Container(
+                            color: Colors.green,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            child: const Text(
+                              '報告',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Text(label!)
+                : null,
             border: const OutlineInputBorder(),
             hintText: hintText,
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),
-            fillColor: fillColor,
+            fillColor: fillColor ?? Colors.white,
             suffixIcon: !readOnly && selectedTime != null
                 ? IconButton(
                     onPressed: () => onChanged?.call(null),
@@ -73,5 +96,6 @@ class AppTimePicker extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.defaultTime,
+    this.optional = false,
   });
 }

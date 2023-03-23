@@ -138,7 +138,7 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           onChanged: (value) => report.timeOfArrival = value,
           selectedTime: report.timeOfArrival,
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
           defaultTime: report.senseTime,
         ),
         AppTimePicker(
@@ -146,7 +146,7 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           onChanged: (value) => report.returnTime = value,
           selectedTime: report.returnTime,
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
           defaultTime: report.senseTime,
         ),
       ]);

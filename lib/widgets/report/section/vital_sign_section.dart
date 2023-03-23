@@ -622,7 +622,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
         Container(),
       ]);
@@ -638,7 +638,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.eachEcg?[widget.index] = value,
         maxLength: 10,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       Focus(
         child: AppTextField(
@@ -651,7 +651,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
             FilteringTextInputFormatter.singleLineFormatter,
           ],
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
@@ -690,7 +690,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess1?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       AppTextField(
         label: 'other_process_2'.i18n(),
@@ -699,7 +699,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess2?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       AppTextField(
         label: 'other_process_3'.i18n(),
@@ -708,7 +708,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess3?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }
@@ -722,7 +722,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess4?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       AppTextField(
         label: 'other_process_5'.i18n(),
@@ -731,7 +731,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess5?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       AppTextField(
         label: 'other_process_6'.i18n(),
@@ -740,7 +740,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess6?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }
@@ -754,7 +754,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.otherProcess7?[widget.index] = value,
         maxLength: 15,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
       Container(),
       Container(),
