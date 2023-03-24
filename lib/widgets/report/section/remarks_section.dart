@@ -83,6 +83,7 @@ class _RemarksSectionState extends State<RemarksSection>
     return lineLayout(children: [
       Scrollbar(
         controller: remarksScrollController,
+        thumbVisibility: true,
         child: AppTextField(
           label: 'remarks'.i18n(),
           controller: remarksController,
