@@ -39,7 +39,8 @@ class AppDropdown<T> extends StatelessWidget {
                           : Text(label!)
                       : null,
                   border: const OutlineInputBorder(borderSide: BorderSide.none),
-                  fillColor: fillColor ?? Colors.white,
+                  fillColor: fillColor ??
+                      (readOnly ? Color(0xFFF5F5F5) : Colors.white),
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),
@@ -92,7 +93,8 @@ class AppDropdown<T> extends StatelessWidget {
                                 : Text(label!)
                             : null,
                         border: const OutlineInputBorder(),
-                        fillColor: fillColor ?? Colors.white,
+                        fillColor: fillColor ??
+                            (readOnly ? Color(0xFFF5F5F5) : Colors.white),
                         counterText: ' ',
                         counterStyle:
                             const TextStyle(height: 0.2, fontSize: 10))),

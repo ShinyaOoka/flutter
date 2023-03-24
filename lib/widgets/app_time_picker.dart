@@ -38,7 +38,8 @@ class AppTimePicker extends StatelessWidget {
             hintText: hintText,
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),
-            fillColor: fillColor ?? Colors.white,
+            fillColor:
+                fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
             suffixIcon: !readOnly && selectedTime != null
                 ? IconButton(
                     onPressed: () => onChanged?.call(null),
