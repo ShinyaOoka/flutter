@@ -234,7 +234,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
             padding: EdgeInsets.symmetric(horizontal: 4),
             color: Colors.white,
             child: Text(
-              "traffic_accident_classification".i18n(),
+              "traffic_accident".i18n(),
               style:
                   TextStyle(height: 1, fontSize: 12, color: Color(0xff686868)),
             ),

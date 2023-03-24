@@ -149,6 +149,7 @@ abstract class _Report with Store {
   @JsonKey(name: "HospitalArrivalTime")
   TimeOfDay? hospitalArrivalTime;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "FamilyContact")
   bool? familyContact;
   @observable
@@ -156,6 +157,7 @@ abstract class _Report with Store {
   @JsonKey(name: "FamilyContactTime")
   TimeOfDay? familyContactTime;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "PoliceContact")
   bool? policeContact;
   @observable
