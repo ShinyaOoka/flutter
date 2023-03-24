@@ -77,6 +77,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
           onChanged: (value) => report.perceiverName = value,
           maxLength: 20,
           readOnly: widget.readOnly,
+          optional: true,
         ),
         AppDropdown<Classification>(
           showSearchBox: true,
@@ -95,6 +96,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
               (c.classificationSubCd != null &&
                   c.classificationSubCd!.contains(filter)),
           readOnly: widget.readOnly,
+          optional: true,
         ),
       ]);
     });
@@ -109,6 +111,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         onChanged: (value) => report.callerName = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        optional: true,
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
@@ -121,6 +124,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         onChanged: (value) => report.callerTel = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        optional: true,
       ),
     ]);
   }

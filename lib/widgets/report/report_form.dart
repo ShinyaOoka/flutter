@@ -217,7 +217,7 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                                 children: [
                                   Text('${index + 1}. ${section.title}'),
                                   const SizedBox(width: 8),
-                                  OptionalBadge(scaling: 0.8)
+                                  OptionalBadge(scaling: 0.75)
                                 ],
                               )
                             : Text('${index + 1}. ${section.title}'),

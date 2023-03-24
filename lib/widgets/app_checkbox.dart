@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 
 class AppCheckbox extends StatelessWidget {
@@ -5,6 +6,7 @@ class AppCheckbox extends StatelessWidget {
   final bool? value;
   final void Function(bool?)? onChanged;
   final bool? readOnly;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,18 @@ class AppCheckbox extends StatelessWidget {
       IgnorePointer(
         ignoring: readOnly == true,
         child: CheckboxListTile(
-          title: label != null ? Text(label!) : null,
+          title: label != null
+              ? optional
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(label!),
+                        const SizedBox(width: 8),
+                        OptionalBadge(scaling: 0.75),
+                      ],
+                    )
+                  : Text(label!)
+              : null,
           value: value ?? false,
           onChanged: onChanged,
           controlAffinity: ListTileControlAffinity.leading,
@@ -29,5 +42,6 @@ class AppCheckbox extends StatelessWidget {
     this.value,
     this.onChanged,
     this.readOnly,
+    this.optional = false,
   });
 }

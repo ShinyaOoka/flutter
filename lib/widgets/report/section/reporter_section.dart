@@ -63,6 +63,7 @@ class _ReporterSectionState extends State<ReporterSection>
         onChanged: (value) => report.nameOfReporter = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        optional: true,
       ),
       AppTextField(
         controller: affiliationOfReporterController,
@@ -70,6 +71,7 @@ class _ReporterSectionState extends State<ReporterSection>
         onChanged: (value) => report.affiliationOfReporter = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        optional: true,
       ),
     ]);
   }
@@ -83,6 +85,7 @@ class _ReporterSectionState extends State<ReporterSection>
         onChanged: (value) => report.positionOfReporter = value,
         maxLength: 20,
         readOnly: widget.readOnly,
+        optional: true,
       ),
       Container(),
     ]);
