@@ -820,18 +820,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput =
         htmlInput.replaceFirst('$uncheckIconヘルメット', '$uncheckIcon ヘルメット');
 
-    if (report.trafficAccidentClassification == '000') {
+    if (report.trafficAccidentSeatbelt == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon シートベルト', '$checkIconシートベルト');
-    } else if (report.trafficAccidentClassification == '001') {
+    } else if (report.trafficAccidentAirbag == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon エアバック', '$checkIconエアバック');
-    } else if (report.trafficAccidentClassification == '002') {
+    } else if (report.trafficAccidentUnknown == true) {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 不明', '$checkIcon不明');
-    } else if (report.trafficAccidentClassification == '003') {
+    } else if (report.trafficAccidentChildseat == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon チャイルドシート', '$checkIconチャイルドシート');
-    } else if (report.trafficAccidentClassification == '004') {
+    } else if (report.trafficAccidentHelmet == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon ヘルメット', '$checkIconヘルメット');
     }

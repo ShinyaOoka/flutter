@@ -214,25 +214,69 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   }
 
   Widget _buildLine6(Report report) {
-    return lineLayout(children: [
-      AppDropdown<Classification>(
-        items: report.classificationStore!.classifications.values
-            .where((element) =>
-                element.classificationCd == AppConstants.trafficAccidentCode)
-            .toList(),
-        label: 'traffic_accident_classification'.i18n(),
-        itemAsString: ((item) => item.value ?? ''),
-        onChanged: (value) {
-          report.trafficAccidentType = value;
-        },
-        selectedItem: report.trafficAccidentType,
-        filterFn: (c, filter) =>
-            (c.value != null && c.value!.contains(filter)) ||
-            (c.classificationSubCd != null &&
-                c.classificationSubCd!.contains(filter)),
-        readOnly: widget.readOnly,
-      ),
-    ]);
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned.fill(
+          top: 0,
+          bottom: 16,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xff686868)),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+          ),
+        ),
+        Positioned(
+          top: -6,
+          left: 8,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            color: Colors.white,
+            child: Text(
+              "traffic_accident_classification".i18n(),
+              style:
+                  TextStyle(height: 1, fontSize: 12, color: Color(0xff686868)),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 8, bottom: 8, right: 16),
+          child: lineLayout(dense: true, children: [
+            AppCheckbox(
+              label: 'traffic_accident_seatbelt'.i18n(),
+              value: report.trafficAccidentSeatbelt,
+              onChanged: (value) => report.trafficAccidentSeatbelt = value,
+              readOnly: widget.readOnly,
+            ),
+            AppCheckbox(
+              label: 'traffic_accident_airbag'.i18n(),
+              value: report.trafficAccidentAirbag,
+              onChanged: (value) => report.trafficAccidentAirbag = value,
+              readOnly: widget.readOnly,
+            ),
+            AppCheckbox(
+              label: 'traffic_accident_childseat'.i18n(),
+              value: report.trafficAccidentChildseat,
+              onChanged: (value) => report.trafficAccidentChildseat = value,
+              readOnly: widget.readOnly,
+            ),
+            AppCheckbox(
+              label: 'traffic_accident_helmet'.i18n(),
+              value: report.trafficAccidentHelmet,
+              onChanged: (value) => report.trafficAccidentHelmet = value,
+              readOnly: widget.readOnly,
+            ),
+            AppCheckbox(
+              label: 'traffic_accident_unknown'.i18n(),
+              value: report.trafficAccidentUnknown,
+              onChanged: (value) => report.trafficAccidentUnknown = value,
+              readOnly: widget.readOnly,
+            ),
+          ]),
+        ),
+      ],
+    );
   }
 
   Widget _buildLine7(Report report) {
