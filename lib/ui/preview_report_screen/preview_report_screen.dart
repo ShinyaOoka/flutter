@@ -151,8 +151,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferring, 6, 24) ?? ''}</div>');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
         report.affiliationOfReporter?.characters.take(12).toString() ?? '');
-    result = result.replaceAll('PositionOfReporter_VALUE',
-        report.positionOfReporter?.characters.take(8).toString() ?? '');
+    result = result.replaceAll(
+        'PositionOfReporter_VALUE', report.positionOfReporterType?.value ?? '');
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
@@ -204,8 +204,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           report.bodyTemperature?[i]?.toStringAsFixed(1) ?? '');
       result =
           result.replaceAll('EachECG_${i}_VALUE', report.eachEcg?[i] ?? '');
-      result = result.replaceAll('EachOxygenInhalation_${i}_VALUE',
-          report.eachOxygenInhalation?[i]?.toStringAsFixed(1) ?? '');
+      result = result.replaceAll('SpO2Liter_${i}_VALUE',
+          report.spO2Liter?[i]?.toStringAsFixed(1) ?? '');
       result = result.replaceAll('EachHemostasis_${i}_VALUE',
           (report.eachHemostasis?[i]) == true ? '有' : '');
       result = result.replaceAll('EachSuction_${i}_VALUE',
@@ -626,8 +626,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       totalYesPos += 1;
     } else if (report.sickInjuredPersonMedication == '002') {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 手帳', '$checkIcon 手帳');
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 5 - totalYesPos, '$uncheckIcon 有');
+      htmlInput =
+          customReplace(htmlInput, uncheckYes, 5 - totalYesPos, '$checkIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
@@ -864,24 +864,23 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //42
-    if (report.verbalGuidance != null && report.verbalGuidance != '') {
+    if (report.verbalGuidance == true) {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 10 - totalYesPos, '$checkIcon 有');
       htmlInput = customReplace(
           htmlInput, uncheckNo, 10 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('VerbalGuidance',
-          report.verbalGuidance?.characters.take(18).toString() ?? '');
-    } else {
+    } else if (report.verbalGuidance == false) {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 10 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 10 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('VerbalGuidance', '');
     }
+    htmlInput = htmlInput.replaceFirst('VerbalGuidance',
+        report.verbalGuidanceText?.characters.take(18).toString() ?? '');
 
     //42
 

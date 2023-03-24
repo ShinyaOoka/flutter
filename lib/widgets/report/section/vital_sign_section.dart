@@ -41,7 +41,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
   final hemorrhageController = TextEditingController();
   final extremitiesController = TextEditingController();
   final eachEcgController = TextEditingController();
-  final eachOxygenInhalationController = TextEditingController();
   final otherProcess1Controller = TextEditingController();
   final otherProcess2Controller = TextEditingController();
   final otherProcess3Controller = TextEditingController();
@@ -100,8 +99,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
         _ensureLengthObservable(reportStore.selectingReport!.eachEcg);
     reportStore.selectingReport!.eachHemostasis =
         _ensureLengthObservable(reportStore.selectingReport!.eachHemostasis);
-    reportStore.selectingReport!.eachOxygenInhalation = _ensureLengthObservable(
-        reportStore.selectingReport!.eachOxygenInhalation);
     reportStore.selectingReport!.eachSuction =
         _ensureLengthObservable(reportStore.selectingReport!.eachSuction);
     reportStore.selectingReport!.otherProcess1 =
@@ -149,8 +146,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
           reportStore.selectingReport!.hemorrhage?[widget.index]);
       syncControllerValue(extremitiesController,
           reportStore.selectingReport!.extremities?[widget.index]);
-      syncControllerValue(eachOxygenInhalationController,
-          reportStore.selectingReport!.eachOxygenInhalation?[widget.index]);
       syncControllerValue(eachEcgController,
           reportStore.selectingReport!.eachEcg?[widget.index]);
       syncControllerValue(otherProcess1Controller,
@@ -185,7 +180,6 @@ class _VitalSignSectionState extends State<VitalSignSection>
     hemorrhageController.dispose();
     extremitiesController.dispose();
     eachEcgController.dispose();
-    eachOxygenInhalationController.dispose();
     otherProcess1Controller.dispose();
     otherProcess2Controller.dispose();
     otherProcess3Controller.dispose();
@@ -218,422 +212,454 @@ class _VitalSignSectionState extends State<VitalSignSection>
           _buildLine7(reportStore.selectingReport!, context),
           _buildLine8(reportStore.selectingReport!, context),
           _buildLine9(reportStore.selectingReport!, context),
-          _buildLine10(reportStore.selectingReport!, context),
-          _buildLine11(reportStore.selectingReport!, context),
-          _buildLine12(reportStore.selectingReport!, context),
-          _buildLine13(reportStore.selectingReport!, context),
         ],
       );
     });
   }
 
   Widget _buildLine1(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppTimePicker(
-          label: 'observation_time'.i18n(),
-          onChanged: (value) => report.observationTime?[widget.index] = value,
-          selectedTime: report.observationTime?[widget.index],
-          readOnly: widget.readOnly,
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where(
-                  (element) => element.classificationCd == AppConstants.jcsCode)
-              .toList(),
-          label: 'jcs'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.jcsTypes = report.jcsTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.jcsTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        )
-      ]);
-    });
+    return lineLayout(children: [
+      AppTimePicker(
+        label: 'observation_time'.i18n(),
+        onChanged: (value) => report.observationTime?[widget.index] = value,
+        selectedTime: report.observationTime?[widget.index],
+        readOnly: widget.readOnly,
+      ),
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd ==
+                AppConstants.descriptionOfObservationTimeCode)
+            .toList(),
+        label: 'description_of_observation_time'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.observationTimeDescriptionTypes = report
+            .observationTimeDescriptionTypes
+            .mapIndexed((i, e) => i == widget.index ? value : e)
+            .toList(),
+        selectedItem: report.observationTimeDescriptionTypes[widget.index],
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+      ),
+    ]);
   }
 
   Widget _buildLine2(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.gcsECode)
-              .toList(),
-          label: 'gcs_e'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.gcsETypes = report.gcsETypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.gcsETypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.gcsVCode)
-              .toList(),
-          label: 'gcs_v'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.gcsVTypes = report.gcsVTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.gcsVTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.gcsMCode)
-              .toList(),
-          label: 'gcs_m'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.gcsMTypes = report.gcsMTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.gcsMTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.jcsCode)
+                  .toList(),
+              label: 'jcs'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.jcsTypes = report.jcsTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.jcsTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.gcsECode)
+                  .toList(),
+              label: 'gcs_e'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.gcsETypes = report.gcsETypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.gcsETypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.gcsVCode)
+                  .toList(),
+              label: 'gcs_v'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.gcsVTypes = report.gcsVTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.gcsVTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.gcsMCode)
+                  .toList(),
+              label: 'gcs_m'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.gcsMTypes = report.gcsMTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.gcsMTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
+      ),
+    ]);
   }
 
   Widget _buildLine3(Report report, BuildContext context) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'respiration'.i18n(),
-        controller: respirationController,
-        onChanged: (x) => reportStore
-            .selectingReport!.respiration?[widget.index] = int.tryParse(x),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'respiration'.i18n(),
+              controller: respirationController,
+              onChanged: (x) => reportStore.selectingReport!
+                  .respiration?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: 'times_per_minute'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'pulse'.i18n(),
+              controller: pulseController,
+              onChanged: (x) => reportStore
+                  .selectingReport!.pulse?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: 'times_per_minute'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
         ],
-        counterText: 'times_per_minute'.i18n(),
-        counterColor: Theme.of(context).primaryColor,
-        maxLength: 3,
-        readOnly: widget.readOnly,
       ),
-      AppTextField(
-        label: 'pulse'.i18n(),
-        controller: pulseController,
-        onChanged: (x) =>
-            reportStore.selectingReport!.pulse?[widget.index] = int.tryParse(x),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'blood_pressure_high'.i18n(),
+              controller: bloodPressureHighController,
+              onChanged: (x) => reportStore.selectingReport!
+                  .bloodPressureHigh?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: 'mmHg'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'blood_pressure_low'.i18n(),
+              controller: bloodPressureLowController,
+              onChanged: (x) => reportStore.selectingReport!
+                  .bloodPressureLow?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: 'mmHg'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
         ],
-        counterText: 'times_per_minute'.i18n(),
-        counterColor: Theme.of(context).primaryColor,
-        maxLength: 3,
-        readOnly: widget.readOnly,
       ),
     ]);
   }
 
   Widget _buildLine4(Report report, BuildContext context) {
     return lineLayout(children: [
-      Column(
+      Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                  child: AppTextField(
-                label: 'blood_pressure_high'.i18n(),
-                controller: bloodPressureHighController,
-                onChanged: (x) => reportStore.selectingReport!
-                    .bloodPressureHigh?[widget.index] = int.tryParse(x),
-                keyboardType: TextInputType.number,
+          Expanded(
+            child: Focus(
+              child: AppTextField(
+                label: 'body_temperature'.i18n(),
+                controller: bodyTemperatureController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
+                  FilteringTextInputFormatter.singleLineFormatter,
                 ],
-                counterText: 'mmHg'.i18n(),
+                counterText: 'celsius'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
-                maxLength: 3,
                 readOnly: widget.readOnly,
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: AppTextField(
-                label: 'blood_pressure_low'.i18n(),
-                controller: bloodPressureLowController,
-                onChanged: (x) => reportStore.selectingReport!
-                    .bloodPressureLow?[widget.index] = int.tryParse(x),
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
-                counterText: 'mmHg'.i18n(),
-                counterColor: Theme.of(context).primaryColor,
-                maxLength: 3,
-                readOnly: widget.readOnly,
-              )),
-            ],
+              ),
+              onFocusChange: (hasFocus) {
+                if (hasFocus) return;
+                report.bodyTemperature?[widget.index] =
+                    double.tryParse(bodyTemperatureController.text);
+              },
+            ),
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: AppTextField(
-                label: 'sp_o2_percent'.i18n(),
-                controller: spO2PercentController,
-                onChanged: (x) => reportStore.selectingReport!
-                    .spO2Percent?[widget.index] = int.tryParse(x),
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
-                counterText: '%'.i18n(),
-                counterColor: Theme.of(context).primaryColor,
-                maxLength: 3,
-                readOnly: widget.readOnly,
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: AppTextField(
-                label: 'sp_o2_liter'.i18n(),
-                controller: spO2LiterController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
-                onChanged: (value) =>
-                    report.spO2Liter?[widget.index] = int.tryParse(value),
-                counterText: 'L',
-                counterColor: Theme.of(context).primaryColor,
-                maxLength: 3,
-                readOnly: widget.readOnly,
-              )),
-            ],
-          )
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd ==
+                      AppConstants.facialFeaturesCode)
+                  .toList(),
+              label: 'facial_features'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.facialFeatureTypes = report
+                  .facialFeatureTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.facialFeatureTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
         ],
       ),
-      Column(
+      Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                  child: AppTextField(
-                label: 'pupil_right'.i18n(),
-                controller: pupilRightController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
-                onChanged: (value) =>
-                    report.pupilRight?[widget.index] = int.tryParse(value),
-                counterText: 'mm'.i18n(),
-                counterColor: Theme.of(context).primaryColor,
-                readOnly: widget.readOnly,
-                maxLength: 3,
-              )),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: AppTextField(
-                label: 'pupil_left'.i18n(),
-                controller: pupilLeftController,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  FilteringTextInputFormatter.singleLineFormatter
-                ],
-                onChanged: (value) =>
-                    report.pupilLeft?[widget.index] = int.tryParse(value),
-                counterText: 'mm'.i18n(),
-                counterColor: Theme.of(context).primaryColor,
-                maxLength: 3,
-                readOnly: widget.readOnly,
-              )),
-            ],
+          Expanded(
+            child: AppTextField(
+              label: 'pupil_right'.i18n(),
+              controller: pupilRightController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) =>
+                  report.pupilRight?[widget.index] = int.tryParse(value),
+              counterText: 'mm'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              readOnly: widget.readOnly,
+              maxLength: 3,
+            ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: AppDropdown<bool>(
-                  items: const [true, false],
-                  label: 'light_reflex_right'.i18n(),
-                  itemAsString: ((item) => formatBool(item) ?? ''),
-                  onChanged: (value) =>
-                      report.lightReflexRight?[widget.index] = value,
-                  selectedItem: report.lightReflexRight?[widget.index],
-                  readOnly: widget.readOnly,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: AppDropdown<bool>(
-                  items: const [true, false],
-                  label: 'light_reflex_left'.i18n(),
-                  itemAsString: ((item) => formatBool(item) ?? ''),
-                  onChanged: (value) =>
-                      report.lightReflexLeft?[widget.index] = value,
-                  selectedItem: report.lightReflexLeft?[widget.index],
-                  readOnly: widget.readOnly,
-                ),
-              ),
-            ],
-          )
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'pupil_left'.i18n(),
+              controller: pupilLeftController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) =>
+                  report.pupilLeft?[widget.index] = int.tryParse(value),
+              counterText: 'mm'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
         ],
       ),
     ]);
   }
 
   Widget _buildLine5(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        Focus(
-          child: AppTextField(
-            label: 'body_temperature'.i18n(),
-            controller: bodyTemperatureController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-              FilteringTextInputFormatter.singleLineFormatter,
-            ],
-            counterText: 'celsius'.i18n(),
-            counterColor: Theme.of(context).primaryColor,
-            readOnly: widget.readOnly,
+    return lineLayout(children: [
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'sp_o2_percent'.i18n(),
+              controller: spO2PercentController,
+              onChanged: (x) => reportStore.selectingReport!
+                  .spO2Percent?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: '%'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
           ),
-          onFocusChange: (hasFocus) {
-            if (hasFocus) return;
-            report.bodyTemperature?[widget.index] =
-                double.tryParse(bodyTemperatureController.text);
-          },
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.facialFeaturesCode)
-              .toList(),
-          label: 'facial_features'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.facialFeatureTypes = report
-              .facialFeatureTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.facialFeatureTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        )
-      ]);
-    });
+          SizedBox(width: 16),
+          Expanded(
+            child: Focus(
+              child: AppTextField(
+                label: 'sp_o2_liter'.i18n(),
+                controller: spO2LiterController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                counterText: 'L',
+                counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
+              ),
+              onFocusChange: (hasFocus) {
+                if (hasFocus) return;
+                report.spO2Liter?[widget.index] =
+                    double.tryParse(spO2LiterController.text);
+              },
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<bool>(
+              items: const [true, false],
+              label: 'light_reflex_right'.i18n(),
+              itemAsString: ((item) => formatBool(item) ?? ''),
+              onChanged: (value) =>
+                  report.lightReflexRight?[widget.index] = value,
+              selectedItem: report.lightReflexRight?[widget.index],
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<bool>(
+              items: const [true, false],
+              label: 'light_reflex_left'.i18n(),
+              itemAsString: ((item) => formatBool(item) ?? ''),
+              onChanged: (value) =>
+                  report.lightReflexLeft?[widget.index] = value,
+              selectedItem: report.lightReflexLeft?[widget.index],
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
+      ),
+    ]);
   }
 
   Widget _buildLine6(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppTextField(
-          label: 'hemorrhage'.i18n(),
-          controller: hemorrhageController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-          onChanged: (value) => report.hemorrhage?[widget.index] = value,
-          maxLength: 10,
-          readOnly: widget.readOnly,
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.incontinenceCode)
-              .toList(),
-          label: 'incontinence'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.incontinenceTypes = report
-              .incontinenceTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.incontinenceTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'hemorrhage'.i18n(),
+              controller: hemorrhageController,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.hemorrhage?[widget.index] = value,
+              maxLength: 10,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.incontinenceCode)
+                  .toList(),
+              label: 'incontinence'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.incontinenceTypes = report
+                  .incontinenceTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.incontinenceTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'extremities'.i18n(),
+              controller: extremitiesController,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.extremities?[widget.index] = value,
+              maxLength: 10,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppCheckbox(
+              label: 'vomiting'.i18n(),
+              value: report.vomiting?[widget.index],
+              onChanged: (value) => report.vomiting?[widget.index] = value,
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
+      ),
+    ]);
   }
 
   Widget _buildLine7(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppCheckbox(
-          label: 'vomiting'.i18n(),
-          value: report.vomiting?[widget.index],
-          onChanged: (value) => report.vomiting?[widget.index] = value,
-          readOnly: widget.readOnly,
-        ),
-        AppTextField(
-          label: 'extremities'.i18n(),
-          controller: extremitiesController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-          onChanged: (value) => report.extremities?[widget.index] = value,
-          maxLength: 10,
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
-  }
-
-  Widget _buildLine8(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd ==
-                  AppConstants.descriptionOfObservationTimeCode)
-              .toList(),
-          label: 'description_of_observation_time'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.observationTimeDescriptionTypes = report
-              .observationTimeDescriptionTypes
-              .mapIndexed((i, e) => i == widget.index ? value : e)
-              .toList(),
-          selectedItem: report.observationTimeDescriptionTypes[widget.index],
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-        ),
-        Container(),
-      ]);
-    });
-  }
-
-  Widget _buildLine9(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
         label: 'each_ecg'.i18n(),
@@ -644,124 +670,147 @@ class _VitalSignSectionState extends State<VitalSignSection>
         readOnly: widget.readOnly,
         fillColor: optionalColor(context),
       ),
-      Focus(
-        child: AppTextField(
-          label: 'each_oxygen_inhalation'.i18n(),
-          controller: eachOxygenInhalationController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-            FilteringTextInputFormatter.singleLineFormatter,
-          ],
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+      Row(children: [
+        Expanded(
+          child: AppCheckbox(
+            label: 'each_hemostasis'.i18n(),
+            value: report.eachHemostasis?[widget.index],
+            onChanged: (value) => report.eachHemostasis?[widget.index] = value,
+            readOnly: widget.readOnly,
+          ),
         ),
-        onFocusChange: (hasFocus) {
-          if (hasFocus) return;
-          report.eachOxygenInhalation?[widget.index] =
-              double.tryParse(eachOxygenInhalationController.text);
-        },
+        SizedBox(width: 16),
+        Expanded(
+          child: AppCheckbox(
+            label: 'each_suction'.i18n(),
+            value: report.eachSuction?[widget.index],
+            onChanged: (value) => report.eachSuction?[widget.index] = value,
+            readOnly: widget.readOnly,
+          ),
+        ),
+      ]),
+    ]);
+  }
+
+  Widget _buildLine8(Report report, BuildContext context) {
+    return lineLayout(children: [
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_1'.i18n(),
+              controller: otherProcess1Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess1?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_2'.i18n(),
+              controller: otherProcess2Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess2?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_3'.i18n(),
+              controller: otherProcess3Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess3?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_4'.i18n(),
+              controller: otherProcess4Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess4?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+        ],
       ),
     ]);
   }
 
-  Widget _buildLine10(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppCheckbox(
-          label: 'each_hemostasis'.i18n(),
-          value: report.eachHemostasis?[widget.index],
-          onChanged: (value) => report.eachHemostasis?[widget.index] = value,
-          readOnly: widget.readOnly,
-        ),
-        AppCheckbox(
-          label: 'each_suction'.i18n(),
-          value: report.eachSuction?[widget.index],
-          onChanged: (value) => report.eachSuction?[widget.index] = value,
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
-  }
-
-  Widget _buildLine11(Report report, BuildContext context) {
+  Widget _buildLine9(Report report, BuildContext context) {
     return lineLayout(children: [
-      AppTextField(
-        label: 'other_process_1'.i18n(),
-        controller: otherProcess1Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess1?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_5'.i18n(),
+              controller: otherProcess5Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess5?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_6'.i18n(),
+              controller: otherProcess6Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess6?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+        ],
       ),
-      AppTextField(
-        label: 'other_process_2'.i18n(),
-        controller: otherProcess2Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess2?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+      Row(
+        children: [
+          Expanded(
+            child: AppTextField(
+              label: 'other_process_7'.i18n(),
+              controller: otherProcess7Controller,
+              inputFormatters: [
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              onChanged: (value) => report.otherProcess7?[widget.index] = value,
+              maxLength: 15,
+              readOnly: widget.readOnly,
+              fillColor: optionalColor(context),
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(child: Container()),
+        ],
       ),
-      AppTextField(
-        label: 'other_process_3'.i18n(),
-        controller: otherProcess3Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess3?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-    ]);
-  }
-
-  Widget _buildLine12(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'other_process_4'.i18n(),
-        controller: otherProcess4Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess4?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-      AppTextField(
-        label: 'other_process_5'.i18n(),
-        controller: otherProcess5Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess5?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-      AppTextField(
-        label: 'other_process_6'.i18n(),
-        controller: otherProcess6Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess6?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-    ]);
-  }
-
-  Widget _buildLine13(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'other_process_7'.i18n(),
-        controller: otherProcess7Controller,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.otherProcess7?[widget.index] = value,
-        maxLength: 15,
-        readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
-      ),
-      Container(),
-      Container(),
     ]);
   }
 

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 
 class ReportSectionMixin {
-  Widget lineLayout({required List<Widget> children}) {
+  Widget lineLayout({required List<Widget> children, bool dense = false}) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final cloned = [...children];
@@ -19,15 +19,25 @@ class ReportSectionMixin {
           final List<Widget> widgets = [];
           final last = cloned.removeLast();
           for (final child in cloned) {
-            widgets.add(Expanded(child: child));
-            widgets.add(Expanded(
-              flex: 0,
-              child: Container(width: 16),
-            ));
+            if (dense) {
+              widgets.add(IntrinsicWidth(child: child));
+            } else {
+              widgets.add(Expanded(child: child));
+              widgets.add(Expanded(
+                flex: 0,
+                child: Container(width: 16),
+              ));
+            }
           }
-          widgets.add(Expanded(child: last));
+          if (dense) {
+            widgets.add(IntrinsicWidth(child: last));
+          } else {
+            widgets.add(Expanded(child: last));
+          }
           return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: dense
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: widgets,
           );

@@ -79,45 +79,19 @@ class _TreatmentSectionState extends State<TreatmentSection>
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
           _buildLine7(reportStore.selectingReport!),
-          _buildLine8(reportStore.selectingReport!),
-          _buildLine9(reportStore.selectingReport!),
-          _buildLine10(reportStore.selectingReport!),
         ],
       );
     });
   }
 
   Widget _buildLine1(Report report) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.securingAirwayCode)
-              .toList(),
-          label: 'securing_airway'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.securingAirwayType = value,
-          selectedItem: report.securingAirwayType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        AppCheckbox(
-          label: 'foreign_body_removal'.i18n(),
-          value: report.foreignBodyRemoval,
-          onChanged: (value) => report.foreignBodyRemoval = value,
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
-  }
-
-  Widget _buildLine2(Report report) {
-    return lineLayout(children: [
+    return lineLayout(dense: true, children: [
+      AppCheckbox(
+        label: 'foreign_body_removal'.i18n(),
+        value: report.foreignBodyRemoval,
+        onChanged: (value) => report.foreignBodyRemoval = value,
+        readOnly: widget.readOnly,
+      ),
       AppCheckbox(
         label: 'suction'.i18n(),
         value: report.suction,
@@ -130,11 +104,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
         onChanged: (value) => report.artificialRespiration = value,
         readOnly: widget.readOnly,
       ),
-    ]);
-  }
-
-  Widget _buildLine3(Report report) {
-    return lineLayout(children: [
       AppCheckbox(
         label: 'chest_compressions'.i18n(),
         value: report.chestCompressions,
@@ -150,72 +119,20 @@ class _TreatmentSectionState extends State<TreatmentSection>
     ]);
   }
 
-  Widget _buildLine4(Report report) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        Focus(
-          child: AppTextField(
-            label: 'o2_administration'.i18n(),
-            controller: o2AdministrationController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
-              FilteringTextInputFormatter.singleLineFormatter,
-            ],
-            readOnly: widget.readOnly,
-            counterText: 'L',
-            counterColor: Theme.of(context).primaryColor,
-          ),
-          onFocusChange: (hasFocus) {
-            if (hasFocus) return;
-            report.o2Administration =
-                double.tryParse(o2AdministrationController.text);
-          },
-        ),
-        AppTimePicker(
-          label: 'o2_administration_time'.i18n(),
-          onChanged: (value) => report.o2AdministrationTime = value,
-          selectedTime: report.o2AdministrationTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.contactTime,
-        ),
-      ]);
-    });
-  }
-
-  Widget _buildLine5(Report report) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd ==
-                  AppConstants.limitationOfSpinalMotionCode)
-              .toList(),
-          label: 'limitation_of_spinal_motion'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.limitationOfSpinalMotionType = value,
-          selectedItem: report.limitationOfSpinalMotionType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        AppCheckbox(
-          label: 'hemostatic_treatment'.i18n(),
-          value: report.hemostaticTreatment,
-          onChanged: (value) => report.hemostaticTreatment = value,
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
-  }
-
-  Widget _buildLine6(Report report) {
+  Widget _buildLine2(Report report) {
     return lineLayout(children: [
+      AppCheckbox(
+        label: 'burn_treatment'.i18n(),
+        value: report.burnTreatment,
+        onChanged: (value) => report.burnTreatment = value,
+        readOnly: widget.readOnly,
+      ),
+      AppCheckbox(
+        label: 'hemostatic_treatment'.i18n(),
+        value: report.hemostaticTreatment,
+        onChanged: (value) => report.hemostaticTreatment = value,
+        readOnly: widget.readOnly,
+      ),
       AppCheckbox(
         label: 'adductor_fixation'.i18n(),
         value: report.adductorFixation,
@@ -231,18 +148,75 @@ class _TreatmentSectionState extends State<TreatmentSection>
     ]);
   }
 
-  Widget _buildLine7(Report report) {
+  Widget _buildLine3(Report report) {
     return lineLayout(children: [
-      AppCheckbox(
-        label: 'burn_treatment'.i18n(),
-        value: report.burnTreatment,
-        onChanged: (value) => report.burnTreatment = value,
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.securingAirwayCode)
+            .toList(),
+        label: 'securing_airway'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.securingAirwayType = value,
+        selectedItem: report.securingAirwayType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+      ),
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd ==
+                AppConstants.limitationOfSpinalMotionCode)
+            .toList(),
+        label: 'limitation_of_spinal_motion'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.limitationOfSpinalMotionType = value,
+        selectedItem: report.limitationOfSpinalMotionType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
       ),
     ]);
   }
 
-  Widget _buildLine8(Report report) {
+  Widget _buildLine4(Report report) {
+    return lineLayout(children: [
+      Focus(
+        child: AppTextField(
+          label: 'o2_administration'.i18n(),
+          controller: o2AdministrationController,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(
+                RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
+            FilteringTextInputFormatter.singleLineFormatter,
+          ],
+          readOnly: widget.readOnly,
+          counterText: 'L',
+          counterColor: Theme.of(context).primaryColor,
+        ),
+        onFocusChange: (hasFocus) {
+          if (hasFocus) return;
+          report.o2Administration =
+              double.tryParse(o2AdministrationController.text);
+        },
+      ),
+      AppTimePicker(
+        label: 'o2_administration_time'.i18n(),
+        onChanged: (value) => report.o2AdministrationTime = value,
+        selectedTime: report.o2AdministrationTime,
+        readOnly: widget.readOnly,
+        defaultTime: report.contactTime,
+      ),
+    ]);
+  }
+
+  Widget _buildLine5(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
         Row(
@@ -287,7 +261,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
     });
   }
 
-  Widget _buildLine9(Report report) {
+  Widget _buildLine6(Report report) {
     return Observer(builder: (context) {
       return lineLayout(children: [
         Row(
@@ -332,7 +306,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
     });
   }
 
-  Widget _buildLine10(Report report) {
+  Widget _buildLine7(Report report) {
     return lineLayout(children: [
       AppTextField(
         label: 'other'.i18n(),

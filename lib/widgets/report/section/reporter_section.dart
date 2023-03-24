@@ -1,4 +1,7 @@
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
+import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -76,12 +79,19 @@ class _ReporterSectionState extends State<ReporterSection>
 
   Widget _buildLine2(Report report) {
     return lineLayout(children: [
-      AppTextField(
-        controller: positionOfReporterController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.positionOfReporterCode)
+            .toList(),
         label: 'position_of_reporter'.i18n(),
-        onChanged: (value) => report.positionOfReporter = value,
-        maxLength: 20,
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.positionOfReporterType = value,
+        selectedItem: report.positionOfReporterType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
       ),
       Container(),

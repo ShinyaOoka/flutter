@@ -149,9 +149,15 @@ abstract class _Report with Store {
   @JsonKey(name: "HospitalArrivalTime")
   TimeOfDay? hospitalArrivalTime;
   @observable
+  @JsonKey(name: "FamilyContact")
+  bool? familyContact;
+  @observable
   @TimeOfDayConverter()
   @JsonKey(name: "FamilyContactTime")
   TimeOfDay? familyContactTime;
+  @observable
+  @JsonKey(name: "PoliceContact")
+  bool? policeContact;
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "PoliceContactTime")
@@ -199,7 +205,10 @@ abstract class _Report with Store {
   TimeOfDay? bystanderCpr;
   @observable
   @JsonKey(name: "VerbalGuidance")
-  String? verbalGuidance;
+  bool? verbalGuidance;
+  @observable
+  @JsonKey(name: "VerbalGuidanceText")
+  String? verbalGuidanceText;
   @observable
   @ListTimeOfDayConverter()
   @JsonKey(name: "ObservationTime")
@@ -241,9 +250,9 @@ abstract class _Report with Store {
   @JsonKey(name: "SpO2Percent")
   ObservableList<int?>? spO2Percent;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "SpO2Liter")
-  ObservableList<int?>? spO2Liter;
+  ObservableList<double?>? spO2Liter;
   @observable
   @ListIntConverter()
   @JsonKey(name: "PupilRight")
@@ -292,10 +301,6 @@ abstract class _Report with Store {
   @ListStringConverter()
   @JsonKey(name: "EachECG")
   ObservableList<String?>? eachEcg;
-  @observable
-  @ListDoubleConverter()
-  @JsonKey(name: "EachOxygenInhalation")
-  ObservableList<double?>? eachOxygenInhalation;
   @observable
   @ListBoolConverter()
   @JsonKey(name: "EachHemostasis")
@@ -672,6 +677,25 @@ abstract class _Report with Store {
 
   set adlType(Classification? value) {
     setAdlType(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Classification? get positionOfReporterType {
+    assert(classificationStore != null);
+    return positionOfReporter != null
+        ? classificationStore!.classifications[
+            Tuple2(AppConstants.positionOfReporterCode, positionOfReporter!)]
+        : null;
+  }
+
+  @action
+  setPositionOfReporterType(Classification? value) {
+    positionOfReporter = value?.classificationSubCd;
+  }
+
+  set positionOfReporterType(Classification? value) {
+    setPositionOfReporterType(value);
   }
 
   @computed

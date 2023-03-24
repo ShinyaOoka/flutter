@@ -31,7 +31,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   final placeOfIncidentController = TextEditingController();
   final placeOfDispatchController = TextEditingController();
   final accidentSummaryController = TextEditingController();
-  final verbalGuidanceController = TextEditingController();
+  final verbalGuidanceTextController = TextEditingController();
 
   final accidentSummaryScrollController = ScrollController();
   final placeOfIncidentScrollController = ScrollController();
@@ -50,8 +50,8 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           reportStore.selectingReport!.placeOfDispatch);
       syncControllerValue(accidentSummaryController,
           reportStore.selectingReport!.accidentSummary);
-      syncControllerValue(verbalGuidanceController,
-          reportStore.selectingReport!.verbalGuidance);
+      syncControllerValue(verbalGuidanceTextController,
+          reportStore.selectingReport!.verbalGuidanceText);
     });
   }
 
@@ -61,7 +61,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     placeOfIncidentController.dispose();
     placeOfDispatchController.dispose();
     accidentSummaryController.dispose();
-    verbalGuidanceController.dispose();
+    verbalGuidanceTextController.dispose();
     super.dispose();
   }
 
@@ -78,6 +78,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
           _buildLine7(reportStore.selectingReport!),
+          _buildLine8(reportStore.selectingReport!),
         ],
       );
     });
@@ -185,73 +186,79 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   }
 
   Widget _buildLine5(Report report) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where(
-                  (element) => element.classificationCd == AppConstants.adlCode)
-              .toList(),
-          label: 'adl'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.adlType = value,
-          selectedItem: report.adlType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        AppDropdown<Classification>(
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.trafficAccidentCode)
-              .toList(),
-          label: 'traffic_accident_classification'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) {
-            report.trafficAccidentType = value;
-          },
-          selectedItem: report.trafficAccidentType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where(
+                (element) => element.classificationCd == AppConstants.adlCode)
+            .toList(),
+        label: 'adl'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.adlType = value,
+        selectedItem: report.adlType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+      ),
+      AppDropdown<bool>(
+        items: const [true, false],
+        label: 'witnesses'.i18n(),
+        itemAsString: ((item) => formatBool(item) ?? ''),
+        onChanged: (value) => report.witnesses = value,
+        selectedItem: report.witnesses,
+        readOnly: widget.readOnly,
+      ),
+    ]);
   }
 
   Widget _buildLine6(Report report) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppDropdown<bool>(
-          items: const [true, false],
-          label: 'witnesses'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
-          onChanged: (value) => report.witnesses = value,
-          selectedItem: report.witnesses,
-          readOnly: widget.readOnly,
-        ),
-        AppTimePicker(
-          label: 'bystander_cpr'.i18n(),
-          onChanged: (value) => report.bystanderCpr = value,
-          selectedTime: report.bystanderCpr,
-          readOnly: widget.readOnly,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppDropdown<Classification>(
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.trafficAccidentCode)
+            .toList(),
+        label: 'traffic_accident_classification'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) {
+          report.trafficAccidentType = value;
+        },
+        selectedItem: report.trafficAccidentType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+      ),
+    ]);
   }
 
   Widget _buildLine7(Report report) {
     return lineLayout(children: [
-      AppTextField(
+      AppCheckbox(
         label: 'verbal_guidance'.i18n(),
-        controller: verbalGuidanceController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        value: report.verbalGuidance,
         onChanged: (value) => report.verbalGuidance = value,
+        readOnly: widget.readOnly,
+      ),
+      AppTimePicker(
+        label: 'bystander_cpr'.i18n(),
+        onChanged: (value) => report.bystanderCpr = value,
+        selectedTime: report.bystanderCpr,
+        readOnly: widget.readOnly,
+      ),
+    ]);
+  }
+
+  Widget _buildLine8(Report report) {
+    return lineLayout(children: [
+      AppTextField(
+        label: 'verbal_guidance_text'.i18n(),
+        controller: verbalGuidanceTextController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        onChanged: (value) => report.verbalGuidanceText = value,
         maxLength: 60,
         maxLines: 1,
         readOnly: widget.readOnly,

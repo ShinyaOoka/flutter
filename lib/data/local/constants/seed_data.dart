@@ -773,19 +773,19 @@ class SeedData {
     {
       "ClassificationCD": "010",
       "ClassificationSubCD": "000",
-      "Value": "無",
+      "Value": "投薬無",
       "Description": "投薬"
     },
     {
       "ClassificationCD": "010",
       "ClassificationSubCD": "001",
-      "Value": "有",
+      "Value": "投薬有・手帳無",
       "Description": "投薬"
     },
     {
       "ClassificationCD": "010",
       "ClassificationSubCD": "002",
-      "Value": "手帳",
+      "Value": "投薬有・手帳有",
       "Description": "投薬"
     },
     {
@@ -992,6 +992,30 @@ class SeedData {
       "Value": "死亡",
       "Description": "程度"
     },
+    {
+      "ClassificationCD": "017",
+      "ClassificationSubCD": "000",
+      "Value": "消防副士長",
+      "Description": "階級"
+    },
+    {
+      "ClassificationCD": "017",
+      "ClassificationSubCD": "001",
+      "Value": "消防士長",
+      "Description": "階級"
+    },
+    {
+      "ClassificationCD": "017",
+      "ClassificationSubCD": "002",
+      "Value": "消防司令補",
+      "Description": "階級"
+    },
+    {
+      "ClassificationCD": "017",
+      "ClassificationSubCD": "003",
+      "Value": "消防司令",
+      "Description": "階級"
+    }
   ];
 
   static const messages = [

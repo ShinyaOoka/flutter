@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
@@ -63,6 +64,13 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
+        AppTimePicker(
+          label: 'on_site_arrival_time'.i18n(),
+          onChanged: (value) => report.onSiteArrivalTime = value,
+          selectedTime: report.onSiteArrivalTime,
+          readOnly: widget.readOnly,
+          defaultTime: report.senseTime,
+        ),
       ]);
     });
   }
@@ -71,33 +79,12 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppTimePicker(
-          label: 'on_site_arrival_time'.i18n(),
-          onChanged: (value) => report.onSiteArrivalTime = value,
-          selectedTime: report.onSiteArrivalTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
-        AppTimePicker(
-          label: 'contact_time'.i18n(),
-          onChanged: (value) => report.contactTime = value,
-          selectedTime: report.contactTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
-        AppTimePicker(
           label: 'in_vehicle_time'.i18n(),
           onChanged: (value) => report.inVehicleTime = value,
           selectedTime: report.inVehicleTime,
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
-      ]);
-    });
-  }
-
-  Widget _buildLine3(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
         AppTimePicker(
           label: 'start_of_transport_time'.i18n(),
           onChanged: (value) => report.startOfTransportTime = value,
@@ -112,10 +99,37 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
+        Container()
+      ]);
+    });
+  }
+
+  Widget _buildLine3(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppCheckbox(
+          label: 'family_contact'.i18n(),
+          value: report.familyContact,
+          onChanged: (value) => report.familyContact = value,
+          readOnly: widget.readOnly,
+        ),
         AppTimePicker(
           label: 'family_contact_time'.i18n(),
           onChanged: (value) => report.familyContactTime = value,
           selectedTime: report.familyContactTime,
+          readOnly: widget.readOnly,
+          defaultTime: report.senseTime,
+        ),
+        AppCheckbox(
+          label: 'police_contact'.i18n(),
+          value: report.policeContact,
+          onChanged: (value) => report.policeContact = value,
+          readOnly: widget.readOnly,
+        ),
+        AppTimePicker(
+          label: 'police_contact_time'.i18n(),
+          onChanged: (value) => report.policeContactTime = value,
+          selectedTime: report.policeContactTime,
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
@@ -124,32 +138,25 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
   }
 
   Widget _buildLine4(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTimePicker(
-          label: 'police_contact_time'.i18n(),
-          onChanged: (value) => report.policeContactTime = value,
-          selectedTime: report.policeContactTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
-        AppTimePicker(
-          label: 'time_of_arrival'.i18n(),
-          onChanged: (value) => report.timeOfArrival = value,
-          selectedTime: report.timeOfArrival,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-          defaultTime: report.senseTime,
-        ),
-        AppTimePicker(
-          label: 'return_time'.i18n(),
-          onChanged: (value) => report.returnTime = value,
-          selectedTime: report.returnTime,
-          readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
-          defaultTime: report.senseTime,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTimePicker(
+        label: 'time_of_arrival'.i18n(),
+        onChanged: (value) => report.timeOfArrival = value,
+        selectedTime: report.timeOfArrival,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+        defaultTime: report.senseTime,
+      ),
+      AppTimePicker(
+        label: 'return_time'.i18n(),
+        onChanged: (value) => report.returnTime = value,
+        selectedTime: report.returnTime,
+        readOnly: widget.readOnly,
+        fillColor: optionalColor(context),
+        defaultTime: report.senseTime,
+      ),
+      Container(),
+      Container(),
+    ]);
   }
 }

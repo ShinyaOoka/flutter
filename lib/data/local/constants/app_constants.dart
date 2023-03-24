@@ -27,6 +27,7 @@ class AppConstants {
   static const gcsMCode = '014';
   static const descriptionOfObservationTimeCode = '015';
   static const degreeCode = '016';
+  static const positionOfReporterCode = '017';
   static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();

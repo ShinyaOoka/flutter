@@ -91,35 +91,12 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
                 report.affiliationOfReporter == '') {
               report.affiliationOfReporter = value?.name;
             }
-            if (report.positionOfReporter == null ||
-                report.positionOfReporter == '') {
-              report.positionOfReporter = value?.name;
-            }
           },
           selectedItem: report.team,
           filterFn: (team, filter) =>
               (team.name != null && team.name!.contains(filter)) ||
               (team.teamCd != null && team.teamCd!.contains(filter)),
           readOnly: widget.readOnly,
-        ),
-        AppTextField(
-          label: 'team_tel'.i18n(),
-          controller: TextEditingController(
-            text: report.team?.tel,
-          ),
-          enabled: false,
-        )
-      ]);
-    });
-  }
-
-  Widget _buildLine2(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          label: 'fire_station_name'.i18n(),
-          controller: TextEditingController(text: report.fireStation?.name),
-          enabled: false,
         ),
         AppTextField(
           controller: teamCaptainNameController,
@@ -133,20 +110,63 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     });
   }
 
+  Widget _buildLine2(Report report, BuildContext context) {
+    return Observer(builder: (context) {
+      return lineLayout(children: [
+        AppTextField(
+          controller: teamMemberNameController,
+          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+          label: 'team_member_name'.i18n(),
+          onChanged: (value) => report.teamMemberName = value,
+          maxLength: 20,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+        AppTextField(
+          controller: institutionalMemberNameController,
+          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+          label: 'institutional_member_name'.i18n(),
+          onChanged: (value) => report.institutionalMemberName = value,
+          maxLength: 20,
+          readOnly: widget.readOnly,
+          fillColor: optionalColor(context),
+        ),
+      ]);
+    });
+  }
+
   Widget _buildLine3(Report report, BuildContext context) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppCheckbox(
-          label: 'lifesaver_qualification'.i18n(),
-          value: report.lifesaverQualification,
-          onChanged: (value) => report.lifesaverQualification = value,
+        AppTextField(
+          controller: totalController,
+          label: 'total'.i18n(),
+          keyboardType: TextInputType.number,
+          onChanged: (item) => report.totalCount = int.tryParse(item),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            FilteringTextInputFormatter.singleLineFormatter
+          ],
+          maxLength: 6,
           readOnly: widget.readOnly,
+          counterText: '件',
+          counterColor: Theme.of(context).primaryColor,
+          fillColor: optionalColor(context),
         ),
-        AppCheckbox(
-          label: 'with_lifesavers'.i18n(),
-          value: report.withLifesavers,
-          onChanged: (value) => report.withLifesavers = value,
+        AppTextField(
+          controller: teamController,
+          label: 'team'.i18n(),
+          keyboardType: TextInputType.number,
+          onChanged: (item) => report.teamCount = int.tryParse(item),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            FilteringTextInputFormatter.singleLineFormatter
+          ],
+          maxLength: 6,
           readOnly: widget.readOnly,
+          counterText: '件',
+          counterColor: Theme.of(context).primaryColor,
+          fillColor: optionalColor(context),
         ),
       ]);
     });
@@ -154,23 +174,17 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
 
   Widget _buildLine4(Report report, BuildContext context) {
     return lineLayout(children: [
-      AppTextField(
-        controller: teamMemberNameController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        label: 'team_member_name'.i18n(),
-        onChanged: (value) => report.teamMemberName = value,
-        maxLength: 20,
+      AppCheckbox(
+        label: 'lifesaver_qualification'.i18n(),
+        value: report.lifesaverQualification,
+        onChanged: (value) => report.lifesaverQualification = value,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
       ),
-      AppTextField(
-        controller: institutionalMemberNameController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        label: 'institutional_member_name'.i18n(),
-        onChanged: (value) => report.institutionalMemberName = value,
-        maxLength: 20,
+      AppCheckbox(
+        label: 'with_lifesavers'.i18n(),
+        value: report.withLifesavers,
+        onChanged: (value) => report.withLifesavers = value,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
       ),
     ]);
   }
@@ -178,34 +192,16 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
   Widget _buildLine5(Report report, BuildContext context) {
     return lineLayout(children: [
       AppTextField(
-        controller: totalController,
-        label: 'total'.i18n(),
-        keyboardType: TextInputType.number,
-        onChanged: (item) => report.totalCount = int.tryParse(item),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
-        maxLength: 6,
-        readOnly: widget.readOnly,
-        counterText: '件',
-        counterColor: Theme.of(context).primaryColor,
-        fillColor: optionalColor(context),
+        label: 'fire_station_name'.i18n(),
+        controller: TextEditingController(text: report.fireStation?.name),
+        enabled: false,
       ),
       AppTextField(
-        controller: teamController,
-        label: 'team'.i18n(),
-        keyboardType: TextInputType.number,
-        onChanged: (item) => report.teamCount = int.tryParse(item),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
-        maxLength: 6,
-        readOnly: widget.readOnly,
-        counterText: '件',
-        counterColor: Theme.of(context).primaryColor,
-        fillColor: optionalColor(context),
+        label: 'team_tel'.i18n(),
+        controller: TextEditingController(
+          text: report.team?.tel,
+        ),
+        enabled: false,
       ),
     ]);
   }

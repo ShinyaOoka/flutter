@@ -57,8 +57,10 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['StartOfTransportTime'], const TimeOfDayConverter().fromJson)
   ..hospitalArrivalTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['HospitalArrivalTime'], const TimeOfDayConverter().fromJson)
+  ..familyContact = json['FamilyContact'] as bool?
   ..familyContactTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['FamilyContactTime'], const TimeOfDayConverter().fromJson)
+  ..policeContact = json['PoliceContact'] as bool?
   ..policeContactTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['PoliceContactTime'], const TimeOfDayConverter().fromJson)
   ..timeOfArrival = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -77,11 +79,17 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..adl = json['ADL'] as String?
   ..trafficAccidentClassification =
       json['TrafficAccidentClassification'] as String?
+  ..trafficAccidentUnknown = json['TrafficAccident_Unknown'] as bool?
+  ..trafficAccidentSeatbelt = json['TrafficAccident_Seatbelt'] as bool?
+  ..trafficAccidentChildseat = json['TrafficAccident_Childseat'] as bool?
+  ..trafficAccidentAirbag = json['TrafficAccident_Airbag'] as bool?
+  ..trafficAccidentHelmet = json['TrafficAccident_Helmet'] as bool?
   ..witnesses = _$JsonConverterFromJson<int, bool>(
       json['Witnesses'], const IntToBoolConverter().fromJson)
   ..bystanderCpr = _$JsonConverterFromJson<String, TimeOfDay>(
       json['BystanderCPR'], const TimeOfDayConverter().fromJson)
-  ..verbalGuidance = json['VerbalGuidance'] as String?
+  ..verbalGuidance = json['VerbalGuidance'] as bool?
+  ..verbalGuidanceText = json['VerbalGuidanceText'] as String?
   ..observationTime =
       _$JsonConverterFromJson<String, ObservableList<TimeOfDay?>>(
           json['ObservationTime'], const ListTimeOfDayConverter().fromJson)
@@ -103,8 +111,8 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['BloodPressure_Low'], const ListIntConverter().fromJson)
   ..spO2Percent = _$JsonConverterFromJson<String, ObservableList<int?>>(
       json['SpO2Percent'], const ListIntConverter().fromJson)
-  ..spO2Liter = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['SpO2Liter'], const ListIntConverter().fromJson)
+  ..spO2Liter = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['SpO2Liter'], const ListDoubleConverter().fromJson)
   ..pupilRight = _$JsonConverterFromJson<String, ObservableList<int?>>(
       json['PupilRight'], const ListIntConverter().fromJson)
   ..pupilLeft = _$JsonConverterFromJson<String, ObservableList<int?>>(
@@ -131,9 +139,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
           const ListStringConverter().fromJson)
   ..eachEcg = _$JsonConverterFromJson<String, ObservableList<String?>>(
       json['EachECG'], const ListStringConverter().fromJson)
-  ..eachOxygenInhalation =
-      _$JsonConverterFromJson<String, ObservableList<double?>>(
-          json['EachOxygenInhalation'], const ListDoubleConverter().fromJson)
   ..eachHemostasis = _$JsonConverterFromJson<String, ObservableList<bool?>>(
       json['EachHemostasis'], const ListBoolConverter().fromJson)
   ..eachSuction = _$JsonConverterFromJson<String, ObservableList<bool?>>(
@@ -267,8 +272,10 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.startOfTransportTime, const TimeOfDayConverter().toJson),
       'HospitalArrivalTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.hospitalArrivalTime, const TimeOfDayConverter().toJson),
+      'FamilyContact': instance.familyContact,
       'FamilyContactTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.familyContactTime, const TimeOfDayConverter().toJson),
+      'PoliceContact': instance.policeContact,
       'PoliceContactTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.policeContactTime, const TimeOfDayConverter().toJson),
       'TimeOfArrival': _$JsonConverterToJson<String, TimeOfDay>(
@@ -284,11 +291,17 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
       'TrafficAccidentClassification': instance.trafficAccidentClassification,
+      'TrafficAccident_Unknown': instance.trafficAccidentUnknown,
+      'TrafficAccident_Seatbelt': instance.trafficAccidentSeatbelt,
+      'TrafficAccident_Childseat': instance.trafficAccidentChildseat,
+      'TrafficAccident_Airbag': instance.trafficAccidentAirbag,
+      'TrafficAccident_Helmet': instance.trafficAccidentHelmet,
       'Witnesses': _$JsonConverterToJson<int, bool>(
           instance.witnesses, const IntToBoolConverter().toJson),
       'BystanderCPR': _$JsonConverterToJson<String, TimeOfDay>(
           instance.bystanderCpr, const TimeOfDayConverter().toJson),
       'VerbalGuidance': instance.verbalGuidance,
+      'VerbalGuidanceText': instance.verbalGuidanceText,
       'ObservationTime':
           _$JsonConverterToJson<String, ObservableList<TimeOfDay?>>(
               instance.observationTime, const ListTimeOfDayConverter().toJson),
@@ -310,8 +323,8 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.bloodPressureLow, const ListIntConverter().toJson),
       'SpO2Percent': _$JsonConverterToJson<String, ObservableList<int?>>(
           instance.spO2Percent, const ListIntConverter().toJson),
-      'SpO2Liter': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.spO2Liter, const ListIntConverter().toJson),
+      'SpO2Liter': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.spO2Liter, const ListDoubleConverter().toJson),
       'PupilRight': _$JsonConverterToJson<String, ObservableList<int?>>(
           instance.pupilRight, const ListIntConverter().toJson),
       'PupilLeft': _$JsonConverterToJson<String, ObservableList<int?>>(
@@ -338,10 +351,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
               const ListStringConverter().toJson),
       'EachECG': _$JsonConverterToJson<String, ObservableList<String?>>(
           instance.eachEcg, const ListStringConverter().toJson),
-      'EachOxygenInhalation':
-          _$JsonConverterToJson<String, ObservableList<double?>>(
-              instance.eachOxygenInhalation,
-              const ListDoubleConverter().toJson),
       'EachHemostasis': _$JsonConverterToJson<String, ObservableList<bool?>>(
           instance.eachHemostasis, const ListBoolConverter().toJson),
       'EachSuction': _$JsonConverterToJson<String, ObservableList<bool?>>(
@@ -517,6 +526,14 @@ mixin _$Report on _Report, Store {
   Classification? get adlType =>
       (_$adlTypeComputed ??= Computed<Classification?>(() => super.adlType,
               name: '_Report.adlType'))
+          .value;
+  Computed<Classification?>? _$positionOfReporterTypeComputed;
+
+  @override
+  Classification? get positionOfReporterType =>
+      (_$positionOfReporterTypeComputed ??= Computed<Classification?>(
+              () => super.positionOfReporterType,
+              name: '_Report.positionOfReporterType'))
           .value;
   Computed<Classification?>? _$securingAirwayTypeComputed;
 
@@ -1133,6 +1150,22 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$familyContactAtom =
+      Atom(name: '_Report.familyContact', context: context);
+
+  @override
+  bool? get familyContact {
+    _$familyContactAtom.reportRead();
+    return super.familyContact;
+  }
+
+  @override
+  set familyContact(bool? value) {
+    _$familyContactAtom.reportWrite(value, super.familyContact, () {
+      super.familyContact = value;
+    });
+  }
+
   late final _$familyContactTimeAtom =
       Atom(name: '_Report.familyContactTime', context: context);
 
@@ -1146,6 +1179,22 @@ mixin _$Report on _Report, Store {
   set familyContactTime(TimeOfDay? value) {
     _$familyContactTimeAtom.reportWrite(value, super.familyContactTime, () {
       super.familyContactTime = value;
+    });
+  }
+
+  late final _$policeContactAtom =
+      Atom(name: '_Report.policeContact', context: context);
+
+  @override
+  bool? get policeContact {
+    _$policeContactAtom.reportRead();
+    return super.policeContact;
+  }
+
+  @override
+  set policeContact(bool? value) {
+    _$policeContactAtom.reportWrite(value, super.policeContact, () {
+      super.policeContact = value;
     });
   }
 
@@ -1325,6 +1374,91 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$trafficAccidentUnknownAtom =
+      Atom(name: '_Report.trafficAccidentUnknown', context: context);
+
+  @override
+  bool? get trafficAccidentUnknown {
+    _$trafficAccidentUnknownAtom.reportRead();
+    return super.trafficAccidentUnknown;
+  }
+
+  @override
+  set trafficAccidentUnknown(bool? value) {
+    _$trafficAccidentUnknownAtom
+        .reportWrite(value, super.trafficAccidentUnknown, () {
+      super.trafficAccidentUnknown = value;
+    });
+  }
+
+  late final _$trafficAccidentSeatbeltAtom =
+      Atom(name: '_Report.trafficAccidentSeatbelt', context: context);
+
+  @override
+  bool? get trafficAccidentSeatbelt {
+    _$trafficAccidentSeatbeltAtom.reportRead();
+    return super.trafficAccidentSeatbelt;
+  }
+
+  @override
+  set trafficAccidentSeatbelt(bool? value) {
+    _$trafficAccidentSeatbeltAtom
+        .reportWrite(value, super.trafficAccidentSeatbelt, () {
+      super.trafficAccidentSeatbelt = value;
+    });
+  }
+
+  late final _$trafficAccidentChildseatAtom =
+      Atom(name: '_Report.trafficAccidentChildseat', context: context);
+
+  @override
+  bool? get trafficAccidentChildseat {
+    _$trafficAccidentChildseatAtom.reportRead();
+    return super.trafficAccidentChildseat;
+  }
+
+  @override
+  set trafficAccidentChildseat(bool? value) {
+    _$trafficAccidentChildseatAtom
+        .reportWrite(value, super.trafficAccidentChildseat, () {
+      super.trafficAccidentChildseat = value;
+    });
+  }
+
+  late final _$trafficAccidentAirbagAtom =
+      Atom(name: '_Report.trafficAccidentAirbag', context: context);
+
+  @override
+  bool? get trafficAccidentAirbag {
+    _$trafficAccidentAirbagAtom.reportRead();
+    return super.trafficAccidentAirbag;
+  }
+
+  @override
+  set trafficAccidentAirbag(bool? value) {
+    _$trafficAccidentAirbagAtom.reportWrite(value, super.trafficAccidentAirbag,
+        () {
+      super.trafficAccidentAirbag = value;
+    });
+  }
+
+  late final _$trafficAccidentHelmetAtom =
+      Atom(name: '_Report.trafficAccidentHelmet', context: context);
+
+  @override
+  bool? get trafficAccidentHelmet {
+    _$trafficAccidentHelmetAtom.reportRead();
+    return super.trafficAccidentHelmet;
+  }
+
+  @override
+  set trafficAccidentHelmet(bool? value) {
+    _$trafficAccidentHelmetAtom.reportWrite(value, super.trafficAccidentHelmet,
+        () {
+      super.trafficAccidentHelmet = value;
+    });
+  }
+
   late final _$witnessesAtom =
       Atom(name: '_Report.witnesses', context: context);
 
@@ -1361,15 +1495,31 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.verbalGuidance', context: context);
 
   @override
-  String? get verbalGuidance {
+  bool? get verbalGuidance {
     _$verbalGuidanceAtom.reportRead();
     return super.verbalGuidance;
   }
 
   @override
-  set verbalGuidance(String? value) {
+  set verbalGuidance(bool? value) {
     _$verbalGuidanceAtom.reportWrite(value, super.verbalGuidance, () {
       super.verbalGuidance = value;
+    });
+  }
+
+  late final _$verbalGuidanceTextAtom =
+      Atom(name: '_Report.verbalGuidanceText', context: context);
+
+  @override
+  String? get verbalGuidanceText {
+    _$verbalGuidanceTextAtom.reportRead();
+    return super.verbalGuidanceText;
+  }
+
+  @override
+  set verbalGuidanceText(String? value) {
+    _$verbalGuidanceTextAtom.reportWrite(value, super.verbalGuidanceText, () {
+      super.verbalGuidanceText = value;
     });
   }
 
@@ -1532,13 +1682,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.spO2Liter', context: context);
 
   @override
-  ObservableList<int?>? get spO2Liter {
+  ObservableList<double?>? get spO2Liter {
     _$spO2LiterAtom.reportRead();
     return super.spO2Liter;
   }
 
   @override
-  set spO2Liter(ObservableList<int?>? value) {
+  set spO2Liter(ObservableList<double?>? value) {
     _$spO2LiterAtom.reportWrite(value, super.spO2Liter, () {
       super.spO2Liter = value;
     });
@@ -1732,23 +1882,6 @@ mixin _$Report on _Report, Store {
   set eachEcg(ObservableList<String?>? value) {
     _$eachEcgAtom.reportWrite(value, super.eachEcg, () {
       super.eachEcg = value;
-    });
-  }
-
-  late final _$eachOxygenInhalationAtom =
-      Atom(name: '_Report.eachOxygenInhalation', context: context);
-
-  @override
-  ObservableList<double?>? get eachOxygenInhalation {
-    _$eachOxygenInhalationAtom.reportRead();
-    return super.eachOxygenInhalation;
-  }
-
-  @override
-  set eachOxygenInhalation(ObservableList<double?>? value) {
-    _$eachOxygenInhalationAtom.reportWrite(value, super.eachOxygenInhalation,
-        () {
-      super.eachOxygenInhalation = value;
     });
   }
 
@@ -2786,6 +2919,17 @@ mixin _$Report on _Report, Store {
   }
 
   @override
+  dynamic setPositionOfReporterType(Classification? value) {
+    final _$actionInfo = _$_ReportActionController.startAction(
+        name: '_Report.setPositionOfReporterType');
+    try {
+      return super.setPositionOfReporterType(value);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setSecuringAirwayType(Classification? value) {
     final _$actionInfo = _$_ReportActionController.startAction(
         name: '_Report.setSecuringAirwayType');
@@ -2920,7 +3064,9 @@ contactTime: ${contactTime},
 inVehicleTime: ${inVehicleTime},
 startOfTransportTime: ${startOfTransportTime},
 hospitalArrivalTime: ${hospitalArrivalTime},
+familyContact: ${familyContact},
 familyContactTime: ${familyContactTime},
+policeContact: ${policeContact},
 policeContactTime: ${policeContactTime},
 timeOfArrival: ${timeOfArrival},
 returnTime: ${returnTime},
@@ -2932,9 +3078,15 @@ placeOfDispatch: ${placeOfDispatch},
 accidentSummary: ${accidentSummary},
 adl: ${adl},
 trafficAccidentClassification: ${trafficAccidentClassification},
+trafficAccidentUnknown: ${trafficAccidentUnknown},
+trafficAccidentSeatbelt: ${trafficAccidentSeatbelt},
+trafficAccidentChildseat: ${trafficAccidentChildseat},
+trafficAccidentAirbag: ${trafficAccidentAirbag},
+trafficAccidentHelmet: ${trafficAccidentHelmet},
 witnesses: ${witnesses},
 bystanderCpr: ${bystanderCpr},
 verbalGuidance: ${verbalGuidance},
+verbalGuidanceText: ${verbalGuidanceText},
 observationTime: ${observationTime},
 jcs: ${jcs},
 gcsE: ${gcsE},
@@ -2958,7 +3110,6 @@ vomiting: ${vomiting},
 extremities: ${extremities},
 descriptionOfObservationTime: ${descriptionOfObservationTime},
 eachEcg: ${eachEcg},
-eachOxygenInhalation: ${eachOxygenInhalation},
 eachHemostasis: ${eachHemostasis},
 eachSuction: ${eachSuction},
 otherProcess1: ${otherProcess1},
@@ -3027,6 +3178,7 @@ medicalTransportFacilityType: ${medicalTransportFacilityType},
 transferringMedicalInstitutionType: ${transferringMedicalInstitutionType},
 trafficAccidentType: ${trafficAccidentType},
 adlType: ${adlType},
+positionOfReporterType: ${positionOfReporterType},
 securingAirwayType: ${securingAirwayType},
 limitationOfSpinalMotionType: ${limitationOfSpinalMotionType},
 jcsTypes: ${jcsTypes},
