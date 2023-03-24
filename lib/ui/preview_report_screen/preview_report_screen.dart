@@ -123,11 +123,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonKANA_VALUE', report.sickInjuredPersonKana ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
-    result = result.replaceAll(
-        'SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        limitNumberOfChars(
-                report.sickInjuredPersonNameOfInjuryOrSickness, 2, 20) ??
-            '');
+    final sickness = report.sickInjuredPersonNameOfInjuryOrSickness == null ||
+            report.sickInjuredPersonNameOfInjuryOrSickness == ''
+        ? '　\n　'
+        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 20)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 20 ? '\n　' : ''}';
+    result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
+        '<div style="white-space: pre-wrap;">${sickness}</div>');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',

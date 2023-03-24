@@ -133,6 +133,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     return lineLayout(children: [
       Scrollbar(
         controller: placeOfIncidentScrollController,
+        thumbVisibility: true,
         child: AppTextField(
           keyboardType: TextInputType.multiline,
           controller: placeOfIncidentController,
