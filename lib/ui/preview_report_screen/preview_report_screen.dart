@@ -771,15 +771,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst('HospitalArrivalTime',
         '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     //37
-    if (report.familyContactTime != null) {
+    if (report.familyContact == true) {
       htmlInput =
           customReplace(htmlInput, uncheckYes, 7 - totalYesPos, '$checkIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime',
-          '${report.familyContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.familyContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     } else {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 7 - totalYesPos, '$uncheckIcon 有');
@@ -787,18 +785,23 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
+    }
+
+    if (report.familyContactTime != null) {
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime',
+          '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
+    } else {
       htmlInput = htmlInput.replaceFirst('FamilyContactTime', '  --:--  ');
     }
     //38
-    if (report.policeContactTime != null) {
+
+    if (report.policeContact == true) {
       htmlInput =
           customReplace(htmlInput, uncheckYes, 8 - totalYesPos, '$checkIcon 有');
       htmlInput =
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime',
-          '${report.policeContactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.policeContactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     } else {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 8 - totalYesPos, '$uncheckIcon 有');
@@ -806,6 +809,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
+    }
+
+    if (report.policeContactTime != null) {
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime',
+          '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
+    } else {
       htmlInput = htmlInput.replaceFirst('PoliceContactTime', '  --:--  ');
     }
 
