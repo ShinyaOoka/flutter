@@ -79,11 +79,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..adl = json['ADL'] as String?
   ..trafficAccidentClassification =
       json['TrafficAccidentClassification'] as String?
-  ..trafficAccidentUnknown = json['TrafficAccident_Unknown'] as bool?
-  ..trafficAccidentSeatbelt = json['TrafficAccident_Seatbelt'] as bool?
-  ..trafficAccidentChildseat = json['TrafficAccident_Childseat'] as bool?
-  ..trafficAccidentAirbag = json['TrafficAccident_Airbag'] as bool?
-  ..trafficAccidentHelmet = json['TrafficAccident_Helmet'] as bool?
   ..witnesses = _$JsonConverterFromJson<int, bool>(
       json['Witnesses'], const IntToBoolConverter().fromJson)
   ..bystanderCpr = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -291,11 +286,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
       'TrafficAccidentClassification': instance.trafficAccidentClassification,
-      'TrafficAccident_Unknown': instance.trafficAccidentUnknown,
-      'TrafficAccident_Seatbelt': instance.trafficAccidentSeatbelt,
-      'TrafficAccident_Childseat': instance.trafficAccidentChildseat,
-      'TrafficAccident_Airbag': instance.trafficAccidentAirbag,
-      'TrafficAccident_Helmet': instance.trafficAccidentHelmet,
       'Witnesses': _$JsonConverterToJson<int, bool>(
           instance.witnesses, const IntToBoolConverter().toJson),
       'BystanderCPR': _$JsonConverterToJson<String, TimeOfDay>(
@@ -1371,91 +1361,6 @@ mixin _$Report on _Report, Store {
     _$trafficAccidentClassificationAtom
         .reportWrite(value, super.trafficAccidentClassification, () {
       super.trafficAccidentClassification = value;
-    });
-  }
-
-  late final _$trafficAccidentUnknownAtom =
-      Atom(name: '_Report.trafficAccidentUnknown', context: context);
-
-  @override
-  bool? get trafficAccidentUnknown {
-    _$trafficAccidentUnknownAtom.reportRead();
-    return super.trafficAccidentUnknown;
-  }
-
-  @override
-  set trafficAccidentUnknown(bool? value) {
-    _$trafficAccidentUnknownAtom
-        .reportWrite(value, super.trafficAccidentUnknown, () {
-      super.trafficAccidentUnknown = value;
-    });
-  }
-
-  late final _$trafficAccidentSeatbeltAtom =
-      Atom(name: '_Report.trafficAccidentSeatbelt', context: context);
-
-  @override
-  bool? get trafficAccidentSeatbelt {
-    _$trafficAccidentSeatbeltAtom.reportRead();
-    return super.trafficAccidentSeatbelt;
-  }
-
-  @override
-  set trafficAccidentSeatbelt(bool? value) {
-    _$trafficAccidentSeatbeltAtom
-        .reportWrite(value, super.trafficAccidentSeatbelt, () {
-      super.trafficAccidentSeatbelt = value;
-    });
-  }
-
-  late final _$trafficAccidentChildseatAtom =
-      Atom(name: '_Report.trafficAccidentChildseat', context: context);
-
-  @override
-  bool? get trafficAccidentChildseat {
-    _$trafficAccidentChildseatAtom.reportRead();
-    return super.trafficAccidentChildseat;
-  }
-
-  @override
-  set trafficAccidentChildseat(bool? value) {
-    _$trafficAccidentChildseatAtom
-        .reportWrite(value, super.trafficAccidentChildseat, () {
-      super.trafficAccidentChildseat = value;
-    });
-  }
-
-  late final _$trafficAccidentAirbagAtom =
-      Atom(name: '_Report.trafficAccidentAirbag', context: context);
-
-  @override
-  bool? get trafficAccidentAirbag {
-    _$trafficAccidentAirbagAtom.reportRead();
-    return super.trafficAccidentAirbag;
-  }
-
-  @override
-  set trafficAccidentAirbag(bool? value) {
-    _$trafficAccidentAirbagAtom.reportWrite(value, super.trafficAccidentAirbag,
-        () {
-      super.trafficAccidentAirbag = value;
-    });
-  }
-
-  late final _$trafficAccidentHelmetAtom =
-      Atom(name: '_Report.trafficAccidentHelmet', context: context);
-
-  @override
-  bool? get trafficAccidentHelmet {
-    _$trafficAccidentHelmetAtom.reportRead();
-    return super.trafficAccidentHelmet;
-  }
-
-  @override
-  set trafficAccidentHelmet(bool? value) {
-    _$trafficAccidentHelmetAtom.reportWrite(value, super.trafficAccidentHelmet,
-        () {
-      super.trafficAccidentHelmet = value;
     });
   }
 
@@ -3078,11 +2983,6 @@ placeOfDispatch: ${placeOfDispatch},
 accidentSummary: ${accidentSummary},
 adl: ${adl},
 trafficAccidentClassification: ${trafficAccidentClassification},
-trafficAccidentUnknown: ${trafficAccidentUnknown},
-trafficAccidentSeatbelt: ${trafficAccidentSeatbelt},
-trafficAccidentChildseat: ${trafficAccidentChildseat},
-trafficAccidentAirbag: ${trafficAccidentAirbag},
-trafficAccidentHelmet: ${trafficAccidentHelmet},
 witnesses: ${witnesses},
 bystanderCpr: ${bystanderCpr},
 verbalGuidance: ${verbalGuidance},
