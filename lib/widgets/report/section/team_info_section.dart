@@ -104,7 +104,9 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           label: 'team_captain_name'.i18n(),
           onChanged: (value) => report.teamCaptainName = value,
           maxLength: 20,
+          maxLines: 1,
           readOnly: widget.readOnly,
+          keyboardType: TextInputType.multiline,
         ),
       ]);
     });
@@ -119,8 +121,10 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           label: 'team_member_name'.i18n(),
           onChanged: (value) => report.teamMemberName = value,
           maxLength: 20,
+          maxLines: 1,
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
+          keyboardType: TextInputType.multiline,
         ),
         AppTextField(
           controller: institutionalMemberNameController,
@@ -128,8 +132,10 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           label: 'institutional_member_name'.i18n(),
           onChanged: (value) => report.institutionalMemberName = value,
           maxLength: 20,
+          maxLines: 1,
           readOnly: widget.readOnly,
           fillColor: optionalColor(context),
+          keyboardType: TextInputType.multiline,
         ),
       ]);
     });

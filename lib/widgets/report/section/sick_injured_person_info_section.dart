@@ -126,7 +126,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonName = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       Focus(
         child: AppTextField(
@@ -134,7 +136,9 @@ class _SickInjuredPersonInfoSectionState
           controller: kanaController,
           inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           maxLength: 20,
+          maxLines: 1,
           readOnly: widget.readOnly,
+          keyboardType: TextInputType.multiline,
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
@@ -259,6 +263,7 @@ class _SickInjuredPersonInfoSectionState
         controller: sickInjuredPersonFamilyTelController,
         onChanged: (value) => report.sickInjuredPersonFamilyTel = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
       ),
     ]);
@@ -272,7 +277,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonMedicalHistory = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       AppTextField(
         label: 'sick_injured_person_history_hospital'.i18n(),
@@ -280,7 +287,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonHistoryHospital = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }
@@ -293,7 +302,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonKakaritsuke = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       AppTextField(
         label: 'sick_injured_person_allergy'.i18n(),
@@ -301,7 +312,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonAllergy = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }
@@ -329,7 +342,9 @@ class _SickInjuredPersonInfoSectionState
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonMedicationDetail = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }
@@ -346,6 +361,7 @@ class _SickInjuredPersonInfoSectionState
         maxLines: 1,
         readOnly: widget.readOnly,
         fillColor: optionalColor(context),
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }

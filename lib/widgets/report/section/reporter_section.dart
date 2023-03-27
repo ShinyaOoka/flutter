@@ -65,14 +65,19 @@ class _ReporterSectionState extends State<ReporterSection>
         label: 'name_of_reporter'.i18n(),
         onChanged: (value) => report.nameOfReporter = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       AppTextField(
         controller: affiliationOfReporterController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         label: 'affiliation_of_reporter'.i18n(),
         onChanged: (value) => report.affiliationOfReporter = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }

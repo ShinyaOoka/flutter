@@ -114,6 +114,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           maxLength: 20,
           maxLines: 1,
           readOnly: widget.readOnly,
+          keyboardType: TextInputType.multiline,
         ),
       ]);
     });
@@ -157,6 +158,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           maxLength: 20,
           maxLines: 1,
           readOnly: widget.readOnly,
+          keyboardType: TextInputType.multiline,
         ),
       ]);
     });
@@ -186,6 +188,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         maxLength: 60,
         maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
     ]);
   }

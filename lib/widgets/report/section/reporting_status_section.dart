@@ -76,7 +76,9 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
           inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.perceiverName = value,
           maxLength: 20,
+          maxLines: 1,
           readOnly: widget.readOnly,
+          keyboardType: TextInputType.multiline,
         ),
         AppDropdown<Classification>(
           showSearchBox: true,
@@ -108,7 +110,9 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.callerName = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
@@ -120,6 +124,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         ],
         onChanged: (value) => report.callerTel = value,
         maxLength: 20,
+        maxLines: 1,
         readOnly: widget.readOnly,
       ),
     ]);
