@@ -59,7 +59,7 @@ const _createReportTable = '''CREATE TABLE ${DBConstants.reportTable} (
   Witnesses INTEGER,
   BystanderCPR STRING,
   VerbalGuidance INTEGER,
-  VerbalGuidanceText VARCHAR(60),
+  VerbalGuidanceText VARCHAR(20),
   ObservationTime STRING,
   JCS VARCHAR,
   GCS_E VARCHAR,

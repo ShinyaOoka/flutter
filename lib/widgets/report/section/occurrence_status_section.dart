@@ -307,7 +307,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         keyboardType: TextInputType.multiline,
         onChanged: (value) => report.verbalGuidanceText = value,
-        maxLength: 60,
+        maxLength: 20,
         maxLines: 1,
         readOnly: widget.readOnly,
       ),
