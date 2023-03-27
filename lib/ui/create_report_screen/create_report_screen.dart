@@ -64,13 +64,19 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     _classificationStore = Provider.of<ClassificationStore>(context);
     _hospitalStore = Provider.of<HospitalStore>(context);
 
-    _teamStore.getTeams();
-    _fireStationStore.getAllFireStations();
-    _classificationStore.getAllClassifications();
-    _hospitalStore.getHospitals();
+    await _teamStore.getTeams();
+    await _fireStationStore.getAllFireStations();
+    await _classificationStore.getAllClassifications();
+    await _hospitalStore.getHospitals();
 
     final prefs = await SharedPreferences.getInstance();
     final report = Report();
+
+    report.teamStore = _teamStore;
+    report.fireStationStore = _fireStationStore;
+    report.classificationStore = _classificationStore;
+    report.hospitalStore = _hospitalStore;
+
     final lastEditedValue = prefs.getString(AppConstants.lastEditedValueKey);
     final lastEditedEpoch = prefs.getInt(AppConstants.lastEditedAtKey);
     if (lastEditedEpoch != null && lastEditedValue != null) {
@@ -88,12 +94,10 @@ class _CreateReportScreenState extends State<CreateReportScreen>
         report.teamMemberName = lastEditedReport.teamMemberName;
         report.institutionalMemberName =
             lastEditedReport.institutionalMemberName;
+        report.affiliationOfReporter =
+            report.affiliationOfReporter = report.team?.alias;
       }
     }
-    report.teamStore = _teamStore;
-    report.fireStationStore = _fireStationStore;
-    report.classificationStore = _classificationStore;
-    report.hospitalStore = _hospitalStore;
 
     _reportStore.setSelectingReport(report);
   }
