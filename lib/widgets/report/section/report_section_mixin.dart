@@ -4,7 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 
 class ReportSectionMixin {
-  Widget lineLayout({required List<Widget> children, bool dense = false}) {
+  // lastItemFlex is a hack added to meet layout requirement
+  Widget lineLayout({
+    required List<Widget> children,
+    bool dense = false,
+    int lastItemFlex = 1,
+  }) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final cloned = [...children];
@@ -32,7 +37,7 @@ class ReportSectionMixin {
           if (dense) {
             widgets.add(IntrinsicWidth(child: last));
           } else {
-            widgets.add(Expanded(child: last));
+            widgets.add(Expanded(child: last, flex: lastItemFlex));
           }
           return Row(
             mainAxisAlignment: dense
