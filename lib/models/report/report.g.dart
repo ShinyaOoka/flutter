@@ -95,7 +95,8 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['Witnesses'], const IntToBoolConverter().fromJson)
   ..bystanderCpr = _$JsonConverterFromJson<String, TimeOfDay>(
       json['BystanderCPR'], const TimeOfDayConverter().fromJson)
-  ..verbalGuidance = json['VerbalGuidance'] as bool?
+  ..verbalGuidance = _$JsonConverterFromJson<int, bool>(
+      json['VerbalGuidance'], const IntToBoolConverter().fromJson)
   ..verbalGuidanceText = json['VerbalGuidanceText'] as String?
   ..observationTime =
       _$JsonConverterFromJson<String, ObservableList<TimeOfDay?>>(
@@ -314,7 +315,8 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.witnesses, const IntToBoolConverter().toJson),
       'BystanderCPR': _$JsonConverterToJson<String, TimeOfDay>(
           instance.bystanderCpr, const TimeOfDayConverter().toJson),
-      'VerbalGuidance': instance.verbalGuidance,
+      'VerbalGuidance': _$JsonConverterToJson<int, bool>(
+          instance.verbalGuidance, const IntToBoolConverter().toJson),
       'VerbalGuidanceText': instance.verbalGuidanceText,
       'ObservationTime':
           _$JsonConverterToJson<String, ObservableList<TimeOfDay?>>(

@@ -227,6 +227,7 @@ abstract class _Report with Store {
   TimeOfDay? bystanderCpr;
   @observable
   @JsonKey(name: "VerbalGuidance")
+  @IntToBoolConverter()
   bool? verbalGuidance;
   @observable
   @JsonKey(name: "VerbalGuidanceText")
