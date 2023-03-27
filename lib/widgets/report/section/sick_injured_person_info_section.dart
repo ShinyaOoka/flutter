@@ -202,7 +202,7 @@ class _SickInjuredPersonInfoSectionState
               label: 'sick_injured_person_age'.i18n(),
               controller: TextEditingController(
                   text: report.sickInjuredPersonAge?.toString()),
-              enabled: true,
+              readOnly: true,
               optional: true,
             ),
           ),
