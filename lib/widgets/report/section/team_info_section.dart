@@ -86,11 +86,12 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           itemAsString: ((item) => item.name ?? ''),
           onChanged: (value) {
             if (value?.teamCd == report.teamCd) return;
-            report.team = value;
             if (report.affiliationOfReporter == null ||
-                report.affiliationOfReporter == '') {
-              report.affiliationOfReporter = value?.name;
+                report.affiliationOfReporter == '' ||
+                report.team?.abbreviation == report.affiliationOfReporter) {
+              report.affiliationOfReporter = value?.abbreviation;
             }
+            report.team = value;
           },
           selectedItem: report.team,
           filterFn: (team, filter) =>
