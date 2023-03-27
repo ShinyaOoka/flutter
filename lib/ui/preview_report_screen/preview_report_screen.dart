@@ -832,15 +832,19 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     if (report.trafficAccidentSeatbelt == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon シートベルト', '$checkIconシートベルト');
-    } else if (report.trafficAccidentAirbag == true) {
+    }
+    if (report.trafficAccidentAirbag == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon エアバック', '$checkIconエアバック');
-    } else if (report.trafficAccidentUnknown == true) {
+    }
+    if (report.trafficAccidentUnknown == true) {
       htmlInput = htmlInput.replaceFirst('$uncheckIcon 不明', '$checkIcon不明');
-    } else if (report.trafficAccidentChildseat == true) {
+    }
+    if (report.trafficAccidentChildseat == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon チャイルドシート', '$checkIconチャイルドシート');
-    } else if (report.trafficAccidentHelmet == true) {
+    }
+    if (report.trafficAccidentHelmet == true) {
       htmlInput =
           htmlInput.replaceFirst('$uncheckIcon ヘルメット', '$checkIconヘルメット');
     }

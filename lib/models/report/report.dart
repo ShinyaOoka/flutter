@@ -198,18 +198,23 @@ abstract class _Report with Store {
   @JsonKey(name: "TrafficAccidentClassification")
   String? trafficAccidentClassification;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Unknown")
   bool? trafficAccidentUnknown;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Seatbelt")
   bool? trafficAccidentSeatbelt;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Childseat")
   bool? trafficAccidentChildseat;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Airbag")
   bool? trafficAccidentAirbag;
   @observable
+  @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Helmet")
   bool? trafficAccidentHelmet;
   @observable

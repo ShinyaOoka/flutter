@@ -81,11 +81,16 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..adl = json['ADL'] as String?
   ..trafficAccidentClassification =
       json['TrafficAccidentClassification'] as String?
-  ..trafficAccidentUnknown = json['TrafficAccident_Unknown'] as bool?
-  ..trafficAccidentSeatbelt = json['TrafficAccident_Seatbelt'] as bool?
-  ..trafficAccidentChildseat = json['TrafficAccident_Childseat'] as bool?
-  ..trafficAccidentAirbag = json['TrafficAccident_Airbag'] as bool?
-  ..trafficAccidentHelmet = json['TrafficAccident_Helmet'] as bool?
+  ..trafficAccidentUnknown = _$JsonConverterFromJson<int, bool>(
+      json['TrafficAccident_Unknown'], const IntToBoolConverter().fromJson)
+  ..trafficAccidentSeatbelt = _$JsonConverterFromJson<int, bool>(
+      json['TrafficAccident_Seatbelt'], const IntToBoolConverter().fromJson)
+  ..trafficAccidentChildseat = _$JsonConverterFromJson<int, bool>(
+      json['TrafficAccident_Childseat'], const IntToBoolConverter().fromJson)
+  ..trafficAccidentAirbag = _$JsonConverterFromJson<int, bool>(
+      json['TrafficAccident_Airbag'], const IntToBoolConverter().fromJson)
+  ..trafficAccidentHelmet = _$JsonConverterFromJson<int, bool>(
+      json['TrafficAccident_Helmet'], const IntToBoolConverter().fromJson)
   ..witnesses = _$JsonConverterFromJson<int, bool>(
       json['Witnesses'], const IntToBoolConverter().fromJson)
   ..bystanderCpr = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -295,11 +300,16 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
       'TrafficAccidentClassification': instance.trafficAccidentClassification,
-      'TrafficAccident_Unknown': instance.trafficAccidentUnknown,
-      'TrafficAccident_Seatbelt': instance.trafficAccidentSeatbelt,
-      'TrafficAccident_Childseat': instance.trafficAccidentChildseat,
-      'TrafficAccident_Airbag': instance.trafficAccidentAirbag,
-      'TrafficAccident_Helmet': instance.trafficAccidentHelmet,
+      'TrafficAccident_Unknown': _$JsonConverterToJson<int, bool>(
+          instance.trafficAccidentUnknown, const IntToBoolConverter().toJson),
+      'TrafficAccident_Seatbelt': _$JsonConverterToJson<int, bool>(
+          instance.trafficAccidentSeatbelt, const IntToBoolConverter().toJson),
+      'TrafficAccident_Childseat': _$JsonConverterToJson<int, bool>(
+          instance.trafficAccidentChildseat, const IntToBoolConverter().toJson),
+      'TrafficAccident_Airbag': _$JsonConverterToJson<int, bool>(
+          instance.trafficAccidentAirbag, const IntToBoolConverter().toJson),
+      'TrafficAccident_Helmet': _$JsonConverterToJson<int, bool>(
+          instance.trafficAccidentHelmet, const IntToBoolConverter().toJson),
       'Witnesses': _$JsonConverterToJson<int, bool>(
           instance.witnesses, const IntToBoolConverter().toJson),
       'BystanderCPR': _$JsonConverterToJson<String, TimeOfDay>(

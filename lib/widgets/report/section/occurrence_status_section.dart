@@ -281,10 +281,12 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
 
   Widget _buildLine7(Report report) {
     return lineLayout(children: [
-      AppCheckbox(
+      AppDropdown<bool>(
+        items: const [true, false],
         label: 'verbal_guidance'.i18n(),
-        value: report.verbalGuidance,
+        itemAsString: ((item) => formatBool(item) ?? ''),
         onChanged: (value) => report.verbalGuidance = value,
+        selectedItem: report.verbalGuidance,
         readOnly: widget.readOnly,
       ),
       AppTimePicker(
