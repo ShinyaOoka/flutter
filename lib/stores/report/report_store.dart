@@ -46,6 +46,8 @@ abstract class _ReportStore with Store {
 
     await future.then((reportList) {
       reports = ObservableList.of(reportList);
+    }).catchError((error) {
+      errorStore.errorMessage = error.toString();
     });
   }
 
