@@ -112,7 +112,6 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.otherMedicalTransportFacility = value,
           maxLength: 20,
-          maxLines: 1,
           readOnly: widget.readOnly,
           keyboardType: TextInputType.multiline,
         ),
@@ -156,7 +155,6 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           onChanged: (value) =>
               report.otherTransferringMedicalInstitution = value,
           maxLength: 20,
-          maxLines: 1,
           readOnly: widget.readOnly,
           keyboardType: TextInputType.multiline,
         ),
@@ -186,7 +184,6 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.reasonForTransfer = value,
         maxLength: 60,
-        maxLines: 1,
         readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
       ),

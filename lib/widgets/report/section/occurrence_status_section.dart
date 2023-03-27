@@ -158,7 +158,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         controller: placeOfDispatchController,
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         maxLength: 25,
-        maxLines: 1,
         label: 'place_of_dispatch'.i18n(),
         onChanged: (value) => report.placeOfDispatch = value,
         readOnly: widget.readOnly,
@@ -308,7 +307,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         keyboardType: TextInputType.multiline,
         onChanged: (value) => report.verbalGuidanceText = value,
         maxLength: 20,
-        maxLines: 1,
         readOnly: widget.readOnly,
       ),
     ]);

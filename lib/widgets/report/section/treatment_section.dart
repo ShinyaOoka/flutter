@@ -255,7 +255,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
           inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
           onChanged: (value) => report.punctureSite1 = value,
           maxLength: 10,
-          maxLines: 1,
           readOnly: widget.readOnly,
           keyboardType: TextInputType.multiline,
         ),
@@ -303,7 +302,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
           onChanged: (value) => report.punctureSite2 = value,
           maxLength: 10,
           readOnly: widget.readOnly,
-          maxLines: 1,
           keyboardType: TextInputType.multiline,
         ),
       ]);
@@ -318,7 +316,6 @@ class _TreatmentSectionState extends State<TreatmentSection>
         inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.other = value,
         maxLength: 20,
-        maxLines: 1,
         readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
       ),
