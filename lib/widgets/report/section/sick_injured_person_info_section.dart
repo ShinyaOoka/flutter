@@ -192,8 +192,7 @@ class _SickInjuredPersonInfoSectionState
                   text: report.sickInjuredPersonBirthDate != null
                       ? '${yearToWareki(report.sickInjuredPersonBirthDate!.year, report.sickInjuredPersonBirthDate!.month, report.sickInjuredPersonBirthDate!.day)}年'
                       : ''),
-              enabled: false,
-              readOnly: widget.readOnly,
+              readOnly: true,
               optional: true,
             ),
           ),
@@ -203,8 +202,7 @@ class _SickInjuredPersonInfoSectionState
               label: 'sick_injured_person_age'.i18n(),
               controller: TextEditingController(
                   text: report.sickInjuredPersonAge?.toString()),
-              enabled: false,
-              readOnly: widget.readOnly,
+              enabled: true,
               optional: true,
             ),
           ),

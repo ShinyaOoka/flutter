@@ -198,16 +198,14 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
       AppTextField(
         label: 'fire_station_name'.i18n(),
         controller: TextEditingController(text: report.fireStation?.name),
-        enabled: false,
-        readOnly: widget.readOnly,
+        enabled: true,
       ),
       AppTextField(
         label: 'team_tel'.i18n(),
         controller: TextEditingController(
           text: report.team?.tel,
         ),
-        enabled: false,
-        readOnly: widget.readOnly,
+        enabled: true,
       ),
     ]);
   }
