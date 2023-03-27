@@ -96,6 +96,7 @@ class _ReporterSectionState extends State<ReporterSection>
             (c.classificationSubCd != null &&
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
+        optional: true,
       ),
       Container(),
     ]);

@@ -105,6 +105,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
               (hospital.hospitalCd != null &&
                   hospital.hospitalCd!.contains(filter)),
           readOnly: widget.readOnly,
+          optional: true,
         ),
         AppTextField(
           label: 'other_medical_transport_facility'.i18n(),
@@ -147,6 +148,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
               (hospital.hospitalCd != null &&
                   hospital.hospitalCd!.contains(filter)),
           readOnly: widget.readOnly,
+          optional: true,
         ),
         AppTextField(
           label: 'other_transferring_medical_institution'.i18n(),
@@ -170,6 +172,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           onChanged: (value) => report.transferSourceReceivingTime = value,
           selectedTime: report.transferSourceReceivingTime,
           readOnly: widget.readOnly,
+          optional: true,
         ),
         Container(),
       ]);
@@ -205,6 +208,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           minLines: 3,
           maxLines: 3,
           readOnly: widget.readOnly,
+          optional: true,
         ),
       ),
     ]);
@@ -221,6 +225,7 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
         },
         selectedItem: report.recordOfRefusalOfTransfer,
         readOnly: widget.readOnly,
+        optional: true,
       ),
     ]);
   }

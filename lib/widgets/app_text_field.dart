@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,6 +19,7 @@ class AppTextField extends StatelessWidget {
   final Color? counterColor;
   final bool readOnly;
   final Color? fillColor;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,22 @@ class AppTextField extends StatelessWidget {
           minLines: minLines,
           decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              label: label != null ? Text(label!) : null,
-              border: const OutlineInputBorder(),
-              fillColor: fillColor,
+              label: label != null
+                  ? optional
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(label!),
+                            const SizedBox(width: 8),
+                            OptionalBadge(),
+                          ],
+                        )
+                      : Text(label!)
+                  : null,
+              border: OutlineInputBorder(
+                  borderSide: readOnly ? BorderSide.none : BorderSide()),
+              fillColor:
+                  fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
               hintText: hintText,
               counterText: _counterText,
               counterStyle:
@@ -81,5 +96,6 @@ class AppTextField extends StatelessWidget {
     this.fillColor,
     this.readOnly = false,
     this.scrollController,
+    this.optional = false,
   });
 }

@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -10,6 +11,7 @@ class AppTimePicker extends StatelessWidget {
   final bool readOnly;
   final Color? fillColor;
   final TimeOfDay? defaultTime;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,25 @@ class AppTimePicker extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            label: label != null ? Text(label!) : null,
-            border: const OutlineInputBorder(),
+            label: label != null
+                ? optional
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(label!),
+                          const SizedBox(width: 8),
+                          OptionalBadge(),
+                        ],
+                      )
+                    : Text(label!)
+                : null,
+            border: OutlineInputBorder(
+                borderSide: readOnly ? BorderSide.none : BorderSide()),
             hintText: hintText,
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),
-            fillColor: fillColor,
+            fillColor:
+                fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
             suffixIcon: !readOnly && selectedTime != null
                 ? IconButton(
                     onPressed: () => onChanged?.call(null),
@@ -73,5 +88,6 @@ class AppTimePicker extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.defaultTime,
+    this.optional = false,
   });
 }

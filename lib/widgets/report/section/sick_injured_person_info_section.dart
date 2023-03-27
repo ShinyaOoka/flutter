@@ -373,7 +373,7 @@ class _SickInjuredPersonInfoSectionState
             (c.classificationSubCd != null &&
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }

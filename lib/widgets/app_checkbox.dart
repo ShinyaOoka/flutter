@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 
 class AppCheckbox extends StatelessWidget {

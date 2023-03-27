@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -205,14 +206,22 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                 index,
                 ExpansionPanel(
                     canTapOnHeader: true,
-                    backgroundColor: section.optional
-                        ? Theme.of(context).secondaryHeaderColor
-                        : null,
+                    backgroundColor: Color(0xFFF5F5F5),
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
-                          key: section.globalKey,
-                          leading: section.icon,
-                          title: Text('${index + 1}. ${section.title}'));
+                        key: section.globalKey,
+                        leading: section.icon,
+                        title: section.optional
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('${index + 1}. ${section.title}'),
+                                  const SizedBox(width: 8),
+                                  OptionalBadge(scaling: 0.75)
+                                ],
+                              )
+                            : Text('${index + 1}. ${section.title}'),
+                      );
                     },
                     body: section.isExpanded ? section.widget : Container(),
                     isExpanded: section.isExpanded)))
