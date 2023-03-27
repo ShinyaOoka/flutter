@@ -88,8 +88,8 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
             if (value?.teamCd == report.teamCd) return;
             if (report.affiliationOfReporter == null ||
                 report.affiliationOfReporter == '' ||
-                report.team?.abbreviation == report.affiliationOfReporter) {
-              report.affiliationOfReporter = value?.abbreviation;
+                report.team?.alias == report.affiliationOfReporter) {
+              report.affiliationOfReporter = value?.alias;
             }
             report.team = value;
           },

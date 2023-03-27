@@ -146,7 +146,8 @@ const _createTeamTable = '''CREATE TABLE ${DBConstants.teamTable} (
   Name VARCHAR(20),
   Abbreviation VARCHAR(20),
   TEL VARCHAR(20),
-  FireStationCD VARCHAR(20)
+  FireStationCD VARCHAR(20),
+  Alias VARCHAR(20)
 )''';
 
 const _createFireStationTable =

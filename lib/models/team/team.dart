@@ -26,4 +26,7 @@ abstract class _Team with Store {
   @observable
   @JsonKey(name: 'FireStationCD')
   String? fireStationCd;
+  @observable
+  @JsonKey(name: 'Alias')
+  String? alias;
 }

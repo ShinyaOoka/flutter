@@ -11,7 +11,8 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team()
   ..name = json['Name'] as String?
   ..abbreviation = json['Abbreviation'] as String?
   ..tel = json['TEL'] as String?
-  ..fireStationCd = json['FireStationCD'] as String?;
+  ..fireStationCd = json['FireStationCD'] as String?
+  ..alias = json['Alias'] as String?;
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'TeamCD': instance.teamCd,
@@ -19,6 +20,7 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'Abbreviation': instance.abbreviation,
       'TEL': instance.tel,
       'FireStationCD': instance.fireStationCd,
+      'Alias': instance.alias,
     };
 
 // **************************************************************************
@@ -105,6 +107,21 @@ mixin _$Team on _Team, Store {
     });
   }
 
+  late final _$aliasAtom = Atom(name: '_Team.alias', context: context);
+
+  @override
+  String? get alias {
+    _$aliasAtom.reportRead();
+    return super.alias;
+  }
+
+  @override
+  set alias(String? value) {
+    _$aliasAtom.reportWrite(value, super.alias, () {
+      super.alias = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -112,7 +129,8 @@ teamCd: ${teamCd},
 name: ${name},
 abbreviation: ${abbreviation},
 tel: ${tel},
-fireStationCd: ${fireStationCd}
+fireStationCd: ${fireStationCd},
+alias: ${alias}
     ''';
   }
 }
