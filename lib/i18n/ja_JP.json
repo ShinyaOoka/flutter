@@ -63,8 +63,8 @@
   "family_contact_time": "家族連絡時間",
   "police_contact": "警察連絡",
   "police_contact_time": "警察連絡時間",
-  "time_of_arrival": "(報)現引時間",
-  "return_time": "(報)帰署時間",
+  "time_of_arrival": "現引時間",
+  "return_time": "帰署時間",
 
   "occurrence_status": "発生状況",
   "type_of_accident": "事故種別",

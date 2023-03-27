@@ -221,18 +221,31 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           top: 0,
           bottom: 16,
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xff686868)),
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+            decoration: widget.readOnly
+                ? null
+                : BoxDecoration(
+                    border: Border.all(color: Color(0xff686868)),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    color: Colors.white,
+                  ),
           ),
         ),
+        widget.readOnly
+            ? Container()
+            : Positioned(
+                top: 0,
+                left: 8,
+                child: Container(
+                  color: Colors.white,
+                  width: 58,
+                  height: 8,
+                ),
+              ),
         Positioned(
           top: -6,
           left: 8,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 4),
-            color: Colors.white,
             child: Text(
               "traffic_accident".i18n(),
               style:
