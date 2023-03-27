@@ -78,7 +78,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
           _buildLine7(reportStore.selectingReport!),
-          _buildLine8(reportStore.selectingReport!),
         ],
       );
     });
@@ -202,13 +201,28 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
       ),
-      AppDropdown<bool>(
-        items: const [true, false],
-        label: 'witnesses'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) => report.witnesses = value,
-        selectedItem: report.witnesses,
-        readOnly: widget.readOnly,
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<bool>(
+              items: const [true, false],
+              label: 'witnesses'.i18n(),
+              itemAsString: ((item) => formatBool(item) ?? ''),
+              onChanged: (value) => report.witnesses = value,
+              selectedItem: report.witnesses,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AppTimePicker(
+              label: 'bystander_cpr'.i18n(),
+              onChanged: (value) => report.bystanderCpr = value,
+              selectedTime: report.bystanderCpr,
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
       ),
     ]);
   }
@@ -221,18 +235,31 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           top: 0,
           bottom: 16,
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xff686868)),
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+            decoration: widget.readOnly
+                ? null
+                : BoxDecoration(
+                    border: Border.all(color: Color(0xff686868)),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    color: Colors.white,
+                  ),
           ),
         ),
+        widget.readOnly
+            ? Container()
+            : Positioned(
+                top: 0,
+                left: 8,
+                child: Container(
+                  color: Colors.white,
+                  width: 58,
+                  height: 8,
+                ),
+              ),
         Positioned(
           top: -6,
           left: 8,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 4),
-            color: Colors.white,
             child: Text(
               "traffic_accident".i18n(),
               style:
@@ -241,7 +268,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 8, bottom: 8, right: 16),
+          padding: EdgeInsets.only(top: 8, bottom: 8, right: 40),
           child: lineLayout(dense: true, children: [
             AppCheckbox(
               label: 'traffic_accident_seatbelt'.i18n(),
@@ -289,17 +316,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         selectedItem: report.verbalGuidance,
         readOnly: widget.readOnly,
       ),
-      AppTimePicker(
-        label: 'bystander_cpr'.i18n(),
-        onChanged: (value) => report.bystanderCpr = value,
-        selectedTime: report.bystanderCpr,
-        readOnly: widget.readOnly,
-      ),
-    ]);
-  }
-
-  Widget _buildLine8(Report report) {
-    return lineLayout(children: [
       AppTextField(
         label: 'verbal_guidance_text'.i18n(),
         controller: verbalGuidanceTextController,

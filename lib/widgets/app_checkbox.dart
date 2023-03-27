@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 
 class AppCheckbox extends StatelessWidget {
@@ -15,7 +16,9 @@ class AppCheckbox extends StatelessWidget {
         child: ListTileTheme(
           horizontalTitleGap: 4,
           child: CheckboxListTile(
-            title: label != null ? Text(label!) : null,
+            title: label != null
+                ? Text(label!, style: TextStyle(fontSize: 16))
+                : null,
             value: value ?? false,
             onChanged: onChanged,
             controlAffinity: ListTileControlAffinity.leading,

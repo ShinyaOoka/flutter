@@ -74,6 +74,7 @@ class _RemarksSectionState extends State<RemarksSection>
           minLines: 3,
           maxLines: 3,
           readOnly: widget.readOnly,
+          optional: true,
         ),
       ),
     ]);

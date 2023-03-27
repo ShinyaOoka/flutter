@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -14,6 +15,7 @@ class AppDropdown<T> extends StatelessWidget {
   final bool enabled;
   final bool readOnly;
   final Color? fillColor;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,21 @@ class AppDropdown<T> extends StatelessWidget {
                 style: TextStyle(color: Theme.of(context).primaryColor),
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  label: label != null ? Text(label!) : null,
-                  border: const OutlineInputBorder(),
-                  fillColor: fillColor,
+                  label: label != null
+                      ? optional
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(label!),
+                                const SizedBox(width: 8),
+                                OptionalBadge(),
+                              ],
+                            )
+                          : Text(label!)
+                      : null,
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                  fillColor: fillColor ??
+                      (readOnly ? Color(0xFFF5F5F5) : Colors.white),
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),
@@ -45,6 +59,7 @@ class AppDropdown<T> extends StatelessWidget {
                   showSearchBox: showSearchBox,
                   searchFieldProps: const TextFieldProps(
                       decoration: InputDecoration(
+                          fillColor: Colors.white,
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder())),
                   // showSelectedItems: true,
@@ -65,9 +80,21 @@ class AppDropdown<T> extends StatelessWidget {
                         overflow: TextOverflow.ellipsis),
                     dropdownSearchDecoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        labelText: label,
+                        label: label != null
+                            ? optional
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(label!),
+                                      const SizedBox(width: 8),
+                                      OptionalBadge(),
+                                    ],
+                                  )
+                                : Text(label!)
+                            : null,
                         border: const OutlineInputBorder(),
-                        fillColor: fillColor,
+                        fillColor: fillColor ??
+                            (readOnly ? Color(0xFFF5F5F5) : Colors.white),
                         counterText: ' ',
                         counterStyle:
                             const TextStyle(height: 0.2, fontSize: 10))),
@@ -94,5 +121,6 @@ class AppDropdown<T> extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.fillColor,
+    this.optional = false,
   });
 }

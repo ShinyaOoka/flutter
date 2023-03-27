@@ -122,7 +122,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           onChanged: (value) => report.teamMemberName = value,
           maxLength: 20,
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
           keyboardType: TextInputType.multiline,
         ),
         AppTextField(
@@ -132,7 +132,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           onChanged: (value) => report.institutionalMemberName = value,
           maxLength: 20,
           readOnly: widget.readOnly,
-          fillColor: optionalColor(context),
+          optional: true,
           keyboardType: TextInputType.multiline,
         ),
       ]);
@@ -155,7 +155,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           readOnly: widget.readOnly,
           counterText: '件',
           counterColor: Theme.of(context).primaryColor,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
         AppTextField(
           controller: teamController,
@@ -170,7 +170,7 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           readOnly: widget.readOnly,
           counterText: '件',
           counterColor: Theme.of(context).primaryColor,
-          fillColor: optionalColor(context),
+          optional: true,
         ),
       ]);
     });
@@ -198,14 +198,14 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
       AppTextField(
         label: 'fire_station_name'.i18n(),
         controller: TextEditingController(text: report.fireStation?.name),
-        enabled: false,
+        readOnly: true,
       ),
       AppTextField(
         label: 'team_tel'.i18n(),
         controller: TextEditingController(
           text: report.team?.tel,
         ),
-        enabled: false,
+        readOnly: true,
       ),
     ]);
   }

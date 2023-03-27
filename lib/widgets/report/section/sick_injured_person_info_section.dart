@@ -192,9 +192,8 @@ class _SickInjuredPersonInfoSectionState
                   text: report.sickInjuredPersonBirthDate != null
                       ? '${yearToWareki(report.sickInjuredPersonBirthDate!.year, report.sickInjuredPersonBirthDate!.month, report.sickInjuredPersonBirthDate!.day)}年'
                       : ''),
-              enabled: false,
-              readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              readOnly: true,
+              optional: true,
             ),
           ),
           const SizedBox(width: 16),
@@ -203,9 +202,8 @@ class _SickInjuredPersonInfoSectionState
               label: 'sick_injured_person_age'.i18n(),
               controller: TextEditingController(
                   text: report.sickInjuredPersonAge?.toString()),
-              enabled: false,
-              readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              readOnly: true,
+              optional: true,
             ),
           ),
         ],
@@ -351,7 +349,7 @@ class _SickInjuredPersonInfoSectionState
             report.sickInjuredPersonNameOfInjuryOrSickness = value,
         maxLength: 60,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
         keyboardType: TextInputType.multiline,
       ),
     ]);
@@ -373,7 +371,7 @@ class _SickInjuredPersonInfoSectionState
             (c.classificationSubCd != null &&
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }

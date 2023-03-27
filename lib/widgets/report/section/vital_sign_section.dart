@@ -243,7 +243,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
             (c.classificationSubCd != null &&
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
       ),
     ]);
   }
@@ -427,10 +427,28 @@ class _VitalSignSectionState extends State<VitalSignSection>
       Row(
         children: [
           Expanded(
+            child: AppTextField(
+              label: 'sp_o2_percent'.i18n(),
+              controller: spO2PercentController,
+              onChanged: (x) => reportStore.selectingReport!
+                  .spO2Percent?[widget.index] = int.tryParse(x),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.singleLineFormatter
+              ],
+              counterText: '%'.i18n(),
+              counterColor: Theme.of(context).primaryColor,
+              maxLength: 3,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
             child: Focus(
               child: AppTextField(
-                label: 'body_temperature'.i18n(),
-                controller: bodyTemperatureController,
+                label: 'sp_o2_liter'.i18n(),
+                controller: spO2LiterController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -438,37 +456,15 @@ class _VitalSignSectionState extends State<VitalSignSection>
                       RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
                   FilteringTextInputFormatter.singleLineFormatter,
                 ],
-                counterText: 'celsius'.i18n(),
+                counterText: 'L',
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
               ),
               onFocusChange: (hasFocus) {
                 if (hasFocus) return;
-                report.bodyTemperature?[widget.index] =
-                    double.tryParse(bodyTemperatureController.text);
+                report.spO2Liter?[widget.index] =
+                    double.tryParse(spO2LiterController.text);
               },
-            ),
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: AppDropdown<Classification>(
-              items: report.classificationStore!.classifications.values
-                  .where((element) =>
-                      element.classificationCd ==
-                      AppConstants.facialFeaturesCode)
-                  .toList(),
-              label: 'facial_features'.i18n(),
-              itemAsString: ((item) => item.value ?? ''),
-              onChanged: (value) => report.facialFeatureTypes = report
-                  .facialFeatureTypes
-                  .mapIndexed((i, e) => i == widget.index ? value : e)
-                  .toList(),
-              selectedItem: report.facialFeatureTypes[widget.index],
-              filterFn: (c, filter) =>
-                  (c.value != null && c.value!.contains(filter)) ||
-                  (c.classificationSubCd != null &&
-                      c.classificationSubCd!.contains(filter)),
-              readOnly: widget.readOnly,
             ),
           ),
         ],
@@ -520,28 +516,10 @@ class _VitalSignSectionState extends State<VitalSignSection>
       Row(
         children: [
           Expanded(
-            child: AppTextField(
-              label: 'sp_o2_percent'.i18n(),
-              controller: spO2PercentController,
-              onChanged: (x) => reportStore.selectingReport!
-                  .spO2Percent?[widget.index] = int.tryParse(x),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              counterText: '%'.i18n(),
-              counterColor: Theme.of(context).primaryColor,
-              maxLength: 3,
-              readOnly: widget.readOnly,
-            ),
-          ),
-          SizedBox(width: 16),
-          Expanded(
             child: Focus(
               child: AppTextField(
-                label: 'sp_o2_liter'.i18n(),
-                controller: spO2LiterController,
+                label: 'body_temperature'.i18n(),
+                controller: bodyTemperatureController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -549,15 +527,37 @@ class _VitalSignSectionState extends State<VitalSignSection>
                       RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
                   FilteringTextInputFormatter.singleLineFormatter,
                 ],
-                counterText: 'L',
+                counterText: 'celsius'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
               ),
               onFocusChange: (hasFocus) {
                 if (hasFocus) return;
-                report.spO2Liter?[widget.index] =
-                    double.tryParse(spO2LiterController.text);
+                report.bodyTemperature?[widget.index] =
+                    double.tryParse(bodyTemperatureController.text);
               },
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd ==
+                      AppConstants.facialFeaturesCode)
+                  .toList(),
+              label: 'facial_features'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.facialFeatureTypes = report
+                  .facialFeatureTypes
+                  .mapIndexed((i, e) => i == widget.index ? value : e)
+                  .toList(),
+              selectedItem: report.facialFeatureTypes[widget.index],
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
             ),
           ),
         ],
@@ -670,7 +670,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
         onChanged: (value) => report.eachEcg?[widget.index] = value,
         maxLength: 10,
         readOnly: widget.readOnly,
-        fillColor: optionalColor(context),
+        optional: true,
         keyboardType: TextInputType.multiline,
       ),
       Row(children: [
@@ -709,7 +709,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess1?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -724,7 +724,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess2?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -742,7 +742,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess3?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -757,7 +757,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess4?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -780,7 +780,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess5?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -795,7 +795,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess6?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
@@ -813,7 +813,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               onChanged: (value) => report.otherProcess7?[widget.index] = value,
               maxLength: 15,
               readOnly: widget.readOnly,
-              fillColor: optionalColor(context),
+              optional: true,
               keyboardType: TextInputType.multiline,
             ),
           ),
