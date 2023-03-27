@@ -85,7 +85,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
   }
 
   Widget _buildLine1(Report report) {
-    return lineLayout(dense: true, children: [
+    return lineLayout(children: [
       AppCheckbox(
         label: 'foreign_body_removal'.i18n(),
         value: report.foreignBodyRemoval,
@@ -145,6 +145,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
         onChanged: (value) => report.coating = value,
         readOnly: widget.readOnly,
       ),
+      Container(),
     ]);
   }
 

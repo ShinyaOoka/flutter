@@ -78,7 +78,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
           _buildLine7(reportStore.selectingReport!),
-          _buildLine8(reportStore.selectingReport!),
         ],
       );
     });
@@ -202,13 +201,28 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
                 c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
       ),
-      AppDropdown<bool>(
-        items: const [true, false],
-        label: 'witnesses'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) => report.witnesses = value,
-        selectedItem: report.witnesses,
-        readOnly: widget.readOnly,
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<bool>(
+              items: const [true, false],
+              label: 'witnesses'.i18n(),
+              itemAsString: ((item) => formatBool(item) ?? ''),
+              onChanged: (value) => report.witnesses = value,
+              selectedItem: report.witnesses,
+              readOnly: widget.readOnly,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AppTimePicker(
+              label: 'bystander_cpr'.i18n(),
+              onChanged: (value) => report.bystanderCpr = value,
+              selectedTime: report.bystanderCpr,
+              readOnly: widget.readOnly,
+            ),
+          ),
+        ],
       ),
     ]);
   }
@@ -254,7 +268,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 8, bottom: 8, right: 16),
+          padding: EdgeInsets.only(top: 8, bottom: 8, right: 40),
           child: lineLayout(dense: true, children: [
             AppCheckbox(
               label: 'traffic_accident_seatbelt'.i18n(),
@@ -293,25 +307,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   }
 
   Widget _buildLine7(Report report) {
-    return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
-        label: 'verbal_guidance'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) => report.verbalGuidance = value,
-        selectedItem: report.verbalGuidance,
-        readOnly: widget.readOnly,
-      ),
-      AppTimePicker(
-        label: 'bystander_cpr'.i18n(),
-        onChanged: (value) => report.bystanderCpr = value,
-        selectedTime: report.bystanderCpr,
-        readOnly: widget.readOnly,
-      ),
-    ]);
-  }
-
-  Widget _buildLine8(Report report) {
     return lineLayout(children: [
       AppTextField(
         label: 'verbal_guidance_text'.i18n(),

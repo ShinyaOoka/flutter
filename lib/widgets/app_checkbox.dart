@@ -16,7 +16,9 @@ class AppCheckbox extends StatelessWidget {
         child: ListTileTheme(
           horizontalTitleGap: 4,
           child: CheckboxListTile(
-            title: label != null ? Text(label!) : null,
+            title: label != null
+                ? Text(label!, style: TextStyle(fontSize: 16))
+                : null,
             value: value ?? false,
             onChanged: onChanged,
             controlAffinity: ListTileControlAffinity.leading,
