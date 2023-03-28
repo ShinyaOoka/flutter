@@ -867,12 +867,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
 
     //41
-    if (report.bystanderCpr != null) {
+    if (report.bystanderCpr == true) {
       htmlInput = htmlInput.replaceAll('$uncheckIcon有（', '$checkIcon有（');
-      htmlInput = htmlInput.replaceFirst('BystanderCPR',
-          '${report.bystanderCpr?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCpr?.minute.toString().padLeft(2, '0') ?? '--'}');
-    } else {
+    } else if (report.bystanderCpr == false) {
       htmlInput = htmlInput.replaceAll('）　$uncheckIcon無', '）　$checkIcon無');
+    }
+
+    if (report.bystanderCprTime != null) {
+      htmlInput = htmlInput.replaceFirst('BystanderCPR',
+          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
       htmlInput = htmlInput.replaceFirst('BystanderCPR', '');
     }
 

@@ -93,8 +93,10 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['TrafficAccident_Helmet'], const IntToBoolConverter().fromJson)
   ..witnesses = _$JsonConverterFromJson<int, bool>(
       json['Witnesses'], const IntToBoolConverter().fromJson)
-  ..bystanderCpr = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['BystanderCPR'], const TimeOfDayConverter().fromJson)
+  ..bystanderCpr = _$JsonConverterFromJson<int, bool>(
+      json['BystanderCPR'], const IntToBoolConverter().fromJson)
+  ..bystanderCprTime = _$JsonConverterFromJson<String, TimeOfDay>(
+      json['BystanderCPRTime'], const TimeOfDayConverter().fromJson)
   ..verbalGuidance = _$JsonConverterFromJson<int, bool>(
       json['VerbalGuidance'], const IntToBoolConverter().fromJson)
   ..verbalGuidanceText = json['VerbalGuidanceText'] as String?
@@ -313,8 +315,10 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.trafficAccidentHelmet, const IntToBoolConverter().toJson),
       'Witnesses': _$JsonConverterToJson<int, bool>(
           instance.witnesses, const IntToBoolConverter().toJson),
-      'BystanderCPR': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.bystanderCpr, const TimeOfDayConverter().toJson),
+      'BystanderCPR': _$JsonConverterToJson<int, bool>(
+          instance.bystanderCpr, const IntToBoolConverter().toJson),
+      'BystanderCPRTime': _$JsonConverterToJson<String, TimeOfDay>(
+          instance.bystanderCprTime, const TimeOfDayConverter().toJson),
       'VerbalGuidance': _$JsonConverterToJson<int, bool>(
           instance.verbalGuidance, const IntToBoolConverter().toJson),
       'VerbalGuidanceText': instance.verbalGuidanceText,
@@ -1495,15 +1499,31 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.bystanderCpr', context: context);
 
   @override
-  TimeOfDay? get bystanderCpr {
+  bool? get bystanderCpr {
     _$bystanderCprAtom.reportRead();
     return super.bystanderCpr;
   }
 
   @override
-  set bystanderCpr(TimeOfDay? value) {
+  set bystanderCpr(bool? value) {
     _$bystanderCprAtom.reportWrite(value, super.bystanderCpr, () {
       super.bystanderCpr = value;
+    });
+  }
+
+  late final _$bystanderCprTimeAtom =
+      Atom(name: '_Report.bystanderCprTime', context: context);
+
+  @override
+  TimeOfDay? get bystanderCprTime {
+    _$bystanderCprTimeAtom.reportRead();
+    return super.bystanderCprTime;
+  }
+
+  @override
+  set bystanderCprTime(TimeOfDay? value) {
+    _$bystanderCprTimeAtom.reportWrite(value, super.bystanderCprTime, () {
+      super.bystanderCprTime = value;
     });
   }
 
@@ -3101,6 +3121,7 @@ trafficAccidentAirbag: ${trafficAccidentAirbag},
 trafficAccidentHelmet: ${trafficAccidentHelmet},
 witnesses: ${witnesses},
 bystanderCpr: ${bystanderCpr},
+bystanderCprTime: ${bystanderCprTime},
 verbalGuidance: ${verbalGuidance},
 verbalGuidanceText: ${verbalGuidanceText},
 observationTime: ${observationTime},

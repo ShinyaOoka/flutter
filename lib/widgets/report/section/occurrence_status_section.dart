@@ -186,23 +186,26 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
 
   Widget _buildLine5(Report report) {
     return lineLayout(children: [
-      AppDropdown<Classification>(
-        items: report.classificationStore!.classifications.values
-            .where(
-                (element) => element.classificationCd == AppConstants.adlCode)
-            .toList(),
-        label: 'adl'.i18n(),
-        itemAsString: ((item) => item.value ?? ''),
-        onChanged: (value) => report.adlType = value,
-        selectedItem: report.adlType,
-        filterFn: (c, filter) =>
-            (c.value != null && c.value!.contains(filter)) ||
-            (c.classificationSubCd != null &&
-                c.classificationSubCd!.contains(filter)),
-        readOnly: widget.readOnly,
-      ),
       Row(
         children: [
+          Expanded(
+            child: AppDropdown<Classification>(
+              items: report.classificationStore!.classifications.values
+                  .where((element) =>
+                      element.classificationCd == AppConstants.adlCode)
+                  .toList(),
+              label: 'adl'.i18n(),
+              itemAsString: ((item) => item.value ?? ''),
+              onChanged: (value) => report.adlType = value,
+              selectedItem: report.adlType,
+              filterFn: (c, filter) =>
+                  (c.value != null && c.value!.contains(filter)) ||
+                  (c.classificationSubCd != null &&
+                      c.classificationSubCd!.contains(filter)),
+              readOnly: widget.readOnly,
+            ),
+          ),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<bool>(
               items: const [true, false],
@@ -213,12 +216,26 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
               readOnly: widget.readOnly,
             ),
           ),
+        ],
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppDropdown<bool>(
+              items: const [true, false],
+              label: 'bystander_cpr'.i18n(),
+              itemAsString: ((item) => formatBool(item) ?? ''),
+              onChanged: (value) => report.bystanderCpr = value,
+              selectedItem: report.bystanderCpr,
+              readOnly: widget.readOnly,
+            ),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: AppTimePicker(
-              label: 'bystander_cpr'.i18n(),
-              onChanged: (value) => report.bystanderCpr = value,
-              selectedTime: report.bystanderCpr,
+              label: 'bystander_cpr_time'.i18n(),
+              onChanged: (value) => report.bystanderCprTime = value,
+              selectedTime: report.bystanderCprTime,
               readOnly: widget.readOnly,
             ),
           ),

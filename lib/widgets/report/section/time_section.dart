@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
+import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
@@ -107,10 +108,12 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
   Widget _buildLine3(Report report, BuildContext context) {
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppCheckbox(
+        AppDropdown<bool>(
+          items: const [true, false],
           label: 'family_contact'.i18n(),
-          value: report.familyContact,
+          itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.familyContact = value,
+          selectedItem: report.familyContact,
           readOnly: widget.readOnly,
         ),
         AppTimePicker(
@@ -120,10 +123,12 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
-        AppCheckbox(
+        AppDropdown<bool>(
+          items: const [true, false],
           label: 'police_contact'.i18n(),
-          value: report.policeContact,
+          itemAsString: ((item) => formatBool(item) ?? ''),
           onChanged: (value) => report.policeContact = value,
+          selectedItem: report.policeContact,
           readOnly: widget.readOnly,
         ),
         AppTimePicker(

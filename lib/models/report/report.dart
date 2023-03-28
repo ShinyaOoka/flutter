@@ -222,9 +222,13 @@ abstract class _Report with Store {
   @IntToBoolConverter()
   bool? witnesses;
   @observable
-  @TimeOfDayConverter()
+  @IntToBoolConverter()
   @JsonKey(name: "BystanderCPR")
-  TimeOfDay? bystanderCpr;
+  bool? bystanderCpr;
+  @observable
+  @TimeOfDayConverter()
+  @JsonKey(name: "BystanderCPRTime")
+  TimeOfDay? bystanderCprTime;
   @observable
   @JsonKey(name: "VerbalGuidance")
   @IntToBoolConverter()

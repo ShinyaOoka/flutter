@@ -20,6 +20,7 @@ class AppTimePicker extends StatelessWidget {
         TextFormField(
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
+            hintStyle: TextStyle(height: 1),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             label: label != null
                 ? optional
