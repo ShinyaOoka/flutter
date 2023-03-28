@@ -29,8 +29,8 @@ class AppTextField extends StatelessWidget {
           onFocusChange: (focus) {
             if (focus) return;
             if (controller?.text != null && maxLength != null) {
-              controller!.text =
-                  controller!.text.characters.take(maxLength!).string;
+              onChanged
+                  ?.call(controller!.text.characters.take(maxLength!).string);
             }
           },
           child: TextFormField(
