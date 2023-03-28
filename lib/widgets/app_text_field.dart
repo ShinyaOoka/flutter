@@ -25,41 +25,50 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFormField(
-          style: TextStyle(color: Theme.of(context).primaryColor),
-          keyboardType: keyboardType,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          minLines: minLines,
-          decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              label: label != null
-                  ? optional
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(label!),
-                            const SizedBox(width: 8),
-                            OptionalBadge(),
-                          ],
-                        )
-                      : Text(label!)
-                  : null,
-              border: OutlineInputBorder(
-                  borderSide: readOnly ? BorderSide.none : BorderSide()),
-              fillColor:
-                  fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
-              hintText: hintText,
-              counterText: _counterText,
-              counterStyle:
-                  TextStyle(height: 0.2, color: counterColor, fontSize: 10)),
-          controller: controller,
-          enabled: enabled,
-          onChanged: onChanged,
-          onEditingComplete: onEditingComplete,
-          inputFormatters: inputFormatters,
-          readOnly: readOnly,
-          scrollController: scrollController,
+        Focus(
+          onFocusChange: (focus) {
+            if (focus) return;
+            if (controller?.text != null && maxLength != null) {
+              controller!.text =
+                  controller!.text.characters.take(maxLength!).string;
+            }
+          },
+          child: TextFormField(
+            style: TextStyle(color: Theme.of(context).primaryColor),
+            keyboardType: keyboardType,
+            maxLength: maxLength,
+            maxLines: maxLines,
+            minLines: minLines,
+            decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                label: label != null
+                    ? optional
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(label!),
+                              const SizedBox(width: 8),
+                              OptionalBadge(),
+                            ],
+                          )
+                        : Text(label!)
+                    : null,
+                border: OutlineInputBorder(
+                    borderSide: readOnly ? BorderSide.none : BorderSide()),
+                fillColor:
+                    fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
+                hintText: hintText,
+                counterText: _counterText,
+                counterStyle:
+                    TextStyle(height: 0.2, color: counterColor, fontSize: 10)),
+            controller: controller,
+            enabled: enabled,
+            onChanged: onChanged,
+            onEditingComplete: onEditingComplete,
+            inputFormatters: inputFormatters,
+            readOnly: readOnly,
+            scrollController: scrollController,
+          ),
         ),
         const SizedBox(height: 6)
       ],
