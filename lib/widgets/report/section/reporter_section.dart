@@ -67,6 +67,7 @@ class _ReporterSectionState extends State<ReporterSection>
         maxLength: 20,
         readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
+        optional: true,
       ),
       AppTextField(
         controller: affiliationOfReporterController,
@@ -76,6 +77,7 @@ class _ReporterSectionState extends State<ReporterSection>
         maxLength: 20,
         readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
+        optional: true,
       ),
     ]);
   }

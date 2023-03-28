@@ -78,6 +78,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
           maxLength: 20,
           readOnly: widget.readOnly,
           keyboardType: TextInputType.multiline,
+          optional: true,
         ),
         AppDropdown<Classification>(
           showSearchBox: true,
@@ -112,6 +113,7 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
         maxLength: 20,
         readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
+        optional: true,
       ),
       AppTextField(
         label: 'caller_tel'.i18n(),
