@@ -7,6 +7,7 @@ class AppCheckbox extends StatelessWidget {
   final void Function(bool?)? onChanged;
   final bool? readOnly;
   final bool dense;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,16 @@ class AppCheckbox extends StatelessWidget {
           horizontalTitleGap: 4,
           child: CheckboxListTile(
             title: label != null
-                ? Text(label!, style: TextStyle(fontSize: 16))
+                ? optional
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(label!, style: TextStyle(fontSize: 16)),
+                          const SizedBox(width: 8),
+                          OptionalBadge(scaling: 0.75),
+                        ],
+                      )
+                    : Text(label!, style: TextStyle(fontSize: 16))
                 : null,
             value: value ?? false,
             onChanged: onChanged,
@@ -39,5 +49,6 @@ class AppCheckbox extends StatelessWidget {
     this.onChanged,
     this.readOnly,
     this.dense = false,
+    this.optional = false,
   });
 }
