@@ -107,7 +107,6 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           readOnly: widget.readOnly,
           defaultTime: report.senseTime,
         ),
-        Container()
       ]);
     });
   }
