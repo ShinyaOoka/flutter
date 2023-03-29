@@ -157,8 +157,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.nameOfReporter?.characters.take(14).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
         '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.summaryOfOccurrence, 12, 44) ?? ''}</div>');
-    result = result.replaceAll(
-        'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
+    result = result.replaceAll('SickInjuredPersonDegree_VALUE',
+        '<div style="line-height: 50px">${report.degree?.value ?? ''}</div>');
 
     result = fillTime(result, 'SenseTime', report.senseTime);
     result = fillTime(result, 'AttendanceTime', report.dispatchTime);
