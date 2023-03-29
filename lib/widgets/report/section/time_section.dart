@@ -80,6 +80,13 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
     return Observer(builder: (context) {
       return lineLayout(children: [
         AppTimePicker(
+          label: 'contact_time'.i18n(),
+          onChanged: (value) => report.contactTime = value,
+          selectedTime: report.contactTime,
+          readOnly: widget.readOnly,
+          defaultTime: report.senseTime,
+        ),
+        AppTimePicker(
           label: 'in_vehicle_time'.i18n(),
           onChanged: (value) => report.inVehicleTime = value,
           selectedTime: report.inVehicleTime,
