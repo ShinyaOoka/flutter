@@ -101,7 +101,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 4, 28) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 2, 28) ?? ''}</div>');
     result = result.replaceAll('TeamCaptainName_VALUE',
         report.teamCaptainName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('TeamMemberName_VALUE',
@@ -116,17 +116,17 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.callerName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('CallerTEL_VALUE', report.callerTel ?? '');
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 4, 23) ?? ''}</div>');
-    result = result.replaceAll(
-        'SickInjuredPersonName_VALUE', report.sickInjuredPersonName ?? '');
-    result = result.replaceAll(
-        'SickInjuredPersonKANA_VALUE', report.sickInjuredPersonKana ?? '');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 4, 22) ?? ''}</div>');
+    result = result.replaceAll('SickInjuredPersonName_VALUE',
+        report.sickInjuredPersonName?.characters.take(19).string ?? '');
+    result = result.replaceAll('SickInjuredPersonKANA_VALUE',
+        report.sickInjuredPersonKana?.characters.take(19).string ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
     final sickness = report.sickInjuredPersonNameOfInjuryOrSickness == null ||
             report.sickInjuredPersonNameOfInjuryOrSickness == ''
         ? '　\n　'
-        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 20)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 20 ? '\n　' : ''}';
+        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 19)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 19 ? '\n　' : ''}';
     result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
         '<div style="white-space: pre-wrap;">${sickness}</div>');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
@@ -156,7 +156,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 51) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 46) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -334,7 +334,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     for (final era in AppConstants.eras) {
       if (era.start != null && era.start!.isAfter(date)) continue;
       if (era.end != null && era.end!.isBefore(date)) continue;
-      return '${era.name} ${date.year - era.start!.year + 1}';
+      return '${era.name}　${date.year - era.start!.year + 1}';
     }
 
     return "エラー";
