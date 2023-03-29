@@ -101,7 +101,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 2, 28) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 3, 26) ?? ''}</div>');
     result = result.replaceAll('TeamCaptainName_VALUE',
         report.teamCaptainName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('TeamMemberName_VALUE',
@@ -118,15 +118,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('SickInjuredPersonAddress_VALUE',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 4, 22) ?? ''}</div>');
     result = result.replaceAll('SickInjuredPersonName_VALUE',
-        report.sickInjuredPersonName?.characters.take(19).string ?? '');
+        report.sickInjuredPersonName?.characters.take(17).string ?? '');
     result = result.replaceAll('SickInjuredPersonKANA_VALUE',
-        report.sickInjuredPersonKana?.characters.take(19).string ?? '');
+        report.sickInjuredPersonKana?.characters.take(17).string ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
     final sickness = report.sickInjuredPersonNameOfInjuryOrSickness == null ||
             report.sickInjuredPersonNameOfInjuryOrSickness == ''
         ? '　\n　'
-        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 19)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 19 ? '\n　' : ''}';
+        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 18)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 18 ? '\n　' : ''}';
     result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
         '<div style="white-space: pre-wrap;">${sickness}</div>');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
@@ -148,15 +148,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferring, 6, 24) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferring, 6, 23) ?? ''}</div>');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
         report.affiliationOfReporter?.characters.take(12).toString() ?? '');
     result = result.replaceAll(
         'PositionOfReporter_VALUE', report.positionOfReporterType?.value ?? '');
     result = result.replaceAll('NameOfReporter_VALUE',
-        report.nameOfReporter?.characters.take(15).toString() ?? '');
+        report.nameOfReporter?.characters.take(14).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
-        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.summaryOfOccurrence, 12, 46) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.summaryOfOccurrence, 12, 44) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -226,7 +226,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark',
-        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 4, 47) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 5, 45) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     return result;
