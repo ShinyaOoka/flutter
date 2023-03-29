@@ -156,7 +156,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('NameOfReporter_VALUE',
         report.nameOfReporter?.characters.take(15).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 46) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 50px;">${limitNumberOfChars(report.summaryOfOccurrence, 8, 46) ?? ''}</div>');
     result = result.replaceAll(
         'SickInjuredPersonDegree_VALUE', report.degree?.value ?? '');
 
@@ -226,7 +226,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.remarks, 3, 47) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 50px;">${limitNumberOfChars(report.remarks, 3, 47) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     return result;
