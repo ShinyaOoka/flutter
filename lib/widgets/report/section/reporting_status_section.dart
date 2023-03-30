@@ -67,40 +67,37 @@ class _ReportingStatusSectionState extends State<ReportingStatusSection>
   }
 
   Widget _buildLine1(Report report) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppTextField(
-          label: 'perceiver_name'.i18n(),
-          controller: perceiverNameController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-          onChanged: (value) => report.perceiverName = value,
-          maxLength: 20,
-          readOnly: widget.readOnly,
-          keyboardType: TextInputType.multiline,
-          optional: true,
-        ),
-        AppDropdown<Classification>(
-          showSearchBox: true,
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.typeOfDetectionCode)
-              .toList(),
-          label: 'type_of_detection'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) {
-            report.detectionType = value;
-          },
-          selectedItem: report.detectionType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-          optional: true,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        label: 'perceiver_name'.i18n(),
+        controller: perceiverNameController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        onChanged: (value) => report.perceiverName = value,
+        maxLength: 20,
+        readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
+        optional: true,
+      ),
+      AppDropdown<Classification>(
+        showSearchBox: true,
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.typeOfDetectionCode)
+            .toList(),
+        label: 'type_of_detection'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) {
+          report.detectionType = value;
+        },
+        selectedItem: report.detectionType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+        optional: true,
+      ),
+    ]);
   }
 
   Widget _buildLine2(Report report) {

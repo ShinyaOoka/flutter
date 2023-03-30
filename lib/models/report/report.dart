@@ -468,11 +468,17 @@ abstract class _Report with Store {
   @JsonKey(name: "TransferSourceReceivingTime")
   TimeOfDay? transferSourceReceivingTime;
   @observable
-  @JsonKey(name: "ReasonForTransfer")
+  @JsonKey(name: 'ReasonForTransfer')
   String? reasonForTransfer;
+  @observable
+  @JsonKey(name: "OtherReasonForTransfer")
+  String? otherReasonForTransfer;
   @observable
   @JsonKey(name: "ReasonForNotTransferring")
   String? reasonForNotTransferring;
+  @observable
+  @JsonKey(name: "OtherReasonForNotTransferring")
+  String? otherReasonForNotTransferring;
   @observable
   @JsonKey(name: "RecordOfRefusalOfTransfer")
   @IntToBoolConverter()
@@ -918,5 +924,44 @@ abstract class _Report with Store {
 
   set observationTimeDescriptionTypes(List<Classification?> values) {
     setObservationTimeDescriptionTypes(values);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Classification? get reasonForTransferType {
+    assert(classificationStore != null);
+    return reasonForTransfer != null
+        ? classificationStore!.classifications[
+            Tuple2(AppConstants.reasonForTransferCode, reasonForTransfer!)]
+        : null;
+  }
+
+  @action
+  setReasonForTransferType(Classification? value) {
+    reasonForTransfer = value?.classificationSubCd;
+  }
+
+  set reasonForTransferType(Classification? value) {
+    setReasonForTransferType(value);
+  }
+
+  @computed
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Classification? get reasonForNotTransferringType {
+    assert(classificationStore != null);
+    return reasonForNotTransferring != null
+        ? classificationStore!.classifications[Tuple2(
+            AppConstants.reasonForNotTransferringCode,
+            reasonForNotTransferring!)]
+        : null;
+  }
+
+  @action
+  setReasonForNotTransferringType(Classification? value) {
+    reasonForNotTransferring = value?.classificationSubCd;
+  }
+
+  set reasonForNotTransferringType(Classification? value) {
+    setReasonForNotTransferringType(value);
   }
 }

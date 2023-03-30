@@ -146,9 +146,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             ? report.otherTransferringMedicalInstitution!
             : report.transferringMedicalInstitutionType?.name ?? '');
     result = result.replaceAll(
-        'ReasonForTransfer_VALUE', report.reasonForTransfer ?? '');
+        'ReasonForTransfer_VALUE',
+        report.reasonForTransferType?.value == 'その他'
+            ? report.otherReasonForTransfer ?? ''
+            : report.reasonForTransferType?.value ?? '');
     result = result.replaceAll('ReasonForNotTransferring_VALUE',
-        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferring, 6, 23) ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.reasonForNotTransferringType?.value == 'その他' ? report.otherReasonForNotTransferring ?? '' : report.reasonForNotTransferringType?.value ?? '', 6, 23) ?? ''}</div>');
     result = result.replaceAll('AffiliationOfReporter_VALUE',
         report.affiliationOfReporter?.characters.take(12).toString() ?? '');
     result = result.replaceAll(

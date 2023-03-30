@@ -1,3 +1,5 @@
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
+import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +28,12 @@ class TransportInfoSection extends StatefulWidget {
 
 class _TransportInfoSectionState extends State<TransportInfoSection>
     with ReportSectionMixin {
-  final reasonForTransferController = TextEditingController();
-  final reasonForNotTransferringController = TextEditingController();
+  final otherReasonForTransferController = TextEditingController();
+  final otherReasonForNotTransferringController = TextEditingController();
   final otherMedicalTransportFacilityController = TextEditingController();
   final otherTransferringMedicalInstitutionController = TextEditingController();
 
-  final reasonForNotTransferringScrollController = ScrollController();
+  final otherReasonForNotTransferringScrollController = ScrollController();
 
   late ReactionDisposer reactionDisposer;
   late ReportStore reportStore;
@@ -41,10 +43,10 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
     super.initState();
     reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(reasonForTransferController,
-          reportStore.selectingReport!.reasonForTransfer);
-      syncControllerValue(reasonForNotTransferringController,
-          reportStore.selectingReport!.reasonForNotTransferring);
+      syncControllerValue(otherReasonForTransferController,
+          reportStore.selectingReport!.otherReasonForTransfer);
+      syncControllerValue(otherReasonForNotTransferringController,
+          reportStore.selectingReport!.otherReasonForNotTransferring);
       syncControllerValue(otherMedicalTransportFacilityController,
           reportStore.selectingReport!.otherMedicalTransportFacility);
       syncControllerValue(otherTransferringMedicalInstitutionController,
@@ -55,8 +57,8 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
   @override
   void dispose() {
     reactionDisposer();
-    reasonForTransferController.dispose();
-    reasonForNotTransferringController.dispose();
+    otherReasonForTransferController.dispose();
+    otherReasonForNotTransferringController.dispose();
     super.dispose();
   }
 
@@ -72,6 +74,8 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
           _buildLine4(reportStore.selectingReport!),
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
+          _buildLine7(reportStore.selectingReport!),
+          _buildLine8(reportStore.selectingReport!),
         ],
       );
     });
@@ -183,14 +187,21 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine4(Report report) {
     return lineLayout(children: [
-      AppTextField(
+      AppDropdown<Classification>(
+        showSearchBox: true,
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.reasonForTransferCode)
+            .toList(),
         label: 'reason_for_transfer'.i18n(),
-        controller: reasonForTransferController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.reasonForTransfer = value,
-        maxLength: 60,
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.reasonForTransferType = value,
+        selectedItem: report.reasonForTransferType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
         readOnly: widget.readOnly,
-        keyboardType: TextInputType.multiline,
         optional: true,
       ),
     ]);
@@ -198,26 +209,66 @@ class _TransportInfoSectionState extends State<TransportInfoSection>
 
   Widget _buildLine5(Report report) {
     return lineLayout(children: [
+      AppTextField(
+        label: 'other_reason_for_transfer'.i18n(),
+        controller: otherReasonForTransferController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        onChanged: (value) => report.otherReasonForTransfer = value,
+        maxLength: 60,
+        readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
+        enabled: report.reasonForTransferType?.value == 'その他',
+        optional: true,
+      ),
+    ]);
+  }
+
+  Widget _buildLine6(Report report) {
+    return lineLayout(children: [
+      AppDropdown<Classification>(
+        showSearchBox: true,
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd ==
+                AppConstants.reasonForNotTransferringCode)
+            .toList(),
+        label: 'reason_for_not_transferring'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.reasonForNotTransferringType = value,
+        selectedItem: report.reasonForNotTransferringType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+        optional: true,
+      ),
+    ]);
+  }
+
+  Widget _buildLine7(Report report) {
+    return lineLayout(children: [
       Scrollbar(
         thumbVisibility: true,
-        controller: reasonForNotTransferringScrollController,
+        controller: otherReasonForNotTransferringScrollController,
         child: AppTextField(
-          label: 'reason_for_not_transferring'.i18n(),
-          controller: reasonForNotTransferringController,
-          scrollController: reasonForNotTransferringScrollController,
+          label: 'other_reason_for_not_transferring'.i18n(),
+          controller: otherReasonForNotTransferringController,
+          scrollController: otherReasonForNotTransferringScrollController,
           inputFormatters: [maxLineFormatter(7)],
-          onChanged: (value) => report.reasonForNotTransferring = value,
+          onChanged: (value) => report.otherReasonForNotTransferring = value,
           maxLength: 100,
           minLines: 3,
           maxLines: 3,
           readOnly: widget.readOnly,
+          enabled: report.reasonForNotTransferringType?.value == 'その他',
           optional: true,
         ),
       ),
     ]);
   }
 
-  Widget _buildLine6(Report report) {
+  Widget _buildLine8(Report report) {
     return lineLayout(children: [
       AppDropdown<bool>(
         items: const [true, false],

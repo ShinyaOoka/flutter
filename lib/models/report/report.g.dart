@@ -214,7 +214,10 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..transferSourceReceivingTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['TransferSourceReceivingTime'], const TimeOfDayConverter().fromJson)
   ..reasonForTransfer = json['ReasonForTransfer'] as String?
+  ..otherReasonForTransfer = json['OtherReasonForTransfer'] as String?
   ..reasonForNotTransferring = json['ReasonForNotTransferring'] as String?
+  ..otherReasonForNotTransferring =
+      json['OtherReasonForNotTransferring'] as String?
   ..recordOfRefusalOfTransfer = _$JsonConverterFromJson<int, bool>(
       json['RecordOfRefusalOfTransfer'], const IntToBoolConverter().fromJson)
   ..nameOfReporter = json['NameOfReporter'] as String?
@@ -435,7 +438,9 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.transferSourceReceivingTime,
           const TimeOfDayConverter().toJson),
       'ReasonForTransfer': instance.reasonForTransfer,
+      'OtherReasonForTransfer': instance.otherReasonForTransfer,
       'ReasonForNotTransferring': instance.reasonForNotTransferring,
+      'OtherReasonForNotTransferring': instance.otherReasonForNotTransferring,
       'RecordOfRefusalOfTransfer': _$JsonConverterToJson<int, bool>(
           instance.recordOfRefusalOfTransfer,
           const IntToBoolConverter().toJson),
@@ -622,6 +627,22 @@ mixin _$Report on _Report, Store {
               Computed<List<Classification?>>(
                   () => super.observationTimeDescriptionTypes,
                   name: '_Report.observationTimeDescriptionTypes'))
+          .value;
+  Computed<Classification?>? _$reasonForTransferTypeComputed;
+
+  @override
+  Classification? get reasonForTransferType =>
+      (_$reasonForTransferTypeComputed ??= Computed<Classification?>(
+              () => super.reasonForTransferType,
+              name: '_Report.reasonForTransferType'))
+          .value;
+  Computed<Classification?>? _$reasonForNotTransferringTypeComputed;
+
+  @override
+  Classification? get reasonForNotTransferringType =>
+      (_$reasonForNotTransferringTypeComputed ??= Computed<Classification?>(
+              () => super.reasonForNotTransferringType,
+              name: '_Report.reasonForNotTransferringType'))
           .value;
 
   late final _$idAtom = Atom(name: '_Report.id', context: context);
@@ -2567,6 +2588,23 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$otherReasonForTransferAtom =
+      Atom(name: '_Report.otherReasonForTransfer', context: context);
+
+  @override
+  String? get otherReasonForTransfer {
+    _$otherReasonForTransferAtom.reportRead();
+    return super.otherReasonForTransfer;
+  }
+
+  @override
+  set otherReasonForTransfer(String? value) {
+    _$otherReasonForTransferAtom
+        .reportWrite(value, super.otherReasonForTransfer, () {
+      super.otherReasonForTransfer = value;
+    });
+  }
+
   late final _$reasonForNotTransferringAtom =
       Atom(name: '_Report.reasonForNotTransferring', context: context);
 
@@ -2581,6 +2619,23 @@ mixin _$Report on _Report, Store {
     _$reasonForNotTransferringAtom
         .reportWrite(value, super.reasonForNotTransferring, () {
       super.reasonForNotTransferring = value;
+    });
+  }
+
+  late final _$otherReasonForNotTransferringAtom =
+      Atom(name: '_Report.otherReasonForNotTransferring', context: context);
+
+  @override
+  String? get otherReasonForNotTransferring {
+    _$otherReasonForNotTransferringAtom.reportRead();
+    return super.otherReasonForNotTransferring;
+  }
+
+  @override
+  set otherReasonForNotTransferring(String? value) {
+    _$otherReasonForNotTransferringAtom
+        .reportWrite(value, super.otherReasonForNotTransferring, () {
+      super.otherReasonForNotTransferring = value;
     });
   }
 
@@ -3065,6 +3120,28 @@ mixin _$Report on _Report, Store {
   }
 
   @override
+  dynamic setReasonForTransferType(Classification? value) {
+    final _$actionInfo = _$_ReportActionController.startAction(
+        name: '_Report.setReasonForTransferType');
+    try {
+      return super.setReasonForTransferType(value);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setReasonForNotTransferringType(Classification? value) {
+    final _$actionInfo = _$_ReportActionController.startAction(
+        name: '_Report.setReasonForNotTransferringType');
+    try {
+      return super.setReasonForNotTransferringType(value);
+    } finally {
+      _$_ReportActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 id: ${id},
@@ -3187,7 +3264,9 @@ transferringMedicalInstitution: ${transferringMedicalInstitution},
 otherTransferringMedicalInstitution: ${otherTransferringMedicalInstitution},
 transferSourceReceivingTime: ${transferSourceReceivingTime},
 reasonForTransfer: ${reasonForTransfer},
+otherReasonForTransfer: ${otherReasonForTransfer},
 reasonForNotTransferring: ${reasonForNotTransferring},
+otherReasonForNotTransferring: ${otherReasonForNotTransferring},
 recordOfRefusalOfTransfer: ${recordOfRefusalOfTransfer},
 nameOfReporter: ${nameOfReporter},
 affiliationOfReporter: ${affiliationOfReporter},
@@ -3224,7 +3303,9 @@ gcsVTypes: ${gcsVTypes},
 gcsMTypes: ${gcsMTypes},
 facialFeatureTypes: ${facialFeatureTypes},
 incontinenceTypes: ${incontinenceTypes},
-observationTimeDescriptionTypes: ${observationTimeDescriptionTypes}
+observationTimeDescriptionTypes: ${observationTimeDescriptionTypes},
+reasonForTransferType: ${reasonForTransferType},
+reasonForNotTransferringType: ${reasonForNotTransferringType}
     ''';
   }
 }

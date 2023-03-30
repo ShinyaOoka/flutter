@@ -28,6 +28,8 @@ class AppConstants {
   static const descriptionOfObservationTimeCode = '015';
   static const degreeCode = '016';
   static const positionOfReporterCode = '017';
+  static const reasonForTransferCode = '018';
+  static const reasonForNotTransferringCode = '019';
   static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();

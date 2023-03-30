@@ -84,49 +84,46 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   }
 
   Widget _buildLine1(Report report) {
-    return Observer(builder: (context) {
-      final classificationStore = Provider.of<ClassificationStore>(context);
-      return lineLayout(children: [
-        AppDropdown<Classification>(
-          showSearchBox: true,
-          items: classificationStore.classifications.values
-              .where((element) =>
-                  element.classificationCd == AppConstants.typeOfAccidentCode)
-              .toList(),
-          label: 'type_of_accident'.i18n(),
-          itemAsString: ((item) => item.value ?? ''),
-          onChanged: (value) => report.accidentType = value,
-          selectedItem: report.accidentType,
-          filterFn: (c, filter) =>
-              (c.value != null && c.value!.contains(filter)) ||
-              (c.classificationSubCd != null &&
-                  c.classificationSubCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: AppDatePicker(
-                label: 'date_of_occurence'.i18n(),
-                selectedDate: report.dateOfOccurrence,
-                onChanged: (date) => report.dateOfOccurrence = date,
-                readOnly: widget.readOnly,
-                maxTime: DateTime.now(),
-              ),
+    return lineLayout(children: [
+      AppDropdown<Classification>(
+        showSearchBox: true,
+        items: report.classificationStore!.classifications.values
+            .where((element) =>
+                element.classificationCd == AppConstants.typeOfAccidentCode)
+            .toList(),
+        label: 'type_of_accident'.i18n(),
+        itemAsString: ((item) => item.value ?? ''),
+        onChanged: (value) => report.accidentType = value,
+        selectedItem: report.accidentType,
+        filterFn: (c, filter) =>
+            (c.value != null && c.value!.contains(filter)) ||
+            (c.classificationSubCd != null &&
+                c.classificationSubCd!.contains(filter)),
+        readOnly: widget.readOnly,
+      ),
+      Row(
+        children: [
+          Expanded(
+            child: AppDatePicker(
+              label: 'date_of_occurence'.i18n(),
+              selectedDate: report.dateOfOccurrence,
+              onChanged: (date) => report.dateOfOccurrence = date,
+              readOnly: widget.readOnly,
+              maxTime: DateTime.now(),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: AppTimePicker(
-                label: 'time_of_occurence'.i18n(),
-                onChanged: (value) => report.timeOfOccurrence = value,
-                selectedTime: report.timeOfOccurrence,
-                readOnly: widget.readOnly,
-              ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AppTimePicker(
+              label: 'time_of_occurence'.i18n(),
+              onChanged: (value) => report.timeOfOccurrence = value,
+              selectedTime: report.timeOfOccurrence,
+              readOnly: widget.readOnly,
             ),
-          ],
-        ),
-      ]);
-    });
+          ),
+        ],
+      ),
+    ]);
   }
 
   Widget _buildLine2(Report report) {

@@ -1022,7 +1022,103 @@ class SeedData {
       "ClassificationSubCD": "003",
       "Value": "消防司令",
       "Description": "階級"
-    }
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "000",
+      "Value": "ベッド満床",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "001",
+      "Value": "専門外",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "002",
+      "Value": "医師不在",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "003",
+      "Value": "手術中",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "004",
+      "Value": "処置困難",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "005",
+      "Value": "理由不明",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "006",
+      "Value": "応急処置目的の立ち寄り",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "018",
+      "ClassificationSubCD": "007",
+      "Value": "その他",
+      "Description": "転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "000",
+      "Value": "辞退（現場到着前）",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "001",
+      "Value": "辞退（現場到着後）",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "002",
+      "Value": "拒否",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "003",
+      "Value": "明らかな死亡",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "004",
+      "Value": "他車（隊）搬送",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "005",
+      "Value": "傷病者なし",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "006",
+      "Value": "誤報・悪戯",
+      "Description": "不転送理由"
+    },
+    {
+      "ClassificationCD": "019",
+      "ClassificationSubCD": "007",
+      "Value": "その他",
+      "Description": "不転送理由"
+    },
   ];
 
   static const messages = [
