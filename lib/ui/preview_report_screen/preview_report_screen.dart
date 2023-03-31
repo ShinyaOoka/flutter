@@ -781,7 +781,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-    } else {
+    } else if (report.familyContact == false) {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 7 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
@@ -805,7 +805,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$uncheckIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-    } else {
+    } else if (report.policeContact == false) {
       htmlInput = customReplace(
           htmlInput, uncheckYes, 8 - totalYesPos, '$uncheckIcon 有');
       htmlInput =
