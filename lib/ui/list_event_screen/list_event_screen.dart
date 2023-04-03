@@ -8,12 +8,9 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes.dart';
-import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -183,6 +180,8 @@ class _ListEventScreenState extends State<ListEventScreen>
     final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
     _zollSdkStore.cases['caseId'] = parsedCase;
+    parsedCase.events.removeWhere((element) => Random().nextBool());
+    _zollSdkStore.cases['caseId2'] = parsedCase;
     parsedCase.startTime = caseListItem?.startTime != null
         ? DateTime.parse(caseListItem!.startTime!).toLocal()
         : null;
@@ -283,7 +282,6 @@ class _ListEventScreenState extends State<ListEventScreen>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppLineChart(samples: myCase!.waves['Pads']!.samples),
           Container(
             padding:
                 EdgeInsets.only(top: padding, left: padding, right: padding),
