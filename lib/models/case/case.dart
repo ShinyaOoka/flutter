@@ -1,15 +1,41 @@
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tuple/tuple.dart';
 
 part 'case.g.dart';
 
+class Sample {
+  int value;
+  int timestamp;
+
+  Sample({required this.timestamp, required this.value});
+
+  @override
+  String toString() {
+    return 'S: {${timestamp}:${value}}';
+  }
+}
+
+class Waveform {
+  List<Sample> samples = [];
+  List<Sample> statuses = [];
+  String type;
+
+  Waveform({required this.type});
+
+  @override
+  String toString() {
+    return samples.toString();
+  }
+}
+
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
   @observable
-  ObservableList<CaseEvent> events = ObservableList();
+  List<CaseEvent> events = [];
 
   @observable
   NativeCase? nativeCase;
@@ -89,10 +115,36 @@ abstract class _Case with Store {
         .toList()
         .asObservable();
     hiddenEvents.removeAll(shownEvents.map((e) => e.item2.type));
-    print("Hidden events or out of start time, end time range");
-    for (var element in hiddenEvents) {
-      print(element);
-    }
     return shownEvents;
+  }
+
+  @computed
+  Map<String, Waveform> get waves {
+    final map = Map<String, Waveform>();
+    for (var event in events) {
+      if (event.type == 'ContinWaveRec') {
+        final startTimeString = event.rawData['StdHdr']['DevDateTime'];
+        final date =
+            DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
+        final timestamp = date.microsecondsSinceEpoch;
+        final waveforms = event.rawData['Waveform'];
+        for (var waveformRaw in waveforms) {
+          final samples = waveformRaw['WaveRec']['UnpackedSamples'];
+          final sampleStatuses = waveformRaw['WaveRec']['SampleStatus'];
+          final waveType = waveformRaw['WaveRec']['WaveTypeVar'];
+          final count = waveformRaw['WaveRec']['FrameSize'] as int;
+          final sampleTime = waveformRaw['WaveRec']['SampleTime'] as int;
+          if (!map.containsKey(waveType)) {
+            map[waveType] = Waveform(type: waveType);
+          }
+          final waveform = map[waveType]!;
+          for (var i = 0; i < count; i++) {
+            waveform.samples.add(Sample(
+                timestamp: timestamp + i * sampleTime, value: samples[i]));
+          }
+        }
+      }
+    }
+    return map;
   }
 }
