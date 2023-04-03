@@ -120,7 +120,6 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   }
 
   Widget _buildMainContent() {
-    print(Theme.of(context).textTheme.bodyLarge?.fontFamily);
     return Column(
       children: [
         Container(
