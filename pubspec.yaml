@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  quiver: ^3.2.1
   fl_chart: ^0.61.0
   shared_preferences: ^2.0.18
   share_plus: ^6.3.1
@@ -61,6 +60,7 @@ flavorizr:
     development:
       app:
         name: "レポート作成(dev)"
+        icon: assets/app_icon.png
       android:
         applicationId: "com.akzoll.rescuereportcreate"
       ios:
@@ -69,6 +69,7 @@ flavorizr:
     production:
       app:
         name: "レポート作成"
+        icon: assets/app_icon.png
       android:
         applicationId: "com.akzoll.rescuereportcreate"
       ios:
@@ -91,8 +92,3 @@ flutter_native_splash:
   android_12:
     image: assets/splash.png
     branding: assets/branding.png
-
-flutter_icons:
-  android: true
-  ios: true
-  image_path: assets/app_icon.png

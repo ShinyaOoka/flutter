@@ -269,12 +269,9 @@ class _ListEventScreenState extends State<ListEventScreen>
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        // myCase != null
-        //     ? _buildMainContent()
-        //     : const CustomProgressIndicatorWidget(),
         myCase != null
-            ? AppLineChart(samples: myCase!.waves['Pads']!.samples)
-            : Container(),
+            ? _buildMainContent()
+            : const CustomProgressIndicatorWidget(),
       ],
     );
   }
@@ -286,6 +283,7 @@ class _ListEventScreenState extends State<ListEventScreen>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          AppLineChart(samples: myCase!.waves['Pads']!.samples),
           Container(
             padding:
                 EdgeInsets.only(top: padding, left: padding, right: padding),

@@ -2,8 +2,7 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/cache.dart';
-import 'package:tuple/tuple.dart';
+import 'package:intl/intl.dart';
 
 class AppLineChart extends StatefulWidget {
   const AppLineChart({
@@ -18,54 +17,63 @@ class AppLineChart extends StatefulWidget {
 }
 
 class _AppLineChartState extends State<AppLineChart> {
-  final Cache<Tuple2<int, int>, List<FlSpot>> cache = MapCache();
-
   @override
   Widget build(BuildContext context) {
     return ZoomableChart(
-        minX: widget.samples.last.timestamp.toDouble() / 1000000 - 10,
+        minX: widget.samples.last.timestamp.toDouble() / 1000000 - 5,
         maxX: widget.samples.last.timestamp.toDouble() / 1000000,
         builder: (minX, maxX) {
-          final cacheKey = Tuple2(minX.floor() ~/ 10, maxX.ceil() ~/ 10);
-          final spotsFuture = cache.get(
-            cacheKey,
-            ifAbsent: (key) {
-              return widget.samples
-                  .where((e) {
-                    final t = e.timestamp / 1000000;
-                    return t > key.item1 * 10 && t < (key.item2 + 1) * 10;
-                  })
-                  .map((e) => FlSpot(e.timestamp / 1000000, e.value.toDouble()))
-                  .toList();
-            },
-          );
+          final data = widget.samples
+              .where((e) {
+                final t = e.timestamp / 1000000;
+                return t > minX && t < maxX;
+              })
+              .map((e) => FlSpot(e.timestamp / 1000000, e.value.toDouble()))
+              .toList();
           return Container(
-            height: 200,
-            child: FutureBuilder(
-                future: spotsFuture,
-                builder: (context, spots) {
-                  return LineChart(
-                    LineChartData(
-                      minX: minX,
-                      maxX: maxX,
-                      clipData: FlClipData.all(),
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: spots.data,
-                          isCurved: false,
-                          color: Colors.black,
-                          barWidth: 1,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(
-                            show: false,
-                          ),
-                        )
-                      ],
-                    ),
-                    swapAnimationDuration: Duration.zero,
-                  );
-                }),
-          );
+              height: 400,
+              child: LineChart(
+                LineChartData(
+                  minX: minX,
+                  maxX: maxX,
+                  maxY: 1000,
+                  minY: -1000,
+                  clipData: FlClipData.all(),
+                  gridData: FlGridData(
+                      verticalInterval: 0.2, horizontalInterval: 200),
+                  titlesData: FlTitlesData(
+                      topTitles: AxisTitles(),
+                      leftTitles: AxisTitles(),
+                      rightTitles: AxisTitles(),
+                      bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                        getTitlesWidget: (value, meta) {
+                          if (meta.max == value || meta.min == value) {
+                            return Container();
+                          }
+                          final time = DateTime.fromMicrosecondsSinceEpoch(
+                              (value * 1000000).toInt());
+                          return Text(DateFormat.Hms().format(time));
+                        },
+                        showTitles: true,
+                        interval: 1,
+                        reservedSize: 32,
+                      ))),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: data,
+                      isCurved: false,
+                      color: Colors.black,
+                      barWidth: 1,
+                      isStrokeCapRound: true,
+                      dotData: FlDotData(
+                        show: false,
+                      ),
+                    )
+                  ],
+                ),
+                swapAnimationDuration: Duration.zero,
+              ));
         });
   }
 }
