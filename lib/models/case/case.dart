@@ -7,7 +7,7 @@ import 'package:tuple/tuple.dart';
 part 'case.g.dart';
 
 class Sample {
-  int value;
+  double value;
   int timestamp;
 
   Sample({required this.timestamp, required this.value});
@@ -139,8 +139,14 @@ abstract class _Case with Store {
           }
           final waveform = map[waveType]!;
           for (var i = 0; i < count; i++) {
-            waveform.samples.add(Sample(
-                timestamp: timestamp + i * sampleTime, value: samples[i]));
+            var value;
+            if (waveType == 'Pads') {
+              value = samples[i] / 4;
+            } else {
+              value = samples[i].toDouble();
+            }
+            waveform.samples.add(
+                Sample(timestamp: timestamp + i * sampleTime, value: value));
           }
         }
       }
