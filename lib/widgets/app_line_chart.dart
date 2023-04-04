@@ -64,11 +64,11 @@ class _AppLineChartState extends State<AppLineChart> {
                   LineChartData(
                     minX: minX,
                     maxX: maxX,
-                    maxY: 250,
-                    minY: -250,
+                    maxY: 2500,
+                    minY: -2500,
                     clipData: FlClipData.all(),
                     gridData: FlGridData(
-                        verticalInterval: 0.2, horizontalInterval: 50),
+                        verticalInterval: 0.2, horizontalInterval: 500),
                     titlesData: FlTitlesData(
                       topTitles: AxisTitles(),
                       leftTitles: AxisTitles(),

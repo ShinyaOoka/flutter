@@ -75,7 +75,7 @@ class _ZoomableChartState extends State<ZoomableChart> {
         if (horizontalScale == 0) return;
         print(horizontalScale);
         var lastMinMaxDistance = max(lastMaxXValue - lastMinXValue, 0);
-        var newMinMaxDistance = max(lastMinMaxDistance / horizontalScale, 10);
+        var newMinMaxDistance = max(lastMinMaxDistance / horizontalScale, 2);
         var distanceDifference = newMinMaxDistance - lastMinMaxDistance;
         print("$lastMinMaxDistance, $newMinMaxDistance, $distanceDifference");
         setState(() {
@@ -95,7 +95,8 @@ class _ZoomableChartState extends State<ZoomableChart> {
           print("$minX, $maxX");
         });
       },
-      child: widget.builder(minX, maxX),
+      behavior: HitTestBehavior.translucent,
+      child: IgnorePointer(child: widget.builder(minX, maxX)),
     );
   }
 }

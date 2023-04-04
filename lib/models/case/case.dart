@@ -12,6 +12,10 @@ class Sample {
 
   Sample({required this.timestamp, required this.value});
 
+  double get inSeconds {
+    return timestamp / 1000000;
+  }
+
   @override
   String toString() {
     return 'S: {${timestamp}:${value}}';
@@ -141,7 +145,7 @@ abstract class _Case with Store {
           for (var i = 0; i < count; i++) {
             var value;
             if (waveType == 'Pads') {
-              value = samples[i] / 4;
+              value = samples[i] / 4 * 10;
             } else {
               value = samples[i].toDouble();
             }
