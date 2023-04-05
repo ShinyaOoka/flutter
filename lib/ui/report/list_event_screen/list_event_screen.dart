@@ -279,165 +279,152 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   Widget _buildMainContent() {
-    return SingleChildScrollView(
-      child: LayoutBuilder(builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 640;
-        final padding = isMobile ? 8.0 : 16.0;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AppLineChart(samples: myCase!.waves['Pads']!.samples),
-            EcgChart(samples: myCase!.waves['Pads']!.samples),
-            Container(
-              padding:
-                  EdgeInsets.only(top: padding, left: padding, right: padding),
-              child: Column(
-                children: [
-                  _buildCard(0),
-                  _buildCard(1),
-                  _buildCard(2),
-                ],
-              ),
+    return LayoutBuilder(builder: (context, constraints) {
+      final isMobile = constraints.maxWidth < 640;
+      final padding = isMobile ? 8.0 : 16.0;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding:
+                EdgeInsets.only(top: padding, left: padding, right: padding),
+            child: Column(
+              children: [
+                _buildCard(0),
+                _buildCard(1),
+                _buildCard(2),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 16),
-              height: isMobile ? 64 : 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('X Series イベント一覧',
-                      style: Theme.of(context).textTheme.titleLarge),
-                  hasNewData
-                      ? Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: TextButton.icon(
-                            onPressed: () {
-                              setState(() {
-                                myCase = _zollSdkStore.cases[caseId];
-                                hasNewData = false;
-                              });
-                            },
-                            label: const Text("更新"),
-                            icon: const Icon(Icons.refresh),
-                          ),
-                        )
-                      : Container()
-                ],
-              ),
-            ),
-            Container(
-              height: 600,
-              child: Scrollbar(
-                controller: scrollController,
-                thumbVisibility: true,
-                child: ListView.separated(
-                  controller: scrollController,
-                  itemCount: myCase!.displayableEvents.length,
-                  itemBuilder: (context, itemIndex) {
-                    final dataIndex =
-                        myCase!.displayableEvents[itemIndex].item1;
-                    return ListTile(
-                        dense: isMobile,
-                        visualDensity: isMobile
-                            ? VisualDensity.compact
-                            : VisualDensity.standard,
-                        title: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: AppConstants.dateTimeFormat
-                                  .format(myCase!.events[dataIndex].date),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context).primaryColor)),
-                          TextSpan(
-                              text:
-                                  '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                        ], style: Theme.of(context).textTheme.bodyMedium)),
-                        // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                        onTap: () {
-                          if (activeIndex == null) return;
-                          int? foundEventIndex;
-                          for (var i = dataIndex; i > 0; i--) {
-                            if (myCase!.events[i].type == 'TrendRpt') {
-                              foundEventIndex = i;
-                              break;
-                            }
-                          }
-
-                          if (foundEventIndex == null) {
-                            for (var i = dataIndex;
-                                i < myCase!.events.length;
-                                i++) {
-                              if (myCase!.events[i].type == 'TrendRpt') {
-                                foundEventIndex = i;
-                                break;
-                              }
-                            }
-                          }
-
-                          if (foundEventIndex != null) {
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 16),
+            height: isMobile ? 64 : 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('X Series イベント一覧',
+                    style: Theme.of(context).textTheme.titleLarge),
+                hasNewData
+                    ? Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: TextButton.icon(
+                          onPressed: () {
                             setState(() {
-                              final hrTrendData = myCase!
-                                  .events[foundEventIndex!]
-                                  .rawData["Trend"]["Hr"]["TrendData"];
-                              if (hrTrendData["DataStatus"] == 0) {
-                                trendData[activeIndex!].hr =
-                                    hrTrendData["Val"]["#text"];
-                              } else {
-                                trendData[activeIndex!].hr = null;
-                              }
-                              final nibpDiaTrendData = myCase!
-                                  .events[foundEventIndex]
-                                  .rawData["Trend"]["Nibp"]["Dia"]["TrendData"];
-                              if (nibpDiaTrendData["DataStatus"] == 0) {
-                                trendData[activeIndex!].nibpDia =
-                                    nibpDiaTrendData["Val"]["#text"];
-                              } else {
-                                trendData[activeIndex!].nibpDia = null;
-                              }
-                              final nibpSysTrendData = myCase!
-                                  .events[foundEventIndex]
-                                  .rawData["Trend"]["Nibp"]["Sys"]["TrendData"];
-                              if (nibpSysTrendData["DataStatus"] == 0) {
-                                trendData[activeIndex!].nibpSys =
-                                    nibpSysTrendData["Val"]["#text"];
-                              } else {
-                                trendData[activeIndex!].nibpSys = null;
-                              }
-                              final spo2TrendData = myCase!
-                                  .events[foundEventIndex]
-                                  .rawData["Trend"]["Spo2"]["TrendData"];
-                              if (spo2TrendData["DataStatus"] == 0) {
-                                trendData[activeIndex!].spo2 =
-                                    spo2TrendData["Val"]["#text"];
-                              } else {
-                                trendData[activeIndex!].spo2 = null;
-                              }
-                              final respTrendData = myCase!
-                                  .events[foundEventIndex]
-                                  .rawData["Trend"]["Resp"]["TrendData"];
-                              if (respTrendData["DataStatus"] == 0) {
-                                trendData[activeIndex!].resp =
-                                    respTrendData["Val"]["#text"];
-                              } else {
-                                trendData[activeIndex!].resp = null;
-                              }
-                              trendData[activeIndex!].time = myCase!
-                                  .events[foundEventIndex].date
-                                  .toLocal();
+                              myCase = _zollSdkStore.cases[caseId];
+                              hasNewData = false;
                             });
-                          }
-                        });
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
-                ),
-              ),
+                          },
+                          label: const Text("更新"),
+                          icon: const Icon(Icons.refresh),
+                        ),
+                      )
+                    : Container()
+              ],
             ),
-          ],
-        );
-      }),
+          ),
+          Expanded(
+            child: _buildEventList(isMobile),
+          ),
+        ],
+      );
+    });
+  }
+
+  Scrollbar _buildEventList(bool isMobile) {
+    return Scrollbar(
+      controller: scrollController,
+      thumbVisibility: true,
+      child: ListView.separated(
+        controller: scrollController,
+        itemCount: myCase!.displayableEvents.length,
+        itemBuilder: (context, itemIndex) {
+          final dataIndex = myCase!.displayableEvents[itemIndex].item1;
+          return ListTile(
+              dense: isMobile,
+              visualDensity:
+                  isMobile ? VisualDensity.compact : VisualDensity.standard,
+              title: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: AppConstants.dateTimeFormat
+                        .format(myCase!.events[dataIndex].date),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).primaryColor)),
+                TextSpan(
+                    text:
+                        '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
+              ], style: Theme.of(context).textTheme.bodyMedium)),
+              // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
+              onTap: () {
+                if (activeIndex == null) return;
+                int? foundEventIndex;
+                for (var i = dataIndex; i > 0; i--) {
+                  if (myCase!.events[i].type == 'TrendRpt') {
+                    foundEventIndex = i;
+                    break;
+                  }
+                }
+
+                if (foundEventIndex == null) {
+                  for (var i = dataIndex; i < myCase!.events.length; i++) {
+                    if (myCase!.events[i].type == 'TrendRpt') {
+                      foundEventIndex = i;
+                      break;
+                    }
+                  }
+                }
+
+                if (foundEventIndex != null) {
+                  setState(() {
+                    final hrTrendData = myCase!.events[foundEventIndex!]
+                        .rawData["Trend"]["Hr"]["TrendData"];
+                    if (hrTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].hr = hrTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].hr = null;
+                    }
+                    final nibpDiaTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Nibp"]["Dia"]["TrendData"];
+                    if (nibpDiaTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].nibpDia =
+                          nibpDiaTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].nibpDia = null;
+                    }
+                    final nibpSysTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Nibp"]["Sys"]["TrendData"];
+                    if (nibpSysTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].nibpSys =
+                          nibpSysTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].nibpSys = null;
+                    }
+                    final spo2TrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Spo2"]["TrendData"];
+                    if (spo2TrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].spo2 =
+                          spo2TrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].spo2 = null;
+                    }
+                    final respTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Resp"]["TrendData"];
+                    if (respTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].resp =
+                          respTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].resp = null;
+                    }
+                    trendData[activeIndex!].time =
+                        myCase!.events[foundEventIndex].date.toLocal();
+                  });
+                }
+              });
+        },
+        separatorBuilder: (context, index) => const Divider(),
+      ),
     );
   }
 

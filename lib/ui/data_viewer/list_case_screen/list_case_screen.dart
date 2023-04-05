@@ -1,8 +1,7 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -210,8 +209,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 title: Text(
                     '${_formatTime(cases![index].startTime)}〜${_formatTime(cases![index].endTime)}'),
                 onTap: () {
-                  Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
-                      arguments: ListEventScreenArguments(
+                  Navigator.of(context).pushNamed(
+                      DataViewerRoutes.dataViewerChooseFunction,
+                      arguments: ChooseFunctionScreenArguments(
                           device: device!, caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
