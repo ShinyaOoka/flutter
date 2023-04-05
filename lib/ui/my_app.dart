@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/utils/routes/app.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,7 +13,7 @@ import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 
 class MyApp extends StatelessWidget {
   final ReportStore _reportStore = getIt<ReportStore>();
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
           surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
         ),
-        routes: Routes.routes,
+        routes: AppRoutes.routes,
         locale: const Locale('ja', 'JP'),
         supportedLocales: const [Locale('ja', 'JP')],
         localizationsDelegates: [
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
           // delegate from localization package.
           LocalJsonLocalization.delegate,
         ],
-        initialRoute: Routes.deletePreviousReport,
+        initialRoute: AppRoutes.startup,
         navigatorObservers: [_routeObserver],
       ),
     );

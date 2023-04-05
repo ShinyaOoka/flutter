@@ -1,7 +1,7 @@
 import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
-import 'package:ak_azm_flutter/ui/preview_report_screen/preview_report_screen.dart';
+import 'package:ak_azm_flutter/ui/report/preview_report_screen/preview_report_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:localization/localization.dart';
 
 class SendReportScreen extends StatefulWidget {
@@ -83,7 +83,7 @@ class _SendReportScreenState extends State<SendReportScreen> {
       child: Column(children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Routes.previewReport,
+            Navigator.of(context).pushNamed(ReportRoutes.reportPreviewReport,
                 arguments: PreviewReportScreenArguments(
                     reportType: ReportType.certificate));
           },
@@ -95,7 +95,7 @@ class _SendReportScreenState extends State<SendReportScreen> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(Routes.previewReport,
+            Navigator.of(context).pushNamed(ReportRoutes.reportPreviewReport,
                 arguments: PreviewReportScreenArguments(
                     reportType: ReportType.ambulance));
           },

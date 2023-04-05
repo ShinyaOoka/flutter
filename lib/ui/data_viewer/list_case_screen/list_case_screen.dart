@@ -1,8 +1,8 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/ui/list_event_screen/list_event_screen.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +15,8 @@ import 'package:localization/localization.dart';
 
 class ListCaseScreenArguments {
   final XSeriesDevice device;
-  final Report report;
 
-  ListCaseScreenArguments({required this.device, required this.report});
+  ListCaseScreenArguments({required this.device});
 }
 
 class ListCaseScreen extends StatefulWidget {
@@ -30,7 +29,6 @@ class ListCaseScreen extends StatefulWidget {
 class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
-  late Report _report;
   late ScrollController scrollController;
 
   XSeriesDevice? device;
@@ -64,7 +62,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     final args =
         ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
     device = args.device;
-    _report = args.report;
     _zollSdkStore = context.read();
     setState(() {
       cases = _zollSdkStore.caseListItems[device?.serialNumber];
@@ -213,11 +210,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 title: Text(
                     '${_formatTime(cases![index].startTime)}〜${_formatTime(cases![index].endTime)}'),
                 onTap: () {
-                  Navigator.of(context).pushNamed(Routes.listEvent,
+                  Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
                       arguments: ListEventScreenArguments(
-                          device: device!,
-                          caseId: cases![index].caseId,
-                          report: _report));
+                          device: device!, caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
           ),

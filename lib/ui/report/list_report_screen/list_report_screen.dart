@@ -8,7 +8,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:tuple/tuple.dart';
@@ -72,6 +72,42 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         body: _buildBody(),
         floatingActionButton:
             selectingReports == null ? _buildCreateReportButton() : null,
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text('Drawer Header'),
+              ),
+              ListTile(
+                title: const Text('レポート作成'),
+                onTap: () {
+                  if (ModalRoute.of(context)?.settings.name ==
+                      ReportRoutes.reportListReport) {
+                    Navigator.of(context).pop();
+                    return;
+                  }
+                  Navigator.of(context)
+                      .popAndPushNamed(ReportRoutes.reportListReport);
+                },
+              ),
+              ListTile(
+                title: const Text('データビューアー（仮）'),
+                onTap: () {
+                  Navigator.of(context)
+                      .popAndPushNamed(ReportRoutes.reportListDevice);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -81,7 +117,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       title: 'list_report'.i18n(),
       actions: _buildActions(context),
       leading: selectingReports != null ? _buildBackButton() : null,
-      leadingWidth: 102,
+      leadingWidth: selectingReports != null ? 102 : null,
     );
   }
 
@@ -193,7 +229,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   Widget _buildCreateReportButton() {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(Routes.createReport);
+        Navigator.of(context).pushNamed(ReportRoutes.reportCreateReport);
       },
       backgroundColor: Theme.of(context).primaryColor,
       child: const Icon(Icons.add),
@@ -328,7 +364,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         : ListTile(
             onTap: () {
               _reportStore.setSelectingReport(item);
-              Navigator.of(context).pushNamed(Routes.confirmReport);
+              Navigator.of(context).pushNamed(ReportRoutes.reportConfirmReport);
             },
             dense: true,
             tileColor: const Color(0xFFF5F5F5),

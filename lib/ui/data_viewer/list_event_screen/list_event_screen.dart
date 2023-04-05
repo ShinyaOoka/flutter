@@ -7,7 +7,8 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
@@ -28,10 +29,8 @@ import 'package:localization/localization.dart';
 class ListEventScreenArguments {
   final XSeriesDevice device;
   final String caseId;
-  final Report report;
 
-  ListEventScreenArguments(
-      {required this.device, required this.caseId, required this.report});
+  ListEventScreenArguments({required this.device, required this.caseId});
 }
 
 class ListEventScreen extends StatefulWidget {
@@ -58,6 +57,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   late Report _report;
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
+  late ReportStore _reportStore;
   late XSeriesDevice device;
   late String caseId;
   late ScrollController scrollController;
@@ -99,10 +99,11 @@ class _ListEventScreenState extends State<ListEventScreen>
         ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
     device = args.device;
     caseId = args.caseId;
-    _report = args.report;
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    _reportStore = context.read();
+    _report = _reportStore.selectingReport!;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
@@ -237,8 +238,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                 e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
             Navigator.of(context).popUntil(
               (route) =>
-                  ModalRoute.withName(Routes.createReport)(route) ||
-                  ModalRoute.withName(Routes.editReport)(route),
+                  ModalRoute.withName(ReportRoutes.reportCreateReport)(route) ||
+                  ModalRoute.withName(ReportRoutes.reportEditReport)(route),
             );
           },
           style: TextButton.styleFrom(
