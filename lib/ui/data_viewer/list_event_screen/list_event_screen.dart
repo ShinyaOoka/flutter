@@ -137,6 +137,7 @@ class _ListEventScreenState extends State<ListEventScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
+      title: "イベント選択",
     );
   }
 

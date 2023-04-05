@@ -76,7 +76,7 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
       leading: _buildBackButton(),
       leadingWidth: 88,
       actions: _buildActions(),
-      title: 'get_xseries_data'.i18n(),
+      title: '接続機器選択',
     );
   }
 

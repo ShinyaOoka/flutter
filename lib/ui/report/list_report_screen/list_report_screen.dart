@@ -81,11 +81,17 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+              const SizedBox(
+                height: 80,
+                child: DrawerHeader(
+                  child: const Image(
+                    image: AssetImage('assets/logo.png'),
+                    fit: BoxFit.fitHeight,
+                    height: 60,
+                  ),
+                  margin: EdgeInsets.all(0.0),
+                  padding: EdgeInsets.all(0.0),
                 ),
-                child: Text('Drawer Header'),
               ),
               ListTile(
                 title: const Text('レポート作成'),

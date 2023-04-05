@@ -134,7 +134,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
       leading: _buildBackButton(),
       leadingWidth: 88,
       actions: _buildActions(),
-      title: 'get_xseries_data'.i18n(),
+      title: 'Case選択',
     );
   }
 
