@@ -1,22 +1,20 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/ui/delete_previous_report_screen/delete_previous_report_dialog.dart';
+import 'package:ak_azm_flutter/ui/startup_screen/delete_previous_report_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeletePreviousReportScreen extends StatefulWidget {
-  const DeletePreviousReportScreen({super.key});
+class StartupScreen extends StatefulWidget {
+  const StartupScreen({super.key});
 
   @override
-  _DeletePreviousReportScreenState createState() =>
-      _DeletePreviousReportScreenState();
+  _StartupScreenState createState() => _StartupScreenState();
 }
 
-class _DeletePreviousReportScreenState
-    extends State<DeletePreviousReportScreen> {
+class _StartupScreenState extends State<StartupScreen> {
   late ReportStore _reportStore;
 
   @override
@@ -42,7 +40,7 @@ class _DeletePreviousReportScreenState
         prefs.getInt(AppConstants.doNotShowDeleteDialogAgainDate);
     if (lastDoNotShowAgainDate == now.clone().startOf(Units.DAY).unix() ||
         AppConstants.autoDeleteReportAfterDays == 0) {
-      Navigator.pushReplacementNamed(context, Routes.listReport);
+      Navigator.pushReplacementNamed(context, ReportRoutes.reportListReport);
       return;
     }
     _reportStore = context.read();
@@ -62,6 +60,6 @@ class _DeletePreviousReportScreenState
         await _reportStore.deleteReports(reportIds);
       }
     }
-    Navigator.pushReplacementNamed(context, Routes.listReport);
+    Navigator.pushReplacementNamed(context, ReportRoutes.reportListReport);
   }
 }

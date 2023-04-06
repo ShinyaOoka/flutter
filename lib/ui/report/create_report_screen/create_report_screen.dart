@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
-import 'package:ak_azm_flutter/ui/list_device_screen/list_device_screen.dart';
+import 'package:ak_azm_flutter/ui/report/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
@@ -70,7 +70,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     await _hospitalStore.getHospitals();
 
     final prefs = await SharedPreferences.getInstance();
-    final report = Report();
+    final report = _reportStore.selectingReport!;
 
     report.teamStore = _teamStore;
     report.fireStationStore = _fireStationStore;
@@ -98,8 +98,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
             report.affiliationOfReporter = report.team?.alias;
       }
     }
-
-    _reportStore.setSelectingReport(report);
   }
 
   @override
@@ -214,9 +212,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
   Widget _buildGetDataFromXSeriesButton() {
     return FloatingActionButton(
       onPressed: () async {
-        await Navigator.of(context).pushNamed(Routes.listDevice,
-            arguments: ListDeviceScreenArguments(
-                report: _reportStore.selectingReport!));
+        await Navigator.of(context).pushNamed(ReportRoutes.reportListDevice);
       },
       backgroundColor: Theme.of(context).primaryColor,
       child: const Icon(Icons.data_thresholding_outlined),
