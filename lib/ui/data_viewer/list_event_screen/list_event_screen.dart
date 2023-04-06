@@ -8,6 +8,8 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
@@ -173,6 +175,14 @@ class _ListEventScreenState extends State<ListEventScreen>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                    DataViewerRoutes.dataViewerEcgChart,
+                    arguments: EcgChartScreenArguments(
+                        device: device, caseId: caseId));
+              },
+              child: Text("ECG・バイタル表示")),
           Expanded(
             child: Scrollbar(
               controller: scrollController,
