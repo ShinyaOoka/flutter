@@ -70,7 +70,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     await _hospitalStore.getHospitals();
 
     final prefs = await SharedPreferences.getInstance();
-    final report = Report();
+    final report = _reportStore.selectingReport!;
 
     report.teamStore = _teamStore;
     report.fireStationStore = _fireStationStore;
@@ -98,8 +98,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
             report.affiliationOfReporter = report.team?.alias;
       }
     }
-
-    _reportStore.setSelectingReport(report);
   }
 
   @override

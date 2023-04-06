@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -14,6 +15,8 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:tuple/tuple.dart';
 
+enum SelectionMode { none, copy, delete }
+
 class ListReportScreen extends StatefulWidget {
   const ListReportScreen({super.key});
 
@@ -28,7 +31,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   late ScrollController scrollController;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
-  List<bool?>? selectingReports;
+  SelectionMode mode = SelectionMode.none;
+  Set<int>? selectingReports;
 
   @override
   void initState() {
@@ -72,7 +76,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         appBar: _buildAppBar(),
         body: _buildBody(),
         floatingActionButton:
-            selectingReports == null ? _buildCreateReportButton() : null,
+            mode == SelectionMode.none ? _buildCreateReportButton() : null,
         drawer: Drawer(
           // Add a ListView to the drawer. This ensures the user can scroll
           // through the options in the drawer if there isn't enough vertical
@@ -128,8 +132,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     return CustomAppBar(
       title: 'list_report'.i18n(),
       actions: _buildActions(context),
-      leading: selectingReports != null ? _buildBackButton() : null,
-      leadingWidth: selectingReports != null ? 102 : null,
+      leading: mode != SelectionMode.none ? _buildBackButton() : null,
+      leadingWidth: mode != SelectionMode.none ? 102 : null,
     );
   }
 
@@ -141,27 +145,63 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       label: Text('ｷｬﾝｾﾙ'.i18n()),
       onPressed: () {
         setState(() {
-          selectingReports = null;
+          mode = SelectionMode.none;
         });
       },
     );
   }
 
   List<Widget> _buildActions(BuildContext context) {
-    return <Widget>[
-      selectingReports != null ? _buildDeleteButton() : _buildSelectButton(),
-    ];
+    switch (mode) {
+      case SelectionMode.none:
+        return [_buildSelectButton()];
+      case SelectionMode.copy:
+        return [_buildCopyButton()];
+      case SelectionMode.delete:
+        return [_buildDeleteButton()];
+    }
   }
 
   Widget _buildSelectButton() {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          selectingReports = List.filled(_reportStore.reports!.length, false);
-        });
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.more_vert,
+        color: Theme.of(context).primaryColor,
+      ),
+      itemBuilder: (context) {
+        return [
+          const PopupMenuItem(
+              value: 0,
+              child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 10,
+                  leading: Icon(Icons.content_copy),
+                  title: Text('複写登録'))),
+          const PopupMenuItem(
+              value: 1,
+              child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 10,
+                  leading: Icon(Icons.delete),
+                  title: Text('選択削除'))),
+        ];
       },
-      icon: const Icon(Icons.task_alt),
-      color: Theme.of(context).primaryColor,
+      onSelected: (value) async {
+        switch (value) {
+          case 0:
+            setState(() {
+              mode = SelectionMode.copy;
+              selectingReports = {};
+            });
+            break;
+          case 1:
+            setState(() {
+              mode = SelectionMode.delete;
+              selectingReports = {};
+            });
+            break;
+        }
+      },
     );
   }
 
@@ -170,7 +210,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
         onPressed: () async {
-          if (selectingReports?.contains(true) == false) {
+          if (selectingReports?.isEmpty == true) {
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -211,10 +251,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             return;
           }
           final reportIds = selectingReports!
-              .asMap()
-              .entries
-              .where((e) => e.value != null && e.value!)
-              .map((e) => _reportStore.reports![e.key].id!)
+              .map((e) => _reportStore.reports![e].id!)
               .toList();
           await _reportStore.deleteReports(reportIds);
           await _reportStore.getReports();
@@ -224,7 +261,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             duration: const Duration(seconds: 3),
           ).show(context);
           setState(() {
-            selectingReports = null;
+            mode = SelectionMode.none;
           });
         },
         icon: const Icon(Icons.delete),
@@ -238,9 +275,26 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     );
   }
 
+  Widget _buildCopyButton() {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        onPressed: () async {},
+        icon: const Icon(Icons.note_add),
+        label: Text(
+          '複写',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildCreateReportButton() {
     return FloatingActionButton(
       onPressed: () {
+        _reportStore.selectingReport = Report();
         Navigator.of(context).pushNamed(ReportRoutes.reportCreateReport);
       },
       backgroundColor: Theme.of(context).primaryColor,
@@ -359,12 +413,30 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   Widget _buildListItem(int position) {
     final item = _reportStore.reports![position];
-    return selectingReports != null
+    return mode != SelectionMode.none
         ? CheckboxListTile(
-            value: selectingReports?[position],
+            value: selectingReports?.contains(position),
             onChanged: (value) {
               setState(() {
-                selectingReports?[position] = value;
+                switch (mode) {
+                  case SelectionMode.copy:
+                    if (selectingReports?.contains(position) == true) {
+                      selectingReports?.clear();
+                    } else {
+                      selectingReports?.clear();
+                      selectingReports?.add(position);
+                    }
+                    break;
+                  case SelectionMode.delete:
+                    if (selectingReports?.contains(position) == true) {
+                      selectingReports?.remove(position);
+                    } else {
+                      selectingReports?.add(position);
+                    }
+                    break;
+                  default:
+                    break;
+                }
               });
             },
             dense: true,
