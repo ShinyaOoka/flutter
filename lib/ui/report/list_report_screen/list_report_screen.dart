@@ -279,7 +279,71 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
-        onPressed: () async {},
+        onPressed: () async {
+          if (selectingReports?.isEmpty == true) {
+            await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('複写対象無エラー'),
+                content: const Text('複写対象が選択されていません。'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+            return;
+          }
+          final fromReport = _reportStore.reports![selectingReports!.first];
+          final toReport = Report();
+
+          toReport.senseTime = fromReport.senseTime;
+          toReport.commandTime = fromReport.commandTime;
+          toReport.dispatchTime = fromReport.dispatchTime;
+          toReport.onSiteArrivalTime = fromReport.onSiteArrivalTime;
+          toReport.contactTime = fromReport.contactTime;
+          toReport.inVehicleTime = fromReport.inVehicleTime;
+          toReport.startOfTransportTime = fromReport.startOfTransportTime;
+          toReport.hospitalArrivalTime = fromReport.hospitalArrivalTime;
+          toReport.familyContact = fromReport.familyContact;
+          toReport.familyContactTime = fromReport.familyContactTime;
+          toReport.policeContact = fromReport.policeContact;
+          toReport.policeContactTime = fromReport.policeContactTime;
+          toReport.timeOfArrival = fromReport.timeOfArrival;
+          toReport.returnTime = fromReport.returnTime;
+
+          toReport.typeOfAccident = fromReport.typeOfAccident;
+          toReport.dateOfOccurrence = fromReport.dateOfOccurrence;
+          toReport.timeOfOccurrence = fromReport.timeOfOccurrence;
+          toReport.placeOfIncident = fromReport.placeOfIncident;
+          toReport.placeOfDispatch = fromReport.placeOfDispatch;
+          toReport.accidentSummary = fromReport.accidentSummary;
+          toReport.adl = fromReport.adl;
+          toReport.witnesses = fromReport.witnesses;
+          toReport.bystanderCpr = fromReport.bystanderCpr;
+          toReport.bystanderCprTime = fromReport.bystanderCprTime;
+          toReport.trafficAccidentSeatbelt = fromReport.trafficAccidentSeatbelt;
+          toReport.trafficAccidentAirbag = fromReport.trafficAccidentAirbag;
+          toReport.trafficAccidentChildseat =
+              fromReport.trafficAccidentChildseat;
+          toReport.trafficAccidentHelmet = fromReport.trafficAccidentHelmet;
+          toReport.trafficAccidentUnknown = fromReport.trafficAccidentUnknown;
+          toReport.verbalGuidance = fromReport.verbalGuidance;
+          toReport.verbalGuidanceText = fromReport.verbalGuidanceText;
+
+          toReport.perceiverName = fromReport.perceiverName;
+          toReport.typeOfDetection = fromReport.typeOfDetection;
+          toReport.callerName = fromReport.callerName;
+          toReport.callerTel = fromReport.callerTel;
+
+          _reportStore.selectingReport = toReport;
+          Navigator.of(context).pushNamed(ReportRoutes.reportCreateReport);
+          setState(() {
+            mode = SelectionMode.none;
+          });
+        },
         icon: const Icon(Icons.note_add),
         label: Text(
           '複写',
@@ -413,48 +477,59 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   Widget _buildListItem(int position) {
     final item = _reportStore.reports![position];
-    return mode != SelectionMode.none
-        ? CheckboxListTile(
-            value: selectingReports?.contains(position),
-            onChanged: (value) {
-              setState(() {
-                switch (mode) {
-                  case SelectionMode.copy:
-                    if (selectingReports?.contains(position) == true) {
-                      selectingReports?.clear();
-                    } else {
-                      selectingReports?.clear();
-                      selectingReports?.add(position);
-                    }
-                    break;
-                  case SelectionMode.delete:
-                    if (selectingReports?.contains(position) == true) {
-                      selectingReports?.remove(position);
-                    } else {
-                      selectingReports?.add(position);
-                    }
-                    break;
-                  default:
-                    break;
-                }
-              });
-            },
-            dense: true,
-            controlAffinity: ListTileControlAffinity.leading,
-            tileColor: const Color(0xFFF5F5F5),
-            title: _buildListTileTitle(position),
-            subtitle: _buildListTileSubtitle(position),
-          )
-        : ListTile(
-            onTap: () {
-              _reportStore.setSelectingReport(item);
-              Navigator.of(context).pushNamed(ReportRoutes.reportConfirmReport);
-            },
-            dense: true,
-            tileColor: const Color(0xFFF5F5F5),
-            title: _buildListTileTitle(position),
-            subtitle: _buildListTileSubtitle(position),
-          );
+    switch (mode) {
+      case SelectionMode.none:
+        return ListTile(
+          onTap: () {
+            _reportStore.setSelectingReport(item);
+            Navigator.of(context).pushNamed(ReportRoutes.reportConfirmReport);
+          },
+          dense: true,
+          tileColor: const Color(0xFFF5F5F5),
+          title: _buildListTileTitle(position),
+          subtitle: _buildListTileSubtitle(position),
+        );
+      case SelectionMode.delete:
+        return CheckboxListTile(
+          value: selectingReports?.contains(position),
+          onChanged: (value) {
+            setState(() {
+              if (selectingReports?.contains(position) == true) {
+                selectingReports?.remove(position);
+              } else {
+                selectingReports?.add(position);
+              }
+            });
+          },
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          tileColor: const Color(0xFFF5F5F5),
+          title: _buildListTileTitle(position),
+          subtitle: _buildListTileSubtitle(position),
+        );
+      case SelectionMode.copy:
+        return RadioListTile(
+          value: position,
+          groupValue: selectingReports?.isNotEmpty == true
+              ? selectingReports?.single
+              : null,
+          onChanged: (value) {
+            setState(() {
+              if (selectingReports?.contains(position) == true) {
+                selectingReports?.clear();
+              } else {
+                selectingReports?.clear();
+                selectingReports?.add(position);
+              }
+            });
+          },
+          dense: true,
+          controlAffinity: ListTileControlAffinity.leading,
+          tileColor: const Color(0xFFF5F5F5),
+          title: _buildListTileTitle(position),
+          subtitle: _buildListTileSubtitle(position),
+        );
+    }
   }
 
   Widget _handleErrorMessage() {
