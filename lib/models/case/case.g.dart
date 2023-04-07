@@ -29,13 +29,13 @@ mixin _$Case on _Case, Store {
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
   @override
-  List<CaseEvent> get events {
+  ObservableList<CaseEvent> get events {
     _$eventsAtom.reportRead();
     return super.events;
   }
 
   @override
-  set events(List<CaseEvent> value) {
+  set events(ObservableList<CaseEvent> value) {
     _$eventsAtom.reportWrite(value, super.events, () {
       super.events = value;
     });

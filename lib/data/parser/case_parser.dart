@@ -46,7 +46,7 @@ class CaseParser {
       }
       return dateCompare;
     });
-    result.events = events;
+    result.events = ObservableList.of(events);
     return result;
   }
 }
