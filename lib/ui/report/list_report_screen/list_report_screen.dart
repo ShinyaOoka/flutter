@@ -296,49 +296,35 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
             );
             return;
           }
-          final fromReport = _reportStore.reports![selectingReports!.first];
-          final toReport = Report();
 
-          toReport.senseTime = fromReport.senseTime;
-          toReport.commandTime = fromReport.commandTime;
-          toReport.dispatchTime = fromReport.dispatchTime;
-          toReport.onSiteArrivalTime = fromReport.onSiteArrivalTime;
-          toReport.contactTime = fromReport.contactTime;
-          toReport.inVehicleTime = fromReport.inVehicleTime;
-          toReport.startOfTransportTime = fromReport.startOfTransportTime;
-          toReport.hospitalArrivalTime = fromReport.hospitalArrivalTime;
-          toReport.familyContact = fromReport.familyContact;
-          toReport.familyContactTime = fromReport.familyContactTime;
-          toReport.policeContact = fromReport.policeContact;
-          toReport.policeContactTime = fromReport.policeContactTime;
-          toReport.timeOfArrival = fromReport.timeOfArrival;
-          toReport.returnTime = fromReport.returnTime;
+          final result = await showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('複写対象確認'),
+                  content: const Text('「3.時間経過」「4.発生状況」「9.通報状況」のみ複写します。'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text('OK'),
+                    ),
+                  ],
+                );
+              },
+              barrierDismissible: false);
+          if (result != true) {
+            return;
+          }
 
-          toReport.typeOfAccident = fromReport.typeOfAccident;
-          toReport.dateOfOccurrence = fromReport.dateOfOccurrence;
-          toReport.timeOfOccurrence = fromReport.timeOfOccurrence;
-          toReport.placeOfIncident = fromReport.placeOfIncident;
-          toReport.placeOfDispatch = fromReport.placeOfDispatch;
-          toReport.accidentSummary = fromReport.accidentSummary;
-          toReport.adl = fromReport.adl;
-          toReport.witnesses = fromReport.witnesses;
-          toReport.bystanderCpr = fromReport.bystanderCpr;
-          toReport.bystanderCprTime = fromReport.bystanderCprTime;
-          toReport.trafficAccidentSeatbelt = fromReport.trafficAccidentSeatbelt;
-          toReport.trafficAccidentAirbag = fromReport.trafficAccidentAirbag;
-          toReport.trafficAccidentChildseat =
-              fromReport.trafficAccidentChildseat;
-          toReport.trafficAccidentHelmet = fromReport.trafficAccidentHelmet;
-          toReport.trafficAccidentUnknown = fromReport.trafficAccidentUnknown;
-          toReport.verbalGuidance = fromReport.verbalGuidance;
-          toReport.verbalGuidanceText = fromReport.verbalGuidanceText;
+          final fromReport =
+              _reportStore.reports![selectingReports!.first].toJson();
+          final toReport = Report().toJson();
 
-          toReport.perceiverName = fromReport.perceiverName;
-          toReport.typeOfDetection = fromReport.typeOfDetection;
-          toReport.callerName = fromReport.callerName;
-          toReport.callerTel = fromReport.callerTel;
+          for (var field in AppConstants.reportCopyFields) {
+            toReport[field] = fromReport[field];
+          }
 
-          _reportStore.selectingReport = toReport;
+          _reportStore.selectingReport = Report.fromJson(toReport);
           Navigator.of(context).pushNamed(ReportRoutes.reportCreateReport);
           setState(() {
             mode = SelectionMode.none;

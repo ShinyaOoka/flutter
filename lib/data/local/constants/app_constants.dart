@@ -52,4 +52,45 @@ class AppConstants {
     Era(name: '平成', start: DateTime(1989, 1, 8), end: DateTime(2019, 4, 30)),
     Era(name: '令和', start: DateTime(2019, 5, 1)),
   ];
+
+  static final reportCopyFields = [
+    // section 3
+    'SenseTime',
+    'CommandTime',
+    'DispatchTime',
+    'OnSiteArrivalTime',
+    'ContactTime',
+    'InVehicleTime',
+    'StartOfTransportTime',
+    'HospitalArrivalTime',
+    'FamilyContact',
+    'FamilyContactTime',
+    'PoliceContact',
+    'PoliceContactTime',
+    'TimeOfArrival',
+    'ReturnTime',
+    // section 4
+    'TypeOfAccident',
+    'DateOfOccurrence',
+    'TimeOfOccurrence',
+    'PlaceOfIncident',
+    'PlaceOfDispatch',
+    'AccidentSummary',
+    'ADL',
+    'Witnesses',
+    'BystanderCPR',
+    'BystanderCPRTime',
+    'TrafficAccident_Seatbelt',
+    'TrafficAccident_Airbag',
+    'TrafficAccident_Childseat',
+    'TrafficAccident_Helmet',
+    'TrafficAccident_Unknown',
+    'VerbalGuidance',
+    'VerbalGuidanceText',
+    // section 9
+    'PerceiverName',
+    'TypeOfDetection',
+    'CallerName',
+    'CallerTEL',
+  ];
 }
