@@ -1,7 +1,7 @@
 import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/ui/preview_report_screen/preview_report_screen.dart';
+import 'package:ak_azm_flutter/ui/report/preview_report_screen/preview_report_screen.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
@@ -14,7 +14,7 @@ import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/fire_station/fire_station_store.dart';
 import 'package:ak_azm_flutter/stores/hospital/hospital_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:localization/localization.dart';
 
 class ConfirmReportScreen extends StatefulWidget {
@@ -126,19 +126,19 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
         onSelected: (value) async {
           switch (value) {
             case 0:
-              var result =
-                  await Navigator.of(context).pushNamed(Routes.editReport);
+              var result = await Navigator.of(context)
+                  .pushNamed(ReportRoutes.reportEditReport);
               if (result != null) {
                 _reportStore.setSelectingReport(result as Report);
               }
               break;
             case 1:
-              Navigator.of(context).pushNamed(Routes.previewReport,
+              Navigator.of(context).pushNamed(ReportRoutes.reportPreviewReport,
                   arguments: PreviewReportScreenArguments(
                       reportType: ReportType.certificate));
               break;
             case 2:
-              Navigator.of(context).pushNamed(Routes.previewReport,
+              Navigator.of(context).pushNamed(ReportRoutes.reportPreviewReport,
                   arguments: PreviewReportScreenArguments(
                       reportType: ReportType.ambulance));
               break;

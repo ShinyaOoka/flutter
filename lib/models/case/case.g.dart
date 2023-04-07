@@ -18,6 +18,13 @@ mixin _$Case on _Case, Store {
                   () => super.displayableEvents,
                   name: '_Case.displayableEvents'))
           .value;
+  Computed<Map<String, Waveform>>? _$wavesComputed;
+
+  @override
+  Map<String, Waveform> get waves =>
+      (_$wavesComputed ??= Computed<Map<String, Waveform>>(() => super.waves,
+              name: '_Case.waves'))
+          .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -87,7 +94,8 @@ events: ${events},
 nativeCase: ${nativeCase},
 startTime: ${startTime},
 endTime: ${endTime},
-displayableEvents: ${displayableEvents}
+displayableEvents: ${displayableEvents},
+waves: ${waves}
     ''';
   }
 }

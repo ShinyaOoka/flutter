@@ -7,10 +7,15 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/utils/routes.dart';
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
+import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
+import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -24,10 +29,8 @@ import 'package:localization/localization.dart';
 class ListEventScreenArguments {
   final XSeriesDevice device;
   final String caseId;
-  final Report report;
 
-  ListEventScreenArguments(
-      {required this.device, required this.caseId, required this.report});
+  ListEventScreenArguments({required this.device, required this.caseId});
 }
 
 class ListEventScreen extends StatefulWidget {
@@ -54,6 +57,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   late Report _report;
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
+  late ReportStore _reportStore;
   late XSeriesDevice device;
   late String caseId;
   late ScrollController scrollController;
@@ -95,10 +99,11 @@ class _ListEventScreenState extends State<ListEventScreen>
         ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
     device = args.device;
     caseId = args.caseId;
-    _report = args.report;
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    _reportStore = context.read();
+    _report = _reportStore.selectingReport!;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
@@ -180,8 +185,6 @@ class _ListEventScreenState extends State<ListEventScreen>
     final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
     _zollSdkStore.cases['caseId'] = parsedCase;
-    parsedCase.events.removeWhere((element) => Random().nextBool());
-    _zollSdkStore.cases['caseId2'] = parsedCase;
     parsedCase.startTime = caseListItem?.startTime != null
         ? DateTime.parse(caseListItem!.startTime!).toLocal()
         : null;
@@ -235,8 +238,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                 e.time != null ? TimeOfDay.fromDateTime(e.time!) : null));
             Navigator.of(context).popUntil(
               (route) =>
-                  ModalRoute.withName(Routes.createReport)(route) ||
-                  ModalRoute.withName(Routes.editReport)(route),
+                  ModalRoute.withName(ReportRoutes.reportCreateReport)(route) ||
+                  ModalRoute.withName(ReportRoutes.reportEditReport)(route),
             );
           },
           style: TextButton.styleFrom(
@@ -320,114 +323,109 @@ class _ListEventScreenState extends State<ListEventScreen>
             ),
           ),
           Expanded(
-            child: Scrollbar(
-              controller: scrollController,
-              thumbVisibility: true,
-              child: ListView.separated(
-                controller: scrollController,
-                itemCount: myCase!.displayableEvents.length,
-                itemBuilder: (context, itemIndex) {
-                  final dataIndex = myCase!.displayableEvents[itemIndex].item1;
-                  return ListTile(
-                      dense: isMobile,
-                      visualDensity: isMobile
-                          ? VisualDensity.compact
-                          : VisualDensity.standard,
-                      title: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: AppConstants.dateTimeFormat
-                                .format(myCase!.events[dataIndex].date),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context).primaryColor)),
-                        TextSpan(
-                            text:
-                                '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                      ], style: Theme.of(context).textTheme.bodyMedium)),
-                      // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                      onTap: () {
-                        if (activeIndex == null) return;
-                        int? foundEventIndex;
-                        for (var i = dataIndex; i > 0; i--) {
-                          if (myCase!.events[i].type == 'TrendRpt') {
-                            foundEventIndex = i;
-                            break;
-                          }
-                        }
-
-                        if (foundEventIndex == null) {
-                          for (var i = dataIndex;
-                              i < myCase!.events.length;
-                              i++) {
-                            if (myCase!.events[i].type == 'TrendRpt') {
-                              foundEventIndex = i;
-                              break;
-                            }
-                          }
-                        }
-
-                        if (foundEventIndex != null) {
-                          setState(() {
-                            final hrTrendData = myCase!.events[foundEventIndex!]
-                                .rawData["Trend"]["Hr"]["TrendData"];
-                            if (hrTrendData["DataStatus"] == 0) {
-                              trendData[activeIndex!].hr =
-                                  hrTrendData["Val"]["#text"];
-                            } else {
-                              trendData[activeIndex!].hr = null;
-                            }
-                            final nibpDiaTrendData = myCase!
-                                .events[foundEventIndex]
-                                .rawData["Trend"]["Nibp"]["Dia"]["TrendData"];
-                            if (nibpDiaTrendData["DataStatus"] == 0) {
-                              trendData[activeIndex!].nibpDia =
-                                  nibpDiaTrendData["Val"]["#text"];
-                            } else {
-                              trendData[activeIndex!].nibpDia = null;
-                            }
-                            final nibpSysTrendData = myCase!
-                                .events[foundEventIndex]
-                                .rawData["Trend"]["Nibp"]["Sys"]["TrendData"];
-                            if (nibpSysTrendData["DataStatus"] == 0) {
-                              trendData[activeIndex!].nibpSys =
-                                  nibpSysTrendData["Val"]["#text"];
-                            } else {
-                              trendData[activeIndex!].nibpSys = null;
-                            }
-                            final spo2TrendData = myCase!
-                                .events[foundEventIndex]
-                                .rawData["Trend"]["Spo2"]["TrendData"];
-                            if (spo2TrendData["DataStatus"] == 0) {
-                              trendData[activeIndex!].spo2 =
-                                  spo2TrendData["Val"]["#text"];
-                            } else {
-                              trendData[activeIndex!].spo2 = null;
-                            }
-                            final respTrendData = myCase!
-                                .events[foundEventIndex]
-                                .rawData["Trend"]["Resp"]["TrendData"];
-                            if (respTrendData["DataStatus"] == 0) {
-                              trendData[activeIndex!].resp =
-                                  respTrendData["Val"]["#text"];
-                            } else {
-                              trendData[activeIndex!].resp = null;
-                            }
-                            trendData[activeIndex!].time =
-                                myCase!.events[foundEventIndex].date.toLocal();
-                          });
-                        }
-                      });
-                },
-                separatorBuilder: (context, index) => const Divider(),
-              ),
-            ),
+            child: _buildEventList(isMobile),
           ),
         ],
       );
     });
+  }
+
+  Scrollbar _buildEventList(bool isMobile) {
+    return Scrollbar(
+      controller: scrollController,
+      thumbVisibility: true,
+      child: ListView.separated(
+        controller: scrollController,
+        itemCount: myCase!.displayableEvents.length,
+        itemBuilder: (context, itemIndex) {
+          final dataIndex = myCase!.displayableEvents[itemIndex].item1;
+          return ListTile(
+              dense: isMobile,
+              visualDensity:
+                  isMobile ? VisualDensity.compact : VisualDensity.standard,
+              title: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: AppConstants.dateTimeFormat
+                        .format(myCase!.events[dataIndex].date),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).primaryColor)),
+                TextSpan(
+                    text:
+                        '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
+              ], style: Theme.of(context).textTheme.bodyMedium)),
+              // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
+              onTap: () {
+                if (activeIndex == null) return;
+                int? foundEventIndex;
+                for (var i = dataIndex; i > 0; i--) {
+                  if (myCase!.events[i].type == 'TrendRpt') {
+                    foundEventIndex = i;
+                    break;
+                  }
+                }
+
+                if (foundEventIndex == null) {
+                  for (var i = dataIndex; i < myCase!.events.length; i++) {
+                    if (myCase!.events[i].type == 'TrendRpt') {
+                      foundEventIndex = i;
+                      break;
+                    }
+                  }
+                }
+
+                if (foundEventIndex != null) {
+                  setState(() {
+                    final hrTrendData = myCase!.events[foundEventIndex!]
+                        .rawData["Trend"]["Hr"]["TrendData"];
+                    if (hrTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].hr = hrTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].hr = null;
+                    }
+                    final nibpDiaTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Nibp"]["Dia"]["TrendData"];
+                    if (nibpDiaTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].nibpDia =
+                          nibpDiaTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].nibpDia = null;
+                    }
+                    final nibpSysTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Nibp"]["Sys"]["TrendData"];
+                    if (nibpSysTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].nibpSys =
+                          nibpSysTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].nibpSys = null;
+                    }
+                    final spo2TrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Spo2"]["TrendData"];
+                    if (spo2TrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].spo2 =
+                          spo2TrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].spo2 = null;
+                    }
+                    final respTrendData = myCase!.events[foundEventIndex]
+                        .rawData["Trend"]["Resp"]["TrendData"];
+                    if (respTrendData["DataStatus"] == 0) {
+                      trendData[activeIndex!].resp =
+                          respTrendData["Val"]["#text"];
+                    } else {
+                      trendData[activeIndex!].resp = null;
+                    }
+                    trendData[activeIndex!].time =
+                        myCase!.events[foundEventIndex].date.toLocal();
+                  });
+                }
+              });
+        },
+        separatorBuilder: (context, index) => const Divider(),
+      ),
+    );
   }
 
   _buildCard(int index) {
