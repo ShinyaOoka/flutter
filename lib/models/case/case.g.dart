@@ -25,6 +25,12 @@ mixin _$Case on _Case, Store {
       (_$wavesComputed ??= Computed<Map<String, Waveform>>(() => super.waves,
               name: '_Case.waves'))
           .value;
+  Computed<List<Ecg12Lead>>? _$leadsComputed;
+
+  @override
+  List<Ecg12Lead> get leads => (_$leadsComputed ??=
+          Computed<List<Ecg12Lead>>(() => super.leads, name: '_Case.leads'))
+      .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -95,7 +101,8 @@ nativeCase: ${nativeCase},
 startTime: ${startTime},
 endTime: ${endTime},
 displayableEvents: ${displayableEvents},
-waves: ${waves}
+waves: ${waves},
+leads: ${leads}
     ''';
   }
 }

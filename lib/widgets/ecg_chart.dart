@@ -86,9 +86,9 @@ class _EcgChartState extends State<EcgChart> {
             minX -= lastMinMaxDistance * 0.005 * horizontalDistance;
             maxX -= lastMinMaxDistance * 0.005 * horizontalDistance;
 
-            if (minX < 0) {
-              minX = 0;
-              maxX = lastMinMaxDistance;
+            if (minX < widget.samples.first.inSeconds) {
+              minX = widget.samples.first.inSeconds;
+              maxX = widget.samples.first.inSeconds + lastMinMaxDistance;
             }
             if (maxX > widget.samples.last.inSeconds) {
               maxX = widget.samples.last.inSeconds;

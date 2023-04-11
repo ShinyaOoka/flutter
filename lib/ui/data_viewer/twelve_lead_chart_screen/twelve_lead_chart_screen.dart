@@ -1,0 +1,170 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
+import 'package:ak_azm_flutter/data/parser/case_parser.dart';
+import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/models/case/case_event.dart';
+import 'package:ak_azm_flutter/models/report/report.dart';
+import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/utils/routes/report.dart';
+import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
+import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mobx/mobx.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:ak_azm_flutter/pigeon.dart';
+import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
+import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
+import 'package:localization/localization.dart';
+
+class TwelveLeadChartScreenArguments {
+  final Ecg12Lead twelveLead;
+
+  TwelveLeadChartScreenArguments({required this.twelveLead});
+}
+
+class TwelveLeadChartScreen extends StatefulWidget {
+  const TwelveLeadChartScreen({super.key});
+
+  @override
+  _TwelveLeadChartScreenState createState() => _TwelveLeadChartScreenState();
+}
+
+class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
+    with RouteAware, ReportSectionMixin {
+  Ecg12Lead? twelveLead;
+
+  final RouteObserver<ModalRoute<void>> _routeObserver =
+      getIt<RouteObserver<ModalRoute<void>>>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _routeObserver.unsubscribe(this);
+  }
+
+  @override
+  Future<void> didPush() async {
+    final args = ModalRoute.of(context)!.settings.arguments
+        as TwelveLeadChartScreenArguments;
+    setState(() {
+      twelveLead = args.twelveLead;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return CustomAppBar(
+      leading: _buildBackButton(),
+      leadingWidth: 88,
+      title: "ECG・バイタル表示",
+    );
+  }
+
+  Widget _buildBackButton() {
+    return TextButton.icon(
+      icon: const SizedBox(
+        width: 12,
+        child: Icon(Icons.arrow_back_ios),
+      ),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+      label: Text('back'.i18n()),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: <Widget>[
+        // _handleErrorMessage(),
+        twelveLead != null
+            ? _buildMainContent()
+            : const CustomProgressIndicatorWidget(),
+      ],
+    );
+  }
+
+  Widget _buildMainContent() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Lead I'),
+          EcgChart(
+              samples: twelveLead!.leadI.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead II'),
+          EcgChart(
+              samples: twelveLead!.leadII.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V1'),
+          EcgChart(
+              samples: twelveLead!.leadV1.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V2'),
+          EcgChart(
+              samples: twelveLead!.leadV2.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V3'),
+          EcgChart(
+              samples: twelveLead!.leadV3.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V4'),
+          EcgChart(
+              samples: twelveLead!.leadV4.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V5'),
+          EcgChart(
+              samples: twelveLead!.leadV5.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+          Text('Lead V6'),
+          EcgChart(
+              samples: twelveLead!.leadV6.samples,
+              segments: 1,
+              initDuration: Duration(hours: 1)),
+        ],
+      ),
+    );
+  }
+}

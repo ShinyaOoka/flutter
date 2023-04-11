@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
@@ -121,8 +122,10 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
       ListTile(
         title: Text("12Lead選択"),
         onTap: () {
-          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerMock,
-              arguments: MockScreenArguments(title: '12Lead選択'));
+          Navigator.of(context).pushNamed(
+              DataViewerRoutes.dataViewerListTwelveLead,
+              arguments: ListTwelveLeadScreenArguments(
+                  caseId: caseId!, device: device!));
         },
       ),
       ListTile(

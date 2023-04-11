@@ -127,9 +127,14 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   }
 
   Widget _buildMainContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [EcgChart(samples: myCase!.waves['Pads']!.samples)],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Pads'),
+          EcgChart(samples: myCase!.waves['Pads']!.samples),
+        ],
+      ),
     );
   }
 }

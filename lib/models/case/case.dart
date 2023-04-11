@@ -35,6 +35,38 @@ class Waveform {
   }
 }
 
+class Ecg12Lead {
+  DateTime time;
+  Waveform leadI;
+  Waveform leadII;
+  // Waveform leadIII;
+  Waveform leadV1;
+  Waveform leadV2;
+  Waveform leadV3;
+  Waveform leadV4;
+  Waveform leadV5;
+  Waveform leadV6;
+  // Waveform leadAVL;
+  // Waveform leadAVR;
+  // Waveform leadAVF;
+
+  Ecg12Lead({
+    required this.time,
+    required this.leadI,
+    required this.leadII,
+    // required this.leadIII,
+    required this.leadV1,
+    required this.leadV2,
+    required this.leadV3,
+    required this.leadV4,
+    required this.leadV5,
+    required this.leadV6,
+    // required this.leadAVL,
+    // required this.leadAVR,
+    // required this.leadAVF,
+  });
+}
+
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
@@ -156,5 +188,75 @@ abstract class _Case with Store {
       }
     }
     return map;
+  }
+
+  @computed
+  List<Ecg12Lead> get leads {
+    final List<Ecg12Lead> result = [];
+    for (var event in events) {
+      if (event.type == 'Ecg12LeadRec') {
+        print('here');
+        final startTimeString = event.rawData['StdHdr']['DevDateTime'];
+        final date =
+            DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
+        final timestamp = date.microsecondsSinceEpoch;
+        final sampleRate = event.rawData['SampleRate'] as int;
+        Waveform leadI = Waveform(type: "LeadI");
+        Waveform leadII = Waveform(type: "LeadII");
+        Waveform leadV1 = Waveform(type: "LeadV1");
+        Waveform leadV2 = Waveform(type: "LeadV2");
+        Waveform leadV3 = Waveform(type: "LeadV3");
+        Waveform leadV4 = Waveform(type: "LeadV4");
+        Waveform leadV5 = Waveform(type: "LeadV5");
+        Waveform leadV6 = Waveform(type: "LeadV6");
+        final leadIRaw = event.rawData['LeadData']['LeadI'];
+        final leadIIRaw = event.rawData['LeadData']['LeadII'];
+        final leadV1Raw = event.rawData['LeadData']['LeadV1'];
+        final leadV2Raw = event.rawData['LeadData']['LeadV2'];
+        final leadV3Raw = event.rawData['LeadData']['LeadV3'];
+        final leadV4Raw = event.rawData['LeadData']['LeadV4'];
+        final leadV5Raw = event.rawData['LeadData']['LeadV5'];
+        final leadV6Raw = event.rawData['LeadData']['LeadV6'];
+        final total = event.rawData['LeadData']['RecordCnt'];
+        for (var i = 0; i < total; i++) {
+          leadI.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadIRaw[i].toDouble() / 4 * 10));
+          leadII.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadIIRaw[i].toDouble() / 4 * 10));
+          leadV1.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV1Raw[i].toDouble() / 4 * 10));
+          leadV2.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV2Raw[i].toDouble() / 4 * 10));
+          leadV3.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV3Raw[i].toDouble() / 4 * 10));
+          leadV4.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV4Raw[i].toDouble() / 4 * 10));
+          leadV5.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV5Raw[i].toDouble() / 4 * 10));
+          leadV6.samples.add(Sample(
+              timestamp: timestamp + i * sampleRate,
+              value: leadV6Raw[i].toDouble() / 4 * 10));
+        }
+        result.add(Ecg12Lead(
+          time: date,
+          leadI: leadI,
+          leadII: leadII,
+          leadV1: leadV1,
+          leadV2: leadV2,
+          leadV3: leadV3,
+          leadV4: leadV4,
+          leadV5: leadV5,
+          leadV6: leadV6,
+        ));
+      }
+    }
+    return result;
   }
 }
