@@ -128,7 +128,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         ? '　\n　'
         : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 18)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 18 ? '\n　' : ''}';
     result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        '<div style="white-space: pre-wrap;">${sickness}</div>');
+        '<div style="white-space: pre-wrap;">$sickness</div>');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',

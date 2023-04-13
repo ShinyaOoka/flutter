@@ -22,12 +22,12 @@ class AppCheckbox extends StatelessWidget {
                     ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(label!, style: TextStyle(fontSize: 16)),
+                          Text(label!, style: const TextStyle(fontSize: 16)),
                           const SizedBox(width: 8),
-                          OptionalBadge(scaling: 0.75),
+                          const OptionalBadge(scaling: 0.75),
                         ],
                       )
-                    : Text(label!, style: TextStyle(fontSize: 16))
+                    : Text(label!, style: const TextStyle(fontSize: 16))
                 : null,
             value: value ?? false,
             onChanged: onChanged,

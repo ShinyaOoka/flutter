@@ -12,12 +12,6 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class ListCaseScreenArguments {
-  final XSeriesDevice device;
-
-  ListCaseScreenArguments({required this.device});
-}
-
 class ListCaseScreen extends StatefulWidget {
   const ListCaseScreen({super.key});
 
@@ -30,7 +24,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkStore _zollSdkStore;
   late ScrollController scrollController;
 
-  XSeriesDevice? device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
   List<CaseListItem>? cases;
@@ -58,10 +51,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   void didPush() {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
-    device = args.device;
     _zollSdkStore = context.read();
+    final device = _zollSdkStore.selectedDevice;
     setState(() {
       cases = _zollSdkStore.caseListItems[device?.serialNumber];
     });
@@ -146,7 +137,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 onPressed: () {
                   setState(() {
                     cases = [
-                      ..._zollSdkStore.caseListItems[device!.serialNumber]!
+                      ..._zollSdkStore.caseListItems[
+                          _zollSdkStore.selectedDevice?.serialNumber]!
                     ];
                     hasNewData = false;
                   });
@@ -210,7 +202,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                   Navigator.of(context).pushNamed(
                       DataViewerRoutes.dataViewerChooseFunction,
                       arguments: ChooseFunctionScreenArguments(
-                          device: device!, caseId: cases![index].caseId));
+                          caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
           ),

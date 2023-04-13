@@ -55,7 +55,7 @@ class _AppLineChartState extends State<AppLineChart> {
             nextCacheKey,
             ifAbsent: getDataFromCacheKey,
           );
-          return Container(
+          return SizedBox(
             height: 400,
             child: FutureBuilder(
               future: spotsFuture,

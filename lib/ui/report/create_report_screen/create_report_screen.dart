@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
-import 'package:ak_azm_flutter/ui/report/list_device_screen/list_device_screen.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';

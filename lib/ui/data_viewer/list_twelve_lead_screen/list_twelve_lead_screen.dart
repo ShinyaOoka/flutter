@@ -1,23 +1,13 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/twelve_lead_chart_screen/twelve_lead_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
-import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -29,10 +19,9 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
 class ListTwelveLeadScreenArguments {
-  final XSeriesDevice device;
   final String caseId;
 
-  ListTwelveLeadScreenArguments({required this.device, required this.caseId});
+  ListTwelveLeadScreenArguments({required this.caseId});
 }
 
 class ListTwelveLeadScreen extends StatefulWidget {
@@ -46,9 +35,10 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
-  late XSeriesDevice device;
   late String caseId;
+  ReactionDisposer? reactionDisposer;
   Case? myCase;
+  bool hasNewData = false;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -67,6 +57,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   @override
   void dispose() {
     super.dispose();
+    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -74,16 +65,38 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   Future<void> didPush() async {
     final args = ModalRoute.of(context)!.settings.arguments
         as ListTwelveLeadScreenArguments;
-    device = args.device;
     caseId = args.caseId;
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    setState(() {
+      myCase = _zollSdkStore.cases[caseId];
+    });
+    reactionDisposer?.call();
+    reactionDisposer = autorun((_) {
+      final storeCase = _zollSdkStore.cases[caseId];
+      if (storeCase != null && myCase == null) {
+        setState(() {
+          myCase = storeCase;
+        });
+      } else if (myCase != null && storeCase == null) {
+        setState(() {
+          hasNewData = false;
+        });
+      } else if (myCase != null && storeCase != null) {
+        setState(() {
+          if (myCase!.events.length != storeCase.events.length) {
+            hasNewData = true;
+          }
+        });
+      }
+    });
 
     final tempDir = await getTemporaryDirectory();
     await File('${tempDir.path}/demo.json')
         .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
-    final caseListItem = _zollSdkStore.caseListItems[device.serialNumber]
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
         ?.firstWhere((element) => element.caseId == caseId);
     final parsedCase = CaseParser.parse(
         await rootBundle.loadString("assets/example/demo.json"));
@@ -94,10 +107,9 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
     parsedCase.endTime = caseListItem?.endTime != null
         ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
-    setState(() {
-      myCase = _zollSdkStore.cases[caseId];
-    });
-    _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
+
+    _hostApi.deviceDownloadCase(
+        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override

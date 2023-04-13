@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -135,7 +134,7 @@ class _EcgChartState extends State<EcgChart> {
 
   Widget buildChart(double minX, double maxX) {
     return IgnorePointer(
-        child: Container(
+        child: SizedBox(
       height: 150,
       child: FutureBuilder(
         future: getData(minX, maxX),

@@ -19,12 +19,12 @@ class _DeletePreviousReportDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('起動時自動削除確認'),
-      contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+      title: const Text('起動時自動削除確認'),
+      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          const Text(
               '${AppConstants.autoDeleteReportAfterDays}日以上前のデータを削除します。よろしいですか？'),
           CheckboxListTile(
             value: doNotShowAgain,
@@ -33,7 +33,7 @@ class _DeletePreviousReportDialogState
                 doNotShowAgain = true;
               });
             },
-            title: Text('今日は自動削除確認を表示しない'),
+            title: const Text('今日は自動削除確認を表示しない'),
             controlAffinity: ListTileControlAffinity.leading,
           )
         ],

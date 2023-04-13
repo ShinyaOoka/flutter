@@ -1,6 +1,5 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
@@ -12,12 +11,6 @@ import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
-
-class ListCaseScreenArguments {
-  final XSeriesDevice device;
-
-  ListCaseScreenArguments({required this.device});
-}
 
 class ListCaseScreen extends StatefulWidget {
   const ListCaseScreen({super.key});
@@ -31,7 +24,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkStore _zollSdkStore;
   late ScrollController scrollController;
 
-  XSeriesDevice? device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
   List<CaseListItem>? cases;
@@ -59,16 +51,14 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   void didPush() {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
-    device = args.device;
     _zollSdkStore = context.read();
+    final deviceSerialNumber = _zollSdkStore.selectedDevice?.serialNumber;
     setState(() {
-      cases = _zollSdkStore.caseListItems[device?.serialNumber];
+      cases = _zollSdkStore.caseListItems[deviceSerialNumber];
     });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {
-      final storeCases = _zollSdkStore.caseListItems[device?.serialNumber];
+      final storeCases = _zollSdkStore.caseListItems[deviceSerialNumber];
       if (storeCases != null && cases == null) {
         setState(() {
           cases = storeCases;
@@ -119,7 +109,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         ];
       }
     });
-    _hostApi.deviceGetCaseList(device!, null);
+    _hostApi.deviceGetCaseList(_zollSdkStore.selectedDevice!, null);
   }
 
   @override
@@ -149,7 +139,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 onPressed: () {
                   setState(() {
                     cases = [
-                      ..._zollSdkStore.caseListItems[device!.serialNumber]!
+                      ..._zollSdkStore.caseListItems[
+                          _zollSdkStore.selectedDevice?.serialNumber]!
                     ];
                     hasNewData = false;
                   });
@@ -212,7 +203,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 onTap: () {
                   Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
                       arguments: ListEventScreenArguments(
-                          device: device!, caseId: cases![index].caseId));
+                          caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
           ),

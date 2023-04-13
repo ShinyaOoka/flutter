@@ -1,6 +1,4 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/ui/report/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -8,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:localization/localization.dart';
@@ -131,10 +128,10 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
                 itemBuilder: (context, index) => ListTile(
                     title: Text(_zollSdkStore.devices[index].serialNumber),
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                          ReportRoutes.reportListCase,
-                          arguments: ListCaseScreenArguments(
-                              device: _zollSdkStore.devices[index]));
+                      _zollSdkStore.selectedDevice =
+                          _zollSdkStore.devices[index];
+                      Navigator.of(context)
+                          .pushNamed(ReportRoutes.reportListCase);
                     }),
                 separatorBuilder: (context, index) => const Divider(),
               ),

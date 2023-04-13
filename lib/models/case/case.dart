@@ -18,7 +18,7 @@ class Sample {
 
   @override
   String toString() {
-    return 'S: {${timestamp}:${value}}';
+    return 'S: {$timestamp:$value}';
   }
 }
 
@@ -156,7 +156,7 @@ abstract class _Case with Store {
 
   @computed
   Map<String, Waveform> get waves {
-    final map = Map<String, Waveform>();
+    final map = <String, Waveform>{};
     for (var event in events) {
       if (event.type == 'ContinWaveRec') {
         final startTimeString = event.rawData['StdHdr']['DevDateTime'];

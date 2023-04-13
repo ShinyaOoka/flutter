@@ -20,7 +20,7 @@ class AppTimePicker extends StatelessWidget {
         TextFormField(
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
-            hintStyle: TextStyle(height: 1),
+            hintStyle: const TextStyle(height: 1),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             label: label != null
                 ? optional
@@ -29,18 +29,18 @@ class AppTimePicker extends StatelessWidget {
                         children: [
                           Text(label!),
                           const SizedBox(width: 8),
-                          OptionalBadge(),
+                          const OptionalBadge(),
                         ],
                       )
                     : Text(label!)
                 : null,
             border: OutlineInputBorder(
-                borderSide: readOnly ? BorderSide.none : BorderSide()),
+                borderSide: readOnly ? BorderSide.none : const BorderSide()),
             hintText: hintText,
             counterText: " ",
             counterStyle: const TextStyle(height: 0.2, fontSize: 10),
             fillColor:
-                fillColor ?? (readOnly ? Color(0xFFF5F5F5) : Colors.white),
+                fillColor ?? (readOnly ? const Color(0xFFF5F5F5) : Colors.white),
             suffixIcon: !readOnly && selectedTime != null
                 ? IconButton(
                     onPressed: () => onChanged?.call(null),

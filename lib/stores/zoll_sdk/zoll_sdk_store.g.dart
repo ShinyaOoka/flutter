@@ -56,6 +56,22 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
+  late final _$selectedDeviceAtom =
+      Atom(name: '_ZollSdkStore.selectedDevice', context: context);
+
+  @override
+  XSeriesDevice? get selectedDevice {
+    _$selectedDeviceAtom.reportRead();
+    return super.selectedDevice;
+  }
+
+  @override
+  set selectedDevice(XSeriesDevice? value) {
+    _$selectedDeviceAtom.reportWrite(value, super.selectedDevice, () {
+      super.selectedDevice = value;
+    });
+  }
+
   late final _$onDownloadCaseSuccessAsyncAction =
       AsyncAction('_ZollSdkStore.onDownloadCaseSuccess', context: context);
 
@@ -120,7 +136,8 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     return '''
 devices: ${devices},
 caseListItems: ${caseListItems},
-cases: ${cases}
+cases: ${cases},
+selectedDevice: ${selectedDevice}
     ''';
   }
 }

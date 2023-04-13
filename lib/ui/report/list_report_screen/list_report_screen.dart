@@ -88,13 +88,13 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
               const SizedBox(
                 height: 80,
                 child: DrawerHeader(
-                  child: const Image(
+                  margin: EdgeInsets.all(0.0),
+                  padding: EdgeInsets.all(0.0),
+                  child: Image(
                     image: AssetImage('assets/logo.png'),
                     fit: BoxFit.fitHeight,
                     height: 60,
                   ),
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(0.0),
                 ),
               ),
               ListTile(
@@ -306,7 +306,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context, true),
-                      child: Text('OK'),
+                      child: const Text('OK'),
                     ),
                   ],
                 );

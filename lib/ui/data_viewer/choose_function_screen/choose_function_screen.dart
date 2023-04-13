@@ -1,26 +1,17 @@
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
-import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
 class ChooseFunctionScreenArguments {
-  final XSeriesDevice device;
   final String caseId;
 
-  ChooseFunctionScreenArguments({required this.device, required this.caseId});
+  ChooseFunctionScreenArguments({required this.caseId});
 }
 
 class ChooseFunctionScreen extends StatefulWidget {
@@ -32,7 +23,6 @@ class ChooseFunctionScreen extends StatefulWidget {
 
 class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
     with RouteAware {
-  XSeriesDevice? device;
   String? caseId;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -58,7 +48,6 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   void didPush() {
     final args = ModalRoute.of(context)!.settings.arguments
         as ChooseFunctionScreenArguments;
-    device = args.device;
     caseId = args.caseId;
   }
 
@@ -105,31 +94,29 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   Widget _buildMainContent() {
     return ListView(children: [
       ListTile(
-        title: Text("イベント選択"),
+        title: const Text("イベント選択"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerListEvent,
-              arguments:
-                  ListEventScreenArguments(device: device!, caseId: caseId!));
+              arguments: ListEventScreenArguments(caseId: caseId!));
         },
       ),
       ListTile(
-        title: Text("CPR選択"),
+        title: const Text("CPR選択"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerMock,
               arguments: MockScreenArguments(title: 'CPR選択'));
         },
       ),
       ListTile(
-        title: Text("12Lead選択"),
+        title: const Text("12Lead選択"),
         onTap: () {
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerListTwelveLead,
-              arguments: ListTwelveLeadScreenArguments(
-                  caseId: caseId!, device: device!));
+              arguments: ListTwelveLeadScreenArguments(caseId: caseId!));
         },
       ),
       ListTile(
-        title: Text("スナップショット選択"),
+        title: const Text("スナップショット選択"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerMock,
               arguments: MockScreenArguments(title: 'スナップショット選択'));

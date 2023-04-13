@@ -1,13 +1,7 @@
-import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:quiver/cache.dart';
-import 'package:quiver/iterables.dart' as quiver_iterables;
-import 'package:tuple/tuple.dart';
 
 class TwelveLeadChart extends StatefulWidget {
   const TwelveLeadChart({
@@ -45,7 +39,7 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 300,
       child: LineChart(
         LineChartData(
@@ -54,14 +48,17 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
             minY: -2000,
             maxY: 6000,
             clipData: FlClipData.all(),
+            gridData:
+                FlGridData(verticalInterval: 0.2, horizontalInterval: 500),
+            titlesData: FlTitlesData(show: false),
             lineBarsData: [
               LineChartBarData(
                 spots: [
-                  FlSpot(-0.2, 4000),
-                  FlSpot(-0.1, 4000),
-                  FlSpot(-0.1, 5000),
-                  FlSpot(0, 5000),
-                  FlSpot(0, 4000),
+                  const FlSpot(-0.2, 4000),
+                  const FlSpot(-0.1, 4000),
+                  const FlSpot(-0.1, 5000),
+                  const FlSpot(0, 5000),
+                  const FlSpot(0, 4000),
                 ],
                 isCurved: false,
                 color: Colors.black,
@@ -73,11 +70,11 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
               ),
               LineChartBarData(
                 spots: [
-                  FlSpot(-0.2, 2000),
-                  FlSpot(-0.1, 2000),
-                  FlSpot(-0.1, 3000),
-                  FlSpot(0, 3000),
-                  FlSpot(0, 2000),
+                  const FlSpot(-0.2, 2000),
+                  const FlSpot(-0.1, 2000),
+                  const FlSpot(-0.1, 3000),
+                  const FlSpot(0, 3000),
+                  const FlSpot(0, 2000),
                 ],
                 isCurved: false,
                 color: Colors.black,
@@ -89,11 +86,11 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
               ),
               LineChartBarData(
                 spots: [
-                  FlSpot(-0.2, 0),
-                  FlSpot(-0.1, 0),
-                  FlSpot(-0.1, 1000),
-                  FlSpot(0, 1000),
-                  FlSpot(0, 0),
+                  const FlSpot(-0.2, 0),
+                  const FlSpot(-0.1, 0),
+                  const FlSpot(-0.1, 1000),
+                  const FlSpot(0, 1000),
+                  const FlSpot(0, 0),
                 ],
                 isCurved: false,
                 color: Colors.black,

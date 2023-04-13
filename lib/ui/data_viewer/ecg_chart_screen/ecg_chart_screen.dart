@@ -1,26 +1,10 @@
-import 'dart:io';
-import 'dart:math';
 
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
-import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobx/mobx.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
@@ -131,7 +115,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Pads'),
+          const Text('Pads'),
           EcgChart(samples: myCase!.waves['Pads']!.samples),
         ],
       ),

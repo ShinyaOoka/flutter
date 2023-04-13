@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:localization/localization.dart';
@@ -271,7 +270,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<Classification>(
               items: report.classificationStore!.classifications.values
@@ -314,7 +313,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<Classification>(
               items: report.classificationStore!.classifications.values
@@ -360,7 +359,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'pulse'.i18n(),
@@ -399,7 +398,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'blood_pressure_low'.i18n(),
@@ -443,7 +442,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Focus(
               child: AppTextField(
@@ -488,7 +487,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               maxLength: 3,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'pupil_left'.i18n(),
@@ -538,7 +537,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               },
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<Classification>(
               items: report.classificationStore!.classifications.values
@@ -575,7 +574,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               readOnly: widget.readOnly,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<bool>(
               items: const [true, false],
@@ -609,7 +608,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppDropdown<Classification>(
               items: report.classificationStore!.classifications.values
@@ -647,7 +646,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppCheckbox(
               label: 'vomiting'.i18n(),
@@ -683,7 +682,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
             optional: true,
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           child: AppCheckbox(
             label: 'each_suction'.i18n(),
@@ -715,7 +714,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'other_process_2'.i18n(),
@@ -748,7 +747,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'other_process_4'.i18n(),
@@ -786,7 +785,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: AppTextField(
               label: 'other_process_6'.i18n(),
@@ -819,7 +818,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
               keyboardType: TextInputType.multiline,
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(child: Container()),
         ],
       ),
