@@ -14,6 +14,7 @@ import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -120,51 +121,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   Widget _buildMainContent() {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text('Lead I'),
-          EcgChart(
-              samples: twelveLead!.leadI.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead II'),
-          EcgChart(
-              samples: twelveLead!.leadII.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V1'),
-          EcgChart(
-              samples: twelveLead!.leadV1.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V2'),
-          EcgChart(
-              samples: twelveLead!.leadV2.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V3'),
-          EcgChart(
-              samples: twelveLead!.leadV3.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V4'),
-          EcgChart(
-              samples: twelveLead!.leadV4.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V5'),
-          EcgChart(
-              samples: twelveLead!.leadV5.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-          Text('Lead V6'),
-          EcgChart(
-              samples: twelveLead!.leadV6.samples,
-              segments: 1,
-              initDuration: Duration(hours: 1)),
-        ],
-      ),
-    );
+        child: TwelveLeadChart(
+      data: twelveLead!,
+    ));
   }
 }

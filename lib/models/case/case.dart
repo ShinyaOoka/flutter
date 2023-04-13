@@ -39,31 +39,31 @@ class Ecg12Lead {
   DateTime time;
   Waveform leadI;
   Waveform leadII;
-  // Waveform leadIII;
+  Waveform leadIII;
   Waveform leadV1;
   Waveform leadV2;
   Waveform leadV3;
   Waveform leadV4;
   Waveform leadV5;
   Waveform leadV6;
-  // Waveform leadAVL;
-  // Waveform leadAVR;
-  // Waveform leadAVF;
+  Waveform leadAVL;
+  Waveform leadAVR;
+  Waveform leadAVF;
 
   Ecg12Lead({
     required this.time,
     required this.leadI,
     required this.leadII,
-    // required this.leadIII,
+    required this.leadIII,
     required this.leadV1,
     required this.leadV2,
     required this.leadV3,
     required this.leadV4,
     required this.leadV5,
     required this.leadV6,
-    // required this.leadAVL,
-    // required this.leadAVR,
-    // required this.leadAVF,
+    required this.leadAVL,
+    required this.leadAVR,
+    required this.leadAVF,
   });
 }
 
@@ -203,6 +203,10 @@ abstract class _Case with Store {
         final sampleRate = event.rawData['SampleRate'] as int;
         Waveform leadI = Waveform(type: "LeadI");
         Waveform leadII = Waveform(type: "LeadII");
+        Waveform leadIII = Waveform(type: "LeadIII");
+        Waveform leadAVL = Waveform(type: "LeadAVL");
+        Waveform leadAVR = Waveform(type: "LeadAVR");
+        Waveform leadAVF = Waveform(type: "LeadAVF");
         Waveform leadV1 = Waveform(type: "LeadV1");
         Waveform leadV2 = Waveform(type: "LeadV2");
         Waveform leadV3 = Waveform(type: "LeadV3");
@@ -219,35 +223,52 @@ abstract class _Case with Store {
         final leadV6Raw = event.rawData['LeadData']['LeadV6'];
         final total = event.rawData['LeadData']['RecordCnt'];
         for (var i = 0; i < total; i++) {
-          leadI.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadIRaw[i].toDouble() / 4 * 10));
-          leadII.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadIIRaw[i].toDouble() / 4 * 10));
-          leadV1.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV1Raw[i].toDouble() / 4 * 10));
-          leadV2.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV2Raw[i].toDouble() / 4 * 10));
-          leadV3.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV3Raw[i].toDouble() / 4 * 10));
-          leadV4.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV4Raw[i].toDouble() / 4 * 10));
-          leadV5.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV5Raw[i].toDouble() / 4 * 10));
-          leadV6.samples.add(Sample(
-              timestamp: timestamp + i * sampleRate,
-              value: leadV6Raw[i].toDouble() / 4 * 10));
+          final t = timestamp + i * (1000000 ~/ sampleRate);
+          leadI.samples.add(
+              Sample(timestamp: t, value: leadIRaw[i].toDouble() / 4 * 10));
+          leadII.samples.add(
+              Sample(timestamp: t, value: leadIIRaw[i].toDouble() / 4 * 10));
+          leadIII.samples.add(Sample(
+              timestamp: t,
+              value:
+                  (leadIIRaw[i].toDouble() - leadIRaw[i].toDouble()) / 4 * 10));
+          leadAVL.samples.add(Sample(
+              timestamp: t,
+              value: (leadIRaw[i].toDouble() - leadIIRaw[i].toDouble() / 2) /
+                  4 *
+                  10));
+          leadAVR.samples.add(Sample(
+              timestamp: t,
+              value: (-leadIIRaw[i].toDouble() - leadIRaw[i].toDouble()) /
+                  2 /
+                  4 *
+                  10));
+          leadAVF.samples.add(Sample(
+              timestamp: t,
+              value: (leadIIRaw[i].toDouble() - leadIRaw[i].toDouble() / 2) /
+                  4 *
+                  10));
+          leadV1.samples.add(
+              Sample(timestamp: t, value: leadV1Raw[i].toDouble() / 4 * 10));
+          leadV2.samples.add(
+              Sample(timestamp: t, value: leadV2Raw[i].toDouble() / 4 * 10));
+          leadV3.samples.add(
+              Sample(timestamp: t, value: leadV3Raw[i].toDouble() / 4 * 10));
+          leadV4.samples.add(
+              Sample(timestamp: t, value: leadV4Raw[i].toDouble() / 4 * 10));
+          leadV5.samples.add(
+              Sample(timestamp: t, value: leadV5Raw[i].toDouble() / 4 * 10));
+          leadV6.samples.add(
+              Sample(timestamp: t, value: leadV6Raw[i].toDouble() / 4 * 10));
         }
         result.add(Ecg12Lead(
           time: date,
           leadI: leadI,
           leadII: leadII,
+          leadIII: leadIII,
+          leadAVL: leadAVL,
+          leadAVR: leadAVR,
+          leadAVF: leadAVF,
           leadV1: leadV1,
           leadV2: leadV2,
           leadV3: leadV3,
