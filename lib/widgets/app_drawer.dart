@@ -98,6 +98,31 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   },
                 )
               : Container(),
+          ListTile(
+            leading: Icon(Icons.info),
+            title: const Text('情報'),
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text('情報'),
+                        content: RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                children: [
+                              TextSpan(text: 'アプリ名\n'),
+                              TextSpan(text: 'バーション: 0.0.1'),
+                            ])),
+                        actions: [
+                          TextButton(
+                            child: const Text("OK"),
+                            onPressed: () => Navigator.pop(context, true),
+                          ),
+                        ]);
+                  });
+            },
+          ),
         ],
       ),
     );
