@@ -123,6 +123,15 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   });
             },
           ),
+          _zollSdkStore.selectedDevice != null && isDataViewerRoute
+              ? Divider()
+              : Container(),
+          _zollSdkStore.selectedDevice != null && isDataViewerRoute
+              ? ListTile(
+                  title: Text(
+                      '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
+                )
+              : Container(),
         ],
       ),
     );

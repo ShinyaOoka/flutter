@@ -153,8 +153,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 enabled: false,
                 child: ListTile(
                     title: Text(
-                        '接続中機器:${_zollSdkStore.selectedDevice!.serialNumber}'
-                            .i18n()))),
+                        '接続中機器: ${_zollSdkStore.selectedDevice!.serialNumber}'))),
           ];
           if (hasNewData) {
             items.insert(
