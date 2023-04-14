@@ -129,25 +129,62 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   List<Widget> _buildActions() {
     return <Widget>[
-      // _buildCreateReportButton(),
-      hasNewData
-          ? Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    cases = [
-                      ..._zollSdkStore.caseListItems[
-                          _zollSdkStore.selectedDevice?.serialNumber]!
-                    ];
-                    hasNewData = false;
-                  });
-                },
-                label: const Text("更新"),
-                icon: const Icon(Icons.refresh),
+      PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).primaryColor,
+        ),
+        itemBuilder: (context) {
+          final items = <PopupMenuEntry>[
+            PopupMenuItem(
+                value: 0,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: const Icon(Icons.phonelink_erase),
+                    title: Text('機器接続変更'.i18n()))),
+            PopupMenuDivider(),
+            PopupMenuItem(
+                value: 99,
+                enabled: false,
+                child: ListTile(
+                    title: Text(
+                        '接続中機器:${_zollSdkStore.selectedDevice!.serialNumber}'
+                            .i18n()))),
+          ];
+          if (hasNewData) {
+            items.insert(
+              1,
+              PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 10,
+                  leading: const Icon(Icons.refresh),
+                  title: Text('更新'),
+                ),
               ),
-            )
-          : Container()
+            );
+          }
+          return items;
+        },
+        onSelected: (value) async {
+          switch (value) {
+            case 0:
+              Navigator.of(context).pop();
+              break;
+            case 1:
+              setState(() {
+                cases = [
+                  ..._zollSdkStore.caseListItems[
+                      _zollSdkStore.selectedDevice?.serialNumber]!
+                ];
+                hasNewData = false;
+              });
+              break;
+          }
+        },
+      )
     ];
   }
 

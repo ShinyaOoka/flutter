@@ -158,7 +158,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
           ];
           if (hasNewData) {
             items.insert(
-              0,
+              1,
               PopupMenuItem(
                 value: 1,
                 child: ListTile(
