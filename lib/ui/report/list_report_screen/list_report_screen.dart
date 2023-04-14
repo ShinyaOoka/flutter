@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -77,53 +78,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         body: _buildBody(),
         floatingActionButton:
             mode == SelectionMode.none ? _buildCreateReportButton() : null,
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const SizedBox(
-                height: 80,
-                child: DrawerHeader(
-                  margin: EdgeInsets.all(0.0),
-                  padding: EdgeInsets.all(0.0),
-                  child: Image(
-                    image: AssetImage('assets/logo.png'),
-                    fit: BoxFit.fitHeight,
-                    height: 60,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: const Text('レポート作成'),
-                onTap: () {
-                  if (ModalRoute.of(context)?.settings.name ==
-                      ReportRoutes.reportListReport) {
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                  Navigator.of(context)
-                      .popAndPushNamed(ReportRoutes.reportListReport);
-                },
-              ),
-              ListTile(
-                title: const Text('データビューアー（仮）'),
-                onTap: () {
-                  if (ModalRoute.of(context)?.settings.name ==
-                      DataViewerRoutes.dataViewerListDevice) {
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                  Navigator.of(context)
-                      .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: AppDrawer(),
       ),
     );
   }
