@@ -1,7 +1,45 @@
-
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+
+class DotTextPainter extends FlDotPainter {
+  String text;
+  late double height;
+  late TextPainter textPainter;
+
+  DotTextPainter(this.text) {
+    textPainter = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 20,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+  }
+
+  /// Implementation of the parent class to draw the square
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    textPainter.paint(
+        canvas, offsetInCanvas.translate(4, -textPainter.height / 2));
+  }
+
+  /// Implementation of the parent class to get the size of the square
+  @override
+  Size getSize(FlSpot spot) {
+    return textPainter.size;
+  }
+
+  /// Used for equality check, see [EquatableMixin].
+  @override
+  List<Object?> get props => [
+        text,
+      ];
+}
 
 class TwelveLeadChart extends StatefulWidget {
   const TwelveLeadChart({
@@ -39,6 +77,20 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
 
   @override
   Widget build(BuildContext context) {
+    final labels = [
+      'I',
+      'II',
+      'III',
+      'aVR',
+      'aVL',
+      'aVF',
+      'V1',
+      'V2',
+      'V3',
+      'V4',
+      'V5',
+      'V6',
+    ];
     return SizedBox(
       height: 300,
       child: LineChart(
@@ -50,8 +102,30 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
             clipData: FlClipData.all(),
             gridData:
                 FlGridData(verticalInterval: 0.2, horizontalInterval: 500),
-            titlesData: FlTitlesData(show: false),
+            titlesData: FlTitlesData(show: true),
             lineBarsData: [
+              LineChartBarData(
+                spots: [
+                  const FlSpot(0, 5000),
+                  const FlSpot(0, 3000),
+                  const FlSpot(0, 1000),
+                  const FlSpot(2.5, 5000),
+                  const FlSpot(2.5, 3000),
+                  const FlSpot(2.5, 1000),
+                  const FlSpot(5, 5000),
+                  const FlSpot(5, 3000),
+                  const FlSpot(5, 1000),
+                  const FlSpot(7.5, 5000),
+                  const FlSpot(7.5, 3000),
+                  const FlSpot(7.5, 1000),
+                ],
+                dotData: FlDotData(
+                  getDotPainter: (p0, p1, p2, index) {
+                    return DotTextPainter(labels[index]);
+                  },
+                ),
+                barWidth: 0,
+              ),
               LineChartBarData(
                 spots: [
                   const FlSpot(-0.2, 4000),
