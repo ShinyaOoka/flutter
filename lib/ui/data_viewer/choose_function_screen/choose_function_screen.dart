@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
@@ -118,8 +119,9 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
       ListTile(
         title: const Text("スナップショット選択"),
         onTap: () {
-          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerMock,
-              arguments: MockScreenArguments(title: 'スナップショット選択'));
+          Navigator.of(context).pushNamed(
+              DataViewerRoutes.dataViewerListSnapshot,
+              arguments: ListSnapshotScreenArguments(caseId: caseId!));
         },
       )
     ]);

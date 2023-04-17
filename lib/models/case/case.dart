@@ -67,6 +67,13 @@ class Ecg12Lead {
   });
 }
 
+class Snapshot {
+  DateTime time;
+  List<Waveform> waveforms;
+
+  Snapshot({required this.time, required this.waveforms});
+}
+
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
@@ -276,6 +283,20 @@ abstract class _Case with Store {
           leadV5: leadV5,
           leadV6: leadV6,
         ));
+      }
+    }
+    return result;
+  }
+
+  @computed
+  List<Snapshot> get snapshots {
+    final List<Snapshot> result = [];
+    for (var event in events) {
+      if (event.type == 'SnapshotRpt') {
+        final startTimeString = event.rawData['StdHdr']['DevDateTime'];
+        final time =
+            DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
+        result.add(Snapshot(time: time, waveforms: []));
       }
     }
     return result;
