@@ -1,4 +1,3 @@
-
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
@@ -69,7 +68,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "ECG・バイタル表示",
+      title: "12誘導表示",
     );
   }
 

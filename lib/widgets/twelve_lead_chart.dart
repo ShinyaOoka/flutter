@@ -102,7 +102,7 @@ class _TwelveLeadChartState extends State<TwelveLeadChart> {
             clipData: FlClipData.all(),
             gridData:
                 FlGridData(verticalInterval: 0.2, horizontalInterval: 500),
-            titlesData: FlTitlesData(show: true),
+            titlesData: FlTitlesData(show: false),
             lineBarsData: [
               LineChartBarData(
                 spots: [
