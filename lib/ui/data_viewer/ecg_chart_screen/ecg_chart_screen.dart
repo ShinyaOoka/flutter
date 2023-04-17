@@ -1,4 +1,3 @@
-
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
@@ -14,8 +13,10 @@ import 'package:localization/localization.dart';
 class EcgChartScreenArguments {
   final XSeriesDevice device;
   final String caseId;
+  final int timestamp;
 
-  EcgChartScreenArguments({required this.device, required this.caseId});
+  EcgChartScreenArguments(
+      {required this.device, required this.caseId, required this.timestamp});
 }
 
 class EcgChartScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+  late int timestamp;
   Case? myCase;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -58,6 +60,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         ModalRoute.of(context)!.settings.arguments as EcgChartScreenArguments;
     device = args.device;
     caseId = args.caseId;
+    timestamp = args.timestamp;
 
     _zollSdkStore = context.read();
     setState(() {
@@ -116,7 +119,10 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text('Pads'),
-          EcgChart(samples: myCase!.waves['Pads']!.samples),
+          EcgChart(
+            samples: myCase!.waves['Pads']!.samples,
+            initTimestamp: timestamp,
+          ),
         ],
       ),
     );

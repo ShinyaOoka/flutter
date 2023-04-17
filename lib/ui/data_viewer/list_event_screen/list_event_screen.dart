@@ -162,53 +162,44 @@ class _ListEventScreenState extends State<ListEventScreen>
   Widget _buildMainContent() {
     return LayoutBuilder(builder: (context, constraints) {
       final isMobile = constraints.maxWidth < 640;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                    DataViewerRoutes.dataViewerEcgChart,
-                    arguments: EcgChartScreenArguments(
-                        device: _zollSdkStore.selectedDevice!, caseId: caseId));
-              },
-              child: const Text("ECG・バイタル表示")),
-          Expanded(
-            child: Scrollbar(
-              controller: scrollController,
-              thumbVisibility: true,
-              child: ListView.separated(
-                controller: scrollController,
-                itemCount: myCase!.displayableEvents.length,
-                itemBuilder: (context, itemIndex) {
-                  final dataIndex = myCase!.displayableEvents[itemIndex].item1;
-                  return ListTile(
-                      dense: isMobile,
-                      visualDensity: isMobile
-                          ? VisualDensity.compact
-                          : VisualDensity.standard,
-                      title: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: AppConstants.dateTimeFormat
-                                .format(myCase!.events[dataIndex].date),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context).primaryColor)),
-                        TextSpan(
-                            text:
-                                '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                      ], style: Theme.of(context).textTheme.bodyMedium)),
-                      // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                      onTap: () {});
-                },
-                separatorBuilder: (context, index) => const Divider(),
-              ),
-            ),
-          ),
-        ],
+      return Scrollbar(
+        controller: scrollController,
+        thumbVisibility: true,
+        child: ListView.separated(
+          controller: scrollController,
+          itemCount: myCase!.displayableEvents.length,
+          itemBuilder: (context, itemIndex) {
+            final dataIndex = myCase!.displayableEvents[itemIndex].item1;
+            return ListTile(
+                dense: isMobile,
+                visualDensity:
+                    isMobile ? VisualDensity.compact : VisualDensity.standard,
+                title: RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: AppConstants.dateTimeFormat
+                          .format(myCase!.events[dataIndex].date),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Theme.of(context).primaryColor)),
+                  TextSpan(
+                      text:
+                          '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
+                ], style: Theme.of(context).textTheme.bodyMedium)),
+                // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                      DataViewerRoutes.dataViewerEcgChart,
+                      arguments: EcgChartScreenArguments(
+                          device: _zollSdkStore.selectedDevice!,
+                          caseId: caseId,
+                          timestamp: myCase!
+                              .events[dataIndex].date.microsecondsSinceEpoch));
+                });
+          },
+          separatorBuilder: (context, index) => const Divider(),
+        ),
       );
     });
   }
