@@ -12,11 +12,13 @@ class EcgChart extends StatefulWidget {
   const EcgChart({
     Key? key,
     required this.samples,
+    required this.initTimestamp,
     this.initDuration = const Duration(seconds: 45),
     this.segments = 3,
   }) : super(key: key);
 
   final List<Sample> samples;
+  final int initTimestamp;
   final Duration initDuration;
   final int segments;
 
@@ -58,9 +60,10 @@ class _EcgChartState extends State<EcgChart> {
   @override
   void initState() {
     super.initState();
-    minX = widget.samples.first.inSeconds;
-    maxX = widget.samples.last.inSeconds;
-    minX = max(minX, maxX - widget.initDuration.inSeconds);
+    minX = widget.initTimestamp / 1000000 - widget.initDuration.inSeconds / 2;
+    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds / 2;
+    minX = max(minX, widget.samples.first.inSeconds);
+    maxX = min(maxX, widget.samples.last.inSeconds);
   }
 
   @override
