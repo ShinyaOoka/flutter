@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/snapshot_detail_screen/snapshot_detail_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -167,7 +168,14 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
         itemBuilder: (context, index) => ListTile(
             title: Text(AppConstants.dateTimeFormat
                 .format(myCase!.snapshots[index].time)),
-            onTap: () {}),
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                DataViewerRoutes.dataViewerSnapshotDetail,
+                arguments: SnapshotDetailScreenArguments(
+                  snapshot: myCase!.snapshots[index],
+                ),
+              );
+            }),
         separatorBuilder: (context, index) => const Divider(),
       ),
     );

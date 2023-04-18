@@ -69,7 +69,7 @@ class Ecg12Lead {
 
 class Snapshot {
   DateTime time;
-  List<Waveform> waveforms;
+  Map<String, Waveform> waveforms;
 
   Snapshot({required this.time, required this.waveforms});
 }
@@ -293,10 +293,33 @@ abstract class _Case with Store {
     final List<Snapshot> result = [];
     for (var event in events) {
       if (event.type == 'SnapshotRpt') {
+        final map = <String, Waveform>{};
         final startTimeString = event.rawData['StdHdr']['DevDateTime'];
         final time =
             DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
-        result.add(Snapshot(time: time, waveforms: []));
+        final waveforms = event.rawData['Waveform'];
+        final timestamp = time.microsecondsSinceEpoch;
+        for (var waveformRaw in waveforms) {
+          final samples = waveformRaw['WaveRec']['UnpackedSamples'];
+          final sampleStatuses = waveformRaw['WaveRec']['SampleStatus'];
+          final waveType = waveformRaw['WaveRec']['WaveTypeVar'];
+          final sampleTime = waveformRaw['WaveRec']['SampleTime'] as int;
+          if (!map.containsKey(waveType)) {
+            map[waveType] = Waveform(type: waveType);
+          }
+          final waveform = map[waveType]!;
+          for (var i = 0; i < samples.length; i++) {
+            double value;
+            if (waveType == 'Pads') {
+              value = samples[i] / 4 * 10;
+            } else {
+              value = samples[i].toDouble();
+            }
+            waveform.samples.add(
+                Sample(timestamp: timestamp + i * sampleTime, value: value));
+          }
+        }
+        result.add(Snapshot(time: time, waveforms: map));
       }
     }
     return result;

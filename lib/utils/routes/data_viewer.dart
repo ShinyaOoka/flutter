@@ -5,6 +5,7 @@ import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_scree
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/snapshot_detail_screen/snapshot_detail_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/twelve_lead_chart_screen/twelve_lead_chart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_device_screen/list_device_screen.dart';
@@ -16,6 +17,7 @@ class DataViewerRoutes {
   static const String dataViewerListDevice = '/data_viewer/list_device';
   static const String dataViewerListCase = '/data_viewer/list_case';
   static const String dataViewerListEvent = '/data_viewer/list_event';
+  static const String dataViewerSnapshotDetail = '/data_viewer/snapshot_detail';
   static const String dataViewerListSnapshot = '/data_viewer/list_snapshot';
   static const String dataViewerListTwelveLead =
       '/data_viewer/list_twelve_lead';
@@ -39,5 +41,7 @@ class DataViewerRoutes {
         const ListTwelveLeadScreen(),
     dataViewerListSnapshot: (BuildContext context) =>
         const ListSnapshotScreen(),
+    dataViewerSnapshotDetail: (BuildContext context) =>
+        const SnapshotDetailScreen()
   };
 }
