@@ -101,12 +101,29 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: snapshot.waveforms.values
-            .map((e) => EcgChart(
-                samples: e.samples,
-                initTimestamp: e.samples.first.timestamp,
-                segments: 1))
-            .toList(),
+        children: [
+          Container(
+            child: Text('Pads'),
+            padding: EdgeInsets.all(16),
+          ),
+          EcgChart(
+            samples: snapshot.waveforms['Pads']!.samples,
+            initTimestamp: snapshot.waveforms['Pads']!.samples.first.timestamp,
+            segments: 1,
+            showGrid: true,
+          ),
+          Container(
+            child: Text('CO2 mmHg, Waveform'),
+            padding: EdgeInsets.all(16),
+          ),
+          EcgChart(
+            samples: snapshot.waveforms['CO2 mmHg, Waveform']!.samples,
+            initTimestamp: snapshot
+                .waveforms['CO2 mmHg, Waveform']!.samples.first.timestamp,
+            segments: 1,
+            showGrid: true,
+          )
+        ],
       ),
     );
   }

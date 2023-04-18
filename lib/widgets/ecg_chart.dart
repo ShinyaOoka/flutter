@@ -15,12 +15,14 @@ class EcgChart extends StatefulWidget {
     required this.initTimestamp,
     this.initDuration = const Duration(seconds: 45),
     this.segments = 3,
+    this.showGrid = false,
   }) : super(key: key);
 
   final List<Sample> samples;
   final int initTimestamp;
   final Duration initDuration;
   final int segments;
+  final bool showGrid;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -149,7 +151,12 @@ class _EcgChartState extends State<EcgChart> {
               maxY: 2500,
               minY: -2500,
               clipData: FlClipData.all(),
-              gridData: FlGridData(show: false),
+              gridData: FlGridData(
+                  show: widget.showGrid,
+                  verticalInterval: 0.4,
+                  getDrawingHorizontalLine: (value) => FlLine(strokeWidth: 0.5),
+                  getDrawingVerticalLine: (value) => FlLine(strokeWidth: 0.5),
+                  horizontalInterval: 500),
               titlesData: FlTitlesData(
                 topTitles: AxisTitles(),
                 leftTitles: AxisTitles(
