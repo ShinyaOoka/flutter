@@ -16,6 +16,11 @@ class EcgChart extends StatefulWidget {
     this.initDuration = const Duration(seconds: 45),
     this.segments = 3,
     this.showGrid = false,
+    this.minY = -2500,
+    this.maxY = 2500,
+    this.height = 150,
+    this.gridHorizontal = 500,
+    this.gridVertical = 0.4,
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -23,6 +28,11 @@ class EcgChart extends StatefulWidget {
   final Duration initDuration;
   final int segments;
   final bool showGrid;
+  final double minY;
+  final double maxY;
+  final double height;
+  final double gridHorizontal;
+  final double gridVertical;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -140,7 +150,7 @@ class _EcgChartState extends State<EcgChart> {
   Widget buildChart(double minX, double maxX) {
     return IgnorePointer(
         child: SizedBox(
-      height: 150,
+      height: widget.height,
       child: FutureBuilder(
         future: getData(minX, maxX),
         builder: (context, snapshot) {
@@ -148,15 +158,15 @@ class _EcgChartState extends State<EcgChart> {
             LineChartData(
               minX: minX,
               maxX: maxX,
-              maxY: 2500,
-              minY: -2500,
+              maxY: widget.maxY,
+              minY: widget.minY,
               clipData: FlClipData.all(),
               gridData: FlGridData(
                   show: widget.showGrid,
-                  verticalInterval: 0.4,
+                  verticalInterval: widget.gridVertical,
                   getDrawingHorizontalLine: (value) => FlLine(strokeWidth: 0.5),
                   getDrawingVerticalLine: (value) => FlLine(strokeWidth: 0.5),
-                  horizontalInterval: 500),
+                  horizontalInterval: widget.gridHorizontal),
               titlesData: FlTitlesData(
                 topTitles: AxisTitles(),
                 leftTitles: AxisTitles(
