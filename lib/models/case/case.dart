@@ -6,6 +6,60 @@ import 'package:tuple/tuple.dart';
 
 part 'case.g.dart';
 
+class TrendData {
+  int status;
+  int value;
+  String unit;
+
+  TrendData({
+    required this.status,
+    required this.value,
+    required this.unit,
+  });
+}
+
+class Trend {
+  List<TrendData> temps;
+  TrendData hr;
+  TrendData fico2;
+  TrendData spo2;
+  TrendData spCo;
+  TrendData spMet;
+  TrendData pVI;
+  TrendData pI;
+  TrendData spOC;
+  TrendData spHb;
+  TrendData nibpMap;
+  TrendData nibpDia;
+  TrendData nibpSys;
+  List<TrendData> ibpSys;
+  List<TrendData> ibpMap;
+  List<TrendData> ibpDia;
+  TrendData etco2;
+  TrendData resp;
+
+  Trend({
+    required this.temps,
+    required this.hr,
+    required this.fico2,
+    required this.spo2,
+    required this.spCo,
+    required this.spMet,
+    required this.pVI,
+    required this.pI,
+    required this.spOC,
+    required this.spHb,
+    required this.nibpMap,
+    required this.nibpDia,
+    required this.nibpSys,
+    required this.ibpSys,
+    required this.ibpMap,
+    required this.ibpDia,
+    required this.etco2,
+    required this.resp,
+  });
+}
+
 class Sample {
   double value;
   int timestamp;
@@ -70,8 +124,9 @@ class Ecg12Lead {
 class Snapshot {
   DateTime time;
   Map<String, Waveform> waveforms;
+  Trend trend;
 
-  Snapshot({required this.time, required this.waveforms});
+  Snapshot({required this.time, required this.waveforms, required this.trend});
 }
 
 class Case = _Case with _$Case;
@@ -288,6 +343,14 @@ abstract class _Case with Store {
     return result;
   }
 
+  TrendData parseTrendData(dynamic raw) {
+    return TrendData(
+      status: raw['DataStatus'],
+      value: raw['Val']['#text'],
+      unit: raw['Val']['@UnitsVal'],
+    );
+  }
+
   @computed
   List<Snapshot> get snapshots {
     final List<Snapshot> result = [];
@@ -319,7 +382,38 @@ abstract class _Case with Store {
                 Sample(timestamp: timestamp + i * sampleTime, value: value));
           }
         }
-        result.add(Snapshot(time: time, waveforms: map));
+        final trendRaw = event.rawData['Trend'];
+        result.add(Snapshot(
+            time: time,
+            waveforms: map,
+            trend: Trend(
+              temps: (trendRaw['Temp'] as List<dynamic>)
+                  .map((x) => parseTrendData(x['TrendData']))
+                  .toList(),
+              hr: parseTrendData(trendRaw['Hr']['TrendData']),
+              fico2: parseTrendData(trendRaw['Fico2']['TrendData']),
+              spo2: parseTrendData(trendRaw['Spo2']['TrendData']),
+              spCo: parseTrendData(trendRaw['Spo2']['SpCo']['TrendData']),
+              spMet: parseTrendData(trendRaw['Spo2']['SpMet']['TrendData']),
+              pVI: parseTrendData(trendRaw['Spo2']['PVI']['TrendData']),
+              pI: parseTrendData(trendRaw['Spo2']['PI']['TrendData']),
+              spOC: parseTrendData(trendRaw['Spo2']['SpOC']['TrendData']),
+              spHb: parseTrendData(trendRaw['Spo2']['SpHb']['TrendData']),
+              nibpMap: parseTrendData(trendRaw['Nibp']['Map']['TrendData']),
+              nibpDia: parseTrendData(trendRaw['Nibp']['Dia']['TrendData']),
+              nibpSys: parseTrendData(trendRaw['Nibp']['Sys']['TrendData']),
+              ibpSys: (trendRaw['Ibp'] as List<dynamic>)
+                  .map((x) => parseTrendData(x['Sys']['TrendData']))
+                  .toList(),
+              ibpMap: (trendRaw['Ibp'] as List<dynamic>)
+                  .map((x) => parseTrendData(x['Map']['TrendData']))
+                  .toList(),
+              ibpDia: (trendRaw['Ibp'] as List<dynamic>)
+                  .map((x) => parseTrendData(x['Dia']['TrendData']))
+                  .toList(),
+              etco2: parseTrendData(trendRaw['Etco2']['TrendData']),
+              resp: parseTrendData(trendRaw['Resp']['TrendData']),
+            )));
       }
     }
     return result;
