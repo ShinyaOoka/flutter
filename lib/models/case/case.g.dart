@@ -25,12 +25,26 @@ mixin _$Case on _Case, Store {
       (_$wavesComputed ??= Computed<Map<String, Waveform>>(() => super.waves,
               name: '_Case.waves'))
           .value;
+  Computed<List<CprCompression>>? _$cprCompressionsComputed;
+
+  @override
+  List<CprCompression> get cprCompressions => (_$cprCompressionsComputed ??=
+          Computed<List<CprCompression>>(() => super.cprCompressions,
+              name: '_Case.cprCompressions'))
+      .value;
   Computed<List<Ecg12Lead>>? _$leadsComputed;
 
   @override
   List<Ecg12Lead> get leads => (_$leadsComputed ??=
           Computed<List<Ecg12Lead>>(() => super.leads, name: '_Case.leads'))
       .value;
+  Computed<List<Snapshot>>? _$snapshotsComputed;
+
+  @override
+  List<Snapshot> get snapshots =>
+      (_$snapshotsComputed ??= Computed<List<Snapshot>>(() => super.snapshots,
+              name: '_Case.snapshots'))
+          .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -102,7 +116,9 @@ startTime: ${startTime},
 endTime: ${endTime},
 displayableEvents: ${displayableEvents},
 waves: ${waves},
-leads: ${leads}
+cprCompressions: ${cprCompressions},
+leads: ${leads},
+snapshots: ${snapshots}
     ''';
   }
 }

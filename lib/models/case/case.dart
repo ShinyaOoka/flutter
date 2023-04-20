@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:quiver/iterables.dart';
 import 'package:tuple/tuple.dart';
 
 part 'case.g.dart';
@@ -15,6 +16,30 @@ class TrendData {
     required this.status,
     required this.value,
     required this.unit,
+  });
+}
+
+class CprCompression {
+  int timestamp;
+  int compDisp;
+  int relVelocity;
+  int loRateFlag;
+  int compRate;
+  int detectionFlag;
+  int loDepthFlag;
+  int hiDepthFlag;
+  int hiRateFlag;
+
+  CprCompression({
+    required this.timestamp,
+    required this.compDisp,
+    required this.relVelocity,
+    required this.loRateFlag,
+    required this.compRate,
+    required this.detectionFlag,
+    required this.loDepthFlag,
+    required this.hiDepthFlag,
+    required this.hiRateFlag,
   });
 }
 
@@ -293,6 +318,37 @@ abstract class _Case with Store {
       }
     }
     return map;
+  }
+
+  @computed
+  List<CprCompression> get cprCompressions {
+    List<CprCompression> result = [];
+    late int firstMsecTime;
+    late int firstTimestamp;
+    for (var event in events) {
+      if (event.type == 'NewCase') {
+        firstMsecTime = event.rawData['StdHdr']['MsecTime'];
+        firstTimestamp = DateFormat("yyyy-MM-ddTHH:mm:ss")
+            .parse(event.rawData['StdHdr']['DevDateTime'])
+            .toLocal()
+            .microsecondsSinceEpoch;
+      }
+      if (event.type == 'CprCompression') {
+        result.add(CprCompression(
+            timestamp: firstTimestamp -
+                firstMsecTime * 1000 +
+                (event.rawData['StdHdr']['MsecTime'] as int) * 1000,
+            compDisp: event.rawData['CompDisp'],
+            relVelocity: event.rawData['RelVelocity'],
+            loRateFlag: event.rawData['LoRateFlag'],
+            compRate: event.rawData['CompRate'],
+            detectionFlag: event.rawData['DetectionFlag'],
+            loDepthFlag: event.rawData['LoDepthFlag'],
+            hiDepthFlag: event.rawData['HiDepthFlag'],
+            hiRateFlag: event.rawData['HiRateFlag']));
+      }
+    }
+    return result;
   }
 
   @computed
