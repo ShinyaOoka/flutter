@@ -100,8 +100,38 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   Widget _buildMainContent() {
     return SingleChildScrollView(
-        child: TwelveLeadChart(
-      data: twelveLead!,
-    ));
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("Patient Name: ${twelveLead!.patientData.firstName}"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("Patient Age: ${twelveLead!.patientData.age}"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("Patient Sex: ${twelveLead!.patientData.sex}"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("Patient Id: ${twelveLead!.patientData.patientId}"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("HR: ${twelveLead!.heartRate}"),
+          ),
+          ...twelveLead!.statements.map((x) => Container(
+                padding: EdgeInsets.all(8),
+                child: Text(x),
+              )),
+          TwelveLeadChart(
+            data: twelveLead!,
+          ),
+        ],
+      ),
+    );
   }
 }

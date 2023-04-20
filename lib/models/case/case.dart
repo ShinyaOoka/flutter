@@ -18,6 +18,26 @@ class TrendData {
   });
 }
 
+class PatientData {
+  String firstName;
+  String middleName;
+  String lastName;
+  int age;
+  String patientId;
+  String sex;
+  int gender;
+
+  PatientData({
+    required this.firstName,
+    required this.middleName,
+    required this.lastName,
+    required this.age,
+    required this.patientId,
+    required this.sex,
+    required this.gender,
+  });
+}
+
 class Trend {
   List<TrendData> temps;
   TrendData hr;
@@ -91,6 +111,10 @@ class Waveform {
 
 class Ecg12Lead {
   DateTime time;
+
+  PatientData patientData;
+  int heartRate;
+  List<String> statements;
   Waveform leadI;
   Waveform leadII;
   Waveform leadIII;
@@ -106,6 +130,9 @@ class Ecg12Lead {
 
   Ecg12Lead({
     required this.time,
+    required this.patientData,
+    required this.heartRate,
+    required this.statements,
     required this.leadI,
     required this.leadII,
     required this.leadIII,
@@ -263,6 +290,15 @@ abstract class _Case with Store {
             DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
         final timestamp = date.microsecondsSinceEpoch;
         final sampleRate = event.rawData['SampleRate'] as int;
+        final patientDataRaw = event.rawData['PatientData'];
+        final patientData = PatientData(
+            firstName: patientDataRaw['FirstName'],
+            middleName: patientDataRaw['MiddleName'],
+            lastName: patientDataRaw['LastName'],
+            age: patientDataRaw['Age'],
+            patientId: patientDataRaw['PatientId'],
+            sex: patientDataRaw['Sex'],
+            gender: patientDataRaw['Gender']);
         Waveform leadI = Waveform(type: "LeadI");
         Waveform leadII = Waveform(type: "LeadII");
         Waveform leadIII = Waveform(type: "LeadIII");
@@ -325,6 +361,12 @@ abstract class _Case with Store {
         }
         result.add(Ecg12Lead(
           time: date,
+          patientData: patientData,
+          heartRate: event.rawData['AnalysisResult']['HeartRate'],
+          statements: (event.rawData['AnalysisResult']['Statements']
+                  ['Statement'] as List<dynamic>)
+              .map((x) => x.toString())
+              .toList(),
           leadI: leadI,
           leadII: leadII,
           leadIII: leadIII,
