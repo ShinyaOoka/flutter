@@ -1,39 +1,44 @@
+import 'dart:io';
+
+import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mobx/mobx.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class EcgChartScreenArguments {
-  final XSeriesDevice device;
+class CprChartScreenArguments {
   final String caseId;
-  final int timestamp;
 
-  EcgChartScreenArguments(
-      {required this.device, required this.caseId, required this.timestamp});
+  CprChartScreenArguments({required this.caseId});
 }
 
-class EcgChartScreen extends StatefulWidget {
-  const EcgChartScreen({super.key});
+class CprChartScreen extends StatefulWidget {
+  const CprChartScreen({super.key});
 
   @override
-  _EcgChartScreenState createState() => _EcgChartScreenState();
+  CprChartScreenState createState() => CprChartScreenState();
 }
 
-class _EcgChartScreenState extends State<EcgChartScreen>
+class CprChartScreenState extends State<CprChartScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
-  late int timestamp;
   String chartType = 'Pads';
   Case? myCase;
+  bool hasNewData = false;
+  late ZollSdkHostApi _hostApi;
+  ReactionDisposer? reactionDisposer;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -52,21 +57,58 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   @override
   void dispose() {
     super.dispose();
+    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
   @override
   Future<void> didPush() async {
     final args =
-        ModalRoute.of(context)!.settings.arguments as EcgChartScreenArguments;
-    device = args.device;
+        ModalRoute.of(context)!.settings.arguments as CprChartScreenArguments;
     caseId = args.caseId;
-    timestamp = args.timestamp;
 
+    _hostApi = context.read();
     _zollSdkStore = context.read();
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
+    reactionDisposer?.call();
+    reactionDisposer = autorun((_) {
+      final storeCase = _zollSdkStore.cases[caseId];
+      if (storeCase != null && myCase == null) {
+        setState(() {
+          myCase = storeCase;
+        });
+      } else if (myCase != null && storeCase == null) {
+        setState(() {
+          hasNewData = false;
+        });
+      } else if (myCase != null && storeCase != null) {
+        setState(() {
+          if (myCase!.events.length != storeCase.events.length) {
+            hasNewData = true;
+          }
+        });
+      }
+    });
+
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/demo.json')
+        .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    final parsedCase = CaseParser.parse(
+        await rootBundle.loadString("assets/example/demo.json"));
+    _zollSdkStore.cases['caseId'] = parsedCase;
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateTime.parse(caseListItem!.startTime!).toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
+        : null;
+    _hostApi.deviceDownloadCase(
+        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override
@@ -84,7 +126,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "ECG・バイタル表示",
+      title: "CPR選択",
     );
   }
 
@@ -121,20 +163,10 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButton<String>(
-                value: chartType,
-                items: myCase!.waves.keys
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                    .toList(),
-                onChanged: (x) {
-                  setState(() {
-                    chartType = x!;
-                  });
-                }),
             EcgChart(
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
-              initTimestamp: timestamp,
+              initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
               segments: 4,
               initDuration: Duration(minutes: 1),
             ),

@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
@@ -104,8 +105,8 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
       ListTile(
         title: const Text("CPR選択"),
         onTap: () {
-          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerMock,
-              arguments: MockScreenArguments(title: 'CPR選択'));
+          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
+              arguments: CprChartScreenArguments(caseId: caseId!));
         },
       ),
       ListTile(

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,7 @@ class EcgChart extends StatefulWidget {
     this.height = 150,
     this.gridHorizontal = 500,
     this.gridVertical = 0.4,
+    this.cprCompressions = const [],
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -33,19 +35,18 @@ class EcgChart extends StatefulWidget {
   final double height;
   final double gridHorizontal;
   final double gridVertical;
+  final List<CprCompression> cprCompressions;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
 }
 
 class _EcgChartState extends State<EcgChart> {
-  final Cache<Tuple2<int, int>, List<FlSpot>> cache =
-      MapCache.lru(maximumSize: 100);
+  Cache<Tuple2<int, int>, List<FlSpot>> cache = MapCache.lru(maximumSize: 100);
 
   final int factor = 100;
 
   List<FlSpot> getDataFromCacheKey(key) {
-    print('cache miss');
     return widget.samples
         .where((e) {
           final t = e.inSeconds;
@@ -72,10 +73,16 @@ class _EcgChartState extends State<EcgChart> {
   @override
   void initState() {
     super.initState();
-    minX = widget.initTimestamp / 1000000 - widget.initDuration.inSeconds / 2;
-    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds / 2;
+    minX = widget.initTimestamp / 1000000;
+    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
     minX = max(minX, widget.samples.first.inSeconds);
     maxX = min(maxX, widget.samples.last.inSeconds);
+  }
+
+  @override
+  void didUpdateWidget(EcgChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    cache = MapCache.lru(maximumSize: 100);
   }
 
   @override
@@ -218,6 +225,22 @@ class _EcgChartState extends State<EcgChart> {
                 ),
               ),
               lineBarsData: [
+                LineChartBarData(
+                  spots: widget.cprCompressions
+                      .map((e) => FlSpot(e.inSeconds, 1500))
+                      .toList(),
+                  dotData: FlDotData(
+                    getDotPainter: (p0, p1, p2, index) {
+                      final isGreen =
+                          widget.cprCompressions[index].compDisp >= 2000 &&
+                              widget.cprCompressions[index].compDisp <= 2400;
+                      return FlDotSquarePainter(
+                          size: 15,
+                          color: isGreen ? Colors.green : Colors.orange);
+                    },
+                  ),
+                  barWidth: 0,
+                ),
                 LineChartBarData(
                   spots: snapshot.data,
                   isCurved: false,

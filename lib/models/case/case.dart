@@ -30,6 +30,10 @@ class CprCompression {
   int hiDepthFlag;
   int hiRateFlag;
 
+  double get inSeconds {
+    return timestamp / 1000000;
+  }
+
   CprCompression({
     required this.timestamp,
     required this.compDisp,
