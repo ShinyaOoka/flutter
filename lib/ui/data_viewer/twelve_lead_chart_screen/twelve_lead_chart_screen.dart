@@ -123,6 +123,24 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
             padding: EdgeInsets.all(8),
             child: Text("HR: ${twelveLead!.heartRate}"),
           ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("PR Interval: ${twelveLead!.prInt} ms"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text("QRS Duration: ${twelveLead!.qrsDur} ms"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child:
+                Text("QT/QTc: ${twelveLead!.qtInt}/${twelveLead!.corrQtInt}"),
+          ),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+                "P-R-T Axis: ${twelveLead!.pAxis} ${twelveLead!.qrsAxis} ${twelveLead!.tAxis}"),
+          ),
           ...twelveLead!.statements.map((x) => Container(
                 padding: EdgeInsets.all(8),
                 child: Text(x),

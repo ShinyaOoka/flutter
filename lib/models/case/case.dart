@@ -114,6 +114,13 @@ class Ecg12Lead {
 
   PatientData patientData;
   int heartRate;
+  int qrsDur;
+  int qtInt;
+  int corrQtInt;
+  int prInt;
+  int pAxis;
+  int qrsAxis;
+  int tAxis;
   List<String> statements;
   Waveform leadI;
   Waveform leadII;
@@ -130,6 +137,13 @@ class Ecg12Lead {
 
   Ecg12Lead({
     required this.time,
+    required this.qrsDur,
+    required this.qtInt,
+    required this.corrQtInt,
+    required this.prInt,
+    required this.pAxis,
+    required this.qrsAxis,
+    required this.tAxis,
     required this.patientData,
     required this.heartRate,
     required this.statements,
@@ -362,6 +376,13 @@ abstract class _Case with Store {
         result.add(Ecg12Lead(
           time: date,
           patientData: patientData,
+          qrsDur: event.rawData['AnalysisResult']['QrsDur'],
+          qtInt: event.rawData['AnalysisResult']['QtInt'],
+          corrQtInt: event.rawData['AnalysisResult']['CorrQtInt'],
+          prInt: event.rawData['AnalysisResult']['PrInt'],
+          pAxis: event.rawData['AnalysisResult']['PAxis'],
+          qrsAxis: event.rawData['AnalysisResult']['QrsAxis'],
+          tAxis: event.rawData['AnalysisResult']['TAxis'],
           heartRate: event.rawData['AnalysisResult']['HeartRate'],
           statements: (event.rawData['AnalysisResult']['Statements']
                   ['Statement'] as List<dynamic>)
