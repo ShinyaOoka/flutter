@@ -121,6 +121,7 @@ class Ecg12Lead {
   int pAxis;
   int qrsAxis;
   int tAxis;
+  List<int> stValues;
   List<String> statements;
   Waveform leadI;
   Waveform leadII;
@@ -144,6 +145,7 @@ class Ecg12Lead {
     required this.pAxis,
     required this.qrsAxis,
     required this.tAxis,
+    required this.stValues,
     required this.patientData,
     required this.heartRate,
     required this.statements,
@@ -383,6 +385,10 @@ abstract class _Case with Store {
           pAxis: event.rawData['AnalysisResult']['PAxis'],
           qrsAxis: event.rawData['AnalysisResult']['QrsAxis'],
           tAxis: event.rawData['AnalysisResult']['TAxis'],
+          stValues:
+              (event.rawData['AnalysisResult']['StValues'] as List<dynamic>)
+                  .map((x) => x as int)
+                  .toList(),
           heartRate: event.rawData['AnalysisResult']['HeartRate'],
           statements: (event.rawData['AnalysisResult']['Statements']
                   ['Statement'] as List<dynamic>)

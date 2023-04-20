@@ -145,6 +145,11 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 padding: EdgeInsets.all(8),
                 child: Text(x),
               )),
+          Container(
+            padding: EdgeInsets.all(8),
+            child: Text(
+                "STJ: I: ${twelveLead!.stValues[0] / 100} II: ${twelveLead!.stValues[1] / 100} III: ${twelveLead!.stValues[2] / 100} aVR: ${twelveLead!.stValues[3] / 100} aVL: ${twelveLead!.stValues[4] / 100} aVF: ${twelveLead!.stValues[5] / 100} V1: ${twelveLead!.stValues[6] / 100} V2: ${twelveLead!.stValues[7] / 100} V3: ${twelveLead!.stValues[8] / 100} V4: ${twelveLead!.stValues[9] / 100} V5: ${twelveLead!.stValues[10] / 100} V6: ${twelveLead!.stValues[11] / 100}"),
+          ),
           TwelveLeadChart(
             data: twelveLead!,
           ),
