@@ -9,6 +9,10 @@ import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
 
+String defaultLabelFormat(double x) {
+  return (x / 1000).toStringAsFixed(1);
+}
+
 class EcgChart extends StatefulWidget {
   const EcgChart({
     Key? key,
@@ -23,6 +27,9 @@ class EcgChart extends StatefulWidget {
     this.gridHorizontal = 500,
     this.gridVertical = 0.4,
     this.cprCompressions = const [],
+    this.minorInterval = 500,
+    this.majorInterval = 2500,
+    this.labelFormat = defaultLabelFormat,
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -35,6 +42,9 @@ class EcgChart extends StatefulWidget {
   final double height;
   final double gridHorizontal;
   final double gridVertical;
+  final double minorInterval;
+  final double majorInterval;
+  final String Function(double) labelFormat;
   final List<CprCompression> cprCompressions;
 
   @override
@@ -179,33 +189,57 @@ class _EcgChartState extends State<EcgChart> {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     getTitlesWidget: (value, meta) {
-                      if (meta.max != value &&
-                          meta.min != value &&
-                          value != 0) {
-                        return Container();
-                      }
-                      final time = DateTime.fromMicrosecondsSinceEpoch(
-                          (value * 1000000).toInt());
-                      return Text((value / 1000).toString());
+                      final isMajor = value % widget.majorInterval == 0;
+                      return Stack(
+                        alignment: AlignmentDirectional.centerEnd,
+                        children: [
+                          Positioned(
+                            child: Container(
+                              width: value % widget.majorInterval == 0 ? 10 : 5,
+                              height: 1,
+                              color: Colors.black,
+                            ),
+                          ),
+                          isMajor
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Text(widget.labelFormat(value)),
+                                )
+                              : Container()
+                        ],
+                      );
                     },
                     showTitles: true,
-                    interval: 3,
-                    reservedSize: 32,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
                   ),
                 ),
                 rightTitles: AxisTitles(
                   sideTitles: SideTitles(
                     getTitlesWidget: (value, meta) {
-                      if (meta.max != value &&
-                          meta.min != value &&
-                          value != 0) {
-                        return Container();
-                      }
-                      return Text((value / 1000).toString());
+                      final isMajor = value % widget.majorInterval == 0;
+                      return Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          Positioned(
+                            child: Container(
+                              width: value % widget.majorInterval == 0 ? 10 : 5,
+                              height: 1,
+                              color: Colors.black,
+                            ),
+                          ),
+                          isMajor
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(widget.labelFormat(value)),
+                                )
+                              : Container()
+                        ],
+                      );
                     },
                     showTitles: true,
-                    interval: 3,
-                    reservedSize: 32,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
                   ),
                 ),
                 bottomTitles: AxisTitles(
@@ -216,10 +250,27 @@ class _EcgChartState extends State<EcgChart> {
                       }
                       final time = DateTime.fromMicrosecondsSinceEpoch(
                           (value * 1000000).toInt());
-                      return Text(DateFormat.Hms().format(time));
+                      return Stack(
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          Positioned(
+                            child: Container(
+                              width: 1,
+                              height: value % 3 == 0 ? 10 : 5,
+                              color: Colors.black,
+                            ),
+                          ),
+                          value % 3 == 0
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(DateFormat.Hms().format(time)),
+                                )
+                              : Container()
+                        ],
+                      );
                     },
                     showTitles: true,
-                    interval: 3,
+                    interval: 1,
                     reservedSize: 32,
                   ),
                 ),
@@ -227,7 +278,8 @@ class _EcgChartState extends State<EcgChart> {
               lineBarsData: [
                 LineChartBarData(
                   spots: widget.cprCompressions
-                      .map((e) => FlSpot(e.inSeconds, 1500))
+                      .map((e) => FlSpot(e.inSeconds,
+                          widget.minY + (widget.maxY - widget.minY) * 0.8))
                       .toList(),
                   dotData: FlDotData(
                     getDotPainter: (p0, p1, p2, index) {

@@ -35,6 +35,31 @@ class CprChartScreenState extends State<CprChartScreen>
   late XSeriesDevice device;
   late String caseId;
   String chartType = 'Pads';
+  Map<String, double> minY = {
+    'Pads': -2500,
+    'CO2 mmHg, Waveform': 0,
+    'Pads Impedance': -125,
+  };
+  Map<String, double> maxY = {
+    'Pads': 2500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, double> majorInterval = {
+    'Pads': 2500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, double> minorInterval = {
+    'Pads': 500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, String Function(double)> labelFormat = {
+    'Pads': (x) => (x / 1000).toStringAsFixed(1),
+    'CO2 mmHg, Waveform': (x) => "${x.toInt()}%",
+    'Pads Impedance': (x) => x.toStringAsFixed(0),
+  };
   Case? myCase;
   bool hasNewData = false;
   late ZollSdkHostApi _hostApi;
@@ -163,12 +188,28 @@ class CprChartScreenState extends State<CprChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            DropdownButton(
+              items: myCase!.waves.keys
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                  .toList(),
+              value: chartType,
+              onChanged: (value) {
+                setState(() {
+                  chartType = value!;
+                });
+              },
+            ),
             EcgChart(
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
               initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
               segments: 4,
               initDuration: Duration(minutes: 1),
+              minY: minY[chartType]!,
+              maxY: maxY[chartType]!,
+              majorInterval: majorInterval[chartType]!,
+              minorInterval: minorInterval[chartType]!,
+              labelFormat: labelFormat[chartType]!,
             ),
           ],
         ),

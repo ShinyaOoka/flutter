@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:quiver/iterables.dart';
 import 'package:tuple/tuple.dart';
+import 'package:collection/collection.dart';
 
 part 'case.g.dart';
 
@@ -312,6 +313,10 @@ abstract class _Case with Store {
             var value;
             if (waveType == 'Pads') {
               value = samples[i] / 4 * 10;
+            } else if (waveType == 'CO2 mmHg, Waveform') {
+              value = samples[i] / 10;
+            } else if (waveType == 'Pads Impedance') {
+              value = samples[i].toDouble() + 20250;
             } else {
               value = samples[i].toDouble();
             }
