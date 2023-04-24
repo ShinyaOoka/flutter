@@ -202,6 +202,23 @@ class Snapshot {
   Snapshot({required this.time, required this.waveforms, required this.trend});
 }
 
+List<Sample> movingAverage(List<Sample> samples, int windowSize) {
+  int i = 0;
+  List<Sample> result = [];
+  while (i < samples.length - windowSize + 1) {
+    double average =
+        samples.sublist(i, i + windowSize).map((e) => e.value).sum / windowSize;
+    result.add(Sample(timestamp: samples[i].timestamp, value: average));
+    i += 1;
+  }
+  while (i < samples.length) {
+    result
+        .add(Sample(timestamp: samples[i].timestamp, value: samples[i].value));
+    i += 1;
+  }
+  return result;
+}
+
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
@@ -326,6 +343,9 @@ abstract class _Case with Store {
         }
       }
     }
+    // map['Pads Impedance']!.samples =
+    //     movingAverage(map['Pads Impedance']!.samples, 10);
+
     return map;
   }
 
