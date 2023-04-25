@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -202,6 +203,11 @@ class CprChartScreenState extends State<CprChartScreen>
             EcgChart(
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
+              ventilationTimestamps: myCase!
+                  .waves['CO2 mmHg, Waveform']!.samples
+                  .where((element) => element.status == 1)
+                  .map((e) => e.timestamp)
+                  .toList(),
               initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
               segments: 4,
               initDuration: Duration(minutes: 1),
@@ -211,9 +217,56 @@ class CprChartScreenState extends State<CprChartScreen>
               minorInterval: minorInterval[chartType]!,
               labelFormat: labelFormat[chartType]!,
             ),
+            _buildTable(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTable() {
+    return DataTable(
+      columns: [
+        DataColumn(
+            label: Expanded(
+          child: Text("分", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("秒胸骨圧迫なし", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("換気", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("CO2換気", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("換気リード", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("胸骨圧迫回数", softWrap: true),
+        )),
+        DataColumn(
+            label: Expanded(
+          child: Text("平均胸骨圧迫圧迫深", softWrap: true),
+        )),
+      ],
+      rows: myCase!.cprCompressionByMinute
+          .map((e) => DataRow(cells: [
+                DataCell(Text(e.minute.toString())),
+                DataCell(Text(e.secondsNotInCompressions.toString())),
+                DataCell(Text("0")),
+                DataCell(Text(e.ventilations.toString())),
+                DataCell(Text("0")),
+                DataCell(Text(e.compressionCount.toString())),
+                DataCell(Text(e.averageCompDisp.toStringAsFixed(2))),
+              ]))
+          .toList(),
     );
   }
 }

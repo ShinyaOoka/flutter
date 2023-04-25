@@ -32,6 +32,15 @@ mixin _$Case on _Case, Store {
           Computed<List<CprCompression>>(() => super.cprCompressions,
               name: '_Case.cprCompressions'))
       .value;
+  Computed<List<CprCompressionByMinute>>? _$cprCompressionByMinuteComputed;
+
+  @override
+  List<CprCompressionByMinute> get cprCompressionByMinute =>
+      (_$cprCompressionByMinuteComputed ??=
+              Computed<List<CprCompressionByMinute>>(
+                  () => super.cprCompressionByMinute,
+                  name: '_Case.cprCompressionByMinute'))
+          .value;
   Computed<List<Ecg12Lead>>? _$leadsComputed;
 
   @override
@@ -117,6 +126,7 @@ endTime: ${endTime},
 displayableEvents: ${displayableEvents},
 waves: ${waves},
 cprCompressions: ${cprCompressions},
+cprCompressionByMinute: ${cprCompressionByMinute},
 leads: ${leads},
 snapshots: ${snapshots}
     ''';

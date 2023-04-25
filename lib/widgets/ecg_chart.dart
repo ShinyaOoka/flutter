@@ -30,6 +30,7 @@ class EcgChart extends StatefulWidget {
     this.minorInterval = 500,
     this.majorInterval = 2500,
     this.labelFormat = defaultLabelFormat,
+    this.ventilationTimestamps = const [],
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -46,6 +47,7 @@ class EcgChart extends StatefulWidget {
   final double majorInterval;
   final String Function(double) labelFormat;
   final List<CprCompression> cprCompressions;
+  final List<int> ventilationTimestamps;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -289,6 +291,18 @@ class _EcgChartState extends State<EcgChart> {
                       return FlDotSquarePainter(
                           size: 15,
                           color: isGreen ? Colors.green : Colors.orange);
+                    },
+                  ),
+                  barWidth: 0,
+                ),
+                LineChartBarData(
+                  spots: widget.ventilationTimestamps
+                      .map((e) => FlSpot(e / 1000000,
+                          widget.minY + (widget.maxY - widget.minY) * 0.6))
+                      .toList(),
+                  dotData: FlDotData(
+                    getDotPainter: (p0, p1, p2, index) {
+                      return FlDotSquarePainter(size: 15, color: Colors.yellow);
                     },
                   ),
                   barWidth: 0,

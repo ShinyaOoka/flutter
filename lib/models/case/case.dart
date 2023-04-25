@@ -48,6 +48,22 @@ class CprCompression {
   });
 }
 
+class CprCompressionByMinute {
+  int minute;
+  int compressionCount;
+  int secondsNotInCompressions;
+  double averageCompDisp;
+  int ventilations;
+
+  CprCompressionByMinute({
+    required this.minute,
+    required this.compressionCount,
+    required this.averageCompDisp,
+    required this.secondsNotInCompressions,
+    required this.ventilations,
+  });
+}
+
 class PatientData {
   String firstName;
   String middleName;
@@ -113,8 +129,9 @@ class Trend {
 class Sample {
   double value;
   int timestamp;
+  int? status;
 
-  Sample({required this.timestamp, required this.value});
+  Sample({required this.timestamp, required this.value, this.status});
 
   double get inSeconds {
     return timestamp / 1000000;
@@ -327,7 +344,7 @@ abstract class _Case with Store {
           }
           final waveform = map[waveType]!;
           for (var i = 0; i < count; i++) {
-            var value;
+            double value;
             if (waveType == 'Pads') {
               value = samples[i] / 4 * 10;
             } else if (waveType == 'CO2 mmHg, Waveform') {
@@ -337,8 +354,10 @@ abstract class _Case with Store {
             } else {
               value = samples[i].toDouble();
             }
-            waveform.samples.add(
-                Sample(timestamp: timestamp + i * sampleTime, value: value));
+            waveform.samples.add(Sample(
+                timestamp: timestamp + i * sampleTime,
+                value: value,
+                status: sampleStatuses[i]));
           }
         }
       }
@@ -381,11 +400,51 @@ abstract class _Case with Store {
   }
 
   @computed
+  List<CprCompressionByMinute> get cprCompressionByMinute {
+    final samples = waves['Pads']!.samples;
+    final minutes =
+        ((samples.last.timestamp - samples.first.timestamp) / 1000000 / 60)
+            .ceil();
+    final compressionByMinutes = groupBy(cprCompressions, ((v) {
+      return (v.timestamp - cprCompressions.first.timestamp) ~/ 1000000 ~/ 60;
+    })).map((key, value) => MapEntry(
+        key,
+        CprCompressionByMinute(
+          minute: key + 1,
+          compressionCount: value.length,
+          averageCompDisp: value.map((x) => x.compDisp / 1000).average,
+          secondsNotInCompressions:
+              60 - groupBy(value, (x) => x.timestamp ~/ 1000000).length,
+          ventilations: 0,
+        )));
+    final ventilationSamples = waves['CO2 mmHg, Waveform']!
+        .samples
+        .where((element) => element.status == 1);
+    final ventilations = groupBy(ventilationSamples, ((v) {
+      return (v.timestamp -
+              waves['CO2 mmHg, Waveform']!.samples.first.timestamp) ~/
+          1000000 ~/
+          60;
+    })).map((key, value) => MapEntry(key, value.length));
+    List<CprCompressionByMinute> result = [];
+    for (int i = 0; i < minutes; i++) {
+      result.add(CprCompressionByMinute(
+        minute: i + 1,
+        compressionCount: compressionByMinutes[i]?.compressionCount ?? 0,
+        averageCompDisp: compressionByMinutes[i]?.averageCompDisp ?? 0,
+        secondsNotInCompressions:
+            compressionByMinutes[i]?.secondsNotInCompressions ?? 60,
+        ventilations: ventilations[i] ?? 0,
+      ));
+    }
+    return result;
+  }
+
+  @computed
   List<Ecg12Lead> get leads {
     final List<Ecg12Lead> result = [];
     for (var event in events) {
       if (event.type == 'Ecg12LeadRec') {
-        print('here');
         final startTimeString = event.rawData['StdHdr']['DevDateTime'];
         final date =
             DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
