@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -215,6 +216,23 @@ class CprChartScreenState extends State<CprChartScreen>
               maxY: maxY[chartType]!,
               majorInterval: majorInterval[chartType]!,
               minorInterval: minorInterval[chartType]!,
+              labelFormat: labelFormat[chartType]!,
+            ),
+            CprAnalysisChart(
+              samples: myCase!.waves[chartType]!.samples,
+              cprCompressions: myCase!.cprCompressions,
+              ventilationTimestamps: myCase!
+                  .waves['CO2 mmHg, Waveform']!.samples
+                  .where((element) => element.status == 1)
+                  .map((e) => e.timestamp)
+                  .toList(),
+              initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
+              segments: 1,
+              initDuration: Duration(seconds: 30),
+              minY: 0,
+              maxY: 4000,
+              majorInterval: 2000,
+              minorInterval: 2000,
               labelFormat: labelFormat[chartType]!,
             ),
             _buildTable(),
