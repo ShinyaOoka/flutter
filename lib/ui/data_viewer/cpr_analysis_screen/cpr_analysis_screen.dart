@@ -18,20 +18,20 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class CprChartScreenArguments {
+class CprAnalysisScreenArguments {
   final String caseId;
 
-  CprChartScreenArguments({required this.caseId});
+  CprAnalysisScreenArguments({required this.caseId});
 }
 
-class CprChartScreen extends StatefulWidget {
-  const CprChartScreen({super.key});
+class CprAnalysisScreen extends StatefulWidget {
+  const CprAnalysisScreen({super.key});
 
   @override
-  CprChartScreenState createState() => CprChartScreenState();
+  CprAnalysisScreenState createState() => CprAnalysisScreenState();
 }
 
-class CprChartScreenState extends State<CprChartScreen>
+class CprAnalysisScreenState extends State<CprAnalysisScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
@@ -90,8 +90,8 @@ class CprChartScreenState extends State<CprChartScreen>
 
   @override
   Future<void> didPush() async {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as CprChartScreenArguments;
+    final args = ModalRoute.of(context)!.settings.arguments
+        as CprAnalysisScreenArguments;
     caseId = args.caseId;
 
     _hostApi = context.read();
@@ -190,18 +190,7 @@ class CprChartScreenState extends State<CprChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButton(
-              items: myCase!.waves.keys
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              value: chartType,
-              onChanged: (value) {
-                setState(() {
-                  chartType = value!;
-                });
-              },
-            ),
-            EcgChart(
+            CprAnalysisChart(
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
               ventilationTimestamps: myCase!
@@ -210,15 +199,12 @@ class CprChartScreenState extends State<CprChartScreen>
                   .map((e) => e.timestamp)
                   .toList(),
               initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
-              segments: 4,
-              initDuration: Duration(minutes: 1),
-              minY: minY[chartType]!,
-              maxY: maxY[chartType]!,
-              majorInterval: majorInterval[chartType]!,
-              minorInterval: minorInterval[chartType]!,
+              initDuration: Duration(seconds: 30),
+              majorInterval: 2000,
+              minorInterval: 2000,
               labelFormat: labelFormat[chartType]!,
+              cprRanges: myCase!.cprRanges,
             ),
-            _buildTable(),
           ],
         ),
       ),

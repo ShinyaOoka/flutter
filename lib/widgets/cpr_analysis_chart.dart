@@ -52,10 +52,7 @@ class CprAnalysisChart extends StatefulWidget {
     required this.samples,
     required this.initTimestamp,
     this.initDuration = const Duration(seconds: 30),
-    this.segments = 3,
     this.showGrid = false,
-    this.minY = -2500,
-    this.maxY = 2500,
     this.height = 150,
     this.gridHorizontal = 500,
     this.gridVertical = 0.4,
@@ -64,15 +61,13 @@ class CprAnalysisChart extends StatefulWidget {
     this.majorInterval = 2500,
     this.labelFormat = defaultLabelFormat,
     this.ventilationTimestamps = const [],
+    this.cprRanges = const [],
   }) : super(key: key);
 
   final List<Sample> samples;
   final int initTimestamp;
   final Duration initDuration;
-  final int segments;
   final bool showGrid;
-  final double minY;
-  final double maxY;
   final double height;
   final double gridHorizontal;
   final double gridVertical;
@@ -81,6 +76,7 @@ class CprAnalysisChart extends StatefulWidget {
   final String Function(double) labelFormat;
   final List<CprCompression> cprCompressions;
   final List<int> ventilationTimestamps;
+  final List<Tuple2<int?, int?>> cprRanges;
 
   @override
   State<CprAnalysisChart> createState() => _CprAnalysisChartState();
@@ -190,16 +186,14 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
           });
         },
         behavior: HitTestBehavior.translucent,
-        child: Column(
-            children: quiver_iterables
-                .enumerate(List.filled(widget.segments, null))
-                .map((e) => buildChart(
-                    minX + (maxX - minX) / (widget.segments) * e.index,
-                    minX + (maxX - minX) / (widget.segments) * (e.index + 1)))
-                .toList()));
+        child: Column(children: [
+          buildDepthChart(minX, maxX),
+          buildQualityChart(minX, maxX),
+          buildSpeedChart(minX, maxX)
+        ]));
   }
 
-  Widget buildChart(double minX, double maxX) {
+  Widget buildDepthChart(double minX, double maxX) {
     return IgnorePointer(
         child: SizedBox(
       height: widget.height,
@@ -208,10 +202,17 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
         builder: (context, snapshot) {
           return LineChart(
             LineChartData(
+              rangeAnnotations: RangeAnnotations(
+                horizontalRangeAnnotations: [
+                  HorizontalRangeAnnotation(
+                      y1: 2000, y2: 2400, color: Colors.green.shade100)
+                ],
+                verticalRangeAnnotations: cprRangeAnnotations(),
+              ),
               minX: minX,
               maxX: maxX,
-              maxY: widget.maxY,
-              minY: widget.minY,
+              maxY: 4000,
+              minY: 0,
               clipData: FlClipData.all(),
               gridData: FlGridData(show: false),
               titlesData: FlTitlesData(
@@ -296,5 +297,239 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
         },
       ),
     ));
+  }
+
+  bool cprValid(CprCompression value) {
+    return value.detectionFlag != 0;
+  }
+
+  bool cprGreenQuality(CprCompression value) {
+    return value.compDisp >= 2000 && value.compDisp <= 2400;
+  }
+
+  List<List<CprCompression>> get cprQualities {
+    List<List<CprCompression>> result = [];
+    List<CprCompression> current = [];
+    for (int i = 0; i < widget.cprCompressions.length; i++) {
+      if (!cprValid(widget.cprCompressions[i])) {
+        current = [];
+      } else {
+        if (current.isEmpty) {
+          current.add(widget.cprCompressions[i]);
+        } else {
+          if (cprGreenQuality(current.first) !=
+              cprGreenQuality(widget.cprCompressions[i])) {
+            result.add([current.first, widget.cprCompressions[i]]);
+            current = [widget.cprCompressions[i]];
+          } else if (i != widget.cprCompressions.length - 1 &&
+              widget.cprCompressions[i + 1].inSeconds -
+                      widget.cprCompressions[i].inSeconds >
+                  2) {
+            result.add([current.first, widget.cprCompressions[i]]);
+            current = [];
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  Widget buildQualityChart(double minX, double maxX) {
+    return IgnorePointer(
+        child: SizedBox(
+      height: 70,
+      child: FutureBuilder(
+        future: getData(minX, maxX),
+        builder: (context, snapshot) {
+          print(DateTime.fromMicrosecondsSinceEpoch(
+              cprQualities[0].first.timestamp));
+          return LineChart(
+            LineChartData(
+              rangeAnnotations: RangeAnnotations(
+                verticalRangeAnnotations: cprQualities
+                    .map((e) => VerticalRangeAnnotation(
+                          x1: e.first.inSeconds,
+                          x2: e.last.inSeconds,
+                          color: cprGreenQuality(e.first)
+                              ? Colors.green
+                              : Colors.orange,
+                        ))
+                    .toList(),
+              ),
+              minX: minX,
+              maxX: maxX,
+              maxY: 4000,
+              minY: 0,
+              clipData: FlClipData.all(),
+              gridData: FlGridData(show: false),
+              titlesData: FlTitlesData(
+                topTitles: AxisTitles(),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: 2,
+                    reservedSize: 32,
+                  ),
+                ),
+              ),
+              lineBarsData: [
+                LineChartBarData(spots: []),
+              ],
+            ),
+            swapAnimationDuration: Duration.zero,
+          );
+        },
+      ),
+    ));
+  }
+
+  Widget buildSpeedChart(double minX, double maxX) {
+    return IgnorePointer(
+        child: SizedBox(
+      height: widget.height,
+      child: FutureBuilder(
+        future: getData(minX, maxX),
+        builder: (context, snapshot) {
+          print(widget.cprRanges);
+          return LineChart(
+            LineChartData(
+              rangeAnnotations: RangeAnnotations(horizontalRangeAnnotations: [
+                HorizontalRangeAnnotation(
+                    y1: 50, y2: 140, color: Colors.green.shade100)
+              ], verticalRangeAnnotations: cprRangeAnnotations()),
+              minX: minX,
+              maxX: maxX,
+              maxY: 140,
+              minY: 0,
+              clipData: FlClipData.all(),
+              gridData: FlGridData(show: false),
+              titlesData: FlTitlesData(
+                topTitles: AxisTitles(),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      final isMajor = value % widget.majorInterval == 0;
+                      return Stack(
+                        alignment: AlignmentDirectional.centerEnd,
+                        children: [
+                          Positioned(
+                            child: Container(
+                              width: value % widget.majorInterval == 0 ? 10 : 5,
+                              height: 1,
+                              color: Colors.black,
+                            ),
+                          ),
+                          isMajor
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Text(widget.labelFormat(value)),
+                                )
+                              : Container()
+                        ],
+                      );
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      if (meta.max == value || meta.min == value) {
+                        return Container();
+                      }
+                      final time = DateTime.fromMicrosecondsSinceEpoch(
+                          (value * 1000000).toInt());
+                      return Stack(
+                        alignment: AlignmentDirectional.topCenter,
+                        children: [
+                          Positioned(
+                            child: Container(
+                              width: 1,
+                              height: value % 3 == 0 ? 10 : 5,
+                              color: Colors.black,
+                            ),
+                          ),
+                          value % 3 == 0
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(DateFormat.Hms().format(time)),
+                                )
+                              : Container()
+                        ],
+                      );
+                    },
+                    showTitles: true,
+                    interval: 2,
+                    reservedSize: 32,
+                  ),
+                ),
+              ),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: widget.cprCompressions
+                      .map((e) => FlSpot(e.inSeconds, e.compRate.toDouble()))
+                      .toList(),
+                  dotData: FlDotData(
+                    getDotPainter: (p0, p1, p2, p3) {
+                      return FlDotCirclePainter(
+                          color: Colors.red.shade900,
+                          radius: 2,
+                          strokeColor: Colors.red.shade900);
+                    },
+                  ),
+                  color: Colors.red.shade900,
+                ),
+              ],
+            ),
+            swapAnimationDuration: Duration.zero,
+          );
+        },
+      ),
+    ));
+  }
+
+  List<VerticalRangeAnnotation> cprRangeAnnotations() {
+    return widget.cprRanges
+        .where((e) => e.item1 != null && e.item2 != null)
+        .map((e) => VerticalRangeAnnotation(
+            x1: e.item1! / 1000000,
+            x2: e.item2! / 1000000,
+            color: Colors.yellow.shade100))
+        .toList();
   }
 }

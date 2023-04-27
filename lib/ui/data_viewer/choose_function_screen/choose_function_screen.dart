@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/cpr_analysis_screen/cpr_analysis_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
@@ -103,10 +104,18 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("CPR選択"),
+        title: const Text("CPR品質の計算"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
               arguments: CprChartScreenArguments(caseId: caseId!));
+        },
+      ),
+      ListTile(
+        title: const Text("CPR解析"),
+        onTap: () {
+          Navigator.of(context).pushNamed(
+              DataViewerRoutes.dataViewerCprAnalysis,
+              arguments: CprAnalysisScreenArguments(caseId: caseId!));
         },
       ),
       ListTile(

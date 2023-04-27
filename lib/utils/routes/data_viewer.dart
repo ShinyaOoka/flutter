@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/cpr_analysis_screen/cpr_analysis_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_case_screen/list_case_screen.dart';
@@ -19,6 +20,7 @@ class DataViewerRoutes {
   static const String dataViewerListCase = '/data_viewer/list_case';
   static const String dataViewerListEvent = '/data_viewer/list_event';
   static const String dataViewerCprChart = '/data_viewer/cpr_chart';
+  static const String dataViewerCprAnalysis = '/data_viewer/cpr_analysis';
   static const String dataViewerSnapshotDetail = '/data_viewer/snapshot_detail';
   static const String dataViewerListSnapshot = '/data_viewer/list_snapshot';
   static const String dataViewerListTwelveLead =
@@ -45,6 +47,7 @@ class DataViewerRoutes {
         const ListSnapshotScreen(),
     dataViewerSnapshotDetail: (BuildContext context) =>
         const SnapshotDetailScreen(),
-    dataViewerCprChart: (BuildContext context) => const CprChartScreen()
+    dataViewerCprChart: (BuildContext context) => const CprChartScreen(),
+    dataViewerCprAnalysis: (BuildContext context) => const CprAnalysisScreen()
   };
 }

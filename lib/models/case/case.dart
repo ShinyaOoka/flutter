@@ -219,23 +219,6 @@ class Snapshot {
   Snapshot({required this.time, required this.waveforms, required this.trend});
 }
 
-List<Sample> movingAverage(List<Sample> samples, int windowSize) {
-  int i = 0;
-  List<Sample> result = [];
-  while (i < samples.length - windowSize + 1) {
-    double average =
-        samples.sublist(i, i + windowSize).map((e) => e.value).sum / windowSize;
-    result.add(Sample(timestamp: samples[i].timestamp, value: average));
-    i += 1;
-  }
-  while (i < samples.length) {
-    result
-        .add(Sample(timestamp: samples[i].timestamp, value: samples[i].value));
-    i += 1;
-  }
-  return result;
-}
-
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
@@ -628,6 +611,47 @@ abstract class _Case with Store {
               resp: parseTrendData(trendRaw['Resp']['TrendData']),
             )));
       }
+    }
+    return result;
+  }
+
+  @computed
+  List<Tuple2<int?, int?>> get cprRanges {
+    final List<Tuple2<int?, int?>> result = [];
+    Tuple2<int?, int?>? current;
+    int firstMsecTime = 0;
+    int firstTimestamp = 0;
+    for (var event in events) {
+      if (event.type == 'NewCase') {
+        firstMsecTime = event.rawData['StdHdr']['MsecTime'];
+        firstTimestamp = DateFormat("yyyy-MM-ddTHH:mm:ss")
+            .parse(event.rawData['StdHdr']['DevDateTime'])
+            .toLocal()
+            .microsecondsSinceEpoch;
+      } else if (event.type.startsWith('AnnotationEvt')) {
+        final timestamp = firstTimestamp -
+            firstMsecTime * 1000 +
+            (event.rawData['StdHdr']['MsecTime'] as int) * 1000;
+        if (event.rawData["@EvtName"] == 'Perform CPR') {
+          if (current != null) {
+            result.add(current);
+          }
+          current = Tuple2(timestamp ~/ 1000000 * 1000000, null);
+        }
+        if (event.rawData["@EvtName"] == 'Stop CPR') {
+          if (current != null) {
+            current = Tuple2(current.item1, timestamp);
+            result.add(current);
+            current = null;
+          } else {
+            result.add(Tuple2(null, timestamp));
+            current = null;
+          }
+        }
+      }
+    }
+    if (current != null) {
+      result.add(current);
     }
     return result;
   }
