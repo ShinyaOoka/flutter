@@ -204,6 +204,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               minorInterval: 2000,
               labelFormat: labelFormat[chartType]!,
               cprRanges: myCase!.cprRanges,
+              shocks: myCase!.shocks,
             ),
           ],
         ),

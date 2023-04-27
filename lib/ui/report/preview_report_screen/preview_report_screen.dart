@@ -433,7 +433,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('MM', m)
         .replaceFirst('DD', d);
     //2
-    print(team);
     htmlInput = htmlInput.replaceFirst(
         'TeamName', team?.abbreviation?.characters.take(11).toString() ?? '');
     //3

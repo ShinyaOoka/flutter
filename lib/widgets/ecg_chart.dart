@@ -153,7 +153,6 @@ class _EcgChartState extends State<EcgChart> {
               minX = newMinX;
               maxX = newMaxX;
             }
-            print("$minX, $maxX");
           });
         },
         behavior: HitTestBehavior.translucent,

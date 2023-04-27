@@ -655,4 +655,27 @@ abstract class _Case with Store {
     }
     return result;
   }
+
+  @computed
+  List<int> get shocks {
+    final List<int> result = [];
+    int firstMsecTime = 0;
+    int firstTimestamp = 0;
+    for (var event in events) {
+      if (event.type == 'NewCase') {
+        firstMsecTime = event.rawData['StdHdr']['MsecTime'];
+        firstTimestamp = DateFormat("yyyy-MM-ddTHH:mm:ss")
+            .parse(event.rawData['StdHdr']['DevDateTime'])
+            .toLocal()
+            .microsecondsSinceEpoch;
+      } else if (event.type.startsWith('AnnotationEvt') &&
+          event.rawData['@EvtName'] == 'Shock Delivered') {
+        final timestamp = firstTimestamp -
+            firstMsecTime * 1000 +
+            (event.rawData['StdHdr']['MsecTime'] as int) * 1000;
+        result.add(timestamp);
+      }
+    }
+    return result;
+  }
 }

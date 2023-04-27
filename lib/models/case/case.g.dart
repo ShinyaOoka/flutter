@@ -54,6 +54,19 @@ mixin _$Case on _Case, Store {
       (_$snapshotsComputed ??= Computed<List<Snapshot>>(() => super.snapshots,
               name: '_Case.snapshots'))
           .value;
+  Computed<List<Tuple2<int?, int?>>>? _$cprRangesComputed;
+
+  @override
+  List<Tuple2<int?, int?>> get cprRanges => (_$cprRangesComputed ??=
+          Computed<List<Tuple2<int?, int?>>>(() => super.cprRanges,
+              name: '_Case.cprRanges'))
+      .value;
+  Computed<List<int>>? _$shocksComputed;
+
+  @override
+  List<int> get shocks => (_$shocksComputed ??=
+          Computed<List<int>>(() => super.shocks, name: '_Case.shocks'))
+      .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -128,7 +141,9 @@ waves: ${waves},
 cprCompressions: ${cprCompressions},
 cprCompressionByMinute: ${cprCompressionByMinute},
 leads: ${leads},
-snapshots: ${snapshots}
+snapshots: ${snapshots},
+cprRanges: ${cprRanges},
+shocks: ${shocks}
     ''';
   }
 }

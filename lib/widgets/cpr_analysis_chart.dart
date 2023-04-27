@@ -62,6 +62,7 @@ class CprAnalysisChart extends StatefulWidget {
     this.labelFormat = defaultLabelFormat,
     this.ventilationTimestamps = const [],
     this.cprRanges = const [],
+    this.shocks = const [],
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -77,6 +78,7 @@ class CprAnalysisChart extends StatefulWidget {
   final List<CprCompression> cprCompressions;
   final List<int> ventilationTimestamps;
   final List<Tuple2<int?, int?>> cprRanges;
+  final List<int> shocks;
 
   @override
   State<CprAnalysisChart> createState() => _CprAnalysisChartState();
@@ -182,11 +184,11 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
               minX = newMinX;
               maxX = newMaxX;
             }
-            print("$minX, $maxX");
           });
         },
         behavior: HitTestBehavior.translucent,
         child: Column(children: [
+          buildShockChart(minX, maxX),
           buildDepthChart(minX, maxX),
           buildQualityChart(minX, maxX),
           buildSpeedChart(minX, maxX)
@@ -307,6 +309,72 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
     return value.compDisp >= 2000 && value.compDisp <= 2400;
   }
 
+  Widget buildShockChart(double minX, double maxX) {
+    return IgnorePointer(
+        child: SizedBox(
+      height: 70,
+      child: FutureBuilder(
+        future: getData(minX, maxX),
+        builder: (context, snapshot) {
+          return LineChart(
+            LineChartData(
+              rangeAnnotations: RangeAnnotations(
+                  verticalRangeAnnotations: cprRangeAnnotations()),
+              extraLinesData: ExtraLinesData(verticalLines: [
+                VerticalLine(x: (minX + maxX) / 2, color: Colors.blue),
+                ...widget.shocks.map((x) => VerticalLine(
+                    x: x / 1000000, color: Colors.blue, dashArray: [2])),
+              ]),
+              minX: minX,
+              maxX: maxX,
+              maxY: 1,
+              minY: 0,
+              clipData: FlClipData.all(),
+              gridData: FlGridData(show: false),
+              titlesData: FlTitlesData(
+                topTitles: AxisTitles(),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: widget.minorInterval,
+                    reservedSize: 48,
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    getTitlesWidget: (value, meta) {
+                      return Container();
+                    },
+                    showTitles: true,
+                    interval: 2,
+                    reservedSize: 32,
+                  ),
+                ),
+              ),
+              lineBarsData: [
+                LineChartBarData(spots: []),
+              ],
+            ),
+            swapAnimationDuration: Duration.zero,
+          );
+        },
+      ),
+    ));
+  }
+
   List<List<CprCompression>> get cprQualities {
     List<List<CprCompression>> result = [];
     List<CprCompression> current = [];
@@ -341,8 +409,6 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
       child: FutureBuilder(
         future: getData(minX, maxX),
         builder: (context, snapshot) {
-          print(DateTime.fromMicrosecondsSinceEpoch(
-              cprQualities[0].first.timestamp));
           return LineChart(
             LineChartData(
               rangeAnnotations: RangeAnnotations(
@@ -413,7 +479,6 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
       child: FutureBuilder(
         future: getData(minX, maxX),
         builder: (context, snapshot) {
-          print(widget.cprRanges);
           return LineChart(
             LineChartData(
               rangeAnnotations: RangeAnnotations(horizontalRangeAnnotations: [
