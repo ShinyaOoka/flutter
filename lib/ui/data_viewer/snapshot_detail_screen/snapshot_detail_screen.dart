@@ -146,36 +146,44 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             segments: 1,
             showGrid: true,
           ),
-          Container(
-            child: Text('CO2 mmHg, Waveform'),
-            padding: EdgeInsets.all(16),
-          ),
-          EcgChart(
-            samples: snapshot.waveforms['CO2 mmHg, Waveform']!.samples,
-            initTimestamp: snapshot
-                .waveforms['CO2 mmHg, Waveform']!.samples.first.timestamp,
-            segments: 1,
-            showGrid: true,
-            maxY: 1000,
-            minY: 0,
-            gridHorizontal: 200,
-            height: 100,
-          ),
-          Container(
-            child: Text('SpO2 %, Waveform'),
-            padding: EdgeInsets.all(16),
-          ),
-          EcgChart(
-            samples: snapshot.waveforms['SpO2 %, Waveform']!.samples,
-            initTimestamp:
-                snapshot.waveforms['SpO2 %, Waveform']!.samples.first.timestamp,
-            segments: 1,
-            showGrid: true,
-            maxY: 150,
-            minY: -150,
-            height: 100,
-            gridHorizontal: 60,
-          )
+          snapshot.waveforms['CO2 mmHg, Waveform'] != null
+              ? Container(
+                  child: Text('CO2 mmHg, Waveform'),
+                  padding: EdgeInsets.all(16),
+                )
+              : Container(),
+          snapshot.waveforms['CO2 mmHg, Waveform'] != null
+              ? EcgChart(
+                  samples: snapshot.waveforms['CO2 mmHg, Waveform']!.samples,
+                  initTimestamp: snapshot
+                      .waveforms['CO2 mmHg, Waveform']!.samples.first.timestamp,
+                  segments: 1,
+                  showGrid: true,
+                  maxY: 1000,
+                  minY: 0,
+                  gridHorizontal: 200,
+                  height: 100,
+                )
+              : Container(),
+          snapshot.waveforms['SpO2 %, Waveform'] != null
+              ? Container(
+                  child: Text('SpO2 %, Waveform'),
+                  padding: EdgeInsets.all(16),
+                )
+              : Container(),
+          snapshot.waveforms['SpO2 %, Waveform'] != null
+              ? EcgChart(
+                  samples: snapshot.waveforms['SpO2 %, Waveform']!.samples,
+                  initTimestamp: snapshot
+                      .waveforms['SpO2 %, Waveform']!.samples.first.timestamp,
+                  segments: 1,
+                  showGrid: true,
+                  maxY: 150,
+                  minY: -150,
+                  height: 100,
+                  gridHorizontal: 60,
+                )
+              : Container()
         ],
       ),
     );
