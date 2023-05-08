@@ -118,22 +118,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         });
       }
     });
-
     final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/demo.json')
-        .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['caseId'] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
+    await _loadTestData();
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
@@ -149,11 +135,29 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     );
   }
 
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    final parsedCase = CaseParser.parse(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateTime.parse(caseListItem!.startTime!).toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
+        : null;
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "CPR選択",
+      title: "CPR解析",
     );
   }
 
@@ -190,22 +194,25 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CprAnalysisChart(
-              samples: myCase!.waves[chartType]!.samples,
-              cprCompressions: myCase!.cprCompressions,
-              ventilationTimestamps: myCase!
-                  .waves['CO2 mmHg, Waveform']!.samples
-                  .where((element) => element.status == 1)
-                  .map((e) => e.timestamp)
-                  .toList(),
-              initTimestamp: myCase!.waves[chartType]!.samples.first.timestamp,
-              initDuration: Duration(seconds: 30),
-              majorInterval: 2000,
-              minorInterval: 2000,
-              labelFormat: labelFormat[chartType]!,
-              cprRanges: myCase!.cprRanges,
-              shocks: myCase!.shocks,
-            ),
+            myCase!.waves[chartType]!.samples.isNotEmpty
+                ? CprAnalysisChart(
+                    samples: myCase!.waves[chartType]!.samples,
+                    cprCompressions: myCase!.cprCompressions,
+                    ventilationTimestamps: myCase!
+                        .waves['CO2 mmHg, Waveform']!.samples
+                        .where((element) => element.status == 1)
+                        .map((e) => e.timestamp)
+                        .toList(),
+                    initTimestamp:
+                        myCase!.waves[chartType]!.samples.first.timestamp,
+                    initDuration: Duration(seconds: 30),
+                    majorInterval: 2000,
+                    minorInterval: 2000,
+                    labelFormat: labelFormat[chartType]!,
+                    cprRanges: myCase!.cprRanges,
+                    shocks: myCase!.shocks,
+                  )
+                : Container(),
           ],
         ),
       ),

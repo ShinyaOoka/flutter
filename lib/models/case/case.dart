@@ -384,6 +384,9 @@ abstract class _Case with Store {
 
   @computed
   List<CprCompressionByMinute> get cprCompressionByMinute {
+    if (waves['Pads']!.samples.isEmpty) {
+      return [];
+    }
     final samples = waves['Pads']!.samples;
     final minutes =
         ((samples.last.timestamp - samples.first.timestamp) / 1000000 / 60)

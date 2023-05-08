@@ -72,7 +72,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
           ),
           ListTile(
             leading: Icon(Icons.data_thresholding),
-            title: const Text('データビューアー（仮）'),
+            title: const Text('データビューア'),
             onTap: () {
               if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
                 Navigator.of(context).pop();

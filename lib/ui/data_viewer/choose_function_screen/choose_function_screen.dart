@@ -104,18 +104,18 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("CPR品質の計算"),
-        onTap: () {
-          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
-              arguments: CprChartScreenArguments(caseId: caseId!));
-        },
-      ),
-      ListTile(
         title: const Text("CPR解析"),
         onTap: () {
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerCprAnalysis,
               arguments: CprAnalysisScreenArguments(caseId: caseId!));
+        },
+      ),
+      ListTile(
+        title: const Text("CPR品質の計算"),
+        onTap: () {
+          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
+              arguments: CprChartScreenArguments(caseId: caseId!));
         },
       ),
       ListTile(
