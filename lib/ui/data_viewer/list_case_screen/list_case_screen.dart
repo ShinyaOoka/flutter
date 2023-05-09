@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,6 @@ import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
-
-class ListCaseScreenArguments {
-  final XSeriesDevice device;
-
-  ListCaseScreenArguments({required this.device});
-}
 
 class ListCaseScreen extends StatefulWidget {
   const ListCaseScreen({super.key});
@@ -30,7 +25,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkStore _zollSdkStore;
   late ScrollController scrollController;
 
-  XSeriesDevice? device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
   List<CaseListItem>? cases;
@@ -58,10 +52,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   void didPush() {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
-    device = args.device;
     _zollSdkStore = context.read();
+    final device = _zollSdkStore.selectedDevice;
     setState(() {
       cases = _zollSdkStore.caseListItems[device?.serialNumber];
     });
@@ -97,27 +89,32 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    Future.delayed(const Duration(seconds: 2), () {
-      if (_zollSdkStore.caseListItems['serialNumber'] != null) {
-        _zollSdkStore.caseListItems['serialNumber'] = [
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:44Z",
-              endTime: "2024-02-02T06:29:04Z"),
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:44Z",
-              endTime: "2024-02-02T06:29:04Z")
-        ];
-      } else {
-        _zollSdkStore.caseListItems['serialNumber'] = [
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:43Z",
-              endTime: "2024-02-02T06:29:04Z")
-        ];
-      }
-    });
+    _zollSdkStore.caseListItems['serialNumber'] = [
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161027-3131',
+          startTime: "2023-02-22T14:39:20",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161639-3132',
+          startTime: "2023-02-22T15:45:36",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161728-3133',
+          startTime: "2023-02-22T15:53:55",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161849-3134',
+          startTime: "2023-02-22T16:03:56",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161938-3135',
+          startTime: "2023-02-22T16:11:10",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230322-143534-3141',
+          startTime: "2023-03-13T12:34:51Z",
+          endTime: "2024-02-02T06:29:04Z")
+    ];
     _hostApi.deviceGetCaseList(device!, null);
   }
 
@@ -126,13 +123,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      drawer: AppDrawer(),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
       actions: _buildActions(),
       title: 'Case選択',
     );
@@ -148,7 +144,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 onPressed: () {
                   setState(() {
                     cases = [
-                      ..._zollSdkStore.caseListItems[device!.serialNumber]!
+                      ..._zollSdkStore.caseListItems[
+                          _zollSdkStore.selectedDevice?.serialNumber]!
                     ];
                     hasNewData = false;
                   });
@@ -212,7 +209,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                   Navigator.of(context).pushNamed(
                       DataViewerRoutes.dataViewerChooseFunction,
                       arguments: ChooseFunctionScreenArguments(
-                          device: device!, caseId: cases![index].caseId));
+                          caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
           ),

@@ -1,4 +1,3 @@
-import 'package:ak_azm_flutter/ui/startup_screen/startup_screen.dart';
 import 'package:ak_azm_flutter/ui/report/edit_report_screen/edit_report_screen.dart';
 import 'package:ak_azm_flutter/ui/report/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';

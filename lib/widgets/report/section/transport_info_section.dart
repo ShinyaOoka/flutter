@@ -1,7 +1,6 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

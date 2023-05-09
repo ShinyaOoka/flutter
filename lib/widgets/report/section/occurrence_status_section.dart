@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
@@ -252,8 +251,8 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
             decoration: widget.readOnly
                 ? null
                 : BoxDecoration(
-                    border: Border.all(color: Color(0xff686868)),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    border: Border.all(color: const Color(0xff686868)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
                     color: Colors.white,
                   ),
           ),
@@ -273,16 +272,16 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           top: -6,
           left: 8,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Text(
               "traffic_accident".i18n(),
               style:
-                  TextStyle(height: 1, fontSize: 12, color: Color(0xff686868)),
+                  const TextStyle(height: 1, fontSize: 12, color: Color(0xff686868)),
             ),
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 8, bottom: 8, right: 40),
+          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 40),
           child: lineLayout(dense: true, children: [
             AppCheckbox(
               label: 'traffic_accident_seatbelt'.i18n(),

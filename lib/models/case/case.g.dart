@@ -25,6 +25,48 @@ mixin _$Case on _Case, Store {
       (_$wavesComputed ??= Computed<Map<String, Waveform>>(() => super.waves,
               name: '_Case.waves'))
           .value;
+  Computed<List<CprCompression>>? _$cprCompressionsComputed;
+
+  @override
+  List<CprCompression> get cprCompressions => (_$cprCompressionsComputed ??=
+          Computed<List<CprCompression>>(() => super.cprCompressions,
+              name: '_Case.cprCompressions'))
+      .value;
+  Computed<List<CprCompressionByMinute>>? _$cprCompressionByMinuteComputed;
+
+  @override
+  List<CprCompressionByMinute> get cprCompressionByMinute =>
+      (_$cprCompressionByMinuteComputed ??=
+              Computed<List<CprCompressionByMinute>>(
+                  () => super.cprCompressionByMinute,
+                  name: '_Case.cprCompressionByMinute'))
+          .value;
+  Computed<List<Ecg12Lead>>? _$leadsComputed;
+
+  @override
+  List<Ecg12Lead> get leads => (_$leadsComputed ??=
+          Computed<List<Ecg12Lead>>(() => super.leads, name: '_Case.leads'))
+      .value;
+  Computed<List<Snapshot>>? _$snapshotsComputed;
+
+  @override
+  List<Snapshot> get snapshots =>
+      (_$snapshotsComputed ??= Computed<List<Snapshot>>(() => super.snapshots,
+              name: '_Case.snapshots'))
+          .value;
+  Computed<List<Tuple2<int?, int?>>>? _$cprRangesComputed;
+
+  @override
+  List<Tuple2<int?, int?>> get cprRanges => (_$cprRangesComputed ??=
+          Computed<List<Tuple2<int?, int?>>>(() => super.cprRanges,
+              name: '_Case.cprRanges'))
+      .value;
+  Computed<List<int>>? _$shocksComputed;
+
+  @override
+  List<int> get shocks => (_$shocksComputed ??=
+          Computed<List<int>>(() => super.shocks, name: '_Case.shocks'))
+      .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -95,7 +137,13 @@ nativeCase: ${nativeCase},
 startTime: ${startTime},
 endTime: ${endTime},
 displayableEvents: ${displayableEvents},
-waves: ${waves}
+waves: ${waves},
+cprCompressions: ${cprCompressions},
+cprCompressionByMinute: ${cprCompressionByMinute},
+leads: ${leads},
+snapshots: ${snapshots},
+cprRanges: ${cprRanges},
+shocks: ${shocks}
     ''';
   }
 }

@@ -37,7 +37,7 @@ class ReportSectionMixin {
           if (dense) {
             widgets.add(IntrinsicWidth(child: last));
           } else {
-            widgets.add(Expanded(child: last, flex: lastItemFlex));
+            widgets.add(Expanded(flex: lastItemFlex, child: last));
           }
           return Row(
             mainAxisAlignment: dense

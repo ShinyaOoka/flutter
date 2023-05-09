@@ -1,23 +1,14 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
-import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -29,10 +20,9 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
 class ListEventScreenArguments {
-  final XSeriesDevice device;
   final String caseId;
 
-  ListEventScreenArguments({required this.device, required this.caseId});
+  ListEventScreenArguments({required this.caseId});
 }
 
 class ListEventScreen extends StatefulWidget {
@@ -46,7 +36,6 @@ class _ListEventScreenState extends State<ListEventScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
-  late XSeriesDevice device;
   late String caseId;
   late ScrollController scrollController;
   ReactionDisposer? reactionDisposer;
@@ -79,7 +68,6 @@ class _ListEventScreenState extends State<ListEventScreen>
   Future<void> didPush() async {
     final args =
         ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
-    device = args.device;
     caseId = args.caseId;
 
     _hostApi = context.read();
@@ -108,20 +96,9 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/demo.json')
-        .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
-    final caseListItem = _zollSdkStore.caseListItems[device.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['caseId'] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-    _hostApi.deviceDownloadCase(device, caseId, tempDir.path, null);
+    await _loadTestData();
+    _hostApi.deviceDownloadCase(
+        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override
@@ -133,6 +110,24 @@ class _ListEventScreenState extends State<ListEventScreen>
         body: _buildBody(),
       ),
     );
+  }
+
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    final parsedCase = CaseParser.parse(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateTime.parse(caseListItem!.startTime!).toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
+        : null;
   }
 
   PreferredSizeWidget _buildAppBar() {
@@ -172,53 +167,44 @@ class _ListEventScreenState extends State<ListEventScreen>
   Widget _buildMainContent() {
     return LayoutBuilder(builder: (context, constraints) {
       final isMobile = constraints.maxWidth < 640;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                    DataViewerRoutes.dataViewerEcgChart,
-                    arguments: EcgChartScreenArguments(
-                        device: device, caseId: caseId));
-              },
-              child: Text("ECG・バイタル表示")),
-          Expanded(
-            child: Scrollbar(
-              controller: scrollController,
-              thumbVisibility: true,
-              child: ListView.separated(
-                controller: scrollController,
-                itemCount: myCase!.displayableEvents.length,
-                itemBuilder: (context, itemIndex) {
-                  final dataIndex = myCase!.displayableEvents[itemIndex].item1;
-                  return ListTile(
-                      dense: isMobile,
-                      visualDensity: isMobile
-                          ? VisualDensity.compact
-                          : VisualDensity.standard,
-                      title: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: AppConstants.dateTimeFormat
-                                .format(myCase!.events[dataIndex].date),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: Theme.of(context).primaryColor)),
-                        TextSpan(
-                            text:
-                                '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                      ], style: Theme.of(context).textTheme.bodyMedium)),
-                      // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                      onTap: () {});
-                },
-                separatorBuilder: (context, index) => const Divider(),
-              ),
-            ),
-          ),
-        ],
+      return Scrollbar(
+        controller: scrollController,
+        thumbVisibility: true,
+        child: ListView.separated(
+          controller: scrollController,
+          itemCount: myCase!.displayableEvents.length,
+          itemBuilder: (context, itemIndex) {
+            final dataIndex = myCase!.displayableEvents[itemIndex].item1;
+            return ListTile(
+                dense: isMobile,
+                visualDensity:
+                    isMobile ? VisualDensity.compact : VisualDensity.standard,
+                title: RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: AppConstants.dateTimeFormat
+                          .format(myCase!.events[dataIndex].date),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Theme.of(context).primaryColor)),
+                  TextSpan(
+                      text:
+                          '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
+                ], style: Theme.of(context).textTheme.bodyMedium)),
+                // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                      DataViewerRoutes.dataViewerEcgChart,
+                      arguments: EcgChartScreenArguments(
+                          device: _zollSdkStore.selectedDevice!,
+                          caseId: caseId,
+                          timestamp: myCase!
+                              .events[dataIndex].date.microsecondsSinceEpoch));
+                });
+          },
+          separatorBuilder: (context, index) => const Divider(),
+        ),
       );
     });
   }

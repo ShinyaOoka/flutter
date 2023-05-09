@@ -22,11 +22,11 @@ class AppDatePicker extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.always,
               label: label != null ? Text(label!) : null,
               border: OutlineInputBorder(
-                  borderSide: readOnly ? BorderSide.none : BorderSide()),
+                  borderSide: readOnly ? BorderSide.none : const BorderSide()),
               hintText: hintText,
               counterText: " ",
               counterStyle: const TextStyle(height: 0.2, fontSize: 10),
-              fillColor: readOnly ? Color(0xFFF5F5F5) : Colors.white,
+              fillColor: readOnly ? const Color(0xFFF5F5F5) : Colors.white,
               suffixIcon: !readOnly && selectedDate != null
                   ? IconButton(
                       onPressed: () => onChanged?.call(null),

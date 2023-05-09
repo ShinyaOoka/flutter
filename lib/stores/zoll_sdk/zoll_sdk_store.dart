@@ -24,6 +24,9 @@ abstract class _ZollSdkStore with Store {
   @observable
   ObservableMap<String, Case> cases = ObservableMap();
 
+  @observable
+  XSeriesDevice? selectedDevice;
+
   @action
   void onDeviceFound(XSeriesDevice device) {
     devices.add(device);

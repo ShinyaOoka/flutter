@@ -55,7 +55,7 @@ class _StartupScreenState extends State<StartupScreen> {
     if (reportIds.isNotEmpty) {
       final result = await showDialog(
           context: context,
-          builder: (BuildContext context) => DeletePreviousReportDialog());
+          builder: (BuildContext context) => const DeletePreviousReportDialog());
       if (result == true) {
         await _reportStore.deleteReports(reportIds);
       }

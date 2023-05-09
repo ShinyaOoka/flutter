@@ -206,7 +206,7 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                 index,
                 ExpansionPanel(
                     canTapOnHeader: true,
-                    backgroundColor: Color(0xFFF5F5F5),
+                    backgroundColor: const Color(0xFFF5F5F5),
                     headerBuilder: (context, isExpanded) {
                       return ListTile(
                         key: section.globalKey,
@@ -217,7 +217,7 @@ class _ReportFormState extends State<ReportForm> with ReportSectionMixin {
                                 children: [
                                   Text('${index + 1}. ${section.title}'),
                                   const SizedBox(width: 8),
-                                  OptionalBadge(scaling: 0.75)
+                                  const OptionalBadge(scaling: 0.75)
                                 ],
                               )
                             : Text('${index + 1}. ${section.title}'),

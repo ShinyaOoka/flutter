@@ -33,14 +33,14 @@ class AppDropdown<T> extends StatelessWidget {
                               children: [
                                 Text(label!),
                                 const SizedBox(width: 8),
-                                OptionalBadge(),
+                                const OptionalBadge(),
                               ],
                             )
                           : Text(label!)
                       : null,
                   border: const OutlineInputBorder(borderSide: BorderSide.none),
                   fillColor: fillColor ??
-                      (readOnly ? Color(0xFFF5F5F5) : Colors.white),
+                      (readOnly ? const Color(0xFFF5F5F5) : Colors.white),
                   counterText: ' ',
                   counterStyle: const TextStyle(height: 0.2, fontSize: 10),
                 ),
@@ -87,14 +87,14 @@ class AppDropdown<T> extends StatelessWidget {
                                     children: [
                                       Text(label!),
                                       const SizedBox(width: 8),
-                                      OptionalBadge(),
+                                      const OptionalBadge(),
                                     ],
                                   )
                                 : Text(label!)
                             : null,
                         border: const OutlineInputBorder(),
                         fillColor: fillColor ??
-                            (readOnly ? Color(0xFFF5F5F5) : Colors.white),
+                            (readOnly ? const Color(0xFFF5F5F5) : Colors.white),
                         counterText: ' ',
                         counterStyle:
                             const TextStyle(height: 0.2, fontSize: 10))),

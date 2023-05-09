@@ -1,6 +1,5 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
@@ -12,12 +11,6 @@ import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
-
-class ListCaseScreenArguments {
-  final XSeriesDevice device;
-
-  ListCaseScreenArguments({required this.device});
-}
 
 class ListCaseScreen extends StatefulWidget {
   const ListCaseScreen({super.key});
@@ -31,7 +24,6 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   late ZollSdkStore _zollSdkStore;
   late ScrollController scrollController;
 
-  XSeriesDevice? device;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
   List<CaseListItem>? cases;
@@ -59,16 +51,14 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   void didPush() {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListCaseScreenArguments;
-    device = args.device;
     _zollSdkStore = context.read();
+    final deviceSerialNumber = _zollSdkStore.selectedDevice?.serialNumber;
     setState(() {
-      cases = _zollSdkStore.caseListItems[device?.serialNumber];
+      cases = _zollSdkStore.caseListItems[deviceSerialNumber];
     });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {
-      final storeCases = _zollSdkStore.caseListItems[device?.serialNumber];
+      final storeCases = _zollSdkStore.caseListItems[deviceSerialNumber];
       if (storeCases != null && cases == null) {
         setState(() {
           cases = storeCases;
@@ -119,7 +109,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         ];
       }
     });
-    _hostApi.deviceGetCaseList(device!, null);
+    _hostApi.deviceGetCaseList(_zollSdkStore.selectedDevice!, null);
   }
 
   @override
@@ -142,23 +132,62 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   List<Widget> _buildActions() {
     return <Widget>[
       // _buildCreateReportButton(),
-      hasNewData
-          ? Directionality(
-              textDirection: TextDirection.rtl,
-              child: TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    cases = [
-                      ..._zollSdkStore.caseListItems[device!.serialNumber]!
-                    ];
-                    hasNewData = false;
-                  });
-                },
-                label: const Text("更新"),
-                icon: const Icon(Icons.refresh),
+
+      PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).primaryColor,
+        ),
+        itemBuilder: (context) {
+          final items = <PopupMenuEntry>[
+            PopupMenuItem(
+                value: 0,
+                child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    minLeadingWidth: 10,
+                    leading: const Icon(Icons.phonelink_erase),
+                    title: Text('機器接続変更'.i18n()))),
+            PopupMenuDivider(),
+            PopupMenuItem(
+                value: 99,
+                enabled: false,
+                child: ListTile(
+                    title: Text(
+                        '接続中機器: ${_zollSdkStore.selectedDevice!.serialNumber}'))),
+          ];
+          if (hasNewData) {
+            items.insert(
+              1,
+              PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minLeadingWidth: 10,
+                  leading: const Icon(Icons.refresh),
+                  title: Text('更新'),
+                ),
               ),
-            )
-          : Container()
+            );
+          }
+          return items;
+        },
+        onSelected: (value) async {
+          switch (value) {
+            case 0:
+              Navigator.of(context).pop();
+              break;
+            case 1:
+              setState(() {
+                cases = [
+                  ..._zollSdkStore.caseListItems[
+                      _zollSdkStore.selectedDevice?.serialNumber]!
+                ];
+                hasNewData = false;
+              });
+              break;
+          }
+        },
+      )
     ];
   }
 
@@ -172,6 +201,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () {
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
     );
@@ -212,7 +242,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 onTap: () {
                   Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
                       arguments: ListEventScreenArguments(
-                          device: device!, caseId: cases![index].caseId));
+                          caseId: cases![index].caseId));
                 }),
             separatorBuilder: (context, index) => const Divider(),
           ),

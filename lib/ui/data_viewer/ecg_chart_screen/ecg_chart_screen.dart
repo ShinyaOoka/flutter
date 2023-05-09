@@ -1,26 +1,9 @@
-import 'dart:io';
-import 'dart:math';
-
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
-import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/app_line_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:ak_azm_flutter/widgets/zoomable_chart.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobx/mobx.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
@@ -30,8 +13,10 @@ import 'package:localization/localization.dart';
 class EcgChartScreenArguments {
   final XSeriesDevice device;
   final String caseId;
+  final int timestamp;
 
-  EcgChartScreenArguments({required this.device, required this.caseId});
+  EcgChartScreenArguments(
+      {required this.device, required this.caseId, required this.timestamp});
 }
 
 class EcgChartScreen extends StatefulWidget {
@@ -46,6 +31,8 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+  late int timestamp;
+  String chartType = 'Pads';
   Case? myCase;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -74,6 +61,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         ModalRoute.of(context)!.settings.arguments as EcgChartScreenArguments;
     device = args.device;
     caseId = args.caseId;
+    timestamp = args.timestamp;
 
     _zollSdkStore = context.read();
     setState(() {
@@ -127,9 +115,32 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   }
 
   Widget _buildMainContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [EcgChart(samples: myCase!.waves['Pads']!.samples)],
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            DropdownButton<String>(
+                value: chartType,
+                items: myCase!.waves.keys
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (x) {
+                  setState(() {
+                    chartType = x!;
+                  });
+                }),
+            EcgChart(
+              samples: myCase!.waves[chartType]!.samples,
+              cprCompressions: myCase!.cprCompressions,
+              initTimestamp: timestamp,
+              segments: 4,
+              initDuration: Duration(minutes: 1),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

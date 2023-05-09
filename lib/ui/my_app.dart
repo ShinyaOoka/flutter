@@ -13,7 +13,6 @@ import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
 
 class MyApp extends StatelessWidget {
   final ReportStore _reportStore = getIt<ReportStore>();
