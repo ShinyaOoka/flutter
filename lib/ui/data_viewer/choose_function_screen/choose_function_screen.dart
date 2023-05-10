@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_analysis_screen/cpr_analysis_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/info_screen/info_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
@@ -97,6 +98,13 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
 
   Widget _buildMainContent() {
     return ListView(children: [
+      ListTile(
+        title: const Text("一般"),
+        onTap: () {
+          Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerInfo,
+              arguments: InfoScreenArguments(caseId: caseId!));
+        },
+      ),
       ListTile(
         title: const Text("全体ECG"),
         onTap: () {

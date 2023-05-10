@@ -3,6 +3,7 @@ import 'package:ak_azm_flutter/ui/data_viewer/cpr_analysis_screen/cpr_analysis_s
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/info_screen/info_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
@@ -19,6 +20,7 @@ class DataViewerRoutes {
   //static variables
   static const String dataViewerListDevice = '/data_viewer/list_device';
   static const String dataViewerListCase = '/data_viewer/list_case';
+  static const String dataViewerInfo = '/data_viewer/info';
   static const String dataViewerListEvent = '/data_viewer/list_event';
   static const String dataViewerFullEcgEvent = '/data_viewer/full_ecg_chart';
   static const String dataViewerCprChart = '/data_viewer/cpr_chart';
@@ -53,5 +55,6 @@ class DataViewerRoutes {
     dataViewerCprAnalysis: (BuildContext context) => const CprAnalysisScreen(),
     dataViewerFullEcgEvent: (BuildContext context) =>
         const FullEcgChartScreen(),
+    dataViewerInfo: (BuildContext context) => const InfoScreen(),
   };
 }

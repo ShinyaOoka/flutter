@@ -681,4 +681,9 @@ abstract class _Case with Store {
     }
     return result;
   }
+
+  @computed
+  CaseEvent get caseSummary {
+    return events.firstWhere((e) => e.type == 'CaseSummary');
+  }
 }
