@@ -686,4 +686,30 @@ abstract class _Case with Store {
   CaseEvent get caseSummary {
     return events.firstWhere((e) => e.type == 'CaseSummary');
   }
+
+  @computed
+  Waveform get cprAccel {
+    final Waveform result = Waveform(type: 'CPR Acceleration');
+    for (var event in events) {
+      if (event.type == 'CprAccelWaveRec') {
+        final startTimeString = event.rawData['StdHdr']['DevDateTime'];
+        final date =
+            DateFormat("yyyy-MM-ddTHH:mm:ss").parse(startTimeString).toLocal();
+        final timestamp = date.microsecondsSinceEpoch;
+        final waveforms = event.rawData['Waveform'];
+        final samples = event.rawData['WaveRec']['UnpackedSamples'];
+        final count = event.rawData['WaveRec']['FrameSize'] as int;
+        final sampleTime = event.rawData['WaveRec']['SampleTime'] as int;
+        for (var i = 0; i < count; i++) {
+          final double value = samples[i].toDouble();
+          result.samples.add(Sample(
+              timestamp: timestamp + i * sampleTime, value: value, status: 0));
+        }
+      }
+    }
+    result.samples.sort((a, b) {
+      return a.timestamp.compareTo(b.timestamp);
+    });
+    return result;
+  }
 }

@@ -74,6 +74,12 @@ mixin _$Case on _Case, Store {
       (_$caseSummaryComputed ??= Computed<CaseEvent>(() => super.caseSummary,
               name: '_Case.caseSummary'))
           .value;
+  Computed<Waveform>? _$cprAccelComputed;
+
+  @override
+  Waveform get cprAccel => (_$cprAccelComputed ??=
+          Computed<Waveform>(() => super.cprAccel, name: '_Case.cprAccel'))
+      .value;
 
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
@@ -151,7 +157,8 @@ leads: ${leads},
 snapshots: ${snapshots},
 cprRanges: ${cprRanges},
 shocks: ${shocks},
-caseSummary: ${caseSummary}
+caseSummary: ${caseSummary},
+cprAccel: ${cprAccel}
     ''';
   }
 }

@@ -13,6 +13,8 @@ String defaultLabelFormat(double x) {
   return (x / 1000).toStringAsFixed(1);
 }
 
+void defaultOnTap(int timestamp) {}
+
 class EcgChart extends StatefulWidget {
   const EcgChart({
     Key? key,
@@ -31,6 +33,7 @@ class EcgChart extends StatefulWidget {
     this.majorInterval = 2500,
     this.labelFormat = defaultLabelFormat,
     this.ventilationTimestamps = const [],
+    this.onTap = defaultOnTap,
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -48,6 +51,7 @@ class EcgChart extends StatefulWidget {
   final String Function(double) labelFormat;
   final List<CprCompression> cprCompressions;
   final List<int> ventilationTimestamps;
+  final void Function(int timestamp) onTap;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -166,14 +170,25 @@ class _EcgChartState extends State<EcgChart> {
   }
 
   Widget buildChart(double minX, double maxX) {
-    return IgnorePointer(
-        child: SizedBox(
+    return SizedBox(
       height: widget.height,
       child: FutureBuilder(
         future: getData(minX, maxX),
         builder: (context, snapshot) {
           return LineChart(
             LineChartData(
+              lineTouchData: LineTouchData(
+                touchCallback: (touchEvent, response) {
+                  if (touchEvent.runtimeType != FlTapDownEvent) {
+                    return;
+                  }
+                  final timestamp = response?.lineBarSpots?[0].x.toInt();
+                  if (timestamp != null) {
+                    widget.onTap(timestamp * 1000000);
+                  }
+                },
+                handleBuiltInTouches: false,
+              ),
               minX: minX,
               maxX: maxX,
               maxY: widget.maxY,
@@ -322,6 +337,6 @@ class _EcgChartState extends State<EcgChart> {
           );
         },
       ),
-    ));
+    );
   }
 }
