@@ -250,6 +250,28 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return template;
   }
 
+  String fillClassificationCircle(String template, String key,
+      List<Classification> values, String? checked) {
+    for (final value in values) {
+      template = fillCircle(
+          template,
+          '${key}_CIRCLE_${value.classificationSubCd}',
+          value.value ?? '',
+          value.classificationSubCd == checked);
+    }
+    return template;
+  }
+
+  String fillCircle(String template, String key, String text, bool checked) {
+    if (checked) {
+      template =
+          template.replaceFirst(key, '<span class="text-circle">$text</span>');
+    } else {
+      template = template.replaceFirst(key, text);
+    }
+    return template;
+  }
+
   String fillCheck(String template, String key, bool checked) {
     if (checked) {
       template =
@@ -651,6 +673,122 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     result = result.replaceFirst('VerbalGuidance',
         report.verbalGuidanceText?.characters.take(18).toString() ?? '');
+    result = fillClassificationCheck(
+        result,
+        'SecuringAirway',
+        getClassifications(AppConstants.securingAirwayCode),
+        report.securingAirwayType?.classificationSubCd);
+    result = fillCheck(result, 'SecuringAirway_CHECK',
+        report.securingAirway != null && report.securingAirway != '');
+
+    for (int i = 0; i < 3; i++) {
+      result = result.replaceFirst('ObservationTime${i + 1}',
+          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '--'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '--'}');
+      result =
+          result.replaceFirst('JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
+      final e = int.parse(report.gcsETypes[i]?.value ?? '0');
+      final v = int.parse(report.gcsVTypes[i]?.value ?? '0');
+      final m = int.parse(report.gcsMTypes[i]?.value ?? '0');
+      final sum = e + v + m;
+      result =
+          result.replaceFirst('SumEVM${i + 1}', sum != 0 ? sum.toString() : '');
+      result = result.replaceFirst(
+          'Respiration${i + 1}',
+          report.respiration?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.respiration![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'Pulse${i + 1}',
+          report.pulse?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pulse![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'BloodPressure_High${i + 1}',
+          report.bloodPressureHigh?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.bloodPressureHigh![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'BloodPressure_Low${i + 1}',
+          report.bloodPressureLow?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.bloodPressureLow![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'SpO2Percent${i + 1}',
+          report.spO2Percent?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.spO2Percent![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'SpO2Liter${i + 1}',
+          report.spO2Liter?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.spO2Liter![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'PupilRight${i + 1}',
+          report.pupilRight?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pupilRight![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'PupilLeft${i + 1}',
+          report.pupilLeft?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pupilLeft![i].toString()
+              : '');
+      result = fillBoolCircle(
+          result, 'LightReflexLeft_$i', report.lightReflexLeft?[i]);
+      result = fillBoolCircle(
+          result, 'LightReflexRight_$i', report.lightReflexRight?[i]);
+      result = result.replaceFirst('BodyTemperature${i + 1}',
+          report.bodyTemperature?[i]?.toString() ?? '');
+      result = fillClassificationCircle(
+          result,
+          'FacialFeatures_$i',
+          getClassifications(AppConstants.facialFeaturesCode),
+          report.facialFeatureTypes[i]?.classificationSubCd);
+      final hemorrhage = report.hemorrhage
+          ?.firstWhereIndexedOrNull((index, element) => index == i)
+          ?.toString();
+      result = fillBoolCircle(result, 'Hemorrhage_$i', hemorrhage?.isNotEmpty);
+      result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
+      final incon = report.incontinenceTypes[i]?.classificationSubCd;
+      result = fillClassificationCircle(result, 'Incontinence_$i',
+          getClassifications(AppConstants.incontinenceCode), incon);
+      result = fillBoolCircle(
+          result,
+          'Incontinence_$i',
+          report.observationTime?[i] == null
+              ? null
+              : (incon != '000' && incon != null));
+      result = fillBoolCircle(result, 'Vomiting_$i', report.vomiting?[i]);
+      result = result.replaceFirst(
+          'Extremities${i + 1}',
+          report.extremities
+                  ?.firstWhereIndexedOrNull((index, element) => index == i) ??
+              '');
+    }
+    result = fillCheck(result, 'Coating_CHECK', report.coating == true);
+    result =
+        fillCheck(result, 'BurnTreatment_CHECK', report.burnTreatment == true);
     return result;
   }
 
