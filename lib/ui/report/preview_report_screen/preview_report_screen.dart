@@ -789,6 +789,50 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = fillCheck(result, 'Coating_CHECK', report.coating == true);
     result =
         fillCheck(result, 'BurnTreatment_CHECK', report.burnTreatment == true);
+    result = fillCheck(
+        result, 'ForeignBodyRemoval_CHECK', report.foreignBodyRemoval == true);
+    result = fillCheck(result, 'Suction_CHECK', report.suction == true);
+    result = fillCheck(result, 'ArtificialRespiration_CHECK',
+        report.artificialRespiration == true);
+    result = fillCheck(
+        result, 'ChestCompressions_CHECK', report.chestCompressions == true);
+    result = fillCheck(result, 'ECGMonitor_CHECK', report.ecgMonitor == true);
+    result = fillCheck(
+        result, 'O2Administration_CHECK', report.o2Administration != null);
+    result = result.replaceFirst(
+        'O2Administration', report.o2Administration?.toString() ?? '');
+    result = result.replaceFirst('O2AdministrationTime',
+        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = fillCheck(result, 'LimitationOfSpinalMotion_CHECK',
+        report.limitationOfSpinalMotionType != null);
+    result = fillClassificationCheck(
+        result,
+        'LimitationOfSpinalMotion',
+        getClassifications(AppConstants.limitationOfSpinalMotionCode),
+        report.limitationOfSpinalMotionType?.classificationSubCd);
+    result = fillCheck(result, 'HemostaticTreatment_CHECK',
+        report.hemostaticTreatment == true);
+    result = fillCheck(
+        result, 'AdductorFixation_CHECK', report.adductorFixation == true);
+    result = fillCheck(
+        result, 'Other_CHECK', report.other != null && report.other != '');
+    result = result.replaceFirst('Other',
+        '<div style="white-space: pre-wrap; font-size: 7pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
+    result = fillCheck(result, 'BSMeasurement_CHECK',
+        report.bsMeasurement1 != null || report.bsMeasurement2 != null);
+    result = result.replaceFirst(
+        'BSMeasurement1', report.bsMeasurement1?.toString() ?? '');
+    result = result.replaceFirst('BSMeasurementTime1',
+        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('PunctureSite1',
+        report.punctureSite1?.characters.take(9).toString().toString() ?? '');
+    result = result.replaceFirst(
+        'BSMeasurement2', report.bsMeasurement2?.toString() ?? '');
+    result = result.replaceFirst('BSMeasurementTime2',
+        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('PunctureSite2',
+        report.punctureSite2?.characters.take(9).toString().toString() ?? '');
+
     return result;
   }
 
