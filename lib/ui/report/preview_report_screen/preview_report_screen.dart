@@ -511,17 +511,17 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 report.sickInjuredPersonBirthDate!.year,
                 report.sickInjuredPersonBirthDate!.month,
                 report.sickInjuredPersonBirthDate!.day)
-            : '');
+            : '　');
     result = result.replaceFirst(
         'SickInjuredPersonBirthDateMonth',
         report.sickInjuredPersonBirthDate?.month != null
             ? report.sickInjuredPersonBirthDate!.month.toString()
-            : '');
+            : '　');
     result = result.replaceFirst(
         'SickInjuredPersonBirthDateDay',
         report.sickInjuredPersonBirthDate?.day != null
             ? report.sickInjuredPersonBirthDate!.day.toString()
-            : '');
+            : '　');
     int? age;
     if (report.dateOfOccurrence != null &&
         report.sickInjuredPersonBirthDate != null) {
@@ -770,6 +770,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       result = fillBoolCircle(result, 'Hemorrhage_$i', hemorrhage?.isNotEmpty);
       result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
       final incon = report.incontinenceTypes[i]?.classificationSubCd;
+      if (incon == '003') {
+        fillCircle(result, 'Incontinence_${i}_CIRCLE_001', '尿', true);
+        fillCircle(result, 'Incontinence_${i}_CIRCLE_002', '便', true);
+      }
       result = fillClassificationCircle(result, 'Incontinence_$i',
           getClassifications(AppConstants.incontinenceCode), incon);
       result = fillBoolCircle(
@@ -778,7 +782,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           report.observationTime?[i] == null
               ? null
               : (incon != '000' && incon != null));
-      result = fillBoolCircle(result, 'Vomiting_$i', report.vomiting?[i]);
+      result = fillBoolCircle(
+          result,
+          'Vomiting_$i',
+          report.vomiting?[i] == null || report.vomiting?[i] == false
+              ? null
+              : true);
       result = result.replaceFirst(
           'Extremities${i + 1}',
           report.extremities
