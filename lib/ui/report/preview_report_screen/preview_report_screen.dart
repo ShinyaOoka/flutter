@@ -495,8 +495,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     result = fillBoolCheck(
         result, 'LifesaverQualification', report.lifesaverQualification);
-    result =
-        fillBoolCheck(result, 'WithLifeSavers', report.lifesaverQualification);
+    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers);
     result = result.replaceFirst('TeamTEL', report.team?.tel ?? '');
     result = result.replaceFirst('SickInjuredPersonAddress',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
