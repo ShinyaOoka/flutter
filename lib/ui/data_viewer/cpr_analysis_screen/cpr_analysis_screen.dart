@@ -221,15 +221,43 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   }
 
   Widget _buildSummary() {
-    final averageCompDisp =
-        myCase!.cprCompressions.map((e) => e.compDisp).average / 1000;
-    final averageCompRate =
-        myCase!.cprCompressions.map((e) => e.compRate).average;
+    final averageCprCompressionAfterShockDurations = myCase!.shocks.map((e) {
+      final t = myCase!.cprCompressions
+          .firstWhereOrNull((c) => c.timestamp >= e)
+          ?.timestamp;
+      if (t == null) return null;
+      return t - e;
+    }).whereNotNull();
+    final averageCprCompressionAfterShock =
+        averageCprCompressionAfterShockDurations.isNotEmpty
+            ? averageCprCompressionAfterShockDurations.average / 1000000
+            : 0;
+    final averageCprCompressionBeforeShockDurations = myCase!.shocks.map((e) {
+      final t = myCase!.cprCompressions
+          .lastWhereOrNull((c) => c.timestamp <= e)
+          ?.timestamp;
+      if (t == null) return null;
+      return e - t;
+    }).whereNotNull();
+    final averageCprCompressionBeforeShock =
+        averageCprCompressionBeforeShockDurations.isNotEmpty
+            ? averageCprCompressionBeforeShockDurations.average
+            : 0;
+    final averageCompDisp = myCase!.cprCompressions.isNotEmpty
+        ? myCase!.cprCompressions.map((e) => e.compDisp).average / 1000
+        : 0;
+    final averageCompRate = myCase!.cprCompressions.isNotEmpty
+        ? myCase!.cprCompressions.map((e) => e.compRate).average
+        : 0;
 
     return Column(
       children: [
-        Text('Average CompDisp: $averageCompDisp'),
-        Text('Average CompRate: $averageCompRate'),
+        Text(
+            'averageCprCompressionAfterShock: $averageCprCompressionAfterShock'),
+        Text(
+            'averageCprCompressionBeforeShock: $averageCprCompressionBeforeShock'),
+        Text('averageCompDisp: $averageCompDisp'),
+        Text('averageCompRate: $averageCompRate'),
       ],
     );
   }
