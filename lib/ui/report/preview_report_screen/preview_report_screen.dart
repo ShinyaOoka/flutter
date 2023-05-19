@@ -766,7 +766,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           report.facialFeatureTypes[i]?.classificationSubCd);
       final hemorrhage = report.hemorrhage
           ?.firstWhereIndexedOrNull((index, element) => index == i)
-          ?.toString();
+          ?.characters
+          .take(8)
+          .toString();
       result = fillBoolCircle(result, 'Hemorrhage_$i', hemorrhage?.isNotEmpty);
       result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
       final incon = report.incontinenceTypes[i]?.classificationSubCd;
