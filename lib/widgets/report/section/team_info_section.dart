@@ -113,67 +113,63 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
   }
 
   Widget _buildLine2(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          controller: teamMemberNameController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-          label: 'team_member_name'.i18n(),
-          onChanged: (value) => report.teamMemberName = value,
-          maxLength: 20,
-          readOnly: widget.readOnly,
-          optional: true,
-          keyboardType: TextInputType.multiline,
-        ),
-        AppTextField(
-          controller: institutionalMemberNameController,
-          inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-          label: 'institutional_member_name'.i18n(),
-          onChanged: (value) => report.institutionalMemberName = value,
-          maxLength: 20,
-          readOnly: widget.readOnly,
-          optional: true,
-          keyboardType: TextInputType.multiline,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        controller: teamMemberNameController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        label: 'team_member_name'.i18n(),
+        onChanged: (value) => report.teamMemberName = value,
+        maxLength: 20,
+        readOnly: widget.readOnly,
+        optional: true,
+        keyboardType: TextInputType.multiline,
+      ),
+      AppTextField(
+        controller: institutionalMemberNameController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        label: 'institutional_member_name'.i18n(),
+        onChanged: (value) => report.institutionalMemberName = value,
+        maxLength: 20,
+        readOnly: widget.readOnly,
+        optional: true,
+        keyboardType: TextInputType.multiline,
+      ),
+    ]);
   }
 
   Widget _buildLine3(Report report, BuildContext context) {
-    return Observer(builder: (context) {
-      return lineLayout(children: [
-        AppTextField(
-          controller: totalController,
-          label: 'total'.i18n(),
-          keyboardType: TextInputType.number,
-          onChanged: (item) => report.totalCount = int.tryParse(item),
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            FilteringTextInputFormatter.singleLineFormatter
-          ],
-          maxLength: 6,
-          readOnly: widget.readOnly,
-          counterText: '件',
-          counterColor: Theme.of(context).primaryColor,
-          optional: true,
-        ),
-        AppTextField(
-          controller: teamController,
-          label: 'team'.i18n(),
-          keyboardType: TextInputType.number,
-          onChanged: (item) => report.teamCount = int.tryParse(item),
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            FilteringTextInputFormatter.singleLineFormatter
-          ],
-          maxLength: 6,
-          readOnly: widget.readOnly,
-          counterText: '件',
-          counterColor: Theme.of(context).primaryColor,
-          optional: true,
-        ),
-      ]);
-    });
+    return lineLayout(children: [
+      AppTextField(
+        controller: totalController,
+        label: 'total'.i18n(),
+        keyboardType: TextInputType.number,
+        onChanged: (item) => report.totalCount = int.tryParse(item),
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.singleLineFormatter
+        ],
+        maxLength: 6,
+        readOnly: widget.readOnly,
+        counterText: '件',
+        counterColor: Theme.of(context).primaryColor,
+        optional: true,
+      ),
+      AppTextField(
+        controller: teamController,
+        label: 'team'.i18n(),
+        keyboardType: TextInputType.number,
+        onChanged: (item) => report.teamCount = int.tryParse(item),
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.singleLineFormatter
+        ],
+        maxLength: 6,
+        readOnly: widget.readOnly,
+        counterText: '件',
+        counterColor: Theme.of(context).primaryColor,
+        optional: true,
+      ),
+    ]);
   }
 
   Widget _buildLine4(Report report, BuildContext context) {

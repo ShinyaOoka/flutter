@@ -213,55 +213,24 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     shocks: myCase!.shocks,
                   )
                 : Container(),
+            _buildSummary()
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTable() {
-    return DataTable(
-      columns: [
-        DataColumn(
-            label: Expanded(
-          child: Text("分", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("秒胸骨圧迫なし", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("換気", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("CO2換気", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("換気リード", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("胸骨圧迫回数", softWrap: true),
-        )),
-        DataColumn(
-            label: Expanded(
-          child: Text("平均胸骨圧迫圧迫深", softWrap: true),
-        )),
+  Widget _buildSummary() {
+    final averageCompDisp =
+        myCase!.cprCompressions.map((e) => e.compDisp).average / 1000;
+    final averageCompRate =
+        myCase!.cprCompressions.map((e) => e.compRate).average;
+
+    return Column(
+      children: [
+        Text('Average CompDisp: $averageCompDisp'),
+        Text('Average CompRate: $averageCompRate'),
       ],
-      rows: myCase!.cprCompressionByMinute
-          .map((e) => DataRow(cells: [
-                DataCell(Text(e.minute.toString())),
-                DataCell(Text(e.secondsNotInCompressions.toString())),
-                DataCell(Text("0")),
-                DataCell(Text(e.ventilations.toString())),
-                DataCell(Text("0")),
-                DataCell(Text(e.compressionCount.toString())),
-                DataCell(Text(e.averageCompDisp.toStringAsFixed(2))),
-              ]))
-          .toList(),
     );
   }
 }

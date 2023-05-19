@@ -771,17 +771,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
       final incon = report.incontinenceTypes[i]?.classificationSubCd;
       if (incon == '003') {
-        fillCircle(result, 'Incontinence_${i}_CIRCLE_001', '尿', true);
-        fillCircle(result, 'Incontinence_${i}_CIRCLE_002', '便', true);
+        result = fillCircle(result, 'Incontinence_${i}_CIRCLE_001', '尿', true);
+        result = fillCircle(result, 'Incontinence_${i}_CIRCLE_002', '便', true);
       }
       result = fillClassificationCircle(result, 'Incontinence_$i',
           getClassifications(AppConstants.incontinenceCode), incon);
-      result = fillBoolCircle(
-          result,
-          'Incontinence_$i',
-          report.observationTime?[i] == null
-              ? null
-              : (incon != '000' && incon != null));
+      if ((incon == '000' || incon == null) &&
+          report.observationTime?[i] != null) {
+        result = fillCircle(result, 'Incontinence_0_CIRCLE_000', '無', true);
+      }
+
+      result = fillCircle(result, 'Incontinence_${i}_CIRCLE_TRUE', '有',
+          incon != null && incon != '000');
       result = fillBoolCircle(
           result,
           'Vomiting_$i',
