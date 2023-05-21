@@ -200,6 +200,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _buildTrendDataSummary(),
             myCase!.waves['Pads']!.samples.isNotEmpty
                 ? ExpandedEcgChart(
                     pads: myCase!.waves['Pads']!.samples,
@@ -212,6 +213,80 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
                 : Container(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTrendDataSummary() {
+    final trendData = myCase!.events.lastWhereOrNull((e) =>
+        e.type == "TrendRpt" &&
+        e.date.toLocal().microsecondsSinceEpoch <= timestamp);
+    final cprCompression = myCase!.cprCompressions
+        .lastWhereOrNull((e) => e.timestamp <= timestamp);
+    return Container(
+      height: 200,
+      child: GridView.count(
+        crossAxisCount: 5,
+        childAspectRatio: 1.6,
+        children: [
+          Container(
+            child: Column(children: [
+              Text('NIBP'),
+              Text(
+                  "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Dia: ${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Sys: ${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}")
+            ]),
+          ),
+          Container(
+            child: Column(children: [
+              Text("CO2"),
+              Text(
+                  "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "BR: ${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Fico2: ${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}")
+            ]),
+          ),
+          Container(
+            child: Column(children: [
+              Text("SpO2"),
+              Text(
+                  "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
+            ]),
+          ),
+          Container(),
+          Container(),
+          Container(),
+          Container(),
+          Container(
+            child: Column(children: [
+              Text(
+                  "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpOC: ${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
+            ]),
+          ),
+          Container(),
+          Container(
+            child: Column(children: [
+              Text("CPR"),
+              Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
+              Text("${cprCompression?.compRate} cpm"),
+            ]),
+          ),
+        ],
       ),
     );
   }

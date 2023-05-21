@@ -284,8 +284,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillBoolCheck(String template, String key, bool? value) {
     template = fillCheck(template, '${key}_CHECK_TRUE', value != null && value);
+    // template =
+    //     fillCheck(template, '${key}_CHECK_FALSE', value != null && !value);
     template =
-        fillCheck(template, '${key}_CHECK_FALSE', value != null && !value);
+        fillCheck(template, '${key}_CHECK_FALSE', false);
     return template;
   }
 
