@@ -1,5 +1,7 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded_cpr_chart_screen.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -11,12 +13,10 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
 class EcgChartScreenArguments {
-  final XSeriesDevice device;
   final String caseId;
   final int timestamp;
 
-  EcgChartScreenArguments(
-      {required this.device, required this.caseId, required this.timestamp});
+  EcgChartScreenArguments({required this.caseId, required this.timestamp});
 }
 
 class EcgChartScreen extends StatefulWidget {
@@ -29,7 +29,6 @@ class EcgChartScreen extends StatefulWidget {
 class _EcgChartScreenState extends State<EcgChartScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkStore _zollSdkStore;
-  late XSeriesDevice device;
   late String caseId;
   late int timestamp;
   String chartType = 'Pads';
@@ -59,7 +58,6 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   Future<void> didPush() async {
     final args =
         ModalRoute.of(context)!.settings.arguments as EcgChartScreenArguments;
-    device = args.device;
     caseId = args.caseId;
     timestamp = args.timestamp;
 
@@ -137,6 +135,12 @@ class _EcgChartScreenState extends State<EcgChartScreen>
               initTimestamp: timestamp,
               segments: 4,
               initDuration: Duration(minutes: 1),
+              onTap: (timestamp) {
+                Navigator.of(context).pushNamed(
+                    DataViewerRoutes.dataViewerExpandedEcgChart,
+                    arguments: ExpandedCprChartScreenArguments(
+                        caseId: caseId, timestamp: timestamp));
+              },
             ),
           ],
         ),

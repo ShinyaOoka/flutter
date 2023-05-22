@@ -5,6 +5,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
@@ -18,24 +19,27 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class CprAnalysisScreenArguments {
+class ExpandedCprChartScreenArguments {
   final String caseId;
+  final int timestamp;
 
-  CprAnalysisScreenArguments({required this.caseId});
+  ExpandedCprChartScreenArguments(
+      {required this.caseId, required this.timestamp});
 }
 
-class CprAnalysisScreen extends StatefulWidget {
-  const CprAnalysisScreen({super.key});
+class ExpandedCprChartScreen extends StatefulWidget {
+  const ExpandedCprChartScreen({super.key});
 
   @override
-  CprAnalysisScreenState createState() => CprAnalysisScreenState();
+  ExpandedCprChartScreenState createState() => ExpandedCprChartScreenState();
 }
 
-class CprAnalysisScreenState extends State<CprAnalysisScreen>
+class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+  late int timestamp;
   String chartType = 'Pads';
   Map<String, double> minY = {
     'Pads': -2500,
@@ -91,8 +95,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   @override
   Future<void> didPush() async {
     final args = ModalRoute.of(context)!.settings.arguments
-        as CprAnalysisScreenArguments;
+        as ExpandedCprChartScreenArguments;
     caseId = args.caseId;
+    timestamp = args.timestamp;
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
@@ -118,6 +123,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         });
       }
     });
+
     final tempDir = await getTemporaryDirectory();
     await _loadTestData();
     _hostApi.deviceDownloadCase(
@@ -157,7 +163,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "CPR解析",
+      title: "CPR拡大",
     );
   }
 
@@ -194,71 +200,94 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            myCase!.waves[chartType]!.samples.isNotEmpty
-                ? CprAnalysisChart(
-                    samples: myCase!.waves[chartType]!.samples,
+            _buildTrendDataSummary(),
+            myCase!.waves['Pads']!.samples.isNotEmpty
+                ? ExpandedEcgChart(
+                    pads: myCase!.waves['Pads']!.samples,
+                    co2: myCase!.waves['CO2 mmHg, Waveform']!.samples,
                     cprCompressions: myCase!.cprCompressions,
-                    ventilationTimestamps: myCase!
-                        .waves['CO2 mmHg, Waveform']!.samples
-                        .where((element) => element.status == 1)
-                        .map((e) => e.timestamp)
-                        .toList(),
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    initDuration: Duration(seconds: 30),
-                    majorInterval: 2000,
-                    minorInterval: 2000,
-                    labelFormat: labelFormat[chartType]!,
-                    cprRanges: myCase!.cprRanges,
-                    shocks: myCase!.shocks,
+                    initTimestamp: timestamp,
+                    events:
+                        myCase!.displayableEvents.map((e) => e.item2).toList(),
                   )
                 : Container(),
-            _buildSummary()
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSummary() {
-    final averageCprCompressionAfterShockDurations = myCase!.shocks.map((e) {
-      final t = myCase!.cprCompressions
-          .firstWhereOrNull((c) => c.timestamp >= e)
-          ?.timestamp;
-      if (t == null) return null;
-      return t - e;
-    }).whereNotNull();
-    final averageCprCompressionAfterShock =
-        averageCprCompressionAfterShockDurations.isNotEmpty
-            ? averageCprCompressionAfterShockDurations.average / 1000000
-            : 0;
-    final averageCprCompressionBeforeShockDurations = myCase!.shocks.map((e) {
-      final t = myCase!.cprCompressions
-          .lastWhereOrNull((c) => c.timestamp <= e)
-          ?.timestamp;
-      if (t == null) return null;
-      return e - t;
-    }).whereNotNull();
-    final averageCprCompressionBeforeShock =
-        averageCprCompressionBeforeShockDurations.isNotEmpty
-            ? averageCprCompressionBeforeShockDurations.average
-            : 0;
-    final averageCompDisp = myCase!.cprCompressions.isNotEmpty
-        ? myCase!.cprCompressions.map((e) => e.compDisp).average / 1000
-        : 0;
-    final averageCompRate = myCase!.cprCompressions.isNotEmpty
-        ? myCase!.cprCompressions.map((e) => e.compRate).average
-        : 0;
-
-    return Column(
-      children: [
-        Text(
-            'averageCprCompressionAfterShock: $averageCprCompressionAfterShock'),
-        Text(
-            'averageCprCompressionBeforeShock: $averageCprCompressionBeforeShock'),
-        Text('averageCompDisp: $averageCompDisp'),
-        Text('averageCompRate: $averageCompRate'),
-      ],
+  Widget _buildTrendDataSummary() {
+    final trendData = myCase!.events.lastWhereOrNull((e) =>
+        e.type == "TrendRpt" &&
+        e.date.toLocal().microsecondsSinceEpoch <= timestamp);
+    final cprCompression = myCase!.cprCompressions
+        .lastWhereOrNull((e) => e.timestamp <= timestamp);
+    return Container(
+      height: 200,
+      child: GridView.count(
+        crossAxisCount: 5,
+        childAspectRatio: 1.6,
+        children: [
+          Container(
+            child: Column(children: [
+              Text('NIBP'),
+              Text(
+                  "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Dia: ${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Sys: ${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}")
+            ]),
+          ),
+          Container(
+            child: Column(children: [
+              Text("CO2"),
+              Text(
+                  "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "BR: ${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "Fico2: ${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}")
+            ]),
+          ),
+          Container(
+            child: Column(children: [
+              Text("SpO2"),
+              Text(
+                  "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
+            ]),
+          ),
+          Container(),
+          Container(),
+          Container(),
+          Container(),
+          Container(
+            child: Column(children: [
+              Text(
+                  "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpOC: ${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
+            ]),
+          ),
+          Container(),
+          Container(
+            child: Column(children: [
+              Text("CPR"),
+              Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
+              Text("${cprCompression?.compRate} cpm"),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }

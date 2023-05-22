@@ -7,6 +7,7 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
@@ -19,20 +20,20 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class ListEventScreenArguments {
+class InfoScreenArguments {
   final String caseId;
 
-  ListEventScreenArguments({required this.caseId});
+  InfoScreenArguments({required this.caseId});
 }
 
-class ListEventScreen extends StatefulWidget {
-  const ListEventScreen({super.key});
+class InfoScreen extends StatefulWidget {
+  const InfoScreen({super.key});
 
   @override
-  _ListEventScreenState createState() => _ListEventScreenState();
+  _InfoScreenState createState() => _InfoScreenState();
 }
 
-class _ListEventScreenState extends State<ListEventScreen>
+class _InfoScreenState extends State<InfoScreen>
     with RouteAware, ReportSectionMixin {
   late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
@@ -67,7 +68,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   @override
   Future<void> didPush() async {
     final args =
-        ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
+        ModalRoute.of(context)!.settings.arguments as InfoScreenArguments;
     caseId = args.caseId;
 
     _hostApi = context.read();
@@ -165,47 +166,124 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   Widget _buildMainContent() {
-    return LayoutBuilder(builder: (context, constraints) {
-      final isMobile = constraints.maxWidth < 640;
-      return Scrollbar(
-        controller: scrollController,
-        thumbVisibility: true,
-        child: ListView.separated(
-          controller: scrollController,
-          itemCount: myCase!.displayableEvents.length,
-          itemBuilder: (context, itemIndex) {
-            final dataIndex = myCase!.displayableEvents[itemIndex].item1;
-            return ListTile(
-                dense: isMobile,
-                visualDensity:
-                    isMobile ? VisualDensity.compact : VisualDensity.standard,
-                title: RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: AppConstants.dateTimeFormat
-                          .format(myCase!.events[dataIndex].date),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Theme.of(context).primaryColor)),
-                  TextSpan(
-                      text:
-                          '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                ], style: Theme.of(context).textTheme.bodyMedium)),
-                // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                      DataViewerRoutes.dataViewerEcgChart,
-                      arguments: EcgChartScreenArguments(
-                          caseId: caseId,
-                          timestamp: myCase!
-                              .events[dataIndex].date.microsecondsSinceEpoch));
-                });
-          },
-          separatorBuilder: (context, index) => const Divider(),
+    final serial = myCase!.caseSummary.rawData['SerialNumber'];
+    final version = myCase!.caseSummary.rawData['SwVer'];
+    final deviceOn = myCase!.events
+        .firstWhere((e) => e.type == 'AnnotationEvt System On')
+        .rawData['StdHdr']['DevDateTime']
+        .toString();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppTextField(
+              label: '実施回数',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']
+                      ['PatientId']),
+            ),
+            AppTextField(
+              label: '開始時刻',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['StartTime']),
+            ),
+            AppTextField(
+              label: 'データの期間',
+              readOnly: true,
+              controller: TextEditingController(text: ''),
+            ),
+            AppTextField(
+              label: 'デバイスの種類',
+              readOnly: true,
+              controller: TextEditingController(text: ''),
+            ),
+            AppTextField(
+              label: 'デバイスID',
+              readOnly: true,
+              controller: TextEditingController(text: '$serial($version)'),
+            ),
+            AppTextField(
+              label: '電源オン時刻',
+              readOnly: true,
+              controller: TextEditingController(text: deviceOn),
+            ),
+            AppTextField(
+              label: '電源オン調整時刻',
+              readOnly: true,
+              controller: TextEditingController(text: deviceOn),
+            ),
+            AppTextField(
+              label: '患者ID /MR番号',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']
+                      ['PatientId']),
+            ),
+            AppTextField(
+              label: '氏',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']
+                      ['FirstName']),
+            ),
+            AppTextField(
+              label: '名',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']['LastName']),
+            ),
+            AppTextField(
+              label: 'ミドルネームのイニシャル',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']
+                      ['MiddleName']),
+            ),
+            AppTextField(
+              label: '性別',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']['Sex']),
+            ),
+            AppTextField(
+              label: '人類',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!.caseSummary.rawData['PatientData']
+                      ['PatientMode']),
+            ),
+            AppTextField(
+              label: '生年月日',
+              readOnly: true,
+              controller: TextEditingController(text: ''),
+            ),
+            AppTextField(
+              label: '身長',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!
+                          .caseSummary.rawData['PatientData']['Height']['#text']
+                          .toString() +
+                      myCase!.caseSummary.rawData['PatientData']['Height']
+                          ['@Units']),
+            ),
+            AppTextField(
+              label: '体重',
+              readOnly: true,
+              controller: TextEditingController(
+                  text: myCase!
+                          .caseSummary.rawData['PatientData']['Weight']['#text']
+                          .toString() +
+                      myCase!.caseSummary.rawData['PatientData']['Weight']
+                          ['@Units']),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   getJapaneseEventName(CaseEvent event) {

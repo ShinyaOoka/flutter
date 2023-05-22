@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
+import 'package:ak_azm_flutter/models/classification/classification.dart';
+import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +35,7 @@ class PreviewReportScreen extends StatefulWidget {
 
 class _PreviewReportScreenState extends State<PreviewReportScreen> {
   late ReportStore _reportStore;
+  late ClassificationStore _classificationStore;
   late ReportType reportType;
 
   File? _file;
@@ -51,6 +54,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     reportType = args.reportType;
 
     _reportStore = context.read();
+    _classificationStore = context.read();
 
     final file = await generatePdf();
     setState(() {
@@ -235,18 +239,70 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return result;
   }
 
+  String fillClassificationCheck(String template, String key,
+      List<Classification> values, String? checked) {
+    for (final value in values) {
+      template = fillCheck(
+          template,
+          '${key}_CHECK_${value.classificationSubCd}',
+          value.classificationSubCd == checked);
+    }
+    return template;
+  }
+
+  String fillClassificationCircle(String template, String key,
+      List<Classification> values, String? checked) {
+    for (final value in values) {
+      template = fillCircle(
+          template,
+          '${key}_CIRCLE_${value.classificationSubCd}',
+          value.value ?? '',
+          value.classificationSubCd == checked);
+    }
+    return template;
+  }
+
+  String fillCircle(String template, String key, String text, bool checked) {
+    if (checked) {
+      template =
+          template.replaceFirst(key, '<span class="text-circle">$text</span>');
+    } else {
+      template = template.replaceFirst(key, text);
+    }
+    return template;
+  }
+
+  String fillCheck(String template, String key, bool checked) {
+    if (checked) {
+      template =
+          template.replaceFirst(key, '<span class="square-black"></span>');
+    } else {
+      template = template.replaceFirst(key, '<span class="square"></span>');
+    }
+    return template;
+  }
+
+  String fillBoolCheck(String template, String key, bool? value) {
+    template = fillCheck(template, '${key}_CHECK_TRUE', value != null && value);
+    // template =
+    //     fillCheck(template, '${key}_CHECK_FALSE', value != null && !value);
+    template =
+        fillCheck(template, '${key}_CHECK_FALSE', false);
+    return template;
+  }
+
   String fillBoolCircle(String template, String key, bool? value) {
     if (value == true) {
-      template = template.replaceAll(
+      template = template.replaceFirst(
           '${key}_CIRCLE_TRUE', '<span class="text-circle">有</span>');
-      template = template.replaceAll('${key}_CIRCLE_FALSE', '無');
+      template = template.replaceFirst('${key}_CIRCLE_FALSE', '無');
     } else if (value == false) {
-      template = template.replaceAll('${key}_CIRCLE_TRUE', '有');
-      template = template.replaceAll(
+      template = template.replaceFirst('${key}_CIRCLE_TRUE', '有');
+      template = template.replaceFirst(
           '${key}_CIRCLE_FALSE', '<span class="text-circle">無</span>');
     } else {
-      template = template.replaceAll('${key}_CIRCLE_TRUE', '有');
-      template = template.replaceAll('${key}_CIRCLE_FALSE', '無');
+      template = template.replaceFirst('${key}_CIRCLE_TRUE', '有');
+      template = template.replaceFirst('${key}_CIRCLE_FALSE', '無');
     }
     return template;
   }
@@ -385,7 +441,421 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return tempTELs.map((e) => e.split('').reversed.join('')).toList();
   }
 
-  String fillCertificateData(String htmlInput) {
+  String fillCertificateData(String template) {
+    String result = template;
+    Report report = _reportStore.selectingReport!;
+    String extraCss = '''
+      .square {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-left: 2px;
+          margin-right: 2px;
+          border: 1px black solid;
+          vertical-align: middle;
+          margin-bottom: 4px;
+      }
+
+      .square-black {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-left: 2px;
+          margin-right: 2px;
+          border: 1px black solid;
+          background: black;
+          vertical-align: middle;
+          margin-bottom: 4px;
+      }
+
+      .text-circle {
+          border-radius: 100%;
+          padding: 2px;
+          background: #fff;
+          border: 1px solid #000;
+          text-align: center
+      }
+      ''';
+    result = result.replaceAll('</style>', '$extraCss</style>');
+
+    result = result.replaceAll('height:20.5pt', 'height:19pt');
+    result = result.replaceAll('.5pt', '0.5pt');
+    result = result.replaceAll('padding:0px;', 'padding:0 3pt;');
+
+    result = result.replaceAll('TeamName',
+        report.team?.abbreviation?.characters.take(11).toString() ?? '');
+    result = result.replaceFirst('TeamCaptainName',
+        report.teamCaptainName?.characters.take(11).toString() ?? '');
+
+    final now = DateTime.now();
+    var m = DateFormat.M().format(now).replaceFirst('月', '');
+    var d = DateFormat.d().format(now).replaceFirst('日', '');
+    result = result
+        .replaceFirst('YYYY', yearToWareki(now.year, now.month, now.day))
+        .replaceFirst('MM', m)
+        .replaceFirst('DD', d);
+
+    result = fillBoolCheck(
+        result, 'LifesaverQualification', report.lifesaverQualification);
+    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers);
+    result = result.replaceFirst('TeamTEL', report.team?.tel ?? '');
+    result = result.replaceFirst('SickInjuredPersonAddress',
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
+    result = fillClassificationCheck(
+        result,
+        'Gender',
+        getClassifications(AppConstants.genderCode),
+        report.gender?.classificationSubCd);
+    result = result.replaceFirst(
+        'SickInjuredPersonBirthDateYear',
+        report.sickInjuredPersonBirthDate?.year != null
+            ? yearToWareki(
+                report.sickInjuredPersonBirthDate!.year,
+                report.sickInjuredPersonBirthDate!.month,
+                report.sickInjuredPersonBirthDate!.day)
+            : '　');
+    result = result.replaceFirst(
+        'SickInjuredPersonBirthDateMonth',
+        report.sickInjuredPersonBirthDate?.month != null
+            ? report.sickInjuredPersonBirthDate!.month.toString()
+            : '　');
+    result = result.replaceFirst(
+        'SickInjuredPersonBirthDateDay',
+        report.sickInjuredPersonBirthDate?.day != null
+            ? report.sickInjuredPersonBirthDate!.day.toString()
+            : '　');
+    int? age;
+    if (report.dateOfOccurrence != null &&
+        report.sickInjuredPersonBirthDate != null) {
+      age = Jiffy(report.dateOfOccurrence)
+          .diff(report.sickInjuredPersonBirthDate, Units.YEAR)
+          .toInt();
+    }
+    result = result.replaceFirst(
+        'SickInjuredPersonAge', age != null ? age.toString() : '');
+    result = result.replaceFirst(
+        'SickInjuredPersonKANA', report.sickInjuredPersonKana ?? '');
+    result = result.replaceFirst(
+        'SickInjuredPersonName', report.sickInjuredPersonName ?? '');
+    result = result.replaceFirst(
+        'SickInjuredPersonTEL', report.sickInjuredPersonTel ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonFamilyTEL', report.sickInjuredPersonFamilyTel ?? '');
+    result = result.replaceAll(
+        'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
+    result = fillBoolCheck(result, 'SickInjuredPersonMedicalHistroy',
+        report.sickInjuredPersonMedicalHistory?.isNotEmpty);
+    result = result.replaceFirst('SickInjuredPersonMedicalHistroy',
+        report.sickInjuredPersonMedicalHistory ?? '');
+    result = result.replaceFirst('SickInjuredPersonHistoryHospital',
+        report.sickInjuredPersonHistoryHospital ?? '');
+    result = fillBoolCheck(result, 'SickInjuredPersonKakaritsuke',
+        report.sickInjuredPersonKakaritsuke?.isNotEmpty);
+    result = result.replaceFirst(
+        'SickInjuredPersonKakaritsuke',
+        report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
+            '');
+    result = fillBoolCheck(
+        result,
+        'SickInjuredPersonMedicationDetail',
+        report.medication?.classificationSubCd == '001' ||
+            report.medication?.classificationSubCd == '002');
+    result = fillCheck(
+        result,
+        'SickInjuredPersonMedicationDetail_CHECK_NOTEBOOK',
+        report.medication?.classificationSubCd == '002');
+    result = result.replaceFirst(
+        'SickInjuredPersonMedicationDetail',
+        report.sickInjuredPersonMedicationDetail?.characters
+                .take(15)
+                .toString() ??
+            '');
+    result = fillBoolCheck(result, 'SickInjuredPersonAllergy',
+        report.sickInjuredPersonAllergy?.isNotEmpty);
+    result = result.replaceFirst('SickInjuredPersonAllergy',
+        report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
+
+    result = fillClassificationCheck(
+        result,
+        'TypeOfAccident',
+        getClassifications(AppConstants.typeOfAccidentCode),
+        report.accidentType?.classificationSubCd);
+    result = fillCheck(
+        result,
+        'TypeOfAccident_CHECK_OTHER',
+        report.accidentType?.classificationSubCd == '010' ||
+            report.accidentType?.classificationSubCd == '099');
+    result = result.replaceFirst(
+        'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+
+    result = result.replaceFirst(
+        'DateOfOccurrenceYear',
+        report.dateOfOccurrence?.year != null
+            ? yearToWareki(report.dateOfOccurrence!.year,
+                report.dateOfOccurrence!.month, report.dateOfOccurrence!.day)
+            : '');
+    result = result.replaceFirst(
+        'DateOfOccurrenceMonth',
+        report.dateOfOccurrence?.month != null
+            ? report.dateOfOccurrence!.month.toString()
+            : '');
+    result = result.replaceFirst(
+        'DateOfOccurrenceDay',
+        report.dateOfOccurrence?.day != null
+            ? report.dateOfOccurrence!.day.toString()
+            : '');
+    result = result.replaceFirst(
+        'TimeOfOccurrenceHour',
+        report.timeOfOccurrence?.hour != null
+            ? report.timeOfOccurrence!.hour.toString()
+            : '');
+    result = result.replaceFirst(
+        'TimeOfOccurrenceMinute',
+        report.timeOfOccurrence?.minute != null
+            ? report.timeOfOccurrence!.minute.toString()
+            : '');
+    result = result.replaceFirst('PlaceOfIncident',
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(35).toString() ?? ''}</div>');
+    result = result.replaceFirst('AccidentSummary',
+        '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
+    result = result.replaceFirst('SenseTime',
+        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('CommandTime',
+        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('AttendanceTime',
+        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('On-siteArrivalTime',
+        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('ContactTime',
+        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('In-vehicleTime',
+        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('StartOfTransportTime',
+        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('HospitalArrivalTime',
+        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = fillBoolCheck(result, 'FamilyContact', report.familyContact);
+    result = fillBoolCheck(result, 'PoliceContact', report.policeContact);
+    if (report.familyContactTime != null) {
+      result = result.replaceFirst('FamilyContactTime',
+          '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('FamilyContactTime', '  --:--  ');
+    }
+    if (report.policeContactTime != null) {
+      result = result.replaceFirst('PoliceContactTime',
+          '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('PoliceContactTime', '  --:--  ');
+    }
+    result = fillClassificationCheck(
+        result,
+        'ADL',
+        getClassifications(AppConstants.adlCode),
+        report.adlType?.classificationSubCd);
+    result = fillCheck(result, 'TrafficAccident_Unknown_CHECK',
+        report.trafficAccidentUnknown == true);
+    result = fillCheck(result, 'TrafficAccident_Seatbelt_CHECK',
+        report.trafficAccidentSeatbelt == true);
+    result = fillCheck(result, 'TrafficAccident_Childseat_CHECK',
+        report.trafficAccidentChildseat == true);
+    result = fillCheck(result, 'TrafficAccident_Airbag_CHECK',
+        report.trafficAccidentAirbag == true);
+    result = fillCheck(result, 'TrafficAccident_Helmet_CHECK',
+        report.trafficAccidentHelmet == true);
+    result = fillBoolCheck(result, 'Witnesses', report.witnesses);
+    result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance);
+    result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr);
+    if (report.bystanderCprTime != null) {
+      result = result.replaceFirst('BystanderCPR',
+          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    } else {
+      result = result.replaceFirst('BystanderCPR', '');
+    }
+    result = result.replaceFirst('VerbalGuidance',
+        report.verbalGuidanceText?.characters.take(18).toString() ?? '');
+    result = fillClassificationCheck(
+        result,
+        'SecuringAirway',
+        getClassifications(AppConstants.securingAirwayCode),
+        report.securingAirwayType?.classificationSubCd);
+    result = fillCheck(result, 'SecuringAirway_CHECK',
+        report.securingAirway != null && report.securingAirway != '');
+
+    for (int i = 0; i < 3; i++) {
+      result = result.replaceFirst('ObservationTime${i + 1}',
+          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '--'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '--'}');
+      result =
+          result.replaceFirst('JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
+      result = result.replaceFirst(
+          'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
+      final e = int.parse(report.gcsETypes[i]?.value ?? '0');
+      final v = int.parse(report.gcsVTypes[i]?.value ?? '0');
+      final m = int.parse(report.gcsMTypes[i]?.value ?? '0');
+      final sum = e + v + m;
+      result =
+          result.replaceFirst('SumEVM${i + 1}', sum != 0 ? sum.toString() : '');
+      result = result.replaceFirst(
+          'Respiration${i + 1}',
+          report.respiration?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.respiration![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'Pulse${i + 1}',
+          report.pulse?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pulse![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'BloodPressure_High${i + 1}',
+          report.bloodPressureHigh?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.bloodPressureHigh![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'BloodPressure_Low${i + 1}',
+          report.bloodPressureLow?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.bloodPressureLow![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'SpO2Percent${i + 1}',
+          report.spO2Percent?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.spO2Percent![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'SpO2Liter${i + 1}',
+          report.spO2Liter?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.spO2Liter![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'PupilRight${i + 1}',
+          report.pupilRight?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pupilRight![i].toString()
+              : '');
+      result = result.replaceFirst(
+          'PupilLeft${i + 1}',
+          report.pupilLeft?.firstWhereIndexedOrNull(
+                      (index, element) => index == i) !=
+                  null
+              ? report.pupilLeft![i].toString()
+              : '');
+      result = fillBoolCircle(
+          result, 'LightReflexLeft_$i', report.lightReflexLeft?[i]);
+      result = fillBoolCircle(
+          result, 'LightReflexRight_$i', report.lightReflexRight?[i]);
+      result = result.replaceFirst('BodyTemperature${i + 1}',
+          report.bodyTemperature?[i]?.toString() ?? '');
+      result = fillClassificationCircle(
+          result,
+          'FacialFeatures_$i',
+          getClassifications(AppConstants.facialFeaturesCode),
+          report.facialFeatureTypes[i]?.classificationSubCd);
+      final hemorrhage = report.hemorrhage
+          ?.firstWhereIndexedOrNull((index, element) => index == i)
+          ?.characters
+          .take(8)
+          .toString();
+      result = fillBoolCircle(result, 'Hemorrhage_$i', hemorrhage?.isNotEmpty);
+      result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
+      final incon = report.incontinenceTypes[i]?.classificationSubCd;
+      if (incon == '003') {
+        result = fillCircle(result, 'Incontinence_${i}_CIRCLE_001', '尿', true);
+        result = fillCircle(result, 'Incontinence_${i}_CIRCLE_002', '便', true);
+      }
+      result = fillClassificationCircle(result, 'Incontinence_$i',
+          getClassifications(AppConstants.incontinenceCode), incon);
+      if ((incon == '000' || incon == null) &&
+          report.observationTime?[i] != null) {
+        result = fillCircle(result, 'Incontinence_0_CIRCLE_000', '無', true);
+      }
+
+      result = fillCircle(result, 'Incontinence_${i}_CIRCLE_TRUE', '有',
+          incon != null && incon != '000');
+      result = fillBoolCircle(
+          result,
+          'Vomiting_$i',
+          report.vomiting?[i] == null || report.vomiting?[i] == false
+              ? null
+              : true);
+      result = result.replaceFirst(
+          'Extremities${i + 1}',
+          report.extremities
+                  ?.firstWhereIndexedOrNull((index, element) => index == i) ??
+              '');
+    }
+    result = fillCheck(result, 'Coating_CHECK', report.coating == true);
+    result =
+        fillCheck(result, 'BurnTreatment_CHECK', report.burnTreatment == true);
+    result = fillCheck(
+        result, 'ForeignBodyRemoval_CHECK', report.foreignBodyRemoval == true);
+    result = fillCheck(result, 'Suction_CHECK', report.suction == true);
+    result = fillCheck(result, 'ArtificialRespiration_CHECK',
+        report.artificialRespiration == true);
+    result = fillCheck(
+        result, 'ChestCompressions_CHECK', report.chestCompressions == true);
+    result = fillCheck(result, 'ECGMonitor_CHECK', report.ecgMonitor == true);
+    result = fillCheck(
+        result, 'O2Administration_CHECK', report.o2Administration != null);
+    result = result.replaceFirst(
+        'O2Administration', report.o2Administration?.toString() ?? '');
+    result = result.replaceFirst('O2AdministrationTime',
+        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = fillCheck(result, 'LimitationOfSpinalMotion_CHECK',
+        report.limitationOfSpinalMotionType != null);
+    result = fillClassificationCheck(
+        result,
+        'LimitationOfSpinalMotion',
+        getClassifications(AppConstants.limitationOfSpinalMotionCode),
+        report.limitationOfSpinalMotionType?.classificationSubCd);
+    result = fillCheck(result, 'HemostaticTreatment_CHECK',
+        report.hemostaticTreatment == true);
+    result = fillCheck(
+        result, 'AdductorFixation_CHECK', report.adductorFixation == true);
+    result = fillCheck(
+        result, 'Other_CHECK', report.other != null && report.other != '');
+    result = result.replaceFirst('Other',
+        '<div style="white-space: pre-wrap; font-size: 7pt; margin-left: 3pt">${report.other?.split('').slices(10).map((e) => e.join()).join('\n') ?? ''}</div>');
+    result = fillCheck(result, 'BSMeasurement_CHECK',
+        report.bsMeasurement1 != null || report.bsMeasurement2 != null);
+    result = result.replaceFirst(
+        'BSMeasurement1', report.bsMeasurement1?.toString() ?? '');
+    result = result.replaceFirst('BSMeasurementTime1',
+        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('PunctureSite1',
+        report.punctureSite1?.characters.take(9).toString().toString() ?? '');
+    result = result.replaceFirst(
+        'BSMeasurement2', report.bsMeasurement2?.toString() ?? '');
+    result = result.replaceFirst('BSMeasurementTime2',
+        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '--'}');
+    result = result.replaceFirst('PunctureSite2',
+        report.punctureSite2?.characters.take(9).toString().toString() ?? '');
+
+    return result;
+  }
+
+  List<Classification> getClassifications(String code) {
+    return _classificationStore.classifications.values
+        .where((e) => e.classificationCd == code)
+        .toList();
+  }
+
+  String fillCertificateDataOld(String htmlInput) {
     final Report report = _reportStore.selectingReport!;
     final team = report.team;
     bool? withLifesaver = report.withLifesavers;

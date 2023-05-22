@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded_cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
@@ -19,26 +18,51 @@ import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 
-class ListEventScreenArguments {
+class FullEcgChartScreenArguments {
   final String caseId;
 
-  ListEventScreenArguments({required this.caseId});
+  FullEcgChartScreenArguments({required this.caseId});
 }
 
-class ListEventScreen extends StatefulWidget {
-  const ListEventScreen({super.key});
+class FullEcgChartScreen extends StatefulWidget {
+  const FullEcgChartScreen({super.key});
 
   @override
-  _ListEventScreenState createState() => _ListEventScreenState();
+  _FullEcgChartScreenState createState() => _FullEcgChartScreenState();
 }
 
-class _ListEventScreenState extends State<ListEventScreen>
+class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     with RouteAware, ReportSectionMixin {
-  late ZollSdkHostApi _hostApi;
   late ZollSdkStore _zollSdkStore;
+  late ZollSdkHostApi _hostApi;
   late String caseId;
-  late ScrollController scrollController;
   ReactionDisposer? reactionDisposer;
+  String chartType = 'Pads';
+  Map<String, double> minY = {
+    'Pads': -2500,
+    'CO2 mmHg, Waveform': 0,
+    'Pads Impedance': -125,
+  };
+  Map<String, double> maxY = {
+    'Pads': 2500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, double> majorInterval = {
+    'Pads': 2500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, double> minorInterval = {
+    'Pads': 500,
+    'CO2 mmHg, Waveform': 100,
+    'Pads Impedance': 125,
+  };
+  Map<String, String Function(double)> labelFormat = {
+    'Pads': (x) => (x / 1000).toStringAsFixed(1),
+    'CO2 mmHg, Waveform': (x) => "${x.toInt()}%",
+    'Pads Impedance': (x) => x.toStringAsFixed(0),
+  };
   Case? myCase;
   bool hasNewData = false;
 
@@ -48,7 +72,6 @@ class _ListEventScreenState extends State<ListEventScreen>
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
   }
 
   @override
@@ -66,12 +89,13 @@ class _ListEventScreenState extends State<ListEventScreen>
 
   @override
   Future<void> didPush() async {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ListEventScreenArguments;
+    final args = ModalRoute.of(context)!.settings.arguments
+        as FullEcgChartScreenArguments;
     caseId = args.caseId;
 
-    _hostApi = context.read();
     _zollSdkStore = context.read();
+    _hostApi = context.read();
+
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
@@ -134,7 +158,7 @@ class _ListEventScreenState extends State<ListEventScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "イベント選択",
+      title: "全体ECG",
     );
   }
 
@@ -165,61 +189,47 @@ class _ListEventScreenState extends State<ListEventScreen>
   }
 
   Widget _buildMainContent() {
-    return LayoutBuilder(builder: (context, constraints) {
-      final isMobile = constraints.maxWidth < 640;
-      return Scrollbar(
-        controller: scrollController,
-        thumbVisibility: true,
-        child: ListView.separated(
-          controller: scrollController,
-          itemCount: myCase!.displayableEvents.length,
-          itemBuilder: (context, itemIndex) {
-            final dataIndex = myCase!.displayableEvents[itemIndex].item1;
-            return ListTile(
-                dense: isMobile,
-                visualDensity:
-                    isMobile ? VisualDensity.compact : VisualDensity.standard,
-                title: RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: AppConstants.dateTimeFormat
-                          .format(myCase!.events[dataIndex].date),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Theme.of(context).primaryColor)),
-                  TextSpan(
-                      text:
-                          '  ${myCase!.events[dataIndex].type}${getJapaneseEventName(myCase!.events[dataIndex])}')
-                ], style: Theme.of(context).textTheme.bodyMedium)),
-                // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                      DataViewerRoutes.dataViewerEcgChart,
-                      arguments: EcgChartScreenArguments(
-                          caseId: caseId,
-                          timestamp: myCase!
-                              .events[dataIndex].date.microsecondsSinceEpoch));
-                });
-          },
-          separatorBuilder: (context, index) => const Divider(),
-        ),
-      );
-    });
-  }
-
-  getJapaneseEventName(CaseEvent event) {
-    if (event.type.i18n().compareTo(event.type) == 0) {
-      return '';
-    }
-    String eventExtra = "";
-    eventExtra = eventExtra += event.type == "TreatmentSnapshotEvt"
-        ? event.rawData["TreatmentLbl"]
-        : "";
-    eventExtra = eventExtra +=
-        event.type == "AlarmEvt" && event.rawData["Value"] == 1
-            ? ": VF/VT"
-            : "";
-    return '／${event.type.i18n()}$eventExtra';
+    return myCase!.waves[chartType]!.samples.isNotEmpty
+        ? SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DropdownButton<String>(
+                      value: chartType,
+                      items: myCase!.waves.keys
+                          .map(
+                              (e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .toList(),
+                      onChanged: (x) {
+                        setState(() {
+                          chartType = x!;
+                        });
+                      }),
+                  EcgChart(
+                    samples: myCase!.waves[chartType]!.samples,
+                    cprCompressions: myCase!.cprCompressions,
+                    initTimestamp:
+                        myCase!.waves[chartType]!.samples.first.timestamp,
+                    segments: 4,
+                    initDuration: Duration(minutes: 1),
+                    minY: minY[chartType]!,
+                    maxY: maxY[chartType]!,
+                    majorInterval: majorInterval[chartType]!,
+                    minorInterval: minorInterval[chartType]!,
+                    labelFormat: labelFormat[chartType]!,
+                    onTap: (timestamp) {
+                      Navigator.of(context).pushNamed(
+                          DataViewerRoutes.dataViewerExpandedEcgChart,
+                          arguments: ExpandedCprChartScreenArguments(
+                              caseId: caseId, timestamp: timestamp));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container();
   }
 }
