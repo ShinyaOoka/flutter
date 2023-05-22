@@ -163,7 +163,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "CPR拡大",
+      title: "拡大ECG",
     );
   }
 
