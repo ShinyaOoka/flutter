@@ -439,7 +439,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       },
     );
     pdf.addPage(firstPage);
-    // pdf.addPage(secondPage);
+    pdf.addPage(secondPage);
     final bytes = await pdf.save();
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
