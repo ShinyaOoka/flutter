@@ -262,6 +262,34 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     canvas.drawPath(leadV5Path, blackPaint);
     canvas.drawPath(leadV6Path, blackPaint);
 
+    drawText(String text, Offset offset) {
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: text,
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 6 * scale,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, offset);
+    }
+
+    drawText('I', Offset(gridSize * scale * 1.5, gridSize * scale * 2));
+    drawText('II', Offset(gridSize * scale * 1.5, gridSize * scale * 6));
+    drawText('III', Offset(gridSize * scale * 1.5, gridSize * scale * 10));
+    drawText('aVR', Offset(gridSize * scale * 14, gridSize * scale * 2));
+    drawText('aVL', Offset(gridSize * scale * 14, gridSize * scale * 6));
+    drawText('aVF', Offset(gridSize * scale * 14, gridSize * scale * 10));
+    drawText('V1', Offset(gridSize * scale * 26, gridSize * scale * 2));
+    drawText('V2', Offset(gridSize * scale * 26, gridSize * scale * 6));
+    drawText('V3', Offset(gridSize * scale * 26, gridSize * scale * 10));
+    drawText('V4', Offset(gridSize * scale * 39, gridSize * scale * 2));
+    drawText('V5', Offset(gridSize * scale * 39, gridSize * scale * 6));
+    drawText('V6', Offset(gridSize * scale * 39, gridSize * scale * 10));
+
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 52 * scale).ceil(),
         ((gridSize * 16 + tickSize * 2) * scale).ceil());
@@ -411,7 +439,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       },
     );
     pdf.addPage(firstPage);
-    pdf.addPage(secondPage);
+    // pdf.addPage(secondPage);
     final bytes = await pdf.save();
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
