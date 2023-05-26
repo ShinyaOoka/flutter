@@ -682,12 +682,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.trafficAccidentAirbag == true);
     result = fillCheck(result, 'TrafficAccident_Helmet_CHECK',
         report.trafficAccidentHelmet == true);
-    result =
-        fillBoolCheck(result, 'Witnesses', report.witnesses, fillFalse: true);
+    result = fillBoolCheck(result, 'Witnesses', report.witnesses,
+        fillFalse: report.witnesses != null);
     result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance,
-        fillFalse: true);
+        fillFalse: report.verbalGuidance != null);
     result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr,
-        fillFalse: true);
+        fillFalse: report.bystanderCpr != null);
     if (report.bystanderCprTime != null) {
       result = result.replaceFirst('BystanderCPR',
           '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
