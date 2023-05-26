@@ -599,8 +599,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.accidentType?.classificationSubCd != null &&
         report.accidentType?.classificationSubCd != '') {
       result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', true);
-      result = result.replaceFirst(
-          'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+      if (report.accidentType?.classificationSubCd != '010')
+        result = result.replaceFirst(
+            'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+      else
+        result = result.replaceFirst('TypeOfAccident_VALUE', '');
     } else {
       result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', false);
       result = result.replaceFirst('TypeOfAccident_VALUE', '');
