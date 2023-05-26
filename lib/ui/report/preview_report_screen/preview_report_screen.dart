@@ -652,9 +652,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceFirst('HospitalArrivalTime',
         '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
-        fillFalse: true);
+        fillFalse: report.familyContact != null);
     result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
-        fillFalse: true);
+        fillFalse: report.policeContact != null);
     if (report.familyContactTime != null) {
       result = result.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
