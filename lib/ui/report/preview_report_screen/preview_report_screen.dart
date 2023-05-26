@@ -549,13 +549,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
     result = fillBoolCheck(result, 'SickInjuredPersonMedicalHistroy',
-        report.sickInjuredPersonMedicalHistory?.isNotEmpty);
+        report.sickInjuredPersonMedicalHistory?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst('SickInjuredPersonMedicalHistroy',
         report.sickInjuredPersonMedicalHistory ?? '');
     result = result.replaceFirst('SickInjuredPersonHistoryHospital',
         report.sickInjuredPersonHistoryHospital ?? '');
     result = fillBoolCheck(result, 'SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.isNotEmpty);
+        report.sickInjuredPersonKakaritsuke?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst(
         'SickInjuredPersonKakaritsuke',
         report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
