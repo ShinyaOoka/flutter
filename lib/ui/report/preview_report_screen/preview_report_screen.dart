@@ -567,7 +567,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonMedicationDetail',
         report.medication?.classificationSubCd == '001' ||
             report.medication?.classificationSubCd == '002',
-        fillFalse: true);
+        fillFalse: report.medication?.classificationSubCd != null);
     result = fillCheck(
         result,
         'SickInjuredPersonMedicationDetail_CHECK_NOTEBOOK',
