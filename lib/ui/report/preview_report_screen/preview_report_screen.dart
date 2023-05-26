@@ -566,7 +566,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         result,
         'SickInjuredPersonMedicationDetail',
         report.medication?.classificationSubCd == '001' ||
-            report.medication?.classificationSubCd == '002');
+            report.medication?.classificationSubCd == '002',
+        fillFalse: true);
     result = fillCheck(
         result,
         'SickInjuredPersonMedicationDetail_CHECK_NOTEBOOK',
@@ -650,8 +651,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     result = result.replaceFirst('HospitalArrivalTime',
         '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
-    result = fillBoolCheck(result, 'FamilyContact', report.familyContact);
-    result = fillBoolCheck(result, 'PoliceContact', report.policeContact);
+    result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
+        fillFalse: true);
+    result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
+        fillFalse: true);
     if (report.familyContactTime != null) {
       result = result.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
@@ -679,9 +682,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.trafficAccidentAirbag == true);
     result = fillCheck(result, 'TrafficAccident_Helmet_CHECK',
         report.trafficAccidentHelmet == true);
-    result = fillBoolCheck(result, 'Witnesses', report.witnesses);
-    result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance);
-    result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr);
+    result =
+        fillBoolCheck(result, 'Witnesses', report.witnesses, fillFalse: true);
+    result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance,
+        fillFalse: true);
+    result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr,
+        fillFalse: true);
     if (report.bystanderCprTime != null) {
       result = result.replaceFirst('BystanderCPR',
           '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
