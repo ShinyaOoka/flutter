@@ -589,6 +589,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'TypeOfAccident',
         getClassifications(AppConstants.typeOfAccidentCode),
         report.accidentType?.classificationSubCd);
+    print(report.accidentType?.classificationSubCd);
     if (report.accidentType?.classificationSubCd != '009' &&
         report.accidentType?.classificationSubCd != '003' &&
         report.accidentType?.classificationSubCd != '006' &&
@@ -602,8 +603,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     } else {
       result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', false);
-      result = result.replaceFirst(
-          'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+      result = result.replaceFirst('TypeOfAccident_VALUE', '');
     }
     result = result.replaceFirst(
         'DateOfOccurrenceYear',
