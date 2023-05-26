@@ -578,7 +578,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 .toString() ??
             '');
     result = fillBoolCheck(result, 'SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.isNotEmpty);
+        report.sickInjuredPersonAllergy?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst('SickInjuredPersonAllergy',
         report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
@@ -587,14 +588,22 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'TypeOfAccident',
         getClassifications(AppConstants.typeOfAccidentCode),
         report.accidentType?.classificationSubCd);
-    result = fillCheck(
-        result,
-        'TypeOfAccident_CHECK_OTHER',
-        report.accidentType?.classificationSubCd == '010' ||
-            report.accidentType?.classificationSubCd == '099');
-    result = result.replaceFirst(
-        'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
-
+    if (report.accidentType?.classificationSubCd != '009' &&
+        report.accidentType?.classificationSubCd != '003' &&
+        report.accidentType?.classificationSubCd != '006' &&
+        report.accidentType?.classificationSubCd != '004' &&
+        report.accidentType?.classificationSubCd != '008' &&
+        report.accidentType?.classificationSubCd != '005' &&
+        report.accidentType?.classificationSubCd != null &&
+        report.accidentType?.classificationSubCd != '') {
+      result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', true);
+      result = result.replaceFirst(
+          'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+    } else {
+      result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', false);
+      result = result.replaceFirst(
+          'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+    }
     result = result.replaceFirst(
         'DateOfOccurrenceYear',
         report.dateOfOccurrence?.year != null
@@ -798,7 +807,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result,
           'Vomiting_$i',
           report.vomiting?[i] == null || report.vomiting?[i] == false
-              ? null
+              ? (report.observationTime?[i] == null ? null : false)
               : true);
       result = result.replaceFirst(
           'Extremities${i + 1}',

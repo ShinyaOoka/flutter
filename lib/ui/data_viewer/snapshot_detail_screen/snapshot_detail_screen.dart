@@ -204,6 +204,54 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     return pw.MemoryImage(bytes);
   }
 
+  Future<pw.MemoryImage> _buildPdfSPO2Chart() async {
+    const scale = 4.0;
+    const gridSize = 10.0;
+    const tickSize = 5.0;
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+    final redPaint = Paint()
+      ..strokeWidth = 1
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke;
+    final blackPaint = Paint()
+      ..strokeWidth = 1
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke;
+    canvas
+      ..save()
+      ..scale(scale);
+    canvas.save();
+    canvas.translate(0, gridSize / 2);
+    ChartPainter.drawText(canvas, "CO2 (mmHg)", Colors.black, gridSize,
+        textAlign: TextAlign.left);
+    canvas.restore();
+    canvas.save();
+    canvas.translate(gridSize * 2, gridSize * 2);
+    ChartPainter.paintGrid(canvas, redPaint, 5, 120, gridSize,
+        leftTickInterval: 5, topTickInterval: 5, tickSize: tickSize);
+    canvas.restore();
+    canvas.save();
+    canvas.translate(gridSize * 2, gridSize * 8);
+    ChartPainter.drawText(
+        canvas,
+        intl.DateFormat.Hms().format(DateTime.fromMicrosecondsSinceEpoch(
+            snapshot.waveforms.values.first.samples.first.timestamp)),
+        Colors.black,
+        gridSize);
+    canvas.restore();
+    canvas.save();
+    canvas.translate(gridSize * 2, gridSize * 4.5);
+    ChartPainter.drawGraph(canvas, blackPaint,
+        snapshot.waveforms['SpO2 %, Waveform']!.samples, 50, 0.18);
+
+    final rendered = await recorder.endRecording().toImage(
+        (gridSize * 123 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    final bytes = byteData!.buffer.asUint8List();
+    return pw.MemoryImage(bytes);
+  }
+
   Future<void> _generatePdf() async {
     final font = pw.TtfFont(
         await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
@@ -212,6 +260,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     final pdf = pw.Document();
     final padsChart = await _buildPdfPadsChart();
     final co2Chart = await _buildPdfCO2Chart();
+    final spo2Chart = await _buildPdfSPO2Chart();
     final page = pw.Page(
       pageFormat: PdfPageFormat.a3.landscape,
       orientation: pw.PageOrientation.landscape,
@@ -236,7 +285,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             pw.Text(
                 "HR/PR = ${snapshot.trend.hr.value} BPM SpO2 = ${snapshot.trend.spo2.value} % CO2 = ${snapshot.trend.etco2.value} mmHg ${snapshot.trend.fico2.value} = 0.0 mmHg"),
             pw.Image(padsChart),
-            pw.Image(co2Chart)
+            pw.Image(co2Chart),
+            pw.Image(spo2Chart),
           ],
           mainAxisAlignment: pw.MainAxisAlignment.start,
           crossAxisAlignment: pw.CrossAxisAlignment.start,
