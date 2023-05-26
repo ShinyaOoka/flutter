@@ -169,6 +169,7 @@
   "name_of_reporter": "報告者氏名",
   "affiliation_of_reporter": "報告者所属",
   "position_of_reporter": "報告者階級",
+  "date_of_emergency_report":"報告書作成日",
 
   "remarks_section": "備考",
   "summary_of_occurrence": "発生概要及び現場到着時の状況と救急処置",

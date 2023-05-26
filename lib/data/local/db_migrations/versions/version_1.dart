@@ -134,6 +134,7 @@ const _createReportTable = '''CREATE TABLE ${DBConstants.reportTable} (
   AffiliationOfReporter	VARCHAR(20),
   PositionOfReporter VARCHAR(20),
   SummaryOfOccurrence VARCHAR(500),
+  DateOfEmergencyReport DATE,
   Remarks VARCHAR(180),
   EntryName VARCHAR(20),
   EntryMachine VARCHAR(20),

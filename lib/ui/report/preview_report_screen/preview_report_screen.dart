@@ -180,7 +180,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonBirthDate);
     result = fillDate(result, 'DateOfOccurrence', report.dateOfOccurrence);
 
-    result = fillToday(result);
+    result = fillToday(result, date: report.dateOfEmergencyReport);
 
     result = result.replaceAll(
         'PlaceOfDispatch_TITLE',
@@ -282,12 +282,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return template;
   }
 
-  String fillBoolCheck(String template, String key, bool? value) {
+  String fillBoolCheck(String template, String key, bool? value,
+      {fillFalse = false}) {
     template = fillCheck(template, '${key}_CHECK_TRUE', value != null && value);
-    // template =
-    //     fillCheck(template, '${key}_CHECK_FALSE', value != null && !value);
-    template =
-        fillCheck(template, '${key}_CHECK_FALSE', false);
+    if (fillFalse) {
+      template =
+          fillCheck(template, '${key}_CHECK_FALSE', value == null || !value);
+    } else {
+      template = fillCheck(template, '${key}_CHECK_FALSE', false);
+    }
     return template;
   }
 
@@ -378,8 +381,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return '';
   }
 
-  String fillToday(String template) {
-    DateTime date = DateTime.now();
+  String fillToday(String template, {DateTime? date}) {
+    date ??= DateTime.now();
     template = template.replaceAll(
         'GGYY', yearToWareki(date.year, date.month, date.day));
     template = template.replaceAll('MM', date.month.toString());
@@ -496,8 +499,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('DD', d);
 
     result = fillBoolCheck(
-        result, 'LifesaverQualification', report.lifesaverQualification);
-    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers);
+        result, 'LifesaverQualification', report.lifesaverQualification,
+        fillFalse: true);
+    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers,
+        fillFalse: true);
     result = result.replaceFirst('TeamTEL', report.team?.tel ?? '');
     result = result.replaceFirst('SickInjuredPersonAddress',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
@@ -544,13 +549,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
     result = fillBoolCheck(result, 'SickInjuredPersonMedicalHistroy',
-        report.sickInjuredPersonMedicalHistory?.isNotEmpty);
+        report.sickInjuredPersonMedicalHistory?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst('SickInjuredPersonMedicalHistroy',
         report.sickInjuredPersonMedicalHistory ?? '');
     result = result.replaceFirst('SickInjuredPersonHistoryHospital',
         report.sickInjuredPersonHistoryHospital ?? '');
     result = fillBoolCheck(result, 'SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.isNotEmpty);
+        report.sickInjuredPersonKakaritsuke?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst(
         'SickInjuredPersonKakaritsuke',
         report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
@@ -559,7 +566,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         result,
         'SickInjuredPersonMedicationDetail',
         report.medication?.classificationSubCd == '001' ||
-            report.medication?.classificationSubCd == '002');
+            report.medication?.classificationSubCd == '002',
+        fillFalse: report.medication?.classificationSubCd != null);
     result = fillCheck(
         result,
         'SickInjuredPersonMedicationDetail_CHECK_NOTEBOOK',
@@ -571,7 +579,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
                 .toString() ??
             '');
     result = fillBoolCheck(result, 'SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.isNotEmpty);
+        report.sickInjuredPersonAllergy?.isNotEmpty,
+        fillFalse: true);
     result = result.replaceFirst('SickInjuredPersonAllergy',
         report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
@@ -580,14 +589,26 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'TypeOfAccident',
         getClassifications(AppConstants.typeOfAccidentCode),
         report.accidentType?.classificationSubCd);
-    result = fillCheck(
-        result,
-        'TypeOfAccident_CHECK_OTHER',
-        report.accidentType?.classificationSubCd == '010' ||
-            report.accidentType?.classificationSubCd == '099');
-    result = result.replaceFirst(
-        'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
-
+    print(report.accidentType?.classificationSubCd);
+    if (report.accidentType?.classificationSubCd != '009' &&
+        report.accidentType?.classificationSubCd != '003' &&
+        report.accidentType?.classificationSubCd != '006' &&
+        report.accidentType?.classificationSubCd != '004' &&
+        report.accidentType?.classificationSubCd != '008' &&
+        report.accidentType?.classificationSubCd != '005' &&
+        report.accidentType?.classificationSubCd != null &&
+        report.accidentType?.classificationSubCd != '') {
+      result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', true);
+      if (report.accidentType?.classificationSubCd != '010' &&
+          report.accidentType?.classificationSubCd != '099')
+        result = result.replaceFirst(
+            'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
+      else
+        result = result.replaceFirst('TypeOfAccident_VALUE', '');
+    } else {
+      result = fillCheck(result, 'TypeOfAccident_CHECK_OTHER', false);
+      result = result.replaceFirst('TypeOfAccident_VALUE', '');
+    }
     result = result.replaceFirst(
         'DateOfOccurrenceYear',
         report.dateOfOccurrence?.year != null
@@ -634,8 +655,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '--'}');
     result = result.replaceFirst('HospitalArrivalTime',
         '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
-    result = fillBoolCheck(result, 'FamilyContact', report.familyContact);
-    result = fillBoolCheck(result, 'PoliceContact', report.policeContact);
+    result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
+        fillFalse: report.familyContact != null);
+    result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
+        fillFalse: report.policeContact != null);
     if (report.familyContactTime != null) {
       result = result.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
@@ -663,9 +686,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.trafficAccidentAirbag == true);
     result = fillCheck(result, 'TrafficAccident_Helmet_CHECK',
         report.trafficAccidentHelmet == true);
-    result = fillBoolCheck(result, 'Witnesses', report.witnesses);
-    result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance);
-    result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr);
+    result = fillBoolCheck(result, 'Witnesses', report.witnesses,
+        fillFalse: report.witnesses != null);
+    result = fillBoolCheck(result, 'VerbalGuidance', report.verbalGuidance,
+        fillFalse: report.verbalGuidance != null);
+    result = fillBoolCheck(result, 'BystanderCPR', report.bystanderCpr,
+        fillFalse: report.bystanderCpr != null);
     if (report.bystanderCprTime != null) {
       result = result.replaceFirst('BystanderCPR',
           '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
@@ -791,7 +817,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result,
           'Vomiting_$i',
           report.vomiting?[i] == null || report.vomiting?[i] == false
-              ? null
+              ? (report.observationTime?[i] == null ? null : false)
               : true);
       result = result.replaceFirst(
           'Extremities${i + 1}',

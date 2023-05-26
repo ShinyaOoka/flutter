@@ -712,4 +712,22 @@ abstract class _Case with Store {
     });
     return result;
   }
+
+  @computed
+  PatientData? get patientData {
+    for (var event in events) {
+      if (event.type == 'PatientInfo') {
+        final patientDataRaw = event.rawData['PatientData'];
+        final patientData = PatientData(
+            firstName: patientDataRaw['FirstName'],
+            middleName: patientDataRaw['MiddleName'],
+            lastName: patientDataRaw['LastName'],
+            age: patientDataRaw['Age'],
+            patientId: patientDataRaw['PatientId'],
+            sex: patientDataRaw['Sex'],
+            gender: patientDataRaw['Gender']);
+        return patientData;
+      }
+    }
+  }
 }

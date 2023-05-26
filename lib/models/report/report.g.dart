@@ -224,6 +224,9 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..affiliationOfReporter = json['AffiliationOfReporter'] as String?
   ..positionOfReporter = json['PositionOfReporter'] as String?
   ..summaryOfOccurrence = json['SummaryOfOccurrence'] as String?
+  ..dateOfEmergencyReport = json['DateOfEmergencyReport'] == null
+      ? null
+      : DateTime.parse(json['DateOfEmergencyReport'] as String)
   ..remarks = json['Remarks'] as String?
   ..entryName = json['entryName'] as String?
   ..entryMachine = json['entryMachine'] as String?
@@ -448,6 +451,8 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'AffiliationOfReporter': instance.affiliationOfReporter,
       'PositionOfReporter': instance.positionOfReporter,
       'SummaryOfOccurrence': instance.summaryOfOccurrence,
+      'DateOfEmergencyReport':
+          instance.dateOfEmergencyReport?.toIso8601String(),
       'Remarks': instance.remarks,
       'entryName': instance.entryName,
       'entryMachine': instance.entryMachine,
@@ -2721,6 +2726,23 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$dateOfEmergencyReportAtom =
+      Atom(name: '_Report.dateOfEmergencyReport', context: context);
+
+  @override
+  DateTime? get dateOfEmergencyReport {
+    _$dateOfEmergencyReportAtom.reportRead();
+    return super.dateOfEmergencyReport;
+  }
+
+  @override
+  set dateOfEmergencyReport(DateTime? value) {
+    _$dateOfEmergencyReportAtom.reportWrite(value, super.dateOfEmergencyReport,
+        () {
+      super.dateOfEmergencyReport = value;
+    });
+  }
+
   late final _$remarksAtom = Atom(name: '_Report.remarks', context: context);
 
   @override
@@ -3272,6 +3294,7 @@ nameOfReporter: ${nameOfReporter},
 affiliationOfReporter: ${affiliationOfReporter},
 positionOfReporter: ${positionOfReporter},
 summaryOfOccurrence: ${summaryOfOccurrence},
+dateOfEmergencyReport: ${dateOfEmergencyReport},
 remarks: ${remarks},
 entryName: ${entryName},
 entryMachine: ${entryMachine},

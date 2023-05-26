@@ -173,7 +173,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
               Navigator.of(context).pushNamed(
                   DataViewerRoutes.dataViewerTwelveLeadChart,
                   arguments: TwelveLeadChartScreenArguments(
-                      twelveLead: myCase!.leads[index]));
+                      twelveLead: myCase!.leads[index], myCase: myCase!));
             }),
         separatorBuilder: (context, index) => const Divider(),
       ),
