@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ class AppDatePicker extends StatelessWidget {
   final DateTime? maxTime;
   final bool readOnly;
   final DateTime? defaultDate;
+  final bool optional;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,18 @@ class AppDatePicker extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              label: label != null ? Text(label!) : null,
+              label: label != null
+                  ? optional
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(label!),
+                            const SizedBox(width: 8),
+                            const OptionalBadge(),
+                          ],
+                        )
+                      : Text(label!)
+                  : null,
               border: OutlineInputBorder(
                   borderSide: readOnly ? BorderSide.none : const BorderSide()),
               hintText: hintText,
@@ -67,5 +80,6 @@ class AppDatePicker extends StatelessWidget {
     this.maxTime,
     this.readOnly = false,
     this.defaultDate,
+    this.optional = false,
   });
 }

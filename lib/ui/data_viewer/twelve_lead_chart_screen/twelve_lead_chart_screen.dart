@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
@@ -115,12 +116,12 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   Future<pw.MemoryImage> _buildPdfChart() async {
     const scale = 4.0;
-    const gridSize = 10;
-    const tickSize = 2;
+    const gridSize = 10.0;
+    const tickSize = 2.0;
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
     final redPaint = Paint()
-      ..strokeWidth = 2
+      ..strokeWidth = .5
       ..color = Colors.red
       ..style = PaintingStyle.stroke;
     final blackPaint = Paint()
@@ -128,24 +129,12 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       ..color = Colors.black
       ..style = PaintingStyle.stroke;
     // Draw vertical line
-    for (var i = 0; i < 53; i++) {
-      canvas.drawLine(
-        Offset(
-            i.toDouble() * gridSize * scale, i % 5 != 0 ? tickSize * scale : 0),
-        Offset(i.toDouble() * gridSize * scale,
-            (16 * gridSize + (i % 5 == 0 ? tickSize * 2 : tickSize)) * scale),
-        redPaint,
-      );
-    }
-    // Draw horizontal line
-    for (var i = 0; i < 17; i++) {
-      canvas.drawLine(
-        Offset(0, (tickSize + i.toDouble() * gridSize) * scale),
-        Offset(52 * gridSize * scale,
-            (tickSize + i.toDouble() * gridSize) * scale),
-        redPaint,
-      );
-    }
+    canvas.save();
+    canvas.scale(4);
+    canvas.translate(0, tickSize);
+    ChartPainter.paintGrid(canvas, redPaint, 16, 52, gridSize,
+        topTickInterval: 5, bottomTickInterval: 5, tickSize: tickSize);
+    canvas.restore();
 
     drawGraph(Path path, List<Sample> data, Offset offset) {
       final firstSecond = data.first.inSeconds;
@@ -267,8 +256,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
         text: TextSpan(
           text: text,
           style: TextStyle(
-            color: Colors.blue,
-            fontSize: 6 * scale,
+            color: Colors.blue.shade800,
+            fontSize: 8 * scale,
           ),
         ),
         textDirection: TextDirection.ltr,

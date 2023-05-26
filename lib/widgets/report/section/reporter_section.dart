@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,7 +101,17 @@ class _ReporterSectionState extends State<ReporterSection>
         readOnly: widget.readOnly,
         optional: true,
       ),
-      Container(),
+      AppDatePicker(
+        label: 'date_of_emergency_report'.i18n(),
+        selectedDate: report.dateOfEmergencyReport,
+        onChanged: (date) {
+          report.dateOfEmergencyReport = date;
+        },
+        maxTime: DateTime.now(),
+        readOnly: widget.readOnly,
+        defaultDate: DateTime.now(),
+        optional: true,
+      ),
     ]);
   }
 }

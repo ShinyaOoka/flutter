@@ -178,6 +178,7 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
                 DataViewerRoutes.dataViewerSnapshotDetail,
                 arguments: SnapshotDetailScreenArguments(
                   snapshot: myCase!.snapshots[index],
+                  myCase: myCase!,
                 ),
               );
             }),

@@ -21,7 +21,9 @@ part 'report.g.dart';
 
 @JsonSerializable()
 class Report extends _Report with _$Report {
-  Report();
+  Report() {
+    dateOfEmergencyReport = DateTime.now();
+  }
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
   Map<String, dynamic> toJson() => _$ReportToJson(this);
 }
@@ -495,6 +497,9 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "SummaryOfOccurrence")
   String? summaryOfOccurrence;
+  @observable
+  @JsonKey(name: "DateOfEmergencyReport")
+  DateTime? dateOfEmergencyReport;
   @observable
   @JsonKey(name: "Remarks")
   String? remarks;

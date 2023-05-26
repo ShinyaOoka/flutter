@@ -180,7 +180,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonBirthDate);
     result = fillDate(result, 'DateOfOccurrence', report.dateOfOccurrence);
 
-    result = fillToday(result);
+    result = fillToday(result, date: report.dateOfEmergencyReport);
 
     result = result.replaceAll(
         'PlaceOfDispatch_TITLE',
@@ -282,12 +282,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return template;
   }
 
-  String fillBoolCheck(String template, String key, bool? value) {
+  String fillBoolCheck(String template, String key, bool? value,
+      {fillFalse = false}) {
     template = fillCheck(template, '${key}_CHECK_TRUE', value != null && value);
-    // template =
-    //     fillCheck(template, '${key}_CHECK_FALSE', value != null && !value);
-    template =
-        fillCheck(template, '${key}_CHECK_FALSE', false);
+    if (fillFalse) {
+      template =
+          fillCheck(template, '${key}_CHECK_FALSE', value == null || !value);
+    } else {
+      template = fillCheck(template, '${key}_CHECK_FALSE', false);
+    }
     return template;
   }
 
@@ -378,8 +381,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return '';
   }
 
-  String fillToday(String template) {
-    DateTime date = DateTime.now();
+  String fillToday(String template, {DateTime? date}) {
+    date ??= DateTime.now();
     template = template.replaceAll(
         'GGYY', yearToWareki(date.year, date.month, date.day));
     template = template.replaceAll('MM', date.month.toString());
@@ -496,8 +499,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('DD', d);
 
     result = fillBoolCheck(
-        result, 'LifesaverQualification', report.lifesaverQualification);
-    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers);
+        result, 'LifesaverQualification', report.lifesaverQualification,
+        fillFalse: true);
+    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers,
+        fillFalse: true);
     result = result.replaceFirst('TeamTEL', report.team?.tel ?? '');
     result = result.replaceFirst('SickInjuredPersonAddress',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
