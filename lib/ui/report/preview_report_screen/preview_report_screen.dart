@@ -382,11 +382,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillToday(String template, {DateTime? date}) {
-    date ??= DateTime.now();
-    template = template.replaceAll(
-        'GGYY', yearToWareki(date.year, date.month, date.day));
-    template = template.replaceAll('MM', date.month.toString());
-    template = template.replaceAll('DD', date.day.toString());
+    if (date == null) {
+      template = template.replaceAll('GGYY', "");
+      template = template.replaceAll('MM', "");
+      template = template.replaceAll('DD', "");
+    } else {
+      template = template.replaceAll(
+          'GGYY', yearToWareki(date.year, date.month, date.day));
+      template = template.replaceAll('MM', date.month.toString());
+      template = template.replaceAll('DD', date.day.toString());
+    }
     return template;
   }
 
