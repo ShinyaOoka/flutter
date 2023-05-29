@@ -109,8 +109,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   pw.Widget _buildPdfInfoRow(String title, String value) {
     return pw.Row(children: [
-      pw.Container(width: 200, child: pw.Text(title)),
-      pw.Container(width: 200, child: pw.Text(value)),
+      pw.Container(width: 100, child: pw.Text(title)),
+      pw.Container(width: 100, child: pw.Text(value)),
     ]);
   }
 
@@ -295,22 +295,22 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     final chart = await _buildPdfChart();
     final pdf = pw.Document();
     final firstPage = pw.Page(
-      pageFormat: PdfPageFormat.a3.landscape,
+      pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(20),
+      margin: pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
-              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 15)),
+              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
       build: (context) {
         final titleTextStyle =
-            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20);
+            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
         return pw.Column(
           children: [
             pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
             pw.Text(
                 "${twelveLead?.patientData.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase!.startTime!)}",
                 style: titleTextStyle),
-            pw.Container(height: 20),
+            pw.Container(height: 10),
             pw.Row(children: [
               pw.Column(children: [
                 _buildPdfInfoRow('患者名:',
@@ -318,16 +318,16 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 _buildPdfInfoRow('患者ID:', twelveLead!.patientData.patientId),
                 _buildPdfInfoRow('年齢:', twelveLead!.patientData.age.toString()),
                 _buildPdfInfoRow('性別:', twelveLead!.patientData.sex),
-                pw.Container(width: 100, height: 15),
+                pw.Container(width: 50, height: 7),
                 _buildPdfInfoRow('心拍数:', twelveLead!.heartRate.toString()),
-                pw.Container(width: 100, height: 15),
+                pw.Container(width: 50, height: 7),
                 _buildPdfInfoRow('PR間隔:', "${twelveLead!.prInt} ms"),
                 _buildPdfInfoRow('QRS幅:', "${twelveLead!.qrsDur} ms"),
                 _buildPdfInfoRow(
                     'QT/QTc:', "${twelveLead!.qtInt}/${twelveLead!.corrQtInt}"),
                 _buildPdfInfoRow('P-R-T軸:',
                     "${twelveLead!.pAxis} ${twelveLead!.qrsAxis} ${twelveLead!.tAxis}"),
-                pw.Container(width: 100, height: 15),
+                pw.Container(width: 50, height: 7),
                 _buildPdfInfoRow('デバイスID:', ""),
                 _buildPdfInfoRow(
                     '記録済み:',
@@ -342,7 +342,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 ),
               ),
             ]),
-            pw.Container(height: 15),
+            pw.Container(height: 7),
             pw.Text(intl.DateFormat("yyyy-MM-dd HH:mm:ss")
                 .format(twelveLead!.time)),
             pw.Image(chart),
@@ -360,22 +360,22 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       },
     );
     final secondPage = pw.Page(
-      pageFormat: PdfPageFormat.a3.landscape,
+      pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(20),
+      margin: pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
-              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 15)),
+              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
       build: (context) {
         final titleTextStyle =
-            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20);
+            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
         return pw.Column(
           children: [
             pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
             pw.Text(
                 "${twelveLead?.patientData.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase!.startTime!)}",
                 style: titleTextStyle),
-            pw.Container(height: 20),
+            pw.Container(height: 10),
             pw.Table(children: [
               pw.TableRow(children: [
                 pw.Container(),
@@ -432,7 +432,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     final bytes = await pdf.save();
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
-      format: PdfPageFormat.a3.landscape,
+      format: PdfPageFormat.a4.landscape,
     );
   }
 
