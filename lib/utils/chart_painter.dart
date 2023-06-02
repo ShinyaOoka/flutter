@@ -41,15 +41,62 @@ class ChartPainter {
     }
   }
 
+  static paintXAxis(
+    Canvas canvas,
+    Paint paint,
+    int length,
+    double size, {
+    int bottomTickInterval = 0,
+    int topTickInterval = 0,
+    double tickSize = 10,
+  }) {
+    canvas.drawLine(const Offset(0, 0), Offset(length * size, 0), paint);
+    for (var i = 0; i < length + 1; i++) {
+      final topTick = topTickInterval != 0 && i % topTickInterval == 0;
+      final bottomTick = bottomTickInterval != 0 && i % bottomTickInterval == 0;
+      if (topTick) {
+        canvas.drawLine(
+            Offset(i * size, -tickSize), Offset(i * size, 0), paint);
+      }
+      if (bottomTick) {
+        canvas.drawLine(Offset(i * size, tickSize), Offset(i * size, 0), paint);
+      }
+    }
+  }
+
+  static paintYAxis(
+    Canvas canvas,
+    Paint paint,
+    int length,
+    double size, {
+    int leftTickOffset = 0,
+    int leftTickInterval = 0,
+    int rightTickInterval = 0,
+    double tickSize = 10,
+  }) {
+    canvas.drawLine(const Offset(0, 0), Offset(0, length * size), paint);
+    for (var i = 0; i < length + 1; i++) {
+      final leftTick =
+          leftTickInterval != 0 && (i - leftTickOffset) % leftTickInterval == 0;
+      final rightTick = rightTickInterval != 0 && i % rightTickInterval == 0;
+      if (leftTick) {
+        canvas.drawLine(
+            Offset(-tickSize, i * size), Offset(0, i * size), paint);
+      }
+      if (rightTick) {
+        canvas.drawLine(Offset(tickSize, i * size), Offset(0, i * size), paint);
+      }
+    }
+  }
+
   static drawText(Canvas canvas, String text, Color color, double fontSize,
-      {TextAlign textAlign = TextAlign.center}) {
+      {TextAlign textAlign = TextAlign.center,
+      FontWeight fontWeight = FontWeight.normal}) {
     final textPainter = TextPainter(
       text: TextSpan(
         text: text,
-        style: TextStyle(
-          color: color,
-          fontSize: fontSize,
-        ),
+        style:
+            TextStyle(color: color, fontSize: fontSize, fontWeight: fontWeight),
       ),
       textDirection: TextDirection.ltr,
     );
