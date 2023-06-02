@@ -89,8 +89,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
     Future.delayed(const Duration(seconds: 2), () {
-      if (_zollSdkStore.caseListItems['serialNumber'] != null) {
-        _zollSdkStore.caseListItems['serialNumber'] = [
+      if (_zollSdkStore.caseListItems['Sample Device'] != null) {
+        _zollSdkStore.caseListItems['Sample Device'] = [
           CaseListItem(
               caseId: 'caseId',
               startTime: "2023-02-02T05:19:44Z",
@@ -101,7 +101,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
               endTime: "2024-02-02T06:29:04Z")
         ];
       } else {
-        _zollSdkStore.caseListItems['serialNumber'] = [
+        _zollSdkStore.caseListItems['Sample Device'] = [
           CaseListItem(
               caseId: 'caseId',
               startTime: "2023-02-02T05:19:43Z",

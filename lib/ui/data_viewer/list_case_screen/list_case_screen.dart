@@ -89,7 +89,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    _zollSdkStore.caseListItems['serialNumber'] = [
+    _zollSdkStore.caseListItems['Sample Device'] = [
       CaseListItem(
           caseId: 'AR16D018896-20230227-161027-3131',
           startTime: "2023-02-22T14:39:20",
