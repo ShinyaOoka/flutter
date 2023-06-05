@@ -47,23 +47,26 @@ String defaultLabelFormat(double x) {
 }
 
 class CprAnalysisChart extends StatefulWidget {
-  const CprAnalysisChart({
-    Key? key,
-    required this.samples,
-    required this.initTimestamp,
-    this.initDuration = const Duration(seconds: 30),
-    this.showGrid = false,
-    this.height = 150,
-    this.gridHorizontal = 500,
-    this.gridVertical = 0.4,
-    this.cprCompressions = const [],
-    this.minorInterval = 500,
-    this.majorInterval = 2500,
-    this.labelFormat = defaultLabelFormat,
-    this.ventilationTimestamps = const [],
-    this.cprRanges = const [],
-    this.shocks = const [],
-  }) : super(key: key);
+  const CprAnalysisChart(
+      {Key? key,
+      required this.samples,
+      required this.initTimestamp,
+      this.initDuration = const Duration(seconds: 30),
+      this.showGrid = false,
+      this.height = 150,
+      this.gridHorizontal = 500,
+      this.gridVertical = 0.4,
+      this.cprCompressions = const [],
+      this.minorInterval = 500,
+      this.majorInterval = 2500,
+      this.labelFormat = defaultLabelFormat,
+      this.ventilationTimestamps = const [],
+      this.cprRanges = const [],
+      this.shocks = const [],
+      this.depthUnit = 'inch',
+      this.depthFrom = 2.0,
+      this.depthTo = 2.4})
+      : super(key: key);
 
   final List<Sample> samples;
   final int initTimestamp;
@@ -79,6 +82,9 @@ class CprAnalysisChart extends StatefulWidget {
   final List<int> ventilationTimestamps;
   final List<Tuple2<int?, int?>> cprRanges;
   final List<int> shocks;
+  final String depthUnit;
+  final double depthFrom;
+  final double depthTo;
 
   @override
   State<CprAnalysisChart> createState() => _CprAnalysisChartState();
@@ -195,6 +201,22 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
         ]));
   }
 
+  double getDepthMinScaled() {
+    if (widget.depthUnit == 'inch') {
+      return widget.depthFrom * 1000;
+    } else {
+      return widget.depthFrom * 1000 / 2.54;
+    }
+  }
+
+  double getDepthMaxScaled() {
+    if (widget.depthUnit == 'inch') {
+      return widget.depthTo * 1000;
+    } else {
+      return widget.depthTo * 1000 / 2.54;
+    }
+  }
+
   Widget buildDepthChart(double minX, double maxX) {
     return IgnorePointer(
         child: SizedBox(
@@ -207,13 +229,15 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
               rangeAnnotations: RangeAnnotations(
                 horizontalRangeAnnotations: [
                   HorizontalRangeAnnotation(
-                      y1: 2000, y2: 2400, color: Colors.green.shade100)
+                      y1: getDepthMinScaled(),
+                      y2: getDepthMaxScaled(),
+                      color: Colors.green.shade100)
                 ],
                 verticalRangeAnnotations: cprRangeAnnotations(),
               ),
               minX: minX,
               maxX: maxX,
-              maxY: 4000,
+              maxY: widget.depthUnit == 'inch' ? 4000 : (10 / 2.54 * 1000),
               minY: 0,
               clipData: FlClipData.all(),
               gridData: FlGridData(show: false),
@@ -222,7 +246,12 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     getTitlesWidget: (value, meta) {
-                      final isMajor = value % widget.majorInterval == 0;
+                      String label;
+                      if (widget.depthUnit == 'inch') {
+                        label = (value / 1000).toStringAsFixed(1);
+                      } else {
+                        label = (value / 1000 * 2.54).round().toString();
+                      }
                       return Stack(
                         alignment: AlignmentDirectional.centerEnd,
                         children: [
@@ -233,17 +262,16 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
                               color: Colors.black,
                             ),
                           ),
-                          isMajor
-                              ? Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Text(widget.labelFormat(value)),
-                                )
-                              : Container()
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(label),
+                          )
                         ],
                       );
                     },
                     showTitles: true,
-                    interval: widget.minorInterval,
+                    interval:
+                        widget.depthUnit == 'inch' ? 2000 : 5 / 2.54 * 1000,
                     reservedSize: 48,
                   ),
                 ),
@@ -306,7 +334,8 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
   }
 
   bool cprGreenQuality(CprCompression value) {
-    return value.compDisp >= 2000 && value.compDisp <= 2400;
+    return value.compDisp >= getDepthMinScaled() &&
+        value.compDisp <= getDepthMaxScaled();
   }
 
   Widget buildShockChart(double minX, double maxX) {

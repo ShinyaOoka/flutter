@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
@@ -36,6 +37,37 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
+
+  double depthFrom = 2.0;
+  double depthTo = 2.4;
+  String depthUnit = 'inch';
+  List<double> depthInchOptions = [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.4,
+    2.5,
+    3.0,
+    3.5,
+    4.0
+  ];
+
+  List<double> depthCmOptions = [
+    0.0,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    8.0,
+    9.0,
+    10.0
+  ];
+
   String chartType = 'Pads';
   Map<String, double> minY = {
     'Pads': -2500,
@@ -194,6 +226,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _buildDepthInput(),
             myCase!.waves[chartType]!.samples.isNotEmpty
                 ? CprAnalysisChart(
                     samples: myCase!.waves[chartType]!.samples,
@@ -211,12 +244,104 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     labelFormat: labelFormat[chartType]!,
                     cprRanges: myCase!.cprRanges,
                     shocks: myCase!.shocks,
+                    depthUnit: depthUnit,
+                    depthFrom: depthFrom,
+                    depthTo: depthTo,
                   )
                 : Container(),
             _buildSummary()
           ],
         ),
       ),
+    );
+  }
+
+  Column _buildDepthInput() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("圧迫"),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: AppDropdown(
+                  label: 'から',
+                  items:
+                      depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
+                  itemAsString: (i) => i.toStringAsFixed(1),
+                  selectedItem: depthFrom,
+                  clearable: false,
+                  onChanged: (i) {
+                    setState(() {
+                      if (depthTo < i!) {
+                        depthTo = i;
+                        depthFrom = i;
+                      } else {
+                        depthFrom = i;
+                      }
+                    });
+                  },
+                ),
+              ),
+              Container(width: 16),
+              Expanded(
+                child: AppDropdown(
+                  label: '範囲',
+                  items:
+                      depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
+                  itemAsString: (i) => i.toStringAsFixed(1),
+                  selectedItem: depthTo,
+                  clearable: false,
+                  onChanged: (i) {
+                    setState(() {
+                      if (i! < depthFrom) {
+                        depthTo = i;
+                        depthFrom = i;
+                      } else {
+                        depthTo = i;
+                      }
+                    });
+                  },
+                ),
+              ),
+              Container(width: 16),
+              Expanded(
+                child: AppDropdown(
+                  label: '単位',
+                  items: ['inch', 'cm'],
+                  selectedItem: depthUnit,
+                  clearable: false,
+                  onChanged: (i) {
+                    setState(() {
+                      if (i == 'inch' && depthUnit == 'cm') {
+                        depthFrom = depthInchOptions
+                            .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
+                            .first;
+                        depthTo = depthInchOptions
+                            .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
+                            .first;
+                      } else if (i == 'cm' && depthUnit == 'inch') {
+                        depthFrom = depthCmOptions
+                            .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
+                            .first;
+                        depthTo = depthCmOptions
+                            .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
+                            .first;
+                      }
+                      depthUnit = i!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
