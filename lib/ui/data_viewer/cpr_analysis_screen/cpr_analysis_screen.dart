@@ -270,7 +270,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             children: [
               Expanded(
                 child: AppDropdown(
-                  label: 'から',
+                  label: 'FROM',
                   items:
                       depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
                   itemAsString: (i) => i.toStringAsFixed(1),
@@ -291,7 +291,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               Container(width: 16),
               Expanded(
                 child: AppDropdown(
-                  label: '範囲',
+                  label: 'TO',
                   items:
                       depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
                   itemAsString: (i) => i.toStringAsFixed(1),
