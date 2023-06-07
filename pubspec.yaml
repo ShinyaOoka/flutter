@@ -43,6 +43,7 @@ dependencies:
   tuple: ^2.0.1
   flutter_datetime_picker: ^1.5.1
   flutter_native_splash: ^2.1.0
+  scidart: ^0.0.2-dev.12
 
 dev_dependencies:
   flutter_test:
