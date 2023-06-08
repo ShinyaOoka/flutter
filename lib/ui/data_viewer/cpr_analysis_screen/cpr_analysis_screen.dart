@@ -218,11 +218,12 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
 
   List<Widget> _buildActions() {
     return [
-      _buildPrintButton(),
+      _buildPrintDetailButton(),
+      _buildPrintSummaryButton(),
     ];
   }
 
-  Widget _buildPrintButton() {
+  Widget _buildPrintDetailButton() {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
@@ -231,9 +232,25 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16),
             foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
-          await _generatePdf();
+          await _generateDetailPdf();
         },
-        label: Text('印刷'),
+        label: Text('要約印刷'),
+      ),
+    );
+  }
+
+  Widget _buildPrintSummaryButton() {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        icon: const Icon(Icons.print),
+        style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            foregroundColor: Theme.of(context).primaryColor),
+        onPressed: () async {
+          await _generateSummaryPdf();
+        },
+        label: Text('サマリ印刷'),
       ),
     );
   }
@@ -509,7 +526,215 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     return pw.MemoryImage(bytes);
   }
 
-  Future<void> _generatePdf() async {
+  pw.Widget _buildSummaryPdfBox(String value) {
+    return pw.Container(
+      height: 24,
+      alignment: pw.Alignment.center,
+      child: pw.Container(
+        height: 20,
+        alignment: pw.Alignment.center,
+        child: pw.Text(value),
+        decoration: pw.BoxDecoration(
+          color: PdfColor.fromInt(Colors.grey.value),
+          border: pw.Border.all(),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _generateSummaryPdf() async {
+    final font = pw.TtfFont(
+        await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
+    final fontBold =
+        pw.TtfFont(await rootBundle.load('assets/fonts/NotoSansJP-Bold.ttf'));
+    final pdf = pw.Document();
+    final page = pw.Page(
+        pageFormat: PdfPageFormat.a4.portrait,
+        orientation: pw.PageOrientation.portrait,
+        margin: pw.EdgeInsets.all(10),
+        theme: pw.ThemeData(
+            defaultTextStyle:
+                pw.TextStyle(font: font, fontBold: fontBold, fontSize: 14)),
+        build: (context) {
+          final titleTextStyle =
+              pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18);
+          return pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text("CPR解析のサマリ", style: titleTextStyle),
+              pw.Text(
+                  "症例の日付範囲：${intl.DateFormat.yMMMMd().format(myCase!.startTime!)}～${intl.DateFormat.yMMMMd().format(myCase!.endTime!)}"),
+              pw.Text("報告日：${intl.DateFormat.yMd().format(DateTime.now())}"),
+              pw.Text("作成者 RescueNet Code Review™, Enterprise Edition"),
+              pw.Container(height: 5),
+              pw.Container(
+                  height: 10, color: PdfColor.fromInt(Colors.red.value)),
+              pw.Container(height: 20),
+              pw.Table(columnWidths: {
+                2: pw.FixedColumnWidth(100)
+              }, children: [
+                pw.TableRow(children: [
+                  pw.Text(''),
+                  pw.Text(intl.DateFormat.yM().format(myCase!.startTime!)),
+                  pw.Text(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text(''),
+                  pw.Text('合計'),
+                  pw.Text(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('総症例数'),
+                  pw.Text('1'),
+                  _buildSummaryPdfBox('1'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Container(height: 20),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('最初の圧迫までの平均時間'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫を中止してから電気ショックを与えるまでの平均時間'),
+                  pw.Text(
+                      averageCprCompressionBeforeShock().toStringAsFixed(2)),
+                  _buildSummaryPdfBox(
+                      averageCprCompressionBeforeShock().toStringAsFixed(2)),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('電気ショックを与えてから圧迫を開始するまでの平均時間'),
+                  pw.Text(averageCprCompressionAfterShock().toStringAsFixed(2)),
+                  _buildSummaryPdfBox(
+                      averageCprCompressionAfterShock().toStringAsFixed(2)),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫深度の平均'),
+                  pw.Text('${averageCompDisp().toStringAsFixed(2)} インチ'),
+                  _buildSummaryPdfBox(
+                      '${averageCompDisp().toStringAsFixed(2)} インチ'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫速度の平均'),
+                  pw.Text('${averageCompRate().toStringAsFixed(2)} インチ'),
+                  _buildSummaryPdfBox(
+                      '${averageCompRate().toStringAsFixed(2)} インチ'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Container(height: 20),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('CPRが推奨された合計時間'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫時間の割合'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫以外の時間の割合'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Container(height: 20),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('総圧迫回数'),
+                  pw.Text(myCase!.cprCompressions.length.toString()),
+                  _buildSummaryPdfBox(
+                      myCase!.cprCompressions.length.toString()),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('圧迫深度：'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン超過'),
+                  pw.Text(
+                      '${(overCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(overCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン内'),
+                  pw.Text(
+                      '${(middleCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(middleCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン未満'),
+                  pw.Text(
+                      '${(underCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(underCompDispCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('速度'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン超過'),
+                  pw.Text(
+                      '${(overCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(overCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン内'),
+                  pw.Text(
+                      '${(middleCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(middleCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　目標ゾーン未満'),
+                  pw.Text(
+                      '${(underCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                  _buildSummaryPdfBox(
+                      '${(underCompRateCount() / myCase!.cprCompressions.length).toStringAsFixed(2)} %'),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('目標ゾーンのばらつき：'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　圧迫深度'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+                pw.TableRow(children: [
+                  pw.Text('　　速度'),
+                  pw.Text(''),
+                  _buildSummaryPdfBox(''),
+                ]),
+              ]),
+            ],
+          );
+        });
+    pdf.addPage(page);
+    final bytes = await pdf.save();
+    await Printing.layoutPdf(
+      onLayout: (_) => bytes,
+      format: PdfPageFormat.a4.portrait,
+    );
+  }
+
+  Future<void> _generateDetailPdf() async {
     final font = pw.TtfFont(
         await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
     final fontBold =
@@ -607,43 +832,15 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '標準偏差:',
                   '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ',
                   ''),
-              _buildPdfRow(
-                  '目標ゾーン超過:',
-                  myCase!.cprCompressions
-                      .where((e) => e.compDisp > getDepthMaxScaled())
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) => e.compDisp > getDepthMaxScaled())
-                          .length /
-                      myCase!.cprCompressions.length),
-              _buildPdfRow(
-                  '目標ゾーン内:',
-                  myCase!.cprCompressions
-                      .where((e) =>
-                          e.compDisp >= getDepthMinScaled() &&
-                          e.compDisp <= getDepthMaxScaled())
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) =>
-                              e.compDisp >= getDepthMinScaled() &&
-                              e.compDisp <= getDepthMaxScaled())
-                          .length /
-                      myCase!.cprCompressions.length),
-              _buildPdfRow(
-                  '目標ゾーン未満:',
-                  myCase!.cprCompressions
-                      .where((e) => e.compDisp < getDepthMinScaled())
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) => e.compDisp < getDepthMinScaled())
-                          .length /
-                      myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン超過:', overCompDispCount().toString(), '',
+                  percent:
+                      overCompDispCount() / myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン内:', middleCompDispCount().toString(), '',
+                  percent:
+                      middleCompDispCount() / myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン未満:', underCompDispCount().toString(), '',
+                  percent:
+                      underCompDispCount() / myCase!.cprCompressions.length),
               pw.Container(height: 10),
               _buildPdfRow('速度(目標ゾーン50 ~ 140 CPM):', '', ''),
               pw.Container(height: 10),
@@ -651,39 +848,15 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '標準偏差:',
                   '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm',
                   ''),
-              _buildPdfRow(
-                  '目標ゾーン超過:',
-                  myCase!.cprCompressions
-                      .where((e) => e.compRate > 140)
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) => e.compRate > 140)
-                          .length /
-                      myCase!.cprCompressions.length),
-              _buildPdfRow(
-                  '目標ゾーン内:',
-                  myCase!.cprCompressions
-                      .where((e) => e.compRate >= 80 && e.compRate <= 140)
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) => e.compRate >= 80 && e.compRate <= 140)
-                          .length /
-                      myCase!.cprCompressions.length),
-              _buildPdfRow(
-                  '目標ゾーン未満:',
-                  myCase!.cprCompressions
-                      .where((e) => e.compRate < 80)
-                      .length
-                      .toString(),
-                  '',
-                  percent: myCase!.cprCompressions
-                          .where((e) => e.compRate < 80)
-                          .length /
-                      myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン超過:', overCompRateCount().toString(), '',
+                  percent:
+                      overCompRateCount() / myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン内:', middleCompRateCount().toString(), '',
+                  percent:
+                      middleCompRateCount() / myCase!.cprCompressions.length),
+              _buildPdfRow('目標ゾーン未満:', underCompRateCount().toString(), '',
+                  percent:
+                      underCompRateCount() / myCase!.cprCompressions.length),
               pw.Container(height: 10),
               _buildPdfRow('各電気ショックの時間:', '', ''),
             ],
@@ -698,6 +871,40 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       onLayout: (_) => bytes,
       format: PdfPageFormat.a4.landscape,
     );
+  }
+
+  int underCompRateCount() {
+    return myCase!.cprCompressions.where((e) => e.compRate < 80).length;
+  }
+
+  int middleCompRateCount() {
+    return myCase!.cprCompressions
+        .where((e) => e.compRate >= 80 && e.compRate <= 140)
+        .length;
+  }
+
+  int overCompRateCount() {
+    return myCase!.cprCompressions.where((e) => e.compRate > 140).length;
+  }
+
+  int underCompDispCount() {
+    return myCase!.cprCompressions
+        .where((e) => e.compDisp < getDepthMinScaled())
+        .length;
+  }
+
+  int middleCompDispCount() {
+    return myCase!.cprCompressions
+        .where((e) =>
+            e.compDisp >= getDepthMinScaled() &&
+            e.compDisp <= getDepthMaxScaled())
+        .length;
+  }
+
+  int overCompDispCount() {
+    return myCase!.cprCompressions
+        .where((e) => e.compDisp > getDepthMaxScaled())
+        .length;
   }
 
   pw.Row _buildPdfRow(String title, String value, String autoPulse,
