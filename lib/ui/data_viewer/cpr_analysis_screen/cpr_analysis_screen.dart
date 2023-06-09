@@ -1077,32 +1077,247 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final compDisp = averageCompDisp();
     final compRate = averageCompRate();
 
-    return Column(
+    return Table(
+      columnWidths: {
+        0: IntrinsicColumnWidth(),
+      },
       children: [
-        Text('最初の圧迫までの平均時間:'),
-        Text(
-            '電気ショックを与えてから圧迫を開始するまでの平均時間: ${afterShockDuration.toStringAsFixed(2)}'),
-        Text(
-            '圧迫を中止してから電気ショックを与えるまでの平均時間: ${beforeShockDuration.toStringAsFixed(2)}'),
-        Text('圧迫深度の平均: ${compDisp.toStringAsFixed(2)} インチ'),
-        Text('圧迫速度の平均: ${compRate.toStringAsFixed(2)} cpm'),
-        Text('症例の期間:'),
-        Text('CPRの時間:'),
-        Text('CPR以外の時間:'),
-        Text('圧迫の時間:'),
-        Text('圧迫以外の時間:'),
-        Text('圧迫深度:'),
-        Text(
-            '標準偏差: ${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ'),
-        Text('目標ゾーン超過: ${overCompDispCount()}'),
-        Text('目標ゾーン内: ${middleCompDispCount()}'),
-        Text('目標ゾーン未満: ${underCompDispCount()}'),
-        Text('速度:'),
-        Text(
-            '標準偏差: ${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm'),
-        Text('目標ゾーン超過: ${overCompRateCount()}'),
-        Text('目標ゾーン内: ${middleCompRateCount()}'),
-        Text('目標ゾーン未満: ${underCompRateCount()}'),
+        TableRow(children: [
+          TableCell(child: Text('キー表示')),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Text('AutoPulse')),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('最初の圧迫までの平均時間:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Text('---')),
+        ]),
+        TableRow(children: [
+          TableCell(
+              child: Text('圧迫を中止してから電気ショックを与えるまでの平均時間:',
+                  textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(_printDuration(
+                  Duration(seconds: beforeShockDuration.toInt()))),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Text('---')),
+        ]),
+        TableRow(children: [
+          TableCell(
+              child: Text('電気ショックを与えてから圧迫を開始するまでの平均時間:',
+                  textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(_printDuration(
+                  Duration(seconds: afterShockDuration.toInt()))),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Text('---')),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('圧迫の深度の平均:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text('${compDisp.toStringAsFixed(2)} インチ'),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('圧迫速度の平均:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text('${compRate.toStringAsFixed(2)} インチ'),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('症例全体')),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('症例の期間', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('CPRの時間', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('CPR以外の時間', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('CPR期間')),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Text('AutoPulse')),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('圧迫の時間:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('圧迫以外の時間:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標範囲内の圧迫:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('圧迫深度:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('標準偏差:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ'),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(overCompDispCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(middleCompDispCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(underCompDispCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('速度:', textAlign: TextAlign.right)),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('標準偏差:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm'),
+            ),
+          ),
+          TableCell(child: Container()),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(overCompRateCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(middleCompRateCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(underCompRateCount().toString()),
+            ),
+          ),
+          TableCell(
+              child: Text(
+                  '(${(underCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
+          TableCell(child: Container()),
+        ]),
       ],
     );
   }
