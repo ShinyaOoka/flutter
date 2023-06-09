@@ -170,22 +170,27 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/demo.json')
-        .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
+    await _loadTestData();
+    _hostApi.deviceDownloadCase(
+        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+  }
+
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
     final caseListItem = _zollSdkStore
         .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
         ?.firstWhere((element) => element.caseId == caseId);
     final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['caseId'] = parsedCase;
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
     parsedCase.startTime = caseListItem?.startTime != null
         ? DateTime.parse(caseListItem!.startTime!).toLocal()
         : null;
     parsedCase.endTime = caseListItem?.endTime != null
         ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override
