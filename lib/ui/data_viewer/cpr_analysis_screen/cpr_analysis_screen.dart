@@ -218,41 +218,45 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
 
   List<Widget> _buildActions() {
     return [
-      _buildPrintDetailButton(),
-      _buildPrintSummaryButton(),
+      PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).primaryColor,
+        ),
+        itemBuilder: (context) {
+          return [
+            const PopupMenuItem(
+              value: 0,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                minLeadingWidth: 10,
+                leading: const Icon(Icons.print),
+                title: Text('要約印刷'),
+              ),
+            ),
+            const PopupMenuItem(
+              value: 1,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                minLeadingWidth: 10,
+                leading: const Icon(Icons.print),
+                title: Text('サマリ印刷'),
+              ),
+            ),
+          ];
+        },
+        onSelected: (value) async {
+          switch (value) {
+            case 0:
+              await _generateDetailPdf();
+              break;
+            case 1:
+              await _generateSummaryPdf();
+              break;
+          }
+        },
+      )
     ];
-  }
-
-  Widget _buildPrintDetailButton() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextButton.icon(
-        icon: const Icon(Icons.print),
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            foregroundColor: Theme.of(context).primaryColor),
-        onPressed: () async {
-          await _generateDetailPdf();
-        },
-        label: Text('要約印刷'),
-      ),
-    );
-  }
-
-  Widget _buildPrintSummaryButton() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextButton.icon(
-        icon: const Icon(Icons.print),
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            foregroundColor: Theme.of(context).primaryColor),
-        onPressed: () async {
-          await _generateSummaryPdf();
-        },
-        label: Text('サマリ印刷'),
-      ),
-    );
   }
 
   Future<pw.MemoryImage> _buildShockChart() async {
@@ -1075,10 +1079,30 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
 
     return Column(
       children: [
-        Text('averageCprCompressionAfterShock: $afterShockDuration'),
-        Text('averageCprCompressionBeforeShock: $beforeShockDuration'),
-        Text('averageCompDisp: $compDisp'),
-        Text('averageCompRate: $compRate'),
+        Text('最初の圧迫までの平均時間:'),
+        Text(
+            '電気ショックを与えてから圧迫を開始するまでの平均時間: ${afterShockDuration.toStringAsFixed(2)}'),
+        Text(
+            '圧迫を中止してから電気ショックを与えるまでの平均時間: ${beforeShockDuration.toStringAsFixed(2)}'),
+        Text('圧迫深度の平均: ${compDisp.toStringAsFixed(2)} インチ'),
+        Text('圧迫速度の平均: ${compRate.toStringAsFixed(2)} cpm'),
+        Text('症例の期間:'),
+        Text('CPRの時間:'),
+        Text('CPR以外の時間:'),
+        Text('圧迫の時間:'),
+        Text('圧迫以外の時間:'),
+        Text('圧迫深度:'),
+        Text(
+            '標準偏差: ${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ'),
+        Text('目標ゾーン超過: ${overCompDispCount()}'),
+        Text('目標ゾーン内: ${middleCompDispCount()}'),
+        Text('目標ゾーン未満: ${underCompDispCount()}'),
+        Text('速度:'),
+        Text(
+            '標準偏差: ${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm'),
+        Text('目標ゾーン超過: ${overCompRateCount()}'),
+        Text('目標ゾーン内: ${middleCompRateCount()}'),
+        Text('目標ゾーン未満: ${underCompRateCount()}'),
       ],
     );
   }
