@@ -1435,7 +1435,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //66
     if (report.artificialRespiration != null && report.artificialRespiration!) {
       htmlInput =
-          htmlInput.replaceFirst('$uncheckIcon　人口呼吸', '$checkIcon　人口呼吸');
+          htmlInput.replaceFirst('$uncheckIcon　人工呼吸', '$checkIcon　人工呼吸');
     }
 
     //67
