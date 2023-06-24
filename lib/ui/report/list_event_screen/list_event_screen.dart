@@ -359,15 +359,21 @@ class _ListEventScreenState extends State<ListEventScreen>
               onTap: () {
                 if (activeIndex == null) return;
                 int? foundEventIndex;
-                for (var i = dataIndex; i > 0; i--) {
-                  if (myCase!.events[i].type == 'TrendRpt') {
-                    foundEventIndex = i;
+
+                for (var i = dataIndex; i < myCase!.events.length; i++) {
+                  if (myCase!.events[i].date
+                      .isAtSameMomentAs(myCase!.events[dataIndex].date)) {
+                    if (myCase!.events[i].type == 'TrendRpt') {
+                      foundEventIndex = i;
+                      break;
+                    }
+                  } else {
                     break;
                   }
                 }
 
                 if (foundEventIndex == null) {
-                  for (var i = dataIndex; i < myCase!.events.length; i++) {
+                  for (var i = dataIndex; i > 0; i--) {
                     if (myCase!.events[i].type == 'TrendRpt') {
                       foundEventIndex = i;
                       break;
@@ -418,6 +424,15 @@ class _ListEventScreenState extends State<ListEventScreen>
                     }
                     trendData[activeIndex!].time =
                         myCase!.events[foundEventIndex].date.toLocal();
+                  });
+                } else {
+                  setState(() {
+                    trendData[activeIndex!].hr = null;
+                    trendData[activeIndex!].nibpDia = null;
+                    trendData[activeIndex!].nibpSys = null;
+                    trendData[activeIndex!].spo2 = null;
+                    trendData[activeIndex!].resp = null;
+                    trendData[activeIndex!].time = null;
                   });
                 }
               });
