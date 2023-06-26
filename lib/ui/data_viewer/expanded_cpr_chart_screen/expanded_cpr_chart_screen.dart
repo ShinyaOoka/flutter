@@ -257,9 +257,9 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
               Text(
                   "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
               Text(
-                  "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
-              Text(
                   "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
+              Text(
+                  "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
             ]),
           ),
           Container(),
