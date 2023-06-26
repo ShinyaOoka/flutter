@@ -112,8 +112,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
           endTime: "2024-02-02T06:29:04"),
       CaseListItem(
           caseId: 'AR16D018896-20230322-143534-3141',
-          startTime: "2023-03-13T12:34:51Z",
-          endTime: "2024-02-02T06:29:04Z")
+          startTime: "2023-03-13T12:34:51",
+          endTime: "2024-02-02T06:29:04")
     ];
     _hostApi.deviceGetCaseList(device!, null);
   }
