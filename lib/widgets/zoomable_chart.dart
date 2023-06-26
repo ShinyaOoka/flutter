@@ -35,12 +35,12 @@ class _ZoomableChartState extends State<ZoomableChart> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () {
-        setState(() {
-          minX = 0;
-          maxX = widget.maxX;
-        });
-      },
+      // onDoubleTap: () {
+      //   setState(() {
+      //     minX = 0;
+      //     maxX = widget.maxX;
+      //   });
+      // },
       onHorizontalDragStart: (details) {
         lastMinXValue = minX;
         lastMaxXValue = maxX;
