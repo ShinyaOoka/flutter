@@ -383,9 +383,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillToday(String template, {DateTime? date}) {
     if (date == null) {
-      template = template.replaceAll('GGYY', "");
-      template = template.replaceAll('MM', "");
-      template = template.replaceAll('DD', "");
+      template = template.replaceAll('GGYY', "　　　　");
+      template = template.replaceAll('MM', "　　");
+      template = template.replaceAll('DD', "　　");
     } else {
       template = template.replaceAll(
           'GGYY', yearToWareki(date.year, date.month, date.day));
