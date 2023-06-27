@@ -10,6 +10,7 @@ import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
 import 'package:localization/localization.dart';
+import 'package:collection/collection.dart';
 
 class DotBarPainter extends FlDotPainter {
   DotBarPainter({
@@ -173,13 +174,18 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
                   color: Colors.blue,
                 ),
                 ...widget.events
-                    .map((e) => VerticalLine(
+                    .where((e) {
+                      final second = e.date.microsecondsSinceEpoch / 1000000;
+                      return minX <= second && second <= maxX;
+                    })
+                    .mapIndexed((i, e) => VerticalLine(
                           x: e.date.microsecondsSinceEpoch / 1000000,
                           color: Colors.blue,
                           label: VerticalLineLabel(
                             show: true,
                             alignment: Alignment.topRight,
-                            padding: const EdgeInsets.only(left: 10, top: 5),
+                            padding: EdgeInsets.only(
+                                left: 10, top: (i % 13) * 20 + 5),
                             style: const TextStyle(),
                             labelResolver: (line) => getJapaneseEventName(e),
                           ),
