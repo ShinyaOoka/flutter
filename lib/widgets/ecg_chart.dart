@@ -104,12 +104,12 @@ class _EcgChartState extends State<EcgChart> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onDoubleTap: () {
-          setState(() {
-            minX = widget.samples.first.inSeconds;
-            maxX = widget.samples.last.inSeconds;
-          });
-        },
+        // onDoubleTap: () {
+        //   setState(() {
+        //     minX = widget.samples.first.inSeconds;
+        //     maxX = widget.samples.last.inSeconds;
+        //   });
+        // },
         onHorizontalDragStart: (details) {
           lastMinXValue = minX;
           lastMaxXValue = maxX;

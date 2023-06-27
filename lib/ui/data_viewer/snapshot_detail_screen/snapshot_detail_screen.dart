@@ -262,22 +262,22 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     final co2Chart = await _buildPdfCO2Chart();
     final spo2Chart = await _buildPdfSPO2Chart();
     final page = pw.Page(
-      pageFormat: PdfPageFormat.a3.landscape,
+      pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(20),
+      margin: pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
-              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 15)),
+              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
       build: (context) {
         final titleTextStyle =
-            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 20);
+            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
         return pw.Column(
           children: [
             pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
             pw.Text(
                 "${myCase.patientData?.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase.startTime!)}",
                 style: titleTextStyle),
-            pw.Container(height: 20),
+            pw.Container(height: 10),
             pw.Text(
                 "${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(snapshot.time)}にあるスナップショット（1 の 1）"),
             pw.Text(
@@ -297,7 +297,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     final bytes = await pdf.save();
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
-      format: PdfPageFormat.a3.landscape,
+      format: PdfPageFormat.a4.landscape,
     );
   }
 

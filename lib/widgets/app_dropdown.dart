@@ -16,6 +16,7 @@ class AppDropdown<T> extends StatelessWidget {
   final bool readOnly;
   final Color? fillColor;
   final bool optional;
+  final bool clearable;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class AppDropdown<T> extends StatelessWidget {
                 ),
                 items: items ?? [],
                 itemAsString: itemAsString,
-                clearButtonProps: const ClearButtonProps(isVisible: true),
+                clearButtonProps: ClearButtonProps(isVisible: clearable),
                 dropdownDecoratorProps: DropDownDecoratorProps(
                     baseStyle: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -122,5 +123,6 @@ class AppDropdown<T> extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.optional = false,
+    this.clearable = true,
   });
 }

@@ -170,22 +170,27 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/demo.json')
-        .writeAsString(await rootBundle.loadString("assets/example/demo.json"));
+    await _loadTestData();
+    _hostApi.deviceDownloadCase(
+        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+  }
+
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
     final caseListItem = _zollSdkStore
         .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
         ?.firstWhere((element) => element.caseId == caseId);
     final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/demo.json"));
-    _zollSdkStore.cases['caseId'] = parsedCase;
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
     parsedCase.startTime = caseListItem?.startTime != null
         ? DateTime.parse(caseListItem!.startTime!).toLocal()
         : null;
     parsedCase.endTime = caseListItem?.endTime != null
         ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override
@@ -354,15 +359,21 @@ class _ListEventScreenState extends State<ListEventScreen>
               onTap: () {
                 if (activeIndex == null) return;
                 int? foundEventIndex;
-                for (var i = dataIndex; i > 0; i--) {
-                  if (myCase!.events[i].type == 'TrendRpt') {
-                    foundEventIndex = i;
+
+                for (var i = dataIndex; i < myCase!.events.length; i++) {
+                  if (myCase!.events[i].date
+                      .isAtSameMomentAs(myCase!.events[dataIndex].date)) {
+                    if (myCase!.events[i].type == 'TrendRpt') {
+                      foundEventIndex = i;
+                      break;
+                    }
+                  } else {
                     break;
                   }
                 }
 
                 if (foundEventIndex == null) {
-                  for (var i = dataIndex; i < myCase!.events.length; i++) {
+                  for (var i = dataIndex; i > 0; i--) {
                     if (myCase!.events[i].type == 'TrendRpt') {
                       foundEventIndex = i;
                       break;
@@ -374,14 +385,16 @@ class _ListEventScreenState extends State<ListEventScreen>
                   setState(() {
                     final hrTrendData = myCase!.events[foundEventIndex!]
                         .rawData["Trend"]["Hr"]["TrendData"];
-                    if (hrTrendData["DataStatus"] == 0) {
+                    if (hrTrendData["DataStatus"] == 0 &&
+                        hrTrendData["DataState"] != "unmonitored") {
                       trendData[activeIndex!].hr = hrTrendData["Val"]["#text"];
                     } else {
                       trendData[activeIndex!].hr = null;
                     }
                     final nibpDiaTrendData = myCase!.events[foundEventIndex]
                         .rawData["Trend"]["Nibp"]["Dia"]["TrendData"];
-                    if (nibpDiaTrendData["DataStatus"] == 0) {
+                    if (nibpDiaTrendData["DataStatus"] == 0 &&
+                        nibpDiaTrendData["DataState"] != "unmonitored") {
                       trendData[activeIndex!].nibpDia =
                           nibpDiaTrendData["Val"]["#text"];
                     } else {
@@ -389,7 +402,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                     }
                     final nibpSysTrendData = myCase!.events[foundEventIndex]
                         .rawData["Trend"]["Nibp"]["Sys"]["TrendData"];
-                    if (nibpSysTrendData["DataStatus"] == 0) {
+                    if (nibpSysTrendData["DataStatus"] == 0 &&
+                        nibpSysTrendData["DataState"] != "unmonitored") {
                       trendData[activeIndex!].nibpSys =
                           nibpSysTrendData["Val"]["#text"];
                     } else {
@@ -397,7 +411,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                     }
                     final spo2TrendData = myCase!.events[foundEventIndex]
                         .rawData["Trend"]["Spo2"]["TrendData"];
-                    if (spo2TrendData["DataStatus"] == 0) {
+                    if (spo2TrendData["DataStatus"] == 0 &&
+                        spo2TrendData["DataState"] != "unmonitored") {
                       trendData[activeIndex!].spo2 =
                           spo2TrendData["Val"]["#text"];
                     } else {
@@ -405,7 +420,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                     }
                     final respTrendData = myCase!.events[foundEventIndex]
                         .rawData["Trend"]["Resp"]["TrendData"];
-                    if (respTrendData["DataStatus"] == 0) {
+                    if (respTrendData["DataStatus"] == 0 &&
+                        respTrendData["DataState"] != "unmonitored") {
                       trendData[activeIndex!].resp =
                           respTrendData["Val"]["#text"];
                     } else {
@@ -413,6 +429,15 @@ class _ListEventScreenState extends State<ListEventScreen>
                     }
                     trendData[activeIndex!].time =
                         myCase!.events[foundEventIndex].date.toLocal();
+                  });
+                } else {
+                  setState(() {
+                    trendData[activeIndex!].hr = null;
+                    trendData[activeIndex!].nibpDia = null;
+                    trendData[activeIndex!].nibpSys = null;
+                    trendData[activeIndex!].spo2 = null;
+                    trendData[activeIndex!].resp = null;
+                    trendData[activeIndex!].time = null;
                   });
                 }
               });

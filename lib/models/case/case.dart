@@ -703,7 +703,9 @@ abstract class _Case with Store {
         for (var i = 0; i < count; i++) {
           final double value = samples[i].toDouble();
           result.samples.add(Sample(
-              timestamp: timestamp + i * sampleTime, value: value, status: 0));
+              timestamp: timestamp + i * sampleTime ~/ 500,
+              value: value - 700,
+              status: 0));
         }
       }
     }

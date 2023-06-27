@@ -88,27 +88,32 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     });
 
     _hostApi = Provider.of<ZollSdkHostApi>(context);
-    Future.delayed(const Duration(seconds: 2), () {
-      if (_zollSdkStore.caseListItems['serialNumber'] != null) {
-        _zollSdkStore.caseListItems['serialNumber'] = [
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:44Z",
-              endTime: "2024-02-02T06:29:04Z"),
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:44Z",
-              endTime: "2024-02-02T06:29:04Z")
-        ];
-      } else {
-        _zollSdkStore.caseListItems['serialNumber'] = [
-          CaseListItem(
-              caseId: 'caseId',
-              startTime: "2023-02-02T05:19:43Z",
-              endTime: "2024-02-02T06:29:04Z")
-        ];
-      }
-    });
+    _zollSdkStore.caseListItems['Sample Device'] = [
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161027-3131',
+          startTime: "2023-02-22T14:39:20",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161639-3132',
+          startTime: "2023-02-22T15:45:36",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161728-3133',
+          startTime: "2023-02-22T15:53:55",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161849-3134',
+          startTime: "2023-02-22T16:03:56",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230227-161938-3135',
+          startTime: "2023-02-22T16:11:10",
+          endTime: "2024-02-02T06:29:04"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230322-143534-3141',
+          startTime: "2023-03-13T12:34:51",
+          endTime: "2024-02-02T06:29:04")
+    ];
     _hostApi.deviceGetCaseList(_zollSdkStore.selectedDevice!, null);
   }
 
