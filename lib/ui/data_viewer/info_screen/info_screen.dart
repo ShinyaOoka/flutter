@@ -135,7 +135,7 @@ class _InfoScreenState extends State<InfoScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "イベント選択",
+      title: "一般",
     );
   }
 
@@ -175,112 +175,116 @@ class _InfoScreenState extends State<InfoScreen>
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppTextField(
-              label: '実施回数',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']
-                      ['PatientId']),
-            ),
-            AppTextField(
-              label: '開始時刻',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['StartTime']),
-            ),
-            AppTextField(
-              label: 'データの期間',
-              readOnly: true,
-              controller: TextEditingController(text: ''),
-            ),
-            AppTextField(
-              label: 'デバイスの種類',
-              readOnly: true,
-              controller: TextEditingController(text: ''),
-            ),
-            AppTextField(
-              label: 'デバイスID',
-              readOnly: true,
-              controller: TextEditingController(text: '$serial($version)'),
-            ),
-            AppTextField(
-              label: '電源オン時刻',
-              readOnly: true,
-              controller: TextEditingController(text: deviceOn),
-            ),
-            AppTextField(
-              label: '電源オン調整時刻',
-              readOnly: true,
-              controller: TextEditingController(text: deviceOn),
-            ),
-            AppTextField(
-              label: '患者ID /MR番号',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']
-                      ['PatientId']),
-            ),
-            AppTextField(
-              label: '氏',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']
-                      ['FirstName']),
-            ),
-            AppTextField(
-              label: '名',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']['LastName']),
-            ),
-            AppTextField(
-              label: 'ミドルネームのイニシャル',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']
-                      ['MiddleName']),
-            ),
-            AppTextField(
-              label: '性別',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']['Sex']),
-            ),
-            AppTextField(
-              label: '人類',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!.caseSummary.rawData['PatientData']
-                      ['PatientMode']),
-            ),
-            AppTextField(
-              label: '生年月日',
-              readOnly: true,
-              controller: TextEditingController(text: ''),
-            ),
-            AppTextField(
-              label: '身長',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!
-                          .caseSummary.rawData['PatientData']['Height']['#text']
-                          .toString() +
-                      myCase!.caseSummary.rawData['PatientData']['Height']
-                          ['@Units']),
-            ),
-            AppTextField(
-              label: '体重',
-              readOnly: true,
-              controller: TextEditingController(
-                  text: myCase!
-                          .caseSummary.rawData['PatientData']['Weight']['#text']
-                          .toString() +
-                      myCase!.caseSummary.rawData['PatientData']['Weight']
-                          ['@Units']),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Column(
+            children: [
+              AppTextField(
+                label: '実施回数',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['PatientId']),
+              ),
+              AppTextField(
+                label: '開始時刻',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['StartTime']),
+              ),
+              AppTextField(
+                label: 'データの期間',
+                readOnly: true,
+                controller: TextEditingController(text: ''),
+              ),
+              AppTextField(
+                label: 'デバイスの種類',
+                readOnly: true,
+                controller: TextEditingController(text: ''),
+              ),
+              AppTextField(
+                label: 'デバイスID',
+                readOnly: true,
+                controller: TextEditingController(text: '$serial($version)'),
+              ),
+              AppTextField(
+                label: '電源オン時刻',
+                readOnly: true,
+                controller: TextEditingController(text: deviceOn),
+              ),
+              AppTextField(
+                label: '電源オン調整時刻',
+                readOnly: true,
+                controller: TextEditingController(text: deviceOn),
+              ),
+              AppTextField(
+                label: '患者ID /MR番号',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['PatientId']),
+              ),
+              AppTextField(
+                label: '氏',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['FirstName']),
+              ),
+              AppTextField(
+                label: '名',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['LastName']),
+              ),
+              AppTextField(
+                label: 'ミドルネームのイニシャル',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['MiddleName']),
+              ),
+              AppTextField(
+                label: '性別',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']['Sex']),
+              ),
+              AppTextField(
+                label: '人類',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary.rawData['PatientData']
+                        ['PatientMode']),
+              ),
+              AppTextField(
+                label: '生年月日',
+                readOnly: true,
+                controller: TextEditingController(text: ''),
+              ),
+              AppTextField(
+                label: '身長',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary
+                            .rawData['PatientData']['Height']['#text']
+                            .toString() +
+                        myCase!.caseSummary.rawData['PatientData']['Height']
+                            ['@Units']),
+              ),
+              AppTextField(
+                label: '体重',
+                readOnly: true,
+                controller: TextEditingController(
+                    text: myCase!.caseSummary
+                            .rawData['PatientData']['Weight']['#text']
+                            .toString() +
+                        myCase!.caseSummary.rawData['PatientData']['Weight']
+                            ['@Units']),
+              ),
+            ],
+          ),
         ),
       ),
     );
