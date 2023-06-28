@@ -131,7 +131,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "12Lead選択",
+      title: "12Lead",
     );
   }
 

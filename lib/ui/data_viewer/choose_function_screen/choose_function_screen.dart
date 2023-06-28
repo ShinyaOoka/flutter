@@ -114,7 +114,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("イベント選択"),
+        title: const Text("イベント"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerListEvent,
               arguments: ListEventScreenArguments(caseId: caseId!));
@@ -136,7 +136,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("12Lead選択"),
+        title: const Text("12Lead"),
         onTap: () {
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerListTwelveLead,
@@ -144,7 +144,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("スナップショット選択"),
+        title: const Text("スナップショット"),
         onTap: () {
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerListSnapshot,

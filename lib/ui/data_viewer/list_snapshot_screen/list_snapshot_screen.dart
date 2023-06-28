@@ -135,7 +135,7 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "スナップショット選択",
+      title: "スナップショット",
     );
   }
 
