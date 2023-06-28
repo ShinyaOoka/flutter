@@ -2,6 +2,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded_cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -33,6 +34,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   late int timestamp;
   String chartType = 'Pads';
   Case? myCase;
+  bool expandOnTap = false;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -119,6 +121,10 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            AppCheckbox(
+                label: 'クリックしたら拡大ECGへ移動',
+                value: expandOnTap,
+                onChanged: (x) => setState(() => expandOnTap = x ?? false)),
             DropdownButton<String>(
                 value: chartType,
                 items: myCase!.waves.keys
@@ -136,10 +142,12 @@ class _EcgChartScreenState extends State<EcgChartScreen>
               segments: 4,
               initDuration: Duration(minutes: 1),
               onTap: (timestamp) {
-                Navigator.of(context).pushNamed(
-                    DataViewerRoutes.dataViewerExpandedEcgChart,
-                    arguments: ExpandedCprChartScreenArguments(
-                        caseId: caseId, timestamp: timestamp));
+                if (expandOnTap) {
+                  Navigator.of(context).pushNamed(
+                      DataViewerRoutes.dataViewerExpandedEcgChart,
+                      arguments: ExpandedCprChartScreenArguments(
+                          caseId: caseId, timestamp: timestamp));
+                }
               },
             ),
           ],
