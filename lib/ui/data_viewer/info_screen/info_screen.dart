@@ -241,20 +241,13 @@ class _InfoScreenState extends State<InfoScreen>
                         ['LastName']),
               ),
               AppTextField(
-                label: 'ミドルネームのイニシャル',
-                readOnly: true,
-                controller: TextEditingController(
-                    text: myCase!.caseSummary.rawData['PatientData']
-                        ['MiddleName']),
-              ),
-              AppTextField(
                 label: '性別',
                 readOnly: true,
                 controller: TextEditingController(
                     text: myCase!.caseSummary.rawData['PatientData']['Sex']),
               ),
               AppTextField(
-                label: '人類',
+                label: '人種',
                 readOnly: true,
                 controller: TextEditingController(
                     text: myCase!.caseSummary.rawData['PatientData']
