@@ -87,14 +87,18 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               }
             },
           ),
-          isDataViewerRoute &&
-                  currentRouteName != DataViewerRoutes.dataViewerListDevice
+          _zollSdkStore.selectedDevice != null
               ? ListTile(
                   leading: Icon(Icons.phonelink_erase),
                   title: const Text('接続機器変更'),
                   onTap: () {
-                    Navigator.of(context)
-                        .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+                    if (isDataViewerRoute) {
+                      Navigator.of(context).popAndPushNamed(
+                          DataViewerRoutes.dataViewerListDevice);
+                    } else if (isReportRoute) {
+                      Navigator.of(context)
+                          .popAndPushNamed(ReportRoutes.reportChangeDevice);
+                    }
                   },
                 )
               : Container(),
@@ -123,10 +127,8 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   });
             },
           ),
-          _zollSdkStore.selectedDevice != null && isDataViewerRoute
-              ? Divider()
-              : Container(),
-          _zollSdkStore.selectedDevice != null && isDataViewerRoute
+          _zollSdkStore.selectedDevice != null ? Divider() : Container(),
+          _zollSdkStore.selectedDevice != null
               ? ListTile(
                   title: Text(
                       '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
