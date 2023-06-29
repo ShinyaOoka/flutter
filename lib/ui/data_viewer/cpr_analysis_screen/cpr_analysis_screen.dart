@@ -1086,19 +1086,16 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Text('キー表示')),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Text('AutoPulse')),
         ]),
         TableRow(children: [
           TableCell(child: Text('最初の圧迫までの平均時間:', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Text('---')),
         ]),
         TableRow(children: [
           TableCell(
@@ -1112,7 +1109,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             ),
           ),
           TableCell(child: Container()),
-          TableCell(child: Text('---')),
         ]),
         TableRow(children: [
           TableCell(
@@ -1126,7 +1122,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             ),
           ),
           TableCell(child: Container()),
-          TableCell(child: Text('---')),
         ]),
         TableRow(children: [
           TableCell(child: Text('圧迫の深度の平均:', textAlign: TextAlign.right)),
@@ -1136,7 +1131,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               child: Text('${compDisp.toStringAsFixed(2)} インチ'),
             ),
           ),
-          TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
@@ -1148,11 +1142,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             ),
           ),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('症例全体')),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1160,11 +1152,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Text('症例の期間', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('CPRの時間', textAlign: TextAlign.right)),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1172,11 +1162,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Text('CPR以外の時間', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('CPR期間')),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1184,11 +1172,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Text('AutoPulse')),
         ]),
         TableRow(children: [
           TableCell(child: Text('圧迫の時間:', textAlign: TextAlign.right)),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1196,17 +1182,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Text('圧迫以外の時間:', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標範囲内の圧迫:', textAlign: TextAlign.right)),
           TableCell(child: Container()),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('圧迫深度:', textAlign: TextAlign.right)),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1220,7 +1203,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             ),
           ),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
@@ -1233,7 +1215,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
@@ -1246,7 +1227,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
@@ -1259,11 +1239,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('速度:', textAlign: TextAlign.right)),
-          TableCell(child: Container()),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
@@ -1277,7 +1255,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             ),
           ),
           TableCell(child: Container()),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
@@ -1290,7 +1267,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
@@ -1303,7 +1279,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
@@ -1316,7 +1291,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
               child: Text(
                   '(${(underCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-          TableCell(child: Container()),
         ]),
       ],
     );
