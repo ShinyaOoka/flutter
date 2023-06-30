@@ -101,7 +101,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'NumberOfDispatches_VALUE', report.totalCount?.toString() ?? '');
     result = result.replaceAll(
         'NumberOfDispatchesPerTeam_VALUE', report.teamCount?.toString() ?? '');
-    result = result.replaceAll('TeamName_VALUE', report.team?.name ?? '');
+    result = result.replaceAll('TeamName_VALUE',
+        report.team?.name?.characters.take(17).toString() ?? '');
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
