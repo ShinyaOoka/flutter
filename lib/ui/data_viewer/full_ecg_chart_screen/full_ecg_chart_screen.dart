@@ -789,6 +789,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                         });
                       }),
                   EcgChart(
+                    showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
                     cprCompressions: myCase!.cprCompressions,
                     initTimestamp:
