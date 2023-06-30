@@ -90,6 +90,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     Report report = _reportStore.selectingReport!;
     String extraCss =
         '.text-circle {border-radius: 100%;padding: 2px;border: 1px solid #000;text-align: center}';
+    result = result.replaceAll('□', '<span class="square"></span>');
     result = result.replaceAll('</style>', '$extraCss</style>');
 
     result = result.replaceAll('height:30.0pt', 'height:26pt');
@@ -486,6 +487,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       }
       ''';
     result = result.replaceAll('</style>', '$extraCss</style>');
+    result = result.replaceAll('□', '<span class="square"></span>');
 
     result = result.replaceAll('height:20.5pt', 'height:19pt');
     result = result.replaceAll('.5pt', '0.5pt');
