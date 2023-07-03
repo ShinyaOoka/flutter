@@ -300,6 +300,9 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     return FloatingActionButton(
       onPressed: () {
         _reportStore.selectingReport = Report();
+        _reportStore.selectingReport!.approver1 = _reportStore.lastApprover1;
+        _reportStore.selectingReport!.approver2 = _reportStore.lastApprover2;
+        _reportStore.selectingReport!.approver3 = _reportStore.lastApprover3;
         Navigator.of(context).pushNamed(ReportRoutes.reportCreateReport);
       },
       backgroundColor: Theme.of(context).primaryColor,

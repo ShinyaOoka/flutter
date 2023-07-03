@@ -33,6 +33,13 @@ abstract class _ReportStore with Store {
   @observable
   bool success = false;
 
+  @observable
+  String lastApprover1 = '';
+  @observable
+  String lastApprover2 = '';
+  @observable
+  String lastApprover3 = '';
+
   @computed
   bool get loading =>
       getReportsFuture.status == FutureStatus.pending ||
@@ -55,6 +62,9 @@ abstract class _ReportStore with Store {
   Future createReport(Report report) async {
     final future = _repository.createReport(report);
     createReportFuture = ObservableFuture(future);
+    lastApprover1 = report.approver1 ?? '';
+    lastApprover2 = report.approver2 ?? '';
+    lastApprover3 = report.approver3 ?? '';
 
     await future.catchError((error) {
       errorStore.errorMessage = error.toString();

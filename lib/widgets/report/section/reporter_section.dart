@@ -28,6 +28,9 @@ class _ReporterSectionState extends State<ReporterSection>
   final nameOfReporterController = TextEditingController();
   final affiliationOfReporterController = TextEditingController();
   final positionOfReporterController = TextEditingController();
+  final approver1Controller = TextEditingController();
+  final approver2Controller = TextEditingController();
+  final approver3Controller = TextEditingController();
 
   late ReactionDisposer reactionDisposer;
 
@@ -42,6 +45,12 @@ class _ReporterSectionState extends State<ReporterSection>
           reportStore.selectingReport!.affiliationOfReporter);
       syncControllerValue(positionOfReporterController,
           reportStore.selectingReport!.positionOfReporter);
+      syncControllerValue(
+          approver1Controller, reportStore.selectingReport!.approver1);
+      syncControllerValue(
+          approver2Controller, reportStore.selectingReport!.approver2);
+      syncControllerValue(
+          approver3Controller, reportStore.selectingReport!.approver3);
     });
   }
 
@@ -53,6 +62,7 @@ class _ReporterSectionState extends State<ReporterSection>
         children: [
           _buildLine1(reportStore.selectingReport!),
           _buildLine2(reportStore.selectingReport!),
+          _buildLine3(reportStore.selectingReport!),
         ],
       );
     });
@@ -110,6 +120,41 @@ class _ReporterSectionState extends State<ReporterSection>
         maxTime: DateTime.now(),
         readOnly: widget.readOnly,
         defaultDate: DateTime.now(),
+        optional: true,
+      ),
+    ]);
+  }
+
+  Widget _buildLine3(Report report) {
+    return lineLayout(children: [
+      AppTextField(
+        controller: approver1Controller,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        label: 'approver_1'.i18n(),
+        onChanged: (value) => report.approver1 = value,
+        maxLength: 5,
+        readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
+        optional: true,
+      ),
+      AppTextField(
+        controller: approver2Controller,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        label: 'approver_2'.i18n(),
+        onChanged: (value) => report.approver2 = value,
+        maxLength: 5,
+        readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
+        optional: true,
+      ),
+      AppTextField(
+        controller: approver3Controller,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
+        label: 'approver_3'.i18n(),
+        onChanged: (value) => report.approver3 = value,
+        maxLength: 5,
+        readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
         optional: true,
       ),
     ]);

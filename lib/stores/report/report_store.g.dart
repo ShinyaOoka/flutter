@@ -112,6 +112,54 @@ mixin _$ReportStore on _ReportStore, Store {
     });
   }
 
+  late final _$lastApprover1Atom =
+      Atom(name: '_ReportStore.lastApprover1', context: context);
+
+  @override
+  String get lastApprover1 {
+    _$lastApprover1Atom.reportRead();
+    return super.lastApprover1;
+  }
+
+  @override
+  set lastApprover1(String value) {
+    _$lastApprover1Atom.reportWrite(value, super.lastApprover1, () {
+      super.lastApprover1 = value;
+    });
+  }
+
+  late final _$lastApprover2Atom =
+      Atom(name: '_ReportStore.lastApprover2', context: context);
+
+  @override
+  String get lastApprover2 {
+    _$lastApprover2Atom.reportRead();
+    return super.lastApprover2;
+  }
+
+  @override
+  set lastApprover2(String value) {
+    _$lastApprover2Atom.reportWrite(value, super.lastApprover2, () {
+      super.lastApprover2 = value;
+    });
+  }
+
+  late final _$lastApprover3Atom =
+      Atom(name: '_ReportStore.lastApprover3', context: context);
+
+  @override
+  String get lastApprover3 {
+    _$lastApprover3Atom.reportRead();
+    return super.lastApprover3;
+  }
+
+  @override
+  set lastApprover3(String value) {
+    _$lastApprover3Atom.reportWrite(value, super.lastApprover3, () {
+      super.lastApprover3 = value;
+    });
+  }
+
   late final _$getReportsAsyncAction =
       AsyncAction('_ReportStore.getReports', context: context);
 
@@ -167,6 +215,9 @@ deleteReportFuture: ${deleteReportFuture},
 reports: ${reports},
 selectingReport: ${selectingReport},
 success: ${success},
+lastApprover1: ${lastApprover1},
+lastApprover2: ${lastApprover2},
+lastApprover3: ${lastApprover3},
 loading: ${loading}
     ''';
   }
