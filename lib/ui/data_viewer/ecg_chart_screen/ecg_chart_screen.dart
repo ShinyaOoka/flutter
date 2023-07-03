@@ -125,16 +125,16 @@ class _EcgChartScreenState extends State<EcgChartScreen>
                 label: 'クリックしたら拡大ECGへ移動',
                 value: expandOnTap,
                 onChanged: (x) => setState(() => expandOnTap = x ?? false)),
-            DropdownButton<String>(
-                value: chartType,
-                items: myCase!.waves.keys
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                    .toList(),
-                onChanged: (x) {
-                  setState(() {
-                    chartType = x!;
-                  });
-                }),
+            // DropdownButton<String>(
+            //     value: chartType,
+            //     items: myCase!.waves.keys
+            //         .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+            //         .toList(),
+            //     onChanged: (x) {
+            //       setState(() {
+            //         chartType = x!;
+            //       });
+            //     }),
             EcgChart(
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
