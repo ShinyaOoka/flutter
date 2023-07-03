@@ -334,7 +334,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       ..scale(scale);
     canvas.save();
     canvas.translate(0, gridSize / 2);
-    ChartPainter.drawText(canvas, "深さ(インチ)", Colors.black, gridSize,
+    ChartPainter.drawText(canvas, "深さ(${depthUnit == 'inch' ? 'インチ' : 'cm'})",
+        Colors.black, gridSize,
         textAlign: TextAlign.left);
     canvas.restore();
     canvas.save();
@@ -618,15 +619,17 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                 ]),
                 pw.TableRow(children: [
                   pw.Text('圧迫深度の平均'),
-                  pw.Text('${averageCompDisp().toStringAsFixed(2)} インチ'),
+                  pw.Text(
+                      '${averageCompDisp().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
                   _buildSummaryPdfBox(
-                      '${averageCompDisp().toStringAsFixed(2)} インチ'),
+                      '${averageCompDisp().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
                 ]),
                 pw.TableRow(children: [
                   pw.Text('圧迫速度の平均'),
-                  pw.Text('${averageCompRate().toStringAsFixed(2)} インチ'),
+                  pw.Text(
+                      '${averageCompRate().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
                   _buildSummaryPdfBox(
-                      '${averageCompRate().toStringAsFixed(2)} インチ'),
+                      '${averageCompRate().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
                 ]),
                 pw.TableRow(children: [
                   pw.Container(height: 20),
@@ -807,8 +810,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   _printDuration(Duration(
                       seconds: averageCprCompressionAfterShock().toInt())),
                   '---'),
-              _buildPdfRow('圧迫の深さの平均:',
-                  '${averageCompDisp().toStringAsFixed(2)} インチ', ''),
+              _buildPdfRow(
+                  '圧迫の深さの平均:',
+                  '${averageCompDisp().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}',
+                  ''),
               _buildPdfRow('圧迫速度の平均:',
                   '${averageCompRate().toStringAsFixed(2)} cpm', ''),
               pw.Container(height: 10),
@@ -830,11 +835,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               _buildPdfRow('圧迫以外の時間:', '', '---'),
               _buildPdfRow('目標範囲内の圧迫:', '', ''),
               pw.Container(height: 10),
-              _buildPdfRow('深度(目標ゾーン2 ~ 2.4 インチ):', '', ''),
+              _buildPdfRow(
+                  '深度(目標ゾーン${depthFrom.toStringAsFixed(1)} ~ ${depthTo.toStringAsFixed(1)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}):',
+                  '',
+                  ''),
               pw.Container(height: 10),
               _buildPdfRow(
                   '標準偏差:',
-                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ',
+                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => (depthUnit == 'inch' ? e.compDisp : e.compDisp * 2.54) / 1000).toList())).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}',
                   ''),
               _buildPdfRow('目標ゾーン超過:', overCompDispCount().toString(), '',
                   percent:
@@ -1049,14 +1057,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                             .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
                             .first;
                         depthTo = depthInchOptions
-                            .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
+                            .sortedBy<num>((e) => (depthTo / 2.54 - e).abs())
                             .first;
                       } else if (i == 'cm' && depthUnit == 'inch') {
                         depthFrom = depthCmOptions
                             .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
                             .first;
                         depthTo = depthCmOptions
-                            .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
+                            .sortedBy<num>((e) => (depthTo * 2.54 - e).abs())
                             .first;
                       }
                       depthUnit = i!;
@@ -1128,7 +1136,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: Text('${compDisp.toStringAsFixed(2)} インチ'),
+              child: Text(
+                  '${(depthUnit == 'inch' ? compDisp : compDisp * 2.54).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
             ),
           ),
           TableCell(child: Container()),
@@ -1138,7 +1147,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: Text('${compRate.toStringAsFixed(2)} インチ'),
+              child: Text(
+                  '${(depthUnit == 'inch' ? compRate : compRate * 2.54).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
             ),
           ),
           TableCell(child: Container()),
@@ -1199,7 +1209,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compDisp / 1000).toList())).toStringAsFixed(2)} インチ'),
+                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => (depthUnit == 'inch' ? e.compDisp : e.compDisp * 2.54) / 1000).toList())).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
             ),
           ),
           TableCell(child: Container()),
@@ -1300,14 +1310,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final averageCompRate = myCase!.cprCompressions.isNotEmpty
         ? myCase!.cprCompressions.map((e) => e.compRate).average
         : 0.0;
-    return averageCompRate;
+    return depthUnit == 'inch' ? averageCompRate : averageCompRate * 2.54;
   }
 
   double averageCompDisp() {
     final averageCompDisp = myCase!.cprCompressions.isNotEmpty
         ? myCase!.cprCompressions.map((e) => e.compDisp).average / 1000
         : 0.0;
-    return averageCompDisp;
+    return depthUnit == 'inch' ? averageCompDisp : averageCompDisp * 2.54;
   }
 
   double averageCprCompressionBeforeShock() {
