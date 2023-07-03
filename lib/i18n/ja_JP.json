@@ -165,11 +165,14 @@
   "other_reason_for_not_transferring": "その他不転送理由",
   "record_of_refusal_of_transfer": "搬送拒否処理記録",
 
-  "reporter": "報告者",
+  "reporter": "報告者、承認者",
   "name_of_reporter": "報告者氏名",
   "affiliation_of_reporter": "報告者所属",
   "position_of_reporter": "報告者階級",
   "date_of_emergency_report":"報告書作成日",
+  "approver_1":"承認者1",
+  "approver_2":"承認者2",
+  "approver_3":"承認者3",
 
   "remarks_section": "備考",
   "summary_of_occurrence": "発生概要及び現場到着時の状況と救急処置",

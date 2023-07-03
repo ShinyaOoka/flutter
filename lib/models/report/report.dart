@@ -504,6 +504,15 @@ abstract class _Report with Store {
   @JsonKey(name: "Remarks")
   String? remarks;
   @observable
+  @JsonKey(name: "Approver1")
+  String? approver1;
+  @observable
+  @JsonKey(name: "Approver2")
+  String? approver2;
+  @observable
+  @JsonKey(name: "Approver3")
+  String? approver3;
+  @observable
   String? entryName;
   @observable
   String? entryMachine;

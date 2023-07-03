@@ -236,6 +236,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 5, 45) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
+    result = result.replaceAll('Approver1_VALUE', report.approver1 ?? '');
+    result = result.replaceAll('Approver2_VALUE', report.approver2 ?? '');
+    result = result.replaceAll('Approver3_VALUE', report.approver3 ?? '');
     return result;
   }
 

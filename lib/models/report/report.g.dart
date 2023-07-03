@@ -228,6 +228,9 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       ? null
       : DateTime.parse(json['DateOfEmergencyReport'] as String)
   ..remarks = json['Remarks'] as String?
+  ..approver1 = json['Approver1'] as String?
+  ..approver2 = json['Approver2'] as String?
+  ..approver3 = json['Approver3'] as String?
   ..entryName = json['entryName'] as String?
   ..entryMachine = json['entryMachine'] as String?
   ..entryDate = json['EntryDate'] == null
@@ -454,6 +457,9 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'DateOfEmergencyReport':
           instance.dateOfEmergencyReport?.toIso8601String(),
       'Remarks': instance.remarks,
+      'Approver1': instance.approver1,
+      'Approver2': instance.approver2,
+      'Approver3': instance.approver3,
       'entryName': instance.entryName,
       'entryMachine': instance.entryMachine,
       'EntryDate': instance.entryDate?.toIso8601String(),
@@ -2758,6 +2764,54 @@ mixin _$Report on _Report, Store {
     });
   }
 
+  late final _$approver1Atom =
+      Atom(name: '_Report.approver1', context: context);
+
+  @override
+  String? get approver1 {
+    _$approver1Atom.reportRead();
+    return super.approver1;
+  }
+
+  @override
+  set approver1(String? value) {
+    _$approver1Atom.reportWrite(value, super.approver1, () {
+      super.approver1 = value;
+    });
+  }
+
+  late final _$approver2Atom =
+      Atom(name: '_Report.approver2', context: context);
+
+  @override
+  String? get approver2 {
+    _$approver2Atom.reportRead();
+    return super.approver2;
+  }
+
+  @override
+  set approver2(String? value) {
+    _$approver2Atom.reportWrite(value, super.approver2, () {
+      super.approver2 = value;
+    });
+  }
+
+  late final _$approver3Atom =
+      Atom(name: '_Report.approver3', context: context);
+
+  @override
+  String? get approver3 {
+    _$approver3Atom.reportRead();
+    return super.approver3;
+  }
+
+  @override
+  set approver3(String? value) {
+    _$approver3Atom.reportWrite(value, super.approver3, () {
+      super.approver3 = value;
+    });
+  }
+
   late final _$entryNameAtom =
       Atom(name: '_Report.entryName', context: context);
 
@@ -3296,6 +3350,9 @@ positionOfReporter: ${positionOfReporter},
 summaryOfOccurrence: ${summaryOfOccurrence},
 dateOfEmergencyReport: ${dateOfEmergencyReport},
 remarks: ${remarks},
+approver1: ${approver1},
+approver2: ${approver2},
+approver3: ${approver3},
 entryName: ${entryName},
 entryMachine: ${entryMachine},
 entryDate: ${entryDate},
