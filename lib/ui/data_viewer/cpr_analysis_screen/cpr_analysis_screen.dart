@@ -626,10 +626,9 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                 ]),
                 pw.TableRow(children: [
                   pw.Text('圧迫速度の平均'),
-                  pw.Text(
-                      '${averageCompRate().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
+                  pw.Text('${averageCompRate().toStringAsFixed(2)} cpm'),
                   _buildSummaryPdfBox(
-                      '${averageCompRate().toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
+                      '${averageCompRate().toStringAsFixed(2)} cpm'),
                 ]),
                 pw.TableRow(children: [
                   pw.Container(height: 20),
@@ -1147,8 +1146,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                  '${(depthUnit == 'inch' ? compRate : compRate * 2.54).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
+              child: Text('${compRate.toStringAsFixed(2)} cpm'),
             ),
           ),
           TableCell(child: Container()),
@@ -1310,7 +1308,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final averageCompRate = myCase!.cprCompressions.isNotEmpty
         ? myCase!.cprCompressions.map((e) => e.compRate).average
         : 0.0;
-    return depthUnit == 'inch' ? averageCompRate : averageCompRate * 2.54;
+    return averageCompRate;
   }
 
   double averageCompDisp() {
