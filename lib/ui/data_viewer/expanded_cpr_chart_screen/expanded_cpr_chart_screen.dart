@@ -201,6 +201,11 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTrendDataSummary(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                  textAlign: TextAlign.right),
+            ),
             myCase!.waves['Pads']!.samples.isNotEmpty
                 ? ExpandedEcgChart(
                     pads: myCase!.waves['Pads']!.samples,

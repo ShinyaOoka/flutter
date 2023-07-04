@@ -788,6 +788,11 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                           chartType = x!;
                         });
                       }),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                        textAlign: TextAlign.right),
+                  ),
                   EcgChart(
                     showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
