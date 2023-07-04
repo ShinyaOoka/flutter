@@ -8,6 +8,7 @@ import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded_cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
@@ -79,6 +80,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   Case? myCase;
   bool hasNewData = false;
   bool loading = false;
+  bool expandOnTap = false;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -770,6 +772,11 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  AppCheckbox(
+                      label: 'クリックしたら拡大ECGへ移動',
+                      value: expandOnTap,
+                      onChanged: (x) =>
+                          setState(() => expandOnTap = x ?? false)),
                   DropdownButton<String>(
                       value: chartType,
                       items: myCase!.waves.keys
@@ -782,6 +789,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                         });
                       }),
                   EcgChart(
+                    showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
                     cprCompressions: myCase!.cprCompressions,
                     initTimestamp:
@@ -794,10 +802,12 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                     minorInterval: minorInterval[chartType]!,
                     labelFormat: labelFormat[chartType]!,
                     onTap: (timestamp) {
-                      Navigator.of(context).pushNamed(
-                          DataViewerRoutes.dataViewerExpandedEcgChart,
-                          arguments: ExpandedCprChartScreenArguments(
-                              caseId: caseId, timestamp: timestamp));
+                      if (expandOnTap) {
+                        Navigator.of(context).pushNamed(
+                            DataViewerRoutes.dataViewerExpandedEcgChart,
+                            arguments: ExpandedCprChartScreenArguments(
+                                caseId: caseId, timestamp: timestamp));
+                      }
                     },
                   ),
                 ],

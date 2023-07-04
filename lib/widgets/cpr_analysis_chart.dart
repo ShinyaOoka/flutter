@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
+import 'package:collection/collection.dart';
 
 class DotBarPainter extends FlDotPainter {
   DotBarPainter({
@@ -136,6 +137,13 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
 
   @override
   Widget build(BuildContext context) {
+    final cprQualityDuration = cprQualities.map((e) {
+      if (e.length != 2) return 0;
+      final start = e[0].timestamp.clamp(minX * 1000000, maxX * 1000000);
+      final end = e[1].timestamp.clamp(minX * 1000000, maxX * 1000000);
+      return (end - start) / 1000000;
+    }).sum;
+    final cprQualityPercent = cprQualityDuration / (maxX - minX) * 100;
     return GestureDetector(
         // onDoubleTap: () {
         //   setState(() {
@@ -193,12 +201,35 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
           });
         },
         behavior: HitTestBehavior.translucent,
-        child: Column(children: [
-          buildShockChart(minX, maxX),
-          buildDepthChart(minX, maxX),
-          buildQualityChart(minX, maxX),
-          buildSpeedChart(minX, maxX)
-        ]));
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 48.0),
+              child: Text('ショックの要約',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            buildShockChart(minX, maxX),
+            Padding(
+              padding: const EdgeInsets.only(left: 48.0),
+              child: Text('深さ（${widget.depthUnit == 'inch' ? 'インチ' : 'cm'}）',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            buildDepthChart(minX, maxX),
+            Padding(
+              padding: const EdgeInsets.only(left: 48.0),
+              child: Text('圧迫の質：${cprQualityPercent.toStringAsFixed(2)}%',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            buildQualityChart(minX, maxX),
+            Padding(
+              padding: const EdgeInsets.only(left: 48.0),
+              child: Text('速度（cpm）',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            buildSpeedChart(minX, maxX)
+          ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+        ));
   }
 
   double getDepthMinScaled() {

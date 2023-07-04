@@ -90,6 +90,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     Report report = _reportStore.selectingReport!;
     String extraCss =
         '.text-circle {border-radius: 100%;padding: 2px;border: 1px solid #000;text-align: center}';
+    result = result.replaceAll('□', '<span class="square"></span>');
     result = result.replaceAll('</style>', '$extraCss</style>');
 
     result = result.replaceAll('height:30.0pt', 'height:26pt');
@@ -101,7 +102,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'NumberOfDispatches_VALUE', report.totalCount?.toString() ?? '');
     result = result.replaceAll(
         'NumberOfDispatchesPerTeam_VALUE', report.teamCount?.toString() ?? '');
-    result = result.replaceAll('TeamName_VALUE', report.team?.name ?? '');
+    result = result.replaceAll('TeamName_VALUE',
+        report.team?.name?.characters.take(17).toString() ?? '');
     result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
@@ -314,8 +316,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillTime(String template, String key, TimeOfDay? time) {
-    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '--');
-    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '--');
+    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '　　');
+    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '　　');
     return template;
   }
 
@@ -386,9 +388,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillToday(String template, {DateTime? date}) {
     if (date == null) {
-      template = template.replaceAll('GGYY', "");
-      template = template.replaceAll('MM', "");
-      template = template.replaceAll('DD', "");
+      template = template.replaceAll('GGYY', "　　　　");
+      template = template.replaceAll('MM', "　　");
+      template = template.replaceAll('DD', "　　");
     } else {
       template = template.replaceAll(
           'GGYY', yearToWareki(date.year, date.month, date.day));
@@ -488,6 +490,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       }
       ''';
     result = result.replaceAll('</style>', '$extraCss</style>');
+    result = result.replaceAll('□', '<span class="square"></span>');
 
     result = result.replaceAll('height:20.5pt', 'height:19pt');
     result = result.replaceAll('.5pt', '0.5pt');
@@ -648,21 +651,21 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceFirst('AccidentSummary',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
     result = result.replaceFirst('SenseTime',
-        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('CommandTime',
-        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('AttendanceTime',
-        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('On-siteArrivalTime',
-        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('ContactTime',
-        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('In-vehicleTime',
-        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('StartOfTransportTime',
-        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('HospitalArrivalTime',
-        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
         fillFalse: report.familyContact != null);
     result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
@@ -671,13 +674,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       result = result.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      result = result.replaceFirst('FamilyContactTime', '  --:--  ');
+      result = result.replaceFirst('FamilyContactTime', '  　　:　　  ');
     }
     if (report.policeContactTime != null) {
       result = result.replaceFirst('PoliceContactTime',
           '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      result = result.replaceFirst('PoliceContactTime', '  --:--  ');
+      result = result.replaceFirst('PoliceContactTime', '  　　:　　  ');
     }
     result = fillClassificationCheck(
         result,
@@ -702,7 +705,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         fillFalse: report.bystanderCpr != null);
     if (report.bystanderCprTime != null) {
       result = result.replaceFirst('BystanderCPR',
-          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     } else {
       result = result.replaceFirst('BystanderCPR', '');
     }
@@ -718,7 +721,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     for (int i = 0; i < 3; i++) {
       result = result.replaceFirst('ObservationTime${i + 1}',
-          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '--'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '--'}');
+          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '　　'}');
       result =
           result.replaceFirst('JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
       result = result.replaceFirst(
@@ -849,7 +852,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceFirst(
         'O2Administration', report.o2Administration?.toString() ?? '');
     result = result.replaceFirst('O2AdministrationTime',
-        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = fillCheck(result, 'LimitationOfSpinalMotion_CHECK',
         report.limitationOfSpinalMotionType != null);
     result = fillClassificationCheck(
@@ -870,13 +873,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceFirst(
         'BSMeasurement1', report.bsMeasurement1?.toString() ?? '');
     result = result.replaceFirst('BSMeasurementTime1',
-        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('PunctureSite1',
         report.punctureSite1?.characters.take(9).toString().toString() ?? '');
     result = result.replaceFirst(
         'BSMeasurement2', report.bsMeasurement2?.toString() ?? '');
     result = result.replaceFirst('BSMeasurementTime2',
-        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '　　'}');
     result = result.replaceFirst('PunctureSite2',
         report.punctureSite2?.characters.take(9).toString().toString() ?? '');
 
@@ -1254,28 +1257,28 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //29
     htmlInput = htmlInput.replaceFirst('SenseTime',
-        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //30
     htmlInput = htmlInput.replaceFirst('CommandTime',
-        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //31
     htmlInput = htmlInput.replaceFirst('AttendanceTime',
-        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //32
     htmlInput = htmlInput.replaceFirst('On-siteArrivalTime',
-        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //33
     htmlInput = htmlInput.replaceFirst('ContactTime',
-        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //34
     htmlInput = htmlInput.replaceFirst('In-vehicleTime',
-        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //35
     htmlInput = htmlInput.replaceFirst('StartOfTransportTime',
-        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //36
     htmlInput = htmlInput.replaceFirst('HospitalArrivalTime',
-        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //37
     if (report.familyContact == true) {
       htmlInput =
@@ -1297,7 +1300,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       htmlInput = htmlInput.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '  --:--  ');
+      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '  　　:　　  ');
     }
     //38
 
@@ -1321,7 +1324,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       htmlInput = htmlInput.replaceFirst('PoliceContactTime',
           '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '  --:--  ');
+      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '  　　:　　  ');
     }
 
     //39
@@ -1381,7 +1384,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     if (report.bystanderCprTime != null) {
       htmlInput = htmlInput.replaceFirst('BystanderCPR',
-          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+          '${report.bystanderCprTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bystanderCprTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     } else {
       htmlInput = htmlInput.replaceFirst('BystanderCPR', '');
     }
@@ -1465,7 +1468,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //71
     htmlInput = htmlInput.replaceFirst('O2AdministrationTime',
-        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '--'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
 
     //72
     if (report.limitationOfSpinalMotion != null &&
@@ -1533,7 +1536,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //82
     htmlInput = htmlInput.replaceFirst('BSMeasurementTime1',
-        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '　　'}');
 
     //83
     htmlInput = htmlInput.replaceFirst('PunctureSite1',
@@ -1551,7 +1554,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
     //86
     htmlInput = htmlInput.replaceFirst('BSMeasurementTime2',
-        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '--'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '--'}');
+        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '　　'}');
 
     //87
     htmlInput = htmlInput.replaceFirst('PunctureSite2',
@@ -1569,7 +1572,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     for (var i = 0; i < 3; i++) {
       //43
       htmlInput = htmlInput.replaceFirst('ObservationTime${i + 1}',
-          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '--'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '--'}');
+          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '　　'}');
       //44
       htmlInput = htmlInput.replaceFirst(
           'JCS${i + 1}', report.jcsTypes[i]?.value ?? '');

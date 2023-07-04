@@ -481,10 +481,11 @@ class _ListEventScreenState extends State<ListEventScreen>
               child: Row(children: [
                 Expanded(
                   flex: 0,
-                  child: Text(
-                    "${index + 1}回目取得結果",
-                    style: titleStyle,
-                  ),
+                  // child: Text(
+                  //   "${index + 1}回目取得結果",
+                  //   style: titleStyle,
+                  // ),
+                  child: Container(),
                 ),
                 const SizedBox(width: 16),
                 trendData[index].time != null

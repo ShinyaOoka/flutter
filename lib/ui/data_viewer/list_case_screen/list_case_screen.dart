@@ -93,27 +93,27 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
       CaseListItem(
           caseId: 'AR16D018896-20230227-161027-3131',
           startTime: "2023-02-22T14:39:20",
-          endTime: "2024-02-02T06:29:04"),
+          endTime: "2023-02-22T15:45:36"),
       CaseListItem(
           caseId: 'AR16D018896-20230227-161639-3132',
           startTime: "2023-02-22T15:45:36",
-          endTime: "2024-02-02T06:29:04"),
+          endTime: "2023-02-22T15:53:55"),
       CaseListItem(
           caseId: 'AR16D018896-20230227-161728-3133',
           startTime: "2023-02-22T15:53:55",
-          endTime: "2024-02-02T06:29:04"),
+          endTime: "2023-02-22T16:03:56"),
       CaseListItem(
           caseId: 'AR16D018896-20230227-161849-3134',
           startTime: "2023-02-22T16:03:56",
-          endTime: "2024-02-02T06:29:04"),
+          endTime: "2023-02-22T16:11:10"),
       CaseListItem(
           caseId: 'AR16D018896-20230227-161938-3135',
           startTime: "2023-02-22T16:11:10",
-          endTime: "2024-02-02T06:29:04"),
+          endTime: "2023-02-27T16:06:38"),
       CaseListItem(
           caseId: 'AR16D018896-20230322-143534-3141',
           startTime: "2023-03-13T12:34:51",
-          endTime: "2024-02-02T06:29:04")
+          endTime: "2023-03-15T17:57:45")
     ];
     _hostApi.deviceGetCaseList(device!, null);
   }
