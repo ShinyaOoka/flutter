@@ -235,6 +235,8 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
         childAspectRatio: 1.6,
         children: [
           Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            padding: EdgeInsets.all(4),
             child: Column(children: [
               Text('NIBP'),
               Text(
@@ -246,6 +248,8 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             ]),
           ),
           Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            padding: EdgeInsets.all(4),
             child: Column(children: [
               Text("CO2"),
               Text(
@@ -257,6 +261,8 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             ]),
           ),
           Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            padding: EdgeInsets.all(4),
             child: Column(children: [
               Text("SpO2"),
               Text(
@@ -267,11 +273,21 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
                   "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
             ]),
           ),
-          Container(),
-          Container(),
-          Container(),
-          Container(),
           Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          ),
+          Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          ),
+          Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          ),
+          Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          ),
+          Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            padding: EdgeInsets.all(4),
             child: Column(children: [
               Text(
                   "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
@@ -283,8 +299,12 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
                   "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
             ]),
           ),
-          Container(),
           Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+          ),
+          Container(
+            decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+            padding: EdgeInsets.all(4),
             child: Column(children: [
               Text("CPR"),
               Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
