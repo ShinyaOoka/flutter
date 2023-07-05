@@ -106,7 +106,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        title: const Text("全体ECG"),
+        title: const Text("ECG全体"),
         onTap: () {
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerFullEcgEvent,

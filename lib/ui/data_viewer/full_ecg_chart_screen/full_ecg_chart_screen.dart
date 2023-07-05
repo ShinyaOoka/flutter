@@ -732,7 +732,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "全体ECG",
+      title: "ECG全体",
       actions: _buildActions(),
     );
   }
@@ -799,7 +799,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                     cprCompressions: myCase!.cprCompressions,
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 4,
+                    segments: 5,
                     initDuration: Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,
