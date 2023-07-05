@@ -80,7 +80,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "12誘導表示",
+      title: "12誘導",
       actions: _buildActions(),
     );
   }
