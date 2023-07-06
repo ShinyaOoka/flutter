@@ -479,7 +479,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
-                      RegExp(r'^[0-9]{0,3}(\.[0-9]?)?')),
+                      RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
                   FilteringTextInputFormatter.singleLineFormatter,
                 ],
                 counterText: 'mm'.i18n(),
@@ -503,7 +503,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
-                      RegExp(r'^[0-9]{0,3}(\.[0-9]?)?')),
+                      RegExp(r'^[0-9]{0,2}(\.[0-9]?)?')),
                   FilteringTextInputFormatter.singleLineFormatter,
                 ],
                 counterText: 'mm'.i18n(),
