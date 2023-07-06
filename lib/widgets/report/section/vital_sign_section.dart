@@ -471,38 +471,50 @@ class _VitalSignSectionState extends State<VitalSignSection>
       Row(
         children: [
           Expanded(
-            child: AppTextField(
-              label: 'pupil_right'.i18n(),
-              controller: pupilRightController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              onChanged: (value) =>
-                  report.pupilRight?[widget.index] = int.tryParse(value),
-              counterText: 'mm'.i18n(),
-              counterColor: Theme.of(context).primaryColor,
-              readOnly: widget.readOnly,
-              maxLength: 3,
+            child: Focus(
+              child: AppTextField(
+                label: 'pupil_right'.i18n(),
+                controller: pupilRightController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^[0-9]{0,3}(\.[0-9]?)?')),
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                counterText: 'mm'.i18n(),
+                counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
+              ),
+              onFocusChange: (hasFocus) {
+                if (hasFocus) return;
+                report.pupilRight?[widget.index] =
+                    double.tryParse(pupilRightController.text);
+              },
             ),
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: AppTextField(
-              label: 'pupil_left'.i18n(),
-              controller: pupilLeftController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                FilteringTextInputFormatter.singleLineFormatter
-              ],
-              onChanged: (value) =>
-                  report.pupilLeft?[widget.index] = int.tryParse(value),
-              counterText: 'mm'.i18n(),
-              counterColor: Theme.of(context).primaryColor,
-              maxLength: 3,
-              readOnly: widget.readOnly,
+            child: Focus(
+              child: AppTextField(
+                label: 'pupil_left'.i18n(),
+                controller: pupilLeftController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^[0-9]{0,3}(\.[0-9]?)?')),
+                  FilteringTextInputFormatter.singleLineFormatter,
+                ],
+                counterText: 'mm'.i18n(),
+                counterColor: Theme.of(context).primaryColor,
+                readOnly: widget.readOnly,
+              ),
+              onFocusChange: (hasFocus) {
+                if (hasFocus) return;
+                report.pupilLeft?[widget.index] =
+                    double.tryParse(pupilLeftController.text);
+              },
             ),
           ),
         ],

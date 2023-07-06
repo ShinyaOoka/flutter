@@ -123,10 +123,10 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['SpO2Percent'], const ListIntConverter().fromJson)
   ..spO2Liter = _$JsonConverterFromJson<String, ObservableList<double?>>(
       json['SpO2Liter'], const ListDoubleConverter().fromJson)
-  ..pupilRight = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['PupilRight'], const ListIntConverter().fromJson)
-  ..pupilLeft = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['PupilLeft'], const ListIntConverter().fromJson)
+  ..pupilRight = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['PupilRight'], const ListDoubleConverter().fromJson)
+  ..pupilLeft = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['PupilLeft'], const ListDoubleConverter().fromJson)
   ..lightReflexRight = _$JsonConverterFromJson<String, ObservableList<bool?>>(
       json['LightReflexRight'], const ListBoolConverter().fromJson)
   ..lightReflexLeft = _$JsonConverterFromJson<String, ObservableList<bool?>>(
@@ -354,10 +354,10 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.spO2Percent, const ListIntConverter().toJson),
       'SpO2Liter': _$JsonConverterToJson<String, ObservableList<double?>>(
           instance.spO2Liter, const ListDoubleConverter().toJson),
-      'PupilRight': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.pupilRight, const ListIntConverter().toJson),
-      'PupilLeft': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.pupilLeft, const ListIntConverter().toJson),
+      'PupilRight': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.pupilRight, const ListDoubleConverter().toJson),
+      'PupilLeft': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.pupilLeft, const ListDoubleConverter().toJson),
       'LightReflexRight': _$JsonConverterToJson<String, ObservableList<bool?>>(
           instance.lightReflexRight, const ListBoolConverter().toJson),
       'LightReflexLeft': _$JsonConverterToJson<String, ObservableList<bool?>>(
@@ -1766,13 +1766,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.pupilRight', context: context);
 
   @override
-  ObservableList<int?>? get pupilRight {
+  ObservableList<double?>? get pupilRight {
     _$pupilRightAtom.reportRead();
     return super.pupilRight;
   }
 
   @override
-  set pupilRight(ObservableList<int?>? value) {
+  set pupilRight(ObservableList<double?>? value) {
     _$pupilRightAtom.reportWrite(value, super.pupilRight, () {
       super.pupilRight = value;
     });
@@ -1782,13 +1782,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.pupilLeft', context: context);
 
   @override
-  ObservableList<int?>? get pupilLeft {
+  ObservableList<double?>? get pupilLeft {
     _$pupilLeftAtom.reportRead();
     return super.pupilLeft;
   }
 
   @override
-  set pupilLeft(ObservableList<int?>? value) {
+  set pupilLeft(ObservableList<double?>? value) {
     _$pupilLeftAtom.reportWrite(value, super.pupilLeft, () {
       super.pupilLeft = value;
     });

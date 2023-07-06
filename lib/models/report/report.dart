@@ -283,13 +283,13 @@ abstract class _Report with Store {
   @JsonKey(name: "SpO2Liter")
   ObservableList<double?>? spO2Liter;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "PupilRight")
-  ObservableList<int?>? pupilRight;
+  ObservableList<double?>? pupilRight;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "PupilLeft")
-  ObservableList<int?>? pupilLeft;
+  ObservableList<double?>? pupilLeft;
   @observable
   @ListBoolConverter()
   @JsonKey(name: "LightReflexRight")
