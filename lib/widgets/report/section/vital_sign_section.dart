@@ -429,8 +429,11 @@ class _VitalSignSectionState extends State<VitalSignSection>
             child: AppTextField(
               label: 'sp_o2_percent'.i18n(),
               controller: spO2PercentController,
-              onChanged: (x) => reportStore.selectingReport!
-                  .spO2Percent?[widget.index] = int.tryParse(x),
+              onChanged: (x) {
+                final result = int.tryParse(x);
+                reportStore.selectingReport!.spO2Percent?[widget.index] =
+                    result != null && result > 100 ? 100 : result;
+              },
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
