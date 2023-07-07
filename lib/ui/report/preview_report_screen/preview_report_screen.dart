@@ -88,10 +88,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillAmbulanceData(String template) {
     String result = template;
     Report report = _reportStore.selectingReport!;
-    String extraCss =
-        '.text-circle {border-radius: 100%;padding: 2px;border: 1px solid #000;text-align: center}';
+    result = addCss(result);
     result = result.replaceAll('□', '<span class="square"></span>');
-    result = result.replaceAll('</style>', '$extraCss</style>');
 
     result = result.replaceAll('height:30.0pt', 'height:26pt');
     result = result.replaceAll('.5pt', '0.5pt');
@@ -279,8 +277,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillCheck(String template, String key, bool checked) {
     if (checked) {
-      template =
-          template.replaceFirst(key, '<span class="square-black"></span>');
+      template = template.replaceFirst(
+          key, '<span class="square-black"><span class="tick">✔</span></span>');
     } else {
       template = template.replaceFirst(key, '<span class="square"></span>');
     }
@@ -454,9 +452,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return tempTELs.map((e) => e.split('').reversed.join('')).toList();
   }
 
-  String fillCertificateData(String template) {
-    String result = template;
-    Report report = _reportStore.selectingReport!;
+  String addCss(String template) {
     String extraCss = '''
       .square {
           display: inline-block;
@@ -476,9 +472,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           margin-left: 2px;
           margin-right: 2px;
           border: 1px black solid;
-          background: black;
           vertical-align: middle;
           margin-bottom: 4px;
+          position: relative;
+      }
+
+      .square-black .tick {
+          position: absolute;
+          top: -6px;
+          left: 2px;
+          color: blue;
       }
 
       .text-circle {
@@ -489,7 +492,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           text-align: center
       }
       ''';
-    result = result.replaceAll('</style>', '$extraCss</style>');
+    return template.replaceAll('</style>', '$extraCss</style>');
+  }
+
+  String fillCertificateData(String template) {
+    String result = template;
+    Report report = _reportStore.selectingReport!;
+
+    result = addCss(result);
     result = result.replaceAll('□', '<span class="square"></span>');
 
     result = result.replaceAll('height:20.5pt', 'height:19pt');
