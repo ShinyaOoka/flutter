@@ -233,7 +233,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark',
-        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 5, 45) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 10, 47) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     result = result.replaceAll('Approver1_VALUE', report.approver1 ?? '');
