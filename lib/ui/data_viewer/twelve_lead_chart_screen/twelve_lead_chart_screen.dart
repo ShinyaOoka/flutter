@@ -467,58 +467,163 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("Patient Name: ${twelveLead!.patientData.firstName}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("Patient Age: ${twelveLead!.patientData.age}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("Patient Sex: ${twelveLead!.patientData.sex}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("Patient Id: ${twelveLead!.patientData.patientId}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("HR: ${twelveLead!.heartRate}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("PR Interval: ${twelveLead!.prInt} ms"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text("QRS Duration: ${twelveLead!.qrsDur} ms"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child:
-                Text("QT/QTc: ${twelveLead!.qtInt}/${twelveLead!.corrQtInt}"),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
-                "P-R-T Axis: ${twelveLead!.pAxis} ${twelveLead!.qrsAxis} ${twelveLead!.tAxis}"),
-          ),
-          ...twelveLead!.statements.map((x) => Container(
-                padding: EdgeInsets.all(8),
-                child: Text(x),
-              )),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Text(
-                "STJ: I: ${twelveLead!.stValues[0] / 100} II: ${twelveLead!.stValues[1] / 100} III: ${twelveLead!.stValues[2] / 100} aVR: ${twelveLead!.stValues[3] / 100} aVL: ${twelveLead!.stValues[4] / 100} aVF: ${twelveLead!.stValues[5] / 100} V1: ${twelveLead!.stValues[6] / 100} V2: ${twelveLead!.stValues[7] / 100} V3: ${twelveLead!.stValues[8] / 100} V4: ${twelveLead!.stValues[9] / 100} V5: ${twelveLead!.stValues[10] / 100} V6: ${twelveLead!.stValues[11] / 100}"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildInfoLine(
+                    'Patient Name', '${twelveLead!.patientData.firstName}'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildInfoLine(
+                          'Patient Age', '${twelveLead!.patientData.age}'),
+                    ),
+                    Expanded(
+                      child: _buildInfoLine(
+                          'Patient Sex', '${twelveLead!.patientData.sex}'),
+                    ),
+                    Expanded(
+                      child: _buildInfoLine(
+                          'Patient Id', '${twelveLead!.patientData.patientId}'),
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child:
+                            _buildInfoLine('HR', '${twelveLead!.heartRate}')),
+                    Expanded(
+                        child: _buildInfoLine(
+                            'PR Interval', '${twelveLead!.prInt} ms')),
+                    Expanded(child: Container()),
+                    Expanded(child: Container()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: _buildInfoLine(
+                            'QRS Duration', '${twelveLead!.qrsDur} ms')),
+                    Expanded(
+                      child: _buildInfoLine('QT/QTc',
+                          '${twelveLead!.qtInt}/${twelveLead!.corrQtInt}'),
+                    ),
+                    Expanded(
+                      child: _buildInfoLine('P-R-T Axis',
+                          '${twelveLead!.pAxis} ${twelveLead!.qrsAxis} ${twelveLead!.tAxis}'),
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+                _buildInfoLine('Statements', ''),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...twelveLead!.statements
+                          .map((x) => _buildInfoLine('', x))
+                    ],
+                  ),
+                ),
+                _buildInfoLine('STJ', ''),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildInfoLine(
+                                'I', '${twelveLead!.stValues[0] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'aVR', '${twelveLead!.stValues[3] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V1', '${twelveLead!.stValues[6] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V4', '${twelveLead!.stValues[9] / 100}'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildInfoLine(
+                                'II', '${twelveLead!.stValues[1] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'aVL', '${twelveLead!.stValues[4] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V2', '${twelveLead!.stValues[7] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V5', '${twelveLead!.stValues[10] / 100}'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildInfoLine(
+                                'III', '${twelveLead!.stValues[2] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'aVF', '${twelveLead!.stValues[5] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V3', '${twelveLead!.stValues[8] / 100}'),
+                          ),
+                          Expanded(
+                            child: _buildInfoLine(
+                                'V6', '${twelveLead!.stValues[11] / 100}'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           TwelveLeadChart(
             data: twelveLead!,
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoLine(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+      child: RichText(
+          textAlign: TextAlign.left,
+          text: TextSpan(style: TextStyle(color: Colors.black), children: [
+            title != ''
+                ? TextSpan(
+                    text: '${title}: ',
+                    style: TextStyle(fontWeight: FontWeight.bold))
+                : TextSpan(),
+            TextSpan(text: content),
+          ])),
     );
   }
 }

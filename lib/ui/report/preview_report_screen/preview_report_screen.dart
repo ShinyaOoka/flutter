@@ -808,11 +808,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result, 'LightReflexRight_$i', report.lightReflexRight?[i]);
       result = result.replaceFirst('BodyTemperature${i + 1}',
           report.bodyTemperature?[i]?.toString() ?? '');
-      result = fillClassificationCircle(
-          result,
-          'FacialFeatures_$i',
-          getClassifications(AppConstants.facialFeaturesCode),
-          report.facialFeatureTypes[i]?.classificationSubCd);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_000', "正常",
+          report.facialFeaturesNormal?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_001', "紅潮",
+          report.facialFeaturesFlush?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_002', "蒼白",
+          report.facialFeaturesPale?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_003', "チアノーゼ",
+          report.facialFeaturesCyanosis?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_004', "発汗",
+          report.facialFeaturesDiaphoresis?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_005', "苦悶",
+          report.facialFeaturesAnguish?[i] == true);
       final hemorrhage = report.hemorrhage
           ?.firstWhereIndexedOrNull((index, element) => index == i)
           ?.characters
@@ -1700,38 +1707,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       //56
       htmlInput = htmlInput.replaceFirst('BodyTemperature${i + 1}',
           report.bodyTemperature?[i]?.toString() ?? '');
-      //57
-      if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '000') {
-        htmlInput = customReplace(
-            htmlInput, '正常', i + 1, '<span class="text-circle">正常</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '001') {
-        htmlInput = customReplace(
-            htmlInput, '紅潮', i + 1, '<span class="text-circle">紅潮</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '002') {
-        htmlInput = customReplace(
-            htmlInput, '蒼白', i + 1, '<span class="text-circle">蒼白</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '003') {
-        htmlInput = customReplace(htmlInput, 'チアノーゼ', i + 1,
-            '<span class="text-circle">チアノーゼ</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '004') {
-        htmlInput = customReplace(
-            htmlInput, '発汗', i + 1, '<span class="text-circle">発汗</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '005') {
-        htmlInput = customReplace(
-            htmlInput, '苦悶', i + 1, '<span class="text-circle">苦悶</span>');
-      }
       //58
       final hemorrhage = report.hemorrhage
           ?.firstWhereIndexedOrNull((index, element) => index == i)
