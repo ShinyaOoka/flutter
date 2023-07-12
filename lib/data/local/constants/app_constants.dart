@@ -33,6 +33,7 @@ class AppConstants {
   static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();
+  static final timeHmFormat = DateFormat.Hm();
 
   static const reportCertificateTemplatePath =
       'assets/template/certificate.html';

@@ -324,10 +324,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       template = template.replaceAll(
           '${key}_GGYY', yearToWareki(date.year, date.month, date.day));
     } else {
-      template = template.replaceAll('${key}_GGYY', "");
+      template = template.replaceAll('${key}_GGYY', "　　　");
     }
-    template = template.replaceAll('${key}_MM', date?.month.toString() ?? '');
-    template = template.replaceAll('${key}_DD', date?.day.toString() ?? '');
+    template = template.replaceAll('${key}_MM', date?.month.toString() ?? '　');
+    template = template.replaceAll('${key}_DD', date?.day.toString() ?? '　');
     template =
         template.replaceAll('${key}_DW', weekdayToJapanese(date?.weekday));
     return template;
@@ -364,7 +364,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String weekdayToJapanese(int? weekday) {
-    if (weekday == null) return '';
+    if (weekday == null) return '　　';
     switch (weekday) {
       case 1:
         return '月';
@@ -381,7 +381,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       case 7:
         return '日';
     }
-    return '';
+    return '　　';
   }
 
   String fillToday(String template, {DateTime? date}) {
