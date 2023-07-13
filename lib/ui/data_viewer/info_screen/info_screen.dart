@@ -261,22 +261,24 @@ class _InfoScreenState extends State<InfoScreen>
               AppTextField(
                 label: '身長',
                 readOnly: true,
-                controller: TextEditingController(
-                    text: myCase!.caseSummary
-                            .rawData['PatientData']['Height']['#text']
-                            .toString() +
-                        myCase!.caseSummary.rawData['PatientData']['Height']
-                            ['@Units']),
+                // controller: TextEditingController(
+                //     text: myCase!.caseSummary
+                //             .rawData['PatientData']['Height']['#text']
+                //             .toString() +
+                //         myCase!.caseSummary.rawData['PatientData']['Height']
+                //             ['@Units']),
+                controller: TextEditingController(text: ""),
               ),
               AppTextField(
                 label: '体重',
                 readOnly: true,
-                controller: TextEditingController(
-                    text: myCase!.caseSummary
-                            .rawData['PatientData']['Weight']['#text']
-                            .toString() +
-                        myCase!.caseSummary.rawData['PatientData']['Weight']
-                            ['@Units']),
+                // controller: TextEditingController(
+                //     text: myCase!.caseSummary
+                //             .rawData['PatientData']['Weight']['#text']
+                //             .toString() +
+                //         myCase!.caseSummary.rawData['PatientData']['Weight']
+                //             ['@Units']),
+                controller: TextEditingController(text: ""),
               ),
             ],
           ),

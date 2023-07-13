@@ -485,7 +485,6 @@ class _ListEventScreenState extends State<ListEventScreen>
                     "${index + 1}回目取得結果",
                     style: titleStyle,
                   ),
-                  // child: Container(),
                 ),
                 const SizedBox(width: 16),
                 trendData[index].time != null
