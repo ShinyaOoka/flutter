@@ -33,6 +33,7 @@ class AppConstants {
   static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
   static final timeFormat = DateFormat.Hms();
+  static final timeHmFormat = DateFormat.Hm();
 
   static const reportCertificateTemplatePath =
       'assets/template/certificate.html';
@@ -43,7 +44,7 @@ class AppConstants {
   static const doNotShowDeleteDialogAgainDate =
       'doNotShowDeleteDialogAgainDate';
 
-  static const autoDeleteReportAfterDays = 5;
+  static const autoDeleteReportAfterDays = 10;
 
   static final eras = [
     Era(name: '明治', start: DateTime(1868, 9, 4), end: DateTime(1912, 7, 30)),

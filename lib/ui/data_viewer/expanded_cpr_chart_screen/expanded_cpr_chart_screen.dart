@@ -201,6 +201,11 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTrendDataSummary(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                  textAlign: TextAlign.right),
+            ),
             myCase!.waves['Pads']!.samples.isNotEmpty
                 ? ExpandedEcgChart(
                     pads: myCase!.waves['Pads']!.samples,
@@ -224,70 +229,154 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     final cprCompression = myCase!.cprCompressions
         .lastWhereOrNull((e) => e.timestamp <= timestamp);
     return Container(
-      height: 200,
-      child: GridView.count(
-        crossAxisCount: 5,
-        childAspectRatio: 1.6,
-        children: [
-          Container(
-            child: Column(children: [
-              Text('NIBP'),
-              Text(
-                  "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "Dia: ${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "Sys: ${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}")
-            ]),
-          ),
-          Container(
-            child: Column(children: [
-              Text("CO2"),
-              Text(
-                  "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "BR: ${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "Fico2: ${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}")
-            ]),
-          ),
-          Container(
-            child: Column(children: [
-              Text("SpO2"),
-              Text(
-                  "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
-            ]),
-          ),
-          Container(),
-          Container(),
-          Container(),
-          Container(),
-          Container(
-            child: Column(children: [
-              Text(
-                  "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "SpOC: ${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}"),
-              Text(
-                  "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
-            ]),
-          ),
-          Container(),
-          Container(
-            child: Column(children: [
-              Text("CPR"),
-              Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
-              Text("${cprCompression?.compRate} cpm"),
-            ]),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+      child: Column(children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                  bottom: BorderSide(color: Colors.blue),
+                )),
+                padding: EdgeInsets.all(4),
+                child: Column(children: [
+                  Text('NIBP'),
+                  Text(
+                      "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "Dia: ${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "Sys: ${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}")
+                ]),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                  bottom: BorderSide(color: Colors.blue),
+                )),
+                padding: EdgeInsets.all(4),
+                child: Column(children: [
+                  Text("CO2"),
+                  Text(
+                      "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "BR: ${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "Fico2: ${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}")
+                ]),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                  bottom: BorderSide(color: Colors.blue),
+                )),
+                padding: EdgeInsets.all(4),
+                child: Column(children: [
+                  Text("SpO2"),
+                  Text(
+                      "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
+                ]),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                  bottom: BorderSide(color: Colors.blue),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  bottom: BorderSide(color: Colors.blue),
+                )),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                )),
+                padding: EdgeInsets.all(4),
+                child: Column(children: [
+                  Text(
+                      "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "SpOC: ${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}"),
+                  Text(
+                      "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
+                ]),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                decoration: BoxDecoration(
+                    border: Border(
+                  right: BorderSide(color: Colors.blue),
+                )),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 84,
+                padding: EdgeInsets.all(4),
+                child: Column(children: [
+                  Text("CPR"),
+                  Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
+                  Text("${cprCompression?.compRate} cpm"),
+                ]),
+              ),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }

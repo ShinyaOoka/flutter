@@ -1000,6 +1000,12 @@ class SeedData {
       "Description": "程度"
     },
     {
+      "ClassificationCD": "016",
+      "ClassificationSubCD": "004",
+      "Value": "―",
+      "Description": "程度"
+    },
+    {
       "ClassificationCD": "017",
       "ClassificationSubCD": "000",
       "Value": "消防副士長",

@@ -330,37 +330,64 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Wrap(
-              spacing: 8,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
-                Text(
-                    "| Etco2 ${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}"),
-                Text(
-                    "| Fico2 ${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}"),
-                Text("HR ${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}"),
-                Text(
-                    "| nibpDia ${snapshot.trend.nibpDia.value} ${snapshot.trend.nibpDia.unit}"),
-                Text(
-                    "| nibpMap ${snapshot.trend.nibpMap.value} ${snapshot.trend.nibpMap.unit}"),
-                Text(
-                    "| nibpSys ${snapshot.trend.nibpSys.value} ${snapshot.trend.nibpSys.unit}"),
-                Text("PI ${snapshot.trend.pI.value} ${snapshot.trend.pI.unit}"),
-                Text(
-                    "| PVI ${snapshot.trend.pVI.value} ${snapshot.trend.pVI.unit}"),
-                Text(
-                    "| resp ${snapshot.trend.resp.value} ${snapshot.trend.resp.unit}"),
-                Text(
-                    "| spCo ${snapshot.trend.spCo.value} ${snapshot.trend.spCo.unit}"),
-                Text(
-                    "| spHb ${snapshot.trend.spHb.value} ${snapshot.trend.spHb.unit}"),
-                Text(
-                    "| spMet ${snapshot.trend.spMet.value} ${snapshot.trend.spMet.unit}"),
-                Text(
-                    "| spOC ${snapshot.trend.spOC.value} ${snapshot.trend.spOC.unit}"),
-                Text(
-                    "| spo2 ${snapshot.trend.spo2.value} ${snapshot.trend.spo2.unit}"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildInfoLine('Etco2',
+                        '${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}'),
+                    _buildInfoLine('Fico2',
+                        '${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}'),
+                    _buildInfoLine('HR',
+                        '${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildInfoLine('nibpDia',
+                        '${snapshot.trend.nibpDia.value} ${snapshot.trend.nibpDia.unit}'),
+                    _buildInfoLine('nibpMap',
+                        '${snapshot.trend.nibpMap.value} ${snapshot.trend.nibpMap.unit}'),
+                    _buildInfoLine('nibpSys',
+                        '${snapshot.trend.nibpSys.value} ${snapshot.trend.nibpSys.unit}'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildInfoLine('PI',
+                        '${snapshot.trend.pI.value} ${snapshot.trend.pI.unit}'),
+                    _buildInfoLine('PVI',
+                        '${snapshot.trend.pVI.value} ${snapshot.trend.pVI.unit}'),
+                    _buildInfoLine('Resp',
+                        '${snapshot.trend.resp.value} ${snapshot.trend.resp.unit}'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildInfoLine('spCo',
+                        '${snapshot.trend.spCo.value} ${snapshot.trend.spCo.unit}'),
+                    _buildInfoLine('spHb',
+                        '${snapshot.trend.spHb.value} ${snapshot.trend.spHb.unit}'),
+                    _buildInfoLine('spMet',
+                        '${snapshot.trend.spMet.value} ${snapshot.trend.spMet.unit}'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildInfoLine('spOC',
+                        '${snapshot.trend.spOC.value} ${snapshot.trend.spOC.unit}'),
+                    _buildInfoLine('spo2',
+                        '${snapshot.trend.spo2.value} ${snapshot.trend.spo2.unit}'),
+                    Expanded(child: Container()),
+                  ],
+                ),
               ],
             ),
           ),
@@ -413,6 +440,22 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
                 )
               : Container()
         ],
+      ),
+    );
+  }
+
+  Expanded _buildInfoLine(String title, String content) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        child: RichText(
+            textAlign: TextAlign.left,
+            text: TextSpan(style: TextStyle(color: Colors.black), children: [
+              TextSpan(
+                  text: '${title}: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: content),
+            ])),
       ),
     );
   }

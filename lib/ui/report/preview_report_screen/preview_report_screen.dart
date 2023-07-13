@@ -88,10 +88,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillAmbulanceData(String template) {
     String result = template;
     Report report = _reportStore.selectingReport!;
-    String extraCss =
-        '.text-circle {border-radius: 100%;padding: 2px;border: 1px solid #000;text-align: center}';
+    result = addCss(result);
     result = result.replaceAll('□', '<span class="square"></span>');
-    result = result.replaceAll('</style>', '$extraCss</style>');
 
     result = result.replaceAll('height:30.0pt', 'height:26pt');
     result = result.replaceAll('.5pt', '0.5pt');
@@ -235,7 +233,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           'OtherProcess7_${i}_VALUE', report.otherProcess7?[i] ?? '');
     }
     result = result.replaceAll('Remark',
-        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 5, 45) ?? ''}</div>');
+        '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.remarks, 10, 47) ?? ''}</div>');
     result = fillBoolCircle(
         result, 'RecordOfRefusalOfTransfer', report.recordOfRefusalOfTransfer);
     result = result.replaceAll('Approver1_VALUE', report.approver1 ?? '');
@@ -279,8 +277,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillCheck(String template, String key, bool checked) {
     if (checked) {
-      template =
-          template.replaceFirst(key, '<span class="square-black"></span>');
+      template = template.replaceFirst(
+          key, '<span class="square-black"><span class="tick">✔</span></span>');
     } else {
       template = template.replaceFirst(key, '<span class="square"></span>');
     }
@@ -326,10 +324,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       template = template.replaceAll(
           '${key}_GGYY', yearToWareki(date.year, date.month, date.day));
     } else {
-      template = template.replaceAll('${key}_GGYY', "");
+      template = template.replaceAll('${key}_GGYY', "　　　");
     }
-    template = template.replaceAll('${key}_MM', date?.month.toString() ?? '');
-    template = template.replaceAll('${key}_DD', date?.day.toString() ?? '');
+    template = template.replaceAll('${key}_MM', date?.month.toString() ?? '　');
+    template = template.replaceAll('${key}_DD', date?.day.toString() ?? '　');
     template =
         template.replaceAll('${key}_DW', weekdayToJapanese(date?.weekday));
     return template;
@@ -366,7 +364,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String weekdayToJapanese(int? weekday) {
-    if (weekday == null) return '';
+    if (weekday == null) return '　　';
     switch (weekday) {
       case 1:
         return '月';
@@ -383,7 +381,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       case 7:
         return '日';
     }
-    return '';
+    return '　　';
   }
 
   String fillToday(String template, {DateTime? date}) {
@@ -454,9 +452,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     return tempTELs.map((e) => e.split('').reversed.join('')).toList();
   }
 
-  String fillCertificateData(String template) {
-    String result = template;
-    Report report = _reportStore.selectingReport!;
+  String addCss(String template) {
     String extraCss = '''
       .square {
           display: inline-block;
@@ -476,9 +472,16 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           margin-left: 2px;
           margin-right: 2px;
           border: 1px black solid;
-          background: black;
           vertical-align: middle;
           margin-bottom: 4px;
+          position: relative;
+      }
+
+      .square-black .tick {
+          position: absolute;
+          top: -6px;
+          left: 2px;
+          color: blue;
       }
 
       .text-circle {
@@ -489,7 +492,14 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           text-align: center
       }
       ''';
-    result = result.replaceAll('</style>', '$extraCss</style>');
+    return template.replaceAll('</style>', '$extraCss</style>');
+  }
+
+  String fillCertificateData(String template) {
+    String result = template;
+    Report report = _reportStore.selectingReport!;
+
+    result = addCss(result);
     result = result.replaceAll('□', '<span class="square"></span>');
 
     result = result.replaceAll('height:20.5pt', 'height:19pt');
@@ -647,7 +657,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             ? report.timeOfOccurrence!.minute.toString()
             : '');
     result = result.replaceFirst('PlaceOfIncident',
-        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(35).toString() ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(38).toString() ?? ''}</div>');
     result = result.replaceFirst('AccidentSummary',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
     result = result.replaceFirst('SenseTime',
@@ -798,11 +808,18 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           result, 'LightReflexRight_$i', report.lightReflexRight?[i]);
       result = result.replaceFirst('BodyTemperature${i + 1}',
           report.bodyTemperature?[i]?.toString() ?? '');
-      result = fillClassificationCircle(
-          result,
-          'FacialFeatures_$i',
-          getClassifications(AppConstants.facialFeaturesCode),
-          report.facialFeatureTypes[i]?.classificationSubCd);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_000', "正常",
+          report.facialFeaturesNormal?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_001', "紅潮",
+          report.facialFeaturesFlush?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_002', "蒼白",
+          report.facialFeaturesPale?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_003', "チアノーゼ",
+          report.facialFeaturesCyanosis?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_004', "発汗",
+          report.facialFeaturesDiaphoresis?[i] == true);
+      result = fillCircle(result, 'FacialFeatures_${i}_CIRCLE_005', "苦悶",
+          report.facialFeaturesAnguish?[i] == true);
       final hemorrhage = report.hemorrhage
           ?.firstWhereIndexedOrNull((index, element) => index == i)
           ?.characters
@@ -1690,38 +1707,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       //56
       htmlInput = htmlInput.replaceFirst('BodyTemperature${i + 1}',
           report.bodyTemperature?[i]?.toString() ?? '');
-      //57
-      if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '000') {
-        htmlInput = customReplace(
-            htmlInput, '正常', i + 1, '<span class="text-circle">正常</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '001') {
-        htmlInput = customReplace(
-            htmlInput, '紅潮', i + 1, '<span class="text-circle">紅潮</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '002') {
-        htmlInput = customReplace(
-            htmlInput, '蒼白', i + 1, '<span class="text-circle">蒼白</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '003') {
-        htmlInput = customReplace(htmlInput, 'チアノーゼ', i + 1,
-            '<span class="text-circle">チアノーゼ</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '004') {
-        htmlInput = customReplace(
-            htmlInput, '発汗', i + 1, '<span class="text-circle">発汗</span>');
-      } else if (report.facialFeatures
-              ?.firstWhereIndexedOrNull((index, element) => index == i) ==
-          '005') {
-        htmlInput = customReplace(
-            htmlInput, '苦悶', i + 1, '<span class="text-circle">苦悶</span>');
-      }
       //58
       final hemorrhage = report.hemorrhage
           ?.firstWhereIndexedOrNull((index, element) => index == i)

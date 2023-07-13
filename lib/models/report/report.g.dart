@@ -79,8 +79,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..placeOfDispatch = json['PlaceOfDispatch'] as String?
   ..accidentSummary = json['AccidentSummary'] as String?
   ..adl = json['ADL'] as String?
-  ..trafficAccidentClassification =
-      json['TrafficAccidentClassification'] as String?
   ..trafficAccidentUnknown = _$JsonConverterFromJson<int, bool>(
       json['TrafficAccident_Unknown'], const IntToBoolConverter().fromJson)
   ..trafficAccidentSeatbelt = _$JsonConverterFromJson<int, bool>(
@@ -123,18 +121,34 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['SpO2Percent'], const ListIntConverter().fromJson)
   ..spO2Liter = _$JsonConverterFromJson<String, ObservableList<double?>>(
       json['SpO2Liter'], const ListDoubleConverter().fromJson)
-  ..pupilRight = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['PupilRight'], const ListIntConverter().fromJson)
-  ..pupilLeft = _$JsonConverterFromJson<String, ObservableList<int?>>(
-      json['PupilLeft'], const ListIntConverter().fromJson)
+  ..pupilRight = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['PupilRight'], const ListDoubleConverter().fromJson)
+  ..pupilLeft = _$JsonConverterFromJson<String, ObservableList<double?>>(
+      json['PupilLeft'], const ListDoubleConverter().fromJson)
   ..lightReflexRight = _$JsonConverterFromJson<String, ObservableList<bool?>>(
       json['LightReflexRight'], const ListBoolConverter().fromJson)
   ..lightReflexLeft = _$JsonConverterFromJson<String, ObservableList<bool?>>(
       json['LightReflexLeft'], const ListBoolConverter().fromJson)
   ..bodyTemperature = _$JsonConverterFromJson<String, ObservableList<double?>>(
       json['BodyTemperature'], const ListDoubleConverter().fromJson)
-  ..facialFeatures = _$JsonConverterFromJson<String, ObservableList<String?>>(
-      json['FacialFeatures'], const ListStringConverter().fromJson)
+  ..facialFeaturesNormal =
+      _$JsonConverterFromJson<String, ObservableList<bool?>>(
+          json['FacialFeatures_Normal'], const ListBoolConverter().fromJson)
+  ..facialFeaturesFlush =
+      _$JsonConverterFromJson<String, ObservableList<bool?>>(
+          json['FacialFeatures_Flush'], const ListBoolConverter().fromJson)
+  ..facialFeaturesPale = _$JsonConverterFromJson<String, ObservableList<bool?>>(
+      json['FacialFeatures_Pale'], const ListBoolConverter().fromJson)
+  ..facialFeaturesCyanosis =
+      _$JsonConverterFromJson<String, ObservableList<bool?>>(
+          json['FacialFeatures_Cyanosis'], const ListBoolConverter().fromJson)
+  ..facialFeaturesDiaphoresis =
+      _$JsonConverterFromJson<String, ObservableList<bool?>>(
+          json['FacialFeatures_Diaphoresis'],
+          const ListBoolConverter().fromJson)
+  ..facialFeaturesAnguish =
+      _$JsonConverterFromJson<String, ObservableList<bool?>>(
+          json['FacialFeatures_Anguish'], const ListBoolConverter().fromJson)
   ..hemorrhage = _$JsonConverterFromJson<String, ObservableList<String?>>(
       json['Hemorrhage'], const ListStringConverter().fromJson)
   ..incontinence = _$JsonConverterFromJson<String, ObservableList<String?>>(
@@ -311,7 +325,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'PlaceOfDispatch': instance.placeOfDispatch,
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
-      'TrafficAccidentClassification': instance.trafficAccidentClassification,
       'TrafficAccident_Unknown': _$JsonConverterToJson<int, bool>(
           instance.trafficAccidentUnknown, const IntToBoolConverter().toJson),
       'TrafficAccident_Seatbelt': _$JsonConverterToJson<int, bool>(
@@ -354,18 +367,36 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.spO2Percent, const ListIntConverter().toJson),
       'SpO2Liter': _$JsonConverterToJson<String, ObservableList<double?>>(
           instance.spO2Liter, const ListDoubleConverter().toJson),
-      'PupilRight': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.pupilRight, const ListIntConverter().toJson),
-      'PupilLeft': _$JsonConverterToJson<String, ObservableList<int?>>(
-          instance.pupilLeft, const ListIntConverter().toJson),
+      'PupilRight': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.pupilRight, const ListDoubleConverter().toJson),
+      'PupilLeft': _$JsonConverterToJson<String, ObservableList<double?>>(
+          instance.pupilLeft, const ListDoubleConverter().toJson),
       'LightReflexRight': _$JsonConverterToJson<String, ObservableList<bool?>>(
           instance.lightReflexRight, const ListBoolConverter().toJson),
       'LightReflexLeft': _$JsonConverterToJson<String, ObservableList<bool?>>(
           instance.lightReflexLeft, const ListBoolConverter().toJson),
       'BodyTemperature': _$JsonConverterToJson<String, ObservableList<double?>>(
           instance.bodyTemperature, const ListDoubleConverter().toJson),
-      'FacialFeatures': _$JsonConverterToJson<String, ObservableList<String?>>(
-          instance.facialFeatures, const ListStringConverter().toJson),
+      'FacialFeatures_Normal':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesNormal, const ListBoolConverter().toJson),
+      'FacialFeatures_Flush':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesFlush, const ListBoolConverter().toJson),
+      'FacialFeatures_Pale':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesPale, const ListBoolConverter().toJson),
+      'FacialFeatures_Cyanosis':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesCyanosis,
+              const ListBoolConverter().toJson),
+      'FacialFeatures_Diaphoresis':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesDiaphoresis,
+              const ListBoolConverter().toJson),
+      'FacialFeatures_Anguish':
+          _$JsonConverterToJson<String, ObservableList<bool?>>(
+              instance.facialFeaturesAnguish, const ListBoolConverter().toJson),
       'Hemorrhage': _$JsonConverterToJson<String, ObservableList<String?>>(
           instance.hemorrhage, const ListStringConverter().toJson),
       'Incontinence': _$JsonConverterToJson<String, ObservableList<String?>>(
@@ -549,13 +580,6 @@ mixin _$Report on _Report, Store {
               () => super.transferringMedicalInstitutionType,
               name: '_Report.transferringMedicalInstitutionType'))
           .value;
-  Computed<Classification?>? _$trafficAccidentTypeComputed;
-
-  @override
-  Classification? get trafficAccidentType => (_$trafficAccidentTypeComputed ??=
-          Computed<Classification?>(() => super.trafficAccidentType,
-              name: '_Report.trafficAccidentType'))
-      .value;
   Computed<Classification?>? _$adlTypeComputed;
 
   @override
@@ -614,14 +638,6 @@ mixin _$Report on _Report, Store {
           Computed<List<Classification?>>(() => super.gcsMTypes,
               name: '_Report.gcsMTypes'))
       .value;
-  Computed<List<Classification?>>? _$facialFeatureTypesComputed;
-
-  @override
-  List<Classification?> get facialFeatureTypes =>
-      (_$facialFeatureTypesComputed ??= Computed<List<Classification?>>(
-              () => super.facialFeatureTypes,
-              name: '_Report.facialFeatureTypes'))
-          .value;
   Computed<List<Classification?>>? _$incontinenceTypesComputed;
 
   @override
@@ -1409,23 +1425,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$trafficAccidentClassificationAtom =
-      Atom(name: '_Report.trafficAccidentClassification', context: context);
-
-  @override
-  String? get trafficAccidentClassification {
-    _$trafficAccidentClassificationAtom.reportRead();
-    return super.trafficAccidentClassification;
-  }
-
-  @override
-  set trafficAccidentClassification(String? value) {
-    _$trafficAccidentClassificationAtom
-        .reportWrite(value, super.trafficAccidentClassification, () {
-      super.trafficAccidentClassification = value;
-    });
-  }
-
   late final _$trafficAccidentUnknownAtom =
       Atom(name: '_Report.trafficAccidentUnknown', context: context);
 
@@ -1766,13 +1765,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.pupilRight', context: context);
 
   @override
-  ObservableList<int?>? get pupilRight {
+  ObservableList<double?>? get pupilRight {
     _$pupilRightAtom.reportRead();
     return super.pupilRight;
   }
 
   @override
-  set pupilRight(ObservableList<int?>? value) {
+  set pupilRight(ObservableList<double?>? value) {
     _$pupilRightAtom.reportWrite(value, super.pupilRight, () {
       super.pupilRight = value;
     });
@@ -1782,13 +1781,13 @@ mixin _$Report on _Report, Store {
       Atom(name: '_Report.pupilLeft', context: context);
 
   @override
-  ObservableList<int?>? get pupilLeft {
+  ObservableList<double?>? get pupilLeft {
     _$pupilLeftAtom.reportRead();
     return super.pupilLeft;
   }
 
   @override
-  set pupilLeft(ObservableList<int?>? value) {
+  set pupilLeft(ObservableList<double?>? value) {
     _$pupilLeftAtom.reportWrite(value, super.pupilLeft, () {
       super.pupilLeft = value;
     });
@@ -1842,19 +1841,103 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$facialFeaturesAtom =
-      Atom(name: '_Report.facialFeatures', context: context);
+  late final _$facialFeaturesNormalAtom =
+      Atom(name: '_Report.facialFeaturesNormal', context: context);
 
   @override
-  ObservableList<String?>? get facialFeatures {
-    _$facialFeaturesAtom.reportRead();
-    return super.facialFeatures;
+  ObservableList<bool?>? get facialFeaturesNormal {
+    _$facialFeaturesNormalAtom.reportRead();
+    return super.facialFeaturesNormal;
   }
 
   @override
-  set facialFeatures(ObservableList<String?>? value) {
-    _$facialFeaturesAtom.reportWrite(value, super.facialFeatures, () {
-      super.facialFeatures = value;
+  set facialFeaturesNormal(ObservableList<bool?>? value) {
+    _$facialFeaturesNormalAtom.reportWrite(value, super.facialFeaturesNormal,
+        () {
+      super.facialFeaturesNormal = value;
+    });
+  }
+
+  late final _$facialFeaturesFlushAtom =
+      Atom(name: '_Report.facialFeaturesFlush', context: context);
+
+  @override
+  ObservableList<bool?>? get facialFeaturesFlush {
+    _$facialFeaturesFlushAtom.reportRead();
+    return super.facialFeaturesFlush;
+  }
+
+  @override
+  set facialFeaturesFlush(ObservableList<bool?>? value) {
+    _$facialFeaturesFlushAtom.reportWrite(value, super.facialFeaturesFlush, () {
+      super.facialFeaturesFlush = value;
+    });
+  }
+
+  late final _$facialFeaturesPaleAtom =
+      Atom(name: '_Report.facialFeaturesPale', context: context);
+
+  @override
+  ObservableList<bool?>? get facialFeaturesPale {
+    _$facialFeaturesPaleAtom.reportRead();
+    return super.facialFeaturesPale;
+  }
+
+  @override
+  set facialFeaturesPale(ObservableList<bool?>? value) {
+    _$facialFeaturesPaleAtom.reportWrite(value, super.facialFeaturesPale, () {
+      super.facialFeaturesPale = value;
+    });
+  }
+
+  late final _$facialFeaturesCyanosisAtom =
+      Atom(name: '_Report.facialFeaturesCyanosis', context: context);
+
+  @override
+  ObservableList<bool?>? get facialFeaturesCyanosis {
+    _$facialFeaturesCyanosisAtom.reportRead();
+    return super.facialFeaturesCyanosis;
+  }
+
+  @override
+  set facialFeaturesCyanosis(ObservableList<bool?>? value) {
+    _$facialFeaturesCyanosisAtom
+        .reportWrite(value, super.facialFeaturesCyanosis, () {
+      super.facialFeaturesCyanosis = value;
+    });
+  }
+
+  late final _$facialFeaturesDiaphoresisAtom =
+      Atom(name: '_Report.facialFeaturesDiaphoresis', context: context);
+
+  @override
+  ObservableList<bool?>? get facialFeaturesDiaphoresis {
+    _$facialFeaturesDiaphoresisAtom.reportRead();
+    return super.facialFeaturesDiaphoresis;
+  }
+
+  @override
+  set facialFeaturesDiaphoresis(ObservableList<bool?>? value) {
+    _$facialFeaturesDiaphoresisAtom
+        .reportWrite(value, super.facialFeaturesDiaphoresis, () {
+      super.facialFeaturesDiaphoresis = value;
+    });
+  }
+
+  late final _$facialFeaturesAnguishAtom =
+      Atom(name: '_Report.facialFeaturesAnguish', context: context);
+
+  @override
+  ObservableList<bool?>? get facialFeaturesAnguish {
+    _$facialFeaturesAnguishAtom.reportRead();
+    return super.facialFeaturesAnguish;
+  }
+
+  @override
+  set facialFeaturesAnguish(ObservableList<bool?>? value) {
+    _$facialFeaturesAnguishAtom.reportWrite(value, super.facialFeaturesAnguish,
+        () {
+      super.facialFeaturesAnguish = value;
     });
   }
 
@@ -3064,17 +3147,6 @@ mixin _$Report on _Report, Store {
   }
 
   @override
-  dynamic setTrafficAccidentType(Classification? value) {
-    final _$actionInfo = _$_ReportActionController.startAction(
-        name: '_Report.setTrafficAccidentType');
-    try {
-      return super.setTrafficAccidentType(value);
-    } finally {
-      _$_ReportActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic setAdlType(Classification? value) {
     final _$actionInfo =
         _$_ReportActionController.startAction(name: '_Report.setAdlType');
@@ -3157,17 +3229,6 @@ mixin _$Report on _Report, Store {
         _$_ReportActionController.startAction(name: '_Report.setGcsMTypes');
     try {
       return super.setGcsMTypes(values);
-    } finally {
-      _$_ReportActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setFacialFeatureTypes(List<Classification?> values) {
-    final _$actionInfo = _$_ReportActionController.startAction(
-        name: '_Report.setFacialFeatureTypes');
-    try {
-      return super.setFacialFeatureTypes(values);
     } finally {
       _$_ReportActionController.endAction(_$actionInfo);
     }
@@ -3266,7 +3327,6 @@ placeOfIncident: ${placeOfIncident},
 placeOfDispatch: ${placeOfDispatch},
 accidentSummary: ${accidentSummary},
 adl: ${adl},
-trafficAccidentClassification: ${trafficAccidentClassification},
 trafficAccidentUnknown: ${trafficAccidentUnknown},
 trafficAccidentSeatbelt: ${trafficAccidentSeatbelt},
 trafficAccidentChildseat: ${trafficAccidentChildseat},
@@ -3293,7 +3353,12 @@ pupilLeft: ${pupilLeft},
 lightReflexRight: ${lightReflexRight},
 lightReflexLeft: ${lightReflexLeft},
 bodyTemperature: ${bodyTemperature},
-facialFeatures: ${facialFeatures},
+facialFeaturesNormal: ${facialFeaturesNormal},
+facialFeaturesFlush: ${facialFeaturesFlush},
+facialFeaturesPale: ${facialFeaturesPale},
+facialFeaturesCyanosis: ${facialFeaturesCyanosis},
+facialFeaturesDiaphoresis: ${facialFeaturesDiaphoresis},
+facialFeaturesAnguish: ${facialFeaturesAnguish},
 hemorrhage: ${hemorrhage},
 incontinence: ${incontinence},
 vomiting: ${vomiting},
@@ -3372,7 +3437,6 @@ detectionType: ${detectionType},
 accidentType: ${accidentType},
 medicalTransportFacilityType: ${medicalTransportFacilityType},
 transferringMedicalInstitutionType: ${transferringMedicalInstitutionType},
-trafficAccidentType: ${trafficAccidentType},
 adlType: ${adlType},
 positionOfReporterType: ${positionOfReporterType},
 securingAirwayType: ${securingAirwayType},
@@ -3381,7 +3445,6 @@ jcsTypes: ${jcsTypes},
 gcsETypes: ${gcsETypes},
 gcsVTypes: ${gcsVTypes},
 gcsMTypes: ${gcsMTypes},
-facialFeatureTypes: ${facialFeatureTypes},
 incontinenceTypes: ${incontinenceTypes},
 observationTimeDescriptionTypes: ${observationTimeDescriptionTypes},
 reasonForTransferType: ${reasonForTransferType},

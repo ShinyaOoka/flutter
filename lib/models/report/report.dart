@@ -197,9 +197,6 @@ abstract class _Report with Store {
   @JsonKey(name: "ADL")
   String? adl;
   @observable
-  @JsonKey(name: "TrafficAccidentClassification")
-  String? trafficAccidentClassification;
-  @observable
   @IntToBoolConverter()
   @JsonKey(name: "TrafficAccident_Unknown")
   bool? trafficAccidentUnknown;
@@ -283,13 +280,13 @@ abstract class _Report with Store {
   @JsonKey(name: "SpO2Liter")
   ObservableList<double?>? spO2Liter;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "PupilRight")
-  ObservableList<int?>? pupilRight;
+  ObservableList<double?>? pupilRight;
   @observable
-  @ListIntConverter()
+  @ListDoubleConverter()
   @JsonKey(name: "PupilLeft")
-  ObservableList<int?>? pupilLeft;
+  ObservableList<double?>? pupilLeft;
   @observable
   @ListBoolConverter()
   @JsonKey(name: "LightReflexRight")
@@ -303,9 +300,29 @@ abstract class _Report with Store {
   @JsonKey(name: "BodyTemperature")
   ObservableList<double?>? bodyTemperature;
   @observable
-  @ListStringConverter()
-  @JsonKey(name: "FacialFeatures")
-  ObservableList<String?>? facialFeatures;
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Normal")
+  ObservableList<bool?>? facialFeaturesNormal;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Flush")
+  ObservableList<bool?>? facialFeaturesFlush;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Pale")
+  ObservableList<bool?>? facialFeaturesPale;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Cyanosis")
+  ObservableList<bool?>? facialFeaturesCyanosis;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Diaphoresis")
+  ObservableList<bool?>? facialFeaturesDiaphoresis;
+  @observable
+  @ListBoolConverter()
+  @JsonKey(name: "FacialFeatures_Anguish")
+  ObservableList<bool?>? facialFeaturesAnguish;
   @observable
   @ListStringConverter()
   @JsonKey(name: "Hemorrhage")
@@ -690,25 +707,6 @@ abstract class _Report with Store {
 
   @computed
   @JsonKey(includeFromJson: false, includeToJson: false)
-  Classification? get trafficAccidentType {
-    assert(classificationStore != null);
-    return trafficAccidentClassification != null
-        ? classificationStore!.classifications[Tuple2(
-            AppConstants.trafficAccidentCode, trafficAccidentClassification!)]
-        : null;
-  }
-
-  @action
-  setTrafficAccidentType(Classification? value) {
-    trafficAccidentClassification = value?.classificationSubCd;
-  }
-
-  set trafficAccidentType(Classification? value) {
-    setTrafficAccidentType(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
   Classification? get adlType {
     assert(classificationStore != null);
     return adl != null
@@ -869,29 +867,6 @@ abstract class _Report with Store {
 
   set gcsMTypes(List<Classification?> values) {
     setGcsMTypes(values);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  List<Classification?> get facialFeatureTypes {
-    assert(classificationStore != null);
-    return facialFeatures
-            ?.map((element) => element != null
-                ? classificationStore!.classifications[
-                    Tuple2(AppConstants.facialFeaturesCode, element)]
-                : null)
-            .toList() ??
-        [];
-  }
-
-  @action
-  setFacialFeatureTypes(List<Classification?> values) {
-    facialFeatures =
-        values.map((e) => e?.classificationSubCd).toList().asObservable();
-  }
-
-  set facialFeatureTypes(List<Classification?> values) {
-    setFacialFeatureTypes(values);
   }
 
   @computed

@@ -732,7 +732,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return CustomAppBar(
       leading: _buildBackButton(),
       leadingWidth: 88,
-      title: "全体ECG",
+      title: "ECG全体",
       actions: _buildActions(),
     );
   }
@@ -777,24 +777,29 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                       value: expandOnTap,
                       onChanged: (x) =>
                           setState(() => expandOnTap = x ?? false)),
-                  DropdownButton<String>(
-                      value: chartType,
-                      items: myCase!.waves.keys
-                          .map(
-                              (e) => DropdownMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                      onChanged: (x) {
-                        setState(() {
-                          chartType = x!;
-                        });
-                      }),
+                  // DropdownButton<String>(
+                  //     value: chartType,
+                  //     items: myCase!.waves.keys
+                  //         .map(
+                  //             (e) => DropdownMenuItem(value: e, child: Text(e)))
+                  //         .toList(),
+                  //     onChanged: (x) {
+                  //       setState(() {
+                  //         chartType = x!;
+                  //       });
+                  //     }),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                        textAlign: TextAlign.right),
+                  ),
                   EcgChart(
                     showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
                     cprCompressions: myCase!.cprCompressions,
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 4,
+                    segments: 5,
                     initDuration: Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,

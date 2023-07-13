@@ -481,16 +481,15 @@ class _ListEventScreenState extends State<ListEventScreen>
               child: Row(children: [
                 Expanded(
                   flex: 0,
-                  // child: Text(
-                  //   "${index + 1}回目取得結果",
-                  //   style: titleStyle,
-                  // ),
-                  child: Container(),
+                  child: Text(
+                    "${index + 1}回目取得結果",
+                    style: titleStyle,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 trendData[index].time != null
                     ? Expanded(
-                        child: Text(AppConstants.timeFormat
+                        child: Text(AppConstants.timeHmFormat
                             .format(trendData[index].time!)))
                     : Container(),
                 trendData[index].time != null
