@@ -1237,24 +1237,33 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       },
       children: [
         TableRow(children: [
-          TableCell(child: Text('キー表示')),
+          TableCell(
+              child: Text('キー表示',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('マニュアル',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('最初の圧迫までの平均時間:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('最初の圧迫までの平均時間:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
           TableCell(
               child: Text('圧迫を中止してから電気ショックを与えるまでの平均時間:',
-                  textAlign: TextAlign.right)),
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1267,7 +1276,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
         TableRow(children: [
           TableCell(
               child: Text('電気ショックを与えてから圧迫を開始するまでの平均時間:',
-                  textAlign: TextAlign.right)),
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1278,7 +1288,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('圧迫の深度の平均:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('圧迫の深度の平均:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1289,7 +1302,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('圧迫速度の平均:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('圧迫速度の平均:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1299,57 +1315,88 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('症例全体')),
+          TableCell(
+              child: Text('症例全体',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('症例の期間', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('症例の期間',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('CPRの時間', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('CPRの時間',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('CPR以外の時間', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('CPR以外の時間',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('CPR期間')),
+          TableCell(
+              child: Text('CPR期間',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('マニュアル', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('マニュアル',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('圧迫の時間:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('圧迫の時間:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('圧迫以外の時間:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('圧迫以外の時間:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標範囲内の圧迫:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標範囲内の圧迫:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('圧迫深度:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('圧迫深度:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('標準偏差:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('標準偏差:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1360,7 +1407,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン超過:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1372,7 +1422,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン内:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1384,7 +1437,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン未満:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1396,12 +1452,18 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(child: Text('速度:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('速度:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('標準偏差:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('標準偏差:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1412,7 +1474,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン超過:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン超過:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1424,7 +1489,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン内:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン内:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
@@ -1436,7 +1504,10 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(child: Text('目標ゾーン未満:', textAlign: TextAlign.right)),
+          TableCell(
+              child: Text('目標ゾーン未満:',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           TableCell(
             child: Padding(
               padding: const EdgeInsets.only(left: 10),

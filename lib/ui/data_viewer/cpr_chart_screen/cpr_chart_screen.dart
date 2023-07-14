@@ -195,16 +195,26 @@ class CprChartScreenState extends State<CprChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButton(
-              items: myCase!.waves.keys
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              value: chartType,
-              onChanged: (value) {
-                setState(() {
-                  chartType = value!;
-                });
-              },
+            Row(
+              children: [
+                ...myCase!.waves.keys.map(
+                  (e) => IntrinsicWidth(
+                    child: ListTile(
+                      title: Text(e),
+                      leading: Radio<String>(
+                        value: e,
+                        groupValue: chartType,
+                        onChanged: (String? value) {
+                          if (value == null) return;
+                          setState(() {
+                            chartType = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             myCase!.waves[chartType]!.samples.isNotEmpty
                 ? EcgChart(

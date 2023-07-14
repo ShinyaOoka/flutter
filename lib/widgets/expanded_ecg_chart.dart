@@ -177,9 +177,24 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
         });
       },
       behavior: HitTestBehavior.translucent,
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('換気（パッドインピーダンス）（オーム）',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
         buildPadsChart(minX, maxX),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Text('CO2（mmHg）', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
         buildCo2Chart(minX, maxX),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Text('CPR波形（cm）', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
         buildDepthChart(minX, maxX),
       ]),
     );
