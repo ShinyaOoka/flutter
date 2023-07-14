@@ -982,10 +982,157 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     depthTo: depthTo,
                   )
                 : Container(),
+            _buildLegend(),
             _buildSummary()
           ],
         ),
       ),
+    );
+  }
+
+  Row _buildLegend() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.yellow.shade100,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text('CPR期間'),
+              ],
+            ),
+            SizedBox(height: 4),
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.green.shade100,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text('目標ゾーン'),
+              ],
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.grey.shade400,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text('AutoPulseアクティブ'),
+              ],
+            ),
+            SizedBox(height: 4),
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.blue,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text('AutoPulse圧迫'),
+              ],
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(children: [
+                  Container(width: 40, height: 30),
+                  SizedBox(width: 8),
+                  Text('圧迫の質：')
+                ])
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        color: Colors.green,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text('目標範囲内'),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        color: Colors.orange,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text('目標範囲外'),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text('圧迫なし'),
+                  ],
+                ),
+              ],
+            ),
+            Container(width: 20),
+          ],
+        ),
+      ],
     );
   }
 
