@@ -283,7 +283,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             pw.Text(
                 "モニタのスナップショット ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(snapshot.time)}"),
             pw.Text(
-                "HR/PR = ${snapshot.trend.hr.value} BPM SpO2 = ${snapshot.trend.spo2.value} % CO2 = ${snapshot.trend.etco2.value} mmHg ${snapshot.trend.fico2.value} = 0.0 mmHg"),
+                "HR/PR = ${snapshot.trend.hr.value} BPM SpO2 = ${snapshot.trend.spo2.value} % CO2 = ${snapshot.trend.etco2.value} mmHg FiCO2 = ${snapshot.trend.fico2.value} mmHg"),
             pw.Image(padsChart),
             pw.Image(co2Chart),
             pw.Image(spo2Chart),

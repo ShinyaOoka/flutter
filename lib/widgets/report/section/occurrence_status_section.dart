@@ -156,6 +156,7 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         label: 'place_of_dispatch'.i18n(),
         onChanged: (value) => report.placeOfDispatch = value,
         readOnly: widget.readOnly,
+        optional: true,
       ),
     ]);
   }
@@ -275,8 +276,8 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Text(
               "traffic_accident".i18n(),
-              style:
-                  const TextStyle(height: 1, fontSize: 12, color: Color(0xff686868)),
+              style: const TextStyle(
+                  height: 1, fontSize: 12, color: Color(0xff686868)),
             ),
           ),
         ),

@@ -192,7 +192,6 @@ class _SickInjuredPersonInfoSectionState
                       ? '${yearToWareki(report.sickInjuredPersonBirthDate!.year, report.sickInjuredPersonBirthDate!.month, report.sickInjuredPersonBirthDate!.day)}年'
                       : ''),
               readOnly: true,
-              optional: true,
             ),
           ),
           const SizedBox(width: 16),
@@ -244,9 +243,11 @@ class _SickInjuredPersonInfoSectionState
       AppTextField(
         label: 'sick_injured_person_family'.i18n(),
         controller: sickInjuredPersonFamilyController,
+        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
         onChanged: (value) => report.sickInjuredPersonFamily = value,
         maxLength: 10,
         readOnly: widget.readOnly,
+        keyboardType: TextInputType.multiline,
       ),
       AppTextField(
         label: 'sick_injured_person_family_tel'.i18n(),
