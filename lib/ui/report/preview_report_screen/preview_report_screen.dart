@@ -479,8 +479,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
       .square-black .tick {
           position: absolute;
-          top: -6px;
-          left: 2px;
+          top: 0;
+          left: 0;
+          transform: translate(-2px, -10px);
           color: blue;
       }
 
