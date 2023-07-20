@@ -152,11 +152,52 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      buildPadsChart(minX, maxX),
-      buildCo2Chart(minX, maxX),
-      buildDepthChart(minX, maxX),
-    ]);
+    return GestureDetector(
+      onHorizontalDragStart: (details) {
+        lastMinXValue = minX;
+        lastMaxXValue = maxX;
+      },
+      onHorizontalDragUpdate: (details) {
+        var horizontalDistance = details.primaryDelta ?? 0;
+        if (horizontalDistance == 0) return;
+        var lastMinMaxDistance = max(lastMaxXValue - lastMinXValue, 0.0);
+
+        setState(() {
+          minX -= lastMinMaxDistance * 0.005 * horizontalDistance;
+          maxX -= lastMinMaxDistance * 0.005 * horizontalDistance;
+
+          if (minX < widget.pads.first.inSeconds) {
+            minX = widget.pads.first.inSeconds;
+            maxX = widget.pads.first.inSeconds + lastMinMaxDistance;
+          }
+          if (maxX > widget.pads.last.inSeconds) {
+            maxX = widget.pads.last.inSeconds;
+            minX = maxX - lastMinMaxDistance;
+          }
+        });
+      },
+      behavior: HitTestBehavior.translucent,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('換気（パッドインピーダンス）（オーム）',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        buildPadsChart(minX, maxX),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Text('CO2（mmHg）', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        buildCo2Chart(minX, maxX),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Text('CPR波形（cm）', style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
+        buildDepthChart(minX, maxX),
+      ]),
+    );
   }
 
   Widget buildPadsChart(double minX, double maxX) {

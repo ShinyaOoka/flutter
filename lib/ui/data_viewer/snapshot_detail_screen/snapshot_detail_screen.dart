@@ -283,7 +283,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             pw.Text(
                 "モニタのスナップショット ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(snapshot.time)}"),
             pw.Text(
-                "HR/PR = ${snapshot.trend.hr.value} BPM SpO2 = ${snapshot.trend.spo2.value} % CO2 = ${snapshot.trend.etco2.value} mmHg ${snapshot.trend.fico2.value} = 0.0 mmHg"),
+                "HR/PR = ${snapshot.trend.hr.value} BPM SpO2 = ${snapshot.trend.spo2.value} % CO2 = ${snapshot.trend.etco2.value} mmHg FiCO2 = ${snapshot.trend.fico2.value} mmHg"),
             pw.Image(padsChart),
             pw.Image(co2Chart),
             pw.Image(spo2Chart),
@@ -337,55 +337,15 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildInfoLine('Etco2',
-                        '${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}'),
-                    _buildInfoLine('Fico2',
-                        '${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}'),
+
                     _buildInfoLine('HR',
                         '${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildInfoLine('nibpDia',
-                        '${snapshot.trend.nibpDia.value} ${snapshot.trend.nibpDia.unit}'),
-                    _buildInfoLine('nibpMap',
-                        '${snapshot.trend.nibpMap.value} ${snapshot.trend.nibpMap.unit}'),
-                    _buildInfoLine('nibpSys',
-                        '${snapshot.trend.nibpSys.value} ${snapshot.trend.nibpSys.unit}'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildInfoLine('PI',
-                        '${snapshot.trend.pI.value} ${snapshot.trend.pI.unit}'),
-                    _buildInfoLine('PVI',
-                        '${snapshot.trend.pVI.value} ${snapshot.trend.pVI.unit}'),
-                    _buildInfoLine('Resp',
-                        '${snapshot.trend.resp.value} ${snapshot.trend.resp.unit}'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildInfoLine('spCo',
-                        '${snapshot.trend.spCo.value} ${snapshot.trend.spCo.unit}'),
-                    _buildInfoLine('spHb',
-                        '${snapshot.trend.spHb.value} ${snapshot.trend.spHb.unit}'),
-                    _buildInfoLine('spMet',
-                        '${snapshot.trend.spMet.value} ${snapshot.trend.spMet.unit}'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildInfoLine('spOC',
-                        '${snapshot.trend.spOC.value} ${snapshot.trend.spOC.unit}'),
                     _buildInfoLine('spo2',
                         '${snapshot.trend.spo2.value} ${snapshot.trend.spo2.unit}'),
-                    Expanded(child: Container()),
+                    _buildInfoLine('Etco2',
+                        '${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}'),
+                    _buildInfoLine('FiCO2',
+                        '${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}'),
                   ],
                 ),
               ],

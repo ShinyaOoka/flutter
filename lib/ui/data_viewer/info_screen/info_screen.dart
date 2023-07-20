@@ -199,11 +199,11 @@ class _InfoScreenState extends State<InfoScreen>
                     text: _printDuration(
                         myCase!.endTime!.difference(myCase!.startTime!))),
               ),
-              AppTextField(
-                label: 'デバイスの種類',
-                readOnly: true,
-                controller: TextEditingController(text: ''),
-              ),
+              // AppTextField(
+              //   label: 'デバイスの種類',
+              //   readOnly: true,
+              //   controller: TextEditingController(text: ''),
+              // ),
               AppTextField(
                 label: 'デバイスID',
                 readOnly: true,
@@ -253,33 +253,33 @@ class _InfoScreenState extends State<InfoScreen>
                     text: myCase!.caseSummary.rawData['PatientData']
                         ['PatientMode']),
               ),
-              AppTextField(
-                label: '生年月日',
-                readOnly: true,
-                controller: TextEditingController(text: ''),
-              ),
-              AppTextField(
-                label: '身長',
-                readOnly: true,
+              // AppTextField(
+              //   label: '生年月日',
+              //   readOnly: true,
+              //   controller: TextEditingController(text: ''),
+              // ),
+              // AppTextField(
+              //   label: '身長',
+              //   readOnly: true,
                 // controller: TextEditingController(
                 //     text: myCase!.caseSummary
                 //             .rawData['PatientData']['Height']['#text']
                 //             .toString() +
                 //         myCase!.caseSummary.rawData['PatientData']['Height']
                 //             ['@Units']),
-                controller: TextEditingController(text: ""),
-              ),
-              AppTextField(
-                label: '体重',
-                readOnly: true,
+              //   controller: TextEditingController(text: ""),
+              // ),
+              // AppTextField(
+              //   label: '体重',
+              //   readOnly: true,
                 // controller: TextEditingController(
                 //     text: myCase!.caseSummary
                 //             .rawData['PatientData']['Weight']['#text']
                 //             .toString() +
                 //         myCase!.caseSummary.rawData['PatientData']['Weight']
                 //             ['@Units']),
-                controller: TextEditingController(text: ""),
-              ),
+              //   controller: TextEditingController(text: ""),
+              // ),
             ],
           ),
         ),

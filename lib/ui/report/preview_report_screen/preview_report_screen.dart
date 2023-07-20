@@ -185,7 +185,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'PlaceOfDispatch_TITLE',
         report.placeOfDispatch != null && report.placeOfDispatch! != ''
-            ? '出場場所'
+            ? '出動場所'
             : '');
     result = result.replaceAll(
         'PlaceOfDispatch_VALUE', report.placeOfDispatch ?? '');
@@ -479,8 +479,9 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
       .square-black .tick {
           position: absolute;
-          top: -6px;
-          left: 2px;
+          top: 0;
+          left: 0;
+          transform: translate(-2px, -10px);
           color: blue;
       }
 
