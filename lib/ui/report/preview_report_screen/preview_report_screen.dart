@@ -185,7 +185,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll(
         'PlaceOfDispatch_TITLE',
         report.placeOfDispatch != null && report.placeOfDispatch! != ''
-            ? '出場場所'
+            ? '出動場所'
             : '');
     result = result.replaceAll(
         'PlaceOfDispatch_VALUE', report.placeOfDispatch ?? '');
