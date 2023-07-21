@@ -278,7 +278,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   String fillCheck(String template, String key, bool checked) {
     if (checked) {
       template = template.replaceFirst(
-          key, '<span class="square-black"><span class="tick">✔</span></span>');
+          key, '<span class="square-black"><span class="tick"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path stroke="blue" fill="blue" d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg></span></span>');
     } else {
       template = template.replaceFirst(key, '<span class="square"></span>');
     }
@@ -475,14 +475,15 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           vertical-align: middle;
           margin-bottom: 4px;
           position: relative;
+          color: #0000ff;
       }
 
       .square-black .tick {
           position: absolute;
           top: 0;
           left: 0;
-          transform: translate(-2px, -10px);
-          color: blue;
+          transform: translate(0px, -4px);
+          color: #0000ff;
       }
 
       .text-circle {
