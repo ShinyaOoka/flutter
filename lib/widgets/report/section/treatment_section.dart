@@ -231,7 +231,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                   FilteringTextInputFormatter.digitsOnly,
                   FilteringTextInputFormatter.singleLineFormatter
                 ],
-                counterText: 'mmHg'.i18n(),
+                counterText: 'mg/dl',
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
                 maxLength: 3,
@@ -277,7 +277,7 @@ class _TreatmentSectionState extends State<TreatmentSection>
                   FilteringTextInputFormatter.digitsOnly,
                   FilteringTextInputFormatter.singleLineFormatter
                 ],
-                counterText: 'mmHg'.i18n(),
+                counterText: 'mg/dl',
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
                 maxLength: 3,
