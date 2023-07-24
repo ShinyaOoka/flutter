@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/ui/ui_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/hospital/hospital_data_source.dart';
@@ -46,6 +47,7 @@ Future<void> setupLocator() async {
   getIt.registerFactory(() => HospitalStore(getIt<Repository>()));
   getIt.registerFactory(() => FireStationStore(getIt<Repository>()));
   getIt.registerFactory(() => ClassificationStore(getIt<Repository>()));
+  getIt.registerFactory(() => UiStore());
   getIt.registerSingleton(ZollSdkStore());
 
   getIt.registerFactory(() => ZollSdkHostApi());

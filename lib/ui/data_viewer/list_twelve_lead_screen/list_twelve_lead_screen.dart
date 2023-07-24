@@ -6,6 +6,8 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/twelve_lead_chart_screen/twelve_lead_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
@@ -100,12 +102,11 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "12誘導",
     );
   }
 
@@ -151,12 +152,20 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 5, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null
+                  ? _buildMainContent()
+                  : const CustomProgressIndicatorWidget(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -173,7 +182,9 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
               Navigator.of(context).pushNamed(
                   DataViewerRoutes.dataViewerTwelveLeadChart,
                   arguments: TwelveLeadChartScreenArguments(
-                      twelveLead: myCase!.leads[index], myCase: myCase!));
+                      twelveLead: myCase!.leads[index],
+                      myCase: myCase!,
+                      caseId: caseId));
             }),
         separatorBuilder: (context, index) => const Divider(),
       ),

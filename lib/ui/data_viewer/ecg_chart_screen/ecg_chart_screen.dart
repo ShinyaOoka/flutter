@@ -4,6 +4,7 @@ import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
@@ -71,18 +72,9 @@ class _EcgChartScreenState extends State<EcgChartScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "ECG・バイタル表示",
     );

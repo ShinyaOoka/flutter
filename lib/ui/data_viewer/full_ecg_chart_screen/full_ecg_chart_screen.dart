@@ -11,7 +11,9 @@ import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/foundation.dart';
@@ -143,12 +145,12 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "ECG全体",
+      actions: _buildActions(),
     );
   }
 
@@ -753,13 +755,21 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null ? _buildMainContent() : Container(),
-        loading || myCase == null
-            ? const CustomProgressIndicatorWidget()
-            : Container(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 1, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null ? _buildMainContent() : Container(),
+              loading || myCase == null
+                  ? const CustomProgressIndicatorWidget()
+                  : Container(),
+            ],
+          ),
+        )
       ],
     );
   }

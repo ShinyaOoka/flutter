@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
@@ -18,9 +20,10 @@ import 'package:printing/printing.dart';
 class TwelveLeadChartScreenArguments {
   final Ecg12Lead twelveLead;
   final Case myCase;
+  final String caseId;
 
   TwelveLeadChartScreenArguments(
-      {required this.twelveLead, required this.myCase});
+      {required this.twelveLead, required this.myCase, required this.caseId});
 }
 
 class TwelveLeadChartScreen extends StatefulWidget {
@@ -34,6 +37,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     with RouteAware, ReportSectionMixin {
   Ecg12Lead? twelveLead;
   Case? myCase;
+  String? caseId;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -62,17 +66,18 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     setState(() {
       twelveLead = args.twelveLead;
       myCase = args.myCase;
+      caseId = args.caseId;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "12誘導",
+      actions: _buildActions(),
     );
   }
 
@@ -452,12 +457,20 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        twelveLead != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 5, caseId: caseId!),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              twelveLead != null
+                  ? _buildMainContent()
+                  : const CustomProgressIndicatorWidget(),
+            ],
+          ),
+        )
       ],
     );
   }
