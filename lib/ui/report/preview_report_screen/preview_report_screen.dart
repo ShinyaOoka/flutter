@@ -490,7 +490,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           border-radius: 100%;
           padding: 2px;
           background: #fff;
-          border: 1px solid #000;
+          border: 1px solid #00f;
           text-align: center
       }
       ''';
