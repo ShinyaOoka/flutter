@@ -659,7 +659,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             ? report.timeOfOccurrence!.minute.toString()
             : '');
     result = result.replaceFirst('PlaceOfIncident',
-        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(38).toString() ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(35).toString() ?? ''}</div>');
     result = result.replaceFirst('AccidentSummary',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
     result = result.replaceFirst('SenseTime',
