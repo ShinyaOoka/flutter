@@ -126,10 +126,11 @@ class _EcgChartScreenState extends State<EcgChartScreen>
             //       });
             //     }),
             EcgChart(
+              showGrid: true,
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
               initTimestamp: timestamp,
-              segments: 4,
+              segments: 5,
               initDuration: const Duration(minutes: 1),
               onTap: (timestamp) {
                 if (expandOnTap) {
