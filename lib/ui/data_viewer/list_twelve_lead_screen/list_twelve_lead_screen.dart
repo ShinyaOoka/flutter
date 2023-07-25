@@ -41,6 +41,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   ReactionDisposer? reactionDisposer;
   Case? myCase;
   bool hasNewData = false;
+  late ScrollController _scrollController;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -48,6 +49,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   @override
   void initState() {
     super.initState();
+    _scrollController = new ScrollController();
   }
 
   @override
@@ -173,7 +175,9 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   Widget _buildMainContent() {
     return Scrollbar(
       thumbVisibility: true,
+      controller: _scrollController,
       child: ListView.separated(
+        controller: _scrollController,
         itemCount: myCase!.leads.length,
         itemBuilder: (context, index) => ListTile(
             title: Text(
