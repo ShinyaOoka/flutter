@@ -1,24 +1,13 @@
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report_list_tile.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
-import 'package:localization/localization.dart';
-import 'package:side_navigation/side_navigation.dart';
-import 'package:tuple/tuple.dart';
 
 class TopScreen extends StatefulWidget {
   const TopScreen({super.key});
@@ -87,9 +76,9 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSlider(),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _buildConnectedDevice(),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           _zollSdkStore.selectedDevice != null
               ? IntrinsicWidth(
                   child: ListTile(
@@ -97,9 +86,9 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
                       title: Text(_zollSdkStore.selectedDevice!.serialNumber)),
                 )
               : Container(),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _buildReportList(),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           initialized
               ? ListView.separated(
                   shrinkWrap: true,
@@ -126,7 +115,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
   }
 
   Widget _buildSlider() {
-    return Container(
+    return SizedBox(
       height: 200,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -135,7 +124,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
             width: 300,
             height: 100,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
               color: [
                 Colors.blue,
                 Colors.red,
@@ -160,8 +149,8 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       children: [
         Row(
           children: [
-            Icon(Icons.home),
-            SizedBox(width: 8),
+            const Icon(Icons.home),
+            const SizedBox(width: 8),
             Text(
               "接続先情報",
               style: Theme.of(context).textTheme.titleLarge,
@@ -178,15 +167,15 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       children: [
         Row(
           children: [
-            Icon(Icons.home),
-            SizedBox(width: 8),
+            const Icon(Icons.home),
+            const SizedBox(width: 8),
             Text(
               "レポート一覧",
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
       ],

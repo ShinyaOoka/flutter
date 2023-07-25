@@ -13,10 +13,6 @@ import 'package:intl/intl.dart' as intl;
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/pigeon.dart';
-import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -108,7 +104,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         onPressed: () async {
           await _generatePdf();
         },
-        label: Text('印刷'),
+        label: const Text('印刷'),
       ),
     );
   }
@@ -270,7 +266,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     final page = pw.Page(
       pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(10),
+      margin: const pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
               pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
@@ -365,8 +361,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             ),
           ),
           Container(
-            child: Text('Pads'),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            child: const Text('Pads'),
           ),
           EcgChart(
             samples: snapshot.waveforms['Pads']!.samples,
@@ -376,8 +372,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
           ),
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
               ? Container(
-                  child: Text('CO2 mmHg, Waveform'),
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
+                  child: const Text('CO2 mmHg, Waveform'),
                 )
               : Container(),
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
@@ -395,8 +391,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
               : Container(),
           snapshot.waveforms['SpO2 %, Waveform'] != null
               ? Container(
-                  child: Text('SpO2 %, Waveform'),
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
+                  child: const Text('SpO2 %, Waveform'),
                 )
               : Container(),
           snapshot.waveforms['SpO2 %, Waveform'] != null
@@ -423,10 +419,10 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         child: RichText(
             textAlign: TextAlign.left,
-            text: TextSpan(style: TextStyle(color: Colors.black), children: [
+            text: TextSpan(style: const TextStyle(color: Colors.black), children: [
               TextSpan(
-                  text: '${title}: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  text: '$title: ',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               TextSpan(text: content),
             ])),
       ),

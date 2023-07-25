@@ -23,7 +23,7 @@ class AppNavigationRail extends StatelessWidget {
       child: IntrinsicHeight(
         child: NavigationRail(
           labelType: NavigationRailLabelType.all,
-          destinations: [
+          destinations: const [
             NavigationRailDestination(
                 icon: Icon(Icons.home), label: Text('一般')),
             NavigationRailDestination(

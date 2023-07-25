@@ -1,9 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/list_case_screen/list_case_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -68,7 +65,7 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
       body: _buildBody(),
       actions: _buildActions(),
       title: '接続機器選択',
-      icon: Icon(Icons.home),
+      icon: const Icon(Icons.home),
     );
   }
 

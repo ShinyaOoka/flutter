@@ -3,12 +3,9 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
-import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -197,13 +194,13 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTrendDataSummary(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
               child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
                   textAlign: TextAlign.right),
             ),
@@ -237,14 +234,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text('NIBP'),
+                  const Text('NIBP'),
                   Text(
                       "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -257,14 +254,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("CO2"),
+                  const Text("CO2"),
                   Text(
                       "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -277,14 +274,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("SpO2"),
+                  const Text("SpO2"),
                   Text(
                       "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -297,7 +294,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
@@ -307,7 +304,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   bottom: BorderSide(color: Colors.blue),
                 )),
@@ -320,7 +317,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -329,7 +326,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -338,11 +335,11 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
                   Text(
                       "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
@@ -358,7 +355,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -367,9 +364,9 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("CPR"),
+                  const Text("CPR"),
                   Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
                   Text("${cprCompression?.compRate} cpm"),
                 ]),

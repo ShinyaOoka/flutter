@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -200,7 +198,7 @@ class CprChartScreenState extends State<CprChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -237,7 +235,7 @@ class CprChartScreenState extends State<CprChartScreen>
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
                     segments: 4,
-                    initDuration: Duration(minutes: 1),
+                    initDuration: const Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,
                     majorInterval: majorInterval[chartType]!,
@@ -254,7 +252,7 @@ class CprChartScreenState extends State<CprChartScreen>
 
   Widget _buildTable() {
     return DataTable(
-      columns: [
+      columns: const [
         DataColumn(
             label: Expanded(
           child: Text("分", softWrap: true),
@@ -288,9 +286,9 @@ class CprChartScreenState extends State<CprChartScreen>
           .map((e) => DataRow(cells: [
                 DataCell(Text(e.minute.toString())),
                 DataCell(Text(e.secondsNotInCompressions.toString())),
-                DataCell(Text("0")),
+                const DataCell(Text("0")),
                 DataCell(Text(e.ventilations.toString())),
-                DataCell(Text("0")),
+                const DataCell(Text("0")),
                 DataCell(Text(e.compressionCount.toString())),
                 DataCell(Text(e.averageCompDisp.toStringAsFixed(2))),
               ]))

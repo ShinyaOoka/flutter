@@ -9,17 +9,14 @@ import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
-import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -187,7 +184,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
             }
           }
         },
-        label: Text('印刷'),
+        label: const Text('印刷'),
       ),
     );
   }
@@ -231,7 +228,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 7);
     canvas
-        .clipRect(Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
+        .clipRect(const Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
     ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.02);
     canvas.restore();
     canvas.save();
@@ -432,7 +429,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 10);
-    canvas.clipRect(Rect.fromLTRB(0, -gridSize * 10, gridSize * 50, 0));
+    canvas.clipRect(const Rect.fromLTRB(0, -gridSize * 10, gridSize * 50, 0));
     if (samples.isNotEmpty) {
       ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.1);
     }
@@ -684,7 +681,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     final page = pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
       orientation: pw.PageOrientation.portrait,
-      margin: pw.EdgeInsets.all(10),
+      margin: const pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
               pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
@@ -778,7 +775,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return myCase!.waves[chartType]!.samples.isNotEmpty
         ? SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -798,8 +795,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                   //         chartType = x!;
                   //       });
                   //     }),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
                     child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
                         textAlign: TextAlign.right),
                   ),
@@ -810,7 +807,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
                     segments: 5,
-                    initDuration: Duration(minutes: 1),
+                    initDuration: const Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,
                     majorInterval: majorInterval[chartType]!,
@@ -898,7 +895,7 @@ class _ChoosePrintTimeRangeDialogState
               selectedDate: selectedEndTime,
               clearable: false,
               onChanged: (value) => selectedEndTime = value ?? selectedEndTime),
-          Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
+          const Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
         ],
       ),
       actions: [

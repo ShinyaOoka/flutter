@@ -2,9 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -123,7 +121,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      icon: Icon(Icons.home),
+      icon: const Icon(Icons.home),
       actions: _buildActions(),
       title: 'Case選択',
     );

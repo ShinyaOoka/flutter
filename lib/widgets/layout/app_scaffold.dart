@@ -1,24 +1,13 @@
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/ui/ui_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/utils/routes/app.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
-import 'package:ak_azm_flutter/stores/report/report_store.dart';
-import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
-import 'package:localization/localization.dart';
-import 'package:side_navigation/side_navigation.dart';
-import 'package:tuple/tuple.dart';
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold({
@@ -84,12 +73,12 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
               Observer(builder: (context) {
                 return Container(
                   width: _uiStore.showDrawer ? 200 : 0,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       border: Border(right: BorderSide(color: Colors.black38))),
                   child: SafeArea(
                     child: Column(
                       children: [
-                        Image(
+                        const Image(
                           image: AssetImage('assets/logo.png'),
                           fit: BoxFit.fitHeight,
                           height: 60,
@@ -98,8 +87,8 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                           child: ListView(
                             children: [
                               ListTile(
-                                leading: Icon(Icons.home),
-                                title: Text("ホーム"),
+                                leading: const Icon(Icons.home),
+                                title: const Text("ホーム"),
                                 onTap: () {
                                   if (currentRouteName == AppRoutes.top) {
                                     return;
@@ -109,8 +98,8 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.home),
-                                title: Text("レポート管理"),
+                                leading: const Icon(Icons.home),
+                                title: const Text("レポート管理"),
                                 onTap: () {
                                   if (currentRouteName ==
                                       ReportRoutes.reportListReport) {
@@ -121,8 +110,8 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.home),
-                                title: Text("データ参照"),
+                                leading: const Icon(Icons.home),
+                                title: const Text("データ参照"),
                                 onTap: () {
                                   if (currentRouteName ==
                                       DataViewerRoutes.dataViewerListDevice) {
@@ -139,7 +128,7 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                               ),
                               _zollSdkStore.selectedDevice != null
                                   ? ListTile(
-                                      leading: Icon(Icons.phonelink_erase),
+                                      leading: const Icon(Icons.phonelink_erase),
                                       title: const Text('接続機器変更'),
                                       onTap: () {
                                         if (isDataViewerRoute) {
@@ -158,16 +147,16 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                     )
                                   : Container(),
                               ListTile(
-                                leading: Icon(Icons.home),
-                                title: Text("情報"),
+                                leading: const Icon(Icons.home),
+                                title: const Text("情報"),
                                 onTap: () {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                            title: Text('情報'),
+                                            title: const Text('情報'),
                                             content: RichText(
-                                                text: TextSpan(
+                                                text: const TextSpan(
                                                     style: TextStyle(
                                                         color: Colors.black),
                                                     children: [
@@ -187,7 +176,7 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                               ),
                               ..._zollSdkStore.selectedDevice != null
                                   ? [
-                                      Divider(),
+                                      const Divider(),
                                       ListTile(
                                         title: Text(
                                             '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
@@ -221,7 +210,7 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
       leading: Row(
         children: [
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () {
               _uiStore.setShowDrawer(!_uiStore.showDrawer);
             },

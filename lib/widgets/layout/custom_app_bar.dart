@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   padding: const EdgeInsets.only(left: 40, top: 5),
                   child: Row(
                     children: [
-                      ...icon != null ? [icon!, SizedBox(width: 8)] : [],
+                      ...icon != null ? [icon!, const SizedBox(width: 8)] : [],
                       Text(title!,
                           style: Theme.of(context).textTheme.titleLarge),
                     ],

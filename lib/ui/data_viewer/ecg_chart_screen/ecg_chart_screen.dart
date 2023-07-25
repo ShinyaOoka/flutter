@@ -5,11 +5,9 @@ import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
@@ -109,7 +107,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -132,7 +130,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
               cprCompressions: myCase!.cprCompressions,
               initTimestamp: timestamp,
               segments: 4,
-              initDuration: Duration(minutes: 1),
+              initDuration: const Duration(minutes: 1),
               onTap: (timestamp) {
                 if (expandOnTap) {
                   Navigator.of(context).pushNamed(
