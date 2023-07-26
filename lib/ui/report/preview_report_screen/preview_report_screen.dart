@@ -277,8 +277,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillCheck(String template, String key, bool checked) {
     if (checked) {
-      template = template.replaceFirst(
-          key, '<span class="square-black"><span class="tick">✔</span></span>');
+      template = template.replaceFirst(key,
+          '<span class="square-black"><span class="tick"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path stroke="blue" fill="blue" d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg></span></span>');
     } else {
       template = template.replaceFirst(key, '<span class="square"></span>');
     }
@@ -314,8 +314,8 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
   }
 
   String fillTime(String template, String key, TimeOfDay? time) {
-    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '　　');
-    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '　　');
+    template = template.replaceAll('${key}_H', time?.hour.toString() ?? '--');
+    template = template.replaceAll('${key}_M', time?.minute.toString() ?? '--');
     return template;
   }
 
@@ -475,21 +475,22 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           vertical-align: middle;
           margin-bottom: 4px;
           position: relative;
+          color: #0000ff;
       }
 
       .square-black .tick {
           position: absolute;
           top: 0;
           left: 0;
-          transform: translate(-2px, -10px);
-          color: blue;
+          transform: translate(0px, -4px);
+          color: #0000ff;
       }
 
       .text-circle {
           border-radius: 100%;
           padding: 2px;
           background: #fff;
-          border: 1px solid #000;
+          border: 1px solid #00f;
           text-align: center
       }
       ''';
@@ -658,25 +659,57 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             ? report.timeOfOccurrence!.minute.toString()
             : '');
     result = result.replaceFirst('PlaceOfIncident',
-        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(38).toString() ?? ''}</div>');
+        '<div style="white-space: pre-wrap;">${report.placeOfIncident?.replaceAll("\n", ' ').characters.take(35).toString() ?? ''}</div>');
     result = result.replaceFirst('AccidentSummary',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.accidentSummary, 8, 23) ?? ''}</div>');
-    result = result.replaceFirst('SenseTime',
-        '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('CommandTime',
-        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('AttendanceTime',
-        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('On-siteArrivalTime',
-        '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('ContactTime',
-        '${report.contactTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.contactTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('In-vehicleTime',
-        '${report.inVehicleTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.inVehicleTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('StartOfTransportTime',
-        '${report.startOfTransportTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.startOfTransportTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    result = result.replaceFirst('HospitalArrivalTime',
-        '${report.hospitalArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.hospitalArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    if (report.senseTime != null) {
+      result = result.replaceFirst('SenseTime',
+          '${report.senseTime!.hour.toString().padLeft(2, '0')}:${report.senseTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('SenseTime', '');
+    }
+    if (report.commandTime != null) {
+      result = result.replaceFirst('CommandTime',
+          '${report.commandTime!.hour.toString().padLeft(2, '0')}:${report.commandTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('CommandTime', '');
+    }
+    if (report.dispatchTime != null) {
+      result = result.replaceFirst('AttendanceTime',
+          '${report.dispatchTime!.hour.toString().padLeft(2, '0')}:${report.dispatchTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('AttendanceTime', '');
+    }
+    if (report.onSiteArrivalTime != null) {
+      result = result.replaceFirst('On-siteArrivalTime',
+          '${report.onSiteArrivalTime!.hour.toString().padLeft(2, '0')}:${report.onSiteArrivalTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('On-siteArrivalTime', '');
+    }
+    if (report.contactTime != null) {
+      result = result.replaceFirst('ContactTime',
+          '${report.contactTime!.hour.toString().padLeft(2, '0')}:${report.contactTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('ContactTime', '');
+    }
+    if (report.inVehicleTime != null) {
+      result = result.replaceFirst('In-vehicleTime',
+          '${report.inVehicleTime!.hour.toString().padLeft(2, '0')}:${report.inVehicleTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('In-vehicleTime', '');
+    }
+    if (report.startOfTransportTime != null) {
+      result = result.replaceFirst('StartOfTransportTime',
+          '${report.startOfTransportTime!.hour.toString().padLeft(2, '0')}:${report.startOfTransportTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('StartOfTransportTime', '');
+    }
+    if (report.hospitalArrivalTime != null) {
+      result = result.replaceFirst('HospitalArrivalTime',
+          '${report.hospitalArrivalTime!.hour.toString().padLeft(2, '0')}:${report.hospitalArrivalTime!.minute.toString().padLeft(2, '0')}');
+    } else {
+      result = result.replaceFirst('HospitalArrivalTime', '');
+    }
     result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
         fillFalse: report.familyContact != null);
     result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
@@ -685,13 +718,13 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       result = result.replaceFirst('FamilyContactTime',
           '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      result = result.replaceFirst('FamilyContactTime', '  　　:　　  ');
+      result = result.replaceFirst('FamilyContactTime', '  　　 　　  ');
     }
     if (report.policeContactTime != null) {
       result = result.replaceFirst('PoliceContactTime',
           '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
     } else {
-      result = result.replaceFirst('PoliceContactTime', '  　　:　　  ');
+      result = result.replaceFirst('PoliceContactTime', '  　　 　　  ');
     }
     result = fillClassificationCheck(
         result,
@@ -731,8 +764,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.securingAirway != null && report.securingAirway != '');
 
     for (int i = 0; i < 3; i++) {
-      result = result.replaceFirst('ObservationTime${i + 1}',
-          '${report.observationTime?[i]?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0') ?? '　　'}');
+      if (report.observationTime?[i] != null) {
+        result = result.replaceFirst('ObservationTime${i + 1}',
+            '${report.observationTime?[i]?.hour.toString().padLeft(2, '0')}:${report.observationTime?[i]?.minute.toString().padLeft(2, '0')}');
+      } else {
+        result = result.replaceFirst('ObservationTime${i + 1}', '');
+      }
       result =
           result.replaceFirst('JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
       result = result.replaceFirst(
