@@ -196,12 +196,21 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       ..moveTo(
           38.5 * gridSize * scale, tickSize * scale + 12 * gridSize * scale);
 
-    drawGraph(leadIPath, twelveLead!.leadI.samples,
-        const Offset(gridSize * scale, tickSize * scale + 4 * gridSize * scale));
-    drawGraph(leadIIPath, twelveLead!.leadII.samples,
-        const Offset(gridSize * scale, tickSize * scale + 8 * gridSize * scale));
-    drawGraph(leadIIIPath, twelveLead!.leadIII.samples,
-        const Offset(gridSize * scale, tickSize * scale + 12 * gridSize * scale));
+    drawGraph(
+        leadIPath,
+        twelveLead!.leadI.samples,
+        const Offset(
+            gridSize * scale, tickSize * scale + 4 * gridSize * scale));
+    drawGraph(
+        leadIIPath,
+        twelveLead!.leadII.samples,
+        const Offset(
+            gridSize * scale, tickSize * scale + 8 * gridSize * scale));
+    drawGraph(
+        leadIIIPath,
+        twelveLead!.leadIII.samples,
+        const Offset(
+            gridSize * scale, tickSize * scale + 12 * gridSize * scale));
 
     drawGraph(
         leadAVRPath,
@@ -218,10 +227,16 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
         twelveLead!.leadAVF.samples,
         const Offset(
             13.5 * gridSize * scale, tickSize * scale + 12 * gridSize * scale));
-    drawGraph(leadV1Path, twelveLead!.leadV1.samples,
-        const Offset(26 * gridSize * scale, tickSize * scale + 4 * gridSize * scale));
-    drawGraph(leadV2Path, twelveLead!.leadV2.samples,
-        const Offset(26 * gridSize * scale, tickSize * scale + 8 * gridSize * scale));
+    drawGraph(
+        leadV1Path,
+        twelveLead!.leadV1.samples,
+        const Offset(
+            26 * gridSize * scale, tickSize * scale + 4 * gridSize * scale));
+    drawGraph(
+        leadV2Path,
+        twelveLead!.leadV2.samples,
+        const Offset(
+            26 * gridSize * scale, tickSize * scale + 8 * gridSize * scale));
     drawGraph(
         leadV3Path,
         twelveLead!.leadV3.samples,
@@ -273,7 +288,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
     drawText('I', const Offset(gridSize * scale * 1.5, gridSize * scale * 2));
     drawText('II', const Offset(gridSize * scale * 1.5, gridSize * scale * 6));
-    drawText('III', const Offset(gridSize * scale * 1.5, gridSize * scale * 10));
+    drawText(
+        'III', const Offset(gridSize * scale * 1.5, gridSize * scale * 10));
     drawText('aVR', const Offset(gridSize * scale * 14, gridSize * scale * 2));
     drawText('aVL', const Offset(gridSize * scale * 14, gridSize * scale * 6));
     drawText('aVF', const Offset(gridSize * scale * 14, gridSize * scale * 10));
@@ -357,29 +373,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 pw.Text("25 mm/s 10 mm/mV 0.52~40 Hz"),
                 pw.Text("グリッドサイズは0.20 s x 0.50 mV"),
               ],
-            )
-          ],
-          mainAxisAlignment: pw.MainAxisAlignment.start,
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-        );
-      },
-    );
-    final secondPage = pw.Page(
-      pageFormat: PdfPageFormat.a4.landscape,
-      orientation: pw.PageOrientation.landscape,
-      margin: const pw.EdgeInsets.all(10),
-      theme: pw.ThemeData(
-          defaultTextStyle:
-              pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
-      build: (context) {
-        final titleTextStyle =
-            pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
-        return pw.Column(
-          children: [
-            pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
-            pw.Text(
-                "${twelveLead?.patientData.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase!.startTime!)}",
-                style: titleTextStyle),
+            ),
             pw.Container(height: 10),
             pw.Table(children: [
               pw.TableRow(children: [
@@ -433,7 +427,6 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       },
     );
     pdf.addPage(firstPage);
-    pdf.addPage(secondPage);
     final bytes = await pdf.save();
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
@@ -629,7 +622,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: RichText(
           textAlign: TextAlign.left,
-          text: TextSpan(style: const TextStyle(color: Colors.black), children: [
+          text:
+              TextSpan(style: const TextStyle(color: Colors.black), children: [
             title != ''
                 ? TextSpan(
                     text: '$title: ',
