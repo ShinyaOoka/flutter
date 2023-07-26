@@ -10,6 +10,7 @@ import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
+import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
@@ -174,13 +175,21 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
           if (result != null) {
             final startTime = result[0];
             final endTime = result[1];
+            final pads = result[2];
+            final co2 = result[3];
+            final resp = result[4];
+            final cprAccel = result[5];
+            final cprCompression = result[6];
             setState(() {
               loading = true;
             });
             try {
-              await _generatePdf(startTime, endTime);
+              await _generatePdf(startTime, endTime, pads, co2, resp, cprAccel,
+                  cprCompression);
             } finally {
-              loading = false;
+              setState(() {
+                loading = false;
+              });
             }
           }
         },
@@ -227,8 +236,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 7);
-    canvas
-        .clipRect(const Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
+    canvas.clipRect(
+        const Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
     ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.02);
     canvas.restore();
     canvas.save();
@@ -599,7 +608,14 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return chunkedEvents;
   }
 
-  Future<void> _generatePdf(DateTime startTime, DateTime endTime) async {
+  Future<void> _generatePdf(
+      DateTime startTime,
+      DateTime endTime,
+      bool drawPads,
+      bool drawCo2,
+      bool drawResp,
+      bool drawCprAccel,
+      bool drawCprCompression) async {
     final font = pw.TtfFont(
         await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
     final fontBold =
@@ -653,27 +669,38 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     final cprCompressionChunk =
         mapCprCompressionToPadChunk(pads, padIndices, myCase!.cprCompressions);
 
-    final chartFutures = await Future.wait([
-      Future.wait(padChunk
+    final List<Future<List<pw.MemoryImage>>> charts = [];
+    if (drawPads) {
+      charts.add(Future.wait(padChunk
           .mapIndexed((i, x) => _buildPdfPadsChart(x, chunkedEvents[i]))
-          .toList()),
-      Future.wait(co2Chunk
+          .toList()));
+    }
+    if (drawCo2) {
+      charts.add(Future.wait(co2Chunk
           .mapIndexed((i, x) => _buildPdfCo2Chart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(impedanceChunk
+          .toList()));
+    }
+    if (drawResp) {
+      charts.add(Future.wait(impedanceChunk
           .mapIndexed((i, x) => _buildPdfRespChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(cprAccelChunk
+          .toList()));
+    }
+    if (drawCprAccel) {
+      charts.add(Future.wait(cprAccelChunk
           .mapIndexed((i, x) => _buildPdfCprAccelChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(cprCompressionChunk
+          .toList()));
+    }
+    if (drawCprCompression) {
+      charts.add(Future.wait(cprCompressionChunk
           .mapIndexed((i, x) => _buildPdfCprCompressionChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList())
-    ]);
+          .toList()));
+    }
+
+    final chartFutures = await Future.wait(charts);
 
     final chartWidgets =
         zip(chartFutures).map((e) => e.map((e) => pw.Image(e))).flattened;
@@ -689,7 +716,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
         final titleTextStyle =
             pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
         return pw.Column(children: [
-          pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
+          pw.Text("ZOLL® X Series® 除細動器要約レポート", style: titleTextStyle),
           pw.Text(
               "${myCase!.patientData?.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase!.startTime!)}",
               style: titleTextStyle),
@@ -862,6 +889,11 @@ class _ChoosePrintTimeRangeDialogState
     extends State<ChoosePrintTimeRangeDialog> {
   late DateTime selectedStartTime;
   late DateTime selectedEndTime;
+  bool pads = true;
+  bool resp = true;
+  bool co2 = true;
+  bool cprAccel = true;
+  bool cprCompression = true;
 
   @override
   void initState() {
@@ -874,35 +906,104 @@ class _ChoosePrintTimeRangeDialogState
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('時間範囲確認'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppDateTimePicker(
-            label: '開始時間',
-            minTime: widget.myCase?.startTime,
-            maxTime: selectedEndTime,
-            defaultDate: widget.myCase?.startTime,
-            selectedDate: selectedStartTime,
-            clearable: false,
-            onChanged: (value) =>
-                selectedStartTime = value ?? selectedStartTime,
-          ),
-          AppDateTimePicker(
-              label: '終了時間',
-              minTime: selectedStartTime,
-              maxTime: widget.myCase?.endTime,
-              defaultDate: widget.myCase?.endTime,
-              selectedDate: selectedEndTime,
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            AppDateTimePicker(
+              label: '開始時間',
+              minTime: widget.myCase?.startTime,
+              maxTime: selectedEndTime,
+              defaultDate: widget.myCase?.startTime,
+              selectedDate: selectedStartTime,
               clearable: false,
-              onChanged: (value) => selectedEndTime = value ?? selectedEndTime),
-          const Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
-        ],
+              onChanged: (value) =>
+                  selectedStartTime = value ?? selectedStartTime,
+            ),
+            AppDateTimePicker(
+                label: '終了時間',
+                minTime: selectedStartTime,
+                maxTime: widget.myCase?.endTime,
+                defaultDate: widget.myCase?.endTime,
+                selectedDate: selectedEndTime,
+                clearable: false,
+                onChanged: (value) =>
+                    selectedEndTime = value ?? selectedEndTime),
+            CheckboxListTile(
+              dense: true,
+              value: pads,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('パッド'),
+              onChanged: (value) {
+                setState(() {
+                  pads = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: co2,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CO2'),
+              onChanged: (value) {
+                setState(() {
+                  co2 = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: resp,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('換気'),
+              onChanged: (value) {
+                setState(() {
+                  resp = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: cprAccel,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CPR波形'),
+              onChanged: (value) {
+                setState(() {
+                  cprAccel = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: cprCompression,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CPRバー'),
+              onChanged: (value) {
+                setState(() {
+                  cprCompression = value ?? false;
+                });
+              },
+            ),
+            const Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
+          ],
+        ),
       ),
       actions: [
         TextButton(
           child: const Text("OK"),
           onPressed: () {
-            Navigator.pop(context, [selectedStartTime, selectedEndTime]);
+            Navigator.pop(context, [
+              selectedStartTime,
+              selectedEndTime,
+              pads,
+              co2,
+              resp,
+              cprAccel,
+              cprCompression
+            ]);
           },
         ),
         TextButton(
