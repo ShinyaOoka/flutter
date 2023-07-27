@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
@@ -29,6 +30,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   late FireStationStore _fireStationStore;
   late ClassificationStore _classificationStore;
   late HospitalStore _hospitalStore;
+  late ZollSdkStore _zollSdkStore;
 
   late Report _originalReport;
 
@@ -59,6 +61,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
     _fireStationStore = context.read();
     _classificationStore = context.read();
     _hospitalStore = context.read();
+    _zollSdkStore = context.read();
 
     _teamStore.getTeams();
     _fireStationStore.getAllFireStations();
@@ -138,7 +141,12 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
   Widget _buildGetDataFromXSeriesButton() {
     return FloatingActionButton(
       onPressed: () async {
-        await Navigator.of(context).pushNamed(ReportRoutes.reportListDevice);
+        if (_zollSdkStore.selectedDevice != null) {
+          Navigator.of(context).pushNamed(ReportRoutes.reportListDevice);
+          Navigator.of(context).pushNamed(ReportRoutes.reportListCase);
+        } else {
+          Navigator.of(context).pushNamed(ReportRoutes.reportListDevice);
+        }
       },
       backgroundColor: Theme.of(context).primaryColor,
       child: const Icon(Icons.data_thresholding_outlined),
