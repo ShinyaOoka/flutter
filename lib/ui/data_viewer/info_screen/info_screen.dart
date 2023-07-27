@@ -95,7 +95,7 @@ class _InfoScreenState extends State<InfoScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    await _loadTestData();
+    try {await _loadTestData();}catch(e) {}
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
