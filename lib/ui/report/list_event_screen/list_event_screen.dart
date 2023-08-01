@@ -170,7 +170,9 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
+    try {
+      await _loadTestData();
+    } catch (e) {}
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
@@ -489,7 +491,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                 const SizedBox(width: 16),
                 trendData[index].time != null
                     ? Expanded(
-                        child: Text(AppConstants.timeHmFormat
+                        child: Text(AppConstants.dateTimeHmFormat
                             .format(trendData[index].time!)))
                     : Container(),
                 trendData[index].time != null
