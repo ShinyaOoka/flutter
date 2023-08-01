@@ -126,9 +126,24 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                   }
                                 },
                               ),
+                              ListTile(
+                                leading: const Icon(Icons.home),
+                                title: const Text("データ参照（保存済）"),
+                                onTap: () {
+                                  if (currentRouteName ==
+                                      DataViewerRoutes
+                                          .dataViewerListDownloadedCase) {
+                                    return;
+                                  }
+                                  Navigator.of(context).popAndPushNamed(
+                                      DataViewerRoutes
+                                          .dataViewerListDownloadedCase);
+                                },
+                              ),
                               _zollSdkStore.selectedDevice != null
                                   ? ListTile(
-                                      leading: const Icon(Icons.phonelink_erase),
+                                      leading:
+                                          const Icon(Icons.phonelink_erase),
                                       title: const Text('接続機器変更'),
                                       onTap: () {
                                         if (isDataViewerRoute) {

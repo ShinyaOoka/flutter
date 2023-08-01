@@ -95,9 +95,17 @@ class _InfoScreenState extends State<InfoScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
@@ -151,7 +159,7 @@ class _InfoScreenState extends State<InfoScreen>
         Expanded(
           child: Stack(
             children: <Widget>[
-            // _handleErrorMessage(),
+              // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
                   : const CustomProgressIndicatorWidget(),

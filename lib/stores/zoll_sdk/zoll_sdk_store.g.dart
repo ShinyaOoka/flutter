@@ -72,6 +72,22 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
+  late final _$caseOriginAtom =
+      Atom(name: '_ZollSdkStore.caseOrigin', context: context);
+
+  @override
+  CaseOrigin get caseOrigin {
+    _$caseOriginAtom.reportRead();
+    return super.caseOrigin;
+  }
+
+  @override
+  set caseOrigin(CaseOrigin value) {
+    _$caseOriginAtom.reportWrite(value, super.caseOrigin, () {
+      super.caseOrigin = value;
+    });
+  }
+
   late final _$onDownloadCaseSuccessAsyncAction =
       AsyncAction('_ZollSdkStore.onDownloadCaseSuccess', context: context);
 
@@ -137,7 +153,8 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
 devices: ${devices},
 caseListItems: ${caseListItems},
 cases: ${cases},
-selectedDevice: ${selectedDevice}
+selectedDevice: ${selectedDevice},
+caseOrigin: ${caseOrigin}
     ''';
   }
 }

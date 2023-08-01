@@ -158,9 +158,17 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       }
     });
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
@@ -279,7 +287,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.drawRect(
-        const Rect.fromLTWH(gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 4),
+        const Rect.fromLTWH(
+            gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 4),
         redPaint);
     canvas.restore();
     canvas.save();
@@ -413,7 +422,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.drawRect(
-        const Rect.fromLTWH(gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 2),
+        const Rect.fromLTWH(
+            gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 2),
         blackPaint);
     canvas.restore();
     canvas.save();
@@ -477,7 +487,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 2);
-    canvas.drawRect(const Rect.fromLTRB(0, 0, gridSize * 60, 80 / 140 * gridSize * 8),
+    canvas.drawRect(
+        const Rect.fromLTRB(0, 0, gridSize * 60, 80 / 140 * gridSize * 8),
         greenPaint);
     ChartPainter.paintYAxis(canvas, redPaint, 8, gridSize,
         leftTickInterval: 4, tickSize: tickSize);

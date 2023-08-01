@@ -1,3 +1,4 @@
+import 'package:ak_azm_flutter/stores/downloaded_case/downloaded_case_store.dart';
 import 'package:ak_azm_flutter/stores/ui/ui_store.dart';
 import 'package:ak_azm_flutter/utils/routes/app.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   final ClassificationStore _classificationStore = getIt<ClassificationStore>();
   final ZollSdkHostApi _hostApi = getIt<ZollSdkHostApi>();
   final ZollSdkStore _zollSdkStore = getIt<ZollSdkStore>();
+  final DownloadedCaseStore _downloadedCaseStore = getIt<DownloadedCaseStore>();
   final UiStore _uiStore = getIt<UiStore>();
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
         Provider<ZollSdkHostApi>(create: (_) => _hostApi),
         Provider<ZollSdkStore>(create: (_) => _zollSdkStore),
         Provider<UiStore>(create: (_) => _uiStore),
+        Provider<DownloadedCaseStore>(create: (_) => _downloadedCaseStore),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

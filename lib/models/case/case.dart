@@ -222,6 +222,9 @@ class Case = _Case with _$Case;
 
 abstract class _Case with Store {
   @observable
+  String? rawData;
+
+  @observable
   ObservableList<CaseEvent> events = ObservableList();
 
   @observable

@@ -97,9 +97,17 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override

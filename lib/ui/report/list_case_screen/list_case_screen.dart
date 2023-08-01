@@ -239,6 +239,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 title: Text(
                     '${_formatTime(cases![index].startTime)}〜${_formatTime(cases![index].endTime)}'),
                 onTap: () {
+                  if (_zollSdkStore.selectedDevice?.serialNumber ==
+                      'Sample Device') {
+                    _zollSdkStore.caseOrigin = CaseOrigin.test;
+                  } else {
+                    _zollSdkStore.caseOrigin = CaseOrigin.device;
+                  }
                   Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
                       arguments: ListEventScreenArguments(
                           caseId: cases![index].caseId));
