@@ -9,15 +9,13 @@ import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
-import 'package:ak_azm_flutter/widgets/app_date_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
+import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -46,7 +44,7 @@ class FullEcgChartScreen extends StatefulWidget {
 }
 
 class _FullEcgChartScreenState extends State<FullEcgChartScreen>
-    with RouteAware, ReportSectionMixin {
+    with RouteAware, ReportSectionMixin, StripPdfMixin {
   late ZollSdkStore _zollSdkStore;
   late ZollSdkHostApi _hostApi;
   late String caseId;
@@ -77,9 +75,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     'CO2 mmHg, Waveform': (x) => "${x.toInt()}%",
     'Pads Impedance': (x) => x.toStringAsFixed(0),
   };
-  Case? myCase;
   bool hasNewData = false;
-  bool loading = false;
+  // bool loading = false;
   bool expandOnTap = false;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -136,7 +133,9 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
+    try {
+      await _loadTestData();
+    } catch (e) {}
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
@@ -154,41 +153,277 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
 
   List<Widget> _buildActions() {
     return [
-      _buildPrintButton(),
+      buildPrintButton(null, null),
     ];
   }
 
-  Widget _buildPrintButton() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextButton.icon(
-        icon: const Icon(Icons.print),
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            foregroundColor: Theme.of(context).primaryColor),
-        onPressed: () async {
-          final result = await showDialog(
-              context: context,
-              builder: (context) {
-                return ChoosePrintTimeRangeDialog(myCase: myCase);
-              });
-          if (result != null) {
-            final startTime = result[0];
-            final endTime = result[1];
-            setState(() {
-              loading = true;
-            });
-            try {
-              await _generatePdf(startTime, endTime);
-            } finally {
-              loading = false;
-            }
-          }
-        },
-        label: Text('印刷'),
-      ),
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    final parsedCase = CaseParser.parse(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateTime.parse(caseListItem!.startTime!).toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
+        : null;
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return CustomAppBar(
+      leading: _buildBackButton(),
+      leadingWidth: 88,
+      title: "ECG全体",
+      actions: _buildActions(),
     );
   }
+
+  Widget _buildBackButton() {
+    return TextButton.icon(
+      icon: const SizedBox(
+        width: 12,
+        child: Icon(Icons.arrow_back_ios),
+      ),
+      style:
+          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+      label: Text('back'.i18n()),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: <Widget>[
+        // _handleErrorMessage(),
+        myCase != null ? _buildMainContent() : Container(),
+      ],
+    );
+  }
+
+  Widget _buildMainContent() {
+    return myCase!.waves[chartType]!.samples.isNotEmpty
+        ? SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AppCheckbox(
+                      label: 'クリックしたら拡大ECGへ移動',
+                      value: expandOnTap,
+                      onChanged: (x) =>
+                          setState(() => expandOnTap = x ?? false)),
+                  // DropdownButton<String>(
+                  //     value: chartType,
+                  //     items: myCase!.waves.keys
+                  //         .map(
+                  //             (e) => DropdownMenuItem(value: e, child: Text(e)))
+                  //         .toList(),
+                  //     onChanged: (x) {
+                  //       setState(() {
+                  //         chartType = x!;
+                  //       });
+                  //     }),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                        textAlign: TextAlign.right),
+                  ),
+                  EcgChart(
+                    showGrid: true,
+                    samples: myCase!.waves[chartType]!.samples,
+                    cprCompressions: myCase!.cprCompressions,
+                    initTimestamp:
+                        myCase!.waves[chartType]!.samples.first.timestamp,
+                    segments: 5,
+                    initDuration: Duration(minutes: 1),
+                    minY: minY[chartType]!,
+                    maxY: maxY[chartType]!,
+                    majorInterval: majorInterval[chartType]!,
+                    minorInterval: minorInterval[chartType]!,
+                    labelFormat: labelFormat[chartType]!,
+                    onTap: (timestamp) {
+                      if (expandOnTap) {
+                        Navigator.of(context).pushNamed(
+                            DataViewerRoutes.dataViewerExpandedEcgChart,
+                            arguments: ExpandedCprChartScreenArguments(
+                                caseId: caseId, timestamp: timestamp));
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container();
+  }
+}
+
+class ChoosePrintTimeRangeDialog extends StatefulWidget {
+  const ChoosePrintTimeRangeDialog({
+    Key? key,
+    required this.myCase,
+    this.start,
+    this.end,
+  }) : super(key: key);
+
+  final Case? myCase;
+  final DateTime? start;
+  final DateTime? end;
+
+  @override
+  State<ChoosePrintTimeRangeDialog> createState() =>
+      _ChoosePrintTimeRangeDialogState();
+}
+
+class _ChoosePrintTimeRangeDialogState
+    extends State<ChoosePrintTimeRangeDialog> {
+  late DateTime selectedStartTime;
+  late DateTime selectedEndTime;
+  bool pads = true;
+  bool resp = true;
+  bool co2 = true;
+  bool cprAccel = true;
+  bool cprCompression = true;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedStartTime = widget.start ?? widget.myCase!.startTime!;
+    selectedEndTime = widget.end ?? widget.myCase!.endTime!;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('${widget.start} ${widget.end}');
+    return AlertDialog(
+      title: const Text('時間範囲確認'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            AppDateTimePicker(
+                label: '開始時間',
+                minTime: widget.myCase?.startTime,
+                maxTime: selectedEndTime,
+                defaultDate: widget.start ?? widget.myCase?.startTime,
+                selectedDate: selectedStartTime,
+                clearable: false,
+                onChanged: (value) {
+                  setState(() {
+                    selectedStartTime = value ?? selectedStartTime;
+                  });
+                }),
+            AppDateTimePicker(
+                label: '終了時間',
+                minTime: selectedStartTime,
+                maxTime: widget.myCase?.endTime,
+                defaultDate: widget.end ?? widget.myCase?.endTime,
+                selectedDate: selectedEndTime,
+                clearable: false,
+                onChanged: (value) {
+                  setState(() {
+                    selectedEndTime = value ?? selectedEndTime;
+                  });
+                }),
+            CheckboxListTile(
+              dense: true,
+              value: pads,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('パッド'),
+              onChanged: (value) {
+                setState(() {
+                  pads = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: co2,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CO2'),
+              onChanged: (value) {
+                setState(() {
+                  co2 = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: resp,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('換気'),
+              onChanged: (value) {
+                setState(() {
+                  resp = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: cprAccel,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CPR波形'),
+              onChanged: (value) {
+                setState(() {
+                  cprAccel = value ?? false;
+                });
+              },
+            ),
+            CheckboxListTile(
+              dense: true,
+              value: cprCompression,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text('CPRバー'),
+              onChanged: (value) {
+                setState(() {
+                  cprCompression = value ?? false;
+                });
+              },
+            ),
+            const Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.pop(context, [
+              selectedStartTime,
+              selectedEndTime,
+              pads,
+              co2,
+              resp,
+              cprAccel,
+              cprCompression
+            ]);
+          },
+        ),
+        TextButton(
+          child: const Text("キャンセル"),
+          onPressed: () {
+            Navigator.pop(context, null);
+          },
+        ),
+      ],
+    );
+  }
+}
+
+mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
+  Case? myCase;
 
   static Future<pw.MemoryImage> _buildPdfPadsChart(
       List<Sample> samples, List<CaseEvent> events) async {
@@ -228,8 +463,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 7);
-    canvas
-        .clipRect(Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
+    canvas.clipRect(
+        const Rect.fromLTRB(0, -gridSize * 5, gridSize * 50, gridSize * 5));
     ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.02);
     canvas.restore();
     canvas.save();
@@ -306,6 +541,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 6);
+    canvas.clipRect(
+        const Rect.fromLTRB(0, -gridSize * 4, gridSize * 50, gridSize * 4));
     if (samples.isNotEmpty) {
       ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.05);
     }
@@ -430,7 +667,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 10);
-    canvas.clipRect(Rect.fromLTRB(0, -gridSize * 10, gridSize * 50, 0));
+    canvas.clipRect(const Rect.fromLTRB(0, -gridSize * 10, gridSize * 50, 0));
     if (samples.isNotEmpty) {
       ChartPainter.drawGraph(canvas, blackPaint, samples, 50, 0.1);
     }
@@ -532,6 +769,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   static List<int> _chunkedIndices(List<Sample> samples) {
+    if (samples.isEmpty) return [];
     var indices = [0];
     var lastSampleSecond = samples[indices.last].inSeconds;
     var index = 0;
@@ -541,6 +779,9 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
         lastSampleSecond = samples[indices.last].inSeconds;
       }
       index += 1;
+    }
+    if (indices.last != samples.length - 1) {
+      indices.add(samples.length - 1);
     }
     return indices;
   }
@@ -600,7 +841,14 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return chunkedEvents;
   }
 
-  Future<void> _generatePdf(DateTime startTime, DateTime endTime) async {
+  Future<void> _generatePdf(
+      DateTime startTime,
+      DateTime endTime,
+      bool drawPads,
+      bool drawCo2,
+      bool drawResp,
+      bool drawCprAccel,
+      bool drawCprCompression) async {
     final font = pw.TtfFont(
         await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
     final fontBold =
@@ -626,55 +874,76 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     int currentChunk = 0;
 
     final List<List<CaseEvent>> chunkedEvents = [];
-    for (var i = 0; i < padIndices.length; i++) {
-      chunkedEvents.add([]);
-    }
-
-    for (final x in myCase!.displayableEvents
-        .map((e) => e.item2)
-        .skipWhile((e) =>
-            e.date.microsecondsSinceEpoch < pads[padIndices.first].timestamp)
-        .takeWhile((e) =>
-            e.date.microsecondsSinceEpoch < pads[padIndices.last].timestamp)) {
-      if (currentChunk < padIndices.length - 2 &&
-          pads[padIndices[currentChunk + 1]].timestamp <=
-              x.date.microsecondsSinceEpoch) {
-        currentChunk = padIndices.lastIndexWhere(
-            (e) => pads[e].timestamp <= x.date.microsecondsSinceEpoch);
+    if (padIndices.isNotEmpty) {
+      for (var i = 0; i < padIndices.length; i++) {
+        chunkedEvents.add([]);
       }
 
-      chunkedEvents[currentChunk].add(x);
+      for (final x in myCase!.displayableEvents
+          .map((e) => e.item2)
+          .skipWhile((e) =>
+              e.date.microsecondsSinceEpoch < pads[padIndices.first].timestamp)
+          .takeWhile((e) =>
+              e.date.microsecondsSinceEpoch <
+              pads[padIndices.last].timestamp)) {
+        if (currentChunk < padIndices.length - 2 &&
+            pads[padIndices[currentChunk + 1]].timestamp <=
+                x.date.microsecondsSinceEpoch) {
+          currentChunk = padIndices.lastIndexWhere(
+              (e) => pads[e].timestamp <= x.date.microsecondsSinceEpoch);
+        }
+
+        chunkedEvents[currentChunk].add(x);
+      }
     }
 
-    final padChunk = _buildPadChunk(padIndices, pads);
-    final cprAccelChunk =
-        mapSamplesToPadChunk(pads, padIndices, myCase!.cprAccel.samples);
-    final co2Chunk = mapSamplesToPadChunk(pads, padIndices, co2);
-    final impedanceChunk = mapSamplesToPadChunk(pads, padIndices, impedance);
-    final cprCompressionChunk =
-        mapCprCompressionToPadChunk(pads, padIndices, myCase!.cprCompressions);
+    final padChunk =
+        padIndices.isNotEmpty ? _buildPadChunk(padIndices, pads) : [];
+    final cprAccelChunk = padIndices.isNotEmpty
+        ? mapSamplesToPadChunk(pads, padIndices, myCase!.cprAccel.samples)
+        : [];
+    final co2Chunk = padIndices.isNotEmpty
+        ? mapSamplesToPadChunk(pads, padIndices, co2)
+        : [];
+    final impedanceChunk = padIndices.isNotEmpty
+        ? mapSamplesToPadChunk(pads, padIndices, impedance)
+        : [];
+    final cprCompressionChunk = padIndices.isNotEmpty
+        ? mapCprCompressionToPadChunk(pads, padIndices, myCase!.cprCompressions)
+        : [];
 
-    final chartFutures = await Future.wait([
-      Future.wait(padChunk
+    final List<Future<List<pw.MemoryImage>>> charts = [];
+    if (drawPads) {
+      charts.add(Future.wait(padChunk
           .mapIndexed((i, x) => _buildPdfPadsChart(x, chunkedEvents[i]))
-          .toList()),
-      Future.wait(co2Chunk
+          .toList()));
+    }
+    if (drawCo2) {
+      charts.add(Future.wait(co2Chunk
           .mapIndexed((i, x) => _buildPdfCo2Chart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(impedanceChunk
+          .toList()));
+    }
+    if (drawResp) {
+      charts.add(Future.wait(impedanceChunk
           .mapIndexed((i, x) => _buildPdfRespChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(cprAccelChunk
+          .toList()));
+    }
+    if (drawCprAccel) {
+      charts.add(Future.wait(cprAccelChunk
           .mapIndexed((i, x) => _buildPdfCprAccelChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList()),
-      Future.wait(cprCompressionChunk
+          .toList()));
+    }
+    if (drawCprCompression) {
+      charts.add(Future.wait(cprCompressionChunk
           .mapIndexed((i, x) => _buildPdfCprCompressionChart(
               x, padChunk[i].first.timestamp, padChunk[i].last.timestamp))
-          .toList())
-    ]);
+          .toList()));
+    }
+
+    final chartFutures = await Future.wait(charts);
 
     final chartWidgets =
         zip(chartFutures).map((e) => e.map((e) => pw.Image(e))).flattened;
@@ -682,7 +951,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     final page = pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
       orientation: pw.PageOrientation.portrait,
-      margin: pw.EdgeInsets.all(10),
+      margin: const pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
               pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
@@ -690,7 +959,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
         final titleTextStyle =
             pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10);
         return pw.Column(children: [
-          pw.Text("ZOLL® X Series® 除細動器 12誘導レポート", style: titleTextStyle),
+          pw.Text("ZOLL® X Series® 除細動器要約レポート", style: titleTextStyle),
           pw.Text(
               "${myCase!.patientData?.patientId} ${intl.DateFormat("yyyy-MM-dd HH:mm:ss").format(myCase!.startTime!)}",
               style: titleTextStyle),
@@ -698,6 +967,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
       },
       build: (context) {
         return [
+          pw.Container(),
           ...chartWidgets,
         ];
       },
@@ -708,118 +978,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
       onLayout: (_) => bytes,
       format: PdfPageFormat.a4.portrait,
     );
-  }
-
-  Future<void> _loadTestData() async {
-    final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/$caseId.json').writeAsString(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    _zollSdkStore.cases[caseId] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "ECG全体",
-      actions: _buildActions(),
-    );
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
-  Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null ? _buildMainContent() : Container(),
-        loading || myCase == null
-            ? const CustomProgressIndicatorWidget()
-            : Container(),
-      ],
-    );
-  }
-
-  Widget _buildMainContent() {
-    return myCase!.waves[chartType]!.samples.isNotEmpty
-        ? SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppCheckbox(
-                      label: 'クリックしたら拡大ECGへ移動',
-                      value: expandOnTap,
-                      onChanged: (x) =>
-                          setState(() => expandOnTap = x ?? false)),
-                  // DropdownButton<String>(
-                  //     value: chartType,
-                  //     items: myCase!.waves.keys
-                  //         .map(
-                  //             (e) => DropdownMenuItem(value: e, child: Text(e)))
-                  //         .toList(),
-                  //     onChanged: (x) {
-                  //       setState(() {
-                  //         chartType = x!;
-                  //       });
-                  //     }),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
-                        textAlign: TextAlign.right),
-                  ),
-                  EcgChart(
-                    showGrid: true,
-                    samples: myCase!.waves[chartType]!.samples,
-                    cprCompressions: myCase!.cprCompressions,
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 5,
-                    initDuration: Duration(minutes: 1),
-                    minY: minY[chartType]!,
-                    maxY: maxY[chartType]!,
-                    majorInterval: majorInterval[chartType]!,
-                    minorInterval: minorInterval[chartType]!,
-                    labelFormat: labelFormat[chartType]!,
-                    onTap: (timestamp) {
-                      if (expandOnTap) {
-                        Navigator.of(context).pushNamed(
-                            DataViewerRoutes.dataViewerExpandedEcgChart,
-                            arguments: ExpandedCprChartScreenArguments(
-                                caseId: caseId, timestamp: timestamp));
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          )
-        : Container();
   }
 
   static getJapaneseEventName(CaseEvent event) {
@@ -836,75 +994,45 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
             : "";
     return '${event.type.i18n()}$eventExtra';
   }
-}
 
-class ChoosePrintTimeRangeDialog extends StatefulWidget {
-  const ChoosePrintTimeRangeDialog({
-    Key? key,
-    required this.myCase,
-  }) : super(key: key);
-
-  final Case? myCase;
-
-  @override
-  State<ChoosePrintTimeRangeDialog> createState() =>
-      _ChoosePrintTimeRangeDialogState();
-}
-
-class _ChoosePrintTimeRangeDialogState
-    extends State<ChoosePrintTimeRangeDialog> {
-  late DateTime selectedStartTime;
-  late DateTime selectedEndTime;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedStartTime = widget.myCase!.startTime!;
-    selectedEndTime = widget.myCase!.endTime!;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('時間範囲確認'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppDateTimePicker(
-            label: '開始時間',
-            minTime: widget.myCase?.startTime,
-            maxTime: selectedEndTime,
-            defaultDate: widget.myCase?.startTime,
-            selectedDate: selectedStartTime,
-            clearable: false,
-            onChanged: (value) =>
-                selectedStartTime = value ?? selectedStartTime,
-          ),
-          AppDateTimePicker(
-              label: '終了時間',
-              minTime: selectedStartTime,
-              maxTime: widget.myCase?.endTime,
-              defaultDate: widget.myCase?.endTime,
-              selectedDate: selectedEndTime,
-              clearable: false,
-              onChanged: (value) => selectedEndTime = value ?? selectedEndTime),
-          Text("10秒間のグラフ生成に1秒程度時間がかかります。\n長時間のグラフ生成時はご注意ください。"),
-        ],
+  Widget buildPrintButton(DateTime? start, DateTime? end) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextButton.icon(
+        icon: const Icon(Icons.print),
+        style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            foregroundColor: Theme.of(context).primaryColor),
+        onPressed: () async {
+          final result = await showDialog(
+              context: context,
+              builder: (context) {
+                return ChoosePrintTimeRangeDialog(
+                    myCase: myCase, start: start, end: end);
+              });
+          if (result != null) {
+            final startTime = result[0];
+            final endTime = result[1];
+            final pads = result[2];
+            final co2 = result[3];
+            final resp = result[4];
+            final cprAccel = result[5];
+            final cprCompression = result[6];
+            // setState(() {
+            //   loading = true;
+            // });
+            // try {
+            await _generatePdf(
+                startTime, endTime, pads, co2, resp, cprAccel, cprCompression);
+            // } finally {
+            // setState(() {
+            //   loading = false;
+            // });
+            // }
+          }
+        },
+        label: const Text('ストリップ印刷'),
       ),
-      actions: [
-        TextButton(
-          child: const Text("OK"),
-          onPressed: () {
-            Navigator.pop(context, [selectedStartTime, selectedEndTime]);
-          },
-        ),
-        TextButton(
-          child: const Text("キャンセル"),
-          onPressed: () {
-            Navigator.pop(context, null);
-          },
-        ),
-      ],
     );
   }
 }

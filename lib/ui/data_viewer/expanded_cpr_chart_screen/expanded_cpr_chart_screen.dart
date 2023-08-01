@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
-import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
@@ -35,7 +34,7 @@ class ExpandedCprChartScreen extends StatefulWidget {
 }
 
 class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
-    with RouteAware, ReportSectionMixin {
+    with RouteAware, ReportSectionMixin, StripPdfMixin {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
@@ -66,7 +65,6 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     'CO2 mmHg, Waveform': (x) => "${x.toInt()}%",
     'Pads Impedance': (x) => x.toStringAsFixed(0),
   };
-  Case? myCase;
   bool hasNewData = false;
   late ZollSdkHostApi _hostApi;
   ReactionDisposer? reactionDisposer;
@@ -125,7 +123,9 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
+    try {
+      await _loadTestData();
+    } catch (e) {}
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
@@ -139,6 +139,16 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
         body: _buildBody(),
       ),
     );
+  }
+
+  List<Widget> _buildActions() {
+    return [
+      buildPrintButton(
+          DateTime.fromMicrosecondsSinceEpoch(timestamp)
+              .subtract(Duration(seconds: 3)),
+          DateTime.fromMicrosecondsSinceEpoch(timestamp)
+              .add(Duration(seconds: 3))),
+    ];
   }
 
   Future<void> _loadTestData() async {
@@ -201,8 +211,8 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildTrendDataSummary(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
               child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
                   textAlign: TextAlign.right),
             ),
@@ -236,14 +246,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text('NIBP'),
+                  const Text('NIBP'),
                   Text(
                       "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -256,14 +266,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("CO2"),
+                  const Text("CO2"),
                   Text(
                       "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -276,14 +286,14 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("SpO2"),
+                  const Text("SpO2"),
                   Text(
                       "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
                   Text(
@@ -296,7 +306,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                   bottom: BorderSide(color: Colors.blue),
@@ -306,7 +316,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   bottom: BorderSide(color: Colors.blue),
                 )),
@@ -319,7 +329,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -328,7 +338,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -337,11 +347,11 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
                   Text(
                       "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
@@ -357,7 +367,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     border: Border(
                   right: BorderSide(color: Colors.blue),
                 )),
@@ -366,9 +376,9 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
             Expanded(
               child: Container(
                 height: 84,
-                padding: EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 child: Column(children: [
-                  Text("CPR"),
+                  const Text("CPR"),
                   Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
                   Text("${cprCompression?.compRate} cpm"),
                 ]),
