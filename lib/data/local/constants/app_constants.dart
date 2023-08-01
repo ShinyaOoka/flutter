@@ -32,6 +32,7 @@ class AppConstants {
   static const reasonForNotTransferringCode = '019';
   static final dateFormat = DateFormat('yyyy/MM/dd');
   static final dateTimeFormat = DateFormat('yyyy/MM/dd HH:mm:ss');
+  static final dateTimeHmFormat = DateFormat('yyyy/MM/dd HH:mm');
   static final timeFormat = DateFormat.Hms();
   static final timeHmFormat = DateFormat.Hm();
 
