@@ -100,15 +100,52 @@ class _ListDownloadedCaseScreenState extends State<ListDownloadedCaseScreen>
         itemBuilder: (context, index) {
           final myCase = _downloadedCaseStore.downloadedCases![index];
           return ListTile(
-              title: Text('${myCase.deviceCd}-${myCase.caseCd}'),
-              onTap: () {
-                _zollSdkStore.caseOrigin = CaseOrigin.downloaded;
-                _loadData(myCase);
-                Navigator.of(context).pushNamed(
-                    DataViewerRoutes.dataViewerChooseFunction,
-                    arguments:
-                        ChooseFunctionScreenArguments(caseId: myCase.caseCd!));
-              });
+            title: Text('${myCase.deviceCd}-${myCase.caseCd}'),
+            onTap: () {
+              _zollSdkStore.caseOrigin = CaseOrigin.downloaded;
+              _loadData(myCase);
+              Navigator.of(context).pushNamed(
+                  DataViewerRoutes.dataViewerChooseFunction,
+                  arguments:
+                      ChooseFunctionScreenArguments(caseId: myCase.caseCd!));
+            },
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                final shouldDelete = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text("ファイル削除前確認"),
+                    content: Text("ケースファイルを削除しますか？"),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text("はい")),
+                      TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text("キャンセル"))
+                    ],
+                  ),
+                );
+                if (shouldDelete == true) {
+                  await _downloadedCaseStore.deleteDownloadedCase([myCase.id!]);
+                  await _downloadedCaseStore.getDownloadedCases();
+                  await showDialog<bool>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("ファイル削除後確認"),
+                      content: Text("ケースファイルを削除しました。"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text("OK"))
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          );
         },
         separatorBuilder: (context, index) => const Divider(),
       ),

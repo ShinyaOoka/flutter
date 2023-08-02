@@ -37,6 +37,10 @@ class Repository {
     return _downloadedCaseDataSource.getAllDownloadedCases();
   }
 
+  Future<void> deleteDownloadedCase(List<int> ids) {
+    return _downloadedCaseDataSource.deleteDownloadedCase(ids);
+  }
+
   Future<void> createDownloadedCase(DownloadedCase myCase) {
     return _downloadedCaseDataSource.createDownloadedCase(myCase);
   }

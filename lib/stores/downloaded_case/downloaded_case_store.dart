@@ -46,6 +46,7 @@ abstract class _DownloadedCaseStore with Store {
     getDownloadedCasesFuture = ObservableFuture(future);
 
     await future.then((reportList) {
+      reportList.sort((a, b) => b.entryDate!.compareTo(a.entryDate!));
       downloadedCases = ObservableList.of(reportList);
     }).catchError((error) {
       print(error);
@@ -61,24 +62,35 @@ abstract class _DownloadedCaseStore with Store {
 
     final file = File(filepath);
     file.writeAsString(myCase.rawData!);
-    if (downloadedCases
-            ?.where((e) => e.deviceCd == deviceId && e.caseCd == caseId)
-            .isEmpty ==
-        true) {
-      final downloadedCase = DownloadedCase();
-      downloadedCase.caseCd = caseId;
-      downloadedCase.deviceCd = deviceId;
-      downloadedCase.filename = filename;
-      downloadedCase.entryDate = DateTime.now();
-      downloadedCase.caseStartDate = myCase.startTime;
-      downloadedCase.caseEndDate = myCase.endTime;
-
-      final future = _repository.createDownloadedCase(downloadedCase);
-      createDownloadedCaseFuture = ObservableFuture(future);
-      await future.catchError((error) {
-        print(error);
-        errorStore.errorMessage = error.toString();
-      });
+    final oldIds = downloadedCases
+        ?.where((e) => e.deviceCd == deviceId && e.caseCd == caseId)
+        .map((e) => e.id!);
+    if (oldIds?.isNotEmpty == true) {
+      await deleteDownloadedCase(oldIds!.toList());
     }
+    final downloadedCase = DownloadedCase();
+    downloadedCase.caseCd = caseId;
+    downloadedCase.deviceCd = deviceId;
+    downloadedCase.filename = filename;
+    downloadedCase.entryDate = DateTime.now();
+    downloadedCase.caseStartDate = myCase.startTime;
+    downloadedCase.caseEndDate = myCase.endTime;
+
+    final future = _repository.createDownloadedCase(downloadedCase);
+    createDownloadedCaseFuture = ObservableFuture(future);
+    await future.catchError((error) {
+      print(error);
+      errorStore.errorMessage = error.toString();
+    });
+  }
+
+  @action
+  Future deleteDownloadedCase(List<int> ids) async {
+    final future = _repository.deleteDownloadedCase(ids);
+    deleteDownloadedCaseFuture = ObservableFuture(future);
+
+    await future.catchError((error) {
+      errorStore.errorMessage = error.toString();
+    });
   }
 }

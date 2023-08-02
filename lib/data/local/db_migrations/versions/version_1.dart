@@ -189,8 +189,8 @@ const _createClassificationTable =
 const _createDownloadedCaseTable =
     '''CREATE TABLE ${DBConstants.downloadedCaseTable} (
   ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  DeviceCD VARCHAR(255),
-  CaseCD VARCHAR(255),
+  DeviceID VARCHAR(255),
+  CaseID VARCHAR(255),
   CaseStartDate DATETIME,
   CaseEndDate DATETIME,
   Filename VARCHAR(255),

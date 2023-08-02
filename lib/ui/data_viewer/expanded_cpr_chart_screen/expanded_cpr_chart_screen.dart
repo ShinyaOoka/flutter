@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
@@ -34,7 +35,7 @@ class ExpandedCprChartScreen extends StatefulWidget {
 }
 
 class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
-    with RouteAware, ReportSectionMixin {
+    with RouteAware, ReportSectionMixin, StripPdfMixin {
   late ZollSdkStore _zollSdkStore;
   late XSeriesDevice device;
   late String caseId;
@@ -65,7 +66,6 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     'CO2 mmHg, Waveform': (x) => "${x.toInt()}%",
     'Pads Impedance': (x) => x.toStringAsFixed(0),
   };
-  Case? myCase;
   bool hasNewData = false;
   late ZollSdkHostApi _hostApi;
   ReactionDisposer? reactionDisposer;
@@ -124,9 +124,17 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
@@ -136,7 +144,18 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "拡大ECG",
+      actions: _buildActions(),
     );
+  }
+
+  List<Widget> _buildActions() {
+    return [
+      buildPrintButton(
+          DateTime.fromMicrosecondsSinceEpoch(timestamp)
+              .subtract(Duration(seconds: 3)),
+          DateTime.fromMicrosecondsSinceEpoch(timestamp)
+              .add(Duration(seconds: 3))),
+    ];
   }
 
   Future<void> _loadTestData() async {

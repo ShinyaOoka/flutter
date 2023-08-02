@@ -235,10 +235,40 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 trailing: IconButton(
                   icon: downloadingCaseIds.contains(cases![index].caseId)
                       ? CircularProgressIndicator()
-                      : downloadedCase != null
-                          ? Icon(Icons.check, color: Colors.blue)
-                          : Icon(Icons.download, color: Colors.blue),
+                      : Icon(Icons.file_download, color: Colors.blue),
                   onPressed: () async {
+                    if (_downloadedCaseStore.downloadedCases!.length >=
+                        AppConstants.maxDownloadedCases) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('ダウンロード容量エラー'),
+                          content: Text(
+                              "ダウンロードファイル数もしくは合計ダウンロード容量が最大値を超えたので、ダウンロードできません。\n保存済のファイルを削除してからダウンロードしてください。"),
+                          actions: [
+                            TextButton(onPressed: () {}, child: Text("OK"))
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+                    final shouldDownload = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('ダウンロード前確認'),
+                        content: Text("ケースファイルをダウンロードしますか？"),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text("はい")),
+                          TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: Text("キャンセル"))
+                        ],
+                      ),
+                    );
+                    if (shouldDownload != true) return;
+
                     setState(() {
                       downloadingCaseIds.add(cases![index].caseId);
                     });
@@ -262,6 +292,20 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     setState(() {
                       downloadingCaseIds.remove(cases![index].caseId);
                     });
+
+                    await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('ダウンロード後確認'),
+                        content:
+                            Text("ケースファイルをダウンロードしました。「データビューア（保存済）」で参照可能です。"),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: Text("OK")),
+                        ],
+                      ),
+                    );
                   },
                 ),
               );

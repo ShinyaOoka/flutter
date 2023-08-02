@@ -17,4 +17,10 @@ class DownloadedCaseDataSource {
   Future createDownloadedCase(DownloadedCase myCase) async {
     await _db.insert(DBConstants.downloadedCaseTable, myCase.toJson());
   }
+
+  Future deleteDownloadedCase(List<int> ids) async {
+    await _db.delete(DBConstants.downloadedCaseTable,
+        where: "ID IN (${List.filled(ids.length, '?').join(',')})",
+        whereArgs: ids);
+  }
 }
