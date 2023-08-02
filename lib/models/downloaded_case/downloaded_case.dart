@@ -16,10 +16,10 @@ abstract class _DownloadedCase with Store {
   @JsonKey(name: 'ID')
   int? id;
   @observable
-  @JsonKey(name: 'CaseCD')
+  @JsonKey(name: 'CaseID')
   String? caseCd;
   @observable
-  @JsonKey(name: 'DeviceCD')
+  @JsonKey(name: 'DeviceID')
   String? deviceCd;
   @observable
   @JsonKey(name: "CaseStartDate")

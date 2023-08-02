@@ -103,6 +103,16 @@ mixin _$DownloadedCaseStore on _DownloadedCaseStore, Store {
         .run(() => super.saveCase(myCase, deviceId, caseId));
   }
 
+  late final _$deleteDownloadedCaseAsyncAction = AsyncAction(
+      '_DownloadedCaseStore.deleteDownloadedCase',
+      context: context);
+
+  @override
+  Future<dynamic> deleteDownloadedCase(List<int> ids) {
+    return _$deleteDownloadedCaseAsyncAction
+        .run(() => super.deleteDownloadedCase(ids));
+  }
+
   @override
   String toString() {
     return '''

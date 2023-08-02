@@ -9,8 +9,8 @@ part of 'downloaded_case.dart';
 DownloadedCase _$DownloadedCaseFromJson(Map<String, dynamic> json) =>
     DownloadedCase()
       ..id = json['ID'] as int?
-      ..caseCd = json['CaseCD'] as String?
-      ..deviceCd = json['DeviceCD'] as String?
+      ..caseCd = json['CaseID'] as String?
+      ..deviceCd = json['DeviceID'] as String?
       ..caseStartDate = json['CaseStartDate'] == null
           ? null
           : DateTime.parse(json['CaseStartDate'] as String)
@@ -32,8 +32,8 @@ DownloadedCase _$DownloadedCaseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DownloadedCaseToJson(DownloadedCase instance) =>
     <String, dynamic>{
       'ID': instance.id,
-      'CaseCD': instance.caseCd,
-      'DeviceCD': instance.deviceCd,
+      'CaseID': instance.caseCd,
+      'DeviceID': instance.deviceCd,
       'CaseStartDate': instance.caseStartDate?.toIso8601String(),
       'CaseEndDate': instance.caseEndDate?.toIso8601String(),
       'Filename': instance.filename,
