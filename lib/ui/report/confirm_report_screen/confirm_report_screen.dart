@@ -167,7 +167,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     return Observer(
       builder: (context) {
         return _reportStore.loading || _reportStore.selectingReport == null
-            ? const CustomProgressIndicatorWidget()
+            ? CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
     );

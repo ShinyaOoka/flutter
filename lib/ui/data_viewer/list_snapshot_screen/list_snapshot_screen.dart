@@ -164,7 +164,7 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
               // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )

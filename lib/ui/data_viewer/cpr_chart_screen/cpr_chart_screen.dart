@@ -195,7 +195,7 @@ class CprChartScreenState extends State<CprChartScreen>
               // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )

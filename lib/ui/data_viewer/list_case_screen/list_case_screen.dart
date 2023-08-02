@@ -179,14 +179,16 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        cases != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget()
-      ],
-    );
+    return Observer(builder: (context) {
+      return Stack(
+        children: <Widget>[
+          // _handleErrorMessage(),
+          cases != null && _downloadedCaseStore.downloadedCases != null
+              ? _buildMainContent()
+              : CustomProgressIndicatorWidget()
+        ],
+      );
+    });
   }
 
   Widget _buildMainContent() {

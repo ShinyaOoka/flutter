@@ -212,7 +212,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         // _handleErrorMessage(),
         cases != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget()
+            : CustomProgressIndicatorWidget()
       ],
     );
   }

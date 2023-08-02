@@ -460,7 +460,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
               // _handleErrorMessage(),
               twelveLead != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )

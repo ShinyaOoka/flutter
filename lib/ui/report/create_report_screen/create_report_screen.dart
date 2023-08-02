@@ -230,7 +230,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     return Observer(
       builder: (context) {
         return _reportStore.loading
-            ? const CustomProgressIndicatorWidget()
+            ? CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
     );

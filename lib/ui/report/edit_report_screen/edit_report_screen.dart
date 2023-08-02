@@ -198,7 +198,7 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
     return Observer(
       builder: (context) {
         return _reportStore.loading || _reportStore.selectingReport == null
-            ? const CustomProgressIndicatorWidget()
+            ? CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
     );

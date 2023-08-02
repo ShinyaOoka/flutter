@@ -271,7 +271,7 @@ class _ListEventScreenState extends State<ListEventScreen>
         // _handleErrorMessage(),
         myCase != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+            : CustomProgressIndicatorWidget(),
       ],
     );
   }

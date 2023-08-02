@@ -84,7 +84,7 @@ class _ListDownloadedCaseScreenState extends State<ListDownloadedCaseScreen>
           // _handleErrorMessage(),
           _downloadedCaseStore.downloadedCases != null
               ? _buildMainContent()
-              : const CustomProgressIndicatorWidget()
+              : CustomProgressIndicatorWidget()
         ],
       );
     });

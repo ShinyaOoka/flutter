@@ -1910,6 +1910,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             },
             initialPageFormat: PdfPageFormat.a4,
           )
-        : const CustomProgressIndicatorWidget();
+        : CustomProgressIndicatorWidget();
   }
 }

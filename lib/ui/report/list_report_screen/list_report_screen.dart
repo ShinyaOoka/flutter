@@ -342,7 +342,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       builder: (context) {
         return initialized
             ? Material(child: _buildListView())
-            : const CustomProgressIndicatorWidget();
+            : CustomProgressIndicatorWidget();
       },
     );
   }

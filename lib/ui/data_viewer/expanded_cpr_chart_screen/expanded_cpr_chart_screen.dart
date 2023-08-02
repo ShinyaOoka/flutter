@@ -200,9 +200,18 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
           child: Stack(
             children: <Widget>[
               // _handleErrorMessage(),
-              myCase != null
-                  ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+              myCase != null ? _buildMainContent() : Container(),
+              generatePdfAction != null || myCase == null
+                  ? CustomProgressIndicatorWidget(
+                      cancellable: generatePdfAction != null,
+                      onCancel: () {
+                        generatePdfAction?.cancel();
+                        setState(() {
+                          generatePdfAction = null;
+                        });
+                      },
+                    )
+                  : Container(),
             ],
           ),
         )

@@ -954,7 +954,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )

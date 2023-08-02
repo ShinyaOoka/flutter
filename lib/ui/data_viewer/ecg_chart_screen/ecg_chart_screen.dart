@@ -99,7 +99,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         // _handleErrorMessage(),
         myCase != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+            : CustomProgressIndicatorWidget(),
       ],
     );
   }

@@ -162,7 +162,7 @@ class _InfoScreenState extends State<InfoScreen>
               // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )

@@ -172,7 +172,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
               // _handleErrorMessage(),
               myCase != null
                   ? _buildMainContent()
-                  : const CustomProgressIndicatorWidget(),
+                  : CustomProgressIndicatorWidget(),
             ],
           ),
         )
