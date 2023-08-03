@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
@@ -277,6 +278,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                       downloadingCaseIds.add(cases![index].caseId);
                     });
                     final tempDir = await getTemporaryDirectory();
+                    _zollSdkStore.downloadCaseCompleter = Completer();
                     try {
                       if (cases![index].caseId == 'Sample Device') {
                         await _loadTestData(cases![index].caseId);
@@ -291,6 +293,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                       print(e);
                       print(stack);
                     }
+
+                    await _zollSdkStore.downloadCaseCompleter!.future;
 
                     await _downloadedCaseStore.saveCase(
                         _zollSdkStore.cases[cases![index].caseId]!,

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
@@ -25,6 +26,9 @@ abstract class _ZollSdkStore with Store {
 
   @observable
   ObservableMap<String, Case> cases = ObservableMap();
+
+  @observable
+  Completer? downloadCaseCompleter;
 
   @observable
   XSeriesDevice? selectedDevice;
@@ -65,5 +69,6 @@ abstract class _ZollSdkStore with Store {
         DateTime.tryParse(caseListItem?.startTime ?? '')?.toLocal();
     cases[caseId]!.endTime =
         DateTime.tryParse(caseListItem?.endTime ?? '')?.toLocal();
+    downloadCaseCompleter?.complete();
   }
 }
