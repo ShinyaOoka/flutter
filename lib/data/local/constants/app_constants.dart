@@ -55,6 +55,8 @@ class AppConstants {
     Era(name: '令和', start: DateTime(2019, 5, 1)),
   ];
 
+  static const maxDownloadedCases = 100;
+
   static final reportCopyFields = [
     // section 3
     'SenseTime',

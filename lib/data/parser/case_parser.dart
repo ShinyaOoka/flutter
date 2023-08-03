@@ -8,6 +8,7 @@ import 'package:mobx/mobx.dart';
 class CaseParser {
   static Case parse(String raw) {
     final result = Case();
+    result.rawData = raw;
     final Map<String, dynamic> map = jsonDecode(raw);
     final Map<String, dynamic> zoll = map["ZOLL"];
     final List<dynamic> fullDisclosure = zoll["FullDisclosure"];

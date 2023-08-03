@@ -1,14 +1,12 @@
 import 'dart:io';
 
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,19 +95,26 @@ class _InfoScreenState extends State<InfoScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "一般",
     );
   }
 
@@ -131,14 +136,6 @@ class _InfoScreenState extends State<InfoScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "一般",
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -155,12 +152,20 @@ class _InfoScreenState extends State<InfoScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 0, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null
+                  ? _buildMainContent()
+                  : CustomProgressIndicatorWidget(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -261,23 +266,23 @@ class _InfoScreenState extends State<InfoScreen>
               // AppTextField(
               //   label: '身長',
               //   readOnly: true,
-                // controller: TextEditingController(
-                //     text: myCase!.caseSummary
-                //             .rawData['PatientData']['Height']['#text']
-                //             .toString() +
-                //         myCase!.caseSummary.rawData['PatientData']['Height']
-                //             ['@Units']),
+              // controller: TextEditingController(
+              //     text: myCase!.caseSummary
+              //             .rawData['PatientData']['Height']['#text']
+              //             .toString() +
+              //         myCase!.caseSummary.rawData['PatientData']['Height']
+              //             ['@Units']),
               //   controller: TextEditingController(text: ""),
               // ),
               // AppTextField(
               //   label: '体重',
               //   readOnly: true,
-                // controller: TextEditingController(
-                //     text: myCase!.caseSummary
-                //             .rawData['PatientData']['Weight']['#text']
-                //             .toString() +
-                //         myCase!.caseSummary.rawData['PatientData']['Weight']
-                //             ['@Units']),
+              // controller: TextEditingController(
+              //     text: myCase!.caseSummary
+              //             .rawData['PatientData']['Weight']['#text']
+              //             .toString() +
+              //         myCase!.caseSummary.rawData['PatientData']['Weight']
+              //             ['@Units']),
               //   controller: TextEditingController(text: ""),
               // ),
             ],

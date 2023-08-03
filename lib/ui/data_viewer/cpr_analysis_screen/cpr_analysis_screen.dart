@@ -7,8 +7,8 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
-import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -158,19 +158,27 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       }
     });
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "CPR解析",
+      actions: _buildActions(),
     );
   }
 
@@ -190,15 +198,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     parsedCase.endTime = caseListItem?.endTime != null
         ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "CPR解析",
-      actions: _buildActions(),
-    );
   }
 
   Widget _buildBackButton() {
@@ -230,7 +229,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 minLeadingWidth: 10,
-                leading: const Icon(Icons.print),
+                leading: Icon(Icons.print),
                 title: Text('要約印刷'),
               ),
             ),
@@ -239,7 +238,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
                 minLeadingWidth: 10,
-                leading: const Icon(Icons.print),
+                leading: Icon(Icons.print),
                 title: Text('サマリ印刷'),
               ),
             ),
@@ -288,7 +287,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.drawRect(
-        Rect.fromLTWH(gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 4),
+        const Rect.fromLTWH(
+            gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 4),
         redPaint);
     canvas.restore();
     canvas.save();
@@ -319,7 +319,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       ..style = PaintingStyle.stroke;
     final bluePaint = Paint()
       ..strokeWidth = 1
-      ..color = Color(0xFF0000FF)
+      ..color = const Color(0xFF0000FF)
       ..style = PaintingStyle.stroke;
 
     final greenPaint = Paint()
@@ -403,11 +403,11 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       ..style = PaintingStyle.stroke;
     final greenPaint = Paint()
       ..strokeWidth = 1
-      ..color = Color(0xFF00FF00)
+      ..color = const Color(0xFF00FF00)
       ..style = PaintingStyle.stroke;
     final orangePaint = Paint()
       ..strokeWidth = 1
-      ..color = Color(0xFFFF8000)
+      ..color = const Color(0xFFFF8000)
       ..style = PaintingStyle.stroke;
     final startTimestamp = myCase!.startTime!.microsecondsSinceEpoch;
     final endTimestamp = myCase!.waves['Pads']!.samples.last.timestamp;
@@ -422,7 +422,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.drawRect(
-        Rect.fromLTWH(gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 2),
+        const Rect.fromLTWH(
+            gridSize * 2, gridSize * 2, gridSize * 60, gridSize * 2),
         blackPaint);
     canvas.restore();
     canvas.save();
@@ -486,7 +487,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     canvas.restore();
     canvas.save();
     canvas.translate(gridSize * 2, gridSize * 2);
-    canvas.drawRect(Rect.fromLTRB(0, 0, gridSize * 60, 80 / 140 * gridSize * 8),
+    canvas.drawRect(
+        const Rect.fromLTRB(0, 0, gridSize * 60, 80 / 140 * gridSize * 8),
         greenPaint);
     ChartPainter.paintYAxis(canvas, redPaint, 8, gridSize,
         leftTickInterval: 4, tickSize: tickSize);
@@ -556,7 +558,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final page = pw.Page(
         pageFormat: PdfPageFormat.a4.portrait,
         orientation: pw.PageOrientation.portrait,
-        margin: pw.EdgeInsets.all(10),
+        margin: const pw.EdgeInsets.all(10),
         theme: pw.ThemeData(
             defaultTextStyle:
                 pw.TextStyle(font: font, fontBold: fontBold, fontSize: 14)),
@@ -577,7 +579,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   height: 10, color: PdfColor.fromInt(Colors.red.value)),
               pw.Container(height: 20),
               pw.Table(columnWidths: {
-                2: pw.FixedColumnWidth(100)
+                2: const pw.FixedColumnWidth(100)
               }, children: [
                 pw.TableRow(children: [
                   pw.Text(''),
@@ -753,7 +755,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final page = pw.Page(
       pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(10),
+      margin: const pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
               pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
@@ -779,7 +781,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final page2 = pw.Page(
         pageFormat: PdfPageFormat.a4.landscape,
         orientation: pw.PageOrientation.landscape,
-        margin: pw.EdgeInsets.all(10),
+        margin: const pw.EdgeInsets.all(10),
         theme: pw.ThemeData(
             defaultTextStyle:
                 pw.TextStyle(font: font, fontBold: fontBold, fontSize: 9)),
@@ -942,12 +944,20 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 3, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null
+                  ? _buildMainContent()
+                  : CustomProgressIndicatorWidget(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -955,7 +965,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -971,7 +981,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                         .toList(),
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
-                    initDuration: Duration(seconds: 30),
+                    initDuration: const Duration(seconds: 30),
                     majorInterval: 2000,
                     minorInterval: 2000,
                     labelFormat: labelFormat[chartType]!,
@@ -1009,11 +1019,11 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     color: Colors.yellow.shade100,
                   ),
                 ),
-                SizedBox(width: 8),
-                Text('CPR期間'),
+                const SizedBox(width: 8),
+                const Text('CPR期間'),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Container(
@@ -1024,8 +1034,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     color: Colors.green.shade100,
                   ),
                 ),
-                SizedBox(width: 8),
-                Text('目標ゾーン'),
+                const SizedBox(width: 8),
+                const Text('目標ゾーン'),
               ],
             ),
           ],
@@ -1044,11 +1054,11 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     color: Colors.grey.shade400,
                   ),
                 ),
-                SizedBox(width: 8),
-                Text('AutoPulseアクティブ'),
+                const SizedBox(width: 8),
+                const Text('AutoPulseアクティブ'),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Container(
@@ -1059,8 +1069,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                     color: Colors.blue,
                   ),
                 ),
-                SizedBox(width: 8),
-                Text('AutoPulse圧迫'),
+                const SizedBox(width: 8),
+                const Text('AutoPulse圧迫'),
               ],
             ),
           ],
@@ -1072,8 +1082,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(children: [
-                  Container(width: 40, height: 30),
+                Row(children: const [
+                  SizedBox(width: 40, height: 30),
                   SizedBox(width: 8),
                   Text('圧迫の質：')
                 ])
@@ -1093,11 +1103,11 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                         color: Colors.green,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Text('目標範囲内'),
+                    const SizedBox(width: 8),
+                    const Text('目標範囲内'),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     Container(
@@ -1108,11 +1118,11 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                         color: Colors.orange,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Text('目標範囲外'),
+                    const SizedBox(width: 8),
+                    const Text('目標範囲外'),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     Container(
@@ -1123,8 +1133,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Text('圧迫なし'),
+                    const SizedBox(width: 8),
+                    const Text('圧迫なし'),
                   ],
                 ),
               ],
@@ -1140,8 +1150,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Text("圧迫"),
         ),
         Padding(
@@ -1193,7 +1203,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
               Expanded(
                 child: AppDropdown(
                   label: '単位',
-                  items: ['inch', 'cm'],
+                  items: const ['inch', 'cm'],
                   selectedItem: depthUnit,
                   clearable: false,
                   onChanged: (i) {
@@ -1232,19 +1242,19 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final compRate = averageCompRate();
 
     return Table(
-      columnWidths: {
+      columnWidths: const {
         0: IntrinsicColumnWidth(),
       },
       children: [
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('キー表示',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('マニュアル',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1252,7 +1262,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('最初の圧迫までの平均時間:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1260,7 +1270,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫を中止してから電気ショックを与えるまでの平均時間:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1274,7 +1284,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('電気ショックを与えてから圧迫を開始するまでの平均時間:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1288,7 +1298,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫の深度の平均:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1302,7 +1312,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫速度の平均:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1315,14 +1325,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('症例全体',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('症例の期間',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1330,7 +1340,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('CPRの時間',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1338,7 +1348,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('CPR以外の時間',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1346,14 +1356,14 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('CPR期間',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
           TableCell(child: Container()),
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('マニュアル',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1361,7 +1371,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫の時間:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1369,7 +1379,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫以外の時間:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1377,7 +1387,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標範囲内の圧迫:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1385,7 +1395,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('圧迫深度:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1393,7 +1403,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('標準偏差:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1407,7 +1417,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン超過:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1422,7 +1432,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン内:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1437,7 +1447,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン未満:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1452,7 +1462,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('速度:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1460,7 +1470,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('標準偏差:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1474,7 +1484,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           TableCell(child: Container()),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン超過:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1489,7 +1499,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン内:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),
@@ -1504,7 +1514,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                   '(${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
         ]),
         TableRow(children: [
-          TableCell(
+          const TableCell(
               child: Text('目標ゾーン未満:',
                   textAlign: TextAlign.right,
                   style: TextStyle(fontWeight: FontWeight.bold))),

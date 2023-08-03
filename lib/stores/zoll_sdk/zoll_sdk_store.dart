@@ -10,6 +10,8 @@ part 'zoll_sdk_store.g.dart';
 
 class ZollSdkStore = _ZollSdkStore with _$ZollSdkStore;
 
+enum CaseOrigin { unknown, device, test, downloaded }
+
 abstract class _ZollSdkStore with Store {
   _ZollSdkStore();
 
@@ -26,6 +28,9 @@ abstract class _ZollSdkStore with Store {
 
   @observable
   XSeriesDevice? selectedDevice;
+
+  @observable
+  CaseOrigin caseOrigin = CaseOrigin.unknown;
 
   @action
   void onDeviceFound(XSeriesDevice device) {

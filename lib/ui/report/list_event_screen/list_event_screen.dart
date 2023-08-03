@@ -8,7 +8,7 @@ import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -170,11 +170,17 @@ class _ListEventScreenState extends State<ListEventScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {
-      await _loadTestData();
-    } catch (e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   Future<void> _loadTestData() async {
@@ -197,18 +203,9 @@ class _ListEventScreenState extends State<ListEventScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
       actions: _buildActions(),
     );
@@ -274,7 +271,7 @@ class _ListEventScreenState extends State<ListEventScreen>
         // _handleErrorMessage(),
         myCase != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+            : CustomProgressIndicatorWidget(),
       ],
     );
   }
@@ -491,7 +488,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                 const SizedBox(width: 16),
                 trendData[index].time != null
                     ? Expanded(
-                        child: Text(AppConstants.dateTimeHmFormat
+                        child: Text(AppConstants.timeHmFormat
                             .format(trendData[index].time!)))
                     : Container(),
                 trendData[index].time != null
