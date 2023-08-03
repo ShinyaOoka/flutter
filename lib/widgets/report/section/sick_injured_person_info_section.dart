@@ -25,6 +25,7 @@ class SickInjuredPersonInfoSection extends StatefulWidget {
 
 class _SickInjuredPersonInfoSectionState
     extends State<SickInjuredPersonInfoSection> with ReportSectionMixin {
+  String? editingPersonKana;
   final kanaController = TextEditingController();
   final sickInjuredPersonNameController = TextEditingController();
   final sickInjuredPersonAddressController = TextEditingController();
@@ -80,6 +81,13 @@ class _SickInjuredPersonInfoSectionState
 
   @override
   void dispose() {
+    if (editingPersonKana != null) {
+      reportStore.selectingReport!.sickInjuredPersonKana =
+          RegExp(r'([ァ-ン]|ー| |　)+')
+              .allMatches(editingPersonKana!)
+              .map((x) => x.group(0))
+              .join();
+    }
     kanaController.dispose();
     sickInjuredPersonNameController.dispose();
     sickInjuredPersonAddressController.dispose();
@@ -136,6 +144,11 @@ class _SickInjuredPersonInfoSectionState
           maxLength: 20,
           readOnly: widget.readOnly,
           keyboardType: TextInputType.multiline,
+          onChanged: (x) {
+            setState(() {
+              editingPersonKana = x;
+            });
+          },
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;

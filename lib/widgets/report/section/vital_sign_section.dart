@@ -28,6 +28,10 @@ class VitalSignSection extends StatefulWidget {
 
 class _VitalSignSectionState extends State<VitalSignSection>
     with ReportSectionMixin {
+  String? editingSpO2Percent;
+  String? editingPupilRight;
+  String? editingPupilLeft;
+  String? editingBodyTemperature;
   final respirationController = TextEditingController();
   final pulseController = TextEditingController();
   final bloodPressureHighController = TextEditingController();
@@ -179,6 +183,22 @@ class _VitalSignSectionState extends State<VitalSignSection>
 
   @override
   void dispose() {
+    if (editingSpO2Percent != null) {
+      reportStore.selectingReport!.spO2Liter?[widget.index] =
+          double.tryParse(editingSpO2Percent!);
+    }
+    if (editingPupilRight != null) {
+      reportStore.selectingReport!.pupilRight?[widget.index] =
+          double.tryParse(editingPupilRight!);
+    }
+    if (editingPupilLeft != null) {
+      reportStore.selectingReport!.pupilLeft?[widget.index] =
+          double.tryParse(editingPupilLeft!);
+    }
+    if (editingBodyTemperature != null) {
+      reportStore.selectingReport!.bodyTemperature?[widget.index] =
+          double.tryParse(editingBodyTemperature!);
+    }
     reactionDisposer();
     respirationController.dispose();
     pulseController.dispose();
@@ -465,6 +485,11 @@ class _VitalSignSectionState extends State<VitalSignSection>
               child: AppTextField(
                 label: 'sp_o2_liter'.i18n(),
                 controller: spO2LiterController,
+                onChanged: (x) {
+                  setState(() {
+                    editingSpO2Percent = x;
+                  });
+                },
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -502,6 +527,11 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                onChanged: (x) {
+                  setState(() {
+                    editingPupilRight = x;
+                  });
+                },
               ),
               onFocusChange: (hasFocus) {
                 if (hasFocus) return;
@@ -526,6 +556,11 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'mm'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                onChanged: (x) {
+                  setState(() {
+                    editingPupilLeft = x;
+                  });
+                },
               ),
               onFocusChange: (hasFocus) {
                 if (hasFocus) return;
@@ -585,6 +620,11 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 counterText: 'celsius'.i18n(),
                 counterColor: Theme.of(context).primaryColor,
                 readOnly: widget.readOnly,
+                onChanged: (x) {
+                  setState(() {
+                    editingBodyTemperature = x;
+                  });
+                },
               ),
               onFocusChange: (hasFocus) {
                 if (hasFocus) return;
