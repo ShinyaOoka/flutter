@@ -67,11 +67,11 @@ mixin _$Case on _Case, Store {
   List<int> get shocks => (_$shocksComputed ??=
           Computed<List<int>>(() => super.shocks, name: '_Case.shocks'))
       .value;
-  Computed<CaseEvent>? _$caseSummaryComputed;
+  Computed<CaseEvent?>? _$caseSummaryComputed;
 
   @override
-  CaseEvent get caseSummary =>
-      (_$caseSummaryComputed ??= Computed<CaseEvent>(() => super.caseSummary,
+  CaseEvent? get caseSummary =>
+      (_$caseSummaryComputed ??= Computed<CaseEvent?>(() => super.caseSummary,
               name: '_Case.caseSummary'))
           .value;
   Computed<Waveform>? _$cprAccelComputed;
