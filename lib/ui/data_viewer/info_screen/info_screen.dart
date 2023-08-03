@@ -19,6 +19,7 @@ import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
+import 'package:collection/collection.dart';
 
 class InfoScreenArguments {
   final String caseId;
@@ -97,7 +98,9 @@ class _InfoScreenState extends State<InfoScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
+    try {
+      await _loadTestData();
+    } catch (e) {}
     _hostApi.deviceDownloadCase(
         _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
@@ -169,9 +172,10 @@ class _InfoScreenState extends State<InfoScreen>
     final serial = myCase!.caseSummary.rawData['SerialNumber'];
     final version = myCase!.caseSummary.rawData['SwVer'];
     final deviceOn = myCase!.events
-        .firstWhere((e) => e.type == 'AnnotationEvt System On')
-        .rawData['StdHdr']['DevDateTime']
-        .toString();
+            .firstWhereOrNull((e) => e.type == 'AnnotationEvt System On')
+            ?.rawData['StdHdr']['DevDateTime']
+            .toString() ??
+        '';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -261,23 +265,23 @@ class _InfoScreenState extends State<InfoScreen>
               // AppTextField(
               //   label: '身長',
               //   readOnly: true,
-                // controller: TextEditingController(
-                //     text: myCase!.caseSummary
-                //             .rawData['PatientData']['Height']['#text']
-                //             .toString() +
-                //         myCase!.caseSummary.rawData['PatientData']['Height']
-                //             ['@Units']),
+              // controller: TextEditingController(
+              //     text: myCase!.caseSummary
+              //             .rawData['PatientData']['Height']['#text']
+              //             .toString() +
+              //         myCase!.caseSummary.rawData['PatientData']['Height']
+              //             ['@Units']),
               //   controller: TextEditingController(text: ""),
               // ),
               // AppTextField(
               //   label: '体重',
               //   readOnly: true,
-                // controller: TextEditingController(
-                //     text: myCase!.caseSummary
-                //             .rawData['PatientData']['Weight']['#text']
-                //             .toString() +
-                //         myCase!.caseSummary.rawData['PatientData']['Weight']
-                //             ['@Units']),
+              // controller: TextEditingController(
+              //     text: myCase!.caseSummary
+              //             .rawData['PatientData']['Weight']['#text']
+              //             .toString() +
+              //         myCase!.caseSummary.rawData['PatientData']['Weight']
+              //             ['@Units']),
               //   controller: TextEditingController(text: ""),
               // ),
             ],
