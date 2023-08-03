@@ -25,6 +25,7 @@ class TreatmentSection extends StatefulWidget {
 
 class _TreatmentSectionState extends State<TreatmentSection>
     with ReportSectionMixin {
+  String? editingO2Administration;
   final o2AdministrationController = TextEditingController();
   final bsMeasurement1Controller = TextEditingController();
   final punctureSite1Controller = TextEditingController();
@@ -55,6 +56,10 @@ class _TreatmentSectionState extends State<TreatmentSection>
 
   @override
   void dispose() {
+    if (editingO2Administration != null) {
+      reportStore.selectingReport!.o2Administration =
+          double.tryParse(editingO2Administration!);
+    }
     reactionDisposer();
     o2AdministrationController.dispose();
     bsMeasurement1Controller.dispose();
@@ -199,6 +204,11 @@ class _TreatmentSectionState extends State<TreatmentSection>
           readOnly: widget.readOnly,
           counterText: 'L',
           counterColor: Theme.of(context).primaryColor,
+          onChanged: (x) {
+            setState(() {
+              editingO2Administration = x;
+            });
+          },
         ),
         onFocusChange: (hasFocus) {
           if (hasFocus) return;
