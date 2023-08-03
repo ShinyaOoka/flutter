@@ -47,12 +47,8 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
     _hostApi = context.read();
     _zollSdkStore = context.read();
     // _zollSdkStore.devices = ObservableList();
-    if (_zollSdkStore.devices
-            .indexWhere((e) => e.serialNumber == 'Sample Device') ==
-        -1) {
-      _zollSdkStore.devices.add(
-          XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
-    }
+    // _zollSdkStore.devices
+    //     .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
     // _zollSdkStore.devices
     //     .add(XSeriesDevice(address: 'address', serialNumber: 'serialNumber1'));
     _hostApi.browserStart();
