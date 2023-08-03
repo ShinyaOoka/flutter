@@ -43,27 +43,31 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   }
 
   @override
-  void didPush() {
+  void didPush() async {
     _hostApi = context.read();
     _zollSdkStore = context.read();
-    _zollSdkStore.devices = ObservableList();
-    _zollSdkStore.devices
-        .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
+    // _zollSdkStore.devices = ObservableList();
+    if (_zollSdkStore.devices
+            .indexWhere((e) => e.serialNumber == 'Sample Device') ==
+        -1) {
+      _zollSdkStore.devices.add(
+          XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
+    }
     // _zollSdkStore.devices
     //     .add(XSeriesDevice(address: 'address', serialNumber: 'serialNumber1'));
     _hostApi.browserStart();
   }
 
-  @override
-  void didPop() {
-    _hostApi.browserStop();
-  }
+  // @override
+  // void didPop() {
+  //   _hostApi.browserStop();
+  // }
 
-  @override
-  void didPopNext() async {
-    await _hostApi.browserStop();
-    await _hostApi.browserStart();
-  }
+  // @override
+  // void didPopNext() async {
+  //   await _hostApi.browserStop();
+  //   await _hostApi.browserStart();
+  // }
 
   @override
   Widget build(BuildContext context) {
