@@ -64,6 +64,12 @@ class _ChangeDeviceScreenState extends State<ChangeDeviceScreen>
   }
 
   @override
+  void didPopNext() async {
+    await _hostApi.browserStop();
+    await _hostApi.browserStart();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
