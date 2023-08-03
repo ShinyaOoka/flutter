@@ -170,15 +170,36 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                             title: const Text('情報'),
-                                            content: RichText(
-                                                text: const TextSpan(
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                    children: [
-                                                  TextSpan(text: 'アプリ名\n'),
-                                                  TextSpan(
-                                                      text: 'バーション: 0.0.1'),
-                                                ])),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Image(
+                                                  image: AssetImage(
+                                                      'assets/logo.png'),
+                                                  fit: BoxFit.fitHeight,
+                                                  height: 60,
+                                                ),
+                                                SizedBox(height: 32),
+                                                Text('アプリ名: CodeMate'),
+                                                Text('バーション: 0.0.1'),
+                                                SizedBox(height: 32),
+                                                Text(
+                                                  'Copyright © Asahi Kasei Corporation. All rights reserved.',
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                Text(
+                                                  'Copyright © Asahi Kasei ZOLL Medical Corporation. All Rights Reserved.',
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                                Text(
+                                                  'Portions copyright © ZOLL Medical Corporation.',
+                                                  style:
+                                                      TextStyle(fontSize: 14),
+                                                ),
+                                              ],
+                                            ),
                                             actions: [
                                               TextButton(
                                                 child: const Text("OK"),

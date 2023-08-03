@@ -335,7 +335,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
             pw.Row(children: [
               pw.Column(children: [
                 _buildPdfInfoRow('患者名:',
-                    '${twelveLead!.patientData.firstName} ${twelveLead!.patientData.middleName} ${twelveLead!.patientData.lastName}'),
+                    '${twelveLead!.patientData.firstName} ${twelveLead!.patientData.lastName}'),
                 _buildPdfInfoRow('患者ID:', twelveLead!.patientData.patientId),
                 _buildPdfInfoRow('年齢:', twelveLead!.patientData.age.toString()),
                 _buildPdfInfoRow('性別:', twelveLead!.patientData.sex),

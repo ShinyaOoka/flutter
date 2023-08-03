@@ -89,7 +89,7 @@ class _RemarksSectionState extends State<RemarksSection>
           label: 'remarks'.i18n(),
           controller: remarksController,
           scrollController: remarksScrollController,
-          inputFormatters: [maxLineFormatter(3)],
+          inputFormatters: [maxLineFormatter(10)],
           onChanged: (value) => report.remarks = value,
           maxLength: 500,
           minLines: 3,
