@@ -19,7 +19,8 @@ abstract class _ZollSdkStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   @observable
-  ObservableList<XSeriesDevice> devices = ObservableList();
+  ObservableList<XSeriesDevice> devices = ObservableList.of(
+      [XSeriesDevice(address: 'address', serialNumber: 'Sample Device')]);
 
   @observable
   ObservableMap<String, List<CaseListItem>> caseListItems = ObservableMap();
