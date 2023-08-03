@@ -1,3 +1,6 @@
+import 'package:ak_azm_flutter/data/local/data_sources/downloaded_case/downloaded_case_data_source.dart';
+import 'package:ak_azm_flutter/stores/downloaded_case/downloaded_case_store.dart';
+import 'package:ak_azm_flutter/stores/ui/ui_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/hospital/hospital_data_source.dart';
@@ -32,6 +35,8 @@ Future<void> setupLocator() async {
       FireStationDataSource(await getIt.getAsync<Database>()));
   getIt.registerSingleton(
       ClassificationDataSource(await getIt.getAsync<Database>()));
+  getIt.registerSingleton(
+      DownloadedCaseDataSource(await getIt.getAsync<Database>()));
 
   getIt.registerSingleton(Repository(
     getIt<HospitalDataSource>(),
@@ -39,6 +44,7 @@ Future<void> setupLocator() async {
     getIt<TeamDataSource>(),
     getIt<FireStationDataSource>(),
     getIt<ClassificationDataSource>(),
+    getIt<DownloadedCaseDataSource>(),
   ));
 
   getIt.registerFactory(() => ReportStore(getIt<Repository>()));
@@ -46,6 +52,8 @@ Future<void> setupLocator() async {
   getIt.registerFactory(() => HospitalStore(getIt<Repository>()));
   getIt.registerFactory(() => FireStationStore(getIt<Repository>()));
   getIt.registerFactory(() => ClassificationStore(getIt<Repository>()));
+  getIt.registerFactory(() => DownloadedCaseStore(getIt<Repository>()));
+  getIt.registerFactory(() => UiStore());
   getIt.registerSingleton(ZollSdkStore());
 
   getIt.registerFactory(() => ZollSdkHostApi());

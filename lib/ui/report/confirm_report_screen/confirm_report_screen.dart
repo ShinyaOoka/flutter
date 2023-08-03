@@ -2,7 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
 import 'package:ak_azm_flutter/ui/report/preview_report_screen/preview_report_screen.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:ak_azm_flutter/widgets/report/report_form.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -73,20 +73,11 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      title: 'confirm_report'.i18n(),
+    return AppScaffold(
+      body: _buildBody(),
       actions: _buildActions(),
-      leading: _buildBackButton(),
+      title: 'list_report'.i18n(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
     );
   }
@@ -176,7 +167,7 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     return Observer(
       builder: (context) {
         return _reportStore.loading || _reportStore.selectingReport == null
-            ? const CustomProgressIndicatorWidget()
+            ? CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
     );

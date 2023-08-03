@@ -4,8 +4,9 @@ import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -123,21 +124,27 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {
-      await _loadTestData();
-    } catch (e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "拡大ECG",
+      actions: _buildActions(),
     );
   }
 
@@ -169,14 +176,6 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "拡大ECG",
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -193,12 +192,29 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 1, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null ? _buildMainContent() : Container(),
+              generatePdfAction != null || myCase == null
+                  ? CustomProgressIndicatorWidget(
+                      cancellable: generatePdfAction != null,
+                      onCancel: () {
+                        generatePdfAction?.cancel();
+                        setState(() {
+                          generatePdfAction = null;
+                        });
+                      },
+                    )
+                  : Container(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -206,7 +222,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

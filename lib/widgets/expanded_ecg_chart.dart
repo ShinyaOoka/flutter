@@ -2,12 +2,10 @@ import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
-import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
-import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
 import 'package:localization/localization.dart';
 import 'package:collection/collection.dart';
@@ -178,20 +176,20 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
       },
       behavior: HitTestBehavior.translucent,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Text('換気（パッドインピーダンス）（オーム）',
               style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         buildPadsChart(minX, maxX),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child:
               Text('CO2（mmHg）', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         buildCo2Chart(minX, maxX),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child:
               Text('CPR波形（cm）', style: TextStyle(fontWeight: FontWeight.bold)),
         ),

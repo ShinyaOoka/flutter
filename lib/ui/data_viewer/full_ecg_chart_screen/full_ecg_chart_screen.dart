@@ -11,9 +11,12 @@ import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -76,7 +79,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     'Pads Impedance': (x) => x.toStringAsFixed(0),
   };
   bool hasNewData = false;
-  // bool loading = false;
   bool expandOnTap = false;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -133,21 +135,27 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     });
 
     final tempDir = await getTemporaryDirectory();
-    try {
-      await _loadTestData();
-    } catch (e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+    switch (_zollSdkStore.caseOrigin) {
+      case CaseOrigin.test:
+        await _loadTestData();
+        break;
+      case CaseOrigin.device:
+        _hostApi.deviceDownloadCase(
+            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+        break;
+      case CaseOrigin.downloaded:
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "ECG全体",
+      actions: _buildActions(),
     );
   }
 
@@ -200,10 +208,29 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null ? _buildMainContent() : Container(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 1, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null ? _buildMainContent() : Container(),
+              generatePdfAction != null || myCase == null
+                  ? CustomProgressIndicatorWidget(
+                      cancellable: generatePdfAction != null,
+                      onCancel: () {
+                        generatePdfAction?.cancel();
+                        setState(() {
+                          generatePdfAction = null;
+                        });
+                      },
+                    )
+                  : Container(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -212,7 +239,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     return myCase!.waves[chartType]!.samples.isNotEmpty
         ? SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -232,8 +259,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                   //         chartType = x!;
                   //       });
                   //     }),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8.0),
                     child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
                         textAlign: TextAlign.right),
                   ),
@@ -244,7 +271,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
                     segments: 5,
-                    initDuration: Duration(minutes: 1),
+                    initDuration: const Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,
                     majorInterval: majorInterval[chartType]!,
@@ -424,8 +451,9 @@ class _ChoosePrintTimeRangeDialogState
 
 mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
   Case? myCase;
+  CancelableOperation? generatePdfAction;
 
-  static Future<pw.MemoryImage> _buildPdfPadsChart(
+  Future<pw.MemoryImage> _buildPdfPadsChart(
       List<Sample> samples, List<CaseEvent> events) async {
     const scale = 1.0;
     const gridSize = 10.0;
@@ -503,12 +531,16 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
 
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 55 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    checkCancelled();
+
     final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    checkCancelled();
+
     final bytes = byteData!.buffer.asUint8List();
     return pw.MemoryImage(bytes);
   }
 
-  static Future<pw.MemoryImage> _buildPdfRespChart(
+  Future<pw.MemoryImage> _buildPdfRespChart(
       List<Sample> samples, int startTimestamp, int endTimestamp) async {
     const scale = 1.0;
     const gridSize = 10.0;
@@ -567,12 +599,16 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
 
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 55 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    checkCancelled();
+
     final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    checkCancelled();
+
     final bytes = byteData!.buffer.asUint8List();
     return pw.MemoryImage(bytes);
   }
 
-  static Future<pw.MemoryImage> _buildPdfCo2Chart(
+  Future<pw.MemoryImage> _buildPdfCo2Chart(
       List<Sample> samples, int startTimestamp, int endTimestamp) async {
     const scale = 1.0;
     const gridSize = 10.0;
@@ -628,13 +664,17 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
 
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 55 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    checkCancelled();
+
     final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    checkCancelled();
+
     final bytes = byteData!.buffer.asUint8List();
 
     return pw.MemoryImage(bytes);
   }
 
-  static Future<pw.MemoryImage> _buildPdfCprAccelChart(
+  Future<pw.MemoryImage> _buildPdfCprAccelChart(
       List<Sample> samples, int startTimestamp, int endTimestamp) async {
     const scale = 1.0;
     const gridSize = 10.0;
@@ -692,13 +732,17 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
 
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 55 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    checkCancelled();
+
     final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    checkCancelled();
+
     final bytes = byteData!.buffer.asUint8List();
 
     return pw.MemoryImage(bytes);
   }
 
-  static Future<pw.MemoryImage> _buildPdfCprCompressionChart(
+  Future<pw.MemoryImage> _buildPdfCprCompressionChart(
       List<CprCompression> compressions,
       int startTimestamp,
       int endTimestamp) async {
@@ -762,7 +806,11 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
 
     final rendered = await recorder.endRecording().toImage(
         (gridSize * 55 * scale).ceil(), (gridSize * 14 * scale).ceil());
+    checkCancelled();
+
     final byteData = await rendered.toByteData(format: ImageByteFormat.png);
+    checkCancelled();
+
     final bytes = byteData!.buffer.asUint8List();
 
     return pw.MemoryImage(bytes);
@@ -841,6 +889,17 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
     return chunkedEvents;
   }
 
+  Future<void> _yield() async {
+    await Future.value();
+    checkCancelled();
+  }
+
+  void checkCancelled() {
+    if (generatePdfAction == null || generatePdfAction?.isCanceled == true) {
+      throw Error.safeToString('Cancelled');
+    }
+  }
+
   Future<void> _generatePdf(
       DateTime startTime,
       DateTime endTime,
@@ -851,25 +910,31 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
       bool drawCprCompression) async {
     final font = pw.TtfFont(
         await rootBundle.load('assets/fonts/NotoSansJP-Regular.ttf'));
+    checkCancelled();
     final fontBold =
         pw.TtfFont(await rootBundle.load('assets/fonts/NotoSansJP-Bold.ttf'));
+    checkCancelled();
     final pdf = pw.Document();
     final pads = myCase!.waves['Pads']!.samples
         .where((e) =>
             startTime.microsecondsSinceEpoch <= e.timestamp &&
             e.timestamp <= endTime.microsecondsSinceEpoch)
         .toList();
+    await _yield();
     final co2 = myCase!.waves['CO2 mmHg, Waveform']!.samples
         .where((e) =>
             startTime.microsecondsSinceEpoch <= e.timestamp &&
             e.timestamp <= endTime.microsecondsSinceEpoch)
         .toList();
+    await _yield();
     final impedance = myCase!.waves['Pads Impedance']!.samples
         .where((e) =>
             startTime.microsecondsSinceEpoch <= e.timestamp &&
             e.timestamp <= endTime.microsecondsSinceEpoch)
         .toList();
+    await _yield();
     final padIndices = _chunkedIndices(pads);
+    await _yield();
 
     int currentChunk = 0;
 
@@ -896,21 +961,27 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
         chunkedEvents[currentChunk].add(x);
       }
     }
+    await _yield();
 
     final padChunk =
         padIndices.isNotEmpty ? _buildPadChunk(padIndices, pads) : [];
+    await _yield();
     final cprAccelChunk = padIndices.isNotEmpty
         ? mapSamplesToPadChunk(pads, padIndices, myCase!.cprAccel.samples)
         : [];
+    await _yield();
     final co2Chunk = padIndices.isNotEmpty
         ? mapSamplesToPadChunk(pads, padIndices, co2)
         : [];
+    await _yield();
     final impedanceChunk = padIndices.isNotEmpty
         ? mapSamplesToPadChunk(pads, padIndices, impedance)
         : [];
+    await _yield();
     final cprCompressionChunk = padIndices.isNotEmpty
         ? mapCprCompressionToPadChunk(pads, padIndices, myCase!.cprCompressions)
         : [];
+    await _yield();
 
     final List<Future<List<pw.MemoryImage>>> charts = [];
     if (drawPads) {
@@ -944,9 +1015,11 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
     }
 
     final chartFutures = await Future.wait(charts);
+    checkCancelled();
 
     final chartWidgets =
         zip(chartFutures).map((e) => e.map((e) => pw.Image(e))).flattened;
+    await _yield();
 
     final page = pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
@@ -974,6 +1047,8 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
     );
     pdf.addPage(page);
     final bytes = await pdf.save();
+    checkCancelled();
+
     await Printing.layoutPdf(
       onLayout: (_) => bytes,
       format: PdfPageFormat.a4.portrait,
@@ -1018,17 +1093,21 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
             final resp = result[4];
             final cprAccel = result[5];
             final cprCompression = result[6];
-            // setState(() {
-            //   loading = true;
-            // });
-            // try {
-            await _generatePdf(
-                startTime, endTime, pads, co2, resp, cprAccel, cprCompression);
-            // } finally {
-            // setState(() {
-            //   loading = false;
-            // });
-            // }
+            setState(() {
+              generatePdfAction = CancelableOperation.fromFuture(_generatePdf(
+                      startTime,
+                      endTime,
+                      pads,
+                      co2,
+                      resp,
+                      cprAccel,
+                      cprCompression)
+                  .whenComplete(() {
+                setState(() {
+                  generatePdfAction = null;
+                });
+              }));
+            });
           }
         },
         label: const Text('ストリップ印刷'),

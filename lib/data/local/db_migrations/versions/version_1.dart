@@ -186,12 +186,29 @@ const _createClassificationTable =
   PRIMARY KEY (ClassificationCD, ClassificationSubCD)
 )''';
 
+const _createDownloadedCaseTable =
+    '''CREATE TABLE ${DBConstants.downloadedCaseTable} (
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  DeviceID VARCHAR(255),
+  CaseID VARCHAR(255),
+  CaseStartDate DATETIME,
+  CaseEndDate DATETIME,
+  Filename VARCHAR(255),
+  EntryName VARCHAR(20),
+  EntryMachine VARCHAR(20),
+  EntryDate DATETIME,
+  UpdateName VARCHAR(20),
+  UpdateMachine VARCHAR(20),
+  UpdateDate DATETIME
+)''';
+
 void upgradeVersion1(Batch batch) {
   batch.execute(_createReportTable);
   batch.execute(_createTeamTable);
   batch.execute(_createFireStationTable);
   batch.execute(_createHospitalTable);
   batch.execute(_createClassificationTable);
+  batch.execute(_createDownloadedCaseTable);
 }
 
 const _dropReportTable = '''DROP TABLE IF EXISTS ${DBConstants.reportTable}''';
@@ -202,6 +219,8 @@ const _dropHospitalTable =
     '''DROP TABLE IF EXISTS ${DBConstants.hospitalTable}''';
 const _dropClassificationTable =
     '''DROP TABLE IF EXISTS ${DBConstants.classificationTable}''';
+const _dropDownloadedCaseTable =
+    '''DROP TABLE IF EXISTS ${DBConstants.downloadedCaseTable}''';
 
 void downgradeVersion1(Batch batch) {
   batch.execute(_dropReportTable);
@@ -209,4 +228,5 @@ void downgradeVersion1(Batch batch) {
   batch.execute(_dropFireStationTable);
   batch.execute(_dropHospitalTable);
   batch.execute(_dropClassificationTable);
+  batch.execute(_dropDownloadedCaseTable);
 }

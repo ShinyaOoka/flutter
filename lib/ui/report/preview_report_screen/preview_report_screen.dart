@@ -5,6 +5,7 @@ import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/report/report_store.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
@@ -1821,28 +1822,17 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      title: getReportName(),
+      actions: _buildActions(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
     );
   }
 
   String getReportName() {
     return reportType == ReportType.certificate ? '傷病者輸送証' : '救急業務実施報告書';
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text(getReportName(),
-          style: TextStyle(color: Theme.of(context).primaryColor)),
-      actions: _buildActions(),
-      centerTitle: true,
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-    );
   }
 
   List<Widget> _buildActions() {
@@ -1920,6 +1910,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
             },
             initialPageFormat: PdfPageFormat.a4,
           )
-        : const CustomProgressIndicatorWidget();
+        : CustomProgressIndicatorWidget();
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

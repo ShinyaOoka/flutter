@@ -11,6 +11,7 @@ Future<void> main() async {
   await setupLocator();
   return runZonedGuarded(() async {
     ZollSdkFlutterApi.setup(getIt<ZollSdkFlutterApiImpl>());
+    await Future.delayed(Duration(seconds: 2));
     runApp(MyApp());
   }, (error, stack) {
     print(stack);

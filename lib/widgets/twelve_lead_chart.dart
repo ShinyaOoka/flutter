@@ -11,7 +11,7 @@ class DotTextPainter extends FlDotPainter {
     textPainter = TextPainter(
       text: TextSpan(
         text: text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.blue,
           fontSize: 20,
         ),

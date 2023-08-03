@@ -6,11 +6,9 @@ import 'package:ak_azm_flutter/ui/data_viewer/info_screen/info_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:localization/localization.dart';
 
 class ChooseFunctionScreenArguments {
@@ -58,17 +56,12 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
+    return AppScaffold(
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: '機能選択',
+      body: _buildBody(),
+      icon: const Icon(Icons.home),
     );
   }
 
@@ -99,6 +92,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   Widget _buildMainContent() {
     return ListView(children: [
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("一般"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerInfo,
@@ -106,6 +100,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("ECG全体"),
         onTap: () {
           Navigator.of(context).pushNamed(
@@ -114,6 +109,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("イベント"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerListEvent,
@@ -121,6 +117,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("CPR解析"),
         onTap: () {
           Navigator.of(context).pushNamed(
@@ -129,6 +126,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("CPR品質の計算"),
         onTap: () {
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
@@ -136,6 +134,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("12誘導"),
         onTap: () {
           Navigator.of(context).pushNamed(
@@ -144,6 +143,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
+        leading: const Icon(Icons.home),
         title: const Text("スナップショット"),
         onTap: () {
           Navigator.of(context).pushNamed(

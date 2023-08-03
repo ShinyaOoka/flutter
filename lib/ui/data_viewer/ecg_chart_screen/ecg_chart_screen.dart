@@ -4,11 +4,10 @@ import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
@@ -71,18 +70,9 @@ class _EcgChartScreenState extends State<EcgChartScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "ECG・バイタル表示",
     );
@@ -109,7 +99,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
         // _handleErrorMessage(),
         myCase != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+            : CustomProgressIndicatorWidget(),
       ],
     );
   }
@@ -117,7 +107,7 @@ class _EcgChartScreenState extends State<EcgChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -136,11 +126,12 @@ class _EcgChartScreenState extends State<EcgChartScreen>
             //       });
             //     }),
             EcgChart(
+              showGrid: true,
               samples: myCase!.waves[chartType]!.samples,
               cprCompressions: myCase!.cprCompressions,
               initTimestamp: timestamp,
-              segments: 4,
-              initDuration: Duration(minutes: 1),
+              segments: 5,
+              initDuration: const Duration(minutes: 1),
               onTap: (timestamp) {
                 if (expandOnTap) {
                   Navigator.of(context).pushNamed(
