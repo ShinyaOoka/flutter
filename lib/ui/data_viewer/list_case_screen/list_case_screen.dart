@@ -280,7 +280,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     final tempDir = await getTemporaryDirectory();
                     _zollSdkStore.downloadCaseCompleter = Completer();
                     try {
-                      if (cases![index].caseId == 'Sample Device') {
+                      if (_zollSdkStore.selectedDevice?.serialNumber ==
+                          'Sample Device') {
                         await _loadTestData(cases![index].caseId);
                       } else {
                         await _hostApi.deviceDownloadCase(
