@@ -294,9 +294,10 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                       print(e);
                       print(stack);
                     }
-
-                    await _zollSdkStore.downloadCaseCompleter!.future;
-
+                    if (_zollSdkStore.selectedDevice?.serialNumber !=
+                        'Sample Device') {
+                      await _zollSdkStore.downloadCaseCompleter!.future;
+                    }
                     await _downloadedCaseStore.saveCase(
                         _zollSdkStore.cases[cases![index].caseId]!,
                         _zollSdkStore.selectedDevice!.serialNumber,
