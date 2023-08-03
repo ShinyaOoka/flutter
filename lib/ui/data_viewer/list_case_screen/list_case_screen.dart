@@ -237,7 +237,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 trailing: IconButton(
                   icon: downloadingCaseIds.contains(cases![index].caseId)
                       ? CircularProgressIndicator()
-                      : Icon(Icons.file_download, color: Colors.blue),
+                      : downloadedCase != null
+                          ? Icon(Icons.check, color: Colors.blue)
+                          : Icon(Icons.file_download, color: Colors.blue),
                   onPressed: () async {
                     if (_downloadedCaseStore.downloadedCases!.length >=
                         AppConstants.maxDownloadedCases) {
@@ -285,8 +287,9 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                             tempDir.path,
                             null);
                       }
-                    } catch (e) {
+                    } catch (e, stack) {
                       print(e);
+                      print(stack);
                     }
 
                     await _downloadedCaseStore.saveCase(
