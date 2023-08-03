@@ -200,8 +200,10 @@ class _InfoScreenState extends State<InfoScreen>
                 label: 'データの期間',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: _printDuration(
-                        myCase!.endTime!.difference(myCase!.startTime!))),
+                    text: myCase!.startTime != null && myCase!.endTime != null
+                        ? _printDuration(
+                            myCase!.endTime?.difference(myCase!.startTime!))
+                        : ''),
               ),
               // AppTextField(
               //   label: 'デバイスの種類',
@@ -306,7 +308,8 @@ class _InfoScreenState extends State<InfoScreen>
     return '／${event.type.i18n()}$eventExtra';
   }
 
-  String _printDuration(Duration duration) {
+  String _printDuration(Duration? duration) {
+    if (duration == null) return '';
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
