@@ -186,6 +186,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           prefs.setInt(AppConstants.lastEditedAtKey,
               DateTime.now().millisecondsSinceEpoch);
           _reportStore.selectingReport!.entryDate = DateTime.now();
+          _reportStore.selectingReport!.teamAbbreviation =
+              _reportStore.selectingReport!.team?.abbreviation;
           await _reportStore.createReport(_reportStore.selectingReport!);
           await _reportStore.getReports();
           if (!mounted) return;

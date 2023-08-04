@@ -42,6 +42,9 @@ abstract class _Report with Store {
   @JsonKey(name: 'TeamMemberName')
   String? teamMemberName;
   @observable
+  @JsonKey(name: 'TeamAbbreviation')
+  String? teamAbbreviation;
+  @observable
   @JsonKey(name: 'InstitutionalMemberName')
   String? institutionalMemberName;
   @observable

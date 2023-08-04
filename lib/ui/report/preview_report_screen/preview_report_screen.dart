@@ -510,7 +510,7 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('padding:0px;', 'padding:0 3pt;');
 
     result = result.replaceAll('TeamName',
-        report.team?.abbreviation?.characters.take(11).toString() ?? '');
+        report.teamAbbreviation?.characters.take(11).toString() ?? '');
     result = result.replaceFirst('TeamCaptainName',
         report.teamCaptainName?.characters.take(11).toString() ?? '');
 
@@ -864,7 +864,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           ?.characters
           .take(8)
           .toString();
-      result = fillBoolCircle(result, 'Hemorrhage_$i', hemorrhage?.isNotEmpty);
+      result = fillBoolCircle(
+          result,
+          'Hemorrhage_$i',
+          hemorrhage?.isNotEmpty == null || hemorrhage?.isNotEmpty == false
+              ? (report.observationTime?[i] == null ? null : false)
+              : true);
       result = result.replaceFirst('Hemorrhage${i + 1}', hemorrhage ?? '');
       final incon = report.incontinenceTypes[i]?.classificationSubCd;
       if (incon == '003') {
