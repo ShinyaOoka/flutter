@@ -214,7 +214,6 @@ class _SickInjuredPersonInfoSectionState
               controller: TextEditingController(
                   text: report.sickInjuredPersonAge?.toString()),
               readOnly: true,
-              optional: true,
             ),
           ),
         ],

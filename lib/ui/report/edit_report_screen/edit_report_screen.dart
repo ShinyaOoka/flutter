@@ -132,6 +132,8 @@ class _EditReportScreenState extends State<EditReportScreen> with RouteAware {
                   ));
           if (result != true) return;
           _reportStore.selectingReport!.updateDate = DateTime.now();
+          _reportStore.selectingReport!.teamAbbreviation =
+              _reportStore.selectingReport!.team?.abbreviation;
           await _reportStore.editReport(_reportStore.selectingReport!);
           if (!mounted) return;
           Navigator.of(context).pop(_reportStore.selectingReport);
