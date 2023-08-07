@@ -91,7 +91,7 @@ class _RemarksSectionState extends State<RemarksSection>
           scrollController: remarksScrollController,
           inputFormatters: [maxLineFormatter(10)],
           onChanged: (value) => report.remarks = value,
-          maxLength: 500,
+          maxLength: 450,
           minLines: 3,
           maxLines: 3,
           readOnly: widget.readOnly,
