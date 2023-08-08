@@ -26,22 +26,21 @@ class SickInjuredPersonInfoSection extends StatefulWidget {
 class _SickInjuredPersonInfoSectionState
     extends State<SickInjuredPersonInfoSection> with ReportSectionMixin {
   String? editingPersonKana;
-  final kanaController = TextEditingController();
-  final sickInjuredPersonNameController = TextEditingController();
-  final sickInjuredPersonAddressController = TextEditingController();
-  final sickInjuredPersonTelController = TextEditingController();
-  final sickInjuredPersonFamilyController = TextEditingController();
-  final sickInjuredPersonFamilyTelController = TextEditingController();
-  final sickInjuredPersonMedicalHistoryController = TextEditingController();
-  final sickInjuredPersonHistoryHospitalController = TextEditingController();
-  final sickInjuredPersonKakaritsukeController = TextEditingController();
-  final sickInjuredPersonAllergyController = TextEditingController();
-  final sickInjuredPersonMedicationDetailController = TextEditingController();
-  final sickInjuredPersonNameOfInjuryOrSicknessController =
-      TextEditingController();
-  final sickInjuredPersonDegreeController = TextEditingController();
+  late TextEditingController kanaController;
+  late TextEditingController sickInjuredPersonNameController;
+  late TextEditingController sickInjuredPersonAddressController;
+  late TextEditingController sickInjuredPersonTelController;
+  late TextEditingController sickInjuredPersonFamilyController;
+  late TextEditingController sickInjuredPersonFamilyTelController;
+  late TextEditingController sickInjuredPersonMedicalHistoryController;
+  late TextEditingController sickInjuredPersonHistoryHospitalController;
+  late TextEditingController sickInjuredPersonKakaritsukeController;
+  late TextEditingController sickInjuredPersonAllergyController;
+  late TextEditingController sickInjuredPersonMedicationDetailController;
+  late TextEditingController sickInjuredPersonNameOfInjuryOrSicknessController;
+  late TextEditingController sickInjuredPersonDegreeController;
 
-  final sickInjuredPersonAddressScrollController = ScrollController();
+  late ScrollController sickInjuredPersonAddressScrollController;
 
   late ReportStore reportStore;
 
@@ -49,6 +48,20 @@ class _SickInjuredPersonInfoSectionState
   void initState() {
     super.initState();
     reportStore = context.read();
+    kanaController = TextEditingController();
+    sickInjuredPersonNameController = TextEditingController();
+    sickInjuredPersonAddressController = TextEditingController();
+    sickInjuredPersonTelController = TextEditingController();
+    sickInjuredPersonFamilyController = TextEditingController();
+    sickInjuredPersonFamilyTelController = TextEditingController();
+    sickInjuredPersonMedicalHistoryController = TextEditingController();
+    sickInjuredPersonHistoryHospitalController = TextEditingController();
+    sickInjuredPersonKakaritsukeController = TextEditingController();
+    sickInjuredPersonAllergyController = TextEditingController();
+    sickInjuredPersonMedicationDetailController = TextEditingController();
+    sickInjuredPersonNameOfInjuryOrSicknessController = TextEditingController();
+    sickInjuredPersonDegreeController = TextEditingController();
+    sickInjuredPersonAddressScrollController = ScrollController();
     autorun((_) {
       syncControllerValue(
           kanaController, reportStore.selectingReport!.sickInjuredPersonKana);
@@ -81,6 +94,13 @@ class _SickInjuredPersonInfoSectionState
 
   @override
   void dispose() {
+    if (editingPersonKana != null) {
+      reportStore.selectingReport!.sickInjuredPersonKana =
+          RegExp(r'([ァ-ン]|ー| |　)+')
+              .allMatches(editingPersonKana!.characters.take(20).string)
+              .map((x) => x.group(0))
+              .join();
+    }
     kanaController.dispose();
     sickInjuredPersonNameController.dispose();
     sickInjuredPersonAddressController.dispose();
