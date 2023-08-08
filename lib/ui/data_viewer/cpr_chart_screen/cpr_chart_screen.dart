@@ -233,6 +233,7 @@ class CprChartScreenState extends State<CprChartScreen>
             ),
             myCase!.waves[chartType]!.samples.isNotEmpty
                 ? EcgChart(
+                    showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
                     cprCompressions: myCase!.cprCompressions,
                     ventilationTimestamps: myCase!
