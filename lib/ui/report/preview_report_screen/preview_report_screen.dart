@@ -772,12 +772,25 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
       }
       result =
           result.replaceFirst('JCS${i + 1}', report.jcsTypes[i]?.value ?? '');
-      result = result.replaceFirst(
-          'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
-      result = result.replaceFirst(
-          'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
-      result = result.replaceFirst(
-          'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
+      if (report.gcsETypes[i]?.value == null) {
+        result = result.replaceFirst('EGCS_E${i + 1}', '');
+      } else {
+        result = result.replaceFirst(
+            'GCS_E${i + 1}', report.gcsETypes[i]?.value ?? '');
+      }
+      if (report.gcsVTypes[i]?.value == null) {
+        result = result.replaceFirst('VGCS_V${i + 1}', '');
+      } else {
+        result = result.replaceFirst(
+            'GCS_V${i + 1}', report.gcsVTypes[i]?.value ?? '');
+      }
+      if (report.gcsMTypes[i]?.value == null) {
+        result = result.replaceFirst('MGCS_M${i + 1}', '');
+      } else {
+        result = result.replaceFirst(
+            'GCS_M${i + 1}', report.gcsMTypes[i]?.value ?? '');
+      }
+
       final e = int.parse(report.gcsETypes[i]?.value ?? '0');
       final v = int.parse(report.gcsVTypes[i]?.value ?? '0');
       final m = int.parse(report.gcsMTypes[i]?.value ?? '0');
