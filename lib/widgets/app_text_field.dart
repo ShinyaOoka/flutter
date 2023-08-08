@@ -1,6 +1,7 @@
 import 'package:ak_azm_flutter/widgets/report/optional_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:localization/localization.dart';
 
 class AppTextField extends StatefulWidget {
   final String? label;
@@ -49,7 +50,9 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   @override
   void dispose() {
-    if (widget.controller?.text != null && widget.maxLength != null) {
+    if (widget.controller?.text != null &&
+        widget.maxLength != null &&
+        widget.label != 'sick_injured_person_kana'.i18n()) {
       widget.onChanged?.call(
           widget.controller!.text.characters.take(widget.maxLength!).string);
     }

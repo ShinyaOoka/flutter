@@ -81,13 +81,6 @@ class _SickInjuredPersonInfoSectionState
 
   @override
   void dispose() {
-    if (editingPersonKana != null) {
-      reportStore.selectingReport!.sickInjuredPersonKana =
-          RegExp(r'([ァ-ン]|ー| |　)+')
-              .allMatches(editingPersonKana!)
-              .map((x) => x.group(0))
-              .join();
-    }
     kanaController.dispose();
     sickInjuredPersonNameController.dispose();
     sickInjuredPersonAddressController.dispose();
