@@ -925,8 +925,12 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         result, 'O2Administration_CHECK', report.o2Administration != null);
     result = result.replaceFirst(
         'O2Administration', report.o2Administration?.toString() ?? '');
-    result = result.replaceFirst('O2AdministrationTime',
-        '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    if (report.o2AdministrationTime == null) {
+      result = result.replaceFirst('O2AdministrationTime', '');
+    } else {
+      result = result.replaceFirst('O2AdministrationTime',
+          '${report.o2AdministrationTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.o2AdministrationTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    }
     result = fillCheck(result, 'LimitationOfSpinalMotion_CHECK',
         report.limitationOfSpinalMotionType != null);
     result = fillClassificationCheck(
@@ -946,14 +950,22 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.bsMeasurement1 != null || report.bsMeasurement2 != null);
     result = result.replaceFirst(
         'BSMeasurement1', report.bsMeasurement1?.toString() ?? '');
-    result = result.replaceFirst('BSMeasurementTime1',
-        '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    if (report.bsMeasurementTime1 == null) {
+      result = result.replaceFirst('BSMeasurementTime1', '');
+    } else {
+      result = result.replaceFirst('BSMeasurementTime1',
+          '${report.bsMeasurementTime1?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime1?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    }
     result = result.replaceFirst('PunctureSite1',
         report.punctureSite1?.characters.take(9).toString().toString() ?? '');
     result = result.replaceFirst(
         'BSMeasurement2', report.bsMeasurement2?.toString() ?? '');
-    result = result.replaceFirst('BSMeasurementTime2',
-        '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    if (report.bsMeasurementTime2 == null) {
+      result = result.replaceFirst('BSMeasurementTime2', '');
+    } else {
+      result = result.replaceFirst('BSMeasurementTime2',
+          '${report.bsMeasurementTime2?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.bsMeasurementTime2?.minute.toString().padLeft(2, '0') ?? '　　'}');
+    }
     result = result.replaceFirst('PunctureSite2',
         report.punctureSite2?.characters.take(9).toString().toString() ?? '');
 
