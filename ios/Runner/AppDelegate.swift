@@ -14,10 +14,12 @@ class ZollSdkHostApiImpl: NSObject, ZollSdkHostApi {
     }
     
     func browserStart() {
+        print("browserStart");
         browser.start(delegate: self);
     }
     
     func browserStop() {
+        print("browserStop");
         browser.stop()
     }
 
@@ -192,12 +194,15 @@ func hostToFlutterDataStatus(_ x: XSeriesSDK.DataStatus) -> DataStatus {
 
 extension ZollSdkHostApiImpl: DevicesDelegate {
     func onDeviceFound(device: XSeriesSDK.XSeriesDevice) {
+        print("Device found")
+        print(device.serialNumber)
         self.devices.append(device)
         let flutterDevice = Runner.XSeriesDevice(address: device.ipAdress, serialNumber: device.serialNumber)
         self.flutterApi.onDeviceFound(device: flutterDevice) {}
     }
     
     func onDeviceLost(device: XSeriesSDK.XSeriesDevice) {
+        print("Device lost")
         devices.enumerated().forEach { index, deviceOne in
             if deviceOne.serialNumber == device.serialNumber {
                 devices.remove(at: index)
@@ -208,6 +213,7 @@ extension ZollSdkHostApiImpl: DevicesDelegate {
     }
     
     func onBrowseError(error: ZOXError) {
+        print("onBrowseError")
         print(error.errorMessage)
         self.flutterApi.onBrowseError() {}
     }

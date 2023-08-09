@@ -1,7 +1,7 @@
 import 'package:ak_azm_flutter/models/report/report.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/report_list_tile.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -34,6 +34,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       getIt<RouteObserver<ModalRoute<void>>>();
   SelectionMode mode = SelectionMode.none;
   Set<int>? selectingReports;
+  bool initialized = false;
 
   @override
   void initState() {
@@ -59,27 +60,44 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     _teamStore = context.read();
     _classificationStore = context.read();
 
-    _reportStore.getReports();
-    _teamStore.getTeams();
-    _classificationStore.getAllClassifications();
+    Future.wait([
+      _reportStore.getReports(),
+      _teamStore.getTeams(),
+      _classificationStore.getAllClassifications(),
+    ]).then((_) {
+      _reportStore.reports?.forEach((element) {
+        element.teamStore = _teamStore;
+        element.classificationStore = _classificationStore;
+      });
+      setState(() {
+        initialized = true;
+      });
+    });
   }
 
   @override
   void didPopNext() {
-    _reportStore.getReports();
+    _reportStore.getReports().then((_) {
+      _reportStore.reports?.forEach((element) {
+        element.teamStore = _teamStore;
+        element.classificationStore = _classificationStore;
+      });
+      setState(() {
+        initialized = true;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-        floatingActionButton:
-            mode == SelectionMode.none ? _buildCreateReportButton() : null,
-        drawer: AppDrawer(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      floatingActionButton:
+          mode == SelectionMode.none ? _buildCreateReportButton() : null,
+      actions: _buildActions(context),
+      title: 'list_report'.i18n(),
+      leadings: mode != SelectionMode.none ? [_buildBackButton()] : null,
+      leadingWidth: mode != SelectionMode.none ? 102 : null,
     );
   }
 
@@ -322,9 +340,9 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   Widget _buildMainContent() {
     return Observer(
       builder: (context) {
-        return _reportStore.loading
-            ? const CustomProgressIndicatorWidget()
-            : Material(child: _buildListView());
+        return initialized
+            ? Material(child: _buildListView())
+            : CustomProgressIndicatorWidget();
       },
     );
   }
@@ -397,24 +415,56 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
         const SizedBox(
           height: 8,
         ),
-        RichText(
-            text: TextSpan(children: [
-          TextSpan(
-              text: '${'type_of_accident'.i18n()} : ',
-              style: TextStyle(color: Theme.of(context).primaryColor)),
-          TextSpan(
-              text: typeOfAccident?.value ?? 'なし',
-              style: Theme.of(context).textTheme.bodyMedium)
-        ])),
-        RichText(
-            text: TextSpan(children: [
-          TextSpan(
-              text: '${'accident_summary'.i18n()} : ',
-              style: TextStyle(color: Theme.of(context).primaryColor)),
-          TextSpan(
-              text: item.accidentSummary ?? 'なし',
-              style: Theme.of(context).textTheme.bodyMedium)
-        ]))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: '${'type_of_accident'.i18n()} : ',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+              TextSpan(
+                  text: typeOfAccident?.value ?? 'なし',
+                  style: Theme.of(context).textTheme.bodyMedium)
+            ])),
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: '作成日 : ',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+              TextSpan(
+                  text: item.entryDate != null
+                      ? AppConstants.dateTimeHmFormat.format(item.entryDate!)
+                      : '----/--/-- --:--',
+                  style: Theme.of(context).textTheme.bodyMedium)
+            ])),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: '${'accident_summary'.i18n()} : ',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+              TextSpan(
+                  text: item.accidentSummary ?? 'なし',
+                  style: Theme.of(context).textTheme.bodyMedium)
+            ])),
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: '更新日 : ',
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
+              TextSpan(
+                  text: item.updateDate != null
+                      ? AppConstants.dateTimeHmFormat.format(item.updateDate!)
+                      : '----/--/-- --:--',
+                  style: Theme.of(context).textTheme.bodyMedium)
+            ])),
+          ],
+        )
       ],
     );
   }
@@ -423,15 +473,12 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
     final item = _reportStore.reports![position];
     switch (mode) {
       case SelectionMode.none:
-        return ListTile(
+        return ReportListTile(
+          report: item,
           onTap: () {
             _reportStore.setSelectingReport(item);
             Navigator.of(context).pushNamed(ReportRoutes.reportConfirmReport);
           },
-          dense: true,
-          tileColor: const Color(0xFFF5F5F5),
-          title: _buildListTileTitle(position),
-          subtitle: _buildListTileSubtitle(position),
         );
       case SelectionMode.delete:
         return CheckboxListTile(

@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/info_screen/info_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_case_screen/list_case_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/list_downloaded_case_screen/list_downloaded_case_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
@@ -37,6 +38,8 @@ class DataViewerRoutes {
   static const String dataViewerExpandedEcgChart =
       '/data_viewer/expanded_ecg_chart';
   static const String dataViewerMock = '/data_viewer/mock';
+  static const String dataViewerListDownloadedCase =
+      '/data_viewer/list_downloaded_case';
 
   static final routes = <String, WidgetBuilder>{
     dataViewerListDevice: (BuildContext context) => const ListDeviceScreen(),
@@ -61,5 +64,7 @@ class DataViewerRoutes {
     dataViewerInfo: (BuildContext context) => const InfoScreen(),
     dataViewerExpandedEcgChart: (BuildContext context) =>
         const ExpandedCprChartScreen(),
+    dataViewerListDownloadedCase: (BuildContext context) =>
+        const ListDownloadedCaseScreen(),
   };
 }

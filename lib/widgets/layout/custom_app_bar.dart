@@ -6,6 +6,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
   final double? leadingWidth;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Expanded(
                 child: Container(
                   padding: const EdgeInsets.only(left: 40, top: 5),
-                  child: Text(title!,
-                      style: Theme.of(context).textTheme.titleLarge),
+                  child: Row(
+                    children: [
+                      ...icon != null ? [icon!, const SizedBox(width: 8)] : [],
+                      Text(title!,
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ],
+                  ),
                 ),
               ))
         ],
@@ -31,7 +37,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   CustomAppBar(
-      {super.key, this.leading, this.title, this.actions, this.leadingWidth})
+      {super.key,
+      this.leading,
+      this.title,
+      this.actions,
+      this.leadingWidth,
+      this.icon})
       : appBar = AppBar(
           toolbarHeight: 60,
           title: const Image(

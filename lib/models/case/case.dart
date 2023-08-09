@@ -2,7 +2,6 @@ import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:quiver/iterables.dart';
 import 'package:tuple/tuple.dart';
 import 'package:collection/collection.dart';
 
@@ -222,6 +221,9 @@ class Snapshot {
 class Case = _Case with _$Case;
 
 abstract class _Case with Store {
+  @observable
+  String? rawData;
+
   @observable
   ObservableList<CaseEvent> events = ObservableList();
 
@@ -731,5 +733,6 @@ abstract class _Case with Store {
         return patientData;
       }
     }
+    return null;
   }
 }

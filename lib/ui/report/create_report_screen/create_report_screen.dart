@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -104,22 +104,13 @@ class _CreateReportScreenState extends State<CreateReportScreen>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-        floatingActionButton: _buildGetDataFromXSeriesButton(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      title: 'create_report'.i18n(),
+    return AppScaffold(
+      body: _buildBody(),
+      floatingActionButton: _buildGetDataFromXSeriesButton(),
       actions: _buildActions(),
-      leading: _buildBackButton(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
+      title: 'create_report'.i18n(),
     );
   }
 
@@ -241,7 +232,7 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     return Observer(
       builder: (context) {
         return _reportStore.loading
-            ? const CustomProgressIndicatorWidget()
+            ? CustomProgressIndicatorWidget()
             : Material(child: _buildForm());
       },
     );

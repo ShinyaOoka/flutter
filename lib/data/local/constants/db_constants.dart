@@ -6,4 +6,5 @@ class DBConstants {
   static const fireStationTable = 'MSFireStation';
   static const hospitalTable = 'MSHospital';
   static const classificationTable = 'MSClassification';
+  static const downloadedCaseTable = 'DTDownloadFile';
 }

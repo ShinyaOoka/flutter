@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -118,21 +118,15 @@ class CprChartScreenState extends State<CprChartScreen>
         });
       }
     });
-
-    final tempDir = await getTemporaryDirectory();
-    try {await _loadTestData();}catch(e) {}
-    _hostApi.deviceDownloadCase(
-        _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "CPR品質の計算",
     );
   }
 
@@ -178,12 +172,20 @@ class CprChartScreenState extends State<CprChartScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : const CustomProgressIndicatorWidget(),
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 4, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              myCase != null
+                  ? _buildMainContent()
+                  : CustomProgressIndicatorWidget(),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -191,7 +193,7 @@ class CprChartScreenState extends State<CprChartScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -218,6 +220,7 @@ class CprChartScreenState extends State<CprChartScreen>
             ),
             myCase!.waves[chartType]!.samples.isNotEmpty
                 ? EcgChart(
+                    showGrid: true,
                     samples: myCase!.waves[chartType]!.samples,
                     cprCompressions: myCase!.cprCompressions,
                     ventilationTimestamps: myCase!
@@ -228,7 +231,7 @@ class CprChartScreenState extends State<CprChartScreen>
                     initTimestamp:
                         myCase!.waves[chartType]!.samples.first.timestamp,
                     segments: 4,
-                    initDuration: Duration(minutes: 1),
+                    initDuration: const Duration(minutes: 1),
                     minY: minY[chartType]!,
                     maxY: maxY[chartType]!,
                     majorInterval: majorInterval[chartType]!,
@@ -245,7 +248,7 @@ class CprChartScreenState extends State<CprChartScreen>
 
   Widget _buildTable() {
     return DataTable(
-      columns: [
+      columns: const [
         DataColumn(
             label: Expanded(
           child: Text("分", softWrap: true),
@@ -279,9 +282,9 @@ class CprChartScreenState extends State<CprChartScreen>
           .map((e) => DataRow(cells: [
                 DataCell(Text(e.minute.toString())),
                 DataCell(Text(e.secondsNotInCompressions.toString())),
-                DataCell(Text("0")),
+                const DataCell(Text("0")),
                 DataCell(Text(e.ventilations.toString())),
-                DataCell(Text("0")),
+                const DataCell(Text("0")),
                 DataCell(Text(e.compressionCount.toString())),
                 DataCell(Text(e.averageCompDisp.toStringAsFixed(2))),
               ]))

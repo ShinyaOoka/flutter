@@ -88,6 +88,21 @@ mixin _$Case on _Case, Store {
               name: '_Case.patientData'))
           .value;
 
+  late final _$rawDataAtom = Atom(name: '_Case.rawData', context: context);
+
+  @override
+  String? get rawData {
+    _$rawDataAtom.reportRead();
+    return super.rawData;
+  }
+
+  @override
+  set rawData(String? value) {
+    _$rawDataAtom.reportWrite(value, super.rawData, () {
+      super.rawData = value;
+    });
+  }
+
   late final _$eventsAtom = Atom(name: '_Case.events', context: context);
 
   @override
@@ -152,6 +167,7 @@ mixin _$Case on _Case, Store {
   @override
   String toString() {
     return '''
+rawData: ${rawData},
 events: ${events},
 nativeCase: ${nativeCase},
 startTime: ${startTime},

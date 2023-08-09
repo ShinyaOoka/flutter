@@ -1,6 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -48,9 +48,15 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
     _zollSdkStore = context.read();
     // _zollSdkStore.devices = ObservableList();
     // _zollSdkStore.devices
-    //     .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
+    // .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
     // _zollSdkStore.devices
     //     .add(XSeriesDevice(address: 'address', serialNumber: 'serialNumber1'));
+    if (_zollSdkStore.devices
+            .indexWhere((e) => e.serialNumber == 'Sample Device') ==
+        -1) {
+      _zollSdkStore.devices.add(
+          XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
+    }
     _hostApi.browserStart();
   }
 
@@ -67,18 +73,13 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
+    return AppScaffold(
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
       actions: _buildActions(),
+      body: _buildBody(),
       title: 'get_xseries_data'.i18n(),
+      icon: const Icon(Icons.home),
     );
   }
 

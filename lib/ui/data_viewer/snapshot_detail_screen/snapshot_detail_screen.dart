@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
+import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +13,16 @@ import 'package:intl/intl.dart' as intl;
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
-import 'package:provider/provider.dart';
-import 'package:ak_azm_flutter/pigeon.dart';
-import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class SnapshotDetailScreenArguments {
   final Snapshot snapshot;
   final Case myCase;
+  final String caseId;
 
-  SnapshotDetailScreenArguments({required this.snapshot, required this.myCase});
+  SnapshotDetailScreenArguments(
+      {required this.snapshot, required this.myCase, required this.caseId});
 }
 
 class SnapshotDetailScreen extends StatefulWidget {
@@ -36,6 +36,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     with RouteAware, ReportSectionMixin {
   late Snapshot snapshot;
   late Case myCase;
+  late String caseId;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -63,16 +64,17 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         as SnapshotDetailScreenArguments;
     snapshot = args.snapshot;
     myCase = args.myCase;
+    caseId = args.caseId;
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
+      leadingWidth: 88,
+      title: "スナップショット",
+      actions: _buildActions(),
     );
   }
 
@@ -102,7 +104,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         onPressed: () async {
           await _generatePdf();
         },
-        label: Text('印刷'),
+        label: const Text('印刷'),
       ),
     );
   }
@@ -264,7 +266,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     final page = pw.Page(
       pageFormat: PdfPageFormat.a4.landscape,
       orientation: pw.PageOrientation.landscape,
-      margin: pw.EdgeInsets.all(10),
+      margin: const pw.EdgeInsets.all(10),
       theme: pw.ThemeData(
           defaultTextStyle:
               pw.TextStyle(font: font, fontBold: fontBold, fontSize: 7)),
@@ -317,10 +319,18 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        // _handleErrorMessage(),
-        _buildMainContent()
+    return Row(
+      children: [
+        AppNavigationRail(selectedIndex: 0, caseId: caseId),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(
+          child: Stack(
+            children: <Widget>[
+              // _handleErrorMessage(),
+              _buildMainContent()
+            ],
+          ),
+        )
       ],
     );
   }
@@ -337,7 +347,6 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-
                     _buildInfoLine('HR',
                         '${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}'),
                     _buildInfoLine('spo2',
@@ -352,8 +361,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
             ),
           ),
           Container(
-            child: Text('Pads'),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            child: const Text('Pads'),
           ),
           EcgChart(
             samples: snapshot.waveforms['Pads']!.samples,
@@ -363,8 +372,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
           ),
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
               ? Container(
-                  child: Text('CO2 mmHg, Waveform'),
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
+                  child: const Text('CO2 mmHg, Waveform'),
                 )
               : Container(),
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
@@ -382,8 +391,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
               : Container(),
           snapshot.waveforms['SpO2 %, Waveform'] != null
               ? Container(
-                  child: Text('SpO2 %, Waveform'),
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
+                  child: const Text('SpO2 %, Waveform'),
                 )
               : Container(),
           snapshot.waveforms['SpO2 %, Waveform'] != null
@@ -410,10 +419,10 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         child: RichText(
             textAlign: TextAlign.left,
-            text: TextSpan(style: TextStyle(color: Colors.black), children: [
+            text: TextSpan(style: const TextStyle(color: Colors.black), children: [
               TextSpan(
-                  text: '${title}: ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  text: '$title: ',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               TextSpan(text: content),
             ])),
       ),

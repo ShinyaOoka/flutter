@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/data/local/constants/report_type.dart';
 import 'package:ak_azm_flutter/ui/report/preview_report_screen/preview_report_screen.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:localization/localization.dart';
@@ -44,20 +45,9 @@ class _SendReportScreenState extends State<SendReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('send_report'.i18n()),
-      centerTitle: true,
-      leading: _buildBackButton(),
+    return AppScaffold(
+      body: _buildBody(),
+      leadings: [_buildBackButton()],
       leadingWidth: 88,
     );
   }

@@ -28,7 +28,7 @@ class VitalSignSection extends StatefulWidget {
 
 class _VitalSignSectionState extends State<VitalSignSection>
     with ReportSectionMixin {
-  String? editingSpO2Percent;
+  String? editingSpO2Liter;
   String? editingPupilRight;
   String? editingPupilLeft;
   String? editingBodyTemperature;
@@ -183,9 +183,9 @@ class _VitalSignSectionState extends State<VitalSignSection>
 
   @override
   void dispose() {
-    if (editingSpO2Percent != null) {
+    if (editingSpO2Liter != null) {
       reportStore.selectingReport!.spO2Liter?[widget.index] =
-          double.tryParse(editingSpO2Percent!);
+          double.tryParse(editingSpO2Liter!);
     }
     if (editingPupilRight != null) {
       reportStore.selectingReport!.pupilRight?[widget.index] =
@@ -487,7 +487,7 @@ class _VitalSignSectionState extends State<VitalSignSection>
                 controller: spO2LiterController,
                 onChanged: (x) {
                   setState(() {
-                    editingSpO2Percent = x;
+                    editingSpO2Liter = x;
                   });
                 },
                 keyboardType:
