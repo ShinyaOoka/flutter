@@ -93,16 +93,19 @@ class ReportListTile extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: '${'accident_summary'.i18n()} : ',
-                  style: TextStyle(color: Theme.of(context).primaryColor)),
-              TextSpan(
-                  text: report.accidentSummary ?? 'なし',
-                  style: Theme.of(context).textTheme.bodyMedium)
-            ])),
+            Expanded(
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: '${'accident_summary'.i18n()} : ',
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
+                TextSpan(
+                    text: report.accidentSummary ?? 'なし',
+                    style: Theme.of(context).textTheme.bodyMedium)
+              ])),
+            ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(

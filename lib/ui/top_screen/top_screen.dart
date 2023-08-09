@@ -1,4 +1,5 @@
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -120,18 +121,41 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Container(
-            width: 300,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
-              color: [
-                Colors.blue,
-                Colors.red,
-                Colors.green,
-                Colors.orange
-              ][index],
+          return InkWell(
+            child: Container(
+              width: 300,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                color: [
+                  Colors.blue,
+                  Colors.red,
+                  Colors.green,
+                  Colors.orange
+                ][index],
+              ),
             ),
+            onTap: () {
+              final currentRouteName = ModalRoute.of(context)?.settings.name;
+              if (index == 0) {
+                if (currentRouteName == ReportRoutes.reportListReport) {
+                  return;
+                }
+                Navigator.of(context)
+                    .popAndPushNamed(ReportRoutes.reportListReport);
+              } else if (index == 1) {
+                if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
+                  return;
+                }
+                if (_zollSdkStore.selectedDevice != null) {
+                  Navigator.of(context)
+                      .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
+                } else {
+                  Navigator.of(context)
+                      .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+                }
+              }
+            },
           );
         },
         separatorBuilder: (context, index) {
