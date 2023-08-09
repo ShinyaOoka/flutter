@@ -95,19 +95,6 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
         });
       }
     });
-
-    final tempDir = await getTemporaryDirectory();
-    switch (_zollSdkStore.caseOrigin) {
-      case CaseOrigin.test:
-        await _loadTestData();
-        break;
-      case CaseOrigin.device:
-        _hostApi.deviceDownloadCase(
-            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
-        break;
-      case CaseOrigin.downloaded:
-        break;
-    }
   }
 
   @override

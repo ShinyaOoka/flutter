@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
+import 'package:ak_azm_flutter/pigeon.dart';
+import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_analysis_screen/cpr_analysis_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/cpr_chart_screen/cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
@@ -8,8 +14,12 @@ import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
+import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class ChooseFunctionScreenArguments {
   final String caseId;
@@ -26,9 +36,12 @@ class ChooseFunctionScreen extends StatefulWidget {
 
 class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
     with RouteAware {
-  String? caseId;
+  late String caseId;
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
+  late ZollSdkStore _zollSdkStore;
+  late ZollSdkHostApi _hostApi;
+  bool loading = false;
 
   @override
   void initState() {
@@ -48,10 +61,47 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   }
 
   @override
-  void didPush() {
+  Future<void> didPush() async {
     final args = ModalRoute.of(context)!.settings.arguments
         as ChooseFunctionScreenArguments;
     caseId = args.caseId;
+    _zollSdkStore = context.read();
+    _hostApi = context.read();
+
+    if (_zollSdkStore.cases[caseId] == null) {
+      final tempDir = await getTemporaryDirectory();
+      _zollSdkStore.downloadCaseCompleter = Completer();
+      switch (_zollSdkStore.caseOrigin) {
+        case CaseOrigin.test:
+          await _loadTestData();
+          break;
+        case CaseOrigin.device:
+          _hostApi.deviceDownloadCase(
+              _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+          break;
+        case CaseOrigin.downloaded:
+          break;
+      }
+    }
+  }
+
+  Future<void> _loadTestData() async {
+    final tempDir = await getTemporaryDirectory();
+    await File('${tempDir.path}/$caseId.json').writeAsString(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    final caseListItem = _zollSdkStore
+        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
+        ?.firstWhere((element) => element.caseId == caseId);
+    final parsedCase = CaseParser.parse(
+        await rootBundle.loadString("assets/example/$caseId.json"));
+    _zollSdkStore.cases[caseId] = parsedCase;
+    parsedCase.startTime = caseListItem?.startTime != null
+        ? DateTime.parse(caseListItem!.startTime!).toLocal()
+        : null;
+    parsedCase.endTime = caseListItem?.endTime != null
+        ? DateTime.parse(caseListItem!.endTime!).toLocal()
+        : null;
+    _zollSdkStore.downloadCaseCompleter?.complete();
   }
 
   @override
@@ -84,9 +134,22 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        _buildMainContent()
+        _buildMainContent(),
+        ...loading ? [CustomProgressIndicatorWidget()] : []
       ],
     );
+  }
+
+  Future<void> _checkLoading() async {
+    if (_zollSdkStore.cases[caseId] != null) return;
+    setState(() {
+      loading = true;
+    });
+    await _zollSdkStore.downloadCaseCompleter!.future;
+    setState(() {
+      loading = false;
+    });
+    _zollSdkStore.downloadCaseCompleter = null;
   }
 
   Widget _buildMainContent() {
@@ -94,61 +157,68 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("一般"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerInfo,
-              arguments: InfoScreenArguments(caseId: caseId!));
+              arguments: InfoScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("ECG全体"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerFullEcgEvent,
-              arguments: FullEcgChartScreenArguments(caseId: caseId!));
+              arguments: FullEcgChartScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("イベント"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerListEvent,
-              arguments: ListEventScreenArguments(caseId: caseId!));
+              arguments: ListEventScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("CPR解析"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerCprAnalysis,
-              arguments: CprAnalysisScreenArguments(caseId: caseId!));
+              arguments: CprAnalysisScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("CPR品質の計算"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(DataViewerRoutes.dataViewerCprChart,
-              arguments: CprChartScreenArguments(caseId: caseId!));
+              arguments: CprChartScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("12誘導"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerListTwelveLead,
-              arguments: ListTwelveLeadScreenArguments(caseId: caseId!));
+              arguments: ListTwelveLeadScreenArguments(caseId: caseId));
         },
       ),
       ListTile(
         leading: const Icon(Icons.home),
         title: const Text("スナップショット"),
-        onTap: () {
+        onTap: () async {
+          await _checkLoading();
           Navigator.of(context).pushNamed(
               DataViewerRoutes.dataViewerListSnapshot,
-              arguments: ListSnapshotScreenArguments(caseId: caseId!));
+              arguments: ListSnapshotScreenArguments(caseId: caseId));
         },
       )
     ]);
