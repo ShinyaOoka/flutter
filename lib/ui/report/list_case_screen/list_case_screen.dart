@@ -2,7 +2,7 @@ import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -119,18 +119,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      actions: _buildActions(),
+    return AppScaffold(
       title: 'get_xseries_data'.i18n(),
+      body: _buildBody(),
+      actions: _buildActions(),
+      leadingWidth: 88,
+      leadings: [_buildBackButton()],
     );
   }
 
@@ -152,7 +146,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     minLeadingWidth: 10,
                     leading: const Icon(Icons.phonelink_erase),
                     title: Text('機器接続変更'.i18n()))),
-            PopupMenuDivider(),
+            const PopupMenuDivider(),
             PopupMenuItem(
                 value: 99,
                 enabled: false,
@@ -163,12 +157,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
           if (hasNewData) {
             items.insert(
               1,
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 1,
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 10,
-                  leading: const Icon(Icons.refresh),
+                  leading: Icon(Icons.refresh),
                   title: Text('更新'),
                 ),
               ),
@@ -218,7 +212,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
         // _handleErrorMessage(),
         cases != null
             ? _buildMainContent()
-            : const CustomProgressIndicatorWidget()
+            : CustomProgressIndicatorWidget()
       ],
     );
   }
@@ -245,6 +239,12 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 title: Text(
                     '${_formatTime(cases![index].startTime)}〜${_formatTime(cases![index].endTime)}'),
                 onTap: () {
+                  if (_zollSdkStore.selectedDevice?.serialNumber ==
+                      'Sample Device') {
+                    _zollSdkStore.caseOrigin = CaseOrigin.test;
+                  } else {
+                    _zollSdkStore.caseOrigin = CaseOrigin.device;
+                  }
                   Navigator.of(context).pushNamed(ReportRoutes.reportListEvent,
                       arguments: ListEventScreenArguments(
                           caseId: cases![index].caseId));

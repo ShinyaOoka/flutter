@@ -59,7 +59,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.description),
+            leading: const Icon(Icons.description),
             title: const Text('レポート作成'),
             onTap: () {
               if (currentRouteName == ReportRoutes.reportListReport) {
@@ -71,7 +71,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             },
           ),
           ListTile(
-            leading: Icon(Icons.data_thresholding),
+            leading: const Icon(Icons.data_thresholding),
             title: const Text('データビューア'),
             onTap: () {
               if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
@@ -89,7 +89,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
           ),
           _zollSdkStore.selectedDevice != null
               ? ListTile(
-                  leading: Icon(Icons.phonelink_erase),
+                  leading: const Icon(Icons.phonelink_erase),
                   title: const Text('接続機器変更'),
                   onTap: () {
                     if (isDataViewerRoute) {
@@ -103,16 +103,16 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                 )
               : Container(),
           ListTile(
-            leading: Icon(Icons.info),
+            leading: const Icon(Icons.info),
             title: const Text('情報'),
             onTap: () {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                        title: Text('情報'),
+                        title: const Text('情報'),
                         content: RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                                 style: TextStyle(color: Colors.black),
                                 children: [
                               TextSpan(text: 'アプリ名\n'),
@@ -127,7 +127,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   });
             },
           ),
-          _zollSdkStore.selectedDevice != null ? Divider() : Container(),
+          _zollSdkStore.selectedDevice != null ? const Divider() : Container(),
           _zollSdkStore.selectedDevice != null
               ? ListTile(
                   title: Text(

@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
-import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
-import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
 import 'package:collection/collection.dart';
 
@@ -202,9 +200,10 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
         },
         behavior: HitTestBehavior.translucent,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 48.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 48.0),
               child: Text('ショックの要約',
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
@@ -212,23 +211,22 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
             Padding(
               padding: const EdgeInsets.only(left: 48.0),
               child: Text('深さ（${widget.depthUnit == 'inch' ? 'インチ' : 'cm'}）',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             buildDepthChart(minX, maxX),
             Padding(
               padding: const EdgeInsets.only(left: 48.0),
               child: Text('圧迫の質：${cprQualityPercent.toStringAsFixed(2)}%',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             buildQualityChart(minX, maxX),
-            Padding(
-              padding: const EdgeInsets.only(left: 48.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 48.0),
               child: Text('速度（cpm）',
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             buildSpeedChart(minX, maxX)
           ],
-          crossAxisAlignment: CrossAxisAlignment.start,
         ));
   }
 

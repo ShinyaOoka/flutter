@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
@@ -9,6 +10,8 @@ import 'package:ak_azm_flutter/stores/error/error_store.dart';
 part 'zoll_sdk_store.g.dart';
 
 class ZollSdkStore = _ZollSdkStore with _$ZollSdkStore;
+
+enum CaseOrigin { unknown, device, test, downloaded }
 
 abstract class _ZollSdkStore with Store {
   _ZollSdkStore();
@@ -26,7 +29,13 @@ abstract class _ZollSdkStore with Store {
   ObservableMap<String, Case> cases = ObservableMap();
 
   @observable
+  Completer? downloadCaseCompleter;
+
+  @observable
   XSeriesDevice? selectedDevice;
+
+  @observable
+  CaseOrigin caseOrigin = CaseOrigin.unknown;
 
   @action
   void onDeviceFound(XSeriesDevice device) {
@@ -61,5 +70,6 @@ abstract class _ZollSdkStore with Store {
         DateTime.tryParse(caseListItem?.startTime ?? '')?.toLocal();
     cases[caseId]!.endTime =
         DateTime.tryParse(caseListItem?.endTime ?? '')?.toLocal();
+    downloadCaseCompleter?.complete();
   }
 }

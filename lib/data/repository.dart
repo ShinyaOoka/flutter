@@ -1,9 +1,11 @@
+import 'package:ak_azm_flutter/data/local/data_sources/downloaded_case/downloaded_case_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/fire_station/fire_station_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/hospital/hospital_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/report/report_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/team/team_data_source.dart';
 import 'package:ak_azm_flutter/data/local/data_sources/classification/classification_data_source.dart';
 import 'package:ak_azm_flutter/models/classification/classification.dart';
+import 'package:ak_azm_flutter/models/downloaded_case/downloaded_case.dart';
 import 'package:ak_azm_flutter/models/fire_station/fire_station.dart';
 import 'package:ak_azm_flutter/models/hospital/hospital.dart';
 import 'package:ak_azm_flutter/models/report/report.dart';
@@ -16,6 +18,7 @@ class Repository {
   final TeamDataSource _teamDataSource;
   final FireStationDataSource _fireStationDataSource;
   final ClassificationDataSource _classificationDataSource;
+  final DownloadedCaseDataSource _downloadedCaseDataSource;
 
   Repository(
     this._hospitalDataSource,
@@ -23,10 +26,23 @@ class Repository {
     this._teamDataSource,
     this._fireStationDataSource,
     this._classificationDataSource,
+    this._downloadedCaseDataSource,
   );
 
   Future<List<Report>> getReports() {
     return _reportDataSource.getReports();
+  }
+
+  Future<List<DownloadedCase>> getDownloadedCases() {
+    return _downloadedCaseDataSource.getAllDownloadedCases();
+  }
+
+  Future<void> deleteDownloadedCase(List<int> ids) {
+    return _downloadedCaseDataSource.deleteDownloadedCase(ids);
+  }
+
+  Future<void> createDownloadedCase(DownloadedCase myCase) {
+    return _downloadedCaseDataSource.createDownloadedCase(myCase);
   }
 
   Future<void> createReport(Report report) {

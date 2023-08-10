@@ -1,9 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/list_case_screen/list_case_screen.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
-import 'package:ak_azm_flutter/widgets/app_drawer.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
+import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -71,17 +68,10 @@ class _ChangeDeviceScreenState extends State<ChangeDeviceScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
+    return AppScaffold(
       body: _buildBody(),
-      drawer: AppDrawer(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      actions: _buildActions(),
       title: '接続機器選択',
+      actions: _buildActions(),
     );
   }
 
