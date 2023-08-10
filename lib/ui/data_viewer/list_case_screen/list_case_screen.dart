@@ -40,6 +40,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   bool hasNewData = false;
   ReactionDisposer? reactionDisposer;
   Set<String> downloadingCaseIds = {};
+  ReactionDisposer? lostDeviceReactionDisposer;
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   void dispose() {
     super.dispose();
     reactionDisposer?.call();
+    lostDeviceReactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -68,6 +70,28 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     final device = _zollSdkStore.selectedDevice;
     setState(() {
       cases = _zollSdkStore.caseListItems[device?.serialNumber];
+    });
+    lostDeviceReactionDisposer?.call();
+    lostDeviceReactionDisposer =
+        reaction((_) => _zollSdkStore.selectedDevice, (device) {
+      if (device == null) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('接続が解除されている'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) =>
+                            ModalRoute.withName(
+                                DataViewerRoutes.dataViewerListDevice)(route));
+                      },
+                      child: Text('接続機器変更'))
+                ],
+              );
+            });
+      }
     });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {

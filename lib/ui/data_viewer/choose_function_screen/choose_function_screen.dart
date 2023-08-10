@@ -18,6 +18,7 @@ import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
+import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   late ZollSdkStore _zollSdkStore;
   late ZollSdkHostApi _hostApi;
   bool loading = false;
+  ReactionDisposer? lostDeviceReactionDisposer;
 
   @override
   void initState() {
@@ -57,6 +59,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   @override
   void dispose() {
     super.dispose();
+    lostDeviceReactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -67,6 +70,29 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
     caseId = args.caseId;
     _zollSdkStore = context.read();
     _hostApi = context.read();
+
+    lostDeviceReactionDisposer?.call();
+    lostDeviceReactionDisposer =
+        reaction((_) => _zollSdkStore.selectedDevice, (device) {
+      if (device == null) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('接続が解除されている'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) =>
+                            ModalRoute.withName(
+                                DataViewerRoutes.dataViewerListDevice)(route));
+                      },
+                      child: Text('接続機器変更'))
+                ],
+              );
+            });
+      }
+    });
 
     if (_zollSdkStore.cases[caseId] == null) {
       final tempDir = await getTemporaryDirectory();

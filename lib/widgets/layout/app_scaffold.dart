@@ -117,12 +117,11 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
                                       DataViewerRoutes.dataViewerListDevice) {
                                     return;
                                   }
+                                  Navigator.of(context).popAndPushNamed(
+                                      DataViewerRoutes.dataViewerListDevice);
                                   if (_zollSdkStore.selectedDevice != null) {
-                                    Navigator.of(context).popAndPushNamed(
+                                    Navigator.of(context).pushNamed(
                                         DataViewerRoutes.dataViewerListCase);
-                                  } else {
-                                    Navigator.of(context).popAndPushNamed(
-                                        DataViewerRoutes.dataViewerListDevice);
                                   }
                                 },
                               ),
