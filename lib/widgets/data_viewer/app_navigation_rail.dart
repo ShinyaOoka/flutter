@@ -22,6 +22,7 @@ class AppNavigationRail extends StatelessWidget {
     return SingleChildScrollView(
       child: IntrinsicHeight(
         child: NavigationRail(
+          groupAlignment: -1,
           labelType: NavigationRailLabelType.all,
           destinations: const [
             NavigationRailDestination(

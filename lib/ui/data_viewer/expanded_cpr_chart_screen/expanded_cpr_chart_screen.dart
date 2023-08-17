@@ -193,6 +193,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 1, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

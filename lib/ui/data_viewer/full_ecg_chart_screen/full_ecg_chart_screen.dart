@@ -170,15 +170,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "ECG全体",
-      actions: _buildActions(),
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -196,6 +187,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 1, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
@@ -246,37 +238,78 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                   //         chartType = x!;
                   //       });
                   //     }),
+                  Row(
+                    children: [
+                      Text('印刷時間指定（長押し）'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                      Text('〜'),
+                      _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                      Icon(Icons.close),
+                      SizedBox(width: 16),
+                      _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
+                      Text('〜'),
+                      _buildSelectedTimeWidget(Colors.orange, ""),
+                      Icon(Icons.close),
+                      SizedBox(width: 16),
+                      _buildSelectedTimeWidget(Colors.blue, ""),
+                      Text('〜'),
+                      _buildSelectedTimeWidget(Colors.blue, ""),
+                      Icon(Icons.close),
+                    ],
+                  ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 8.0),
                     child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
                         textAlign: TextAlign.right),
                   ),
                   EcgChart(
-                    showGrid: true,
-                    samples: myCase!.waves[chartType]!.samples,
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 5,
-                    initDuration: const Duration(minutes: 1),
-                    minY: minY[chartType]!,
-                    maxY: maxY[chartType]!,
-                    majorInterval: majorInterval[chartType]!,
-                    minorInterval: minorInterval[chartType]!,
-                    labelFormat: labelFormat[chartType]!,
-                    onTap: (timestamp) {
-                      if (expandOnTap) {
-                        Navigator.of(context).pushNamed(
-                            DataViewerRoutes.dataViewerExpandedEcgChart,
-                            arguments: ExpandedCprChartScreenArguments(
-                                caseId: caseId, timestamp: timestamp));
-                      }
-                    },
-                  ),
+                      showGrid: true,
+                      samples: myCase!.waves[chartType]!.samples,
+                      initTimestamp:
+                          myCase!.waves[chartType]!.samples.first.timestamp,
+                      segments: 5,
+                      initDuration: const Duration(minutes: 1),
+                      minY: minY[chartType]!,
+                      maxY: maxY[chartType]!,
+                      majorInterval: majorInterval[chartType]!,
+                      minorInterval: minorInterval[chartType]!,
+                      labelFormat: labelFormat[chartType]!,
+                      onTap: (timestamp) {
+                        if (expandOnTap) {
+                          Navigator.of(context).pushNamed(
+                              DataViewerRoutes.dataViewerExpandedEcgChart,
+                              arguments: ExpandedCprChartScreenArguments(
+                                  caseId: caseId, timestamp: timestamp));
+                        }
+                      },
+                      onLongPress: (timestamp) {
+                        print('onLongPress');
+                      }),
                 ],
               ),
             ),
           )
         : Container();
+  }
+
+  Container _buildSelectedTimeWidget(Color color, String text) {
+    return Container(
+      child: Align(
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ),
+        alignment: Alignment.center,
+      ),
+      height: 20,
+      width: 80,
+      decoration: BoxDecoration(
+          color: color, borderRadius: BorderRadius.all(Radius.circular(20))),
+    );
   }
 }
 

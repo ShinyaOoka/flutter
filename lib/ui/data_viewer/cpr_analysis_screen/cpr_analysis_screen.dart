@@ -945,6 +945,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 3, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

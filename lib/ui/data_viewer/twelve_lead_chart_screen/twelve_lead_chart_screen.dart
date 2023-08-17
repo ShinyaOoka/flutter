@@ -81,15 +81,6 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "12誘導",
-      actions: _buildActions(),
-    );
-  }
-
   List<Widget> _buildActions() {
     return [
       _buildPrintButton(),
@@ -451,6 +442,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 5, caseId: caseId!),
         const VerticalDivider(thickness: 1, width: 1),

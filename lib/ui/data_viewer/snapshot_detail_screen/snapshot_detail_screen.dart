@@ -78,15 +78,6 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "スナップショット",
-      actions: _buildActions(),
-    );
-  }
-
   List<Widget> _buildActions() {
     return [
       _buildPrintButton(),
@@ -320,6 +311,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 0, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

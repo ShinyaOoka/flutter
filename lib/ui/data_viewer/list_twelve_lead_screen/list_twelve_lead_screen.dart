@@ -125,14 +125,6 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "12誘導",
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -150,6 +142,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 5, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

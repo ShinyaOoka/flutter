@@ -148,14 +148,6 @@ class CprChartScreenState extends State<CprChartScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "CPR品質の計算",
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -173,6 +165,7 @@ class CprChartScreenState extends State<CprChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 4, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

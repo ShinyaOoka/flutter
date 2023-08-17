@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
+import 'package:ak_azm_flutter/utils/routes/app.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:flutter/material.dart';
@@ -59,11 +60,20 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("ホーム"),
+            onTap: () {
+              if (currentRouteName == AppRoutes.top) {
+                return;
+              }
+              Navigator.of(context).popAndPushNamed(AppRoutes.top);
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.description),
-            title: const Text('レポート作成'),
+            title: const Text('レポート管理'),
             onTap: () {
               if (currentRouteName == ReportRoutes.reportListReport) {
-                Navigator.of(context).pop();
                 return;
               }
               Navigator.of(context)
@@ -72,7 +82,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
           ),
           ListTile(
             leading: const Icon(Icons.data_thresholding),
-            title: const Text('データビューア'),
+            title: const Text('データ参照'),
             onTap: () {
               if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
                 Navigator.of(context).pop();
@@ -85,6 +95,18 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                 Navigator.of(context)
                     .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
               }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("データ参照（保存済）"),
+            onTap: () {
+              if (currentRouteName ==
+                  DataViewerRoutes.dataViewerListDownloadedCase) {
+                return;
+              }
+              Navigator.of(context).popAndPushNamed(
+                  DataViewerRoutes.dataViewerListDownloadedCase);
             },
           ),
           _zollSdkStore.selectedDevice != null
@@ -103,21 +125,40 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                 )
               : Container(),
           ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('情報'),
+            leading: const Icon(Icons.home),
+            title: const Text("情報"),
             onTap: () {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
                         title: const Text('情報'),
-                        content: RichText(
-                            text: const TextSpan(
-                                style: TextStyle(color: Colors.black),
-                                children: [
-                              TextSpan(text: 'アプリ名\n'),
-                              TextSpan(text: 'バーション: 0.0.1'),
-                            ])),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image(
+                              image: AssetImage('assets/logo.png'),
+                              fit: BoxFit.fitHeight,
+                              height: 60,
+                            ),
+                            SizedBox(height: 32),
+                            Text('アプリ名: CodeMate'),
+                            Text('バーション: 0.0.1'),
+                            SizedBox(height: 32),
+                            Text(
+                              'Copyright © Asahi Kasei Corporation. All rights reserved.',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            Text(
+                              'Copyright © Asahi Kasei ZOLL Medical Corporation. All Rights Reserved.',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            Text(
+                              'Portions copyright © ZOLL Medical Corporation.',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
                         actions: [
                           TextButton(
                             child: const Text("OK"),
@@ -127,13 +168,15 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   });
             },
           ),
-          _zollSdkStore.selectedDevice != null ? const Divider() : Container(),
-          _zollSdkStore.selectedDevice != null
-              ? ListTile(
-                  title: Text(
-                      '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
-                )
-              : Container(),
+          ..._zollSdkStore.selectedDevice != null
+              ? [
+                  const Divider(),
+                  ListTile(
+                    title: Text(
+                        '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
+                  ),
+                ]
+              : [],
         ],
       ),
     );

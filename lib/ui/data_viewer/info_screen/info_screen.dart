@@ -154,6 +154,7 @@ class _InfoScreenState extends State<InfoScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 0, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

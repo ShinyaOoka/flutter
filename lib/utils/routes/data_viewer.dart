@@ -10,7 +10,6 @@ import 'package:ak_azm_flutter/ui/data_viewer/list_downloaded_case_screen/list_d
 import 'package:ak_azm_flutter/ui/data_viewer/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_snapshot_screen/list_snapshot_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/list_twelve_lead_screen/list_twelve_lead_screen.dart';
-import 'package:ak_azm_flutter/ui/data_viewer/mock_screen/mock_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/snapshot_detail_screen/snapshot_detail_screen.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/twelve_lead_chart_screen/twelve_lead_chart_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,6 @@ class DataViewerRoutes {
     dataViewerListEvent: (BuildContext context) => const ListEventScreen(),
     dataViewerChooseFunction: (BuildContext context) =>
         const ChooseFunctionScreen(),
-    dataViewerMock: (BuildContext context) => const MockScreen(),
     dataViewerEcgChart: (BuildContext context) => const EcgChartScreen(),
     dataViewerTwelveLeadChart: (BuildContext context) =>
         const TwelveLeadChartScreen(),

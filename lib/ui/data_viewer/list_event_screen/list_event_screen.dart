@@ -142,6 +142,7 @@ class _ListEventScreenState extends State<ListEventScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 2, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
