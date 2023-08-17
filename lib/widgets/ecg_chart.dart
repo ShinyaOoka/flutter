@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -152,13 +153,17 @@ class _EcgChartState extends State<EcgChart> {
     super.initState();
     minX = widget.initTimestamp / 1000000;
     maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
-    minX = max(minX, widget.samples.first.inSeconds);
-    maxX = min(maxX, widget.samples.last.inSeconds);
+    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
   }
 
   @override
   void didUpdateWidget(EcgChart oldWidget) {
     super.didUpdateWidget(oldWidget);
+    minX = widget.initTimestamp / 1000000;
+    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
+    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
     cache = MapCache.lru(maximumSize: 100);
   }
 

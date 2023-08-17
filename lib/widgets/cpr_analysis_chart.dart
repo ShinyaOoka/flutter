@@ -123,8 +123,8 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
     super.initState();
     minX = widget.initTimestamp / 1000000;
     maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
-    minX = max(minX, widget.samples.first.inSeconds);
-    maxX = min(maxX, widget.samples.last.inSeconds);
+    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
   }
 
   @override

@@ -971,28 +971,26 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildDepthInput(),
-            myCase!.waves[chartType]!.samples.isNotEmpty
-                ? CprAnalysisChart(
-                    samples: myCase!.waves[chartType]!.samples,
-                    cprCompressions: myCase!.cprCompressions,
-                    ventilationTimestamps: myCase!
-                        .waves['CO2 mmHg, Waveform']!.samples
-                        .where((element) => element.status == 1)
-                        .map((e) => e.timestamp)
-                        .toList(),
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    initDuration: const Duration(seconds: 30),
-                    majorInterval: 2000,
-                    minorInterval: 2000,
-                    labelFormat: labelFormat[chartType]!,
-                    cprRanges: myCase!.cprRanges,
-                    shocks: myCase!.shocks,
-                    depthUnit: depthUnit,
-                    depthFrom: depthFrom,
-                    depthTo: depthTo,
-                  )
-                : Container(),
+            CprAnalysisChart(
+              samples: myCase!.waves[chartType]!.samples,
+              cprCompressions: myCase!.cprCompressions,
+              ventilationTimestamps: myCase!
+                  .waves['CO2 mmHg, Waveform']!.samples
+                  .where((element) => element.status == 1)
+                  .map((e) => e.timestamp)
+                  .toList(),
+              initTimestamp:
+                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
+              initDuration: const Duration(seconds: 30),
+              majorInterval: 2000,
+              minorInterval: 2000,
+              labelFormat: labelFormat[chartType]!,
+              cprRanges: myCase!.cprRanges,
+              shocks: myCase!.shocks,
+              depthUnit: depthUnit,
+              depthFrom: depthFrom,
+              depthTo: depthTo,
+            ),
             _buildLegend(),
             _buildSummary()
           ],

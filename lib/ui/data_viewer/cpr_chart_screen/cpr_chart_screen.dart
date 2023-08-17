@@ -7,6 +7,7 @@ import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
@@ -210,27 +211,27 @@ class CprChartScreenState extends State<CprChartScreen>
                 ),
               ],
             ),
-            myCase!.waves[chartType]!.samples.isNotEmpty
-                ? EcgChart(
-                    showGrid: true,
-                    samples: myCase!.waves[chartType]!.samples,
-                    cprCompressions: myCase!.cprCompressions,
-                    ventilationTimestamps: myCase!
-                        .waves['CO2 mmHg, Waveform']!.samples
-                        .where((element) => element.status == 1)
-                        .map((e) => e.timestamp)
-                        .toList(),
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 4,
-                    initDuration: const Duration(minutes: 1),
-                    minY: minY[chartType]!,
-                    maxY: maxY[chartType]!,
-                    majorInterval: majorInterval[chartType]!,
-                    minorInterval: minorInterval[chartType]!,
-                    labelFormat: labelFormat[chartType]!,
-                  )
-                : Container(),
+            EcgChart(
+              showGrid: true,
+              samples: myCase!.waves[chartType]!.samples,
+              cprCompressions: myCase!.cprCompressions,
+              ventilationTimestamps:
+                  myCase!.waves[chartType]!.samples.isNotEmpty
+                      ? myCase!.waves['CO2 mmHg, Waveform']!.samples
+                          .where((element) => element.status == 1)
+                          .map((e) => e.timestamp)
+                          .toList()
+                      : [],
+              initTimestamp:
+                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
+              segments: 4,
+              initDuration: const Duration(minutes: 1),
+              minY: minY[chartType]!,
+              maxY: maxY[chartType]!,
+              majorInterval: majorInterval[chartType]!,
+              minorInterval: minorInterval[chartType]!,
+              labelFormat: labelFormat[chartType]!,
+            ),
             _buildTable(),
           ],
         ),

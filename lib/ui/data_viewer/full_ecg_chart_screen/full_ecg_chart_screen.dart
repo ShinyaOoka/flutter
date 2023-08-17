@@ -213,85 +213,83 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   Widget _buildMainContent() {
-    return myCase!.waves[chartType]!.samples.isNotEmpty
-        ? SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppCheckbox(
-                      label: 'クリックしたら拡大ECGへ移動',
-                      value: expandOnTap,
-                      onChanged: (x) =>
-                          setState(() => expandOnTap = x ?? false)),
-                  // DropdownButton<String>(
-                  //     value: chartType,
-                  //     items: myCase!.waves.keys
-                  //         .map(
-                  //             (e) => DropdownMenuItem(value: e, child: Text(e)))
-                  //         .toList(),
-                  //     onChanged: (x) {
-                  //       setState(() {
-                  //         chartType = x!;
-                  //       });
-                  //     }),
-                  Row(
-                    children: const [
-                      Text('印刷時間指定（長押し）'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                      const Text('〜'),
-                      _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                      const Icon(Icons.close),
-                      const SizedBox(width: 16),
-                      _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
-                      const Text('〜'),
-                      _buildSelectedTimeWidget(Colors.orange, ""),
-                      const Icon(Icons.close),
-                      const SizedBox(width: 16),
-                      _buildSelectedTimeWidget(Colors.blue, ""),
-                      const Text('〜'),
-                      _buildSelectedTimeWidget(Colors.blue, ""),
-                      const Icon(Icons.close),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
-                        textAlign: TextAlign.right),
-                  ),
-                  EcgChart(
-                      showGrid: true,
-                      samples: myCase!.waves[chartType]!.samples,
-                      initTimestamp:
-                          myCase!.waves[chartType]!.samples.first.timestamp,
-                      segments: 5,
-                      initDuration: const Duration(minutes: 1),
-                      minY: minY[chartType]!,
-                      maxY: maxY[chartType]!,
-                      majorInterval: majorInterval[chartType]!,
-                      minorInterval: minorInterval[chartType]!,
-                      labelFormat: labelFormat[chartType]!,
-                      onTap: (timestamp) {
-                        if (expandOnTap) {
-                          Navigator.of(context).pushNamed(
-                              DataViewerRoutes.dataViewerExpandedEcgChart,
-                              arguments: ExpandedCprChartScreenArguments(
-                                  caseId: caseId, timestamp: timestamp));
-                        }
-                      },
-                      onLongPress: (timestamp) {
-                        print('onLongPress');
-                      }),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppCheckbox(
+                label: 'クリックしたら拡大ECGへ移動',
+                value: expandOnTap,
+                onChanged: (x) => setState(() => expandOnTap = x ?? false)),
+            // DropdownButton<String>(
+            //     value: chartType,
+            //     items: myCase!.waves.keys
+            //         .map(
+            //             (e) => DropdownMenuItem(value: e, child: Text(e)))
+            //         .toList(),
+            //     onChanged: (x) {
+            //       setState(() {
+            //         chartType = x!;
+            //       });
+            //     }),
+            Row(
+              children: const [
+                Text('印刷時間指定（長押し）'),
+              ],
             ),
-          )
-        : Container();
+            Row(
+              children: [
+                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                const Text('〜'),
+                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                const Icon(Icons.close),
+                const SizedBox(width: 16),
+                _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
+                const Text('〜'),
+                _buildSelectedTimeWidget(Colors.orange, ""),
+                const Icon(Icons.close),
+                const SizedBox(width: 16),
+                _buildSelectedTimeWidget(Colors.blue, ""),
+                const Text('〜'),
+                _buildSelectedTimeWidget(Colors.blue, ""),
+                const Icon(Icons.close),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                  textAlign: TextAlign.right),
+            ),
+            EcgChart(
+                showGrid: true,
+                samples: myCase!.waves[chartType]!.samples,
+                initTimestamp:
+                    myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ??
+                        0,
+                segments: 5,
+                initDuration: const Duration(minutes: 1),
+                minY: minY[chartType]!,
+                maxY: maxY[chartType]!,
+                majorInterval: majorInterval[chartType]!,
+                minorInterval: minorInterval[chartType]!,
+                labelFormat: labelFormat[chartType]!,
+                onTap: (timestamp) {
+                  if (expandOnTap) {
+                    Navigator.of(context).pushNamed(
+                        DataViewerRoutes.dataViewerExpandedEcgChart,
+                        arguments: ExpandedCprChartScreenArguments(
+                            caseId: caseId, timestamp: timestamp));
+                  }
+                },
+                onLongPress: (timestamp) {
+                  print('onLongPress');
+                }),
+          ],
+        ),
+      ),
+    );
   }
 
   Container _buildSelectedTimeWidget(Color color, String text) {
@@ -299,7 +297,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
       height: 20,
       width: 80,
       decoration: BoxDecoration(
-          color: color, borderRadius: const BorderRadius.all(Radius.circular(20))),
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
       child: Align(
         alignment: Alignment.center,
         child: Text(
