@@ -1,14 +1,10 @@
 import 'package:ak_azm_flutter/stores/ui/ui_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
-import 'package:ak_azm_flutter/utils/routes/app.dart';
-import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_drawer.dart';
 import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold({
@@ -61,14 +57,10 @@ class _AppScaffoldState extends State<AppScaffold> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    final currentRouteName = ModalRoute.of(context)?.settings.name;
-    final isDataViewerRoute =
-        DataViewerRoutes.routes.containsKey(currentRouteName);
-    final isReportRoute = ReportRoutes.routes.containsKey(currentRouteName);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         floatingActionButton: widget.floatingActionButton,
         appBar: _buildAppBar(),
         body: widget.body,

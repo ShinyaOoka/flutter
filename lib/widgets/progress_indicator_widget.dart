@@ -28,7 +28,7 @@ class CustomProgressIndicatorWidget extends StatelessWidget {
                 child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.all(25.0),
                     child: CircularProgressIndicator(),
                   ),
@@ -43,7 +43,7 @@ class CustomProgressIndicatorWidget extends StatelessWidget {
                           onPressed: () {
                             onCancel?.call();
                           },
-                          child: Text("キャンセル"))
+                          child: const Text("キャンセル"))
                     ]
                   : []
             ],

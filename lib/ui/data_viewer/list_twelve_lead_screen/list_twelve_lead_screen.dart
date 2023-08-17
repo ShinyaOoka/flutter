@@ -8,7 +8,6 @@ import 'package:ak_azm_flutter/ui/data_viewer/twelve_lead_chart_screen/twelve_le
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +48,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
   @override
   void initState() {
     super.initState();
-    _scrollController = new ScrollController();
+    _scrollController = ScrollController();
   }
 
   @override

@@ -29,7 +29,7 @@ class FlDotCustomPainter extends FlDotPainter {
                   center: offsetInCanvas.translate(0, 10),
                   width: 30,
                   height: 20),
-              Radius.circular(40)),
+              const Radius.circular(40)),
           Paint()
             ..color = Colors.blue
             ..style = PaintingStyle.fill);
@@ -60,7 +60,7 @@ class FlDotCustomPainter extends FlDotPainter {
 
   @override
   Size getSize(FlSpot spot) {
-    return Size(40, 20);
+    return const Size(40, 20);
   }
 
   @override
@@ -259,7 +259,7 @@ class _EcgChartState extends State<EcgChart> {
                     }
                   }
                 },
-                longPressDuration: Duration(seconds: 1),
+                longPressDuration: const Duration(seconds: 1),
                 handleBuiltInTouches: false,
               ),
               minX: minX,

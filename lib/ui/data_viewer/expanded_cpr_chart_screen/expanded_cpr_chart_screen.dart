@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/expanded_ecg_chart.dart';
@@ -152,9 +151,9 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     return [
       buildPrintButton(
           DateTime.fromMicrosecondsSinceEpoch(timestamp)
-              .subtract(Duration(seconds: 3)),
+              .subtract(const Duration(seconds: 3)),
           DateTime.fromMicrosecondsSinceEpoch(timestamp)
-              .add(Duration(seconds: 3))),
+              .add(const Duration(seconds: 3))),
     ];
   }
 

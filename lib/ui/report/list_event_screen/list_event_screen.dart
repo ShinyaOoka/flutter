@@ -110,7 +110,7 @@ class _ListEventScreenState extends State<ListEventScreen>
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('接続が解除されている'),
+                title: const Text('接続が解除されている'),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -119,7 +119,7 @@ class _ListEventScreenState extends State<ListEventScreen>
                               ReportRoutes.reportListDevice)(route),
                         );
                       },
-                      child: Text('接続機器変更'))
+                      child: const Text('接続機器変更'))
                 ],
               );
             });

@@ -19,7 +19,6 @@ import 'package:ak_azm_flutter/pigeon.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 import 'package:ak_azm_flutter/widgets/progress_indicator_widget.dart';
 import 'package:localization/localization.dart';
-import 'package:collection/collection.dart';
 
 class ListCaseScreen extends StatefulWidget {
   const ListCaseScreen({super.key});
@@ -79,7 +78,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('接続が解除されている'),
+                title: const Text('接続が解除されている'),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -87,7 +86,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                             ModalRoute.withName(
                                 DataViewerRoutes.dataViewerListDevice)(route));
                       },
-                      child: Text('接続機器変更'))
+                      child: const Text('接続機器変更'))
                 ],
               );
             });
@@ -261,21 +260,21 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                 },
                 trailing: IconButton(
                   icon: downloadingCaseIds.contains(cases![index].caseId)
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : downloadedCase != null
-                          ? Icon(Icons.check, color: Colors.blue)
-                          : Icon(Icons.file_download, color: Colors.blue),
+                          ? const Icon(Icons.check, color: Colors.blue)
+                          : const Icon(Icons.file_download, color: Colors.blue),
                   onPressed: () async {
                     if (_downloadedCaseStore.downloadedCases!.length >=
                         AppConstants.maxDownloadedCases) {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text('ダウンロード容量エラー'),
-                          content: Text(
+                          title: const Text('ダウンロード容量エラー'),
+                          content: const Text(
                               "ダウンロードファイル数もしくは合計ダウンロード容量が最大値を超えたので、ダウンロードできません。\n保存済のファイルを削除してからダウンロードしてください。"),
                           actions: [
-                            TextButton(onPressed: () {}, child: Text("OK"))
+                            TextButton(onPressed: () {}, child: const Text("OK"))
                           ],
                         ),
                       );
@@ -284,15 +283,15 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     final shouldDownload = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('ダウンロード前確認'),
-                        content: Text("ケースファイルをダウンロードしますか？"),
+                        title: const Text('ダウンロード前確認'),
+                        content: const Text("ケースファイルをダウンロードしますか？"),
                         actions: [
                           TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
-                              child: Text("はい")),
+                              child: const Text("はい")),
                           TextButton(
                               onPressed: () => Navigator.of(context).pop(false),
-                              child: Text("キャンセル"))
+                              child: const Text("キャンセル"))
                         ],
                       ),
                     );
@@ -334,13 +333,13 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                     await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('ダウンロード後確認'),
+                        title: const Text('ダウンロード後確認'),
                         content:
-                            Text("ケースファイルをダウンロードしました。「データビューア（保存済）」で参照可能です。"),
+                            const Text("ケースファイルをダウンロードしました。「データビューア（保存済）」で参照可能です。"),
                         actions: [
                           TextButton(
                               onPressed: () => Navigator.of(context).pop(true),
-                              child: Text("OK")),
+                              child: const Text("OK")),
                         ],
                       ),
                     );

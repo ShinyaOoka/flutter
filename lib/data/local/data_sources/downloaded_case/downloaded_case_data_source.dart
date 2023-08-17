@@ -1,8 +1,6 @@
 import 'package:ak_azm_flutter/data/local/constants/db_constants.dart';
-import 'package:ak_azm_flutter/models/classification/classification.dart';
 import 'package:ak_azm_flutter/models/downloaded_case/downloaded_case.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tuple/tuple.dart';
 
 class DownloadedCaseDataSource {
   final Database _db;

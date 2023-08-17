@@ -214,7 +214,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                       onPressed: () => Navigator.pop(context, true),
                       child: Text(
                         'はい',
-                        style: TextStyle(color: Theme.of(context).errorColor),
+                        style: TextStyle(color: Theme.of(context).colorScheme.error),
                       ),
                     ),
                   ],

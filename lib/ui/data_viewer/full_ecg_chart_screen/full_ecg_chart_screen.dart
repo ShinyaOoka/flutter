@@ -10,11 +10,9 @@ import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
-import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
@@ -239,26 +237,26 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                   //       });
                   //     }),
                   Row(
-                    children: [
+                    children: const [
                       Text('印刷時間指定（長押し）'),
                     ],
                   ),
                   Row(
                     children: [
                       _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                      Text('〜'),
+                      const Text('〜'),
                       _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                      Icon(Icons.close),
-                      SizedBox(width: 16),
+                      const Icon(Icons.close),
+                      const SizedBox(width: 16),
                       _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
-                      Text('〜'),
+                      const Text('〜'),
                       _buildSelectedTimeWidget(Colors.orange, ""),
-                      Icon(Icons.close),
-                      SizedBox(width: 16),
+                      const Icon(Icons.close),
+                      const SizedBox(width: 16),
                       _buildSelectedTimeWidget(Colors.blue, ""),
-                      Text('〜'),
+                      const Text('〜'),
                       _buildSelectedTimeWidget(Colors.blue, ""),
-                      Icon(Icons.close),
+                      const Icon(Icons.close),
                     ],
                   ),
                   const Padding(
@@ -298,17 +296,17 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
 
   Container _buildSelectedTimeWidget(Color color, String text) {
     return Container(
-      child: Align(
-        child: Text(
-          text,
-          style: TextStyle(color: Colors.white),
-        ),
-        alignment: Alignment.center,
-      ),
       height: 20,
       width: 80,
       decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.all(Radius.circular(20))),
+          color: color, borderRadius: const BorderRadius.all(Radius.circular(20))),
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
     );
   }
 }
@@ -356,7 +354,7 @@ class _ChoosePrintTimeRangeDialogState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             AppDateTimePicker(
@@ -387,7 +385,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: pads,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('パッド'),
+              title: const Text('パッド'),
               onChanged: (value) {
                 setState(() {
                   pads = value ?? false;
@@ -398,7 +396,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: co2,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CO2'),
+              title: const Text('CO2'),
               onChanged: (value) {
                 setState(() {
                   co2 = value ?? false;
@@ -409,7 +407,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: resp,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('換気'),
+              title: const Text('換気'),
               onChanged: (value) {
                 setState(() {
                   resp = value ?? false;
@@ -420,7 +418,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: cprAccel,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CPR波形'),
+              title: const Text('CPR波形'),
               onChanged: (value) {
                 setState(() {
                   cprAccel = value ?? false;
@@ -431,7 +429,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: cprCompression,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CPRバー'),
+              title: const Text('CPRバー'),
               onChanged: (value) {
                 setState(() {
                   cprCompression = value ?? false;

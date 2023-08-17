@@ -79,7 +79,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('接続が解除されている'),
+                title: const Text('接続が解除されている'),
                 actions: [
                   TextButton(
                       onPressed: () {
@@ -87,7 +87,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
                             ModalRoute.withName(
                                 DataViewerRoutes.dataViewerListDevice)(route));
                       },
-                      child: Text('接続機器変更'))
+                      child: const Text('接続機器変更'))
                 ],
               );
             });
