@@ -1,5 +1,7 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
+import 'package:ak_azm_flutter/ui/alerts/show_leave_create_report_dialog.dart';
+import 'package:ak_azm_flutter/ui/alerts/show_leave_edit_report_dialog.dart';
 import 'package:ak_azm_flutter/utils/routes/app.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/utils/routes/report.dart';
@@ -37,6 +39,19 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
     _zollSdkStore = context.read();
   }
 
+  Future<bool> shouldLeaveScreen(BuildContext context) async {
+    final currentRouteName = ModalRoute.of(context)?.settings.name;
+
+    if (currentRouteName == ReportRoutes.reportCreateReport) {
+      return await showLeaveCreateReportDialog(context);
+    }
+    if (currentRouteName == ReportRoutes.reportEditReport) {
+      return await showLeaveEditReportDialog(context);
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentRouteName = ModalRoute.of(context)?.settings.name;
@@ -59,56 +74,45 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text("ホーム"),
-            onTap: () {
-              if (currentRouteName == AppRoutes.top) {
-                return;
-              }
-              Navigator.of(context).popAndPushNamed(AppRoutes.top);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.description),
-            title: const Text('レポート管理'),
-            onTap: () {
-              if (currentRouteName == ReportRoutes.reportListReport) {
-                return;
-              }
+          _buildNavigationListTile(
+              context, const Icon(Icons.home), const Text("ホーム"), () {
+            if (currentRouteName == AppRoutes.top) {
+              return;
+            }
+            Navigator.of(context).popAndPushNamed(AppRoutes.top);
+          }),
+          _buildNavigationListTile(
+              context, const Icon(Icons.description), const Text("レポート管理"), () {
+            if (currentRouteName == ReportRoutes.reportListReport) {
+              return;
+            }
+            Navigator.of(context)
+                .popAndPushNamed(ReportRoutes.reportListReport);
+          }),
+          _buildNavigationListTile(
+              context, const Icon(Icons.data_thresholding), const Text("データ参照"),
+              () {
+            if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
+              Navigator.of(context).pop();
+              return;
+            }
+            if (_zollSdkStore.selectedDevice != null) {
               Navigator.of(context)
-                  .popAndPushNamed(ReportRoutes.reportListReport);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.data_thresholding),
-            title: const Text('データ参照'),
-            onTap: () {
-              if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
-                Navigator.of(context).pop();
-                return;
-              }
-              if (_zollSdkStore.selectedDevice != null) {
-                Navigator.of(context)
-                    .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
-              } else {
-                Navigator.of(context)
-                    .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
-              }
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text("データ参照（保存済）"),
-            onTap: () {
-              if (currentRouteName ==
-                  DataViewerRoutes.dataViewerListDownloadedCase) {
-                return;
-              }
-              Navigator.of(context).popAndPushNamed(
-                  DataViewerRoutes.dataViewerListDownloadedCase);
-            },
-          ),
+                  .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
+            } else {
+              Navigator.of(context)
+                  .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+            }
+          }),
+          _buildNavigationListTile(
+              context, const Icon(Icons.home), const Text("データ参照（保存済）"), () {
+            if (currentRouteName ==
+                DataViewerRoutes.dataViewerListDownloadedCase) {
+              return;
+            }
+            Navigator.of(context)
+                .popAndPushNamed(DataViewerRoutes.dataViewerListDownloadedCase);
+          }),
           _zollSdkStore.selectedDevice != null
               ? ListTile(
                   leading: const Icon(Icons.phonelink_erase),
@@ -179,6 +183,19 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               : [],
         ],
       ),
+    );
+  }
+
+  ListTile _buildNavigationListTile(
+      BuildContext context, Widget leading, Widget title, Function() onTap) {
+    return ListTile(
+      leading: leading,
+      title: title,
+      onTap: () async {
+        final shouldLeave = await shouldLeaveScreen(context);
+        if (!shouldLeave || !mounted) return;
+        onTap();
+      },
     );
   }
 }
