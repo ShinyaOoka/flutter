@@ -113,21 +113,17 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             Navigator.of(context)
                 .popAndPushNamed(DataViewerRoutes.dataViewerListDownloadedCase);
           }),
-          _zollSdkStore.selectedDevice != null
-              ? ListTile(
-                  leading: const Icon(Icons.phonelink_erase),
-                  title: const Text('接続機器変更'),
-                  onTap: () {
-                    if (isDataViewerRoute) {
-                      Navigator.of(context).popAndPushNamed(
-                          DataViewerRoutes.dataViewerListDevice);
-                    } else if (isReportRoute) {
-                      Navigator.of(context)
-                          .popAndPushNamed(ReportRoutes.reportChangeDevice);
-                    }
-                  },
-                )
-              : Container(),
+          if (_zollSdkStore.selectedDevice != null)
+            _buildNavigationListTile(context, const Icon(Icons.phonelink_erase),
+                const Text('接続機器変更'), () {
+              if (isDataViewerRoute) {
+                Navigator.of(context)
+                    .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+              } else if (isReportRoute) {
+                Navigator.of(context)
+                    .popAndPushNamed(ReportRoutes.reportChangeDevice);
+              }
+            }),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text("情報"),
@@ -139,7 +135,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                         title: const Text('情報'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
+                          children: const [
                             Image(
                               image: AssetImage('assets/logo.png'),
                               fit: BoxFit.fitHeight,
@@ -172,15 +168,13 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
                   });
             },
           ),
-          ..._zollSdkStore.selectedDevice != null
-              ? [
-                  const Divider(),
-                  ListTile(
-                    title: Text(
-                        '接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
-                  ),
-                ]
-              : [],
+          if (_zollSdkStore.selectedDevice != null) ...[
+            const Divider(),
+            ListTile(
+              title:
+                  Text('接続中機器: ${_zollSdkStore.selectedDevice?.serialNumber}'),
+            ),
+          ]
         ],
       ),
     );
