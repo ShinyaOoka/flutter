@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/ecg_chart_screen/ecg_chart_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/expanded_cpr_chart_screen/expanded_cpr_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
@@ -191,8 +192,8 @@ class _ListEventScreenState extends State<ListEventScreen>
                 // '${myCase!.events[dataIndex].date} ${myCase!.events[dataIndex].date.isUtc}  ${myCase!.events[dataIndex]?.type}'),
                 onTap: () {
                   Navigator.of(context).pushNamed(
-                      DataViewerRoutes.dataViewerEcgChart,
-                      arguments: EcgChartScreenArguments(
+                      DataViewerRoutes.dataViewerExpandedEcgChart,
+                      arguments: ExpandedCprChartScreenArguments(
                           caseId: caseId,
                           timestamp: myCase!
                               .events[dataIndex].date.microsecondsSinceEpoch));
