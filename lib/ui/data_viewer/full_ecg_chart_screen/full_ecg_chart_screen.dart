@@ -241,19 +241,19 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
             ),
             Row(
               children: [
-                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                _buildSelectedTimeWidget(Colors.green, "15:30:41"),
                 const Text('〜'),
-                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
+                _buildSelectedTimeWidget(Colors.green, "15:30:42"),
                 const Icon(Icons.close),
                 const SizedBox(width: 16),
-                _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
+                _buildSelectedTimeWidget(Colors.orange, "15:30:45"),
                 const Text('〜'),
-                _buildSelectedTimeWidget(Colors.orange, ""),
+                _buildSelectedTimeWidget(Colors.orange, "15:30:47"),
                 const Icon(Icons.close),
                 const SizedBox(width: 16),
-                _buildSelectedTimeWidget(Colors.blue, ""),
+                _buildSelectedTimeWidget(Colors.blue, "15:30:48"),
                 const Text('〜'),
-                _buildSelectedTimeWidget(Colors.blue, ""),
+                _buildSelectedTimeWidget(Colors.blue, "15:30:49"),
                 const Icon(Icons.close),
               ],
             ),
@@ -263,29 +263,58 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                   textAlign: TextAlign.right),
             ),
             EcgChart(
-                showGrid: true,
-                samples: myCase!.waves[chartType]!.samples,
-                initTimestamp:
-                    myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ??
-                        0,
-                segments: 5,
-                initDuration: const Duration(minutes: 1),
-                minY: minY[chartType]!,
-                maxY: maxY[chartType]!,
-                majorInterval: majorInterval[chartType]!,
-                minorInterval: minorInterval[chartType]!,
-                labelFormat: labelFormat[chartType]!,
-                onTap: (timestamp) {
-                  if (expandOnTap) {
-                    Navigator.of(context).pushNamed(
-                        DataViewerRoutes.dataViewerExpandedEcgChart,
-                        arguments: ExpandedCprChartScreenArguments(
-                            caseId: caseId, timestamp: timestamp));
-                  }
-                },
-                onLongPress: (timestamp) {
-                  print('onLongPress');
-                }),
+              showGrid: true,
+              samples: myCase!.waves[chartType]!.samples,
+              initTimestamp:
+                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
+              segments: 5,
+              initDuration: const Duration(minutes: 1),
+              minY: minY[chartType]!,
+              maxY: maxY[chartType]!,
+              majorInterval: majorInterval[chartType]!,
+              minorInterval: minorInterval[chartType]!,
+              labelFormat: labelFormat[chartType]!,
+              onTap: (timestamp) {
+                if (expandOnTap) {
+                  Navigator.of(context).pushNamed(
+                      DataViewerRoutes.dataViewerExpandedEcgChart,
+                      arguments: ExpandedCprChartScreenArguments(
+                          caseId: caseId, timestamp: timestamp));
+                }
+              },
+              onLongPress: (timestamp) {
+                print('onLongPress');
+              },
+              timeRanges: [
+                TimeRange(
+                  color: Colors.green,
+                  startTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          1000000),
+                  endTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          2000000),
+                ),
+                TimeRange(
+                  color: Colors.orange,
+                  startTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          5000000),
+                  endTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          7000000),
+                ),
+                TimeRange(
+                  color: Colors.blue,
+                  startTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          8000000),
+                  endTime: DateTime.fromMicrosecondsSinceEpoch(
+                      myCase!.waves[chartType]!.samples.first.timestamp +
+                          9000000),
+                ),
+              ],
+            ),
           ],
         ),
       ),

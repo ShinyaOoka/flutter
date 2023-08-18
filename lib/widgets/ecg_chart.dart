@@ -32,7 +32,7 @@ class FlDotCustomPainter extends FlDotPainter {
                   height: 20),
               const Radius.circular(40)),
           Paint()
-            ..color = Colors.blue
+            ..color = color
             ..style = PaintingStyle.fill);
     }
     if (shape == DotShape.startHandle) {
@@ -72,6 +72,14 @@ String defaultLabelFormat(double x) {
   return (x / 1000).toStringAsFixed(1);
 }
 
+class TimeRange {
+  TimeRange({this.startTime, this.endTime, required this.color});
+
+  final DateTime? startTime;
+  final DateTime? endTime;
+  final Color color;
+}
+
 void defaultOnTap(int timestamp) {}
 
 class EcgChart extends StatefulWidget {
@@ -94,6 +102,7 @@ class EcgChart extends StatefulWidget {
     this.ventilationTimestamps = const [],
     this.onTap = defaultOnTap,
     this.onLongPress = defaultOnTap,
+    this.timeRanges = const [],
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -113,6 +122,7 @@ class EcgChart extends StatefulWidget {
   final List<int> ventilationTimestamps;
   final void Function(int timestamp) onTap;
   final void Function(int timestamp) onLongPress;
+  final List<TimeRange> timeRanges;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -243,16 +253,16 @@ class _EcgChartState extends State<EcgChart> {
         builder: (context, snapshot) {
           return LineChart(
             LineChartData(
-              // extraLinesData: ExtraLinesData(verticalLines: [
-              //   VerticalLine(
-              //     x: widget.initTimestamp / 1000000 + 1,
-              //     color: Colors.blue,
-              //   ),
-              //   VerticalLine(
-              //     x: widget.initTimestamp / 1000000 + 2,
-              //     color: Colors.blue,
-              //   )
-              // ], extraLinesOnTop: false),
+              extraLinesData: ExtraLinesData(verticalLines: [
+                ...widget.timeRanges.where((e) => e.startTime != null).map(
+                    (e) => VerticalLine(
+                        x: e.startTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color)),
+                ...widget.timeRanges.where((e) => e.endTime != null).map((e) =>
+                    VerticalLine(
+                        x: e.endTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color)),
+              ], extraLinesOnTop: false),
               lineTouchData: LineTouchData(
                 touchCallback: (touchEvent, response) {
                   final timestamp = response?.lineBarSpots?[0].x.toInt();
@@ -399,26 +409,37 @@ class _EcgChartState extends State<EcgChart> {
                   ),
                   barWidth: 0,
                 ),
-                // LineChartBarData(
-                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 1, 2500)],
-                //   dotData: FlDotData(
-                //     getDotPainter: (p0, p1, p2, index) {
-                //       return FlDotCustomPainter(
-                //           color: Colors.blue, shape: DotShape.startHandle);
-                //     },
-                //   ),
-                //   barWidth: 0,
-                // ),
-                // LineChartBarData(
-                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 2, 2500)],
-                //   dotData: FlDotData(
-                //     getDotPainter: (p0, p1, p2, index) {
-                //       return FlDotCustomPainter(
-                //           color: Colors.blue, shape: DotShape.endHandle);
-                //     },
-                //   ),
-                //   barWidth: 0,
-                // ),
+                ...widget.timeRanges
+                    .where((e) => e.startTime != null)
+                    .map((e) => LineChartBarData(
+                          spots: [
+                            FlSpot(
+                                e.startTime!.microsecondsSinceEpoch / 1000000,
+                                widget.maxY)
+                          ],
+                          dotData: FlDotData(
+                            getDotPainter: (p0, p1, p2, index) {
+                              return FlDotCustomPainter(
+                                  color: e.color, shape: DotShape.startHandle);
+                            },
+                          ),
+                          barWidth: 0,
+                        )),
+                ...widget.timeRanges
+                    .where((e) => e.endTime != null)
+                    .map((e) => LineChartBarData(
+                          spots: [
+                            FlSpot(e.endTime!.microsecondsSinceEpoch / 1000000,
+                                widget.maxY)
+                          ],
+                          dotData: FlDotData(
+                            getDotPainter: (p0, p1, p2, index) {
+                              return FlDotCustomPainter(
+                                  color: e.color, shape: DotShape.endHandle);
+                            },
+                          ),
+                          barWidth: 0,
+                        )),
                 LineChartBarData(
                   spots: snapshot.data,
                   isCurved: false,
