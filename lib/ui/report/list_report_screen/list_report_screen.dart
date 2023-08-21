@@ -214,7 +214,7 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                       onPressed: () => Navigator.pop(context, true),
                       child: Text(
                         'はい',
-                        style: TextStyle(color: Theme.of(context).errorColor),
+                        style: TextStyle(color: Theme.of(context).colorScheme.error),
                       ),
                     ),
                   ],
@@ -338,13 +338,9 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
   }
 
   Widget _buildMainContent() {
-    return Observer(
-      builder: (context) {
-        return initialized
-            ? Material(child: _buildListView())
-            : CustomProgressIndicatorWidget();
-      },
-    );
+    return initialized
+        ? Material(child: _buildListView())
+        : CustomProgressIndicatorWidget();
   }
 
   Widget _buildListView() {

@@ -97,4 +97,7 @@ abstract class ZollSdkFlutterApi {
 
   void onDownloadCaseSuccess(
       int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase);
+  void onDownloadCaseFailed(
+      int requestCode, String serialNumber, String caseId, String errorMessage
+  );
 }

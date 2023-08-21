@@ -5,7 +5,6 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:ak_azm_flutter/widgets/twelve_lead_chart.dart';
 import 'package:flutter/material.dart';
@@ -75,15 +74,6 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
     return AppScaffold(
       body: _buildBody(),
       leadings: [_buildBackButton()],
-      leadingWidth: 88,
-      title: "12誘導",
-      actions: _buildActions(),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
       leadingWidth: 88,
       title: "12誘導",
       actions: _buildActions(),
@@ -451,6 +441,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 5, caseId: caseId!),
         const VerticalDivider(thickness: 1, width: 1),

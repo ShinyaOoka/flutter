@@ -4,7 +4,6 @@ import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/downloaded_case/downloaded_case.dart';
 import 'package:mobx/mobx.dart';
 import 'package:ak_azm_flutter/data/repository.dart';
-import 'package:ak_azm_flutter/models/report/report.dart';
 import 'package:ak_azm_flutter/stores/error/error_store.dart';
 import 'package:path_provider/path_provider.dart';
 

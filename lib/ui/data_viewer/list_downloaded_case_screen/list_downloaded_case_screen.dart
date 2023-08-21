@@ -1,16 +1,12 @@
 import 'dart:io';
 
-import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/downloaded_case/downloaded_case.dart';
 import 'package:ak_azm_flutter/stores/downloaded_case/downloaded_case_store.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
-import 'package:ak_azm_flutter/ui/report/list_event_screen/list_event_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -110,20 +106,20 @@ class _ListDownloadedCaseScreenState extends State<ListDownloadedCaseScreen>
                       ChooseFunctionScreenArguments(caseId: myCase.caseCd!));
             },
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () async {
                 final shouldDelete = await showDialog<bool>(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text("ファイル削除前確認"),
-                    content: Text("ケースファイルを削除しますか？"),
+                    title: const Text("ファイル削除前確認"),
+                    content: const Text("ケースファイルを削除しますか？"),
                     actions: [
                       TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text("はい")),
+                          child: const Text("はい")),
                       TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text("キャンセル"))
+                          child: const Text("キャンセル"))
                     ],
                   ),
                 );
@@ -133,12 +129,12 @@ class _ListDownloadedCaseScreenState extends State<ListDownloadedCaseScreen>
                   await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text("ファイル削除後確認"),
-                      content: Text("ケースファイルを削除しました。"),
+                      title: const Text("ファイル削除後確認"),
+                      content: const Text("ケースファイルを削除しました。"),
                       actions: [
                         TextButton(
                             onPressed: () => Navigator.of(context).pop(true),
-                            child: Text("OK"))
+                            child: const Text("OK"))
                       ],
                     ),
                   );

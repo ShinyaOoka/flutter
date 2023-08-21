@@ -142,6 +142,7 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 6, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),

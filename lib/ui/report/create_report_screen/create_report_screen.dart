@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
+import 'package:ak_azm_flutter/ui/alerts/show_leave_create_report_dialog.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -130,23 +131,8 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
       label: Text('back'.i18n()),
       onPressed: () async {
-        final result = await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text("未登録終了確認"),
-                  content: const Text("入力内容を保存せずに戻ります。よろしいですか？"),
-                  actions: [
-                    TextButton(
-                      child: const Text("はい"),
-                      onPressed: () => Navigator.pop(context, true),
-                    ),
-                    TextButton(
-                      child: const Text("キャンセル"),
-                      onPressed: () => Navigator.pop(context, false),
-                    ),
-                  ],
-                ));
-        if (result != true) return;
+        final result = await showLeaveCreateReportDialog(context);
+        if (!result) return;
         if (!mounted) return;
         Navigator.of(context).pop();
       },

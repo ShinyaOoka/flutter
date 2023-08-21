@@ -1,12 +1,72 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
+
+enum DotShape {
+  startHandle,
+  endHandle,
+}
+
+class FlDotCustomPainter extends FlDotPainter {
+  FlDotCustomPainter({required this.color, required this.shape});
+
+  Color color;
+
+  DotShape shape;
+
+  @override
+  void draw(Canvas canvas, FlSpot spot, Offset offsetInCanvas) {
+    if (shape == DotShape.startHandle || shape == DotShape.endHandle) {
+      canvas.drawRRect(
+          RRect.fromRectAndRadius(
+              Rect.fromCenter(
+                  center: offsetInCanvas.translate(0, 10),
+                  width: 30,
+                  height: 20),
+              const Radius.circular(40)),
+          Paint()
+            ..color = Colors.blue
+            ..style = PaintingStyle.fill);
+    }
+    if (shape == DotShape.startHandle) {
+      canvas.drawPath(
+          Path()
+            ..moveTo(offsetInCanvas.dx - 3, offsetInCanvas.dy + 5)
+            ..relativeLineTo(0, 10)
+            ..relativeLineTo(6, -5)
+            ..relativeLineTo(-6, -5),
+          Paint()
+            ..color = Colors.white
+            ..style = PaintingStyle.fill);
+    }
+    if (shape == DotShape.endHandle) {
+      canvas.drawPath(
+          Path()
+            ..moveTo(offsetInCanvas.dx + 3, offsetInCanvas.dy + 5)
+            ..relativeLineTo(0, 10)
+            ..relativeLineTo(-6, -5)
+            ..relativeLineTo(6, -5),
+          Paint()
+            ..color = Colors.white
+            ..style = PaintingStyle.fill);
+    }
+  }
+
+  @override
+  Size getSize(FlSpot spot) {
+    return const Size(40, 20);
+  }
+
+  @override
+  List<Object?> get props => [];
+}
 
 String defaultLabelFormat(double x) {
   return (x / 1000).toStringAsFixed(1);
@@ -33,6 +93,7 @@ class EcgChart extends StatefulWidget {
     this.labelFormat = defaultLabelFormat,
     this.ventilationTimestamps = const [],
     this.onTap = defaultOnTap,
+    this.onLongPress = defaultOnTap,
   }) : super(key: key);
 
   final List<Sample> samples;
@@ -51,6 +112,7 @@ class EcgChart extends StatefulWidget {
   final List<CprCompression> cprCompressions;
   final List<int> ventilationTimestamps;
   final void Function(int timestamp) onTap;
+  final void Function(int timestamp) onLongPress;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -67,7 +129,8 @@ class _EcgChartState extends State<EcgChart> {
           final t = e.inSeconds;
           return t > key.item1 * factor && t < (key.item2 + 1) * factor;
         })
-        .map((e) => FlSpot(e.inSeconds, e.value.toDouble()))
+        .map((e) => FlSpot(
+            e.inSeconds, e.value.toDouble().clamp(widget.minY, widget.maxY)))
         .toList();
   }
 
@@ -90,13 +153,17 @@ class _EcgChartState extends State<EcgChart> {
     super.initState();
     minX = widget.initTimestamp / 1000000;
     maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
-    minX = max(minX, widget.samples.first.inSeconds);
-    maxX = min(maxX, widget.samples.last.inSeconds);
+    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
   }
 
   @override
   void didUpdateWidget(EcgChart oldWidget) {
     super.didUpdateWidget(oldWidget);
+    minX = widget.initTimestamp / 1000000;
+    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
+    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
     cache = MapCache.lru(maximumSize: 100);
   }
 
@@ -176,16 +243,28 @@ class _EcgChartState extends State<EcgChart> {
         builder: (context, snapshot) {
           return LineChart(
             LineChartData(
+              // extraLinesData: ExtraLinesData(verticalLines: [
+              //   VerticalLine(
+              //     x: widget.initTimestamp / 1000000 + 1,
+              //     color: Colors.blue,
+              //   ),
+              //   VerticalLine(
+              //     x: widget.initTimestamp / 1000000 + 2,
+              //     color: Colors.blue,
+              //   )
+              // ], extraLinesOnTop: false),
               lineTouchData: LineTouchData(
                 touchCallback: (touchEvent, response) {
-                  if (touchEvent.runtimeType != FlTapDownEvent) {
-                    return;
-                  }
                   final timestamp = response?.lineBarSpots?[0].x.toInt();
                   if (timestamp != null) {
-                    widget.onTap(timestamp * 1000000);
+                    if (touchEvent.runtimeType == FlTapDownEvent) {
+                      widget.onTap(timestamp * 1000000);
+                    } else if (touchEvent.runtimeType == FlLongPressStart) {
+                      widget.onLongPress(timestamp * 1000000);
+                    }
                   }
                 },
+                longPressDuration: const Duration(seconds: 1),
                 handleBuiltInTouches: false,
               ),
               minX: minX,
@@ -200,7 +279,7 @@ class _EcgChartState extends State<EcgChart> {
                   getDrawingVerticalLine: (value) => FlLine(strokeWidth: 0.5),
                   horizontalInterval: widget.gridHorizontal),
               titlesData: FlTitlesData(
-                topTitles: AxisTitles(),
+                topTitles: AxisTitles(sideTitles: SideTitles()),
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     getTitlesWidget: (value, meta) {
@@ -320,6 +399,26 @@ class _EcgChartState extends State<EcgChart> {
                   ),
                   barWidth: 0,
                 ),
+                // LineChartBarData(
+                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 1, 2500)],
+                //   dotData: FlDotData(
+                //     getDotPainter: (p0, p1, p2, index) {
+                //       return FlDotCustomPainter(
+                //           color: Colors.blue, shape: DotShape.startHandle);
+                //     },
+                //   ),
+                //   barWidth: 0,
+                // ),
+                // LineChartBarData(
+                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 2, 2500)],
+                //   dotData: FlDotData(
+                //     getDotPainter: (p0, p1, p2, index) {
+                //       return FlDotCustomPainter(
+                //           color: Colors.blue, shape: DotShape.endHandle);
+                //     },
+                //   ),
+                //   barWidth: 0,
+                // ),
                 LineChartBarData(
                   spots: snapshot.data,
                   isCurved: false,
