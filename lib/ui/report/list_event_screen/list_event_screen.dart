@@ -64,6 +64,8 @@ class _ListEventScreenState extends State<ListEventScreen>
   Case? myCase;
   bool hasNewData = false;
 
+  ReactionDisposer? lostDeviceReactionDisposer;
+
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
 
@@ -83,6 +85,7 @@ class _ListEventScreenState extends State<ListEventScreen>
   void dispose() {
     super.dispose();
     reactionDisposer?.call();
+    lostDeviceReactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -98,6 +101,29 @@ class _ListEventScreenState extends State<ListEventScreen>
     _report = _reportStore.selectingReport!;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
+    });
+    lostDeviceReactionDisposer?.call();
+    lostDeviceReactionDisposer =
+        reaction((_) => _zollSdkStore.selectedDevice, (device) {
+      if (device == null) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('接続が解除されている'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil(
+                          (route) => ModalRoute.withName(
+                              ReportRoutes.reportListDevice)(route),
+                        );
+                      },
+                      child: const Text('接続機器変更'))
+                ],
+              );
+            });
+      }
     });
     reactionDisposer?.call();
     reactionDisposer = autorun((_) {
@@ -269,9 +295,7 @@ class _ListEventScreenState extends State<ListEventScreen>
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        myCase != null
-            ? _buildMainContent()
-            : CustomProgressIndicatorWidget(),
+        myCase != null ? _buildMainContent() : CustomProgressIndicatorWidget(),
       ],
     );
   }

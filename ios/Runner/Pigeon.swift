@@ -352,4 +352,10 @@ class ZollSdkFlutterApi {
       completion()
     }
   }
+  func onDownloadCaseFailed(requestCode requestCodeArg: Int32, serialNumber serialNumberArg: String, caseId caseIdArg: String, errorMessage errorMessageArg: String, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([requestCodeArg, serialNumberArg, caseIdArg, errorMessageArg] as [Any?]) { _ in
+      completion()
+    }
+  }
 }

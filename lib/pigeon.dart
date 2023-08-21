@@ -332,6 +332,8 @@ abstract class ZollSdkFlutterApi {
 
   void onDownloadCaseSuccess(int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase);
 
+  void onDownloadCaseFailed(int requestCode, String serialNumber, String caseId, String errorMessage);
+
   static void setup(ZollSdkFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -437,6 +439,34 @@ abstract class ZollSdkFlutterApi {
           assert(arg_nativeCase != null,
               'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseSuccess was null, expected non-null NativeCase.');
           api.onDownloadCaseSuccess(arg_requestCode!, arg_serialNumber!, arg_caseId!, arg_path!, arg_nativeCase!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_requestCode = (args[0] as int?);
+          assert(arg_requestCode != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed was null, expected non-null int.');
+          final String? arg_serialNumber = (args[1] as String?);
+          assert(arg_serialNumber != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed was null, expected non-null String.');
+          final String? arg_caseId = (args[2] as String?);
+          assert(arg_caseId != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed was null, expected non-null String.');
+          final String? arg_errorMessage = (args[3] as String?);
+          assert(arg_errorMessage != null,
+              'Argument for dev.flutter.pigeon.ZollSdkFlutterApi.onDownloadCaseFailed was null, expected non-null String.');
+          api.onDownloadCaseFailed(arg_requestCode!, arg_serialNumber!, arg_caseId!, arg_errorMessage!);
           return;
         });
       }

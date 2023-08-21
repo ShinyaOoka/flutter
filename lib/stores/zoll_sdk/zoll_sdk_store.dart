@@ -46,6 +46,9 @@ abstract class _ZollSdkStore with Store {
   void onDeviceLost(XSeriesDevice device) {
     devices
         .removeWhere((element) => element.serialNumber == device.serialNumber);
+    if (selectedDevice?.serialNumber == device.serialNumber) {
+      selectedDevice = null;
+    }
   }
 
   @action
@@ -71,5 +74,14 @@ abstract class _ZollSdkStore with Store {
     cases[caseId]!.endTime =
         DateTime.tryParse(caseListItem?.endTime ?? '')?.toLocal();
     downloadCaseCompleter?.complete();
+  }
+
+  @action
+  Future<void> onDownloadCaseFailed(int requestCode, String serialNumber,
+      String caseId, String errorMessage) async {
+    devices.removeWhere((element) => element.serialNumber == serialNumber);
+    if (selectedDevice?.serialNumber == serialNumber) {
+      selectedDevice = null;
+    }
   }
 }

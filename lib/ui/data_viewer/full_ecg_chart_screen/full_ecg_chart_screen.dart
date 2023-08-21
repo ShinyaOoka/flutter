@@ -10,11 +10,9 @@ import 'package:ak_azm_flutter/utils/chart_painter.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_checkbox.dart';
 import 'package:ak_azm_flutter/widgets/app_date_time_picker.dart';
-import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
-import 'package:ak_azm_flutter/widgets/layout/custom_app_bar.dart';
 import 'package:ak_azm_flutter/widgets/report/section/report_section_mixin.dart';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
@@ -170,15 +168,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
         : null;
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: _buildBackButton(),
-      leadingWidth: 88,
-      title: "ECG全体",
-      actions: _buildActions(),
-    );
-  }
-
   Widget _buildBackButton() {
     return TextButton.icon(
       icon: const SizedBox(
@@ -196,6 +185,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
 
   Widget _buildBody() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppNavigationRail(selectedIndex: 1, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
@@ -223,60 +213,77 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   Widget _buildMainContent() {
-    return myCase!.waves[chartType]!.samples.isNotEmpty
-        ? SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AppCheckbox(
-                      label: 'クリックしたら拡大ECGへ移動',
-                      value: expandOnTap,
-                      onChanged: (x) =>
-                          setState(() => expandOnTap = x ?? false)),
-                  // DropdownButton<String>(
-                  //     value: chartType,
-                  //     items: myCase!.waves.keys
-                  //         .map(
-                  //             (e) => DropdownMenuItem(value: e, child: Text(e)))
-                  //         .toList(),
-                  //     onChanged: (x) {
-                  //       setState(() {
-                  //         chartType = x!;
-                  //       });
-                  //     }),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
-                        textAlign: TextAlign.right),
-                  ),
-                  EcgChart(
-                    showGrid: true,
-                    samples: myCase!.waves[chartType]!.samples,
-                    initTimestamp:
-                        myCase!.waves[chartType]!.samples.first.timestamp,
-                    segments: 5,
-                    initDuration: const Duration(minutes: 1),
-                    minY: minY[chartType]!,
-                    maxY: maxY[chartType]!,
-                    majorInterval: majorInterval[chartType]!,
-                    minorInterval: minorInterval[chartType]!,
-                    labelFormat: labelFormat[chartType]!,
-                    onTap: (timestamp) {
-                      if (expandOnTap) {
-                        Navigator.of(context).pushNamed(
-                            DataViewerRoutes.dataViewerExpandedEcgChart,
-                            arguments: ExpandedCprChartScreenArguments(
-                                caseId: caseId, timestamp: timestamp));
-                      }
-                    },
-                  ),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppCheckbox(
+                label: 'クリックしたら拡大ECGへ移動',
+                value: expandOnTap,
+                onChanged: (x) => setState(() => expandOnTap = x ?? false)),
+            // DropdownButton<String>(
+            //     value: chartType,
+            //     items: myCase!.waves.keys
+            //         .map(
+            //             (e) => DropdownMenuItem(value: e, child: Text(e)))
+            //         .toList(),
+            //     onChanged: (x) {
+            //       setState(() {
+            //         chartType = x!;
+            //       });
+            //     }),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                  textAlign: TextAlign.right),
             ),
-          )
-        : Container();
+            EcgChart(
+                showGrid: true,
+                samples: myCase!.waves[chartType]!.samples,
+                initTimestamp:
+                    myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ??
+                        0,
+                segments: 5,
+                initDuration: const Duration(minutes: 1),
+                minY: minY[chartType]!,
+                maxY: maxY[chartType]!,
+                majorInterval: majorInterval[chartType]!,
+                minorInterval: minorInterval[chartType]!,
+                labelFormat: labelFormat[chartType]!,
+                onTap: (timestamp) {
+                  if (expandOnTap) {
+                    Navigator.of(context).pushNamed(
+                        DataViewerRoutes.dataViewerExpandedEcgChart,
+                        arguments: ExpandedCprChartScreenArguments(
+                            caseId: caseId, timestamp: timestamp));
+                  }
+                },
+                onLongPress: (timestamp) {
+                  print('onLongPress');
+                }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildSelectedTimeWidget(Color color, String text) {
+    return Container(
+      height: 20,
+      width: 80,
+      decoration: BoxDecoration(
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 }
 
@@ -323,7 +330,7 @@ class _ChoosePrintTimeRangeDialogState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             AppDateTimePicker(
@@ -354,7 +361,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: pads,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('パッド'),
+              title: const Text('パッド'),
               onChanged: (value) {
                 setState(() {
                   pads = value ?? false;
@@ -365,7 +372,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: co2,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CO2'),
+              title: const Text('CO2'),
               onChanged: (value) {
                 setState(() {
                   co2 = value ?? false;
@@ -376,7 +383,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: resp,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('換気'),
+              title: const Text('換気'),
               onChanged: (value) {
                 setState(() {
                   resp = value ?? false;
@@ -387,7 +394,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: cprAccel,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CPR波形'),
+              title: const Text('CPR波形'),
               onChanged: (value) {
                 setState(() {
                   cprAccel = value ?? false;
@@ -398,7 +405,7 @@ class _ChoosePrintTimeRangeDialogState
               dense: true,
               value: cprCompression,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text('CPRバー'),
+              title: const Text('CPRバー'),
               onChanged: (value) {
                 setState(() {
                   cprCompression = value ?? false;

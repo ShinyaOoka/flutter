@@ -27,8 +27,15 @@ class ZollSdkFlutterApiImpl extends ZollSdkFlutterApi {
   }
 
   @override
-  void onDownloadCaseSuccess(
-      int requestCode, String serialNumber, String caseId, String path, NativeCase nativeCase) {
-    store.onDownloadCaseSuccess(requestCode, serialNumber, caseId, path, nativeCase);
+  void onDownloadCaseSuccess(int requestCode, String serialNumber,
+      String caseId, String path, NativeCase nativeCase) {
+    store.onDownloadCaseSuccess(
+        requestCode, serialNumber, caseId, path, nativeCase);
+  }
+
+  @override
+  void onDownloadCaseFailed(int requestCode, String serialNumber, String caseId,
+      String errorMessage) {
+    store.onDownloadCaseFailed(requestCode, serialNumber, caseId, errorMessage);
   }
 }
