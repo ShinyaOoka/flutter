@@ -234,29 +234,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
             //         chartType = x!;
             //       });
             //     }),
-            Row(
-              children: const [
-                Text('印刷時間指定（長押し）'),
-              ],
-            ),
-            Row(
-              children: [
-                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                const Text('〜'),
-                _buildSelectedTimeWidget(Colors.green, "12:34:56"),
-                const Icon(Icons.close),
-                const SizedBox(width: 16),
-                _buildSelectedTimeWidget(Colors.orange, "12:34:56"),
-                const Text('〜'),
-                _buildSelectedTimeWidget(Colors.orange, ""),
-                const Icon(Icons.close),
-                const SizedBox(width: 16),
-                _buildSelectedTimeWidget(Colors.blue, ""),
-                const Text('〜'),
-                _buildSelectedTimeWidget(Colors.blue, ""),
-                const Icon(Icons.close),
-              ],
-            ),
             const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
               child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
