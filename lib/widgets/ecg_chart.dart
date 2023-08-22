@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
+import 'package:localization/localization.dart';
 
 enum DotShape {
   startHandle,
@@ -32,7 +34,7 @@ class FlDotCustomPainter extends FlDotPainter {
                   height: 20),
               const Radius.circular(40)),
           Paint()
-            ..color = color
+            ..color = color.withOpacity(0.5)
             ..style = PaintingStyle.fill);
     }
     if (shape == DotShape.startHandle) {
@@ -103,8 +105,10 @@ class EcgChart extends StatefulWidget {
     this.onTap = defaultOnTap,
     this.onLongPress = defaultOnTap,
     this.timeRanges = const [],
+    this.events = const [],
   }) : super(key: key);
 
+  final List<CaseEvent> events;
   final List<Sample> samples;
   final int initTimestamp;
   final Duration initDuration;
@@ -170,10 +174,15 @@ class _EcgChartState extends State<EcgChart> {
   @override
   void didUpdateWidget(EcgChart oldWidget) {
     super.didUpdateWidget(oldWidget);
-    minX = widget.initTimestamp / 1000000;
-    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
-    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
-    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
+    if (oldWidget.initTimestamp != widget.initTimestamp ||
+        oldWidget.initDuration != widget.initDuration ||
+        oldWidget.samples.length != widget.samples.length) {
+      minX = widget.initTimestamp / 1000000;
+      maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
+      minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+      maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
+    }
+
     cache = MapCache.lru(maximumSize: 100);
   }
 
@@ -262,19 +271,46 @@ class _EcgChartState extends State<EcgChart> {
                     VerticalLine(
                         x: e.endTime!.microsecondsSinceEpoch / 1000000,
                         color: e.color)),
+                ...widget.events
+                    .where((e) {
+                      final second = e.date.microsecondsSinceEpoch / 1000000;
+                      return minX <= second && second <= maxX;
+                    })
+                    .mapIndexed((i, e) => VerticalLine(
+                          x: e.date.microsecondsSinceEpoch / 1000000,
+                          color: Colors.blue,
+                          label: VerticalLineLabel(
+                            show: true,
+                            alignment: Alignment.topRight,
+                            padding: EdgeInsets.only(
+                                left: 10, top: (i % 4) * 20 + 5),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                            labelResolver: (line) => getJapaneseEventName(e),
+                          ),
+                          dashArray: [10, 10],
+                        ))
+                    .toList()
               ], extraLinesOnTop: false),
+              rangeAnnotations: RangeAnnotations(verticalRangeAnnotations: [
+                ...widget.timeRanges
+                    .where((e) => e.startTime != null && e.endTime != null)
+                    .map((e) => VerticalRangeAnnotation(
+                        x1: e.startTime!.microsecondsSinceEpoch / 1000000,
+                        x2: e.endTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color.withOpacity(0.2)))
+              ]),
               lineTouchData: LineTouchData(
                 touchCallback: (touchEvent, response) {
-                  final timestamp = response?.lineBarSpots?[0].x.toInt();
+                  final timestamp = response?.lineBarSpots?[0].x;
                   if (timestamp != null) {
                     if (touchEvent.runtimeType == FlTapDownEvent) {
-                      widget.onTap(timestamp * 1000000);
+                      widget.onTap((timestamp * 1000000).toInt());
                     } else if (touchEvent.runtimeType == FlLongPressStart) {
-                      widget.onLongPress(timestamp * 1000000);
+                      widget.onLongPress((timestamp * 1000000).toInt());
                     }
                   }
                 },
-                longPressDuration: const Duration(seconds: 1),
                 handleBuiltInTouches: false,
               ),
               minX: minX,
@@ -457,5 +493,20 @@ class _EcgChartState extends State<EcgChart> {
         },
       ),
     );
+  }
+
+  getJapaneseEventName(CaseEvent event) {
+    if (event.type.i18n().compareTo(event.type) == 0) {
+      return '';
+    }
+    String eventExtra = "";
+    eventExtra = eventExtra += event.type == "TreatmentSnapshotEvt"
+        ? event.rawData["TreatmentLbl"]
+        : "";
+    eventExtra = eventExtra +=
+        event.type == "AlarmEvt" && event.rawData["Value"] == 1
+            ? ": VF/VT"
+            : "";
+    return '${event.type.i18n()}$eventExtra';
   }
 }
