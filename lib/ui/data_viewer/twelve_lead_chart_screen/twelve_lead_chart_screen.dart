@@ -77,6 +77,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
       leadingWidth: 88,
       title: "12誘導",
       actions: _buildActions(),
+      icon: Image.asset('assets/icons/C_12LeadSnapshot.png',
+          width: 20, height: 20),
     );
   }
 

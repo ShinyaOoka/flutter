@@ -127,6 +127,7 @@ class CprChartScreenState extends State<CprChartScreen>
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "CPR品質の計算",
+      icon: Image.asset('assets/icons/C_Calc.png', width: 20, height: 20),
     );
   }
 

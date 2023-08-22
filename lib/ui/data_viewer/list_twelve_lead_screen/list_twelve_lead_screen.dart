@@ -103,6 +103,7 @@ class _ListTwelveLeadScreenState extends State<ListTwelveLeadScreen>
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "12誘導",
+      icon: Image.asset('assets/icons/C_12LeadSnapshot.png', width: 20, height: 20),
     );
   }
 

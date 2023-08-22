@@ -122,17 +122,17 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return InkWell(
-            child: Container(
-              width: 300,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                color: [
-                  Colors.blue,
-                  Colors.red,
-                  Colors.green,
-                  Colors.orange
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                [
+                  'assets/img/create_report.png',
+                  'assets/img/data_viewer.png',
+                  'assets/img/data_viewer_2.png',
                 ][index],
+                width: 300,
+                height: 200,
+                fit: BoxFit.cover,
               ),
             ),
             onTap: () {
@@ -161,7 +161,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
         separatorBuilder: (context, index) {
           return Container(width: 10);
         },
-        itemCount: 4,
+        itemCount: 3,
       ),
     );
   }
@@ -173,7 +173,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       children: [
         Row(
           children: [
-            const Icon(Icons.home),
+            Image.asset('assets/icons/C_X Series.png', width: 24, height: 24),
             const SizedBox(width: 8),
             Text(
               "接続先情報",
@@ -191,7 +191,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       children: [
         Row(
           children: [
-            const Icon(Icons.home),
+            Image.asset('assets/icons/C_Report.png', width: 24, height: 24),
             const SizedBox(width: 8),
             Text(
               "レポート一覧",

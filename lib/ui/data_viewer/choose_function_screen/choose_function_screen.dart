@@ -181,7 +181,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
   Widget _buildMainContent() {
     return ListView(children: [
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/General.png', width: 20, height: 20),
         title: const Text("一般"),
         onTap: () async {
           await _checkLoading();
@@ -190,7 +190,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/ECG.png', width: 20, height: 20),
         title: const Text("ECG全体"),
         onTap: () async {
           await _checkLoading();
@@ -200,7 +200,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/Event.png', width: 20, height: 20),
         title: const Text("イベント"),
         onTap: () async {
           await _checkLoading();
@@ -209,7 +209,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/Graph.png', width: 20, height: 20),
         title: const Text("CPR解析"),
         onTap: () async {
           await _checkLoading();
@@ -219,7 +219,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/Calc.png', width: 20, height: 20),
         title: const Text("CPR品質の計算"),
         onTap: () async {
           await _checkLoading();
@@ -228,7 +228,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/12LeadSnapshot.png', width: 20, height: 20),
         title: const Text("12誘導"),
         onTap: () async {
           await _checkLoading();
@@ -238,7 +238,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
         },
       ),
       ListTile(
-        leading: const Icon(Icons.home),
+        leading: Image.asset('assets/icons/Snapshot.png', width: 20, height: 20),
         title: const Text("スナップショット"),
         onTap: () async {
           await _checkLoading();

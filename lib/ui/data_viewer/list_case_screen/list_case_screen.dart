@@ -157,7 +157,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      icon: const Icon(Icons.home),
+      icon: Image.asset('assets/icons/C_Case.png', width: 20, height: 20),
       actions: _buildActions(),
       title: 'Case選択',
     );
@@ -274,7 +274,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                           content: const Text(
                               "ダウンロードファイル数もしくは合計ダウンロード容量が最大値を超えたので、ダウンロードできません。\n保存済のファイルを削除してからダウンロードしてください。"),
                           actions: [
-                            TextButton(onPressed: () {}, child: const Text("OK"))
+                            TextButton(
+                                onPressed: () {}, child: const Text("OK"))
                           ],
                         ),
                       );
@@ -334,8 +335,8 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('ダウンロード後確認'),
-                        content:
-                            const Text("ケースファイルをダウンロードしました。「データビューア（保存済）」で参照可能です。"),
+                        content: const Text(
+                            "ケースファイルをダウンロードしました。「データビューア（保存済）」で参照可能です。"),
                         actions: [
                           TextButton(
                               onPressed: () => Navigator.of(context).pop(true),

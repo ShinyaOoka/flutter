@@ -38,7 +38,6 @@ class _InfoScreenState extends State<InfoScreen>
   late ZollSdkStore _zollSdkStore;
   late String caseId;
   late ScrollController scrollController;
-  ReactionDisposer? reactionDisposer;
   Case? myCase;
   bool hasNewData = false;
 
@@ -60,7 +59,6 @@ class _InfoScreenState extends State<InfoScreen>
   @override
   void dispose() {
     super.dispose();
-    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -74,25 +72,6 @@ class _InfoScreenState extends State<InfoScreen>
     _zollSdkStore = context.read();
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
-    });
-    reactionDisposer?.call();
-    reactionDisposer = autorun((_) {
-      final storeCase = _zollSdkStore.cases[caseId];
-      if (storeCase != null && myCase == null) {
-        setState(() {
-          myCase = storeCase;
-        });
-      } else if (myCase != null && storeCase == null) {
-        setState(() {
-          hasNewData = false;
-        });
-      } else if (myCase != null && storeCase != null) {
-        setState(() {
-          if (myCase!.events.length != storeCase.events.length) {
-            hasNewData = true;
-          }
-        });
-      }
     });
 
     final tempDir = await getTemporaryDirectory();
@@ -113,6 +92,7 @@ class _InfoScreenState extends State<InfoScreen>
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
+      icon: Image.asset('assets/icons/C_General.png', width: 20, height: 20),
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "一般",
@@ -120,6 +100,9 @@ class _InfoScreenState extends State<InfoScreen>
   }
 
   Future<void> _loadTestData() async {
+    if (_zollSdkStore.cases[caseId] != null) {
+      return;
+    }
     final tempDir = await getTemporaryDirectory();
     await File('${tempDir.path}/$caseId.json').writeAsString(
         await rootBundle.loadString("assets/example/$caseId.json"));

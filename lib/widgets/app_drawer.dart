@@ -125,7 +125,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               }
             }),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.info),
             title: const Text("情報"),
             onTap: () {
               showDialog(

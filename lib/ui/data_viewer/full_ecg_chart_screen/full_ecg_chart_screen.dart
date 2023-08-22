@@ -141,6 +141,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
       leadingWidth: 88,
       title: "ECG全体",
       actions: _buildActions(),
+      icon: Image.asset('assets/icons/C_ECG.png', width: 20, height: 20),
     );
   }
 
@@ -377,7 +378,7 @@ class _ChoosePrintTimeRangeDialogState
   Widget build(BuildContext context) {
     print('${widget.start} ${widget.end}');
     return AlertDialog(
-      title: const Text('時間範囲確認'),
+      title: const Text('条件指定'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

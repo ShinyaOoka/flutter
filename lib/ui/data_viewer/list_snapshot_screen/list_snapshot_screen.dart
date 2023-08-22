@@ -104,6 +104,7 @@ class _ListSnapshotScreenState extends State<ListSnapshotScreen>
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "スナップショット",
+      icon: Image.asset('assets/icons/C_snapshot.png', width: 20, height: 20),
     );
   }
 

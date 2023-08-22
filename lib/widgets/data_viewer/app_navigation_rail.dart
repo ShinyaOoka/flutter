@@ -17,6 +17,26 @@ class AppNavigationRail extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  static const icons = [
+    'assets/icons/General.png',
+    'assets/icons/ECG.png',
+    'assets/icons/Event.png',
+    'assets/icons/Graph.png',
+    'assets/icons/Calc.png',
+    'assets/icons/12LeadSnapshot.png',
+    'assets/icons/Snapshot.png',
+  ];
+
+  static const selectedIcons = [
+    'assets/icons/C_General.png',
+    'assets/icons/C_ECG.png',
+    'assets/icons/C_Event.png',
+    'assets/icons/C_Graph.png',
+    'assets/icons/C_Calc.png',
+    'assets/icons/C_12LeadSnapshot.png',
+    'assets/icons/C_snapshot.png',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,25 +44,20 @@ class AppNavigationRail extends StatelessWidget {
         child: NavigationRail(
           groupAlignment: -1,
           labelType: NavigationRailLabelType.all,
-          destinations: const [
+          destinations: [
+            NavigationRailDestination(icon: _buildIcon(0), label: Text('一般')),
             NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('一般')),
+                icon: _buildIcon(1), label: Text('全体\nECG')),
+            NavigationRailDestination(icon: _buildIcon(2), label: Text('イベント')),
             NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('全体\nECG')),
+                icon: _buildIcon(3), label: Text('CPR\n解析')),
             NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('イベント')),
+                icon: _buildIcon(4),
+                label: Text('CPR品質\n計算', textAlign: TextAlign.center)),
             NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('CPR\n解析')),
+                icon: _buildIcon(5), label: Text('12Lead')),
             NavigationRailDestination(
-                icon: Icon(Icons.home),
-                label: Text(
-                  'CPR品質\n計算',
-                  textAlign: TextAlign.center,
-                )),
-            NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('12Lead')),
-            NavigationRailDestination(
-                icon: Icon(Icons.home), label: Text('スナップ\nショット')),
+                icon: _buildIcon(6), label: Text('スナップ\nショット')),
           ],
           selectedIndex: selectedIndex,
           onDestinationSelected: (int index) {
@@ -89,4 +104,8 @@ class AppNavigationRail extends StatelessWidget {
       ),
     );
   }
+
+  Image _buildIcon(int i) =>
+      Image.asset(selectedIndex == i ? selectedIcons[i] : icons[i],
+          width: 20, height: 20);
 }
