@@ -104,6 +104,7 @@ class _ListEventScreenState extends State<ListEventScreen>
       leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "イベント",
+      icon: Image.asset('assets/icons/C_Event.png', width: 20, height: 20),
     );
   }
 

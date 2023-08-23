@@ -179,6 +179,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
       leadingWidth: 88,
       title: "CPR解析",
       actions: _buildActions(),
+      icon: Image.asset('assets/icons/C_Graph.png', width: 20, height: 20),
     );
   }
 

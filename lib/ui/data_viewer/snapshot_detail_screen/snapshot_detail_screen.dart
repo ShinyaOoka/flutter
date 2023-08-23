@@ -74,6 +74,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
       leadingWidth: 88,
       title: "スナップショット",
       actions: _buildActions(),
+      icon: Image.asset('assets/icons/C_snapshot.png', width: 20, height: 20),
     );
   }
 
@@ -312,7 +313,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 0, caseId: caseId),
+        AppNavigationRail(selectedIndex: 6, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
@@ -410,12 +411,14 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         child: RichText(
             textAlign: TextAlign.left,
-            text: TextSpan(style: const TextStyle(color: Colors.black), children: [
-              TextSpan(
-                  text: '$title: ',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: content),
-            ])),
+            text: TextSpan(
+                style: const TextStyle(color: Colors.black),
+                children: [
+                  TextSpan(
+                      text: '$title: ',
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: content),
+                ])),
       ),
     );
   }

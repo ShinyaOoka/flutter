@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/models/case/case_event.dart';
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:quiver/cache.dart';
 import 'package:quiver/iterables.dart' as quiver_iterables;
 import 'package:tuple/tuple.dart';
+import 'package:localization/localization.dart';
 
 enum DotShape {
   startHandle,
@@ -32,7 +34,7 @@ class FlDotCustomPainter extends FlDotPainter {
                   height: 20),
               const Radius.circular(40)),
           Paint()
-            ..color = Colors.blue
+            ..color = color.withOpacity(0.5)
             ..style = PaintingStyle.fill);
     }
     if (shape == DotShape.startHandle) {
@@ -72,6 +74,14 @@ String defaultLabelFormat(double x) {
   return (x / 1000).toStringAsFixed(1);
 }
 
+class TimeRange {
+  TimeRange({this.startTime, this.endTime, required this.color});
+
+  final DateTime? startTime;
+  final DateTime? endTime;
+  final Color color;
+}
+
 void defaultOnTap(int timestamp) {}
 
 class EcgChart extends StatefulWidget {
@@ -94,8 +104,11 @@ class EcgChart extends StatefulWidget {
     this.ventilationTimestamps = const [],
     this.onTap = defaultOnTap,
     this.onLongPress = defaultOnTap,
+    this.timeRanges = const [],
+    this.events = const [],
   }) : super(key: key);
 
+  final List<CaseEvent> events;
   final List<Sample> samples;
   final int initTimestamp;
   final Duration initDuration;
@@ -113,6 +126,7 @@ class EcgChart extends StatefulWidget {
   final List<int> ventilationTimestamps;
   final void Function(int timestamp) onTap;
   final void Function(int timestamp) onLongPress;
+  final List<TimeRange> timeRanges;
 
   @override
   State<EcgChart> createState() => _EcgChartState();
@@ -160,10 +174,15 @@ class _EcgChartState extends State<EcgChart> {
   @override
   void didUpdateWidget(EcgChart oldWidget) {
     super.didUpdateWidget(oldWidget);
-    minX = widget.initTimestamp / 1000000;
-    maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
-    minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
-    maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
+    if (oldWidget.initTimestamp != widget.initTimestamp ||
+        oldWidget.initDuration != widget.initDuration ||
+        oldWidget.samples.length != widget.samples.length) {
+      minX = widget.initTimestamp / 1000000;
+      maxX = widget.initTimestamp / 1000000 + widget.initDuration.inSeconds;
+      minX = max(minX, widget.samples.firstOrNull?.inSeconds ?? 0);
+      maxX = min(maxX, widget.samples.lastOrNull?.inSeconds ?? 0);
+    }
+
     cache = MapCache.lru(maximumSize: 100);
   }
 
@@ -243,28 +262,55 @@ class _EcgChartState extends State<EcgChart> {
         builder: (context, snapshot) {
           return LineChart(
             LineChartData(
-              // extraLinesData: ExtraLinesData(verticalLines: [
-              //   VerticalLine(
-              //     x: widget.initTimestamp / 1000000 + 1,
-              //     color: Colors.blue,
-              //   ),
-              //   VerticalLine(
-              //     x: widget.initTimestamp / 1000000 + 2,
-              //     color: Colors.blue,
-              //   )
-              // ], extraLinesOnTop: false),
+              extraLinesData: ExtraLinesData(verticalLines: [
+                ...widget.timeRanges.where((e) => e.startTime != null).map(
+                    (e) => VerticalLine(
+                        x: e.startTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color)),
+                ...widget.timeRanges.where((e) => e.endTime != null).map((e) =>
+                    VerticalLine(
+                        x: e.endTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color)),
+                ...widget.events
+                    .where((e) {
+                      final second = e.date.microsecondsSinceEpoch / 1000000;
+                      return minX <= second && second <= maxX;
+                    })
+                    .mapIndexed((i, e) => VerticalLine(
+                          x: e.date.microsecondsSinceEpoch / 1000000,
+                          color: Colors.blue,
+                          label: VerticalLineLabel(
+                            show: true,
+                            alignment: Alignment.topRight,
+                            padding: EdgeInsets.only(
+                                left: 10, top: (i % 4) * 20 + 5),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                            labelResolver: (line) => getJapaneseEventName(e),
+                          ),
+                          dashArray: [10, 10],
+                        ))
+                    .toList()
+              ], extraLinesOnTop: false),
+              rangeAnnotations: RangeAnnotations(verticalRangeAnnotations: [
+                ...widget.timeRanges
+                    .where((e) => e.startTime != null && e.endTime != null)
+                    .map((e) => VerticalRangeAnnotation(
+                        x1: e.startTime!.microsecondsSinceEpoch / 1000000,
+                        x2: e.endTime!.microsecondsSinceEpoch / 1000000,
+                        color: e.color.withOpacity(0.2)))
+              ]),
               lineTouchData: LineTouchData(
                 touchCallback: (touchEvent, response) {
-                  final timestamp = response?.lineBarSpots?[0].x.toInt();
+                  final timestamp = response?.lineBarSpots?[0].x;
                   if (timestamp != null) {
                     if (touchEvent.runtimeType == FlTapDownEvent) {
-                      widget.onTap(timestamp * 1000000);
+                      widget.onTap((timestamp * 1000000).toInt());
                     } else if (touchEvent.runtimeType == FlLongPressStart) {
-                      widget.onLongPress(timestamp * 1000000);
+                      widget.onLongPress((timestamp * 1000000).toInt());
                     }
                   }
                 },
-                longPressDuration: const Duration(seconds: 1),
                 handleBuiltInTouches: false,
               ),
               minX: minX,
@@ -399,26 +445,37 @@ class _EcgChartState extends State<EcgChart> {
                   ),
                   barWidth: 0,
                 ),
-                // LineChartBarData(
-                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 1, 2500)],
-                //   dotData: FlDotData(
-                //     getDotPainter: (p0, p1, p2, index) {
-                //       return FlDotCustomPainter(
-                //           color: Colors.blue, shape: DotShape.startHandle);
-                //     },
-                //   ),
-                //   barWidth: 0,
-                // ),
-                // LineChartBarData(
-                //   spots: [FlSpot(widget.initTimestamp / 1000000 + 2, 2500)],
-                //   dotData: FlDotData(
-                //     getDotPainter: (p0, p1, p2, index) {
-                //       return FlDotCustomPainter(
-                //           color: Colors.blue, shape: DotShape.endHandle);
-                //     },
-                //   ),
-                //   barWidth: 0,
-                // ),
+                ...widget.timeRanges
+                    .where((e) => e.startTime != null)
+                    .map((e) => LineChartBarData(
+                          spots: [
+                            FlSpot(
+                                e.startTime!.microsecondsSinceEpoch / 1000000,
+                                widget.maxY)
+                          ],
+                          dotData: FlDotData(
+                            getDotPainter: (p0, p1, p2, index) {
+                              return FlDotCustomPainter(
+                                  color: e.color, shape: DotShape.startHandle);
+                            },
+                          ),
+                          barWidth: 0,
+                        )),
+                ...widget.timeRanges
+                    .where((e) => e.endTime != null)
+                    .map((e) => LineChartBarData(
+                          spots: [
+                            FlSpot(e.endTime!.microsecondsSinceEpoch / 1000000,
+                                widget.maxY)
+                          ],
+                          dotData: FlDotData(
+                            getDotPainter: (p0, p1, p2, index) {
+                              return FlDotCustomPainter(
+                                  color: e.color, shape: DotShape.endHandle);
+                            },
+                          ),
+                          barWidth: 0,
+                        )),
                 LineChartBarData(
                   spots: snapshot.data,
                   isCurved: false,
@@ -436,5 +493,20 @@ class _EcgChartState extends State<EcgChart> {
         },
       ),
     );
+  }
+
+  getJapaneseEventName(CaseEvent event) {
+    if (event.type.i18n().compareTo(event.type) == 0) {
+      return '';
+    }
+    String eventExtra = "";
+    eventExtra = eventExtra += event.type == "TreatmentSnapshotEvt"
+        ? event.rawData["TreatmentLbl"]
+        : "";
+    eventExtra = eventExtra +=
+        event.type == "AlarmEvt" && event.rawData["Value"] == 1
+            ? ": VF/VT"
+            : "";
+    return '${event.type.i18n()}$eventExtra';
   }
 }
