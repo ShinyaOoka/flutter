@@ -351,7 +351,8 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children:
-                      twelveLead!.statements.map((e) => pw.Text(e)).toList(),
+                      twelveLead!.statements?.map((e) => pw.Text(e)).toList() ??
+                          [],
                 ),
               ),
             ]),
@@ -395,22 +396,23 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                 pw.Text("aVR",
                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
               ]),
-              pw.TableRow(children: [
-                pw.Text("STJ",
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                pw.Text("${twelveLead!.stValues[6]}"),
-                pw.Text("${twelveLead!.stValues[7]}"),
-                pw.Text("${twelveLead!.stValues[8]}"),
-                pw.Text("${twelveLead!.stValues[9]}"),
-                pw.Text("${twelveLead!.stValues[10]}"),
-                pw.Text("${twelveLead!.stValues[11]}"),
-                pw.Text("${twelveLead!.stValues[0]}"),
-                pw.Text("${twelveLead!.stValues[4]}"),
-                pw.Text("${twelveLead!.stValues[1]}"),
-                pw.Text("${twelveLead!.stValues[5]}"),
-                pw.Text("${twelveLead!.stValues[2]}"),
-                pw.Text("${twelveLead!.stValues[3]}"),
-              ]),
+              if (twelveLead!.stValues != null)
+                pw.TableRow(children: [
+                  pw.Text("STJ",
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text("${twelveLead!.stValues![6]}"),
+                  pw.Text("${twelveLead!.stValues![7]}"),
+                  pw.Text("${twelveLead!.stValues![8]}"),
+                  pw.Text("${twelveLead!.stValues![9]}"),
+                  pw.Text("${twelveLead!.stValues![10]}"),
+                  pw.Text("${twelveLead!.stValues![11]}"),
+                  pw.Text("${twelveLead!.stValues![0]}"),
+                  pw.Text("${twelveLead!.stValues![4]}"),
+                  pw.Text("${twelveLead!.stValues![1]}"),
+                  pw.Text("${twelveLead!.stValues![5]}"),
+                  pw.Text("${twelveLead!.stValues![2]}"),
+                  pw.Text("${twelveLead!.stValues![3]}"),
+                ]),
             ])
           ],
           mainAxisAlignment: pw.MainAxisAlignment.start,
@@ -479,41 +481,55 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
                     'QT/QTc', '${twelveLead!.qtInt}/${twelveLead!.corrQtInt}'),
                 _buildInfoLine('P-R-T Axis',
                     '${twelveLead!.pAxis} ${twelveLead!.qrsAxis} ${twelveLead!.tAxis}'),
-                ...twelveLead!.statements.map((x) => _buildInfoLine('', x)),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                  child: Wrap(
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    children: [
-                      _buildInfoLine('STJ', '', padding: EdgeInsets.zero),
-                      _buildInfoLine('I', '${twelveLead!.stValues[0] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('II', '${twelveLead!.stValues[1] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('III', '${twelveLead!.stValues[2] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('aVL', '${twelveLead!.stValues[4] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('aVR', '${twelveLead!.stValues[3] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('aVF', '${twelveLead!.stValues[5] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V1', '${twelveLead!.stValues[6] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V2', '${twelveLead!.stValues[7] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V3', '${twelveLead!.stValues[8] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V4', '${twelveLead!.stValues[9] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V5', '${twelveLead!.stValues[10] / 100}',
-                          padding: EdgeInsets.zero),
-                      _buildInfoLine('V6', '${twelveLead!.stValues[11] / 100}',
-                          padding: EdgeInsets.zero),
-                    ],
-                  ),
-                )
+                ...twelveLead!.statements?.map((x) => _buildInfoLine('', x)) ??
+                    [],
+                if (twelveLead!.stValues != null)
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 4.0,
+                      children: [
+                        _buildInfoLine('STJ', '', padding: EdgeInsets.zero),
+                        _buildInfoLine('I', '${twelveLead!.stValues![0] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'II', '${twelveLead!.stValues![1] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'III', '${twelveLead!.stValues![2] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'aVL', '${twelveLead!.stValues![4] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'aVR', '${twelveLead!.stValues![3] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'aVF', '${twelveLead!.stValues![5] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V1', '${twelveLead!.stValues![6] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V2', '${twelveLead!.stValues![7] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V3', '${twelveLead!.stValues![8] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V4', '${twelveLead!.stValues![9] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V5', '${twelveLead!.stValues![10] / 100}',
+                            padding: EdgeInsets.zero),
+                        _buildInfoLine(
+                            'V6', '${twelveLead!.stValues![11] / 100}',
+                            padding: EdgeInsets.zero),
+                      ],
+                    ),
+                  )
               ],
             ),
           ),
@@ -535,8 +551,7 @@ class _TwelveLeadChartScreenState extends State<TwelveLeadChartScreen>
           text:
               TextSpan(style: const TextStyle(color: Colors.black), children: [
             title != '' ? TextSpan(text: '$title: ') : const TextSpan(),
-            TextSpan(
-                text: content, style: TextStyle(color: Color(0xff0082C8))),
+            TextSpan(text: content, style: TextStyle(color: Color(0xff0082C8))),
           ])),
     );
   }

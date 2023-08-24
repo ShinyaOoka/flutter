@@ -148,6 +148,11 @@ class CprChartScreenState extends State<CprChartScreen>
                   DropdownButton<String>(
                     value: chartType,
                     items: myCase!.waves.keys
+                        .where((e) => [
+                              'Pads',
+                              'CO2 mmHg, Waveform',
+                              'Pads Impedance',
+                            ].contains(e))
                         .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (x) {

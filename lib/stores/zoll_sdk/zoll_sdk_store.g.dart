@@ -56,6 +56,23 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     });
   }
 
+  late final _$downloadCaseCompleterAtom =
+      Atom(name: '_ZollSdkStore.downloadCaseCompleter', context: context);
+
+  @override
+  Completer<dynamic>? get downloadCaseCompleter {
+    _$downloadCaseCompleterAtom.reportRead();
+    return super.downloadCaseCompleter;
+  }
+
+  @override
+  set downloadCaseCompleter(Completer<dynamic>? value) {
+    _$downloadCaseCompleterAtom.reportWrite(value, super.downloadCaseCompleter,
+        () {
+      super.downloadCaseCompleter = value;
+    });
+  }
+
   late final _$selectedDeviceAtom =
       Atom(name: '_ZollSdkStore.selectedDevice', context: context);
 
@@ -97,6 +114,16 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
     return _$onDownloadCaseSuccessAsyncAction.run(() => super
         .onDownloadCaseSuccess(
             requestCode, serialNumber, caseId, path, nativeCase));
+  }
+
+  late final _$onDownloadCaseFailedAsyncAction =
+      AsyncAction('_ZollSdkStore.onDownloadCaseFailed', context: context);
+
+  @override
+  Future<void> onDownloadCaseFailed(int requestCode, String serialNumber,
+      String caseId, String errorMessage) {
+    return _$onDownloadCaseFailedAsyncAction.run(() => super
+        .onDownloadCaseFailed(requestCode, serialNumber, caseId, errorMessage));
   }
 
   late final _$_ZollSdkStoreActionController =
@@ -153,6 +180,7 @@ mixin _$ZollSdkStore on _ZollSdkStore, Store {
 devices: ${devices},
 caseListItems: ${caseListItems},
 cases: ${cases},
+downloadCaseCompleter: ${downloadCaseCompleter},
 selectedDevice: ${selectedDevice},
 caseOrigin: ${caseOrigin}
     ''';

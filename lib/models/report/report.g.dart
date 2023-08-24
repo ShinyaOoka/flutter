@@ -11,6 +11,7 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..teamCd = json['TeamCD'] as String?
   ..teamCaptainName = json['TeamCaptainName'] as String?
   ..teamMemberName = json['TeamMemberName'] as String?
+  ..teamAbbreviation = json['TeamAbbreviation'] as String?
   ..institutionalMemberName = json['InstitutionalMemberName'] as String?
   ..lifesaverQualification = _$JsonConverterFromJson<int, bool>(
       json['LifesaverQualification'], const IntToBoolConverter().fromJson)
@@ -261,6 +262,7 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'TeamCD': instance.teamCd,
       'TeamCaptainName': instance.teamCaptainName,
       'TeamMemberName': instance.teamMemberName,
+      'TeamAbbreviation': instance.teamAbbreviation,
       'InstitutionalMemberName': instance.institutionalMemberName,
       'LifesaverQualification': _$JsonConverterToJson<int, bool>(
           instance.lifesaverQualification, const IntToBoolConverter().toJson),
@@ -731,6 +733,22 @@ mixin _$Report on _Report, Store {
   set teamMemberName(String? value) {
     _$teamMemberNameAtom.reportWrite(value, super.teamMemberName, () {
       super.teamMemberName = value;
+    });
+  }
+
+  late final _$teamAbbreviationAtom =
+      Atom(name: '_Report.teamAbbreviation', context: context);
+
+  @override
+  String? get teamAbbreviation {
+    _$teamAbbreviationAtom.reportRead();
+    return super.teamAbbreviation;
+  }
+
+  @override
+  set teamAbbreviation(String? value) {
+    _$teamAbbreviationAtom.reportWrite(value, super.teamAbbreviation, () {
+      super.teamAbbreviation = value;
     });
   }
 
@@ -3285,6 +3303,7 @@ id: ${id},
 teamCd: ${teamCd},
 teamCaptainName: ${teamCaptainName},
 teamMemberName: ${teamMemberName},
+teamAbbreviation: ${teamAbbreviation},
 institutionalMemberName: ${institutionalMemberName},
 lifesaverQualification: ${lifesaverQualification},
 withLifesavers: ${withLifesavers},
