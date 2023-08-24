@@ -71,99 +71,144 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildSlider(),
-          const SizedBox(height: 16),
-          _buildConnectedDevice(),
-          const SizedBox(height: 8),
-          _zollSdkStore.selectedDevice != null
-              ? IntrinsicWidth(
-                  child: ListTile(
-                      tileColor: const Color(0xFFF5F5F5),
-                      title: Text(_zollSdkStore.selectedDevice!.serialNumber)),
-                )
-              : Container(),
-          const SizedBox(height: 16),
-          _buildReportList(),
-          const SizedBox(height: 8),
-          initialized
-              ? ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: _reportStore.reports?.length ?? 0,
-                  separatorBuilder: (context, position) {
-                    return const Divider(height: 1, color: Colors.black45);
-                  },
-                  itemBuilder: (context, position) {
-                    return ReportListTile(
-                      report: _reportStore.reports![position],
-                      onTap: () {
-                        _reportStore.setSelectingReport(
-                            _reportStore.reports![position]);
-                        Navigator.of(context)
-                            .pushNamed(ReportRoutes.reportConfirmReport);
-                      },
-                    );
-                  },
-                )
-              : Container(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSlider(),
+            const SizedBox(height: 16),
+            _buildConnectedDevice(),
+            const SizedBox(height: 8),
+            _zollSdkStore.selectedDevice != null
+                ? IntrinsicWidth(
+                    child: ListTile(
+                        tileColor: const Color(0xFFF5F5F5),
+                        title:
+                            Text(_zollSdkStore.selectedDevice!.serialNumber)),
+                  )
+                : Container(),
+            const SizedBox(height: 16),
+            _buildReportList(),
+            const SizedBox(height: 8),
+            initialized
+                ? ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _reportStore.reports?.length ?? 0,
+                    separatorBuilder: (context, position) {
+                      return const Divider(height: 1, color: Colors.black45);
+                    },
+                    itemBuilder: (context, position) {
+                      return ReportListTile(
+                        report: _reportStore.reports![position],
+                        onTap: () {
+                          _reportStore.setSelectingReport(
+                              _reportStore.reports![position]);
+                          Navigator.of(context)
+                              .pushNamed(ReportRoutes.reportConfirmReport);
+                        },
+                      );
+                    },
+                  )
+                : Container(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildSlider() {
-    return SizedBox(
-      height: 200,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return InkWell(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                [
-                  'assets/img/create_report.png',
-                  'assets/img/data_viewer.png',
-                  'assets/img/data_viewer_2.png',
-                ][index],
-                width: 300,
-                height: 200,
-                fit: BoxFit.cover,
+    return LayoutBuilder(builder: (context, constraints) {
+      final width = constraints.maxWidth;
+      final perItemWidth = width / 3;
+      final currentRouteName = ModalRoute.of(context)?.settings.name;
+
+      return Row(
+        children: [
+          Expanded(
+              child: Column(
+            children: [
+              Text("レポート管理",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
+              InkWell(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset('assets/img/create_report.png',
+                      fit: BoxFit.cover),
+                ),
+                onTap: () {
+                  if (currentRouteName == ReportRoutes.reportListReport) {
+                    return;
+                  }
+                  Navigator.of(context)
+                      .popAndPushNamed(ReportRoutes.reportListReport);
+                },
               ),
-            ),
-            onTap: () {
-              final currentRouteName = ModalRoute.of(context)?.settings.name;
-              if (index == 0) {
-                if (currentRouteName == ReportRoutes.reportListReport) {
-                  return;
-                }
-                Navigator.of(context)
-                    .popAndPushNamed(ReportRoutes.reportListReport);
-              } else if (index == 1) {
-                if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
-                  return;
-                }
-                if (_zollSdkStore.selectedDevice != null) {
-                  Navigator.of(context)
-                      .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
-                } else {
-                  Navigator.of(context)
-                      .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
-                }
-              }
-            },
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Container(width: 10);
-        },
-        itemCount: 3,
-      ),
-    );
+            ],
+          )),
+          SizedBox.square(
+            dimension: 16,
+          ),
+          Expanded(
+              child: Column(
+            children: [
+              Text("データ参照",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
+              InkWell(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset('assets/img/data_viewer.png',
+                      fit: BoxFit.cover),
+                ),
+                onTap: () {
+                  if (currentRouteName ==
+                      DataViewerRoutes.dataViewerListDevice) {
+                    return;
+                  }
+                  if (_zollSdkStore.selectedDevice != null) {
+                    Navigator.of(context)
+                        .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
+                  } else {
+                    Navigator.of(context)
+                        .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+                  }
+                },
+              ),
+            ],
+          )),
+          SizedBox.square(
+            dimension: 16,
+          ),
+          Expanded(
+              child: Column(
+            children: [
+              Text("データ参照（保存済）",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
+              InkWell(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset('assets/img/data_viewer_2.png',
+                      fit: BoxFit.cover),
+                ),
+                onTap: () {
+                  if (currentRouteName ==
+                      DataViewerRoutes.dataViewerListDevice) {
+                    return;
+                  }
+                  Navigator.of(context).popAndPushNamed(
+                      DataViewerRoutes.dataViewerListDownloadedCase);
+                },
+              ),
+            ],
+          ))
+        ],
+      );
+    });
   }
 
   Widget _buildConnectedDevice() {

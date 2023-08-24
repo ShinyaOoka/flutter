@@ -194,7 +194,7 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 1, caseId: caseId),
+        AppNavigationRail(selectedIndex: 2, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
@@ -240,6 +240,8 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
                     initTimestamp: timestamp,
                     events:
                         myCase!.displayableEvents.map((e) => e.item2).toList(),
+                    startTime: myCase!.startTime!,
+                    endTime: myCase!.endTime!,
                   )
                 : Container(),
           ],
@@ -255,154 +257,158 @@ class ExpandedCprChartScreenState extends State<ExpandedCprChartScreen>
     final cprCompression = myCase!.cprCompressions
         .lastWhereOrNull((e) => e.timestamp <= timestamp);
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-      child: Column(children: [
-        Row(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        color: Colors.grey.shade200,
+        child: Row(
           children: [
             Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                  bottom: BorderSide(color: Colors.blue),
-                )),
-                padding: const EdgeInsets.all(4),
-                child: Column(children: [
-                  const Text('NIBP'),
-                  Text(
-                      "Map: ${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "Dia: ${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "Sys: ${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}")
-                ]),
-              ),
+              child: Column(children: [
+                const Text('NIBP',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'Map: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Nibp"]["Map"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'Dia: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Nibp"]["Dia"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'Sys: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Nibp"]["Sys"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+              ]),
             ),
             Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                  bottom: BorderSide(color: Colors.blue),
-                )),
-                padding: const EdgeInsets.all(4),
-                child: Column(children: [
-                  const Text("CO2"),
-                  Text(
-                      "Etco2: ${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "BR: ${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "Fico2: ${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}")
-                ]),
-              ),
+              child: Column(children: [
+                const Text('CO2',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'Etco2: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Etco2"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'BR: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Resp"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'Fico2: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Fico2"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+              ]),
             ),
             Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                  bottom: BorderSide(color: Colors.blue),
-                )),
-                padding: const EdgeInsets.all(4),
-                child: Column(children: [
-                  const Text("SpO2"),
-                  Text(
-                      "SpO2: ${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "SpMet: ${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "SpCo: ${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}"),
-                ]),
-              ),
+              child: Column(children: [
+                const Text('SpO2',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'SpO2: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'SpMet: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["SpMet"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'SpCo: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["SpCo"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+              ]),
             ),
             Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                  bottom: BorderSide(color: Colors.blue),
-                )),
-              ),
+              child: Column(children: [
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'SpHB: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'SpOC: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'PVI: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'PI: '),
+                    TextSpan(
+                        text:
+                            "${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}",
+                        style: TextStyle(color: Color(0xff0082C8)))
+                  ], style: TextStyle(color: Colors.black)),
+                ),
+              ]),
             ),
             Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  bottom: BorderSide(color: Colors.blue),
-                )),
-              ),
+              child: Column(children: [
+                const Text('CPR',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
+                Text("${cprCompression?.compRate} cpm"),
+              ]),
             ),
           ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                )),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                )),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                )),
-                padding: const EdgeInsets.all(4),
-                child: Column(children: [
-                  Text(
-                      "SpHB: ${trendData?.rawData["Trend"]["Spo2"]["SpHb"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "SpOC: ${trendData?.rawData["Trend"]["Spo2"]["SpOC"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PVI"]["TrendData"]["Val"]["#text"]}"),
-                  Text(
-                      "PVI: ${trendData?.rawData["Trend"]["Spo2"]["PI"]["TrendData"]["Val"]["#text"]}"),
-                ]),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 84,
-                decoration: const BoxDecoration(
-                    border: Border(
-                  right: BorderSide(color: Colors.blue),
-                )),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 84,
-                padding: const EdgeInsets.all(4),
-                child: Column(children: [
-                  const Text("CPR"),
-                  Text("${cprCompression?.compDisp ?? 0 / 1000} inch"),
-                  Text("${cprCompression?.compRate} cpm"),
-                ]),
-              ),
-            ),
-          ],
-        ),
-      ]),
-    );
+        ));
   }
 }

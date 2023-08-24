@@ -137,7 +137,7 @@ class _ChooseFunctionScreenState extends State<ChooseFunctionScreen>
       leadingWidth: 88,
       title: '機能選択',
       body: _buildBody(),
-      icon: const Icon(Icons.home),
+      icon: Image.asset('assets/icons/C_X Series.png', width: 20, height: 20),
     );
   }
 

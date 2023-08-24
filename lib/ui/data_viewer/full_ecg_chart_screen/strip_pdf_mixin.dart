@@ -341,7 +341,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
       ..style = PaintingStyle.stroke;
     final bluePaint = Paint()
       ..strokeWidth = 2
-      ..color = Colors.blue
+      ..color = Color(0xff0082C8)
       ..style = PaintingStyle.stroke;
     canvas
       ..save()
@@ -378,7 +378,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
       canvas.save();
       canvas.translate(x + gridSize, gridSize * (2 + 2 * index % 4));
       ChartPainter.drawText(
-          canvas, getJapaneseEventName(event), Colors.blue.shade700, 10,
+          canvas, getJapaneseEventName(event), Color(0xff0082C8), 10,
           textAlign: TextAlign.left, fontWeight: FontWeight.bold);
       canvas.restore();
     });

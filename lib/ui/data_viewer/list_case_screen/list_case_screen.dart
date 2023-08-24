@@ -6,6 +6,7 @@ import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/stores/downloaded_case/downloaded_case_store.dart';
 import 'package:ak_azm_flutter/ui/data_viewer/choose_function_screen/choose_function_screen.dart';
+import 'package:ak_azm_flutter/ui/data_viewer/full_ecg_chart_screen/full_ecg_chart_screen.dart';
 import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -253,17 +254,18 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
                   } else {
                     _zollSdkStore.caseOrigin = CaseOrigin.device;
                   }
+                  _zollSdkStore.cases.remove(cases![index].caseId);
                   Navigator.of(context).pushNamed(
-                      DataViewerRoutes.dataViewerChooseFunction,
-                      arguments: ChooseFunctionScreenArguments(
+                      DataViewerRoutes.dataViewerFullEcgEvent,
+                      arguments: FullEcgChartScreenArguments(
                           caseId: cases![index].caseId));
                 },
                 trailing: IconButton(
                   icon: downloadingCaseIds.contains(cases![index].caseId)
                       ? const CircularProgressIndicator()
                       : downloadedCase != null
-                          ? const Icon(Icons.check, color: Colors.blue)
-                          : const Icon(Icons.file_download, color: Colors.blue),
+                          ? const Icon(Icons.check, color: Color(0xff0082C8))
+                          : const Icon(Icons.file_download, color: Color(0xff0082C8)),
                   onPressed: () async {
                     if (_downloadedCaseStore.downloadedCases!.length >=
                         AppConstants.maxDownloadedCases) {

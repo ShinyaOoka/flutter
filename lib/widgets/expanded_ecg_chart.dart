@@ -54,6 +54,8 @@ class ExpandedEcgChart extends StatefulWidget {
     required this.co2,
     required this.initTimestamp,
     required this.events,
+    required this.startTime,
+    required this.endTime,
     this.showGrid = false,
     this.gridHorizontal = 500,
     this.gridVertical = 0.4,
@@ -80,6 +82,8 @@ class ExpandedEcgChart extends StatefulWidget {
   final List<int> ventilationTimestamps;
   final List<Tuple2<int?, int?>> cprRanges;
   final List<int> shocks;
+  final DateTime startTime;
+  final DateTime endTime;
 
   @override
   State<ExpandedEcgChart> createState() => _ExpandedEcgChartState();
@@ -164,12 +168,12 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
           minX -= lastMinMaxDistance * 0.005 * horizontalDistance;
           maxX -= lastMinMaxDistance * 0.005 * horizontalDistance;
 
-          if (minX < widget.pads.first.inSeconds) {
-            minX = widget.pads.first.inSeconds;
-            maxX = widget.pads.first.inSeconds + lastMinMaxDistance;
+          if (minX < widget.startTime.microsecondsSinceEpoch / 1000000 - 3) {
+            minX = widget.startTime.microsecondsSinceEpoch / 1000000 - 3;
+            maxX = minX + lastMinMaxDistance;
           }
-          if (maxX > widget.pads.last.inSeconds) {
-            maxX = widget.pads.last.inSeconds;
+          if (maxX > widget.endTime.microsecondsSinceEpoch / 1000000 + 3) {
+            maxX = widget.endTime.microsecondsSinceEpoch / 1000000 + 3;
             minX = maxX - lastMinMaxDistance;
           }
         });
@@ -210,7 +214,7 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
               extraLinesData: ExtraLinesData(verticalLines: [
                 VerticalLine(
                   x: widget.initTimestamp / 1000000,
-                  color: Colors.blue,
+                  color: Color(0xff0082C8),
                 ),
                 ...widget.events
                     .where((e) {
@@ -219,7 +223,7 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
                     })
                     .mapIndexed((i, e) => VerticalLine(
                           x: e.date.microsecondsSinceEpoch / 1000000,
-                          color: Colors.blue,
+                          color: Color(0xff0082C8),
                           label: VerticalLineLabel(
                             show: true,
                             alignment: Alignment.topRight,
@@ -565,7 +569,7 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
                   .toList(),
               dotData: FlDotData(
                 getDotPainter: (p0, p1, p2, index) {
-                  return DotBarPainter(size: 8, color: Colors.blue);
+                  return DotBarPainter(size: 8, color: Color(0xff0082C8));
                 },
               ),
               barWidth: 0,
@@ -589,9 +593,9 @@ class _ExpandedEcgChartState extends State<ExpandedEcgChart> {
               rangeAnnotations: RangeAnnotations(
                   verticalRangeAnnotations: cprRangeAnnotations()),
               extraLinesData: ExtraLinesData(verticalLines: [
-                VerticalLine(x: (minX + maxX) / 2, color: Colors.blue),
+                VerticalLine(x: (minX + maxX) / 2, color: Color(0xff0082C8)),
                 ...widget.shocks.map((x) => VerticalLine(
-                    x: x / 1000000, color: Colors.blue, dashArray: [2])),
+                    x: x / 1000000, color: Color(0xff0082C8), dashArray: [2])),
               ]),
               minX: minX,
               maxX: maxX,

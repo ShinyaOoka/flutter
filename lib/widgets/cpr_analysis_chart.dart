@@ -344,7 +344,7 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
                       .toList(),
                   dotData: FlDotData(
                     getDotPainter: (p0, p1, p2, index) {
-                      return DotBarPainter(size: 8, color: Colors.blue);
+                      return DotBarPainter(size: 8, color: Color(0xff0082C8));
                     },
                   ),
                   barWidth: 0,
@@ -379,9 +379,9 @@ class _CprAnalysisChartState extends State<CprAnalysisChart> {
               rangeAnnotations: RangeAnnotations(
                   verticalRangeAnnotations: cprRangeAnnotations()),
               extraLinesData: ExtraLinesData(verticalLines: [
-                VerticalLine(x: (minX + maxX) / 2, color: Colors.blue),
+                VerticalLine(x: (minX + maxX) / 2, color: Color(0xff0082C8)),
                 ...widget.shocks.map((x) => VerticalLine(
-                    x: x / 1000000, color: Colors.blue, dashArray: [2])),
+                    x: x / 1000000, color: Color(0xff0082C8), dashArray: [2])),
               ]),
               minX: minX,
               maxX: maxX,
