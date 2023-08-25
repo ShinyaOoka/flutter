@@ -154,95 +154,135 @@ class _ListDownloadedCaseScreenState extends State<ListDownloadedCaseScreen>
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
-        child: DataTable(
-          showCheckboxColumn: false,
-          sortColumnIndex: _sortColumnIndex,
-          sortAscending: _sortAsc,
-          columns: [
-            DataColumn(
-                label: Text('端末名'),
-                onSort: (columnIndex, sortAscending) {
-                  _onSort(columnIndex, sortAscending);
-                }),
-            DataColumn(
-                label: Text('開始日時'),
-                onSort: (columnIndex, sortAscending) {
-                  _onSort(columnIndex, sortAscending);
-                }),
-            DataColumn(
-                label: Text('終了日時'),
-                onSort: (columnIndex, sortAscending) {
-                  _onSort(columnIndex, sortAscending);
-                }),
-            DataColumn(
-                label: Text('保存日時'),
-                onSort: (columnIndex, sortAscending) {
-                  _onSort(columnIndex, sortAscending);
-                }),
-            DataColumn(label: Text('')),
-          ],
-          rows: _downloadedCaseStore.downloadedCases!
-              .map((e) => DataRow(
-                      onSelectChanged: (selected) {
-                        if (selected == true) {
-                          _zollSdkStore.caseOrigin = CaseOrigin.downloaded;
-                          _loadData(e);
-                          Navigator.of(context).pushNamed(
-                              DataViewerRoutes.dataViewerChooseFunction,
-                              arguments: ChooseFunctionScreenArguments(
-                                  caseId: e.caseCd!));
+        child: Table(
+          border: TableBorder(horizontalInside: BorderSide(color: Colors.grey)),
+          children: [
+            TableRow(children: [
+              _buildTableHeader(0),
+              _buildTableHeader(1),
+              _buildTableHeader(2),
+              _buildTableHeader(3),
+              TableCell(child: Text('')),
+            ]),
+            ..._downloadedCaseStore.downloadedCases!.map(
+              (e) => TableRow(
+                children: [
+                  _buildTableCell(e, e.deviceCd ?? ''),
+                  _buildTableCell(e, _formatTime(e.caseStartDate)),
+                  _buildTableCell(e, _formatTime(e.caseStartDate)),
+                  _buildTableCell(e, _formatTime(e.entryDate)),
+                  TableCell(
+                    child: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                        final shouldDelete = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("ファイル削除前確認"),
+                            content: const Text("ケースファイルを削除しますか？"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: const Text("はい")),
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: const Text("キャンセル"))
+                            ],
+                          ),
+                        );
+                        if (shouldDelete == true) {
+                          await _downloadedCaseStore
+                              .deleteDownloadedCase([e.id!]);
+                          await _downloadedCaseStore.getDownloadedCases();
+                          await showDialog<bool>(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("ファイル削除後確認"),
+                              content: const Text("ケースファイルを削除しました。"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(true),
+                                    child: const Text("OK"))
+                              ],
+                            ),
+                          );
                         }
                       },
-                      cells: [
-                        DataCell(Text(e.deviceCd ?? '')),
-                        DataCell(Text(_formatTime(e.caseStartDate))),
-                        DataCell(Text(_formatTime(e.caseStartDate))),
-                        DataCell(Text(_formatTime(e.entryDate))),
-                        DataCell(IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () async {
-                            final shouldDelete = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text("ファイル削除前確認"),
-                                content: const Text("ケースファイルを削除しますか？"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(true),
-                                      child: const Text("はい")),
-                                  TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(false),
-                                      child: const Text("キャンセル"))
-                                ],
-                              ),
-                            );
-                            if (shouldDelete == true) {
-                              await _downloadedCaseStore
-                                  .deleteDownloadedCase([e.id!]);
-                              await _downloadedCaseStore.getDownloadedCases();
-                              await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text("ファイル削除後確認"),
-                                  content: const Text("ケースファイルを削除しました。"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(true),
-                                        child: const Text("OK"))
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                        )),
-                      ]))
-              .toList(),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
+  }
+
+  Widget _buildTableHeader(int index) {
+    String text = '';
+    switch (index) {
+      case 0:
+        text = '端末名';
+        break;
+      case 1:
+        text = '開始日時';
+        break;
+      case 2:
+        text = '終了日時';
+        break;
+      case 3:
+        text = '保存日時';
+        break;
+    }
+
+    return InkWell(
+      onTap: () {
+        _onSort(index, index == _sortColumnIndex ? !_sortAsc : false);
+      },
+      child: TableCell(
+        child: Container(
+          height: 50,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: _sortColumnIndex == index ? Color(0xff0082C8) : null,
+                  ),
+                ),
+                SizedBox(width: 2),
+                Icon(
+                  index == _sortColumnIndex && _sortAsc
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward,
+                  size: 16,
+                  color: _sortColumnIndex == index ? Color(0xff0082C8) : null,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TableRowInkWell _buildTableCell(DownloadedCase e, String content) {
+    return TableRowInkWell(
+        child: TableCell(
+            child: Container(height: 50, child: Center(child: Text(content)))),
+        onTap: () {
+          _zollSdkStore.caseOrigin = CaseOrigin.downloaded;
+          _loadData(e);
+          Navigator.of(context).pushNamed(
+              DataViewerRoutes.dataViewerChooseFunction,
+              arguments: ChooseFunctionScreenArguments(caseId: e.caseCd!));
+        });
   }
 
   Future<void> _loadData(DownloadedCase downloadedCase) async {

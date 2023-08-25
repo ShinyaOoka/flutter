@@ -85,12 +85,13 @@ abstract class _DownloadedCaseStore with Store {
 
   @action
   Future deleteDownloadedCase(List<int> ids) async {
+    final appDir = await getApplicationDocumentsDirectory();
     final future = _repository.deleteDownloadedCase(ids);
     deleteDownloadedCaseFuture = ObservableFuture(future);
     downloadedCases
         ?.where((e) => ids.contains(e.id) && e.filename != null)
         .map((e) => e.filename)
-        .forEach((e) => File(e!).deleteSync());
+        .forEach((e) => File('${appDir.path}/$e').deleteSync());
 
     await future.catchError((error) {
       errorStore.errorMessage = error.toString();
