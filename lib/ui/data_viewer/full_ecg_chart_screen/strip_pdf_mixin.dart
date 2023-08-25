@@ -984,7 +984,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
     return '${event.type.i18n()}$eventExtra';
   }
 
-  Widget buildPrintFromExpandedEcgChartButton(DateTime? start, DateTime? end) {
+  Widget buildPrintFromExpandedEcgChartButton(DateTime start, DateTime end) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
@@ -993,6 +993,20 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
+          if (myCase!.waves['Pads']?.samples
+                  .where((e) =>
+                      e.timestamp >= start.microsecondsSinceEpoch &&
+                      e.timestamp <= end.microsecondsSinceEpoch)
+                  .isNotEmpty !=
+              true) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                      title: Text('印刷エラー'), content: Text('ECGデータがありません。'));
+                });
+            return;
+          }
           final result = await showDialog(
               context: context,
               builder: (context) {
