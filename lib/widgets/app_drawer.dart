@@ -106,7 +106,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             }
           }),
           _buildNavigationListTile(
-              context, const Icon(Icons.home), const Text("データ参照（保存済）"), () {
+              context, const Icon(Icons.data_thresholding), const Text("データ参照（保存済）"), () {
             if (currentRouteName ==
                 DataViewerRoutes.dataViewerListDownloadedCase) {
               return;
