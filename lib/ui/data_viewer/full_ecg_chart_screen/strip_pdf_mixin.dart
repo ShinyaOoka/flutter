@@ -221,7 +221,7 @@ class _ConfirmPrintTimeRangesDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('時間範囲確認'),
+      title: const Text('条件指定'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
