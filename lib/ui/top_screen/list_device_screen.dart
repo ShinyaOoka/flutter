@@ -1,5 +1,6 @@
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
-import 'package:ak_azm_flutter/utils/routes/report.dart';
+import 'package:ak_azm_flutter/utils/routes/app.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -42,20 +43,14 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   }
 
   @override
-  void didPush() {
+  void didPush() async {
     _hostApi = context.read();
     _zollSdkStore = context.read();
     // _zollSdkStore.devices = ObservableList();
     // _zollSdkStore.devices
-    // .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
+    //     .add(XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
     // _zollSdkStore.devices
     //     .add(XSeriesDevice(address: 'address', serialNumber: 'serialNumber1'));
-    if (_zollSdkStore.devices
-            .indexWhere((e) => e.serialNumber == 'Sample Device') ==
-        -1) {
-      _zollSdkStore.devices.add(
-          XSeriesDevice(address: 'address', serialNumber: 'Sample Device'));
-    }
     _hostApi.browserStart();
   }
 
@@ -73,11 +68,9 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      leadings: [_buildBackButton()],
-      leadingWidth: 88,
-      actions: _buildActions(),
       body: _buildBody(),
-      title: 'get_xseries_data'.i18n(),
+      actions: _buildActions(),
+      title: '接続機器選択',
       icon: Image.asset('assets/icons/C_X Series.png', width: 20, height: 20),
     );
   }
@@ -136,8 +129,7 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
                     onTap: () {
                       _zollSdkStore.selectedDevice =
                           _zollSdkStore.devices[index];
-                      Navigator.of(context)
-                          .pushNamed(ReportRoutes.reportListCase);
+                      Navigator.of(context).pushNamed(AppRoutes.top);
                     }),
                 separatorBuilder: (context, index) => const Divider(),
               ),

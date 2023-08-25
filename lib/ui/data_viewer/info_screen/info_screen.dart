@@ -4,6 +4,7 @@ import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/models/case/case_event.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_text_field.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
@@ -70,22 +71,10 @@ class _InfoScreenState extends State<InfoScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    await _zollSdkStore.downloadCaseCompleter?.future;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
-
-    final tempDir = await getTemporaryDirectory();
-    switch (_zollSdkStore.caseOrigin) {
-      case CaseOrigin.test:
-        await _loadTestData();
-        break;
-      case CaseOrigin.device:
-        _hostApi.deviceDownloadCase(
-            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
-        break;
-      case CaseOrigin.downloaded:
-        break;
-    }
   }
 
   @override
@@ -93,45 +82,8 @@ class _InfoScreenState extends State<InfoScreen>
     return AppScaffold(
       body: _buildBody(),
       icon: Image.asset('assets/icons/C_General.png', width: 20, height: 20),
-      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "一般",
-    );
-  }
-
-  Future<void> _loadTestData() async {
-    if (_zollSdkStore.cases[caseId] != null) {
-      return;
-    }
-    final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/$caseId.json').writeAsString(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    _zollSdkStore.cases[caseId] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
@@ -139,7 +91,7 @@ class _InfoScreenState extends State<InfoScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 0, caseId: caseId),
+        AppNavigationRail(selectedIndex: 1, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(

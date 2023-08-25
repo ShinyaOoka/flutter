@@ -313,7 +313,7 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 6, caseId: caseId),
+        AppNavigationRail(selectedIndex: 7, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
@@ -332,29 +332,65 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
+          Container(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildInfoLine('HR',
-                        '${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}'),
-                    _buildInfoLine('spo2',
-                        '${snapshot.trend.spo2.value} ${snapshot.trend.spo2.unit}'),
-                    _buildInfoLine('Etco2',
-                        '${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}'),
-                    _buildInfoLine('FiCO2',
-                        '${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}'),
-                  ],
-                ),
-              ],
+            color: Colors.grey.shade200,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              child: Wrap(
+                spacing: 8.0,
+                runSpacing: 4.0,
+                children: [
+                  _buildInfoLine('Etco2',
+                      '${snapshot.trend.etco2.value} ${snapshot.trend.etco2.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('FiCo2',
+                      '${snapshot.trend.fico2.value} ${snapshot.trend.fico2.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('HR',
+                      '${snapshot.trend.hr.value} ${snapshot.trend.hr.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('nibpDia',
+                      '${snapshot.trend.nibpDia.value} ${snapshot.trend.nibpDia.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('nibpMap',
+                      '${snapshot.trend.nibpMap.value} ${snapshot.trend.nibpMap.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('nibpSys',
+                      '${snapshot.trend.nibpSys.value} ${snapshot.trend.nibpSys.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('PI',
+                      '${snapshot.trend.pI.value} ${snapshot.trend.pI.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('PVI',
+                      '${snapshot.trend.pVI.value} ${snapshot.trend.pVI.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('resp',
+                      '${snapshot.trend.resp.value} ${snapshot.trend.resp.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('spCo',
+                      '${snapshot.trend.spCo.value} ${snapshot.trend.spCo.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('spHb',
+                      '${snapshot.trend.spHb.value} ${snapshot.trend.spHb.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('spMet',
+                      '${snapshot.trend.spMet.value} ${snapshot.trend.spMet.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('spOC',
+                      '${snapshot.trend.spOC.value} ${snapshot.trend.spOC.unit}',
+                      padding: EdgeInsets.zero),
+                  _buildInfoLine('spo2',
+                      '${snapshot.trend.spo2.value} ${snapshot.trend.spo2.unit}',
+                      padding: EdgeInsets.zero),
+                ],
+              ),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(16),
-            child: const Text('Pads'),
+            child: const Text('Pads',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           EcgChart(
             samples: snapshot.waveforms['Pads']!.samples,
@@ -365,7 +401,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
               ? Container(
                   padding: const EdgeInsets.all(16),
-                  child: const Text('CO2 mmHg, Waveform'),
+                  child: const Text('CO2 mmHg, Waveform',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               : Container(),
           snapshot.waveforms['CO2 mmHg, Waveform'] != null
@@ -384,7 +421,8 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
           snapshot.waveforms['SpO2 %, Waveform'] != null
               ? Container(
                   padding: const EdgeInsets.all(16),
-                  child: const Text('SpO2 %, Waveform'),
+                  child: const Text('SpO2 %, Waveform',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               : Container(),
           snapshot.waveforms['SpO2 %, Waveform'] != null
@@ -405,21 +443,18 @@ class _SnapshotDetailScreenState extends State<SnapshotDetailScreen>
     );
   }
 
-  Expanded _buildInfoLine(String title, String content) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        child: RichText(
-            textAlign: TextAlign.left,
-            text: TextSpan(
-                style: const TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(
-                      text: '$title: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: content),
-                ])),
-      ),
+  Widget _buildInfoLine(String title, String content,
+      {EdgeInsetsGeometry padding =
+          const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0)}) {
+    return Padding(
+      padding: padding,
+      child: RichText(
+          textAlign: TextAlign.left,
+          text:
+              TextSpan(style: const TextStyle(color: Colors.black), children: [
+            title != '' ? TextSpan(text: '$title: ') : const TextSpan(),
+            TextSpan(text: content, style: TextStyle(color: Color(0xff0082C8))),
+          ])),
     );
   }
 }

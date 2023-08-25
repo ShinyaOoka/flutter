@@ -278,7 +278,7 @@ class _EcgChartState extends State<EcgChart> {
                     })
                     .mapIndexed((i, e) => VerticalLine(
                           x: e.date.microsecondsSinceEpoch / 1000000,
-                          color: Colors.blue,
+                          color: Color(0xff0082C8),
                           label: VerticalLineLabel(
                             show: true,
                             alignment: Alignment.topRight,

@@ -159,16 +159,16 @@ class Ecg12Lead {
   DateTime time;
 
   PatientData patientData;
-  int heartRate;
-  int qrsDur;
-  int qtInt;
-  int corrQtInt;
-  int prInt;
-  int pAxis;
-  int qrsAxis;
-  int tAxis;
-  List<int> stValues;
-  List<String> statements;
+  int? heartRate;
+  int? qrsDur;
+  int? qtInt;
+  int? corrQtInt;
+  int? prInt;
+  int? pAxis;
+  int? qrsAxis;
+  int? tAxis;
+  List<int>? stValues;
+  List<String>? statements;
   Waveform leadI;
   Waveform leadII;
   Waveform leadIII;
@@ -510,21 +510,21 @@ abstract class _Case with Store {
         result.add(Ecg12Lead(
           time: date,
           patientData: patientData,
-          qrsDur: event.rawData['AnalysisResult']['QrsDur'],
-          qtInt: event.rawData['AnalysisResult']['QtInt'],
-          corrQtInt: event.rawData['AnalysisResult']['CorrQtInt'],
-          prInt: event.rawData['AnalysisResult']['PrInt'],
-          pAxis: event.rawData['AnalysisResult']['PAxis'],
-          qrsAxis: event.rawData['AnalysisResult']['QrsAxis'],
-          tAxis: event.rawData['AnalysisResult']['TAxis'],
+          qrsDur: event.rawData['AnalysisResult']?['QrsDur'],
+          qtInt: event.rawData['AnalysisResult']?['QtInt'],
+          corrQtInt: event.rawData['AnalysisResult']?['CorrQtInt'],
+          prInt: event.rawData['AnalysisResult']?['PrInt'],
+          pAxis: event.rawData['AnalysisResult']?['PAxis'],
+          qrsAxis: event.rawData['AnalysisResult']?['QrsAxis'],
+          tAxis: event.rawData['AnalysisResult']?['TAxis'],
           stValues:
-              (event.rawData['AnalysisResult']['StValues'] as List<dynamic>)
-                  .map((x) => x as int)
+              (event.rawData['AnalysisResult']?['StValues'] as List<dynamic>?)
+                  ?.map((x) => x as int)
                   .toList(),
-          heartRate: event.rawData['AnalysisResult']['HeartRate'],
-          statements: (event.rawData['AnalysisResult']['Statements']
-                  ['Statement'] as List<dynamic>)
-              .map((x) => x.toString())
+          heartRate: event.rawData['AnalysisResult']?['HeartRate'],
+          statements: (event.rawData['AnalysisResult']?['Statements']
+                  ['Statement'] as List<dynamic>?)
+              ?.map((x) => x.toString())
               .toList(),
           leadI: leadI,
           leadII: leadII,

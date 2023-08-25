@@ -12,7 +12,7 @@ class DotTextPainter extends FlDotPainter {
       text: TextSpan(
         text: text,
         style: const TextStyle(
-          color: Colors.blue,
+          color: Color(0xff0082C8),
           fontSize: 20,
         ),
       ),

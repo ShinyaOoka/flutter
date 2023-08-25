@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
 import 'package:ak_azm_flutter/widgets/ecg_chart.dart';
 import 'package:ak_azm_flutter/widgets/layout/app_scaffold.dart';
@@ -65,7 +66,6 @@ class CprChartScreenState extends State<CprChartScreen>
   Case? myCase;
   bool hasNewData = false;
   late ZollSdkHostApi _hostApi;
-  ReactionDisposer? reactionDisposer;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -84,7 +84,6 @@ class CprChartScreenState extends State<CprChartScreen>
   @override
   void dispose() {
     super.dispose();
-    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -96,27 +95,9 @@ class CprChartScreenState extends State<CprChartScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    await _zollSdkStore.downloadCaseCompleter?.future;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
-    });
-    reactionDisposer?.call();
-    reactionDisposer = autorun((_) {
-      final storeCase = _zollSdkStore.cases[caseId];
-      if (storeCase != null && myCase == null) {
-        setState(() {
-          myCase = storeCase;
-        });
-      } else if (myCase != null && storeCase == null) {
-        setState(() {
-          hasNewData = false;
-        });
-      } else if (myCase != null && storeCase != null) {
-        setState(() {
-          if (myCase!.events.length != storeCase.events.length) {
-            hasNewData = true;
-          }
-        });
-      }
     });
   }
 
@@ -124,43 +105,9 @@ class CprChartScreenState extends State<CprChartScreen>
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "CPR品質の計算",
       icon: Image.asset('assets/icons/C_Calc.png', width: 20, height: 20),
-    );
-  }
-
-  Future<void> _loadTestData() async {
-    final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/$caseId.json').writeAsString(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    _zollSdkStore.cases[caseId] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
@@ -168,7 +115,7 @@ class CprChartScreenState extends State<CprChartScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 4, caseId: caseId),
+        AppNavigationRail(selectedIndex: 5, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
@@ -191,27 +138,33 @@ class CprChartScreenState extends State<CprChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                ...myCase!.waves.keys.map(
-                  (e) => IntrinsicWidth(
-                    child: ListTile(
-                      title: Text(e),
-                      leading: Radio<String>(
-                        value: e,
-                        groupValue: chartType,
-                        onChanged: (String? value) {
-                          if (value == null) return;
-                          setState(() {
-                            chartType = value;
-                          });
-                        },
-                      ),
-                    ),
+            Container(
+              padding: EdgeInsets.all(16),
+              color: Colors.grey.shade200,
+              child: Row(
+                children: [
+                  Text("表示グラフ"),
+                  SizedBox.square(dimension: 16),
+                  DropdownButton<String>(
+                    value: chartType,
+                    items: myCase!.waves.keys
+                        .where((e) => [
+                              'Pads',
+                              'CO2 mmHg, Waveform',
+                              'Pads Impedance',
+                            ].contains(e))
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (x) {
+                      setState(() {
+                        chartType = x!;
+                      });
+                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            SizedBox.square(dimension: 16),
             EcgChart(
               showGrid: true,
               samples: myCase!.waves[chartType]!.samples,
@@ -245,44 +198,90 @@ class CprChartScreenState extends State<CprChartScreen>
       columns: const [
         DataColumn(
             label: Expanded(
-          child: Text("分", softWrap: true),
+          child: Text(
+            "分",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("秒胸骨圧迫なし", softWrap: true),
+          child: Text(
+            "秒胸骨圧迫なし",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("換気", softWrap: true),
+          child: Text(
+            "換気",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("CO2換気", softWrap: true),
+          child: Text(
+            "CO2換気",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("換気リード", softWrap: true),
+          child: Text(
+            "換気リード",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("胸骨圧迫回数", softWrap: true),
+          child: Text(
+            "胸骨圧迫回数",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
         DataColumn(
             label: Expanded(
-          child: Text("平均胸骨圧迫圧迫深", softWrap: true),
+          child: Text(
+            "平均胸骨圧迫圧迫深",
+            softWrap: true,
+            style: TextStyle(color: Color(0xff0082C8)),
+          ),
         )),
       ],
       rows: myCase!.cprCompressionByMinute
           .map((e) => DataRow(cells: [
-                DataCell(Text(e.minute.toString())),
-                DataCell(Text(e.secondsNotInCompressions.toString())),
-                const DataCell(Text("0")),
-                DataCell(Text(e.ventilations.toString())),
-                const DataCell(Text("0")),
-                DataCell(Text(e.compressionCount.toString())),
-                DataCell(Text(e.averageCompDisp.toStringAsFixed(2))),
+                DataCell(Center(
+                  child: Text(e.minute.toString()),
+                )),
+                DataCell(Center(
+                  child: Text(e.secondsNotInCompressions.toString()),
+                )),
+                const DataCell(Center(
+                  child: Text("0"),
+                )),
+                DataCell(Center(
+                  child: Text(e.ventilations.toString()),
+                )),
+                const DataCell(Center(child: Text("0"))),
+                DataCell(Center(
+                  child: Text(e.compressionCount.toString()),
+                )),
+                DataCell(Center(
+                  child: Text(e.averageCompDisp.toStringAsFixed(2)),
+                )),
               ]))
           .toList(),
+      dataRowColor:
+          MaterialStateColor.resolveWith((states) => Colors.grey.shade100),
+      headingRowColor:
+          MaterialStateColor.resolveWith((states) => Colors.grey.shade100),
+      border: TableBorder(
+          horizontalInside: BorderSide(color: Colors.white, width: 5)),
     );
   }
 }

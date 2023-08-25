@@ -70,7 +70,7 @@ class _ListDeviceScreenState extends State<ListDeviceScreen> with RouteAware {
       body: _buildBody(),
       actions: _buildActions(),
       title: '接続機器選択',
-      icon: const Icon(Icons.home),
+      icon: Image.asset('assets/icons/C_X Series.png', width: 20, height: 20),
     );
   }
 

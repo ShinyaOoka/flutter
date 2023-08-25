@@ -16,6 +16,22 @@ import 'package:ak_azm_flutter/stores/team/team_store.dart';
 import 'package:ak_azm_flutter/stores/classification/classification_store.dart';
 import 'package:ak_azm_flutter/stores/zoll_sdk/zoll_sdk_store.dart';
 
+class NoTransitionsBuilder extends PageTransitionsBuilder {
+  const NoTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T>? route,
+    BuildContext? context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget? child,
+  ) {
+    // only return the child without warping it with animations
+    return child!;
+  }
+}
+
 class MyApp extends StatelessWidget {
   final ReportStore _reportStore = getIt<ReportStore>();
   final TeamStore _teamStore = getIt<TeamStore>();
@@ -63,6 +79,12 @@ class MyApp extends StatelessWidget {
           ),
           surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
           visualDensity: FlexColorScheme.comfortablePlatformDensity,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: NoTransitionsBuilder(),
+              TargetPlatform.iOS: NoTransitionsBuilder(),
+            },
+          ),
         ),
         routes: AppRoutes.routes,
         locale: const Locale('ja', 'JP'),
@@ -77,6 +99,7 @@ class MyApp extends StatelessWidget {
         ],
         initialRoute: AppRoutes.startup,
         navigatorObservers: [_routeObserver],
+        themeAnimationDuration: Duration.zero,
       ),
     );
   }

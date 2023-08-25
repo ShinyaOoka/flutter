@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ak_azm_flutter/data/local/constants/app_constants.dart';
@@ -39,8 +40,8 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     with RouteAware, ReportSectionMixin, StripPdfMixin {
   late ZollSdkStore _zollSdkStore;
   late ZollSdkHostApi _hostApi;
+  ReactionDisposer? lostDeviceReactionDisposer;
   late String caseId;
-  ReactionDisposer? reactionDisposer;
   String chartType = 'Pads';
   Map<String, double> minY = {
     'Pads': -2500,
@@ -72,7 +73,7 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   List<TimeRange> timeRanges = [
     TimeRange(color: Colors.green),
     TimeRange(color: Colors.orange),
-    TimeRange(color: Colors.blue),
+    TimeRange(color: Color(0xff0082C8)),
   ];
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
@@ -92,7 +93,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   @override
   void dispose() {
     super.dispose();
-    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -105,27 +105,48 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     _zollSdkStore = context.read();
     _hostApi = context.read();
 
+    lostDeviceReactionDisposer?.call();
+    lostDeviceReactionDisposer =
+        reaction((_) => _zollSdkStore.selectedDevice, (device) {
+      if (device == null) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('接続が解除されている'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) =>
+                            ModalRoute.withName(
+                                DataViewerRoutes.dataViewerListDevice)(route));
+                      },
+                      child: const Text('接続機器変更'))
+                ],
+              );
+            });
+      }
+    });
+
+    if (_zollSdkStore.cases[caseId] == null) {
+      final tempDir = await getTemporaryDirectory();
+      _zollSdkStore.downloadCaseCompleter = Completer();
+      switch (_zollSdkStore.caseOrigin) {
+        case CaseOrigin.test:
+          await _loadTestData();
+          break;
+        case CaseOrigin.device:
+          _hostApi.deviceDownloadCase(
+              _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
+          await _zollSdkStore.downloadCaseCompleter!.future;
+          break;
+        case CaseOrigin.downloaded:
+          break;
+      }
+    }
+
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
-    });
-    reactionDisposer?.call();
-    reactionDisposer = autorun((_) {
-      final storeCase = _zollSdkStore.cases[caseId];
-      if (storeCase != null && myCase == null) {
-        setState(() {
-          myCase = storeCase;
-        });
-      } else if (myCase != null && storeCase == null) {
-        setState(() {
-          hasNewData = false;
-        });
-      } else if (myCase != null && storeCase != null) {
-        setState(() {
-          if (myCase!.events.length != storeCase.events.length) {
-            hasNewData = true;
-          }
-        });
-      }
     });
   }
 
@@ -133,7 +154,6 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "ECG全体",
       actions: _buildActions(),
@@ -165,28 +185,14 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
     parsedCase.endTime = caseListItem?.endTime != null
         ? DateTime.parse(caseListItem!.endTime!).toLocal()
         : null;
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+    _zollSdkStore.downloadCaseCompleter?.complete();
   }
 
   Widget _buildBody() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 1, caseId: caseId),
+        AppNavigationRail(selectedIndex: 2, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(

@@ -80,6 +80,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               return;
             }
             Navigator.of(context).popAndPushNamed(AppRoutes.top);
+            Scaffold.of(context).openDrawer();
           }),
           _buildNavigationListTile(
               context, const Icon(Icons.description), const Text("レポート管理"), () {
@@ -105,7 +106,7 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
             }
           }),
           _buildNavigationListTile(
-              context, const Icon(Icons.home), const Text("データ参照（保存済）"), () {
+              context, const Icon(Icons.data_thresholding), const Text("データ参照（保存済）"), () {
             if (currentRouteName ==
                 DataViewerRoutes.dataViewerListDownloadedCase) {
               return;
@@ -122,6 +123,8 @@ class _AppDrawerState extends State<AppDrawer> with RouteAware {
               } else if (isReportRoute) {
                 Navigator.of(context)
                     .popAndPushNamed(ReportRoutes.reportChangeDevice);
+              } else {
+                Navigator.of(context).popAndPushNamed(AppRoutes.topListDevice);
               }
             }),
           ListTile(

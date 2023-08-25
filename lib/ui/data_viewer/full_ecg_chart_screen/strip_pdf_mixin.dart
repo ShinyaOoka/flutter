@@ -221,7 +221,7 @@ class _ConfirmPrintTimeRangesDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('時間範囲確認'),
+      title: const Text('条件指定'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -341,7 +341,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
       ..style = PaintingStyle.stroke;
     final bluePaint = Paint()
       ..strokeWidth = 2
-      ..color = Colors.blue
+      ..color = Color(0xff0082C8)
       ..style = PaintingStyle.stroke;
     canvas
       ..save()
@@ -378,7 +378,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
       canvas.save();
       canvas.translate(x + gridSize, gridSize * (2 + 2 * index % 4));
       ChartPainter.drawText(
-          canvas, getJapaneseEventName(event), Colors.blue.shade700, 10,
+          canvas, getJapaneseEventName(event), Color(0xff0082C8), 10,
           textAlign: TextAlign.left, fontWeight: FontWeight.bold);
       canvas.restore();
     });
@@ -984,7 +984,7 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
     return '${event.type.i18n()}$eventExtra';
   }
 
-  Widget buildPrintFromExpandedEcgChartButton(DateTime? start, DateTime? end) {
+  Widget buildPrintFromExpandedEcgChartButton(DateTime start, DateTime end) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextButton.icon(
@@ -993,6 +993,20 @@ mixin StripPdfMixin<T extends StatefulWidget> on State<T> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             foregroundColor: Theme.of(context).primaryColor),
         onPressed: () async {
+          if (myCase!.waves['Pads']?.samples
+                  .where((e) =>
+                      e.timestamp >= start.microsecondsSinceEpoch &&
+                      e.timestamp <= end.microsecondsSinceEpoch)
+                  .isNotEmpty !=
+              true) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                      title: Text('印刷エラー'), content: Text('ECGデータがありません。'));
+                });
+            return;
+          }
           final result = await showDialog(
               context: context,
               builder: (context) {

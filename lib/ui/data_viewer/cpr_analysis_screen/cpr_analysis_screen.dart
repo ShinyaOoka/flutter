@@ -5,6 +5,7 @@ import 'package:ak_azm_flutter/data/parser/case_parser.dart';
 import 'package:ak_azm_flutter/di/components/service_locator.dart';
 import 'package:ak_azm_flutter/models/case/case.dart';
 import 'package:ak_azm_flutter/utils/chart_painter.dart';
+import 'package:ak_azm_flutter/utils/routes/data_viewer.dart';
 import 'package:ak_azm_flutter/widgets/app_dropdown.dart';
 import 'package:ak_azm_flutter/widgets/cpr_analysis_chart.dart';
 import 'package:ak_azm_flutter/widgets/data_viewer/app_navigation_rail.dart';
@@ -104,7 +105,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   Case? myCase;
   bool hasNewData = false;
   late ZollSdkHostApi _hostApi;
-  ReactionDisposer? reactionDisposer;
 
   final RouteObserver<ModalRoute<void>> _routeObserver =
       getIt<RouteObserver<ModalRoute<void>>>();
@@ -123,7 +123,6 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   @override
   void dispose() {
     super.dispose();
-    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -135,84 +134,20 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    await _zollSdkStore.downloadCaseCompleter?.future;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
     });
-    reactionDisposer?.call();
-    reactionDisposer = autorun((_) {
-      final storeCase = _zollSdkStore.cases[caseId];
-      if (storeCase != null && myCase == null) {
-        setState(() {
-          myCase = storeCase;
-        });
-      } else if (myCase != null && storeCase == null) {
-        setState(() {
-          hasNewData = false;
-        });
-      } else if (myCase != null && storeCase != null) {
-        setState(() {
-          if (myCase!.events.length != storeCase.events.length) {
-            hasNewData = true;
-          }
-        });
-      }
-    });
-    final tempDir = await getTemporaryDirectory();
-    switch (_zollSdkStore.caseOrigin) {
-      case CaseOrigin.test:
-        await _loadTestData();
-        break;
-      case CaseOrigin.device:
-        _hostApi.deviceDownloadCase(
-            _zollSdkStore.selectedDevice!, caseId, tempDir.path, null);
-        break;
-      case CaseOrigin.downloaded:
-        break;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "CPR解析",
       actions: _buildActions(),
       icon: Image.asset('assets/icons/C_Graph.png', width: 20, height: 20),
-    );
-  }
-
-  Future<void> _loadTestData() async {
-    final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/$caseId.json').writeAsString(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    _zollSdkStore.cases[caseId] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
@@ -948,7 +883,7 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 3, caseId: caseId),
+        AppNavigationRail(selectedIndex: 4, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
@@ -967,30 +902,33 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   Widget _buildMainContent() {
     return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildDepthInput(),
-            CprAnalysisChart(
-              samples: myCase!.waves[chartType]!.samples,
-              cprCompressions: myCase!.cprCompressions,
-              ventilationTimestamps: myCase!
-                  .waves['CO2 mmHg, Waveform']!.samples
-                  .where((element) => element.status == 1)
-                  .map((e) => e.timestamp)
-                  .toList(),
-              initTimestamp:
-                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
-              initDuration: const Duration(seconds: 30),
-              majorInterval: 2000,
-              minorInterval: 2000,
-              labelFormat: labelFormat[chartType]!,
-              cprRanges: myCase!.cprRanges,
-              shocks: myCase!.shocks,
-              depthUnit: depthUnit,
-              depthFrom: depthFrom,
-              depthTo: depthTo,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CprAnalysisChart(
+                samples: myCase!.waves[chartType]!.samples,
+                cprCompressions: myCase!.cprCompressions,
+                ventilationTimestamps: myCase!
+                    .waves['CO2 mmHg, Waveform']!.samples
+                    .where((element) => element.status == 1)
+                    .map((e) => e.timestamp)
+                    .toList(),
+                initTimestamp:
+                    myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ??
+                        0,
+                initDuration: const Duration(seconds: 30),
+                majorInterval: 2000,
+                minorInterval: 2000,
+                labelFormat: labelFormat[chartType]!,
+                cprRanges: myCase!.cprRanges,
+                shocks: myCase!.shocks,
+                depthUnit: depthUnit,
+                depthFrom: depthFrom,
+                depthTo: depthTo,
+              ),
             ),
             _buildLegend(),
             _buildSummary()
@@ -1000,134 +938,80 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     );
   }
 
-  Row _buildLegend() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
+  Widget _buildLegend() {
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        padding: EdgeInsets.all(8),
+        color: Colors.grey.shade200,
+        child: Flex(
+          direction:
+              constraints.maxWidth > 685 ? Axis.horizontal : Axis.vertical,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                Container(
-                  width: 40,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.yellow.shade100,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text('CPR期間'),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.green.shade100,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text('目標ゾーン'),
-              ],
-            ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text('AutoPulseアクティブ'),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.blue,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Text('AutoPulse圧迫'),
-              ],
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(children: const [
-                  SizedBox(width: 40, height: 30),
-                  SizedBox(width: 8),
-                  Text('圧迫の質：')
-                ])
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+                Text("表示期間: ${constraints.maxWidth}"),
+                SizedBox.square(dimension: 8),
                 Row(
                   children: [
                     Container(
-                      width: 40,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        color: Colors.green,
-                      ),
+                      width: 25,
+                      height: 25,
+                      color: Colors.yellow.shade100,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('CPR期間'),
+                  ],
+                ),
+                SizedBox.square(dimension: 8),
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      color: Colors.green.shade100,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('目標ゾーン'),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox.square(dimension: 8),
+            Row(
+              children: [
+                Text("圧迫の質:"),
+                SizedBox.square(dimension: 8),
+                Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      color: Colors.green,
                     ),
                     const SizedBox(width: 8),
                     const Text('目標範囲内'),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox.square(dimension: 8),
                 Row(
                   children: [
                     Container(
-                      width: 40,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        color: Colors.orange,
-                      ),
+                      width: 25,
+                      height: 25,
+                      color: Colors.orange,
                     ),
                     const SizedBox(width: 8),
                     const Text('目標範囲外'),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox.square(dimension: 8),
                 Row(
                   children: [
                     Container(
-                      width: 40,
-                      height: 30,
+                      width: 25,
+                      height: 25,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black),
                         color: Colors.white,
@@ -1139,99 +1023,92 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
                 ),
               ],
             ),
-            Container(width: 20),
           ],
         ),
-      ],
-    );
+      );
+    });
   }
 
-  Column _buildDepthInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("圧迫"),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: AppDropdown(
-                  label: 'FROM',
-                  items:
-                      depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
-                  itemAsString: (i) => i.toStringAsFixed(1),
-                  selectedItem: depthFrom,
-                  clearable: false,
-                  onChanged: (i) {
-                    setState(() {
-                      if (depthTo < i!) {
-                        depthTo = i;
-                        depthFrom = i;
-                      } else {
-                        depthFrom = i;
-                      }
-                    });
-                  },
-                ),
-              ),
-              Container(width: 16),
-              Expanded(
-                child: AppDropdown(
-                  label: 'TO',
-                  items:
-                      depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
-                  itemAsString: (i) => i.toStringAsFixed(1),
-                  selectedItem: depthTo,
-                  clearable: false,
-                  onChanged: (i) {
-                    setState(() {
-                      if (i! < depthFrom) {
-                        depthTo = i;
-                        depthFrom = i;
-                      } else {
-                        depthTo = i;
-                      }
-                    });
-                  },
-                ),
-              ),
-              Container(width: 16),
-              Expanded(
-                child: AppDropdown(
-                  label: '単位',
-                  items: const ['inch', 'cm'],
-                  selectedItem: depthUnit,
-                  clearable: false,
-                  onChanged: (i) {
-                    setState(() {
-                      if (i == 'inch' && depthUnit == 'cm') {
-                        depthFrom = depthInchOptions
-                            .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
-                            .first;
-                        depthTo = depthInchOptions
-                            .sortedBy<num>((e) => (depthTo / 2.54 - e).abs())
-                            .first;
-                      } else if (i == 'cm' && depthUnit == 'inch') {
-                        depthFrom = depthCmOptions
-                            .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
-                            .first;
-                        depthTo = depthCmOptions
-                            .sortedBy<num>((e) => (depthTo * 2.54 - e).abs())
-                            .first;
-                      }
-                      depthUnit = i!;
-                    });
-                  },
-                ),
-              ),
-            ],
+  Widget _buildDepthInput() {
+    return Container(
+      padding: EdgeInsets.only(top: 16, left: 8, right: 8),
+      color: Colors.grey.shade200,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8, bottom: 10),
+            child: Text("表示設定"),
           ),
-        ),
-      ],
+          Expanded(
+            child: AppDropdown(
+              label: 'FROM',
+              items: depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
+              itemAsString: (i) => i.toStringAsFixed(1),
+              selectedItem: depthFrom,
+              clearable: false,
+              onChanged: (i) {
+                setState(() {
+                  if (depthTo < i!) {
+                    depthTo = i;
+                    depthFrom = i;
+                  } else {
+                    depthFrom = i;
+                  }
+                });
+              },
+            ),
+          ),
+          Container(width: 16),
+          Expanded(
+            child: AppDropdown(
+              label: 'TO',
+              items: depthUnit == 'inch' ? depthInchOptions : depthCmOptions,
+              itemAsString: (i) => i.toStringAsFixed(1),
+              selectedItem: depthTo,
+              clearable: false,
+              onChanged: (i) {
+                setState(() {
+                  if (i! < depthFrom) {
+                    depthTo = i;
+                    depthFrom = i;
+                  } else {
+                    depthTo = i;
+                  }
+                });
+              },
+            ),
+          ),
+          Container(width: 16),
+          Expanded(
+            child: AppDropdown(
+              label: '単位',
+              items: const ['inch', 'cm'],
+              selectedItem: depthUnit,
+              clearable: false,
+              onChanged: (i) {
+                setState(() {
+                  if (i == 'inch' && depthUnit == 'cm') {
+                    depthFrom = depthInchOptions
+                        .sortedBy<num>((e) => (depthFrom / 2.54 - e).abs())
+                        .first;
+                    depthTo = depthInchOptions
+                        .sortedBy<num>((e) => (depthTo / 2.54 - e).abs())
+                        .first;
+                  } else if (i == 'cm' && depthUnit == 'inch') {
+                    depthFrom = depthCmOptions
+                        .sortedBy<num>((e) => (depthFrom * 2.54 - e).abs())
+                        .first;
+                    depthTo = depthCmOptions
+                        .sortedBy<num>((e) => (depthTo * 2.54 - e).abs())
+                        .first;
+                  }
+                  depthUnit = i!;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1241,294 +1118,172 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
     final compDisp = averageCompDisp();
     final compRate = averageCompRate();
 
-    return Table(
-      columnWidths: const {
-        0: IntrinsicColumnWidth(),
-      },
-      children: [
-        TableRow(children: [
-          const TableCell(
-              child: Text('キー表示',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('マニュアル',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('最初の圧迫までの平均時間:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫を中止してから電気ショックを与えるまでの平均時間:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(_printDuration(
-                  Duration(seconds: beforeShockDuration.toInt()))),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('電気ショックを与えてから圧迫を開始するまでの平均時間:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(_printDuration(
-                  Duration(seconds: afterShockDuration.toInt()))),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫の深度の平均:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                  '${(depthUnit == 'inch' ? compDisp : compDisp * 2.54).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫速度の平均:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text('${compRate.toStringAsFixed(2)} cpm'),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('症例全体',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('症例の期間',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('CPRの時間',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('CPR以外の時間',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('CPR期間',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('マニュアル',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫の時間:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫以外の時間:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標範囲内の圧迫:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('圧迫深度:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('標準偏差:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => (depthUnit == 'inch' ? e.compDisp : e.compDisp * 2.54) / 1000).toList())).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン超過:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(overCompDispCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン内:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(middleCompDispCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン未満:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(underCompDispCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('速度:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(child: Container()),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('標準偏差:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                  '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm'),
-            ),
-          ),
-          TableCell(child: Container()),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン超過:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(overCompRateCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン内:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(middleCompRateCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-        TableRow(children: [
-          const TableCell(
-              child: Text('目標ゾーン未満:',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontWeight: FontWeight.bold))),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(underCompRateCount().toString()),
-            ),
-          ),
-          TableCell(
-              child: Text(
-                  '(${(underCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)')),
-        ]),
-      ],
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('キー表示',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox.square(dimension: 8),
+          Container(
+              color: Colors.grey.shade200,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('マニュアル'),
+                  Text('最初の圧迫までの平均時間:'),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "圧迫を中止してから電気ショックを与えるまでの平均時間:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: _printDuration(
+                            Duration(seconds: beforeShockDuration.toInt()))),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "電気ショックを与えてから圧迫を開始するまでの平均時間:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: _printDuration(
+                            Duration(seconds: afterShockDuration.toInt()))),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "圧迫の深度の平均:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text:
+                            '${(depthUnit == 'inch' ? compDisp : compDisp * 2.54).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "圧迫速度の平均:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: '${compRate.toStringAsFixed(2)} cpm'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                ],
+              )),
+          SizedBox.square(dimension: 8),
+          Text('症例全体',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox.square(dimension: 8),
+          Container(
+              color: Colors.grey.shade200,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('症例の期間:'),
+                  Text('CPRの時間:'),
+                  Text('CPR以外の時間:'),
+                ],
+              )),
+          SizedBox.square(dimension: 8),
+          Text('CPRの時間',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox.square(dimension: 8),
+          Container(
+              color: Colors.grey.shade200,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('マニュアル'),
+                  Text('圧迫の時間:'),
+                  Text('圧迫以外の時間:'),
+                  Text('目標範囲内の圧迫:'),
+                  Text('圧迫深度:'),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "標準偏差:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text:
+                            '${standardDeviation(Array(myCase!.cprCompressions.map((e) => (depthUnit == 'inch' ? e.compDisp : e.compDisp * 2.54) / 1000).toList())).toStringAsFixed(2)} ${depthUnit == 'inch' ? 'インチ' : 'cm'}'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン超過:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: overCompDispCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(overCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン内:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: middleCompDispCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(middleCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン未満:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: underCompDispCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(underCompDispCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  Text('速度:'),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "標準偏差:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text:
+                            '${standardDeviation(Array(myCase!.cprCompressions.map((e) => e.compRate.toDouble()).toList())).toStringAsFixed(2)} cpm'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン超過:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: overCompRateCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(overCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン内:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: middleCompRateCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(middleCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                  RichText(
+                      text: TextSpan(children: [
+                    TextSpan(text: "目標ゾーン未満:   "),
+                    TextSpan(
+                        style: TextStyle(color: Color(0xff0082C8)),
+                        text: underCompRateCount().toString()),
+                    TextSpan(
+                        style: TextStyle(color: Colors.green),
+                        text:
+                            '   (${(underCompRateCount() / myCase!.cprCompressions.length * 100).toStringAsFixed(2)} %)'),
+                  ], style: Theme.of(context).textTheme.bodyMedium)),
+                ],
+              )),
+        ],
+      ),
     );
   }
 

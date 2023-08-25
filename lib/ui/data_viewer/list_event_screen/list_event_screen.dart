@@ -39,7 +39,6 @@ class _ListEventScreenState extends State<ListEventScreen>
   late ZollSdkStore _zollSdkStore;
   late String caseId;
   late ScrollController scrollController;
-  ReactionDisposer? reactionDisposer;
   Case? myCase;
   bool hasNewData = false;
 
@@ -61,7 +60,6 @@ class _ListEventScreenState extends State<ListEventScreen>
   @override
   void dispose() {
     super.dispose();
-    reactionDisposer?.call();
     _routeObserver.unsubscribe(this);
   }
 
@@ -73,27 +71,9 @@ class _ListEventScreenState extends State<ListEventScreen>
 
     _hostApi = context.read();
     _zollSdkStore = context.read();
+    await _zollSdkStore.downloadCaseCompleter?.future;
     setState(() {
       myCase = _zollSdkStore.cases[caseId];
-    });
-    reactionDisposer?.call();
-    reactionDisposer = autorun((_) {
-      final storeCase = _zollSdkStore.cases[caseId];
-      if (storeCase != null && myCase == null) {
-        setState(() {
-          myCase = storeCase;
-        });
-      } else if (myCase != null && storeCase == null) {
-        setState(() {
-          hasNewData = false;
-        });
-      } else if (myCase != null && storeCase != null) {
-        setState(() {
-          if (myCase!.events.length != storeCase.events.length) {
-            hasNewData = true;
-          }
-        });
-      }
     });
   }
 
@@ -101,43 +81,9 @@ class _ListEventScreenState extends State<ListEventScreen>
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _buildBody(),
-      leadings: [_buildBackButton()],
       leadingWidth: 88,
       title: "イベント",
       icon: Image.asset('assets/icons/C_Event.png', width: 20, height: 20),
-    );
-  }
-
-  Future<void> _loadTestData() async {
-    final tempDir = await getTemporaryDirectory();
-    await File('${tempDir.path}/$caseId.json').writeAsString(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    final caseListItem = _zollSdkStore
-        .caseListItems[_zollSdkStore.selectedDevice?.serialNumber]
-        ?.firstWhere((element) => element.caseId == caseId);
-    final parsedCase = CaseParser.parse(
-        await rootBundle.loadString("assets/example/$caseId.json"));
-    _zollSdkStore.cases[caseId] = parsedCase;
-    parsedCase.startTime = caseListItem?.startTime != null
-        ? DateTime.parse(caseListItem!.startTime!).toLocal()
-        : null;
-    parsedCase.endTime = caseListItem?.endTime != null
-        ? DateTime.parse(caseListItem!.endTime!).toLocal()
-        : null;
-  }
-
-  Widget _buildBackButton() {
-    return TextButton.icon(
-      icon: const SizedBox(
-        width: 12,
-        child: Icon(Icons.arrow_back_ios),
-      ),
-      style:
-          TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
-      label: Text('back'.i18n()),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
     );
   }
 
@@ -145,7 +91,7 @@ class _ListEventScreenState extends State<ListEventScreen>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNavigationRail(selectedIndex: 2, caseId: caseId),
+        AppNavigationRail(selectedIndex: 3, caseId: caseId),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
           child: Stack(
