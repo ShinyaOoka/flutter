@@ -112,7 +112,23 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
       CaseListItem(
           caseId: 'AR16D018896-20230322-143534-3141',
           startTime: "2023-03-13T12:34:51",
-          endTime: "2023-03-15T17:57:45")
+          endTime: "2023-03-15T17:57:45"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230825-185917-3178',
+          startTime: "2023-08-25T18:48:12",
+          endTime: "2023-08-25T18:56:01"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230825-190041-3177',
+          startTime: "2023-08-25T18:40:21",
+          endTime: "2023-08-25T18:48:12"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230825-194249-3177',
+          startTime: "2023-08-25T18:40:21",
+          endTime: "2023-08-25T18:48:12"),
+      CaseListItem(
+          caseId: 'AR16D018896-20230825-194448-3176',
+          startTime: "2023-08-25T18:10:25",
+          endTime: "2023-08-25T18:40:21"),
     ];
     _hostApi.deviceGetCaseList(_zollSdkStore.selectedDevice!, null);
   }
@@ -210,9 +226,7 @@ class _ListCaseScreenState extends State<ListCaseScreen> with RouteAware {
     return Stack(
       children: <Widget>[
         // _handleErrorMessage(),
-        cases != null
-            ? _buildMainContent()
-            : CustomProgressIndicatorWidget()
+        cases != null ? _buildMainContent() : CustomProgressIndicatorWidget()
       ],
     );
   }

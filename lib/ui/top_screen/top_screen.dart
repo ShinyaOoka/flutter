@@ -77,6 +77,17 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                Image.asset('assets/icons/C_Menu.png', width: 24, height: 24),
+                const SizedBox(width: 8),
+                Text(
+                  "メインメニュー",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             _buildSlider(),
             const SizedBox(height: 16),
             _buildConnectedDevice(),
@@ -125,90 +136,92 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       final perItemWidth = width / 3;
       final currentRouteName = ModalRoute.of(context)?.settings.name;
 
-      return Row(
-        children: [
-          Expanded(
-              child: Column(
-            children: [
-              Text("レポート管理",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
-              InkWell(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset('assets/img/create_report.png',
-                      fit: BoxFit.cover),
-                ),
-                onTap: () {
-                  if (currentRouteName == ReportRoutes.reportListReport) {
-                    return;
-                  }
-                  Navigator.of(context)
-                      .popAndPushNamed(ReportRoutes.reportListReport);
-                },
-              ),
-            ],
-          )),
-          SizedBox.square(
-            dimension: 16,
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              Text("データ参照",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
-              InkWell(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset('assets/img/data_viewer.png',
-                      fit: BoxFit.cover),
-                ),
-                onTap: () {
-                  if (currentRouteName ==
-                      DataViewerRoutes.dataViewerListDevice) {
-                    return;
-                  }
-                  if (_zollSdkStore.selectedDevice != null) {
-                    Navigator.of(context)
-                        .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
-                  } else {
-                    Navigator.of(context)
-                        .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
-                  }
-                },
-              ),
-            ],
-          )),
-          SizedBox.square(
-            dimension: 16,
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              Text("データ参照（保存済）",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Color(0xff0082C8))),
-              InkWell(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset('assets/img/data_viewer_2.png',
-                      fit: BoxFit.cover),
-                ),
-                onTap: () {
-                  if (currentRouteName ==
-                      DataViewerRoutes.dataViewerListDevice) {
-                    return;
-                  }
-                  Navigator.of(context).popAndPushNamed(
-                      DataViewerRoutes.dataViewerListDownloadedCase);
-                },
-              ),
-            ],
-          ))
-        ],
+      return IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: _buildCard(context, 'assets/img/create_report.png',
+                    'レポート管理', '各種種類（病院提出用・消防署保管用）の入力・閲覧・修正・印刷を実施します。', () {
+              if (currentRouteName == ReportRoutes.reportListReport) {
+                return;
+              }
+              Navigator.of(context)
+                  .popAndPushNamed(ReportRoutes.reportListReport);
+            })),
+            SizedBox.square(
+              dimension: 16,
+            ),
+            Expanded(
+                child: _buildCard(context, 'assets/img/data_viewer.png',
+                    'データ参照', 'XSeriesのデータを参照し、ECG・CPR・スナップショットを確認します。', () {
+              if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
+                return;
+              }
+              if (_zollSdkStore.selectedDevice != null) {
+                Navigator.of(context)
+                    .popAndPushNamed(DataViewerRoutes.dataViewerListCase);
+              } else {
+                Navigator.of(context)
+                    .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
+              }
+            })),
+            SizedBox.square(
+              dimension: 16,
+            ),
+            Expanded(
+                child: _buildCard(context, 'assets/img/data_viewer_2.png',
+                    'データ参照 保存済み', '今使用の端末に保存した、ECG・CPR・スナップショットを確認します。', () {
+              if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
+                return;
+              }
+              Navigator.of(context).popAndPushNamed(
+                  DataViewerRoutes.dataViewerListDownloadedCase);
+            })),
+          ],
+        ),
       );
     });
+  }
+
+  Widget _buildCard(BuildContext context, String image, String title,
+      String subtitle, void Function() onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+          padding: EdgeInsets.all(16),
+          child: Row(children: [
+            Expanded(
+              child: AspectRatio(
+                child: Image.asset(image, fit: BoxFit.cover),
+                aspectRatio: 1,
+              ),
+              flex: 2,
+            ),
+            SizedBox.square(dimension: 8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xff0082C8),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox.square(dimension: 8),
+                  Text(subtitle,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12)),
+                ],
+              ),
+              flex: 3,
+            )
+          ]),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Color(0xFFF3F3F3))),
+    );
   }
 
   Widget _buildConnectedDevice() {
