@@ -77,7 +77,14 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
 
   @override
   void didPopNext() {
-    _reportStore.getReports().then((_) {
+    setState(() {
+      initialized = false;
+    });
+    Future.wait([
+      _reportStore.getReports(),
+      _teamStore.getTeams(),
+      _classificationStore.getAllClassifications(),
+    ]).then((_) {
       _reportStore.reports?.forEach((element) {
         element.teamStore = _teamStore;
         element.classificationStore = _classificationStore;
@@ -214,7 +221,8 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
                       onPressed: () => Navigator.pop(context, true),
                       child: Text(
                         'はい',
-                        style: TextStyle(color: Theme.of(context).colorScheme.error),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.error),
                       ),
                     ),
                   ],

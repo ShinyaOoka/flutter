@@ -66,6 +66,26 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
   }
 
   @override
+  void didPopNext() {
+    setState(() {
+      initialized = false;
+    });
+    Future.wait([
+      _reportStore.getReports(),
+      _teamStore.getTeams(),
+      _classificationStore.getAllClassifications(),
+    ]).then((_) {
+      _reportStore.reports?.forEach((element) {
+        element.teamStore = _teamStore;
+        element.classificationStore = _classificationStore;
+      });
+      setState(() {
+        initialized = true;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppScaffold(body: _buildBody());
   }
