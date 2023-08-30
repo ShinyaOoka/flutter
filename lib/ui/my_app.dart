@@ -99,7 +99,6 @@ class MyApp extends StatelessWidget {
         ],
         initialRoute: AppRoutes.startup,
         navigatorObservers: [_routeObserver],
-        themeAnimationDuration: Duration.zero,
       ),
     );
   }
