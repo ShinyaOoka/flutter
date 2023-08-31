@@ -909,15 +909,16 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CprAnalysisChart(
-                samples: myCase!.waves[chartType]!.samples,
+                samples: myCase!.waves[chartType]?.samples ?? [],
                 cprCompressions: myCase!.cprCompressions,
                 ventilationTimestamps: myCase!
-                    .waves['CO2 mmHg, Waveform']!.samples
-                    .where((element) => element.status == 1)
-                    .map((e) => e.timestamp)
-                    .toList(),
+                        .waves['CO2 mmHg, Waveform']?.samples
+                        .where((element) => element.status == 1)
+                        .map((e) => e.timestamp)
+                        .toList() ??
+                    [],
                 initTimestamp:
-                    myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ??
+                    myCase!.waves[chartType]?.samples.firstOrNull?.timestamp ??
                         0,
                 initDuration: const Duration(seconds: 30),
                 majorInterval: 2000,

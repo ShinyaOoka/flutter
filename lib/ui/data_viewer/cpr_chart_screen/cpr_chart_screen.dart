@@ -132,6 +132,11 @@ class CprChartScreenState extends State<CprChartScreen>
   }
 
   Widget _buildMainContent() {
+    final items = myCase!.waves.keys.where((e) => [
+          'Pads',
+          'CO2 mmHg, Waveform',
+          'Pads Impedance',
+        ].contains(e));
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -146,13 +151,8 @@ class CprChartScreenState extends State<CprChartScreen>
                   Text("表示グラフ"),
                   SizedBox.square(dimension: 16),
                   DropdownButton<String>(
-                    value: chartType,
-                    items: myCase!.waves.keys
-                        .where((e) => [
-                              'Pads',
-                              'CO2 mmHg, Waveform',
-                              'Pads Impedance',
-                            ].contains(e))
+                    value: items.contains(chartType) ? chartType : null,
+                    items: items
                         .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                         .toList(),
                     onChanged: (x) {
@@ -167,17 +167,17 @@ class CprChartScreenState extends State<CprChartScreen>
             SizedBox.square(dimension: 16),
             EcgChart(
               showGrid: true,
-              samples: myCase!.waves[chartType]!.samples,
+              samples: myCase!.waves[chartType]?.samples ?? [],
               cprCompressions: myCase!.cprCompressions,
               ventilationTimestamps:
-                  myCase!.waves[chartType]!.samples.isNotEmpty
+                  (myCase!.waves[chartType]?.samples ?? []).isNotEmpty
                       ? myCase!.waves['CO2 mmHg, Waveform']!.samples
                           .where((element) => element.status == 1)
                           .map((e) => e.timestamp)
                           .toList()
                       : [],
               initTimestamp:
-                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
+                  myCase!.waves[chartType]?.samples.firstOrNull?.timestamp ?? 0,
               segments: 4,
               initDuration: const Duration(minutes: 1),
               minY: minY[chartType]!,

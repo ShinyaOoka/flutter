@@ -218,26 +218,30 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
   }
 
   Widget _buildMainContent() {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AppCheckbox(
-                label: 'クリックしたら拡大ECGへ移動',
-                value: expandOnTap,
-                onChanged: (x) => setState(() => expandOnTap = x ?? false)),
-            Row(
-              children: const [
-                Text('印刷時間指定（長押し）'),
-              ],
-            ),
-            Row(
-              children: [
-                ...timeRanges
-                    .mapIndexed(
-                      (i, e) => [
+    return LayoutBuilder(builder: (context, constraints) {
+      final isSmall = constraints.maxWidth < 400 ? true : false;
+      return SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppCheckbox(
+                  label: 'クリックしたら拡大ECGへ移動',
+                  value: expandOnTap,
+                  onChanged: (x) => setState(() => expandOnTap = x ?? false)),
+              Row(
+                children: const [
+                  Text('印刷時間指定（長押し）'),
+                ],
+              ),
+              Flex(
+                direction: isSmall ? Axis.vertical : Axis.horizontal,
+                children: [
+                  ...timeRanges.mapIndexed(
+                    (i, e) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: [
                         _buildSelectedTimeWidget(
                             e.color,
                             e.startTime != null
@@ -262,78 +266,80 @@ class _FullEcgChartScreenState extends State<FullEcgChartScreen>
                               });
                             }),
                         const SizedBox(width: 16),
-                      ],
-                    )
-                    .flattened,
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8.0),
-              child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
-                  textAlign: TextAlign.right),
-            ),
-            EcgChart(
-              showGrid: true,
-              events: myCase!.displayableEvents.map((e) => e.item2).toList(),
-              samples: myCase!.waves[chartType]!.samples,
-              initTimestamp:
-                  myCase!.waves[chartType]!.samples.firstOrNull?.timestamp ?? 0,
-              segments: 5,
-              initDuration: const Duration(minutes: 1),
-              minY: minY[chartType]!,
-              maxY: maxY[chartType]!,
-              majorInterval: majorInterval[chartType]!,
-              minorInterval: minorInterval[chartType]!,
-              labelFormat: labelFormat[chartType]!,
-              onTap: (timestamp) {
-                if (expandOnTap) {
-                  Navigator.of(context).pushNamed(
-                      DataViewerRoutes.dataViewerExpandedEcgChart,
-                      arguments: ExpandedCprChartScreenArguments(
-                          caseId: caseId, timestamp: timestamp));
-                }
-              },
-              onLongPress: (timestamp) {
-                int index = -1;
-                bool isStartTime = false;
-                for (int i = 0; i < timeRanges.length; i++) {
-                  if (timeRanges[i].startTime == null) {
-                    isStartTime = true;
-                    index = i;
-                    break;
+                      ]),
+                    ),
+                  )
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Text('ゲイン×1のグリッドサイズは1.00 s x 1.00mV',
+                    textAlign: TextAlign.right),
+              ),
+              EcgChart(
+                showGrid: true,
+                events: myCase!.displayableEvents.map((e) => e.item2).toList(),
+                samples: myCase!.waves[chartType]?.samples ?? [],
+                initTimestamp:
+                    myCase!.waves[chartType]?.samples.firstOrNull?.timestamp ??
+                        0,
+                segments: 5,
+                initDuration: const Duration(minutes: 1),
+                minY: minY[chartType]!,
+                maxY: maxY[chartType]!,
+                majorInterval: majorInterval[chartType]!,
+                minorInterval: minorInterval[chartType]!,
+                labelFormat: labelFormat[chartType]!,
+                onTap: (timestamp) {
+                  if (expandOnTap) {
+                    Navigator.of(context).pushNamed(
+                        DataViewerRoutes.dataViewerExpandedEcgChart,
+                        arguments: ExpandedCprChartScreenArguments(
+                            caseId: caseId, timestamp: timestamp));
                   }
-                  if (timeRanges[i].endTime == null) {
-                    if (timeRanges[i].startTime!.microsecondsSinceEpoch >
-                        timestamp) break;
-                    isStartTime = false;
-                    index = i;
-                    break;
+                },
+                onLongPress: (timestamp) {
+                  int index = -1;
+                  bool isStartTime = false;
+                  for (int i = 0; i < timeRanges.length; i++) {
+                    if (timeRanges[i].startTime == null) {
+                      isStartTime = true;
+                      index = i;
+                      break;
+                    }
+                    if (timeRanges[i].endTime == null) {
+                      if (timeRanges[i].startTime!.microsecondsSinceEpoch >
+                          timestamp) break;
+                      isStartTime = false;
+                      index = i;
+                      break;
+                    }
                   }
-                }
-                if (index != -1) {
-                  final newTimeRanges =
-                      timeRanges.whereIndexed((i, _) => i != index).toList();
-                  final newTimeRange = TimeRange(
-                    color: timeRanges[index].color,
-                    startTime: isStartTime
-                        ? DateTime.fromMicrosecondsSinceEpoch(timestamp)
-                        : timeRanges[index].startTime,
-                    endTime: !isStartTime
-                        ? DateTime.fromMicrosecondsSinceEpoch(timestamp)
-                        : timeRanges[index].endTime,
-                  );
-                  newTimeRanges.insert(index, newTimeRange);
-                  setState(() {
-                    timeRanges = newTimeRanges;
-                  });
-                }
-              },
-              timeRanges: timeRanges,
-            ),
-          ],
+                  if (index != -1) {
+                    final newTimeRanges =
+                        timeRanges.whereIndexed((i, _) => i != index).toList();
+                    final newTimeRange = TimeRange(
+                      color: timeRanges[index].color,
+                      startTime: isStartTime
+                          ? DateTime.fromMicrosecondsSinceEpoch(timestamp)
+                          : timeRanges[index].startTime,
+                      endTime: !isStartTime
+                          ? DateTime.fromMicrosecondsSinceEpoch(timestamp)
+                          : timeRanges[index].endTime,
+                    );
+                    newTimeRanges.insert(index, newTimeRange);
+                    setState(() {
+                      timeRanges = newTimeRanges;
+                    });
+                  }
+                },
+                timeRanges: timeRanges,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Container _buildSelectedTimeWidget(Color color, String text) {

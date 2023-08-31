@@ -200,6 +200,7 @@ class _EcgChartState extends State<EcgChart> {
           lastMaxXValue = maxX;
         },
         onHorizontalDragUpdate: (details) {
+          if (widget.samples.isEmpty) return;
           var horizontalDistance = details.primaryDelta ?? 0;
           if (horizontalDistance == 0) return;
           var lastMinMaxDistance = max(lastMaxXValue - lastMinXValue, 0.0);
@@ -223,6 +224,7 @@ class _EcgChartState extends State<EcgChart> {
           lastMaxXValue = maxX;
         },
         onScaleUpdate: (details) {
+          if (widget.samples.isEmpty) return;
           var horizontalScale = details.horizontalScale;
           if (horizontalScale == 0) return;
           var lastMinMaxDistance = max(lastMaxXValue - lastMinXValue, 0);

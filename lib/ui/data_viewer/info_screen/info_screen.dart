@@ -108,8 +108,9 @@ class _InfoScreenState extends State<InfoScreen>
   }
 
   Widget _buildMainContent() {
-    final serial = myCase!.caseSummary?.rawData['SerialNumber'];
-    final version = myCase!.caseSummary?.rawData['SwVer'];
+    final summary = myCase!.caseSummary;
+    final serial = summary?.rawData['SerialNumber'];
+    final version = summary?.rawData['SwVer'];
     final deviceOn = myCase!.events
             .firstWhereOrNull((e) => e.type == 'AnnotationEvt System On')
             ?.rawData['StdHdr']['DevDateTime']
@@ -126,14 +127,13 @@ class _InfoScreenState extends State<InfoScreen>
                 label: '実施回数',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']
-                        ['PatientId']),
+                    text: summary?.rawData['PatientData']['PatientId']),
               ),
               AppTextField(
                 label: '開始時刻',
                 readOnly: true,
-                controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['StartTime']),
+                controller:
+                    TextEditingController(text: summary?.rawData['StartTime']),
               ),
               AppTextField(
                 label: 'データの期間',
@@ -168,35 +168,31 @@ class _InfoScreenState extends State<InfoScreen>
                 label: '患者ID /MR番号',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']
-                        ['PatientId']),
+                    text: summary?.rawData['PatientData']['PatientId']),
               ),
               AppTextField(
                 label: '氏',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']
-                        ['FirstName']),
+                    text: summary?.rawData['PatientData']['FirstName']),
               ),
               AppTextField(
                 label: '名',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']
-                        ['LastName']),
+                    text: summary?.rawData['PatientData']['LastName']),
               ),
               AppTextField(
                 label: '性別',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']['Sex']),
+                    text: summary?.rawData['PatientData']['Sex']),
               ),
               AppTextField(
                 label: '人種',
                 readOnly: true,
                 controller: TextEditingController(
-                    text: myCase!.caseSummary?.rawData['PatientData']
-                        ['PatientMode']),
+                    text: summary?.rawData['PatientData']['PatientMode']),
               ),
               // AppTextField(
               //   label: '生年月日',
