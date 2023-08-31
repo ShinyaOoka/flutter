@@ -155,7 +155,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       final width = constraints.maxWidth;
       final perItemWidth = width / 3;
       final currentRouteName = ModalRoute.of(context)?.settings.name;
-      final isSmallCard = perItemWidth < 200 ? true : false;
+      final isSmallCard = perItemWidth < 150 ? true : false;
 
       return IntrinsicHeight(
         child: Row(

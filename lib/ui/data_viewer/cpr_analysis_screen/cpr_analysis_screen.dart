@@ -1113,8 +1113,8 @@ class CprAnalysisScreenState extends State<CprAnalysisScreen>
   }
 
   Widget _buildSummary() {
-    final beforeShockDuration = averageCprCompressionAfterShock();
-    final afterShockDuration = averageCprCompressionBeforeShock();
+    final afterShockDuration = averageCprCompressionAfterShock();
+    final beforeShockDuration = averageCprCompressionBeforeShock();
     final compDisp = averageCompDisp();
     final compRate = averageCompRate();
 
