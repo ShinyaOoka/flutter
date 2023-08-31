@@ -155,6 +155,7 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       final width = constraints.maxWidth;
       final perItemWidth = width / 3;
       final currentRouteName = ModalRoute.of(context)?.settings.name;
+      final isSmallCard = perItemWidth < 200 ? true : false;
 
       return IntrinsicHeight(
         child: Row(
@@ -168,9 +169,9 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
               }
               Navigator.of(context)
                   .popAndPushNamed(ReportRoutes.reportListReport);
-            })),
+            }, isSmallCard)),
             SizedBox.square(
-              dimension: 16,
+              dimension: 8,
             ),
             Expanded(
                 child: _buildCard(context, 'assets/img/data_viewer.png',
@@ -185,19 +186,19 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
                 Navigator.of(context)
                     .popAndPushNamed(DataViewerRoutes.dataViewerListDevice);
               }
-            })),
+            }, isSmallCard)),
             SizedBox.square(
-              dimension: 16,
+              dimension: 8,
             ),
             Expanded(
                 child: _buildCard(context, 'assets/img/data_viewer_2.png',
-                    'データ参照 保存済み', '今使用の端末に保存した、ECG・CPR・スナップショットを確認します。', () {
+                    'データ参照\n保存済み', '今使用の端末に保存した、ECG・CPR・スナップショットを確認します。', () {
               if (currentRouteName == DataViewerRoutes.dataViewerListDevice) {
                 return;
               }
               Navigator.of(context).popAndPushNamed(
                   DataViewerRoutes.dataViewerListDownloadedCase);
-            })),
+            }, isSmallCard)),
           ],
         ),
       );
@@ -205,41 +206,41 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
   }
 
   Widget _buildCard(BuildContext context, String image, String title,
-      String subtitle, void Function() onTap) {
+      String subtitle, void Function() onTap, bool isSmallCard) {
     return InkWell(
       onTap: onTap,
       child: Container(
-          padding: EdgeInsets.all(16),
-          child: Row(children: [
-            Expanded(
-              child: AspectRatio(
-                child: Image.asset(image, fit: BoxFit.cover),
-                aspectRatio: 1,
-              ),
-              flex: 2,
+          padding: EdgeInsets.all(isSmallCard ? 8 : 16),
+          child: Column(children: [
+            Row(
+              children: [
+                Image.asset(image,
+                    fit: BoxFit.cover, height: isSmallCard ? 20 : 60),
+                SizedBox.square(dimension: 4),
+                Expanded(
+                  child: Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xff0082C8),
+                          fontSize: isSmallCard ? 10 : 16,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ],
             ),
-            SizedBox.square(dimension: 8),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color(0xff0082C8),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox.square(dimension: 8),
+                  SizedBox.square(dimension: isSmallCard ? 2 : 4),
                   Text(subtitle,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12)),
+                      style: TextStyle(fontSize: isSmallCard ? 9 : 14)),
                 ],
               ),
-              flex: 3,
             )
           ]),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(4),
               color: Color(0xFFF3F3F3))),
     );
   }
