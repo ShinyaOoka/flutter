@@ -65,8 +65,6 @@ class _ConfirmReportScreenState extends State<ConfirmReportScreen>
     _classificationStore.getAllClassifications();
     _hospitalStore.getHospitals();
 
-    _reportStore.selectingReport?.teamStore = _teamStore;
-    _reportStore.selectingReport?.fireStationStore = _fireStationStore;
     _reportStore.selectingReport?.classificationStore = _classificationStore;
     _reportStore.selectingReport?.hospitalStore = _hospitalStore;
   }

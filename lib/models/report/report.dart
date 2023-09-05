@@ -39,29 +39,6 @@ abstract class _Report with Store {
   @JsonKey(name: 'TeamCaptainName')
   String? teamCaptainName;
   @observable
-  @JsonKey(name: 'TeamMemberName')
-  String? teamMemberName;
-  @observable
-  @JsonKey(name: 'TeamAbbreviation')
-  String? teamAbbreviation;
-  @observable
-  @JsonKey(name: 'InstitutionalMemberName')
-  String? institutionalMemberName;
-  @observable
-  @JsonKey(name: "LifesaverQualification")
-  @IntToBoolConverter()
-  bool? lifesaverQualification;
-  @observable
-  @JsonKey(name: "WithLifeSavers")
-  @IntToBoolConverter()
-  bool? withLifesavers;
-  @observable
-  @JsonKey(name: 'Total')
-  int? totalCount;
-  @observable
-  @JsonKey(name: 'Team')
-  int? teamCount;
-  @observable
   @JsonKey(name: "SickInjuredPersonName")
   String? sickInjuredPersonName;
   @observable
@@ -80,35 +57,11 @@ abstract class _Report with Store {
   @JsonKey(name: "SickInjuredPersonTEL")
   String? sickInjuredPersonTel;
   @observable
-  @JsonKey(name: "SickInjuredPersonFamily")
-  String? sickInjuredPersonFamily;
-  @observable
-  @JsonKey(name: "SickInjuredPersonFamilyTEL")
-  String? sickInjuredPersonFamilyTel;
-  @observable
   @JsonKey(name: "SickInjuredPersonMedicalHistroy")
   String? sickInjuredPersonMedicalHistory;
   @observable
   @JsonKey(name: "SickInjuredPersonHistoryHospital")
   String? sickInjuredPersonHistoryHospital;
-  @observable
-  @JsonKey(name: "SickInjuredPersonKakaritsuke")
-  String? sickInjuredPersonKakaritsuke;
-  @observable
-  @JsonKey(name: "SickInjuredPersonMedication")
-  String? sickInjuredPersonMedication;
-  @observable
-  @JsonKey(name: "SickInjuredPersonMedicationDetail")
-  String? sickInjuredPersonMedicationDetail;
-  @observable
-  @JsonKey(name: "SickInjuredPersonAllergy")
-  String? sickInjuredPersonAllergy;
-  @observable
-  @JsonKey(name: "SickInjuredPersonNameOfInjuryOrSickness")
-  String? sickInjuredPersonNameOfInjuryOrSickness;
-  @observable
-  @JsonKey(name: "SickInjuredPersonDegree")
-  String? sickInjuredPersonDegree;
   @computed
   @JsonKey(name: "SickInjuredPersonAge")
   int? get sickInjuredPersonAge {
@@ -125,14 +78,6 @@ abstract class _Report with Store {
   @TimeOfDayConverter()
   @JsonKey(name: "SenseTime")
   TimeOfDay? senseTime;
-  @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "CommandTime")
-  TimeOfDay? commandTime;
-  @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "DispatchTime")
-  TimeOfDay? dispatchTime;
   @observable
   @TimeOfDayConverter()
   @JsonKey(name: "OnSiteArrivalTime")
@@ -158,26 +103,6 @@ abstract class _Report with Store {
   @JsonKey(name: "FamilyContact")
   bool? familyContact;
   @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "FamilyContactTime")
-  TimeOfDay? familyContactTime;
-  @observable
-  @IntToBoolConverter()
-  @JsonKey(name: "PoliceContact")
-  bool? policeContact;
-  @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "PoliceContactTime")
-  TimeOfDay? policeContactTime;
-  @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "TimeOfArrival")
-  TimeOfDay? timeOfArrival;
-  @observable
-  @TimeOfDayConverter()
-  @JsonKey(name: "ReturnTime")
-  TimeOfDay? returnTime;
-  @observable
   @JsonKey(name: "TypeOfAccident")
   String? typeOfAccident;
   @observable
@@ -190,9 +115,6 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "PlaceOfIncident")
   String? placeOfIncident;
-  @observable
-  @JsonKey(name: "PlaceOfDispatch")
-  String? placeOfDispatch;
   @observable
   @JsonKey(name: "AccidentSummary")
   String? accidentSummary;
@@ -546,13 +468,6 @@ abstract class _Report with Store {
   @observable
   @JsonKey(name: "UpdateDate")
   DateTime? updateDate;
-
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  TeamStore? teamStore;
-  @observable
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  FireStationStore? fireStationStore;
   @observable
   @JsonKey(includeFromJson: false, includeToJson: false)
   ClassificationStore? classificationStore;
@@ -560,12 +475,7 @@ abstract class _Report with Store {
   @JsonKey(includeFromJson: false, includeToJson: false)
   HospitalStore? hospitalStore;
 
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  Team? get team {
-    assert(teamStore != null);
-    return teamStore!.teams[teamCd];
-  }
+
 
   @action
   setTeam(Team? team) {
@@ -574,11 +484,6 @@ abstract class _Report with Store {
 
   set team(Team? value) {
     setTeam(value);
-  }
-
-  FireStation? get fireStation {
-    assert(fireStationStore != null);
-    return fireStationStore!.fireStations[team?.fireStationCd];
   }
 
   @computed
@@ -598,44 +503,6 @@ abstract class _Report with Store {
 
   set gender(Classification? value) {
     setGender(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  Classification? get medication {
-    assert(classificationStore != null);
-    return sickInjuredPersonMedication != null
-        ? classificationStore!.classifications[
-            Tuple2(AppConstants.medicationCode, sickInjuredPersonMedication!)]
-        : null;
-  }
-
-  @action
-  setMedication(Classification? value) {
-    sickInjuredPersonMedication = value?.classificationSubCd;
-  }
-
-  set medication(Classification? value) {
-    setMedication(value);
-  }
-
-  @computed
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  Classification? get degree {
-    assert(classificationStore != null);
-    return sickInjuredPersonDegree != null
-        ? classificationStore!.classifications[
-            Tuple2(AppConstants.degreeCode, sickInjuredPersonDegree!)]
-        : null;
-  }
-
-  @action
-  setDegree(Classification? value) {
-    sickInjuredPersonDegree = value?.classificationSubCd;
-  }
-
-  set degree(Classification? value) {
-    setDegree(value);
   }
 
   @computed

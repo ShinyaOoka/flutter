@@ -10,15 +10,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..id = json['ID'] as int?
   ..teamCd = json['TeamCD'] as String?
   ..teamCaptainName = json['TeamCaptainName'] as String?
-  ..teamMemberName = json['TeamMemberName'] as String?
-  ..teamAbbreviation = json['TeamAbbreviation'] as String?
-  ..institutionalMemberName = json['InstitutionalMemberName'] as String?
-  ..lifesaverQualification = _$JsonConverterFromJson<int, bool>(
-      json['LifesaverQualification'], const IntToBoolConverter().fromJson)
-  ..withLifesavers = _$JsonConverterFromJson<int, bool>(
-      json['WithLifeSavers'], const IntToBoolConverter().fromJson)
-  ..totalCount = json['Total'] as int?
-  ..teamCount = json['Team'] as int?
   ..sickInjuredPersonName = json['SickInjuredPersonName'] as String?
   ..sickInjuredPersonKana = json['SickInjuredPersonKANA'] as String?
   ..sickInjuredPersonAddress = json['SickInjuredPersonAddress'] as String?
@@ -27,27 +18,12 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       ? null
       : DateTime.parse(json['SickInjuredPersonBirthDate'] as String)
   ..sickInjuredPersonTel = json['SickInjuredPersonTEL'] as String?
-  ..sickInjuredPersonFamily = json['SickInjuredPersonFamily'] as String?
-  ..sickInjuredPersonFamilyTel = json['SickInjuredPersonFamilyTEL'] as String?
   ..sickInjuredPersonMedicalHistory =
       json['SickInjuredPersonMedicalHistroy'] as String?
   ..sickInjuredPersonHistoryHospital =
       json['SickInjuredPersonHistoryHospital'] as String?
-  ..sickInjuredPersonKakaritsuke =
-      json['SickInjuredPersonKakaritsuke'] as String?
-  ..sickInjuredPersonMedication = json['SickInjuredPersonMedication'] as String?
-  ..sickInjuredPersonMedicationDetail =
-      json['SickInjuredPersonMedicationDetail'] as String?
-  ..sickInjuredPersonAllergy = json['SickInjuredPersonAllergy'] as String?
-  ..sickInjuredPersonNameOfInjuryOrSickness =
-      json['SickInjuredPersonNameOfInjuryOrSickness'] as String?
-  ..sickInjuredPersonDegree = json['SickInjuredPersonDegree'] as String?
   ..senseTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['SenseTime'], const TimeOfDayConverter().fromJson)
-  ..commandTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['CommandTime'], const TimeOfDayConverter().fromJson)
-  ..dispatchTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['DispatchTime'], const TimeOfDayConverter().fromJson)
   ..onSiteArrivalTime = _$JsonConverterFromJson<String, TimeOfDay>(
       json['OnSiteArrivalTime'], const TimeOfDayConverter().fromJson)
   ..contactTime = _$JsonConverterFromJson<String, TimeOfDay>(
@@ -60,16 +36,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
       json['HospitalArrivalTime'], const TimeOfDayConverter().fromJson)
   ..familyContact = _$JsonConverterFromJson<int, bool>(
       json['FamilyContact'], const IntToBoolConverter().fromJson)
-  ..familyContactTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['FamilyContactTime'], const TimeOfDayConverter().fromJson)
-  ..policeContact = _$JsonConverterFromJson<int, bool>(
-      json['PoliceContact'], const IntToBoolConverter().fromJson)
-  ..policeContactTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['PoliceContactTime'], const TimeOfDayConverter().fromJson)
-  ..timeOfArrival = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['TimeOfArrival'], const TimeOfDayConverter().fromJson)
-  ..returnTime = _$JsonConverterFromJson<String, TimeOfDay>(
-      json['ReturnTime'], const TimeOfDayConverter().fromJson)
   ..typeOfAccident = json['TypeOfAccident'] as String?
   ..dateOfOccurrence = json['DateOfOccurrence'] == null
       ? null
@@ -77,7 +43,6 @@ Report _$ReportFromJson(Map<String, dynamic> json) => Report()
   ..timeOfOccurrence = _$JsonConverterFromJson<String, TimeOfDay>(
       json['TimeOfOccurrence'], const TimeOfDayConverter().fromJson)
   ..placeOfIncident = json['PlaceOfIncident'] as String?
-  ..placeOfDispatch = json['PlaceOfDispatch'] as String?
   ..accidentSummary = json['AccidentSummary'] as String?
   ..adl = json['ADL'] as String?
   ..trafficAccidentUnknown = _$JsonConverterFromJson<int, bool>(
@@ -261,15 +226,6 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'ID': instance.id,
       'TeamCD': instance.teamCd,
       'TeamCaptainName': instance.teamCaptainName,
-      'TeamMemberName': instance.teamMemberName,
-      'TeamAbbreviation': instance.teamAbbreviation,
-      'InstitutionalMemberName': instance.institutionalMemberName,
-      'LifesaverQualification': _$JsonConverterToJson<int, bool>(
-          instance.lifesaverQualification, const IntToBoolConverter().toJson),
-      'WithLifeSavers': _$JsonConverterToJson<int, bool>(
-          instance.withLifesavers, const IntToBoolConverter().toJson),
-      'Total': instance.totalCount,
-      'Team': instance.teamCount,
       'SickInjuredPersonName': instance.sickInjuredPersonName,
       'SickInjuredPersonKANA': instance.sickInjuredPersonKana,
       'SickInjuredPersonAddress': instance.sickInjuredPersonAddress,
@@ -277,26 +233,12 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'SickInjuredPersonBirthDate':
           instance.sickInjuredPersonBirthDate?.toIso8601String(),
       'SickInjuredPersonTEL': instance.sickInjuredPersonTel,
-      'SickInjuredPersonFamily': instance.sickInjuredPersonFamily,
-      'SickInjuredPersonFamilyTEL': instance.sickInjuredPersonFamilyTel,
       'SickInjuredPersonMedicalHistroy':
           instance.sickInjuredPersonMedicalHistory,
       'SickInjuredPersonHistoryHospital':
           instance.sickInjuredPersonHistoryHospital,
-      'SickInjuredPersonKakaritsuke': instance.sickInjuredPersonKakaritsuke,
-      'SickInjuredPersonMedication': instance.sickInjuredPersonMedication,
-      'SickInjuredPersonMedicationDetail':
-          instance.sickInjuredPersonMedicationDetail,
-      'SickInjuredPersonAllergy': instance.sickInjuredPersonAllergy,
-      'SickInjuredPersonNameOfInjuryOrSickness':
-          instance.sickInjuredPersonNameOfInjuryOrSickness,
-      'SickInjuredPersonDegree': instance.sickInjuredPersonDegree,
       'SenseTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.senseTime, const TimeOfDayConverter().toJson),
-      'CommandTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.commandTime, const TimeOfDayConverter().toJson),
-      'DispatchTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.dispatchTime, const TimeOfDayConverter().toJson),
       'OnSiteArrivalTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.onSiteArrivalTime, const TimeOfDayConverter().toJson),
       'ContactTime': _$JsonConverterToJson<String, TimeOfDay>(
@@ -309,22 +251,11 @@ Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
           instance.hospitalArrivalTime, const TimeOfDayConverter().toJson),
       'FamilyContact': _$JsonConverterToJson<int, bool>(
           instance.familyContact, const IntToBoolConverter().toJson),
-      'FamilyContactTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.familyContactTime, const TimeOfDayConverter().toJson),
-      'PoliceContact': _$JsonConverterToJson<int, bool>(
-          instance.policeContact, const IntToBoolConverter().toJson),
-      'PoliceContactTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.policeContactTime, const TimeOfDayConverter().toJson),
-      'TimeOfArrival': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.timeOfArrival, const TimeOfDayConverter().toJson),
-      'ReturnTime': _$JsonConverterToJson<String, TimeOfDay>(
-          instance.returnTime, const TimeOfDayConverter().toJson),
       'TypeOfAccident': instance.typeOfAccident,
       'DateOfOccurrence': instance.dateOfOccurrence?.toIso8601String(),
       'TimeOfOccurrence': _$JsonConverterToJson<String, TimeOfDay>(
           instance.timeOfOccurrence, const TimeOfDayConverter().toJson),
       'PlaceOfIncident': instance.placeOfIncident,
-      'PlaceOfDispatch': instance.placeOfDispatch,
       'AccidentSummary': instance.accidentSummary,
       'ADL': instance.adl,
       'TrafficAccident_Unknown': _$JsonConverterToJson<int, bool>(
@@ -527,30 +458,11 @@ mixin _$Report on _Report, Store {
           Computed<int?>(() => super.sickInjuredPersonAge,
               name: '_Report.sickInjuredPersonAge'))
       .value;
-  Computed<Team?>? _$teamComputed;
-
-  @override
-  Team? get team => (_$teamComputed ??=
-          Computed<Team?>(() => super.team, name: '_Report.team'))
-      .value;
   Computed<Classification?>? _$genderComputed;
 
   @override
   Classification? get gender => (_$genderComputed ??=
           Computed<Classification?>(() => super.gender, name: '_Report.gender'))
-      .value;
-  Computed<Classification?>? _$medicationComputed;
-
-  @override
-  Classification? get medication => (_$medicationComputed ??=
-          Computed<Classification?>(() => super.medication,
-              name: '_Report.medication'))
-      .value;
-  Computed<Classification?>? _$degreeComputed;
-
-  @override
-  Classification? get degree => (_$degreeComputed ??=
-          Computed<Classification?>(() => super.degree, name: '_Report.degree'))
       .value;
   Computed<Classification?>? _$detectionTypeComputed;
 
@@ -720,120 +632,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$teamMemberNameAtom =
-      Atom(name: '_Report.teamMemberName', context: context);
-
-  @override
-  String? get teamMemberName {
-    _$teamMemberNameAtom.reportRead();
-    return super.teamMemberName;
-  }
-
-  @override
-  set teamMemberName(String? value) {
-    _$teamMemberNameAtom.reportWrite(value, super.teamMemberName, () {
-      super.teamMemberName = value;
-    });
-  }
-
-  late final _$teamAbbreviationAtom =
-      Atom(name: '_Report.teamAbbreviation', context: context);
-
-  @override
-  String? get teamAbbreviation {
-    _$teamAbbreviationAtom.reportRead();
-    return super.teamAbbreviation;
-  }
-
-  @override
-  set teamAbbreviation(String? value) {
-    _$teamAbbreviationAtom.reportWrite(value, super.teamAbbreviation, () {
-      super.teamAbbreviation = value;
-    });
-  }
-
-  late final _$institutionalMemberNameAtom =
-      Atom(name: '_Report.institutionalMemberName', context: context);
-
-  @override
-  String? get institutionalMemberName {
-    _$institutionalMemberNameAtom.reportRead();
-    return super.institutionalMemberName;
-  }
-
-  @override
-  set institutionalMemberName(String? value) {
-    _$institutionalMemberNameAtom
-        .reportWrite(value, super.institutionalMemberName, () {
-      super.institutionalMemberName = value;
-    });
-  }
-
-  late final _$lifesaverQualificationAtom =
-      Atom(name: '_Report.lifesaverQualification', context: context);
-
-  @override
-  bool? get lifesaverQualification {
-    _$lifesaverQualificationAtom.reportRead();
-    return super.lifesaverQualification;
-  }
-
-  @override
-  set lifesaverQualification(bool? value) {
-    _$lifesaverQualificationAtom
-        .reportWrite(value, super.lifesaverQualification, () {
-      super.lifesaverQualification = value;
-    });
-  }
-
-  late final _$withLifesaversAtom =
-      Atom(name: '_Report.withLifesavers', context: context);
-
-  @override
-  bool? get withLifesavers {
-    _$withLifesaversAtom.reportRead();
-    return super.withLifesavers;
-  }
-
-  @override
-  set withLifesavers(bool? value) {
-    _$withLifesaversAtom.reportWrite(value, super.withLifesavers, () {
-      super.withLifesavers = value;
-    });
-  }
-
-  late final _$totalCountAtom =
-      Atom(name: '_Report.totalCount', context: context);
-
-  @override
-  int? get totalCount {
-    _$totalCountAtom.reportRead();
-    return super.totalCount;
-  }
-
-  @override
-  set totalCount(int? value) {
-    _$totalCountAtom.reportWrite(value, super.totalCount, () {
-      super.totalCount = value;
-    });
-  }
-
-  late final _$teamCountAtom =
-      Atom(name: '_Report.teamCount', context: context);
-
-  @override
-  int? get teamCount {
-    _$teamCountAtom.reportRead();
-    return super.teamCount;
-  }
-
-  @override
-  set teamCount(int? value) {
-    _$teamCountAtom.reportWrite(value, super.teamCount, () {
-      super.teamCount = value;
-    });
-  }
-
   late final _$sickInjuredPersonNameAtom =
       Atom(name: '_Report.sickInjuredPersonName', context: context);
 
@@ -936,40 +734,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$sickInjuredPersonFamilyAtom =
-      Atom(name: '_Report.sickInjuredPersonFamily', context: context);
-
-  @override
-  String? get sickInjuredPersonFamily {
-    _$sickInjuredPersonFamilyAtom.reportRead();
-    return super.sickInjuredPersonFamily;
-  }
-
-  @override
-  set sickInjuredPersonFamily(String? value) {
-    _$sickInjuredPersonFamilyAtom
-        .reportWrite(value, super.sickInjuredPersonFamily, () {
-      super.sickInjuredPersonFamily = value;
-    });
-  }
-
-  late final _$sickInjuredPersonFamilyTelAtom =
-      Atom(name: '_Report.sickInjuredPersonFamilyTel', context: context);
-
-  @override
-  String? get sickInjuredPersonFamilyTel {
-    _$sickInjuredPersonFamilyTelAtom.reportRead();
-    return super.sickInjuredPersonFamilyTel;
-  }
-
-  @override
-  set sickInjuredPersonFamilyTel(String? value) {
-    _$sickInjuredPersonFamilyTelAtom
-        .reportWrite(value, super.sickInjuredPersonFamilyTel, () {
-      super.sickInjuredPersonFamilyTel = value;
-    });
-  }
-
   late final _$sickInjuredPersonMedicalHistoryAtom =
       Atom(name: '_Report.sickInjuredPersonMedicalHistory', context: context);
 
@@ -1004,109 +768,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$sickInjuredPersonKakaritsukeAtom =
-      Atom(name: '_Report.sickInjuredPersonKakaritsuke', context: context);
-
-  @override
-  String? get sickInjuredPersonKakaritsuke {
-    _$sickInjuredPersonKakaritsukeAtom.reportRead();
-    return super.sickInjuredPersonKakaritsuke;
-  }
-
-  @override
-  set sickInjuredPersonKakaritsuke(String? value) {
-    _$sickInjuredPersonKakaritsukeAtom
-        .reportWrite(value, super.sickInjuredPersonKakaritsuke, () {
-      super.sickInjuredPersonKakaritsuke = value;
-    });
-  }
-
-  late final _$sickInjuredPersonMedicationAtom =
-      Atom(name: '_Report.sickInjuredPersonMedication', context: context);
-
-  @override
-  String? get sickInjuredPersonMedication {
-    _$sickInjuredPersonMedicationAtom.reportRead();
-    return super.sickInjuredPersonMedication;
-  }
-
-  @override
-  set sickInjuredPersonMedication(String? value) {
-    _$sickInjuredPersonMedicationAtom
-        .reportWrite(value, super.sickInjuredPersonMedication, () {
-      super.sickInjuredPersonMedication = value;
-    });
-  }
-
-  late final _$sickInjuredPersonMedicationDetailAtom =
-      Atom(name: '_Report.sickInjuredPersonMedicationDetail', context: context);
-
-  @override
-  String? get sickInjuredPersonMedicationDetail {
-    _$sickInjuredPersonMedicationDetailAtom.reportRead();
-    return super.sickInjuredPersonMedicationDetail;
-  }
-
-  @override
-  set sickInjuredPersonMedicationDetail(String? value) {
-    _$sickInjuredPersonMedicationDetailAtom
-        .reportWrite(value, super.sickInjuredPersonMedicationDetail, () {
-      super.sickInjuredPersonMedicationDetail = value;
-    });
-  }
-
-  late final _$sickInjuredPersonAllergyAtom =
-      Atom(name: '_Report.sickInjuredPersonAllergy', context: context);
-
-  @override
-  String? get sickInjuredPersonAllergy {
-    _$sickInjuredPersonAllergyAtom.reportRead();
-    return super.sickInjuredPersonAllergy;
-  }
-
-  @override
-  set sickInjuredPersonAllergy(String? value) {
-    _$sickInjuredPersonAllergyAtom
-        .reportWrite(value, super.sickInjuredPersonAllergy, () {
-      super.sickInjuredPersonAllergy = value;
-    });
-  }
-
-  late final _$sickInjuredPersonNameOfInjuryOrSicknessAtom = Atom(
-      name: '_Report.sickInjuredPersonNameOfInjuryOrSickness',
-      context: context);
-
-  @override
-  String? get sickInjuredPersonNameOfInjuryOrSickness {
-    _$sickInjuredPersonNameOfInjuryOrSicknessAtom.reportRead();
-    return super.sickInjuredPersonNameOfInjuryOrSickness;
-  }
-
-  @override
-  set sickInjuredPersonNameOfInjuryOrSickness(String? value) {
-    _$sickInjuredPersonNameOfInjuryOrSicknessAtom
-        .reportWrite(value, super.sickInjuredPersonNameOfInjuryOrSickness, () {
-      super.sickInjuredPersonNameOfInjuryOrSickness = value;
-    });
-  }
-
-  late final _$sickInjuredPersonDegreeAtom =
-      Atom(name: '_Report.sickInjuredPersonDegree', context: context);
-
-  @override
-  String? get sickInjuredPersonDegree {
-    _$sickInjuredPersonDegreeAtom.reportRead();
-    return super.sickInjuredPersonDegree;
-  }
-
-  @override
-  set sickInjuredPersonDegree(String? value) {
-    _$sickInjuredPersonDegreeAtom
-        .reportWrite(value, super.sickInjuredPersonDegree, () {
-      super.sickInjuredPersonDegree = value;
-    });
-  }
-
   late final _$senseTimeAtom =
       Atom(name: '_Report.senseTime', context: context);
 
@@ -1120,38 +781,6 @@ mixin _$Report on _Report, Store {
   set senseTime(TimeOfDay? value) {
     _$senseTimeAtom.reportWrite(value, super.senseTime, () {
       super.senseTime = value;
-    });
-  }
-
-  late final _$commandTimeAtom =
-      Atom(name: '_Report.commandTime', context: context);
-
-  @override
-  TimeOfDay? get commandTime {
-    _$commandTimeAtom.reportRead();
-    return super.commandTime;
-  }
-
-  @override
-  set commandTime(TimeOfDay? value) {
-    _$commandTimeAtom.reportWrite(value, super.commandTime, () {
-      super.commandTime = value;
-    });
-  }
-
-  late final _$dispatchTimeAtom =
-      Atom(name: '_Report.dispatchTime', context: context);
-
-  @override
-  TimeOfDay? get dispatchTime {
-    _$dispatchTimeAtom.reportRead();
-    return super.dispatchTime;
-  }
-
-  @override
-  set dispatchTime(TimeOfDay? value) {
-    _$dispatchTimeAtom.reportWrite(value, super.dispatchTime, () {
-      super.dispatchTime = value;
     });
   }
 
@@ -1252,86 +881,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$familyContactTimeAtom =
-      Atom(name: '_Report.familyContactTime', context: context);
-
-  @override
-  TimeOfDay? get familyContactTime {
-    _$familyContactTimeAtom.reportRead();
-    return super.familyContactTime;
-  }
-
-  @override
-  set familyContactTime(TimeOfDay? value) {
-    _$familyContactTimeAtom.reportWrite(value, super.familyContactTime, () {
-      super.familyContactTime = value;
-    });
-  }
-
-  late final _$policeContactAtom =
-      Atom(name: '_Report.policeContact', context: context);
-
-  @override
-  bool? get policeContact {
-    _$policeContactAtom.reportRead();
-    return super.policeContact;
-  }
-
-  @override
-  set policeContact(bool? value) {
-    _$policeContactAtom.reportWrite(value, super.policeContact, () {
-      super.policeContact = value;
-    });
-  }
-
-  late final _$policeContactTimeAtom =
-      Atom(name: '_Report.policeContactTime', context: context);
-
-  @override
-  TimeOfDay? get policeContactTime {
-    _$policeContactTimeAtom.reportRead();
-    return super.policeContactTime;
-  }
-
-  @override
-  set policeContactTime(TimeOfDay? value) {
-    _$policeContactTimeAtom.reportWrite(value, super.policeContactTime, () {
-      super.policeContactTime = value;
-    });
-  }
-
-  late final _$timeOfArrivalAtom =
-      Atom(name: '_Report.timeOfArrival', context: context);
-
-  @override
-  TimeOfDay? get timeOfArrival {
-    _$timeOfArrivalAtom.reportRead();
-    return super.timeOfArrival;
-  }
-
-  @override
-  set timeOfArrival(TimeOfDay? value) {
-    _$timeOfArrivalAtom.reportWrite(value, super.timeOfArrival, () {
-      super.timeOfArrival = value;
-    });
-  }
-
-  late final _$returnTimeAtom =
-      Atom(name: '_Report.returnTime', context: context);
-
-  @override
-  TimeOfDay? get returnTime {
-    _$returnTimeAtom.reportRead();
-    return super.returnTime;
-  }
-
-  @override
-  set returnTime(TimeOfDay? value) {
-    _$returnTimeAtom.reportWrite(value, super.returnTime, () {
-      super.returnTime = value;
-    });
-  }
-
   late final _$typeOfAccidentAtom =
       Atom(name: '_Report.typeOfAccident', context: context);
 
@@ -1393,22 +942,6 @@ mixin _$Report on _Report, Store {
   set placeOfIncident(String? value) {
     _$placeOfIncidentAtom.reportWrite(value, super.placeOfIncident, () {
       super.placeOfIncident = value;
-    });
-  }
-
-  late final _$placeOfDispatchAtom =
-      Atom(name: '_Report.placeOfDispatch', context: context);
-
-  @override
-  String? get placeOfDispatch {
-    _$placeOfDispatchAtom.reportRead();
-    return super.placeOfDispatch;
-  }
-
-  @override
-  set placeOfDispatch(String? value) {
-    _$placeOfDispatchAtom.reportWrite(value, super.placeOfDispatch, () {
-      super.placeOfDispatch = value;
     });
   }
 
@@ -3009,38 +2542,6 @@ mixin _$Report on _Report, Store {
     });
   }
 
-  late final _$teamStoreAtom =
-      Atom(name: '_Report.teamStore', context: context);
-
-  @override
-  TeamStore? get teamStore {
-    _$teamStoreAtom.reportRead();
-    return super.teamStore;
-  }
-
-  @override
-  set teamStore(TeamStore? value) {
-    _$teamStoreAtom.reportWrite(value, super.teamStore, () {
-      super.teamStore = value;
-    });
-  }
-
-  late final _$fireStationStoreAtom =
-      Atom(name: '_Report.fireStationStore', context: context);
-
-  @override
-  FireStationStore? get fireStationStore {
-    _$fireStationStoreAtom.reportRead();
-    return super.fireStationStore;
-  }
-
-  @override
-  set fireStationStore(FireStationStore? value) {
-    _$fireStationStoreAtom.reportWrite(value, super.fireStationStore, () {
-      super.fireStationStore = value;
-    });
-  }
-
   late final _$classificationStoreAtom =
       Atom(name: '_Report.classificationStore', context: context);
 
@@ -3093,28 +2594,6 @@ mixin _$Report on _Report, Store {
         _$_ReportActionController.startAction(name: '_Report.setGender');
     try {
       return super.setGender(value);
-    } finally {
-      _$_ReportActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setMedication(Classification? value) {
-    final _$actionInfo =
-        _$_ReportActionController.startAction(name: '_Report.setMedication');
-    try {
-      return super.setMedication(value);
-    } finally {
-      _$_ReportActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setDegree(Classification? value) {
-    final _$actionInfo =
-        _$_ReportActionController.startAction(name: '_Report.setDegree');
-    try {
-      return super.setDegree(value);
     } finally {
       _$_ReportActionController.endAction(_$actionInfo);
     }
@@ -3302,48 +2781,25 @@ mixin _$Report on _Report, Store {
 id: ${id},
 teamCd: ${teamCd},
 teamCaptainName: ${teamCaptainName},
-teamMemberName: ${teamMemberName},
-teamAbbreviation: ${teamAbbreviation},
-institutionalMemberName: ${institutionalMemberName},
-lifesaverQualification: ${lifesaverQualification},
-withLifesavers: ${withLifesavers},
-totalCount: ${totalCount},
-teamCount: ${teamCount},
 sickInjuredPersonName: ${sickInjuredPersonName},
 sickInjuredPersonKana: ${sickInjuredPersonKana},
 sickInjuredPersonAddress: ${sickInjuredPersonAddress},
 sickInjuredPersonGender: ${sickInjuredPersonGender},
 sickInjuredPersonBirthDate: ${sickInjuredPersonBirthDate},
 sickInjuredPersonTel: ${sickInjuredPersonTel},
-sickInjuredPersonFamily: ${sickInjuredPersonFamily},
-sickInjuredPersonFamilyTel: ${sickInjuredPersonFamilyTel},
 sickInjuredPersonMedicalHistory: ${sickInjuredPersonMedicalHistory},
 sickInjuredPersonHistoryHospital: ${sickInjuredPersonHistoryHospital},
-sickInjuredPersonKakaritsuke: ${sickInjuredPersonKakaritsuke},
-sickInjuredPersonMedication: ${sickInjuredPersonMedication},
-sickInjuredPersonMedicationDetail: ${sickInjuredPersonMedicationDetail},
-sickInjuredPersonAllergy: ${sickInjuredPersonAllergy},
-sickInjuredPersonNameOfInjuryOrSickness: ${sickInjuredPersonNameOfInjuryOrSickness},
-sickInjuredPersonDegree: ${sickInjuredPersonDegree},
 senseTime: ${senseTime},
-commandTime: ${commandTime},
-dispatchTime: ${dispatchTime},
 onSiteArrivalTime: ${onSiteArrivalTime},
 contactTime: ${contactTime},
 inVehicleTime: ${inVehicleTime},
 startOfTransportTime: ${startOfTransportTime},
 hospitalArrivalTime: ${hospitalArrivalTime},
 familyContact: ${familyContact},
-familyContactTime: ${familyContactTime},
-policeContact: ${policeContact},
-policeContactTime: ${policeContactTime},
-timeOfArrival: ${timeOfArrival},
-returnTime: ${returnTime},
 typeOfAccident: ${typeOfAccident},
 dateOfOccurrence: ${dateOfOccurrence},
 timeOfOccurrence: ${timeOfOccurrence},
 placeOfIncident: ${placeOfIncident},
-placeOfDispatch: ${placeOfDispatch},
 accidentSummary: ${accidentSummary},
 adl: ${adl},
 trafficAccidentUnknown: ${trafficAccidentUnknown},
@@ -3443,15 +2899,10 @@ entryDate: ${entryDate},
 updateName: ${updateName},
 updateMachine: ${updateMachine},
 updateDate: ${updateDate},
-teamStore: ${teamStore},
-fireStationStore: ${fireStationStore},
 classificationStore: ${classificationStore},
 hospitalStore: ${hospitalStore},
 sickInjuredPersonAge: ${sickInjuredPersonAge},
-team: ${team},
 gender: ${gender},
-medication: ${medication},
-degree: ${degree},
 detectionType: ${detectionType},
 accidentType: ${accidentType},
 medicalTransportFacilityType: ${medicalTransportFacilityType},

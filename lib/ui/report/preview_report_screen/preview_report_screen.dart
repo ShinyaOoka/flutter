@@ -98,21 +98,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     // Remove default margin from page
     result = result.replaceAll('margin:.75in .7in .75in .7in', 'margin:0');
     result = result.replaceAll(
-        'NumberOfDispatches_VALUE', report.totalCount?.toString() ?? '');
-    result = result.replaceAll(
-        'NumberOfDispatchesPerTeam_VALUE', report.teamCount?.toString() ?? '');
-    result = result.replaceAll('TeamName_VALUE',
-        report.team?.name?.characters.take(17).toString() ?? '');
-    result = result.replaceAll(
         'TypeOfAccident_VALUE', report.accidentType?.value ?? '');
     result = result.replaceAll('PlaceOfIncident_VALUE',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.placeOfIncident, 3, 26) ?? ''}</div>');
     result = result.replaceAll('TeamCaptainName_VALUE',
         report.teamCaptainName?.characters.take(15).toString() ?? '');
-    result = result.replaceAll('TeamMemberName_VALUE',
-        report.teamMemberName?.characters.take(15).toString() ?? '');
-    result = result.replaceAll('InstitutionalMemberName_VALUE',
-        report.institutionalMemberName?.characters.take(15).toString() ?? '');
     result = result.replaceAll('PerceiverName_VALUE',
         report.perceiverName?.characters.take(15).toString() ?? '');
     result = result.replaceAll(
@@ -128,12 +118,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonKana?.characters.take(17).string ?? '');
     result = result.replaceAll(
         'SickInjuredPersonGender_VALUE', report.gender?.value ?? '');
-    final sickness = report.sickInjuredPersonNameOfInjuryOrSickness == null ||
-            report.sickInjuredPersonNameOfInjuryOrSickness == ''
-        ? '　\n　'
-        : '${limitNumberOfChars(report.sickInjuredPersonNameOfInjuryOrSickness, 2, 18)}${report.sickInjuredPersonNameOfInjuryOrSickness!.length < 18 ? '\n　' : ''}';
-    result = result.replaceAll('SickInjuredPersonNameOfInjuaryOrSickness_VALUE',
-        '<div style="white-space: pre-wrap;">$sickness</div>');
     result = result.replaceAll('SickInjuredPersonAge_VALUE',
         report.sickInjuredPersonAge?.toString() ?? '');
     result = result.replaceAll('SickInjuredPersonTEL_VALUE',
@@ -165,16 +149,11 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.nameOfReporter?.characters.take(14).toString() ?? '');
     result = result.replaceAll('SummaryOfOccurrence_VALUE',
         '<div style="white-space: pre-wrap; line-height: 25px;">${limitNumberOfChars(report.summaryOfOccurrence, 12, 44) ?? ''}</div>');
-    result = result.replaceAll('SickInjuredPersonDegree_VALUE',
-        '<div style="line-height: 50px">${report.degree?.value ?? ''}</div>');
 
     result = fillTime(result, 'SenseTime', report.senseTime);
-    result = fillTime(result, 'AttendanceTime', report.dispatchTime);
     result = fillTime(result, 'On-siteArrivalTime', report.onSiteArrivalTime);
-    result = fillTime(result, 'TimeOfArrival', report.timeOfArrival);
     result =
         fillTime(result, 'HospitalArrivalTime', report.hospitalArrivalTime);
-    result = fillTime(result, 'ReturnTime', report.returnTime);
     result = fillTime(result, 'TransferSourceReceivingTime',
         report.transferSourceReceivingTime);
     result = fillDate(result, 'SickInjuredPersonBirthDate',
@@ -182,14 +161,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = fillDate(result, 'DateOfOccurrence', report.dateOfOccurrence);
 
     result = fillToday(result, date: report.dateOfEmergencyReport);
-
-    result = result.replaceAll(
-        'PlaceOfDispatch_TITLE',
-        report.placeOfDispatch != null && report.placeOfDispatch! != ''
-            ? '出動場所'
-            : '');
-    result = result.replaceAll(
-        'PlaceOfDispatch_VALUE', report.placeOfDispatch ?? '');
 
     for (int i = 0; i < 3; i++) {
       result = result.replaceAll('DescriptionOfObservationTime_${i}_VALUE',
@@ -509,8 +480,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     result = result.replaceAll('.5pt', '0.5pt');
     result = result.replaceAll('padding:0px;', 'padding:0 3pt;');
 
-    result = result.replaceAll('TeamName',
-        report.teamAbbreviation?.characters.take(11).toString() ?? '');
     result = result.replaceFirst('TeamCaptainName',
         report.teamCaptainName?.characters.take(11).toString() ?? '');
 
@@ -522,12 +491,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('MM', m)
         .replaceFirst('DD', d);
 
-    result = fillBoolCheck(
-        result, 'LifesaverQualification', report.lifesaverQualification,
-        fillFalse: true);
-    result = fillBoolCheck(result, 'WithLifeSavers', report.withLifesavers,
-        fillFalse: true);
-    result = result.replaceFirst('TeamTEL', report.team?.tel ?? '');
     result = result.replaceFirst('SickInjuredPersonAddress',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
     result = fillClassificationCheck(
@@ -568,10 +531,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         'SickInjuredPersonName', report.sickInjuredPersonName ?? '');
     result = result.replaceFirst(
         'SickInjuredPersonTEL', report.sickInjuredPersonTel ?? '');
-    result = result.replaceAll(
-        'SickInjuredPersonFamilyTEL', report.sickInjuredPersonFamilyTel ?? '');
-    result = result.replaceAll(
-        'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
     result = fillBoolCheck(result, 'SickInjuredPersonMedicalHistroy',
         report.sickInjuredPersonMedicalHistory?.isNotEmpty,
         fillFalse: true);
@@ -579,34 +538,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         report.sickInjuredPersonMedicalHistory ?? '');
     result = result.replaceFirst('SickInjuredPersonHistoryHospital',
         report.sickInjuredPersonHistoryHospital ?? '');
-    result = fillBoolCheck(result, 'SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.isNotEmpty,
-        fillFalse: true);
-    result = result.replaceFirst(
-        'SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
-            '');
-    result = fillBoolCheck(
-        result,
-        'SickInjuredPersonMedicationDetail',
-        report.medication?.classificationSubCd == '001' ||
-            report.medication?.classificationSubCd == '002',
-        fillFalse: report.medication?.classificationSubCd != null);
-    result = fillCheck(
-        result,
-        'SickInjuredPersonMedicationDetail_CHECK_NOTEBOOK',
-        report.medication?.classificationSubCd == '002');
-    result = result.replaceFirst(
-        'SickInjuredPersonMedicationDetail',
-        report.sickInjuredPersonMedicationDetail?.characters
-                .take(15)
-                .toString() ??
-            '');
-    result = fillBoolCheck(result, 'SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.isNotEmpty,
-        fillFalse: true);
-    result = result.replaceFirst('SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
     result = fillClassificationCheck(
         result,
@@ -669,18 +600,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     } else {
       result = result.replaceFirst('SenseTime', '');
     }
-    if (report.commandTime != null) {
-      result = result.replaceFirst('CommandTime',
-          '${report.commandTime!.hour.toString().padLeft(2, '0')}:${report.commandTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      result = result.replaceFirst('CommandTime', '');
-    }
-    if (report.dispatchTime != null) {
-      result = result.replaceFirst('AttendanceTime',
-          '${report.dispatchTime!.hour.toString().padLeft(2, '0')}:${report.dispatchTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      result = result.replaceFirst('AttendanceTime', '');
-    }
     if (report.onSiteArrivalTime != null) {
       result = result.replaceFirst('On-siteArrivalTime',
           '${report.onSiteArrivalTime!.hour.toString().padLeft(2, '0')}:${report.onSiteArrivalTime!.minute.toString().padLeft(2, '0')}');
@@ -713,20 +632,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     }
     result = fillBoolCheck(result, 'FamilyContact', report.familyContact,
         fillFalse: report.familyContact != null);
-    result = fillBoolCheck(result, 'PoliceContact', report.policeContact,
-        fillFalse: report.policeContact != null);
-    if (report.familyContactTime != null) {
-      result = result.replaceFirst('FamilyContactTime',
-          '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      result = result.replaceFirst('FamilyContactTime', '  　　 　　  ');
-    }
-    if (report.policeContactTime != null) {
-      result = result.replaceFirst('PoliceContactTime',
-          '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      result = result.replaceFirst('PoliceContactTime', '  　　 　　  ');
-    }
     result = fillClassificationCheck(
         result,
         'ADL',
@@ -980,8 +885,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
 
   String fillCertificateDataOld(String htmlInput) {
     final Report report = _reportStore.selectingReport!;
-    final team = report.team;
-    bool? withLifesaver = report.withLifesavers;
     const uncheckIcon = '<span class="square"></span>';
     const checkIcon = '<span class="square-black"></span>';
     const String styleCSSMore =
@@ -1025,67 +928,10 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
         .replaceFirst('YYYY', yearToWareki(now.year, now.month, now.day))
         .replaceFirst('MM', m)
         .replaceFirst('DD', d);
-    //2
-    htmlInput = htmlInput.replaceFirst(
-        'TeamName', team?.abbreviation?.characters.take(11).toString() ?? '');
+
     //3
     htmlInput = htmlInput.replaceFirst('TeamCaptainName',
         report.teamCaptainName?.characters.take(11).toString() ?? '');
-    //4
-    if (report.lifesaverQualification != null) {
-      if (report.lifesaverQualification!) {
-        htmlInput = customReplace(
-            htmlInput, uncheckYes, 1 - totalYesPos, '$checkIcon 有');
-        htmlInput = customReplace(
-            htmlInput, uncheckNo, 1 - totalNoPos, '$uncheckIcon 無');
-        totalYesPos += 1;
-        totalNoPos += 1;
-      } else {
-        htmlInput = customReplace(
-            htmlInput, uncheckYes, 1 - totalYesPos, '$uncheckIcon 有');
-        htmlInput =
-            customReplace(htmlInput, uncheckNo, 1 - totalNoPos, '$checkIcon 無');
-        totalYesPos += 1;
-        totalNoPos += 1;
-      }
-    } else {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 1 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 1 - totalNoPos, '$uncheckIcon 無');
-      totalYesPos += 1;
-      totalNoPos += 1;
-    }
-
-    //5
-    if (withLifesaver != null) {
-      if (!withLifesaver) {
-        htmlInput = customReplace(
-            htmlInput, uncheckYes, 2 - totalYesPos, '$uncheckIcon 有');
-        htmlInput =
-            customReplace(htmlInput, uncheckNo, 2 - totalNoPos, '$checkIcon 無');
-        totalNoPos += 1;
-        totalYesPos += 1;
-      } else {
-        htmlInput = customReplace(
-            htmlInput, uncheckYes, 2 - totalYesPos, '$checkIcon 有');
-        htmlInput = customReplace(
-            htmlInput, uncheckNo, 2 - totalNoPos, '$uncheckIcon 無');
-        totalYesPos += 1;
-        totalNoPos += 1;
-      }
-    } else {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 2 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 2 - totalNoPos, '$uncheckIcon 無');
-      totalYesPos += 1;
-      totalNoPos += 1;
-    }
-
-    //6
-    htmlInput = htmlInput.replaceFirst('TeamTEL', team?.tel ?? '');
-
     //7
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonAddress',
         '<div style="white-space: pre-wrap;">${limitNumberOfChars(report.sickInjuredPersonAddress, 3, 20) ?? ''}</div>');
@@ -1147,12 +993,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     htmlInput = htmlInput.replaceFirst(
         'SickInjuredPersonTELLast', SickInjuredPersonTELs[2]?.toString() ?? '');
 
-    //14
-    htmlInput = htmlInput.replaceAll(
-        'SickInjuredPersonFamilyTEL', report.sickInjuredPersonFamilyTel ?? '');
-    htmlInput = htmlInput.replaceAll(
-        'SickInjuredPersonFamily', report.sickInjuredPersonFamily ?? '');
-
     //15
     if (report.sickInjuredPersonMedicalHistory == null ||
         report.sickInjuredPersonMedicalHistory == '') {
@@ -1178,86 +1018,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //17
     htmlInput = htmlInput.replaceFirst('SickInjuredPersonHistoryHospital',
         report.sickInjuredPersonHistoryHospital ?? '');
-
-    //18
-    if (report.sickInjuredPersonKakaritsuke == null ||
-        report.sickInjuredPersonKakaritsuke == '') {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 4 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 4 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else {
-      htmlInput =
-          customReplace(htmlInput, uncheckYes, 4 - totalYesPos, '$checkIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 4 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    }
-
-    //19
-    htmlInput = htmlInput.replaceFirst(
-        'SickInjuredPersonKakaritsuke',
-        report.sickInjuredPersonKakaritsuke?.characters.take(19).toString() ??
-            '');
-
-    //20
-    htmlInput = htmlInput.replaceFirst('$uncheckIcon手帳', '$uncheckIcon 手帳');
-    if (report.sickInjuredPersonMedication == '000') {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 5 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else if (report.sickInjuredPersonMedication == '001') {
-      htmlInput =
-          customReplace(htmlInput, uncheckYes, 5 - totalYesPos, '$checkIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else if (report.sickInjuredPersonMedication == '002') {
-      htmlInput = htmlInput.replaceFirst('$uncheckIcon 手帳', '$checkIcon 手帳');
-      htmlInput =
-          customReplace(htmlInput, uncheckYes, 5 - totalYesPos, '$checkIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 5 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    }
-
-    //21
-    htmlInput = htmlInput.replaceFirst(
-        'SickInjuredPersonMedicationDetail',
-        report.sickInjuredPersonMedicationDetail?.characters
-                .take(15)
-                .toString() ??
-            '');
-
-    //22
-    if (report.sickInjuredPersonAllergy == null ||
-        report.sickInjuredPersonAllergy == '') {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 6 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 6 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else {
-      htmlInput =
-          customReplace(htmlInput, uncheckYes, 6 - totalYesPos, '$checkIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 6 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    }
-
-    //23
-    htmlInput = htmlInput.replaceFirst('SickInjuredPersonAllergy',
-        report.sickInjuredPersonAllergy?.characters.take(19).toString() ?? '');
 
     //24
     htmlInput = htmlInput.replaceFirst('$uncheckIcon急病', '$uncheckIcon 急病');
@@ -1344,12 +1104,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
     //29
     htmlInput = htmlInput.replaceFirst('SenseTime',
         '${report.senseTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.senseTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    //30
-    htmlInput = htmlInput.replaceFirst('CommandTime',
-        '${report.commandTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.commandTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
-    //31
-    htmlInput = htmlInput.replaceFirst('AttendanceTime',
-        '${report.dispatchTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.dispatchTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
     //32
     htmlInput = htmlInput.replaceFirst('On-siteArrivalTime',
         '${report.onSiteArrivalTime?.hour.toString().padLeft(2, '0') ?? '　　'}:${report.onSiteArrivalTime?.minute.toString().padLeft(2, '0') ?? '　　'}');
@@ -1380,37 +1134,6 @@ class _PreviewReportScreenState extends State<PreviewReportScreen> {
           customReplace(htmlInput, uncheckNo, 7 - totalNoPos, '$checkIcon 無');
       totalNoPos += 1;
       totalYesPos += 1;
-    }
-
-    if (report.familyContactTime != null) {
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime',
-          '${report.familyContactTime!.hour.toString().padLeft(2, '0')}:${report.familyContactTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      htmlInput = htmlInput.replaceFirst('FamilyContactTime', '  　　:　　  ');
-    }
-    //38
-
-    if (report.policeContact == true) {
-      htmlInput =
-          customReplace(htmlInput, uncheckYes, 8 - totalYesPos, '$checkIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$uncheckIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    } else if (report.policeContact == false) {
-      htmlInput = customReplace(
-          htmlInput, uncheckYes, 8 - totalYesPos, '$uncheckIcon 有');
-      htmlInput =
-          customReplace(htmlInput, uncheckNo, 8 - totalNoPos, '$checkIcon 無');
-      totalNoPos += 1;
-      totalYesPos += 1;
-    }
-
-    if (report.policeContactTime != null) {
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime',
-          '${report.policeContactTime!.hour.toString().padLeft(2, '0')}:${report.policeContactTime!.minute.toString().padLeft(2, '0')}');
-    } else {
-      htmlInput = htmlInput.replaceFirst('PoliceContactTime', '  　　:　　  ');
     }
 
     //39

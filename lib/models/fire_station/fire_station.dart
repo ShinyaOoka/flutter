@@ -16,9 +16,6 @@ abstract class _FireStation with Store {
   @JsonKey(name: 'FireStationCD')
   String? fireStationCd;
   @observable
-  @JsonKey(name: 'Name')
-  String? name;
-  @observable
   @JsonKey(name: 'Address')
   String? address;
   @observable

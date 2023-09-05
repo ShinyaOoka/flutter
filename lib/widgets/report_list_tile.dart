@@ -50,9 +50,6 @@ class ReportListTile extends StatelessWidget {
           TextSpan(
               text: '${'list_report_team_name'.i18n()} : ',
               style: TextStyle(color: Theme.of(context).primaryColor)),
-          TextSpan(
-              text: report.team?.name ?? 'なし',
-              style: Theme.of(context).textTheme.bodyMedium)
         ]))
       ],
     );

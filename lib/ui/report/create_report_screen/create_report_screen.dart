@@ -75,8 +75,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
     final prefs = await SharedPreferences.getInstance();
     final report = _reportStore.selectingReport!;
 
-    report.teamStore = _teamStore;
-    report.fireStationStore = _fireStationStore;
     report.classificationStore = _classificationStore;
     report.hospitalStore = _hospitalStore;
 
@@ -92,13 +90,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
         final lastEditedReport = Report.fromJson(jsonDecode(lastEditedValue));
         report.teamCd = lastEditedReport.teamCd;
         report.teamCaptainName = lastEditedReport.teamCaptainName;
-        report.lifesaverQualification = lastEditedReport.lifesaverQualification;
-        report.withLifesavers = lastEditedReport.withLifesavers;
-        report.teamMemberName = lastEditedReport.teamMemberName;
-        report.institutionalMemberName =
-            lastEditedReport.institutionalMemberName;
-        report.affiliationOfReporter =
-            report.affiliationOfReporter = report.team?.alias;
       }
     }
   }
@@ -172,8 +163,6 @@ class _CreateReportScreenState extends State<CreateReportScreen>
           prefs.setInt(AppConstants.lastEditedAtKey,
               DateTime.now().millisecondsSinceEpoch);
           _reportStore.selectingReport!.entryDate = DateTime.now();
-          _reportStore.selectingReport!.teamAbbreviation =
-              _reportStore.selectingReport!.team?.abbreviation;
           await _reportStore.createReport(_reportStore.selectingReport!);
           await _reportStore.getReports();
           if (!mounted) return;

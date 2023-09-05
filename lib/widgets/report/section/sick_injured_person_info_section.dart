@@ -30,15 +30,9 @@ class _SickInjuredPersonInfoSectionState
   late TextEditingController sickInjuredPersonNameController;
   late TextEditingController sickInjuredPersonAddressController;
   late TextEditingController sickInjuredPersonTelController;
-  late TextEditingController sickInjuredPersonFamilyController;
-  late TextEditingController sickInjuredPersonFamilyTelController;
   late TextEditingController sickInjuredPersonMedicalHistoryController;
   late TextEditingController sickInjuredPersonHistoryHospitalController;
-  late TextEditingController sickInjuredPersonKakaritsukeController;
-  late TextEditingController sickInjuredPersonAllergyController;
-  late TextEditingController sickInjuredPersonMedicationDetailController;
   late TextEditingController sickInjuredPersonNameOfInjuryOrSicknessController;
-  late TextEditingController sickInjuredPersonDegreeController;
 
   late ScrollController sickInjuredPersonAddressScrollController;
 
@@ -52,15 +46,9 @@ class _SickInjuredPersonInfoSectionState
     sickInjuredPersonNameController = TextEditingController();
     sickInjuredPersonAddressController = TextEditingController();
     sickInjuredPersonTelController = TextEditingController();
-    sickInjuredPersonFamilyController = TextEditingController();
-    sickInjuredPersonFamilyTelController = TextEditingController();
     sickInjuredPersonMedicalHistoryController = TextEditingController();
     sickInjuredPersonHistoryHospitalController = TextEditingController();
-    sickInjuredPersonKakaritsukeController = TextEditingController();
-    sickInjuredPersonAllergyController = TextEditingController();
-    sickInjuredPersonMedicationDetailController = TextEditingController();
     sickInjuredPersonNameOfInjuryOrSicknessController = TextEditingController();
-    sickInjuredPersonDegreeController = TextEditingController();
     sickInjuredPersonAddressScrollController = ScrollController();
     autorun((_) {
       syncControllerValue(
@@ -71,24 +59,10 @@ class _SickInjuredPersonInfoSectionState
           reportStore.selectingReport!.sickInjuredPersonAddress);
       syncControllerValue(sickInjuredPersonTelController,
           reportStore.selectingReport!.sickInjuredPersonTel);
-      syncControllerValue(sickInjuredPersonFamilyTelController,
-          reportStore.selectingReport!.sickInjuredPersonFamilyTel);
-      syncControllerValue(sickInjuredPersonFamilyController,
-          reportStore.selectingReport!.sickInjuredPersonFamily);
       syncControllerValue(sickInjuredPersonMedicalHistoryController,
           reportStore.selectingReport!.sickInjuredPersonMedicalHistory);
       syncControllerValue(sickInjuredPersonHistoryHospitalController,
           reportStore.selectingReport!.sickInjuredPersonHistoryHospital);
-      syncControllerValue(sickInjuredPersonKakaritsukeController,
-          reportStore.selectingReport!.sickInjuredPersonKakaritsuke);
-      syncControllerValue(sickInjuredPersonAllergyController,
-          reportStore.selectingReport!.sickInjuredPersonAllergy);
-      syncControllerValue(sickInjuredPersonMedicationDetailController,
-          reportStore.selectingReport!.sickInjuredPersonMedicationDetail);
-      syncControllerValue(sickInjuredPersonNameOfInjuryOrSicknessController,
-          reportStore.selectingReport!.sickInjuredPersonNameOfInjuryOrSickness);
-      syncControllerValue(sickInjuredPersonDegreeController,
-          reportStore.selectingReport!.sickInjuredPersonDegree);
     });
   }
 
@@ -105,15 +79,9 @@ class _SickInjuredPersonInfoSectionState
     sickInjuredPersonNameController.dispose();
     sickInjuredPersonAddressController.dispose();
     sickInjuredPersonTelController.dispose();
-    sickInjuredPersonFamilyTelController.dispose();
-    sickInjuredPersonFamilyController.dispose();
     sickInjuredPersonMedicalHistoryController.dispose();
     sickInjuredPersonHistoryHospitalController.dispose();
-    sickInjuredPersonKakaritsukeController.dispose();
-    sickInjuredPersonAllergyController.dispose();
-    sickInjuredPersonMedicationDetailController.dispose();
     sickInjuredPersonNameOfInjuryOrSicknessController.dispose();
-    sickInjuredPersonDegreeController.dispose();
     super.dispose();
   }
 
@@ -127,12 +95,7 @@ class _SickInjuredPersonInfoSectionState
           _buildLine2(reportStore.selectingReport!, context),
           _buildLine3(reportStore.selectingReport!, context),
           _buildLine4(reportStore.selectingReport!, context),
-          _buildLine5(reportStore.selectingReport!, context),
           _buildLine6(reportStore.selectingReport!, context),
-          _buildLine7(reportStore.selectingReport!, context),
-          _buildLine8(reportStore.selectingReport!, context),
-          _buildLine9(reportStore.selectingReport!, context),
-          _buildLine10(reportStore.selectingReport!, context),
         ],
       );
     });
@@ -263,31 +226,7 @@ class _SickInjuredPersonInfoSectionState
     ]);
   }
 
-  Widget _buildLine5(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'sick_injured_person_family'.i18n(),
-        controller: sickInjuredPersonFamilyController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.sickInjuredPersonFamily = value,
-        maxLength: 10,
-        readOnly: widget.readOnly,
-        keyboardType: TextInputType.multiline,
-      ),
-      AppTextField(
-        label: 'sick_injured_person_family_tel'.i18n(),
-        keyboardType: TextInputType.phone,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp('[0-9-+]')),
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
-        controller: sickInjuredPersonFamilyTelController,
-        onChanged: (value) => report.sickInjuredPersonFamilyTel = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-      ),
-    ]);
-  }
+
 
   Widget _buildLine6(Report report, BuildContext context) {
     return lineLayout(children: [
@@ -312,92 +251,5 @@ class _SickInjuredPersonInfoSectionState
     ]);
   }
 
-  Widget _buildLine7(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'sick_injured_person_kakaritsuke'.i18n(),
-        controller: sickInjuredPersonKakaritsukeController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.sickInjuredPersonKakaritsuke = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-        keyboardType: TextInputType.multiline,
-      ),
-      AppTextField(
-        label: 'sick_injured_person_allergy'.i18n(),
-        controller: sickInjuredPersonAllergyController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.sickInjuredPersonAllergy = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-        keyboardType: TextInputType.multiline,
-      ),
-    ]);
-  }
 
-  Widget _buildLine8(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppDropdown<Classification>(
-        items: report.classificationStore!.classifications.values
-            .where((element) =>
-                element.classificationCd == AppConstants.medicationCode)
-            .toList(),
-        label: 'sick_injured_person_medication'.i18n(),
-        itemAsString: ((item) => item.value ?? ''),
-        onChanged: (value) => report.medication = value,
-        selectedItem: report.medication,
-        filterFn: (c, filter) =>
-            (c.value != null && c.value!.contains(filter)) ||
-            (c.classificationSubCd != null &&
-                c.classificationSubCd!.contains(filter)),
-        readOnly: widget.readOnly,
-      ),
-      AppTextField(
-        label: 'sick_injured_person_medication_detail'.i18n(),
-        controller: sickInjuredPersonMedicationDetailController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) => report.sickInjuredPersonMedicationDetail = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-        keyboardType: TextInputType.multiline,
-      ),
-    ]);
-  }
-
-  Widget _buildLine9(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'sick_injured_person_name_of_injury_or_sickness'.i18n(),
-        controller: sickInjuredPersonNameOfInjuryOrSicknessController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        onChanged: (value) =>
-            report.sickInjuredPersonNameOfInjuryOrSickness = value,
-        maxLength: 60,
-        readOnly: widget.readOnly,
-        optional: true,
-        keyboardType: TextInputType.multiline,
-      ),
-    ]);
-  }
-
-  Widget _buildLine10(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppDropdown<Classification>(
-        items: report.classificationStore!.classifications.values
-            .where((element) =>
-                element.classificationCd == AppConstants.degreeCode)
-            .toList(),
-        label: 'sick_injured_person_degree'.i18n(),
-        itemAsString: ((item) => item.value ?? ''),
-        onChanged: (value) => report.degree = value,
-        selectedItem: report.degree,
-        filterFn: (c, filter) =>
-            (c.value != null && c.value!.contains(filter)) ||
-            (c.classificationSubCd != null &&
-                c.classificationSubCd!.contains(filter)),
-        readOnly: widget.readOnly,
-        optional: true,
-      ),
-    ]);
-  }
 }

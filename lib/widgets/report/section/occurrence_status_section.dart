@@ -45,8 +45,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     reactionDisposer = autorun((_) {
       syncControllerValue(placeOfIncidentController,
           reportStore.selectingReport!.placeOfIncident);
-      syncControllerValue(placeOfDispatchController,
-          reportStore.selectingReport!.placeOfDispatch);
       syncControllerValue(accidentSummaryController,
           reportStore.selectingReport!.accidentSummary);
       syncControllerValue(verbalGuidanceTextController,
@@ -72,7 +70,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
         children: [
           _buildLine1(reportStore.selectingReport!),
           _buildLine2(reportStore.selectingReport!),
-          _buildLine3(reportStore.selectingReport!),
           _buildLine4(reportStore.selectingReport!),
           _buildLine5(reportStore.selectingReport!),
           _buildLine6(reportStore.selectingReport!),
@@ -146,20 +143,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     ]);
   }
 
-  Widget _buildLine3(Report report) {
-    return lineLayout(children: [
-      AppTextField(
-        keyboardType: TextInputType.multiline,
-        controller: placeOfDispatchController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        maxLength: 25,
-        label: 'place_of_dispatch'.i18n(),
-        onChanged: (value) => report.placeOfDispatch = value,
-        readOnly: widget.readOnly,
-        optional: true,
-      ),
-    ]);
-  }
 
   Widget _buildLine4(Report report) {
     return lineLayout(children: [

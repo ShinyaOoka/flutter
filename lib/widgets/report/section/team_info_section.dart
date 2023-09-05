@@ -38,16 +38,8 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     super.initState();
     reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(
-          totalController, reportStore.selectingReport!.totalCount);
-      syncControllerValue(
-          teamController, reportStore.selectingReport!.teamCount);
       syncControllerValue(teamCaptainNameController,
           reportStore.selectingReport!.teamCaptainName);
-      syncControllerValue(teamMemberNameController,
-          reportStore.selectingReport!.teamMemberName);
-      syncControllerValue(institutionalMemberNameController,
-          reportStore.selectingReport!.institutionalMemberName);
     });
   }
 
@@ -66,10 +58,6 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildLine1(reportStore.selectingReport!, context),
-          _buildLine2(reportStore.selectingReport!, context),
-          _buildLine3(reportStore.selectingReport!, context),
-          _buildLine4(reportStore.selectingReport!, context),
-          _buildLine5(reportStore.selectingReport!, context)
         ],
       );
     });
@@ -87,13 +75,11 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
           onChanged: (value) {
             if (value?.teamCd == report.teamCd) return;
             if (report.affiliationOfReporter == null ||
-                report.affiliationOfReporter == '' ||
-                report.team?.alias == report.affiliationOfReporter) {
+                report.affiliationOfReporter == '' ) {
               report.affiliationOfReporter = value?.alias;
             }
             report.team = value;
           },
-          selectedItem: report.team,
           filterFn: (team, filter) =>
               (team.name != null && team.name!.contains(filter)) ||
               (team.teamCd != null && team.teamCd!.contains(filter)),
@@ -112,97 +98,4 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     });
   }
 
-  Widget _buildLine2(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        controller: teamMemberNameController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        label: 'team_member_name'.i18n(),
-        onChanged: (value) => report.teamMemberName = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-        optional: true,
-        keyboardType: TextInputType.multiline,
-      ),
-      AppTextField(
-        controller: institutionalMemberNameController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        label: 'institutional_member_name'.i18n(),
-        onChanged: (value) => report.institutionalMemberName = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-        optional: true,
-        keyboardType: TextInputType.multiline,
-      ),
-    ]);
-  }
-
-  Widget _buildLine3(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        controller: totalController,
-        label: 'total'.i18n(),
-        keyboardType: TextInputType.number,
-        onChanged: (item) => report.totalCount = int.tryParse(item),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
-        maxLength: 6,
-        readOnly: widget.readOnly,
-        counterText: '件',
-        counterColor: Theme.of(context).primaryColor,
-        optional: true,
-      ),
-      AppTextField(
-        controller: teamController,
-        label: 'team'.i18n(),
-        keyboardType: TextInputType.number,
-        onChanged: (item) => report.teamCount = int.tryParse(item),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          FilteringTextInputFormatter.singleLineFormatter
-        ],
-        maxLength: 6,
-        readOnly: widget.readOnly,
-        counterText: '件',
-        counterColor: Theme.of(context).primaryColor,
-        optional: true,
-      ),
-    ]);
-  }
-
-  Widget _buildLine4(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppCheckbox(
-        label: 'lifesaver_qualification'.i18n(),
-        value: report.lifesaverQualification,
-        onChanged: (value) => report.lifesaverQualification = value,
-        readOnly: widget.readOnly,
-      ),
-      AppCheckbox(
-        label: 'with_lifesavers'.i18n(),
-        value: report.withLifesavers,
-        onChanged: (value) => report.withLifesavers = value,
-        readOnly: widget.readOnly,
-      ),
-    ]);
-  }
-
-  Widget _buildLine5(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTextField(
-        label: 'fire_station_name'.i18n(),
-        controller: TextEditingController(text: report.fireStation?.name),
-        readOnly: true,
-      ),
-      AppTextField(
-        label: 'team_tel'.i18n(),
-        controller: TextEditingController(
-          text: report.team?.tel,
-        ),
-        readOnly: true,
-      ),
-    ]);
-  }
 }

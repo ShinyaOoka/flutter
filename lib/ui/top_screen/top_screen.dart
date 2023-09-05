@@ -56,7 +56,6 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       _classificationStore.getAllClassifications(),
     ]).then((_) {
       _reportStore.reports?.forEach((element) {
-        element.teamStore = _teamStore;
         element.classificationStore = _classificationStore;
       });
       setState(() {
@@ -76,7 +75,6 @@ class _TopScreenState extends State<TopScreen> with RouteAware {
       _classificationStore.getAllClassifications(),
     ]).then((_) {
       _reportStore.reports?.forEach((element) {
-        element.teamStore = _teamStore;
         element.classificationStore = _classificationStore;
       });
       setState(() {

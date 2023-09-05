@@ -35,7 +35,6 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           _buildLine1(reportStore.selectingReport!, context),
           _buildLine2(reportStore.selectingReport!, context),
           _buildLine3(reportStore.selectingReport!, context),
-          _buildLine4(reportStore.selectingReport!, context),
         ],
       );
     });
@@ -49,20 +48,6 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           onChanged: (value) => report.senseTime = value,
           selectedTime: report.senseTime,
           readOnly: widget.readOnly,
-        ),
-        AppTimePicker(
-          label: 'command_time'.i18n(),
-          onChanged: (value) => report.commandTime = value,
-          selectedTime: report.commandTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
-        AppTimePicker(
-          label: 'dispatch_time'.i18n(),
-          onChanged: (value) => report.dispatchTime = value,
-          selectedTime: report.dispatchTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
         ),
         AppTimePicker(
           label: 'on_site_arrival_time'.i18n(),
@@ -121,52 +106,8 @@ class _TimeSectionState extends State<TimeSection> with ReportSectionMixin {
           selectedItem: report.familyContact,
           readOnly: widget.readOnly,
         ),
-        AppTimePicker(
-          label: 'family_contact_time'.i18n(),
-          onChanged: (value) => report.familyContactTime = value,
-          selectedTime: report.familyContactTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
-        AppDropdown<bool>(
-          items: const [true, false],
-          label: 'police_contact'.i18n(),
-          itemAsString: ((item) => formatBool(item) ?? ''),
-          onChanged: (value) => report.policeContact = value,
-          selectedItem: report.policeContact,
-          readOnly: widget.readOnly,
-        ),
-        AppTimePicker(
-          label: 'police_contact_time'.i18n(),
-          onChanged: (value) => report.policeContactTime = value,
-          selectedTime: report.policeContactTime,
-          readOnly: widget.readOnly,
-          defaultTime: report.senseTime,
-        ),
       ]);
     });
   }
 
-  Widget _buildLine4(Report report, BuildContext context) {
-    return lineLayout(children: [
-      AppTimePicker(
-        label: 'time_of_arrival'.i18n(),
-        onChanged: (value) => report.timeOfArrival = value,
-        selectedTime: report.timeOfArrival,
-        readOnly: widget.readOnly,
-        optional: true,
-        defaultTime: report.senseTime,
-      ),
-      AppTimePicker(
-        label: 'return_time'.i18n(),
-        onChanged: (value) => report.returnTime = value,
-        selectedTime: report.returnTime,
-        readOnly: widget.readOnly,
-        optional: true,
-        defaultTime: report.senseTime,
-      ),
-      Container(),
-      Container(),
-    ]);
-  }
 }

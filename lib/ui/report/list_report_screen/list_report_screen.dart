@@ -66,7 +66,6 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       _classificationStore.getAllClassifications(),
     ]).then((_) {
       _reportStore.reports?.forEach((element) {
-        element.teamStore = _teamStore;
         element.classificationStore = _classificationStore;
       });
       setState(() {
@@ -86,7 +85,6 @@ class _ListReportScreenState extends State<ListReportScreen> with RouteAware {
       _classificationStore.getAllClassifications(),
     ]).then((_) {
       _reportStore.reports?.forEach((element) {
-        element.teamStore = _teamStore;
         element.classificationStore = _classificationStore;
       });
       setState(() {

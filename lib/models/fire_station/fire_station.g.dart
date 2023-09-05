@@ -8,14 +8,12 @@ part of 'fire_station.dart';
 
 FireStation _$FireStationFromJson(Map<String, dynamic> json) => FireStation()
   ..fireStationCd = json['FireStationCD'] as String?
-  ..name = json['Name'] as String?
   ..address = json['Address'] as String?
   ..tel = json['TEL'] as String?;
 
 Map<String, dynamic> _$FireStationToJson(FireStation instance) =>
     <String, dynamic>{
       'FireStationCD': instance.fireStationCd,
-      'Name': instance.name,
       'Address': instance.address,
       'TEL': instance.tel,
     };
@@ -40,21 +38,6 @@ mixin _$FireStation on _FireStation, Store {
   set fireStationCd(String? value) {
     _$fireStationCdAtom.reportWrite(value, super.fireStationCd, () {
       super.fireStationCd = value;
-    });
-  }
-
-  late final _$nameAtom = Atom(name: '_FireStation.name', context: context);
-
-  @override
-  String? get name {
-    _$nameAtom.reportRead();
-    return super.name;
-  }
-
-  @override
-  set name(String? value) {
-    _$nameAtom.reportWrite(value, super.name, () {
-      super.name = value;
     });
   }
 
@@ -93,7 +76,6 @@ mixin _$FireStation on _FireStation, Store {
   String toString() {
     return '''
 fireStationCd: ${fireStationCd},
-name: ${name},
 address: ${address},
 tel: ${tel}
     ''';
