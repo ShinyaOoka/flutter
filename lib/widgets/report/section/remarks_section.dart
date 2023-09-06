@@ -31,10 +31,6 @@ class _RemarksSectionState extends State<RemarksSection>
     super.initState();
     reportStore = context.read();
     reactionDisposer = autorun((_) {
-      syncControllerValue(summaryOfOccurrenceController,
-          reportStore.selectingReport!.summaryOfOccurrence);
-      syncControllerValue(
-          remarksController, reportStore.selectingReport!.remarks);
     });
   }
 
@@ -52,52 +48,9 @@ class _RemarksSectionState extends State<RemarksSection>
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildLine1(reportStore.selectingReport!),
-          _buildLine2(reportStore.selectingReport!),
         ],
       );
     });
   }
 
-  Widget _buildLine1(Report report) {
-    return lineLayout(children: [
-      Scrollbar(
-        controller: summaryOfOccurrenceScrollController,
-        thumbVisibility: true,
-        child: AppTextField(
-          label: 'summary_of_occurrence'.i18n(),
-          controller: summaryOfOccurrenceController,
-          scrollController: summaryOfOccurrenceScrollController,
-          inputFormatters: [maxLineFormatter(9)],
-          onChanged: (value) => report.summaryOfOccurrence = value,
-          maxLength: 500,
-          minLines: 3,
-          maxLines: 3,
-          readOnly: widget.readOnly,
-          optional: true,
-        ),
-      ),
-    ]);
-  }
-
-  Widget _buildLine2(Report report) {
-    return lineLayout(children: [
-      Scrollbar(
-        controller: remarksScrollController,
-        thumbVisibility: true,
-        child: AppTextField(
-          label: 'remarks'.i18n(),
-          controller: remarksController,
-          scrollController: remarksScrollController,
-          inputFormatters: [maxLineFormatter(10)],
-          onChanged: (value) => report.remarks = value,
-          maxLength: 450,
-          minLines: 3,
-          maxLines: 3,
-          readOnly: widget.readOnly,
-          optional: true,
-        ),
-      ),
-    ]);
-  }
 }

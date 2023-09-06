@@ -67,24 +67,6 @@ class _TeamInfoSectionState extends State<TeamInfoSection>
     final teamStore = Provider.of<TeamStore>(context);
     return Observer(builder: (context) {
       return lineLayout(children: [
-        AppDropdown<Team>(
-          showSearchBox: true,
-          items: teamStore.teams.values.toList(),
-          label: 'team_name'.i18n(),
-          itemAsString: ((item) => item.name ?? ''),
-          onChanged: (value) {
-            if (value?.teamCd == report.teamCd) return;
-            if (report.affiliationOfReporter == null ||
-                report.affiliationOfReporter == '' ) {
-              report.affiliationOfReporter = value?.alias;
-            }
-            report.team = value;
-          },
-          filterFn: (team, filter) =>
-              (team.name != null && team.name!.contains(filter)) ||
-              (team.teamCd != null && team.teamCd!.contains(filter)),
-          readOnly: widget.readOnly,
-        ),
         AppTextField(
           controller: teamCaptainNameController,
           inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],

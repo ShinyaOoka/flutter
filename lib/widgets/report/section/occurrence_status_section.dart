@@ -30,7 +30,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
   final placeOfIncidentController = TextEditingController();
   final placeOfDispatchController = TextEditingController();
   final accidentSummaryController = TextEditingController();
-  final verbalGuidanceTextController = TextEditingController();
 
   final accidentSummaryScrollController = ScrollController();
   final placeOfIncidentScrollController = ScrollController();
@@ -47,8 +46,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           reportStore.selectingReport!.placeOfIncident);
       syncControllerValue(accidentSummaryController,
           reportStore.selectingReport!.accidentSummary);
-      syncControllerValue(verbalGuidanceTextController,
-          reportStore.selectingReport!.verbalGuidanceText);
     });
   }
 
@@ -58,7 +55,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     placeOfIncidentController.dispose();
     placeOfDispatchController.dispose();
     accidentSummaryController.dispose();
-    verbalGuidanceTextController.dispose();
     super.dispose();
   }
 
@@ -71,9 +67,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
           _buildLine1(reportStore.selectingReport!),
           _buildLine2(reportStore.selectingReport!),
           _buildLine4(reportStore.selectingReport!),
-          _buildLine5(reportStore.selectingReport!),
-          _buildLine6(reportStore.selectingReport!),
-          _buildLine7(reportStore.selectingReport!),
         ],
       );
     });
@@ -143,7 +136,6 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     ]);
   }
 
-
   Widget _buildLine4(Report report) {
     return lineLayout(children: [
       Scrollbar(
@@ -164,164 +156,4 @@ class _OccurrenceStatusSectionState extends State<OccurrenceStatusSection>
     ]);
   }
 
-  Widget _buildLine5(Report report) {
-    return lineLayout(children: [
-      Row(
-        children: [
-          Expanded(
-            child: AppDropdown<Classification>(
-              items: report.classificationStore!.classifications.values
-                  .where((element) =>
-                      element.classificationCd == AppConstants.adlCode)
-                  .toList(),
-              label: 'adl'.i18n(),
-              itemAsString: ((item) => item.value ?? ''),
-              onChanged: (value) => report.adlType = value,
-              selectedItem: report.adlType,
-              filterFn: (c, filter) =>
-                  (c.value != null && c.value!.contains(filter)) ||
-                  (c.classificationSubCd != null &&
-                      c.classificationSubCd!.contains(filter)),
-              readOnly: widget.readOnly,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: AppDropdown<bool>(
-              items: const [true, false],
-              label: 'witnesses'.i18n(),
-              itemAsString: ((item) => formatBool(item) ?? ''),
-              onChanged: (value) => report.witnesses = value,
-              selectedItem: report.witnesses,
-              readOnly: widget.readOnly,
-            ),
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          Expanded(
-            child: AppDropdown<bool>(
-              items: const [true, false],
-              label: 'bystander_cpr'.i18n(),
-              itemAsString: ((item) => formatBool(item) ?? ''),
-              onChanged: (value) => report.bystanderCpr = value,
-              selectedItem: report.bystanderCpr,
-              readOnly: widget.readOnly,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: AppTimePicker(
-              label: 'bystander_cpr_time'.i18n(),
-              onChanged: (value) => report.bystanderCprTime = value,
-              selectedTime: report.bystanderCprTime,
-              readOnly: widget.readOnly,
-            ),
-          ),
-        ],
-      ),
-    ]);
-  }
-
-  Widget _buildLine6(Report report) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Positioned.fill(
-          top: 0,
-          bottom: 16,
-          child: Container(
-            decoration: widget.readOnly
-                ? null
-                : BoxDecoration(
-                    border: Border.all(color: const Color(0xff686868)),
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: Colors.white,
-                  ),
-          ),
-        ),
-        widget.readOnly
-            ? Container()
-            : Positioned(
-                top: 0,
-                left: 8,
-                child: Container(
-                  color: Colors.white,
-                  width: 58,
-                  height: 8,
-                ),
-              ),
-        Positioned(
-          top: -6,
-          left: 8,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Text(
-              "traffic_accident".i18n(),
-              style: const TextStyle(
-                  height: 1, fontSize: 12, color: Color(0xff686868)),
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 40),
-          child: lineLayout(dense: true, children: [
-            AppCheckbox(
-              label: 'traffic_accident_seatbelt'.i18n(),
-              value: report.trafficAccidentSeatbelt,
-              onChanged: (value) => report.trafficAccidentSeatbelt = value,
-              readOnly: widget.readOnly,
-            ),
-            AppCheckbox(
-              label: 'traffic_accident_airbag'.i18n(),
-              value: report.trafficAccidentAirbag,
-              onChanged: (value) => report.trafficAccidentAirbag = value,
-              readOnly: widget.readOnly,
-            ),
-            AppCheckbox(
-              label: 'traffic_accident_childseat'.i18n(),
-              value: report.trafficAccidentChildseat,
-              onChanged: (value) => report.trafficAccidentChildseat = value,
-              readOnly: widget.readOnly,
-            ),
-            AppCheckbox(
-              label: 'traffic_accident_helmet'.i18n(),
-              value: report.trafficAccidentHelmet,
-              onChanged: (value) => report.trafficAccidentHelmet = value,
-              readOnly: widget.readOnly,
-            ),
-            AppCheckbox(
-              label: 'traffic_accident_unknown'.i18n(),
-              value: report.trafficAccidentUnknown,
-              onChanged: (value) => report.trafficAccidentUnknown = value,
-              readOnly: widget.readOnly,
-            ),
-          ]),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLine7(Report report) {
-    return lineLayout(children: [
-      AppDropdown<bool>(
-        items: const [true, false],
-        label: 'verbal_guidance'.i18n(),
-        itemAsString: ((item) => formatBool(item) ?? ''),
-        onChanged: (value) => report.verbalGuidance = value,
-        selectedItem: report.verbalGuidance,
-        readOnly: widget.readOnly,
-      ),
-      AppTextField(
-        label: 'verbal_guidance_text'.i18n(),
-        controller: verbalGuidanceTextController,
-        inputFormatters: [FilteringTextInputFormatter.singleLineFormatter],
-        keyboardType: TextInputType.multiline,
-        onChanged: (value) => report.verbalGuidanceText = value,
-        maxLength: 20,
-        readOnly: widget.readOnly,
-      ),
-    ]);
-  }
 }
