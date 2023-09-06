@@ -17,6 +17,7 @@ import 'cache.dart';
 import 'features.dart';
 import 'globals.dart' as globals;
 import 'ios/native_assets.dart';
+import 'linux/native_assets.dart';
 import 'macos/native_assets.dart';
 import 'macos/native_assets_host.dart';
 
@@ -147,6 +148,9 @@ class NativeAssetsBuildRunnerImpl implements NativeAssetsBuildRunner {
   late final Future<CCompilerConfig> cCompilerConfig = () {
     if (globals.platform.isMacOS || globals.platform.isIOS) {
       return cCompilerConfigMacOS();
+    }
+    if (globals.platform.isLinux) {
+      return cCompilerConfigLinux();
     }
     throwToolExit(
       'Native assets feature not yet implemented for Linux, Windows and Android.',
@@ -286,7 +290,14 @@ Future<Uri?> dryRunNativeAssetsMultipeOSes({
   final Iterable<Asset> nativeAssetPaths = <Asset>[
     if (targetPlatforms.contains(build_info.TargetPlatform.darwin) ||
         (targetPlatforms.contains(build_info.TargetPlatform.tester) && OS.current == OS.macOS))
-      ...await dryRunNativeAssetsMacOSInternal(fileSystem, projectUri, false, buildRunner),
+      ...await dryRunNativeAssetsMacOSInternal(
+          fileSystem, projectUri, false, buildRunner),
+    if (targetPlatforms.contains(build_info.TargetPlatform.linux_arm64) ||
+        targetPlatforms.contains(build_info.TargetPlatform.linux_x64) ||
+        (targetPlatforms.contains(build_info.TargetPlatform.tester) &&
+            OS.current == OS.linux))
+      ...await dryRunNativeAssetsLinuxInternal(
+          fileSystem, projectUri, false, buildRunner),
     if (targetPlatforms.contains(build_info.TargetPlatform.ios)) ...await dryRunNativeAssetsIOSInternal(fileSystem, projectUri, buildRunner)
   ];
   final Uri nativeAssetsUri = await writeNativeAssetsYaml(nativeAssetPaths, buildUri_, fileSystem);

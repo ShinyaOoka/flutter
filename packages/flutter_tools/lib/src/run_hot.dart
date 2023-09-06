@@ -22,6 +22,7 @@ import 'devfs.dart';
 import 'device.dart';
 import 'globals.dart' as globals;
 import 'ios/native_assets.dart';
+import 'linux/native_assets.dart';
 import 'macos/native_assets.dart';
 import 'native_assets.dart';
 import 'project.dart';
@@ -491,6 +492,13 @@ class HotRunner extends ResidentRunner {
             fileSystem: fileSystem,
             buildRunner: _buildRunner!,
           );
+        } else if (const LocalPlatform().isLinux) {
+          nativeAssetsYaml = await dryRunNativeAssetsLinux(
+            projectUri: projectUri,
+            flutterTester: true,
+            fileSystem: fileSystem,
+            buildRunner: _buildRunner!,
+          );
         } else {
           await ensureNoNativeAssetsOrOsIsSupported(
             projectUri,
@@ -500,6 +508,13 @@ class HotRunner extends ResidentRunner {
           );
           nativeAssetsYaml = null;
         }
+      case TargetPlatform.linux_arm64:
+      case TargetPlatform.linux_x64:
+        nativeAssetsYaml = await dryRunNativeAssetsLinux(
+          projectUri: projectUri,
+          fileSystem: fileSystem,
+          buildRunner: _buildRunner!,
+        );
       case TargetPlatform.android_arm:
       case TargetPlatform.android_arm64:
       case TargetPlatform.android_x64:
@@ -507,8 +522,6 @@ class HotRunner extends ResidentRunner {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia_arm64:
       case TargetPlatform.fuchsia_x64:
-      case TargetPlatform.linux_arm64:
-      case TargetPlatform.linux_x64:
       case TargetPlatform.web_javascript:
       case TargetPlatform.windows_x64:
         await ensureNoNativeAssetsOrOsIsSupported(
